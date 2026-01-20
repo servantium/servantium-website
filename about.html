@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About — Servantium</title>
+    <link rel="icon" type="image/png" href="favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -489,6 +490,34 @@
             background: rgba(0, 194, 109, 0.1);
         }
 
+        .cta-email {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .cta-email-label {
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .cta-email-address {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            color: var(--green-500);
+            text-decoration: none;
+            transition: color 0.2s ease;
+            letter-spacing: -0.01em;
+        }
+
+        .cta-email-address:hover {
+            color: var(--green-400);
+            text-decoration: underline;
+        }
+
         /* Footer */
         footer {
             background: var(--neutral-900);
@@ -595,11 +624,11 @@
             </a>
             <ul class="nav-links">
                 <li><a href="index.html#problem">The Problem</a></li>
+                <li><a href="index.html#concept">How It Works</a></li>
                 <li><a href="index.html#platform">Platform</a></li>
-                <li><a href="index.html#outcomes">Outcomes</a></li>
                 <li><a href="about.html" class="active">About</a></li>
             </ul>
-            <a href="#contact" class="btn btn-primary">Get Started</a>
+            <a href="https://app.servantium.com/" class="btn btn-primary">Log In</a>
         </div>
     </nav>
 
@@ -801,12 +830,12 @@
             <div class="about-cta-content">
                 <h2>Let's talk</h2>
                 <p>
-                    Curious how Servantium could work for your services business? 
+                    Curious how Servantium could work for your services business?
                     We'd love to show you.
                 </p>
-                <div style="display: flex; gap: 1rem; justify-content: center;">
-                    <a href="/cdn-cgi/l/email-protection#640c0108080b2417011612050a100d11094a070b09" class="btn btn-primary">Schedule a Conversation</a>
-                    <a href="index.html" class="btn btn-secondary">Back to Platform</a>
+                <div class="cta-email">
+                    <span class="cta-email-label">Start a conversation</span>
+                    <a href="mailto:hello@servantium.com" class="cta-email-address">hello@servantium.com</a>
                 </div>
             </div>
         </div>
@@ -834,18 +863,16 @@
                 <div class="footer-column">
                     <h4>Platform</h4>
                     <ul>
-                        <li><a href="#">Configure Price Quote</a></li>
-                        <li><a href="#">Resource Management</a></li>
-                        <li><a href="#">Engagement Tracking</a></li>
-                        <li><a href="#">Intelligence Layer</a></li>
+                        <li><a href="index.html#concept">How It Works</a></li>
+                        <li><a href="index.html#platform">Service Architecture</a></li>
+                        <li><a href="index.html#outcomes">Outcomes</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
                     <h4>Company</h4>
                     <ul>
                         <li><a href="about.html">About</a></li>
-                        <li><a href="#">Contact</a></li>
-                        <li><a href="#">LinkedIn</a></li>
+                        <li><a href="#contact">Contact</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
@@ -857,7 +884,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <span>© 2026 Servantium Inc. All rights reserved.</span>
-                <span>1111B S Governors Ave STE 48074, Dover, DE 19904</span>
+                <span>© 2025 Servantium Inc. All rights reserved.</span>
+                <span>Founded by <a href="https://linkedin.com/in/christopher-veale" style="color: inherit; text-decoration: underline;">Christopher Veale</a> & <a href="https://linkedin.com/in/maxwell-friel-2bb02b30" style="color: inherit; text-decoration: underline;">Maxwell Friel</a></span>
             </div>
   
