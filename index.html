@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Servantium — The Operating System for Professional Services</title>
-    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="icon" type="image/png" href="icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
@@ -134,29 +134,18 @@
         }
 
         .logo {
-            font-family: var(--font-display);
-            font-size: 1.35rem;
-            font-weight: 500;
-            color: var(--color-servantium-green);
             text-decoration: none;
             display: flex;
             align-items: center;
-            gap: var(--space-xs);
         }
 
-        .logo-mark {
-            width: 36px;
-            height: 36px;
-            background: var(--color-servantium-green);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .logo-image {
+            height: 32px;
+            width: auto;
         }
 
-        .logo-mark svg {
-            width: 20px;
-            height: 20px;
+        .footer-logo {
+            filter: brightness(0) invert(1);
         }
 
         .nav-links {
@@ -1478,12 +1467,7 @@
         }
 
         .footer-brand .logo {
-            color: var(--color-white);
             margin-bottom: var(--space-md);
-        }
-
-        .footer-brand .logo-mark {
-            background: var(--color-servantium-green);
         }
 
         .footer-brand p {
@@ -1578,14 +1562,8 @@
     <!-- Navigation -->
     <nav>
         <div class="container">
-            <a href="#" class="logo">
-                <div class="logo-mark">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="3" fill="white"/>
-                        <path d="M12 2v4M12 18v4M2 12h4M18 12h4" stroke="white"/>
-                    </svg>
-                </div>
-                Servantium
+            <a href="index.html" class="logo">
+                <img src="logo.png" alt="Servantium" class="logo-image">
             </a>
             <ul class="nav-links">
                 <li><a href="#problem">The Problem</a></li>
@@ -1950,14 +1928,8 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-brand">
-                    <a href="#" class="logo">
-                        <div class="logo-mark">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="3" fill="white"/>
-                                <path d="M12 2v4M12 18v4M2 12h4M18 12h4" stroke="white"/>
-                            </svg>
-                        </div>
-                        Servantium
+                    <a href="index.html" class="logo">
+                        <img src="logo.png" alt="Servantium" class="logo-image footer-logo">
                     </a>
                     <p>
                         The operating system for professional services. Systems that remember, reason, and improve.

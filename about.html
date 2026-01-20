@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About — Servantium</title>
-    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="icon" type="image/png" href="icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -114,31 +114,16 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
             text-decoration: none;
-            color: var(--green-950);
         }
 
-        .logo-icon {
-            width: 36px;
-            height: 36px;
-            background: var(--green-500);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .logo-image {
+            height: 32px;
+            width: auto;
         }
 
-        .logo-icon svg {
-            width: 20px;
-            height: 20px;
-        }
-
-        .logo-text {
-            font-family: var(--font-body);
-            font-weight: 600;
-            font-size: 1.125rem;
-            letter-spacing: -0.02em;
+        .footer-logo {
+            filter: brightness(0) invert(1);
         }
 
         .nav-links {
@@ -614,13 +599,7 @@
     <nav>
         <div class="container">
             <a href="index.html" class="logo">
-                <div class="logo-icon">
-                    <svg viewBox="0 0 24 24" fill="none">
-                        <circle cx="12" cy="12" r="4" fill="white"/>
-                        <path d="M12 2v4M12 18v4M2 12h4M18 12h4" stroke="white" stroke-width="2" stroke-linecap="round"/>
-                    </svg>
-                </div>
-                <span class="logo-text">Servantium</span>
+                <img src="logo.png" alt="Servantium" class="logo-image">
             </a>
             <ul class="nav-links">
                 <li><a href="index.html#problem">The Problem</a></li>
@@ -847,16 +826,10 @@
             <div class="footer-grid">
                 <div class="footer-brand">
                     <a href="index.html" class="logo">
-                        <div class="logo-icon">
-                            <svg viewBox="0 0 24 24" fill="none">
-                                <circle cx="12" cy="12" r="4" fill="white"/>
-                                <path d="M12 2v4M12 18v4M2 12h4M18 12h4" stroke="white" stroke-width="2" stroke-linecap="round"/>
-                            </svg>
-                        </div>
-                        <span class="logo-text">Servantium</span>
+                        <img src="logo.png" alt="Servantium" class="logo-image footer-logo">
                     </a>
                     <p>
-                        The operating system for services businesses. 
+                        The operating system for services businesses.
                         Clarity, continuity, and leverage—without sacrificing flexibility.
                     </p>
                 </div>
