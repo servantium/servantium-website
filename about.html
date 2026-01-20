@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About — Servantium</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Servantium Brand Colors */
+            --green-500: #00C26D;
+            --green-600: #00A95E;
+            --green-700: #009657;
+            --green-800: #037A47;
+            --green-900: #045F37;
+            --green-950: #023E25;
+            --green-100: #C8F5DE;
+            --green-50: #E8FBF1;
+            --green-25: #F3FCF8;
+            
+            --coral: #FF5C70;
+            --slate-blue: #4C82A7;
+            --amber: #FFB02E;
+            --deep-teal: #26A899;
+            --slate: #64748B;
+            
+            --neutral-25: #FFFFFF;
+            --neutral-100: #F5F6F7;
+            --neutral-300: #E1E3E6;
+            --neutral-700: #64748B;
+            --neutral-900: #0D0D0D;
+            
+            --font-display: 'Instrument Serif', Georgia, serif;
+            --font-body: 'Outfit', -apple-system, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--neutral-900);
+            background: var(--neutral-25);
+            line-height: 1.6;
+            font-size: 17px;
+            font-weight: 400;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3 {
+            font-family: var(--font-display);
+            font-weight: 400;
+            line-height: 1.15;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            letter-spacing: -0.02em;
+        }
+
+        h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            letter-spacing: -0.01em;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+        }
+
+        p {
+            color: var(--neutral-700);
+        }
+
+        .text-large {
+            font-size: 1.25rem;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1.25rem 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 1px 0 rgba(0,0,0,0.05);
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: var(--green-950);
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--green-500);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .logo-text {
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 1.125rem;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--neutral-700);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--green-600);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.875rem 1.75rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--green-500);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--green-600);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--neutral-900);
+            border: 1.5px solid var(--neutral-300);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--green-500);
+            color: var(--green-600);
+        }
+
+        /* Hero */
+        .about-hero {
+            padding: 10rem 0 6rem;
+            background: linear-gradient(180deg, var(--green-25) 0%, var(--neutral-25) 100%);
+        }
+
+        .about-hero-content {
+            max-width: 800px;
+        }
+
+        .section-label {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--green-600);
+            margin-bottom: 1.5rem;
+        }
+
+        .about-hero h1 {
+            margin-bottom: 1.5rem;
+        }
+
+        .about-hero .text-large {
+            max-width: 650px;
+        }
+
+        /* Story Section */
+        .story {
+            padding: 6rem 0;
+            background: var(--neutral-25);
+        }
+
+        .story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: start;
+        }
+
+        .story-content h2 {
+            margin-bottom: 2rem;
+        }
+
+        .story-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--neutral-700);
+        }
+
+        .story-text p {
+            margin-bottom: 1.5rem;
+        }
+
+        .story-text strong {
+            color: var(--neutral-900);
+            font-weight: 500;
+        }
+
+        .story-sidebar {
+            background: var(--green-950);
+            border-radius: 16px;
+            padding: 3rem;
+            color: white;
+            position: sticky;
+            top: 120px;
+        }
+
+        .story-sidebar h3 {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            color: var(--green-500);
+        }
+
+        .belief {
+            padding: 1.25rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .belief:last-child {
+            border-bottom: none;
+        }
+
+        .belief-title {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .belief-description {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.7);
+            line-height: 1.6;
+        }
+
+        /* Founders Section */
+        .founders {
+            padding: 6rem 0;
+            background: var(--neutral-100);
+        }
+
+        .founders-header {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 4rem;
+        }
+
+        .founders-header h2 {
+            margin-bottom: 1rem;
+        }
+
+        .founders-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 3rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .founder-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+
+        .founder-photo {
+            aspect-ratio: 4/3;
+            background: linear-gradient(135deg, var(--green-950) 0%, var(--green-800) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .founder-photo::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 30% 70%, rgba(0, 194, 109, 0.2) 0%, transparent 50%);
+        }
+
+        .founder-initials {
+            width: 100px;
+            height: 100px;
+            background: var(--green-500);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            color: white;
+            position: relative;
+            z-index: 1;
+        }
+
+        .founder-info {
+            padding: 2rem;
+        }
+
+        .founder-name {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .founder-title {
+            color: var(--green-600);
+            font-weight: 500;
+            font-size: 0.9rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .founder-bio {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--neutral-700);
+            margin-bottom: 1.5rem;
+        }
+
+        .founder-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .founder-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--slate);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.2s;
+        }
+
+        .founder-link:hover {
+            color: var(--green-600);
+        }
+
+        .founder-link svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Values Section */
+        .values {
+            padding: 6rem 0;
+            background: white;
+        }
+
+        .values-header {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 4rem;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .value-card {
+            padding: 2.5rem;
+            background: var(--neutral-100);
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .value-icon {
+            width: 56px;
+            height: 56px;
+            background: var(--green-500);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+        }
+
+        .value-icon svg {
+            width: 28px;
+            height: 28px;
+            stroke: white;
+        }
+
+        .value-card h3 {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .value-card p {
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* CTA Section */
+        .about-cta {
+            padding: 6rem 0;
+            background: var(--green-950);
+            text-align: center;
+        }
+
+        .about-cta-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .about-cta h2 {
+            color: white;
+            margin-bottom: 1.25rem;
+        }
+
+        .about-cta p {
+            font-size: 1.15rem;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 2rem;
+        }
+
+        .about-cta .btn-secondary {
+            border-color: rgba(255,255,255,0.2);
+            color: white;
+        }
+
+        .about-cta .btn-secondary:hover {
+            border-color: var(--green-500);
+            background: rgba(0, 194, 109, 0.1);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--neutral-900);
+            color: white;
+            padding: 5rem 0 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 4rem;
+        }
+
+        .footer-brand p {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.95rem;
+            margin-top: 1rem;
+            max-width: 280px;
+        }
+
+        .footer-column h4 {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+            color: rgba(255,255,255,0.4);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-column a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .footer-column a:hover {
+            color: var(--green-500);
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.4);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .story-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .story-sidebar {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .founders-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="12" r="4" fill="white"/>
+                        <path d="M12 2v4M12 18v4M2 12h4M18 12h4" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <span class="logo-text">Servantium</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html#problem">The Problem</a></li>
+                <li><a href="index.html#platform">Platform</a></li>
+                <li><a href="index.html#outcomes">Outcomes</a></li>
+                <li><a href="about.html" class="active">About</a></li>
+            </ul>
+            <a href="#contact" class="btn btn-primary">Get Started</a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="about-hero">
+        <div class="container">
+            <div class="about-hero-content">
+                <span class="section-label">About Servantium</span>
+                <h1>We're building the infrastructure services businesses have always needed</h1>
+                <p class="text-large">
+                    Servantium was founded on a simple observation: services businesses have real products, 
+                    but those products aren't encoded in systems. We're here to change that.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Story Section -->
+    <section class="story">
+        <div class="container">
+            <div class="story-grid">
+                <div class="story-content">
+                    <h2>The story behind Servantium</h2>
+                    <div class="story-text">
+                        <p>
+                            <strong>We've spent our careers in the trenches of professional services</strong>—building 
+                            delivery teams, implementing enterprise software, and watching firsthand as talented 
+                            consultants struggled with the same problems over and over again.
+                        </p>
+                        <p>
+                            Pricing decisions made in isolation. Scope changes that never made it to the contract. 
+                            Delivery teams reinventing the wheel because lessons from past projects lived only in 
+                            people's heads. We saw how much margin leaked through the cracks of disconnected systems.
+                        </p>
+                        <p>
+                            The frustrating part? <strong>Product companies don't have these problems.</strong> They have 
+                            systems that remember everything—every price change, every customer interaction, every 
+                            feature update feeds back into better decisions. Services businesses deserve the same advantage.
+                        </p>
+                        <p>
+                            So we built Servantium. Not another tool that bends to chaos, but a system that creates 
+                            structure. A single source of truth for how services are sold, priced, contracted, 
+                            and delivered. An operating system that gives services businesses the operational 
+                            discipline traditionally reserved for product companies—without sacrificing the 
+                            flexibility and human expertise that makes services work.
+                        </p>
+                        <p>
+                            <strong>We're bootstrapped and growing.</strong> We answer to our customers, not investors. 
+                            Every feature we build solves a real problem for real services businesses.
+                        </p>
+                    </div>
+                </div>
+                <div class="story-sidebar">
+                    <h3>What We Believe</h3>
+                    <div class="belief">
+                        <div class="belief-title">Structure before automation</div>
+                        <div class="belief-description">
+                            AI and automation only work when built on structured foundations. We create the structure first.
+                        </div>
+                    </div>
+                    <div class="belief">
+                        <div class="belief-title">Humans stay in control</div>
+                        <div class="belief-description">
+                            Technology should amplify human expertise, not replace human judgment. Services are built on relationships.
+                        </div>
+                    </div>
+                    <div class="belief">
+                        <div class="belief-title">Clarity over cleverness</div>
+                        <div class="belief-description">
+                            Simple, understandable systems beat complex ones. If you can't explain it, you can't trust it.
+                        </div>
+                    </div>
+                    <div class="belief">
+                        <div class="belief-title">Day-one usability matters</div>
+                        <div class="belief-description">
+                            Software should deliver value immediately, not require months of configuration before it's useful.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Founders Section -->
+    <section class="founders">
+        <div class="container">
+            <div class="founders-header">
+                <span class="section-label">Leadership</span>
+                <h2>Meet the founders</h2>
+                <p class="text-large">
+                    Two operators who've lived the problems Servantium solves.
+                </p>
+            </div>
+            
+            <div class="founders-grid">
+                <div class="founder-card">
+                    <div class="founder-photo">
+                        <div class="founder-initials">CV</div>
+                    </div>
+                    <div class="founder-info">
+                        <h3 class="founder-name">Christopher Veale</h3>
+                        <div class="founder-title">Chief Executive Officer</div>
+                        <p class="founder-bio">
+                            Christopher brings deep experience in enterprise software and professional services 
+                            delivery. He's spent years at the intersection of products and services, helping 
+                            organizations automate their professional services workflows and scale operations 
+                            without losing the human touch that makes services businesses work.
+                        </p>
+                        <div class="founder-links">
+                            <a href="https://linkedin.com/in/christopher-veale" class="founder-link" target="_blank">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/>
+                                    <rect x="2" y="9" width="4" height="12"/>
+                                    <circle cx="4" cy="4" r="2"/>
+                                </svg>
+                                LinkedIn
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="founder-card">
+                    <div class="founder-photo">
+                        <div class="founder-initials">MF</div>
+                    </div>
+                    <div class="founder-info">
+                        <h3 class="founder-name">Maxwell Friel</h3>
+                        <div class="founder-title">Chief Technology Officer</div>
+                        <p class="founder-bio">
+                            Maxwell is a seasoned technology leader with over a decade of experience building 
+                            and delivering enterprise software solutions. His background in solution architecture, 
+                            CRM systems, and professional services delivery gives him unique insight into what 
+                            services organizations actually need—and what they don't.
+                        </p>
+                        <div class="founder-links">
+                            <a href="https://linkedin.com/in/maxwell-friel-2bb02b30" class="founder-link" target="_blank">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/>
+                                    <rect x="2" y="9" width="4" height="12"/>
+                                    <circle cx="4" cy="4" r="2"/>
+                                </svg>
+                                LinkedIn
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Values Section -->
+    <section class="values">
+        <div class="container">
+            <div class="values-header">
+                <span class="section-label">Our Values</span>
+                <h2>How we operate</h2>
+                <p class="text-large">
+                    The principles that guide everything we build.
+                </p>
+            </div>
+            
+            <div class="values-grid">
+                <div class="value-card">
+                    <div class="value-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                        </svg>
+                    </div>
+                    <h3>Startup Speed</h3>
+                    <p>Ship fast, iterate faster. We move at startup pace while delivering enterprise reliability.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
+                        </svg>
+                    </div>
+                    <h3>Customer First</h3>
+                    <p>Every feature we build solves a real problem for real customers. No vanity features.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                    </div>
+                    <h3>Bootstrapped Pride</h3>
+                    <p>Independent and growing. We answer to our customers, not investors.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="about-cta" id="contact">
+        <div class="container">
+            <div class="about-cta-content">
+                <h2>Let's talk</h2>
+                <p>
+                    Curious how Servantium could work for your services business? 
+                    We'd love to show you.
+                </p>
+                <div style="display: flex; gap: 1rem; justify-content: center;">
+                    <a href="/cdn-cgi/l/email-protection#640c0108080b2417011612050a100d11094a070b09" class="btn btn-primary">Schedule a Conversation</a>
+                    <a href="index.html" class="btn btn-secondary">Back to Platform</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <div class="logo-icon">
+                            <svg viewBox="0 0 24 24" fill="none">
+                                <circle cx="12" cy="12" r="4" fill="white"/>
+                                <path d="M12 2v4M12 18v4M2 12h4M18 12h4" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <span class="logo-text">Servantium</span>
+                    </a>
+                    <p>
+                        The operating system for services businesses. 
+                        Clarity, continuity, and leverage—without sacrificing flexibility.
+                    </p>
+                </div>
+                <div class="footer-column">
+                    <h4>Platform</h4>
+                    <ul>
+                        <li><a href="#">Configure Price Quote</a></li>
+                        <li><a href="#">Resource Management</a></li>
+                        <li><a href="#">Engagement Tracking</a></li>
+                        <li><a href="#">Intelligence Layer</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">LinkedIn</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2026 Servantium Inc. All rights reserved.</span>
+                <span>1111B S Governors Ave STE 48074, Dover, DE 19904</span>
+            </div>
+  

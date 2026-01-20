@@ -1,0 +1,3012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servantium — The Operating System for Professional Services</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Servantium Official Colors */
+            --color-servantium-green: #00C26D;
+            --color-green-hover: #00A95E;
+            --color-deep-forest: #023E25;
+            --color-forest: #045F37;
+            --color-emerald: #037A47;
+            --color-fresh-green: #36D993;
+            --color-jade: #6FE7B0;
+            --color-light-jade: #A1EEC8;
+            --color-pale-green: #C8F5DE;
+            --color-soft-mint: #E8FBF1;
+            --color-mint-tint: #F3FCF8;
+
+            /* Accent Colors */
+            --color-coral: #FF5C70;
+            --color-slate-blue: #4C82A7;
+            --color-amber: #FFB02E;
+            --color-deep-teal: #26A899;
+            --color-slate: #64748B;
+
+            /* Neutrals */
+            --color-ink: #0D0D0D;
+            --color-ink-light: #3d3d3d;
+            --color-ink-muted: #6b6b6b;
+            --color-white: #FFFFFF;
+            --color-mist-grey: #F5F6F7;
+            --color-cloud-grey: #E1E3E6;
+
+            /* Typography */
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-body: 'Source Sans 3', -apple-system, BlinkMacSystemFont, sans-serif;
+
+            /* Spacing */
+            --space-xs: 0.5rem;
+            --space-sm: 1rem;
+            --space-md: 1.5rem;
+            --space-lg: 2.5rem;
+            --space-xl: 4rem;
+            --space-2xl: 6rem;
+            --space-3xl: 8rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 18px;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--color-ink);
+            background-color: var(--color-white);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: var(--font-display);
+            font-weight: 500;
+            line-height: 1.25;
+            color: var(--color-ink);
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            letter-spacing: -0.02em;
+        }
+
+        h2 {
+            font-size: clamp(2rem, 4vw, 2.75rem);
+            letter-spacing: -0.01em;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 500;
+        }
+
+        p {
+            color: var(--color-ink-light);
+            font-size: 1.125rem;
+        }
+
+        .text-large {
+            font-size: 1.35rem;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 var(--space-lg);
+        }
+
+        section {
+            padding: var(--space-3xl) 0;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: var(--space-sm) 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--color-cloud-grey);
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-size: 1.35rem;
+            font-weight: 500;
+            color: var(--color-servantium-green);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+        }
+
+        .logo-mark {
+            width: 36px;
+            height: 36px;
+            background: var(--color-servantium-green);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-mark svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--space-lg);
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--color-ink-light);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--color-servantium-green);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-xs);
+            padding: 0.85rem 1.75rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.25s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--color-servantium-green);
+            color: var(--color-white);
+            box-shadow: 0 2px 8px rgba(0, 194, 109, 0.25);
+        }
+
+        .btn-primary:hover {
+            background: var(--color-green-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 194, 109, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--color-ink);
+            border: 2px solid var(--color-cloud-grey);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--color-servantium-green);
+            color: var(--color-servantium-green);
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 100px;
+            background: linear-gradient(180deg, var(--color-white) 0%, var(--color-mist-grey) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 10%;
+            right: -10%;
+            width: 60%;
+            height: 80%;
+            background: radial-gradient(ellipse, rgba(0, 194, 109, 0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            gap: var(--space-2xl);
+            align-items: center;
+        }
+
+        .hero-text {
+            max-width: 580px;
+        }
+
+        .hero-eyebrow {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--color-servantium-green);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            margin-bottom: var(--space-md);
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .hero-eyebrow::before {
+            content: '';
+            width: 32px;
+            height: 2px;
+            background: var(--color-servantium-green);
+        }
+
+        .hero h1 {
+            margin-bottom: var(--space-md);
+        }
+
+        .hero h1 em {
+            font-style: italic;
+            color: var(--color-servantium-green);
+        }
+
+        .hero-description {
+            font-size: 1.25rem;
+            color: var(--color-ink-light);
+            margin-bottom: var(--space-lg);
+            line-height: 1.75;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: var(--space-sm);
+            flex-wrap: wrap;
+        }
+
+        /* ADVANCED ORBITAL SYSTEM */
+        .hero-visual {
+            position: relative;
+            height: 520px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .orbital-universe {
+            position: relative;
+            width: 500px;
+            height: 500px;
+        }
+
+        /* Each particle gets its own dedicated orbital ring */
+        .orbital-ring {
+            position: absolute;
+            border-radius: 50%;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px dashed;
+            opacity: 0.3;
+        }
+
+        .orbital-ring:nth-child(1) { 
+            width: 130px; height: 130px; 
+            border-color: var(--color-slate-blue);
+        }
+        .orbital-ring:nth-child(2) { 
+            width: 170px; height: 170px; 
+            border-color: var(--color-deep-teal);
+        }
+        .orbital-ring:nth-child(3) { 
+            width: 230px; height: 230px; 
+            border-color: var(--color-servantium-green);
+        }
+        .orbital-ring:nth-child(4) { 
+            width: 290px; height: 290px; 
+            border-color: var(--color-amber);
+        }
+        .orbital-ring:nth-child(5) { 
+            width: 370px; height: 370px; 
+            border-color: var(--color-coral);
+        }
+        .orbital-ring:nth-child(6) { 
+            width: 440px; height: 440px; 
+            border-color: var(--color-slate);
+        }
+
+        .orbital-core {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: var(--color-servantium-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-white);
+            font-family: var(--font-display);
+            font-size: 0.7rem;
+            font-style: italic;
+            text-align: center;
+            box-shadow: 0 0 40px rgba(0, 194, 109, 0.4), 0 0 80px rgba(0, 194, 109, 0.2);
+            z-index: 10;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .orbital-core:hover {
+            transform: translate(-50%, -50%) scale(1.05);
+            box-shadow: 0 0 50px rgba(0, 194, 109, 0.5), 0 0 100px rgba(0, 194, 109, 0.3);
+        }
+
+        .game-mode .orbital-core {
+            opacity: 0 !important;
+            pointer-events: none;
+        }
+
+        /* Orbital particles - Servantium colors */
+        .orbital-particle {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            cursor: default;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            z-index: 5;
+            color: white;
+        }
+
+        .orbital-particle:hover {
+            z-index: 20;
+        }
+
+        .particle-discover {
+            width: 52px; height: 52px;
+            background: var(--color-slate-blue);
+            box-shadow: 0 0 20px rgba(76, 130, 167, 0.5);
+        }
+
+        .particle-estimate {
+            width: 38px; height: 38px;
+            background: var(--color-deep-teal);
+            box-shadow: 0 0 20px rgba(38, 168, 153, 0.5);
+        }
+
+        .particle-propose {
+            width: 56px; height: 56px;
+            background: var(--color-servantium-green);
+            box-shadow: 0 0 20px rgba(0, 194, 109, 0.5);
+        }
+
+        .particle-contract {
+            width: 42px; height: 42px;
+            background: var(--color-amber);
+            box-shadow: 0 0 20px rgba(255, 176, 46, 0.5);
+        }
+
+        .particle-deliver {
+            width: 58px; height: 58px;
+            background: var(--color-coral);
+            box-shadow: 0 0 20px rgba(255, 92, 112, 0.5);
+        }
+
+        .particle-learn {
+            width: 36px; height: 36px;
+            background: var(--color-slate);
+            box-shadow: 0 0 20px rgba(100, 116, 139, 0.5);
+        }
+
+        /* Space Easter Eggs */
+        .space-object {
+            position: absolute;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .asteroid {
+            width: 6px;
+            height: 6px;
+            background: var(--color-slate);
+            border-radius: 2px;
+            opacity: 0;
+        }
+
+        /* UFO / Alien */
+        .alien-ufo {
+            width: 20px;
+            height: 10px;
+            background: linear-gradient(180deg, #c0c0c0 0%, #808080 50%, #606060 100%);
+            border-radius: 50% 50% 20% 20%;
+            opacity: 0;
+            position: relative;
+        }
+
+        .alien-ufo::before {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 6px;
+            background: linear-gradient(180deg, #90EE90 0%, #50C878 100%);
+            border-radius: 50% 50% 30% 30%;
+            top: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .alien-ufo::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #50C878;
+            border-radius: 50%;
+            bottom: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 8px #50C878;
+        }
+
+        /* Explosion effect */
+        .explosion {
+            position: absolute;
+            pointer-events: none;
+            z-index: 30;
+        }
+
+        .explosion-particle {
+            position: absolute;
+            background: var(--color-amber);
+            border-radius: 50%;
+        }
+
+        @keyframes explode {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(0); opacity: 0; }
+        }
+
+        @keyframes explosionFlash {
+            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; }
+            50% { transform: translate(-50%, -50%) scale(1.5); opacity: 0.8; }
+            100% { transform: translate(-50%, -50%) scale(2); opacity: 0; }
+        }
+
+        /* ASTEROIDS GAME MODE */
+        .game-mode .orbital-ring,
+        .game-mode .orbital-particle,
+        .game-mode .space-object {
+            display: none !important;
+        }
+
+        .game-ship {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            border-bottom: 28px solid var(--color-servantium-green);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 20;
+            filter: drop-shadow(0 0 8px var(--color-servantium-green)) drop-shadow(0 0 16px rgba(0, 194, 109, 0.4));
+            transition: none;
+        }
+
+        /* Inner highlight for ship */
+        .game-ship::before {
+            content: '';
+            position: absolute;
+            bottom: -24px;
+            left: -6px;
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-bottom: 16px solid var(--color-fresh-green);
+            opacity: 0.6;
+        }
+
+        .game-ship.active {
+            opacity: 1;
+        }
+
+        .game-ship.thrusting::after {
+            content: '';
+            position: absolute;
+            bottom: -32px;
+            left: -6px;
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 16px solid var(--color-amber);
+            filter: blur(1px);
+            animation: thrustFlicker 0.08s infinite;
+        }
+
+        @keyframes thrustFlicker {
+            0%, 100% { opacity: 1; border-top-color: var(--color-amber); transform: scaleY(1); }
+            50% { opacity: 0.7; border-top-color: var(--color-coral); transform: scaleY(0.8); }
+        }
+
+        .game-ship.invulnerable {
+            animation: shipBlink 0.12s infinite;
+        }
+
+        @keyframes shipBlink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.2; }
+        }
+
+        .game-bullet {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: var(--color-servantium-green);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--color-servantium-green), 0 0 12px var(--color-servantium-green);
+            pointer-events: none;
+            z-index: 15;
+        }
+
+        .game-asteroid {
+            position: absolute;
+            border-radius: 40% 60% 55% 45% / 55% 45% 60% 40%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .game-asteroid.large {
+            width: 50px;
+            height: 46px;
+        }
+
+        .game-asteroid.medium {
+            width: 30px;
+            height: 28px;
+        }
+
+        .game-asteroid.small {
+            width: 16px;
+            height: 14px;
+        }
+
+        .game-ui {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            display: none;
+            justify-content: space-between;
+            font-family: var(--font-body);
+            font-size: 14px;
+            color: var(--color-white);
+            text-shadow: 0 0 10px rgba(0, 194, 109, 0.8);
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        .game-mode .game-ui {
+            display: flex;
+        }
+
+        .game-score {
+            font-weight: 600;
+            letter-spacing: 0.1em;
+        }
+
+        .game-lives {
+            display: flex;
+            gap: 6px;
+        }
+
+        .game-life {
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-bottom: 14px solid var(--color-servantium-green);
+        }
+
+        .game-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: var(--color-white);
+            font-family: var(--font-display);
+            z-index: 101;
+            display: none;
+            pointer-events: none;
+        }
+
+        .game-message h3 {
+            font-size: 2rem;
+            color: var(--color-servantium-green);
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 20px var(--color-servantium-green);
+        }
+
+        .game-message p {
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            color: var(--color-white);
+            opacity: 0.8;
+        }
+
+        .game-mode .game-message.active {
+            display: block;
+        }
+
+        .game-hint {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: var(--font-body);
+            font-size: 12px;
+            color: var(--color-slate);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .game-hint.visible {
+            opacity: 0.6;
+        }
+
+        /* Mobile Touch Controls */
+        .touch-controls {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 90;
+        }
+
+        .game-mode .touch-controls {
+            display: block;
+            pointer-events: auto;
+        }
+
+        .touch-zone {
+            position: absolute;
+            top: 0;
+            height: 100%;
+        }
+
+        .touch-zone-move {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 60%;
+            height: 100%;
+        }
+
+        .touch-zone-fire {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 40%;
+            height: 100%;
+        }
+
+        .touch-joystick {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border: 2px solid rgba(0, 194, 109, 0.3);
+            border-radius: 50%;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.15s ease;
+        }
+
+        .touch-joystick.active {
+            opacity: 1;
+        }
+
+        .touch-joystick-knob {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 194, 109, 0.5);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 15px rgba(0, 194, 109, 0.4);
+        }
+
+        .touch-fire-indicator {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70px;
+            height: 70px;
+            border: 2px solid rgba(0, 194, 109, 0.25);
+            border-radius: 50%;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .game-mode .touch-fire-indicator {
+            opacity: 1;
+        }
+
+        .touch-fire-indicator.active {
+            background: rgba(0, 194, 109, 0.2);
+            box-shadow: 0 0 20px rgba(0, 194, 109, 0.4);
+        }
+
+        .touch-fire-indicator::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            background: var(--color-servantium-green);
+            border-radius: 50%;
+            opacity: 0.5;
+        }
+
+        .touch-label {
+            position: absolute;
+            bottom: 15px;
+            font-family: var(--font-body);
+            font-size: 10px;
+            color: var(--color-slate);
+            opacity: 0;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .game-mode .touch-label {
+            opacity: 0.4;
+        }
+
+        .touch-zone-move .touch-label {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .touch-zone-fire .touch-label {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Hide touch controls on desktop (mouse/trackpad) */
+        @media (hover: hover) and (pointer: fine) {
+            .touch-controls {
+                display: none !important;
+            }
+        }
+
+        /* Adjust game UI for mobile */
+        @media (max-width: 600px) {
+            .game-mode .game-ui {
+                font-size: 12px;
+            }
+            
+            .game-life {
+                border-left-width: 5px;
+                border-right-width: 5px;
+                border-bottom-width: 12px;
+            }
+
+            .game-hint {
+                font-size: 10px;
+            }
+        }
+
+        /* The Problem Section */
+        .problem {
+            background: var(--color-deep-forest);
+            color: var(--color-white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .problem::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+
+        .problem-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .problem-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto var(--space-2xl);
+        }
+
+        .problem-header h2 {
+            color: var(--color-white);
+            margin-bottom: var(--space-md);
+        }
+
+        .problem-header p {
+            color: rgba(255,255,255,0.8);
+            font-size: 1.25rem;
+        }
+
+        .problem-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-lg);
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: var(--space-lg);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            background: rgba(255,255,255,0.08);
+            transform: translateY(-4px);
+        }
+
+        .stat-number {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            font-weight: 500;
+            color: var(--color-servantium-green);
+            margin-bottom: var(--space-xs);
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--color-white);
+            margin-bottom: var(--space-xs);
+        }
+
+        .stat-description {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.65);
+            line-height: 1.5;
+        }
+
+        .stat-source {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.4);
+            margin-top: var(--space-sm);
+        }
+
+        .stat-source a {
+            color: rgba(255,255,255,0.5);
+            text-decoration: underline;
+        }
+
+        /* Core Concept - Panel Below on Hover/Click */
+        .core-concept {
+            background: var(--color-mist-grey);
+        }
+
+        .concept-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto var(--space-2xl);
+        }
+
+        .concept-header h2 {
+            margin-bottom: var(--space-md);
+        }
+
+        .lifecycle-interactive {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: var(--space-md);
+            flex-wrap: wrap;
+            padding: var(--space-lg) 0;
+        }
+
+        .lifecycle-step {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .lifecycle-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            position: relative;
+            border: 3px solid transparent;
+            background: var(--color-white);
+        }
+
+        .lifecycle-circle:hover {
+            transform: scale(1.1);
+        }
+
+        /* Servantium colored lifecycle circles */
+        .lifecycle-step:nth-child(1) .lifecycle-circle {
+            border-color: var(--color-servantium-green);
+            background: linear-gradient(135deg, var(--color-mint-tint) 0%, var(--color-white) 100%);
+        }
+        .lifecycle-step:nth-child(3) .lifecycle-circle {
+            border-color: var(--color-deep-teal);
+            background: linear-gradient(135deg, rgba(38, 168, 153, 0.1) 0%, var(--color-white) 100%);
+        }
+        .lifecycle-step:nth-child(5) .lifecycle-circle {
+            border-color: var(--color-slate-blue);
+            background: linear-gradient(135deg, rgba(76, 130, 167, 0.1) 0%, var(--color-white) 100%);
+        }
+        .lifecycle-step:nth-child(7) .lifecycle-circle {
+            border-color: var(--color-amber);
+            background: linear-gradient(135deg, rgba(255, 176, 46, 0.1) 0%, var(--color-white) 100%);
+        }
+        .lifecycle-step:nth-child(9) .lifecycle-circle {
+            border-color: var(--color-coral);
+            background: linear-gradient(135deg, rgba(255, 92, 112, 0.1) 0%, var(--color-white) 100%);
+        }
+        .lifecycle-step:nth-child(11) .lifecycle-circle {
+            border-color: var(--color-slate);
+            background: linear-gradient(135deg, rgba(100, 116, 139, 0.1) 0%, var(--color-white) 100%);
+        }
+
+        .lifecycle-step.active .lifecycle-circle {
+            transform: scale(1.1);
+            box-shadow: 0 8px 30px rgba(0, 194, 109, 0.2);
+        }
+
+        .lifecycle-number {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            color: var(--color-ink);
+        }
+
+        .lifecycle-name {
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--color-ink-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 2px;
+        }
+
+        .lifecycle-connector {
+            width: 28px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--color-servantium-green), var(--color-deep-teal), var(--color-amber));
+            border-radius: 2px;
+        }
+
+        /* Panel that appears below */
+        .lifecycle-panel {
+            margin-top: var(--space-xl);
+            background: var(--color-white);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.1);
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            min-height: 280px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s ease;
+            pointer-events: none;
+        }
+
+        .lifecycle-panel.active {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .panel-image {
+            width: 100%;
+            height: 100%;
+            min-height: 280px;
+            object-fit: cover;
+        }
+
+        .panel-content {
+            padding: var(--space-xl);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .panel-content h3 {
+            color: var(--color-servantium-green);
+            margin-bottom: var(--space-sm);
+            font-size: 1.75rem;
+        }
+
+        .panel-content p {
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        /* Definition Section */
+        .definition {
+            background: var(--color-white);
+        }
+
+        .definition-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-2xl);
+        }
+
+        .definition-column h3 {
+            margin-bottom: var(--space-lg);
+            padding-bottom: var(--space-sm);
+            border-bottom: 3px solid var(--color-servantium-green);
+            display: inline-block;
+        }
+
+        .definition-column.negative h3 {
+            border-bottom-color: var(--color-coral);
+        }
+
+        .definition-list {
+            list-style: none;
+        }
+
+        .definition-list li {
+            padding: var(--space-sm) 0;
+            border-bottom: 1px solid var(--color-cloud-grey);
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-sm);
+            font-size: 1.1rem;
+        }
+
+        .definition-list li::before {
+            content: '→';
+            color: var(--color-servantium-green);
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .definition-column.negative .definition-list li::before {
+            content: '×';
+            color: var(--color-coral);
+        }
+
+        /* Phases Section */
+        .phases {
+            background: var(--color-mist-grey);
+        }
+
+        .phases-header {
+            text-align: center;
+            max-width: 650px;
+            margin: 0 auto var(--space-2xl);
+        }
+
+        .phases-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-md);
+        }
+
+        .phase-card {
+            padding: var(--space-lg);
+            background: var(--color-white);
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid var(--color-cloud-grey);
+        }
+
+        .phase-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 48px rgba(0,0,0,0.08);
+        }
+
+        .phase-card:nth-child(1) { border-top: 4px solid var(--color-servantium-green); }
+        .phase-card:nth-child(2) { border-top: 4px solid var(--color-deep-teal); }
+        .phase-card:nth-child(3) { border-top: 4px solid var(--color-slate-blue); }
+        .phase-card:nth-child(4) { border-top: 4px solid var(--color-amber); }
+
+        .phase-number {
+            font-family: var(--font-display);
+            font-size: 4.5rem;
+            color: var(--color-pale-green);
+            position: absolute;
+            top: -12px;
+            right: 12px;
+            line-height: 1;
+            opacity: 0.6;
+        }
+
+        .phase-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--color-servantium-green);
+            margin-bottom: var(--space-xs);
+            font-weight: 600;
+        }
+
+        .phase-card h3 {
+            font-size: 1.35rem;
+            margin-bottom: var(--space-sm);
+        }
+
+        .phase-card p {
+            font-size: 1rem;
+            line-height: 1.65;
+        }
+
+        /* AI Philosophy - RESTRUCTURED LAYOUT */
+        .ai-philosophy {
+            background: var(--color-white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ai-philosophy::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--color-mint-tint) 0%, transparent 50%, rgba(76, 130, 167, 0.05) 100%);
+            pointer-events: none;
+        }
+
+        .ai-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .ai-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto var(--space-2xl);
+        }
+
+        .ai-header h2 {
+            margin-bottom: var(--space-md);
+        }
+
+        .ai-header h2 em {
+            color: var(--color-servantium-green);
+            font-style: italic;
+        }
+
+        .ai-header .ai-lead {
+            font-size: 1.35rem;
+            line-height: 1.7;
+            color: var(--color-ink-light);
+        }
+
+        .ai-main {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-2xl);
+            align-items: start;
+            margin-bottom: var(--space-2xl);
+        }
+
+        .ai-body-text {
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: var(--color-ink-muted);
+        }
+
+        .ai-visual-new {
+            background: var(--color-white);
+            border-radius: 16px;
+            padding: var(--space-lg);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+            border: 1px solid var(--color-cloud-grey);
+        }
+
+        .ai-flow-prose {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+
+        .ai-flow-item {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-md);
+        }
+
+        .ai-flow-num {
+            width: 32px;
+            height: 32px;
+            background: var(--color-servantium-green);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .ai-flow-content {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--color-ink-light);
+            padding-top: 4px;
+        }
+
+        .ai-flow-content strong {
+            color: var(--color-ink);
+            font-weight: 600;
+        }
+
+        .ai-tenets-prose {
+            text-align: center;
+            padding-top: var(--space-xl);
+            border-top: 1px solid var(--color-cloud-grey);
+        }
+
+        .ai-tenets-intro {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--color-ink-muted);
+            margin-bottom: var(--space-sm);
+        }
+
+        .ai-tenets-list {
+            font-size: 1.15rem;
+            color: var(--color-ink);
+            line-height: 1.8;
+        }
+
+        .tenet-item {
+            font-weight: 500;
+        }
+
+        .tenet-divider {
+            margin: 0 var(--space-sm);
+            color: var(--color-servantium-green);
+        }
+
+        /* Outcomes Section */
+        .outcomes {
+            background: var(--color-deep-forest);
+            color: var(--color-white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .outcomes::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 80%;
+            height: 200%;
+            background: radial-gradient(ellipse, rgba(0, 194, 109, 0.15) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .outcomes-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto var(--space-2xl);
+            position: relative;
+            z-index: 1;
+        }
+
+        .outcomes-header h2 {
+            color: var(--color-white);
+            margin-bottom: var(--space-md);
+        }
+
+        .outcomes-header p {
+            color: rgba(255,255,255,0.8);
+            font-size: 1.2rem;
+        }
+
+        .outcomes-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-lg);
+            position: relative;
+            z-index: 1;
+        }
+
+        .outcome-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: var(--space-xl);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .outcome-card:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-4px);
+        }
+
+        .outcome-number {
+            font-family: var(--font-display);
+            font-size: 3.5rem;
+            font-weight: 500;
+            color: var(--color-servantium-green);
+            margin-bottom: var(--space-xs);
+        }
+
+        .outcome-card h3 {
+            color: var(--color-white);
+            font-size: 1.25rem;
+            margin-bottom: var(--space-sm);
+        }
+
+        .outcome-card p {
+            color: rgba(255,255,255,0.7);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: var(--color-mist-grey);
+            text-align: center;
+        }
+
+        .cta-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .cta-content h2 {
+            margin-bottom: var(--space-md);
+        }
+
+        .cta-content p {
+            font-size: 1.25rem;
+            margin-bottom: var(--space-lg);
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: var(--space-sm);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--color-ink);
+            color: var(--color-white);
+            padding: var(--space-2xl) 0 var(--space-lg);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: var(--space-2xl);
+            margin-bottom: var(--space-2xl);
+        }
+
+        .footer-brand {
+            max-width: 320px;
+        }
+
+        .footer-brand .logo {
+            color: var(--color-white);
+            margin-bottom: var(--space-md);
+        }
+
+        .footer-brand .logo-mark {
+            background: var(--color-servantium-green);
+        }
+
+        .footer-brand p {
+            font-size: 1rem;
+            opacity: 0.7;
+            color: var(--color-white);
+            line-height: 1.7;
+        }
+
+        .footer-column h4 {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: var(--space-md);
+            opacity: 0.5;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column li {
+            margin-bottom: var(--space-xs);
+        }
+
+        .footer-column a {
+            color: var(--color-white);
+            opacity: 0.7;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: opacity 0.2s;
+        }
+
+        .footer-column a:hover {
+            opacity: 1;
+        }
+
+        .footer-bottom {
+            padding-top: var(--space-lg);
+            border-top: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.95rem;
+            opacity: 0.5;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            html { font-size: 16px; }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-text { max-width: 100%; }
+            .hero-ctas { justify-content: center; }
+            .hero-visual { height: 400px; }
+            .orbital-universe { transform: scale(0.7); }
+            .definition-grid { grid-template-columns: 1fr; }
+            .phases-grid { grid-template-columns: repeat(2, 1fr); }
+            .ai-main { grid-template-columns: 1fr; }
+            .ai-tenets-list { display: flex; flex-direction: column; gap: var(--space-xs); }
+            .tenet-divider { display: none; }
+            .problem-stats { grid-template-columns: repeat(2, 1fr); }
+            .outcomes-grid { grid-template-columns: 1fr; }
+            .lifecycle-panel { grid-template-columns: 1fr; }
+            .panel-image { min-height: 200px; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            section { padding: var(--space-2xl) 0; }
+            .phases-grid { grid-template-columns: 1fr; }
+            .problem-stats { grid-template-columns: 1fr; }
+            .lifecycle-interactive { flex-direction: column; }
+            .lifecycle-connector { width: 3px; height: 20px; }
+            .footer-grid { grid-template-columns: 1fr 1fr; gap: var(--space-lg); }
+            .footer-bottom { flex-direction: column; gap: var(--space-sm); text-align: center; }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <a href="#" class="logo">
+                <div class="logo-mark">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3" fill="white"/>
+                        <path d="M12 2v4M12 18v4M2 12h4M18 12h4" stroke="white"/>
+                    </svg>
+                </div>
+                Servantium
+            </a>
+            <ul class="nav-links">
+                <li><a href="#problem">The Problem</a></li>
+                <li><a href="#concept">How It Works</a></li>
+                <li><a href="#platform">Platform</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+            <a href="#contact" class="btn btn-primary">Get Started</a>
+        </div>
+    </nav>
+
+    <!-- Hero - UPDATED TEXT -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <div class="hero-eyebrow">The Operating System for Professional Services</div>
+                    <h1>One system of record.<br><em>Every engagement.</em></h1>
+                    <p class="hero-description">
+                        Services businesses operate across fragmented workflows. Pricing lives in spreadsheets, delivery knowledge is tribal, and lessons learned never feed back into sales. Servantium changes that.
+                    </p>
+                    <div class="hero-ctas">
+                        <a href="#contact" class="btn btn-primary">Schedule a Call</a>
+                        <a href="#concept" class="btn btn-secondary">See How It Works</a>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="orbital-universe" id="orbital-universe">
+                        <!-- 6 dedicated orbital rings -->
+                        <div class="orbital-ring"></div>
+                        <div class="orbital-ring"></div>
+                        <div class="orbital-ring"></div>
+                        <div class="orbital-ring"></div>
+                        <div class="orbital-ring"></div>
+                        <div class="orbital-ring"></div>
+                        <div class="orbital-core" id="orbital-core">The<br>Engagement</div>
+                        <!-- Particles (planets) -->
+                        <div class="orbital-particle particle-discover" id="planet-0">Discover</div>
+                        <div class="orbital-particle particle-estimate" id="planet-1">Estimate</div>
+                        <div class="orbital-particle particle-propose" id="planet-2">Propose</div>
+                        <div class="orbital-particle particle-contract" id="planet-3">Contract</div>
+                        <div class="orbital-particle particle-deliver" id="planet-4">Deliver</div>
+                        <div class="orbital-particle particle-learn" id="planet-5">Learn</div>
+                        <!-- Space Easter Eggs (appear after 3 minutes) -->
+                        <div class="space-object asteroid" id="asteroid1"></div>
+                        <div class="space-object alien-ufo" id="alien1"></div>
+                        <!-- Game Elements -->
+                        <div class="game-ship" id="game-ship"></div>
+                        <div class="game-ui">
+                            <div class="game-score">SCORE: <span id="game-score-value">0</span></div>
+                            <div class="game-lives" id="game-lives"></div>
+                        </div>
+                        <div class="game-message" id="game-message">
+                            <h3>GAME OVER</h3>
+                            <p>Click sun to play again</p>
+                        </div>
+                        <div class="game-hint" id="game-hint">Press Esc to exit</div>
+                        <!-- Mobile Touch Controls -->
+                        <div class="touch-controls" id="touch-controls">
+                            <div class="touch-zone touch-zone-move" id="touch-zone-move">
+                                <div class="touch-joystick" id="touch-joystick">
+                                    <div class="touch-joystick-knob" id="touch-joystick-knob"></div>
+                                </div>
+                                <div class="touch-label">Move</div>
+                            </div>
+                            <div class="touch-zone touch-zone-fire" id="touch-zone-fire">
+                                <div class="touch-fire-indicator" id="touch-fire-indicator"></div>
+                                <div class="touch-label">Fire</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Problem -->
+    <section class="problem" id="problem">
+        <div class="container">
+            <div class="problem-content">
+                <div class="problem-header">
+                    <h2>The Problem</h2>
+                    <p>
+                        Services businesses are fundamentally disadvantaged because their offerings are 
+                        implicit, tribal, and fragmented—rather than encoded in systems that remember and improve.
+                    </p>
+                </div>
+                <div class="problem-stats">
+                    <div class="stat-card">
+                        <div class="stat-number">1 in 4</div>
+                        <div class="stat-label">Projects Delivered Late</div>
+                        <div class="stat-description">On-time delivery has fallen to 73.4%, the lowest in five years</div>
+                        <div class="stat-source"><a href="https://spiresearch.com/2025/02/12/the-18th-annual-professional-services-maturity-benchmark-report-is-out-now/" target="_blank">SPI Research 2025</a></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">9.8%</div>
+                        <div class="stat-label">EBITDA Margins</div>
+                        <div class="stat-description">Profit margins at their lowest point in over a decade</div>
+                        <div class="stat-source"><a href="https://www.deltek.com/en/blog/professional-services-benchmarks" target="_blank">SPI Research / Deltek 2025</a></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">52%</div>
+                        <div class="stat-label">Projects Hit by Scope Creep</div>
+                        <div class="stat-description">Uncontrolled scope changes up from 43% five years ago</div>
+                        <div class="stat-source"><a href="https://www.pmi.org/learning/library/scope-creep-rising-11308" target="_blank">PMI Pulse of the Profession</a></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">68.9%</div>
+                        <div class="stat-label">Billable Utilization</div>
+                        <div class="stat-description">Below the 75% threshold needed for healthy margins</div>
+                        <div class="stat-source"><a href="https://spiresearch.com/2025/03/18/the-truth-about-billable-utilization/" target="_blank">SPI Research 2025</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Concept - Panel Below -->
+    <section class="core-concept" id="concept">
+        <div class="container">
+            <div class="concept-header">
+                <h2>The Core Concept: The Engagement</h2>
+                <p class="text-large">
+                    Everything in Servantium revolves around an Engagement—a living object that evolves 
+                    from first conversation through delivery and into organizational memory.
+                </p>
+            </div>
+            <div class="lifecycle-interactive">
+                <div class="lifecycle-step" data-index="0">
+                    <div class="lifecycle-circle">
+                        <div class="lifecycle-number">1</div>
+                        <div class="lifecycle-name">Discovery</div>
+                    </div>
+                </div>
+                <div class="lifecycle-connector"></div>
+                <div class="lifecycle-step" data-index="1">
+                    <div class="lifecycle-circle">
+                        <div class="lifecycle-number">2</div>
+                        <div class="lifecycle-name">Estimation</div>
+                    </div>
+                </div>
+                <div class="lifecycle-connector"></div>
+                <div class="lifecycle-step" data-index="2">
+                    <div class="lifecycle-circle">
+                        <div class="lifecycle-number">3</div>
+                        <div class="lifecycle-name">Proposal</div>
+                    </div>
+                </div>
+                <div class="lifecycle-connector"></div>
+                <div class="lifecycle-step" data-index="3">
+                    <div class="lifecycle-circle">
+                        <div class="lifecycle-number">4</div>
+                        <div class="lifecycle-name">Contract</div>
+                    </div>
+                </div>
+                <div class="lifecycle-connector"></div>
+                <div class="lifecycle-step" data-index="4">
+                    <div class="lifecycle-circle">
+                        <div class="lifecycle-number">5</div>
+                        <div class="lifecycle-name">Delivery</div>
+                    </div>
+                </div>
+                <div class="lifecycle-connector"></div>
+                <div class="lifecycle-step" data-index="5">
+                    <div class="lifecycle-circle">
+                        <div class="lifecycle-number">6</div>
+                        <div class="lifecycle-name">Learning</div>
+                    </div>
+                </div>
+            </div>
+            <!-- Panel that appears below -->
+            <div class="lifecycle-panel" id="lifecycle-panel">
+                <img class="panel-image" id="panel-image" src="" alt="">
+                <div class="panel-content">
+                    <h3 id="panel-title"></h3>
+                    <p id="panel-description"></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Definition Section -->
+    <section class="definition" id="platform">
+        <div class="container">
+            <div class="definition-grid">
+                <div class="definition-column">
+                    <h3>What Servantium Is</h3>
+                    <ul class="definition-list">
+                        <li>An operating system for services businesses</li>
+                        <li>A way to formalize how services are defined, sold, contracted, and delivered</li>
+                        <li>Structure that turns implicit knowledge into explicit, compounding primitives</li>
+                        <li>Opinionated about data gravity and workflow</li>
+                        <li>A system of record for services work</li>
+                    </ul>
+                </div>
+                <div class="definition-column negative">
+                    <h3>What Servantium Is Not</h3>
+                    <ul class="definition-list">
+                        <li>A generic CRM</li>
+                        <li>A spreadsheet replacement</li>
+                        <li>A static proposal generator</li>
+                        <li>Traditional PSA bolted onto sales</li>
+                        <li>Another tool that bends to chaos</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Built in Layers -->
+    <section class="phases">
+        <div class="container">
+            <div class="phases-header">
+                <h2>Built in Layers, Not Bolted Together</h2>
+                <p class="text-large">
+                    Each phase unlocks the next. Structure before automation. 
+                    Intelligence earned through encoded practice.
+                </p>
+            </div>
+            <div class="phases-grid">
+                <div class="phase-card">
+                    <span class="phase-number">1</span>
+                    <div class="phase-label">Foundation</div>
+                    <h3>Service Definition & Pricing</h3>
+                    <p>Define services as composable products with structured inputs, pricing logic, and resource implications.</p>
+                </div>
+                <div class="phase-card">
+                    <span class="phase-number">2</span>
+                    <div class="phase-label">Execution</div>
+                    <h3>Delivery & Resource Management</h3>
+                    <p>Allocation, time tracking, and delivery management connected to your scoped work.</p>
+                </div>
+                <div class="phase-card">
+                    <span class="phase-number">3</span>
+                    <div class="phase-label">Intelligence</div>
+                    <h3>Pattern Recognition</h3>
+                    <p>Structured data enables identification of patterns, recommendations, and surfaced anomalies.</p>
+                </div>
+                <div class="phase-card">
+                    <span class="phase-number">4</span>
+                    <div class="phase-label">Scale</div>
+                    <h3>Compounding Knowledge</h3>
+                    <p>Playbooks, benchmarks, and forecasting driven by accumulated structure across engagements.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Philosophy - RESTRUCTURED LAYOUT -->
+    <section class="ai-philosophy" id="intelligence">
+        <div class="container">
+            <div class="ai-content">
+                <!-- Centered header -->
+                <div class="ai-header">
+                    <h2>Intelligence That <em>Earns</em> Its Place</h2>
+                    <p class="ai-lead">
+                        The prevailing discourse around artificial intelligence in enterprise software tends toward the promissory and the vague. We take a different view.
+                    </p>
+                </div>
+
+                <!-- Two column: text left, visual right -->
+                <div class="ai-main">
+                    <div class="ai-body-text">
+                        Intelligence in Servantium operates under constraint—it reads structured operational data, not free-form text. It surfaces patterns that exist in your encoded practice, identifies deviation from established norms, and recommends actions grounded in your firm's actual history. No hallucinated scope. No invented context. No synthetic confidence.
+                    </div>
+                    <div class="ai-visual-new">
+                        <div class="ai-flow-prose">
+                            <div class="ai-flow-item">
+                                <span class="ai-flow-num">1</span>
+                                <div class="ai-flow-content">
+                                    <strong>Raw Activity & Time</strong> enters the system—hours logged, milestones hit, communications exchanged.
+                                </div>
+                            </div>
+                            <div class="ai-flow-item">
+                                <span class="ai-flow-num">2</span>
+                                <div class="ai-flow-content">
+                                    <strong>Encoded Service Definitions</strong> provide the structure that gives raw data meaning and context.
+                                </div>
+                            </div>
+                            <div class="ai-flow-item">
+                                <span class="ai-flow-num">3</span>
+                                <div class="ai-flow-content">
+                                    <strong>Engagement History</strong> accumulates over time, building a baseline of what "normal" looks like for your firm.
+                                </div>
+                            </div>
+                            <div class="ai-flow-item">
+                                <span class="ai-flow-num">4</span>
+                                <div class="ai-flow-content">
+                                    <strong>Constrained Insight</strong> emerges—recommendations grounded in your actual patterns, not generic best practices.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tenets as horizontal prose -->
+                <div class="ai-tenets-prose">
+                    <p class="ai-tenets-intro">Our AI operates by four tenets:</p>
+                    <p class="ai-tenets-list">
+                        <span class="tenet-item">Structure precedes automation</span>
+                        <span class="tenet-divider">·</span>
+                        <span class="tenet-item">Clarity over cleverness</span>
+                        <span class="tenet-divider">·</span>
+                        <span class="tenet-item">Human judgment remains sovereign</span>
+                        <span class="tenet-divider">·</span>
+                        <span class="tenet-item">Day-one utility is non-negotiable</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Outcomes Section -->
+    <section class="outcomes">
+        <div class="container">
+            <div class="outcomes-header">
+                <h2>Designed for Impact</h2>
+                <p>
+                    When services work is structured and encoded, the operational gains compound. 
+                    Here's what becomes possible.
+                </p>
+            </div>
+            <div class="outcomes-grid">
+                <div class="outcome-card">
+                    <div class="outcome-number">2-3×</div>
+                    <h3>Faster Quoting</h3>
+                    <p>Structured service definitions and pricing logic eliminate the blank-page problem. Quotes that took days can take hours.</p>
+                </div>
+                <div class="outcome-card">
+                    <div class="outcome-number">+15%</div>
+                    <h3>Margin Visibility</h3>
+                    <p>Real-time connection between scoped work and actual delivery reveals margin erosion before it compounds.</p>
+                </div>
+                <div class="outcome-card">
+                    <div class="outcome-number">100%</div>
+                    <h3>Engagement Memory</h3>
+                    <p>Every engagement feeds forward. Pricing decisions, delivery lessons, and outcomes become institutional knowledge—not tribal lore.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section" id="contact">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Encode Your Services?</h2>
+                <p>
+                    We're working with a small number of services firms who believe their 
+                    operational knowledge deserves better than spreadsheets and tribal memory.
+                </p>
+                <div class="cta-buttons">
+                    <a href="/cdn-cgi/l/email-protection#f39b969f9f9cb380968185929d879a869edd909c9e" class="btn btn-primary">Start a Conversation</a>
+                    <a href="#" class="btn btn-secondary">Read Our Thesis</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="logo">
+                        <div class="logo-mark">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="3" fill="white"/>
+                                <path d="M12 2v4M12 18v4M2 12h4M18 12h4" stroke="white"/>
+                            </svg>
+                        </div>
+                        Servantium
+                    </a>
+                    <p>
+                        The operating system for professional services. Systems that remember, reason, and improve.
+                    </p>
+                </div>
+                <div class="footer-column">
+                    <h4>Platform</h4>
+                    <ul>
+                        <li><a href="#">Service Definition</a></li>
+                        <li><a href="#">Resource Management</a></li>
+                        <li><a href="#">Engagement Tracking</a></li>
+                        <li><a href="#">Intelligence Layer</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Our Thesis</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2025 Servantium Inc. All rights reserved.</span>
+                <span>Founded by <a href="https://linkedin.com/in/christopher-veale" style="color: inherit; text-decoration: underline;">Christopher Veale</a> & <a href="https://linkedin.com/in/maxwell-friel-2bb02b30" style="color: inherit; text-decoration: underline;">Maxwell Friel</a></span>
+            </div>
+        </div>
+    </footer>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        // Lifecycle panel data
+        const lifecycleData = [
+            {
+                title: "Discovery",
+                description: "Understand client needs, pain points, and desired outcomes. Capture context that will inform every downstream decision—from pricing to resource allocation to success metrics.",
+                image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=400&fit=crop"
+            },
+            {
+                title: "Estimation",
+                description: "Transform discovery insights into structured scope and pricing. Draw from encoded service definitions and historical engagement data to build accurate, defensible estimates.",
+                image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=400&fit=crop"
+            },
+            {
+                title: "Proposal",
+                description: "Generate proposals that reflect your actual service architecture—not copy-pasted templates. Scope, pricing, and deliverables flow directly from your estimation work.",
+                image: "https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=800&h=400&fit=crop"
+            },
+            {
+                title: "Contract",
+                description: "Move from proposal to binding agreement with terms that match your scoped work. Contract structures reflect your service definitions, not generic boilerplate.",
+                image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&h=400&fit=crop"
+            },
+            {
+                title: "Delivery",
+                description: "Execute against the engagement scope with real-time visibility into progress, utilization, and margin. Delivery teams work from the same context that sales created.",
+                image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=400&fit=crop"
+            },
+            {
+                title: "Learning",
+                description: "Capture what actually happened—variance from estimate, delivery lessons, client feedback. This intelligence feeds back into how you price and scope future work.",
+                image: "https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif"
+            }
+        ];
+
+        let activeStep = null;
+
+        // Panel show/hide on hover and click
+        document.querySelectorAll('.lifecycle-step').forEach(step => {
+            const index = parseInt(step.dataset.index);
+
+            step.addEventListener('mouseenter', () => showPanel(index, step));
+            step.addEventListener('click', () => {
+                if (activeStep === index) {
+                    hidePanel();
+                    activeStep = null;
+                } else {
+                    showPanel(index, step);
+                    activeStep = index;
+                }
+            });
+        });
+
+        function showPanel(index, step) {
+            const panel = document.getElementById('lifecycle-panel');
+            const data = lifecycleData[index];
+
+            document.getElementById('panel-image').src = data.image;
+            document.getElementById('panel-title').textContent = data.title;
+            document.getElementById('panel-description').textContent = data.description;
+
+            // Remove active from all steps
+            document.querySelectorAll('.lifecycle-step').forEach(s => s.classList.remove('active'));
+            step.classList.add('active');
+
+            panel.classList.add('active');
+        }
+
+        function hidePanel() {
+            document.getElementById('lifecycle-panel').classList.remove('active');
+            document.querySelectorAll('.lifecycle-step').forEach(s => s.classList.remove('active'));
+        }
+
+        // Keep panel visible when mouse leaves if clicked
+        document.querySelector('.core-concept').addEventListener('mouseleave', () => {
+            if (activeStep === null) {
+                hidePanel();
+            }
+        });
+
+        // Section fade-in
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+        document.querySelectorAll('section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(24px)';
+            section.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+            observer.observe(section);
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+
+        // ADVANCED ORBITAL ANIMATION
+        // Each particle has its own dedicated orbit radius - no overlap
+        class OrbitalParticle {
+            constructor(element, config) {
+                this.element = element;
+                this.centerX = 250;
+                this.centerY = 250;
+                this.radius = config.radius; // Fixed radius per particle
+                this.angle = config.startAngle;
+                this.speed = config.speed;
+                this.direction = config.direction; // 1 or -1
+            }
+
+            update() {
+                this.angle += this.speed * this.direction;
+                const x = this.centerX + Math.cos(this.angle) * this.radius;
+                const y = this.centerY + Math.sin(this.angle) * this.radius;
+                this.element.style.left = x + 'px';
+                this.element.style.top = y + 'px';
+                this.element.style.transform = 'translate(-50%, -50%)';
+            }
+        }
+
+        // Each particle on its own dedicated ring - spread out starting positions with varying radii
+        const particleConfigs = [
+            { radius: 65,  startAngle: 0,              speed: 0.011, direction: 1 },   // Discover - inner
+            { radius: 85,  startAngle: Math.PI,       speed: 0.008, direction: -1 },  // Estimate - small
+            { radius: 115, startAngle: Math.PI * 0.5, speed: 0.006, direction: 1 },   // Propose - medium
+            { radius: 145, startAngle: Math.PI * 1.5, speed: 0.005, direction: -1 },  // Contract
+            { radius: 185, startAngle: Math.PI * 0.25,speed: 0.004, direction: 1 },   // Deliver - large
+            { radius: 220, startAngle: Math.PI * 1.25,speed: 0.003, direction: -1 }   // Learn - outer
+        ];
+
+        const particles = [];
+        document.querySelectorAll('.orbital-particle').forEach((el, i) => {
+            particles.push(new OrbitalParticle(el, particleConfigs[i]));
+        });
+
+        // SPACE EASTER EGGS - Simplified Animation Controller
+        // Max 1 animation at once, starts after 3 minutes
+        const animationController = {
+            activeAnimations: 0,
+            maxAnimations: 1,
+            enabled: false, // Disabled until 3 minutes pass
+            canStart() { return this.enabled && this.activeAnimations < this.maxAnimations; },
+            start() { this.activeAnimations++; },
+            end() { this.activeAnimations = Math.max(0, this.activeAnimations - 1); }
+        };
+
+        // Track page time for 3-minute animation delay
+        const pageStartTime = performance.now();
+        const animationDelay = 180000; // 3 minutes
+
+        // Asteroid - small rocky debris (appears after 3 minutes)
+        class Asteroid {
+            constructor(element) {
+                this.element = element;
+                this.active = false;
+                this.timer = 0; // Will be set when animations are enabled
+                this.x = 0;
+                this.y = 0;
+                this.vx = 0;
+                this.vy = 0;
+                this.rotation = 0;
+                this.rotationSpeed = 0;
+                this.scale = 1;
+            }
+
+            update(dt) {
+                if (!animationController.enabled) return;
+
+                this.timer -= dt;
+                if (this.timer <= 0 && !this.active && animationController.canStart()) {
+                    this.trigger();
+                }
+                if (this.active) {
+                    this.x += this.vx * dt * 0.1;
+                    this.y += this.vy * dt * 0.1;
+                    this.rotation += this.rotationSpeed * dt * 0.1;
+                    this.element.style.left = this.x + 'px';
+                    this.element.style.top = this.y + 'px';
+                    this.element.style.transform = `rotate(${this.rotation}deg) scale(${this.scale})`;
+
+                    if (this.x < -20 || this.x > 520 || this.y < -20 || this.y > 520) {
+                        this.element.style.opacity = '0';
+                        this.active = false;
+                        this.timer = Math.random() * 20000 + 15000; // Longer delay between animations
+                        animationController.end();
+                    }
+                }
+            }
+
+            trigger() {
+                animationController.start();
+                this.active = true;
+                this.scale = 0.6 + Math.random() * 0.9;
+                this.rotationSpeed = (Math.random() - 0.5) * 4;
+                const speedMult = 0.6 + Math.random() * 0.8;
+                const side = Math.floor(Math.random() * 4);
+                if (side === 0) { this.x = -10; this.y = Math.random() * 500; this.vx = (2 + Math.random()) * speedMult; this.vy = (Math.random() - 0.5) * 2 * speedMult; }
+                else if (side === 1) { this.x = 510; this.y = Math.random() * 500; this.vx = -(2 + Math.random()) * speedMult; this.vy = (Math.random() - 0.5) * 2 * speedMult; }
+                else if (side === 2) { this.y = -10; this.x = Math.random() * 500; this.vy = (2 + Math.random()) * speedMult; this.vx = (Math.random() - 0.5) * 2 * speedMult; }
+                else { this.y = 510; this.x = Math.random() * 500; this.vy = -(2 + Math.random()) * speedMult; this.vx = (Math.random() - 0.5) * 2 * speedMult; }
+
+                this.element.style.opacity = '0.7';
+                this.rotation = Math.random() * 360;
+            }
+
+            enable() {
+                this.timer = Math.random() * 5000 + 2000; // Start first animation soon after enabled
+            }
+        }
+
+        // Alien UFO - Flies through with varying speed (appears after 3 minutes)
+        class AlienFlyby {
+            constructor(element) {
+                this.element = element;
+                this.active = false;
+                this.timer = 0;
+                this.x = 0;
+                this.y = 0;
+                this.vx = 0;
+                this.vy = 0;
+                this.speedMult = 1;
+            }
+
+            update(dt) {
+                if (!animationController.enabled) return;
+
+                this.timer -= dt;
+                if (this.timer <= 0 && !this.active && animationController.canStart()) {
+                    this.trigger();
+                }
+                if (this.active) {
+                    this.x += this.vx * dt * 0.08 * this.speedMult;
+                    this.y += this.vy * dt * 0.08 * this.speedMult;
+                    this.element.style.left = this.x + 'px';
+                    this.element.style.top = this.y + 'px';
+
+                    const wobble = Math.sin(performance.now() * 0.01) * 3;
+                    this.element.style.transform = `translateY(${wobble}px)`;
+
+                    if (this.x < -40 || this.x > 540 || this.y < -40 || this.y > 540) {
+                        this.element.style.opacity = '0';
+                        this.active = false;
+                        this.timer = Math.random() * 30000 + 20000; // Longer delay between animations
+                        animationController.end();
+                    }
+                }
+            }
+
+            trigger() {
+                animationController.start();
+                this.active = true;
+                this.speedMult = 0.6 + Math.random() * 0.8;
+                const side = Math.floor(Math.random() * 4);
+                const baseSpeed = 1.5 + Math.random();
+                if (side === 0) { this.x = -30; this.y = Math.random() * 400 + 50; this.vx = baseSpeed; this.vy = (Math.random() - 0.5) * 1.5; }
+                else if (side === 1) { this.x = 530; this.y = Math.random() * 400 + 50; this.vx = -baseSpeed; this.vy = (Math.random() - 0.5) * 1.5; }
+                else if (side === 2) { this.y = -20; this.x = Math.random() * 400 + 50; this.vy = baseSpeed; this.vx = (Math.random() - 0.5) * 1.5; }
+                else { this.y = 520; this.x = Math.random() * 400 + 50; this.vy = -baseSpeed; this.vx = (Math.random() - 0.5) * 1.5; }
+                this.element.style.opacity = '1';
+            }
+
+            enable() {
+                this.timer = Math.random() * 10000 + 8000; // Stagger start times
+            }
+        }
+
+        // Initialize space objects
+        const asteroid = new Asteroid(document.getElementById('asteroid1'));
+        const alienFlyby = new AlienFlyby(document.getElementById('alien1'));
+
+        let lastTime = performance.now();
+        let animationsEnabled = false;
+
+        function animateOrbit() {
+            const now = performance.now();
+            const dt = now - lastTime;
+            lastTime = now;
+
+            // Update orbital particles
+            particles.forEach(p => p.update());
+
+            // Enable animations after 3 minutes
+            if (!animationsEnabled && (now - pageStartTime) >= animationDelay) {
+                animationsEnabled = true;
+                animationController.enabled = true;
+                asteroid.enable();
+                alienFlyby.enable();
+            }
+
+            // Update space objects (only active after 3 minutes)
+            asteroid.update(dt);
+            alienFlyby.update(dt);
+
+            requestAnimationFrame(animateOrbit);
+        }
+
+        animateOrbit();
+
+        // ==========================================
+        // ASTEROIDS GAME MODE
+        // Activate by double-clicking the sun
+        // ==========================================
+
+        const gameState = {
+            active: false,
+            score: 0,
+            lives: 3,
+            level: 1,
+            ship: null,
+            bullets: [],
+            asteroids: [],
+            keys: {},
+            lastShot: 0,
+            shotCooldown: 150, // Faster shooting (was 250)
+            invulnerable: false,
+            invulnerableTime: 0,
+            gameOver: false,
+            hintTimeout: null,
+            // Grace period: 60 seconds where asteroids won't hit stationary ship
+            gameStartTime: 0,
+            gracePeriod: 60000, // 60 seconds
+            playerHasMoved: false // Tracks if player has used controls
+        };
+
+        const GAME_WIDTH = 500;
+        const GAME_HEIGHT = 500;
+        const asteroidColors = [
+            { bg: 'linear-gradient(135deg, #4C82A7 0%, #3a6a8a 50%, #2d5570 100%)', shadow: '#4C82A7' },
+            { bg: 'linear-gradient(135deg, #26A899 0%, #1e8a7d 50%, #176b61 100%)', shadow: '#26A899' },
+            { bg: 'linear-gradient(135deg, #00C26D 0%, #00a35c 50%, #00844b 100%)', shadow: '#00C26D' },
+            { bg: 'linear-gradient(135deg, #FFB02E 0%, #e09a28 50%, #c08420 100%)', shadow: '#FFB02E' },
+            { bg: 'linear-gradient(135deg, #FF5C70 0%, #e04d5f 50%, #c03d4e 100%)', shadow: '#FF5C70' },
+            { bg: 'linear-gradient(135deg, #64748B 0%, #536275 50%, #42505f 100%)', shadow: '#64748B' }
+        ];
+
+        class Ship {
+            constructor() {
+                this.x = GAME_WIDTH / 2;
+                this.y = GAME_HEIGHT / 2;
+                this.vx = 0;
+                this.vy = 0;
+                this.angle = -Math.PI / 2; // Pointing up
+                this.rotationSpeed = 0.22; // Faster rotation (was 0.15)
+                this.thrust = 0.22; // Stronger thrust (was 0.15)
+                this.friction = 0.985; // Slightly more friction for tighter control (was 0.99)
+                this.maxSpeed = 7; // Slightly higher max speed (was 6)
+                this.element = document.getElementById('game-ship');
+            }
+
+            update() {
+                // Track if player has moved (for grace period)
+                if (gameState.keys['ArrowLeft'] || gameState.keys['ArrowRight'] || gameState.keys['ArrowUp']) {
+                    gameState.playerHasMoved = true;
+                }
+
+                // Rotation
+                if (gameState.keys['ArrowLeft']) this.angle -= this.rotationSpeed;
+                if (gameState.keys['ArrowRight']) this.angle += this.rotationSpeed;
+
+                // Thrust
+                if (gameState.keys['ArrowUp']) {
+                    this.vx += Math.cos(this.angle) * this.thrust;
+                    this.vy += Math.sin(this.angle) * this.thrust;
+                    this.element.classList.add('thrusting');
+                } else {
+                    this.element.classList.remove('thrusting');
+                }
+
+                // Apply friction
+                this.vx *= this.friction;
+                this.vy *= this.friction;
+
+                // Limit speed
+                const speed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+                if (speed > this.maxSpeed) {
+                    this.vx = (this.vx / speed) * this.maxSpeed;
+                    this.vy = (this.vy / speed) * this.maxSpeed;
+                }
+
+                // Move
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // Wrap around edges
+                if (this.x < -20) this.x = GAME_WIDTH + 20;
+                if (this.x > GAME_WIDTH + 20) this.x = -20;
+                if (this.y < -20) this.y = GAME_HEIGHT + 20;
+                if (this.y > GAME_HEIGHT + 20) this.y = -20;
+
+                // Update element
+                this.element.style.left = this.x + 'px';
+                this.element.style.top = this.y + 'px';
+                this.element.style.transform = `translate(-50%, -50%) rotate(${this.angle + Math.PI / 2}rad)`;
+            }
+
+            shoot() {
+                const now = performance.now();
+                if (now - gameState.lastShot < gameState.shotCooldown) return;
+                gameState.lastShot = now;
+
+                // Shooting counts as player action for grace period
+                gameState.playerHasMoved = true;
+
+                const bullet = new Bullet(
+                    this.x + Math.cos(this.angle) * 15,
+                    this.y + Math.sin(this.angle) * 15,
+                    Math.cos(this.angle) * 10 + this.vx * 0.5, // Faster bullets (was 8)
+                    Math.sin(this.angle) * 10 + this.vy * 0.5
+                );
+                gameState.bullets.push(bullet);
+            }
+
+            reset() {
+                this.x = GAME_WIDTH / 2;
+                this.y = GAME_HEIGHT / 2;
+                this.vx = 0;
+                this.vy = 0;
+                this.angle = -Math.PI / 2;
+            }
+        }
+
+        class Bullet {
+            constructor(x, y, vx, vy) {
+                this.x = x;
+                this.y = y;
+                this.vx = vx;
+                this.vy = vy;
+                this.life = 60; // frames
+                this.element = document.createElement('div');
+                this.element.className = 'game-bullet';
+                document.getElementById('orbital-universe').appendChild(this.element);
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.life--;
+
+                // Wrap
+                if (this.x < 0) this.x = GAME_WIDTH;
+                if (this.x > GAME_WIDTH) this.x = 0;
+                if (this.y < 0) this.y = GAME_HEIGHT;
+                if (this.y > GAME_HEIGHT) this.y = 0;
+
+                this.element.style.left = this.x + 'px';
+                this.element.style.top = this.y + 'px';
+            }
+
+            destroy() {
+                this.element.remove();
+            }
+        }
+
+        class GameAsteroid {
+            constructor(x, y, size, vx, vy) {
+                this.x = x;
+                this.y = y;
+                this.size = size; // 'large', 'medium', 'small'
+                this.vx = vx || (Math.random() - 0.5) * 3;
+                this.vy = vy || (Math.random() - 0.5) * 3;
+                this.rotation = Math.random() * 360;
+                this.rotationSpeed = (Math.random() - 0.5) * 3;
+                this.colorIndex = Math.floor(Math.random() * asteroidColors.length);
+
+                this.element = document.createElement('div');
+                this.element.className = `game-asteroid ${size}`;
+                const color = asteroidColors[this.colorIndex];
+                this.element.style.background = color.bg;
+                this.element.style.boxShadow = `0 0 10px ${color.shadow}, inset -2px -2px 4px rgba(0,0,0,0.3)`;
+                document.getElementById('orbital-universe').appendChild(this.element);
+
+                // Collision radius
+                this.radius = size === 'large' ? 25 : size === 'medium' ? 15 : 8;
+                this.points = size === 'large' ? 20 : size === 'medium' ? 50 : 100;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.rotation += this.rotationSpeed;
+
+                // Wrap
+                if (this.x < -30) this.x = GAME_WIDTH + 30;
+                if (this.x > GAME_WIDTH + 30) this.x = -30;
+                if (this.y < -30) this.y = GAME_HEIGHT + 30;
+                if (this.y > GAME_HEIGHT + 30) this.y = -30;
+
+                this.element.style.left = this.x + 'px';
+                this.element.style.top = this.y + 'px';
+                this.element.style.transform = `translate(-50%, -50%) rotate(${this.rotation}deg)`;
+            }
+
+            destroy() {
+                this.element.remove();
+            }
+
+            split() {
+                const newAsteroids = [];
+                if (this.size === 'large') {
+                    for (let i = 0; i < 2; i++) {
+                        const angle = Math.random() * Math.PI * 2;
+                        const speed = 1.5 + Math.random();
+                        newAsteroids.push(new GameAsteroid(
+                            this.x, this.y, 'medium',
+                            Math.cos(angle) * speed,
+                            Math.sin(angle) * speed
+                        ));
+                    }
+                } else if (this.size === 'medium') {
+                    for (let i = 0; i < 2; i++) {
+                        const angle = Math.random() * Math.PI * 2;
+                        const speed = 2 + Math.random();
+                        newAsteroids.push(new GameAsteroid(
+                            this.x, this.y, 'small',
+                            Math.cos(angle) * speed,
+                            Math.sin(angle) * speed
+                        ));
+                    }
+                }
+                return newAsteroids;
+            }
+        }
+
+        function createExplosion(x, y, color) {
+            const universe = document.getElementById('orbital-universe');
+            for (let i = 0; i < 8; i++) {
+                const particle = document.createElement('div');
+                const angle = (Math.PI * 2 / 8) * i;
+                const speed = 30 + Math.random() * 30;
+                particle.style.cssText = `
+                    position: absolute;
+                    left: ${x}px;
+                    top: ${y}px;
+                    width: 3px;
+                    height: 3px;
+                    background: ${color};
+                    border-radius: 50%;
+                    pointer-events: none;
+                    z-index: 25;
+                `;
+                universe.appendChild(particle);
+
+                const vx = Math.cos(angle) * speed;
+                const vy = Math.sin(angle) * speed;
+                let px = x, py = y, opacity = 1;
+
+                const animate = () => {
+                    px += vx * 0.03;
+                    py += vy * 0.03;
+                    opacity -= 0.03;
+                    particle.style.left = px + 'px';
+                    particle.style.top = py + 'px';
+                    particle.style.opacity = Math.max(0, opacity);
+                    if (opacity > 0) {
+                        requestAnimationFrame(animate);
+                    } else {
+                        particle.remove();
+                    }
+                };
+                requestAnimationFrame(animate);
+            }
+        }
+
+        // Check if we're in the grace period and player hasn't moved
+        function isInGracePeriod() {
+            const now = performance.now();
+            const timeSinceStart = now - gameState.gameStartTime;
+            return timeSinceStart < gameState.gracePeriod && !gameState.playerHasMoved;
+        }
+
+        function spawnAsteroids(count) {
+            // During grace period (if player hasn't moved), use larger exclusion zone
+            const exclusionRadius = isInGracePeriod() ? 180 : 100;
+            const centerX = GAME_WIDTH / 2;
+            const centerY = GAME_HEIGHT / 2;
+
+            for (let i = 0; i < count; i++) {
+                let x, y, vx, vy;
+                // Spawn away from center (where ship is)
+                do {
+                    x = Math.random() * GAME_WIDTH;
+                    y = Math.random() * GAME_HEIGHT;
+                } while (Math.sqrt((x - centerX) ** 2 + (y - centerY) ** 2) < exclusionRadius);
+
+                // During grace period, also ensure velocity doesn't send asteroid toward center
+                if (isInGracePeriod()) {
+                    // Calculate angle away from center
+                    const angleFromCenter = Math.atan2(y - centerY, x - centerX);
+                    // Give velocity that moves roughly parallel or away from center
+                    const speed = 1 + Math.random() * 1.5;
+                    const velocityAngle = angleFromCenter + (Math.random() - 0.5) * Math.PI * 0.5; // -45 to +45 degrees from "away"
+                    vx = Math.cos(velocityAngle) * speed;
+                    vy = Math.sin(velocityAngle) * speed;
+                } else {
+                    vx = (Math.random() - 0.5) * 3;
+                    vy = (Math.random() - 0.5) * 3;
+                }
+
+                gameState.asteroids.push(new GameAsteroid(x, y, 'large', vx, vy));
+            }
+        }
+
+        function updateLivesDisplay() {
+            const livesEl = document.getElementById('game-lives');
+            livesEl.innerHTML = '';
+            for (let i = 0; i < gameState.lives; i++) {
+                const life = document.createElement('div');
+                life.className = 'game-life';
+                livesEl.appendChild(life);
+            }
+        }
+
+        function updateScore(points) {
+            gameState.score += points;
+            document.getElementById('game-score-value').textContent = gameState.score;
+        }
+
+        function checkCollisions() {
+            // Bullet vs Asteroid
+            for (let i = gameState.bullets.length - 1; i >= 0; i--) {
+                const bullet = gameState.bullets[i];
+                for (let j = gameState.asteroids.length - 1; j >= 0; j--) {
+                    const asteroid = gameState.asteroids[j];
+                    const dx = bullet.x - asteroid.x;
+                    const dy = bullet.y - asteroid.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < asteroid.radius) {
+                        // Hit!
+                        bullet.destroy();
+                        gameState.bullets.splice(i, 1);
+
+                        const color = asteroidColors[asteroid.colorIndex].shadow;
+                        createExplosion(asteroid.x, asteroid.y, color);
+                        updateScore(asteroid.points);
+
+                        const newAsteroids = asteroid.split();
+                        asteroid.destroy();
+                        gameState.asteroids.splice(j, 1);
+                        gameState.asteroids.push(...newAsteroids);
+                        break;
+                    }
+                }
+            }
+
+            // Ship vs Asteroid
+            // Skip collision if invulnerable OR in grace period (and player hasn't moved)
+            if (!gameState.invulnerable && gameState.ship && !isInGracePeriod()) {
+                for (const asteroid of gameState.asteroids) {
+                    const dx = gameState.ship.x - asteroid.x;
+                    const dy = gameState.ship.y - asteroid.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < asteroid.radius + 10) {
+                        // Ship hit!
+                        shipHit();
+                        break;
+                    }
+                }
+            }
+        }
+
+        function shipHit() {
+            gameState.lives--;
+            updateLivesDisplay();
+            createExplosion(gameState.ship.x, gameState.ship.y, '#00C26D');
+
+            if (gameState.lives <= 0) {
+                gameOver();
+            } else {
+                // Respawn with invulnerability
+                gameState.ship.reset();
+                gameState.invulnerable = true;
+                gameState.invulnerableTime = performance.now();
+                gameState.ship.element.classList.add('invulnerable');
+            }
+        }
+
+        function gameOver() {
+            gameState.gameOver = true;
+            gameState.ship.element.classList.remove('active');
+            document.getElementById('game-message').classList.add('active');
+            document.getElementById('game-hint').classList.remove('visible');
+            const touchHintEl = document.getElementById('touch-hint');
+            if (touchHintEl) touchHintEl.classList.remove('visible');
+            if (gameState.hintTimeout) clearTimeout(gameState.hintTimeout);
+        }
+
+        function nextLevel() {
+            gameState.level++;
+            spawnAsteroids(4 + gameState.level);
+        }
+
+        function startGame() {
+            const universe = document.getElementById('orbital-universe');
+            universe.classList.add('game-mode');
+
+            // Reset state
+            gameState.active = true;
+            gameState.score = 0;
+            gameState.lives = 3;
+            gameState.level = 1;
+            gameState.gameOver = false;
+            gameState.invulnerable = true;
+            gameState.invulnerableTime = performance.now();
+            gameState.gameStartTime = performance.now(); // Track when game started for grace period
+            gameState.playerHasMoved = false; // Reset movement tracking
+
+            // Clear old game objects
+            gameState.bullets.forEach(b => b.destroy());
+            gameState.bullets = [];
+            gameState.asteroids.forEach(a => a.destroy());
+            gameState.asteroids = [];
+
+            // Create ship
+            if (!gameState.ship) {
+                gameState.ship = new Ship();
+            }
+            gameState.ship.reset();
+            gameState.ship.element.classList.add('active', 'invulnerable');
+
+            // UI
+            document.getElementById('game-score-value').textContent = '0';
+            updateLivesDisplay();
+            document.getElementById('game-message').classList.remove('active');
+            
+            // Hide hint initially, show after 7 seconds
+            const hint = document.getElementById('game-hint');
+            hint.classList.remove('visible');
+            if (gameState.hintTimeout) clearTimeout(gameState.hintTimeout);
+            gameState.hintTimeout = setTimeout(() => {
+                if (gameState.active && !gameState.gameOver) {
+                    hint.classList.add('visible');
+                }
+            }, 7000);
+
+            // Spawn initial asteroids
+            spawnAsteroids(5);
+        }
+
+        function endGame() {
+            const universe = document.getElementById('orbital-universe');
+            universe.classList.remove('game-mode');
+            gameState.active = false;
+
+            // Clean up
+            gameState.bullets.forEach(b => b.destroy());
+            gameState.bullets = [];
+            gameState.asteroids.forEach(a => a.destroy());
+            gameState.asteroids = [];
+
+            if (gameState.ship) {
+                gameState.ship.element.classList.remove('active', 'thrusting', 'invulnerable');
+            }
+
+            document.getElementById('game-message').classList.remove('active');
+            
+            // Hide hint
+            document.getElementById('game-hint').classList.remove('visible');
+            if (gameState.hintTimeout) clearTimeout(gameState.hintTimeout);
+            
+            // Hide touch hint
+            const touchHintEl = document.getElementById('touch-hint');
+            if (touchHintEl) touchHintEl.classList.remove('visible');
+        }
+
+        function gameLoop() {
+            if (!gameState.active || gameState.gameOver) return;
+
+            // Update ship
+            gameState.ship.update();
+
+            // Shooting
+            if (gameState.keys[' ']) {
+                gameState.ship.shoot();
+            }
+
+            // Update bullets
+            for (let i = gameState.bullets.length - 1; i >= 0; i--) {
+                gameState.bullets[i].update();
+                if (gameState.bullets[i].life <= 0) {
+                    gameState.bullets[i].destroy();
+                    gameState.bullets.splice(i, 1);
+                }
+            }
+
+            // Update asteroids
+            gameState.asteroids.forEach(a => a.update());
+
+            // Check collisions
+            checkCollisions();
+
+            // Check invulnerability
+            if (gameState.invulnerable && performance.now() - gameState.invulnerableTime > 2000) {
+                gameState.invulnerable = false;
+                gameState.ship.element.classList.remove('invulnerable');
+            }
+
+            // Check level complete
+            if (gameState.asteroids.length === 0) {
+                nextLevel();
+            }
+        }
+
+        // Double-click/tap sun to activate game
+        let lastSunClick = 0;
+        const orbitalCore = document.getElementById('orbital-core');
+        
+        function handleSunActivation(e) {
+            const now = performance.now();
+            if (now - lastSunClick < 500) {
+                // Double click/tap detected
+                e.stopPropagation();
+                e.preventDefault();
+                if (gameState.active) {
+                    if (gameState.gameOver) {
+                        startGame();
+                    } else {
+                        endGame();
+                    }
+                } else {
+                    startGame();
+                }
+                lastSunClick = 0; // Reset to prevent triple-tap issues
+            } else {
+                lastSunClick = now;
+            }
+        }
+        
+        orbitalCore.addEventListener('click', handleSunActivation);
+        orbitalCore.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            handleSunActivation(e);
+        }, { passive: false });
+
+        // Keyboard controls
+        document.addEventListener('keydown', (e) => {
+            if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', ' '].includes(e.key)) {
+                if (gameState.active) {
+                    e.preventDefault();
+                }
+                gameState.keys[e.key] = true;
+            }
+            // ESC to exit game
+            if (e.key === 'Escape' && gameState.active) {
+                endGame();
+            }
+        });
+
+        document.addEventListener('keyup', (e) => {
+            gameState.keys[e.key] = false;
+        });
+
+        // ==========================================
+        // MOBILE TOUCH CONTROLS
+        // ==========================================
+        
+        const touchState = {
+            moveTouch: null,      // Touch ID for movement
+            fireTouch: null,      // Touch ID for firing
+            joystickOrigin: null, // {x, y} of initial touch
+        };
+
+        const touchJoystick = document.getElementById('touch-joystick');
+        const touchJoystickKnob = document.getElementById('touch-joystick-knob');
+        const touchFireIndicator = document.getElementById('touch-fire-indicator');
+        const touchZoneMove = document.getElementById('touch-zone-move');
+        const touchZoneFire = document.getElementById('touch-zone-fire');
+
+        // Get touch position relative to a zone element
+        function getTouchPosInZone(touch, zone) {
+            const rect = zone.getBoundingClientRect();
+            return {
+                x: touch.clientX - rect.left,
+                y: touch.clientY - rect.top
+            };
+        }
+
+        // Movement zone touch handlers
+        touchZoneMove.addEventListener('touchstart', (e) => {
+            if (!gameState.active || gameState.gameOver) return;
+            e.preventDefault();
+
+            for (const touch of e.changedTouches) {
+                if (touchState.moveTouch === null) {
+                    touchState.moveTouch = touch.identifier;
+                    const pos = getTouchPosInZone(touch, touchZoneMove);
+                    touchState.joystickOrigin = pos;
+                    
+                    // Show joystick at touch position
+                    touchJoystick.style.left = (pos.x - 50) + 'px';
+                    touchJoystick.style.top = (pos.y - 50) + 'px';
+                    touchJoystick.classList.add('active');
+                    touchJoystickKnob.style.transform = 'translate(-50%, -50%)';
+                    break;
+                }
+            }
+        }, { passive: false });
+
+        touchZoneMove.addEventListener('touchmove', (e) => {
+            if (!gameState.active || gameState.gameOver) return;
+            e.preventDefault();
+
+            for (const touch of e.changedTouches) {
+                if (touch.identifier === touchState.moveTouch && touchState.joystickOrigin) {
+                    const pos = getTouchPosInZone(touch, touchZoneMove);
+                    const dx = pos.x - touchState.joystickOrigin.x;
+                    const dy = pos.y - touchState.joystickOrigin.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    const maxDistance = 40;
+                    
+                    // Clamp knob position
+                    const clampedDist = Math.min(distance, maxDistance);
+                    const angle = Math.atan2(dy, dx);
+                    const knobX = Math.cos(angle) * clampedDist;
+                    const knobY = Math.sin(angle) * clampedDist;
+                    
+                    touchJoystickKnob.style.transform = `translate(calc(-50% + ${knobX}px), calc(-50% + ${knobY}px))`;
+                    
+                    // Apply controls based on joystick position
+                    const normalizedX = dx / maxDistance;
+                    const normalizedY = dy / maxDistance;
+                    
+                    // Rotation (left/right based on horizontal)
+                    if (normalizedX < -0.3) {
+                        gameState.keys['ArrowLeft'] = true;
+                        gameState.keys['ArrowRight'] = false;
+                    } else if (normalizedX > 0.3) {
+                        gameState.keys['ArrowRight'] = true;
+                        gameState.keys['ArrowLeft'] = false;
+                    } else {
+                        gameState.keys['ArrowLeft'] = false;
+                        gameState.keys['ArrowRight'] = false;
+                    }
+                    
+                    // Thrust (when pushing up/forward - negative Y, or strong push in any direction)
+                    if (normalizedY < -0.25 || distance > maxDistance * 0.7) {
+                        gameState.keys['ArrowUp'] = true;
+                    } else {
+                        gameState.keys['ArrowUp'] = false;
+                    }
+                }
+            }
+        }, { passive: false });
+
+        function handleMoveEnd(e) {
+            for (const touch of e.changedTouches) {
+                if (touch.identifier === touchState.moveTouch) {
+                    touchState.moveTouch = null;
+                    touchState.joystickOrigin = null;
+                    touchJoystick.classList.remove('active');
+                    touchJoystickKnob.style.transform = 'translate(-50%, -50%)';
+                    
+                    // Reset movement keys
+                    gameState.keys['ArrowLeft'] = false;
+                    gameState.keys['ArrowRight'] = false;
+                    gameState.keys['ArrowUp'] = false;
+                }
+            }
+        }
+
+        touchZoneMove.addEventListener('touchend', handleMoveEnd);
+        touchZoneMove.addEventListener('touchcancel', handleMoveEnd);
+
+        // Fire zone touch handlers
+        touchZoneFire.addEventListener('touchstart', (e) => {
+            if (!gameState.active || gameState.gameOver) return;
+            e.preventDefault();
+
+            for (const touch of e.changedTouches) {
+                if (touchState.fireTouch === null) {
+                    touchState.fireTouch = touch.identifier;
+                    touchFireIndicator.classList.add('active');
+                    
+                    // Fire immediately
+                    if (gameState.ship) {
+                        gameState.ship.shoot();
+                    }
+                    break;
+                }
+            }
+        }, { passive: false });
+
+        touchZoneFire.addEventListener('touchmove', (e) => {
+            if (!gameState.active || gameState.gameOver) return;
+            e.preventDefault();
+            
+            // Auto-fire while holding
+            for (const touch of e.changedTouches) {
+                if (touch.identifier === touchState.fireTouch && gameState.ship) {
+                    gameState.ship.shoot();
+                }
+            }
+        }, { passive: false });
+
+        function handleFireEnd(e) {
+            for (const touch of e.changedTouches) {
+                if (touch.identifier === touchState.fireTouch) {
+                    touchState.fireTouch = null;
+                    touchFireIndicator.classList.remove('active');
+                }
+            }
+        }
+
+        touchZoneFire.addEventListener('touchend', handleFireEnd);
+        touchZoneFire.addEventListener('touchcancel', handleFireEnd);
+
+        // Prevent default touch behaviors on game area
+        document.getElementById('orbital-universe').addEventListener('touchstart', (e) => {
+            if (gameState.active) {
+                // Don't prevent default on the core (for activation)
+                if (!e.target.closest('.orbital-core')) {
+                    e.preventDefault();
+                }
+            }
+        }, { passive: false });
+
+        // Game animation loop (separate from orbital)
+        function gameAnimationLoop() {
+            if (gameState.active) {
+                gameLoop();
+            }
+            requestAnimationFrame(gameAnimationLoop);
+        }
+        gameAnimationLoop();
+    </script>
+</body>
+</html>
