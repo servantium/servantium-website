@@ -62,7 +62,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
             /* Servantium Brand Colors */
@@ -88,8 +88,8 @@
             --neutral-700: #64748B;
             --neutral-900: #0D0D0D;
             
-            --font-display: 'Instrument Serif', Georgia, serif;
-            --font-body: 'Outfit', -apple-system, sans-serif;
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-body: 'Source Sans 3', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
         * {
@@ -611,6 +611,22 @@
             animation: checkPop 0.3s ease forwards;
         }
 
+        .footer-email-chip {
+            margin-top: 1rem;
+            background: transparent;
+            border-color: rgba(0, 194, 109, 0.5);
+        }
+
+        .footer-email-chip .email-chip-text,
+        .footer-email-chip .email-chip-icon {
+            color: var(--green-500);
+        }
+
+        .footer-email-chip:hover {
+            background: rgba(0, 194, 109, 0.15);
+            border-color: var(--green-500);
+        }
+
         /* Footer */
         footer {
             background: var(--neutral-900);
@@ -1028,7 +1044,7 @@
                 </p>
                 <div class="cta-email">
                     <span class="cta-email-label">Start a conversation</span>
-                    <button class="email-chip" id="email-chip" onclick="copyEmail()" aria-label="Copy email address">
+                    <button class="email-chip" id="email-chip" onclick="copyEmail(event)" aria-label="Copy email address">
                         <span class="email-chip-text" id="email-chip-text">hello@servantium.com</span>
                         <svg class="email-chip-icon" id="email-chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
@@ -1056,6 +1072,13 @@
                         1111B S Governors Ave STE 48074<br>
                         Dover, DE 19904
                     </address>
+                    <button class="email-chip footer-email-chip" onclick="copyEmail(event)" aria-label="Copy email address">
+                        <span class="email-chip-text">hello@servantium.com</span>
+                        <svg class="email-chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </button>
                 </div>
                 <div class="footer-column">
                     <h4>Platform</h4>
@@ -1082,7 +1105,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <span>© 2025 Servantium Inc. All rights reserved.</span>
+                <span>© 2026 Servantium Inc. All rights reserved.</span>
                 <span>Founded by <a href="https://linkedin.com/in/christopher-veale" style="color: inherit; text-decoration: underline;">Christopher Veale</a> & <a href="https://linkedin.com/in/maxwell-friel-2bb02b30" style="color: inherit; text-decoration: underline;">Maxwell Friel</a></span>
             </div>
         </div>
@@ -1090,11 +1113,11 @@
 
     <script>
         // Email Copy to Clipboard
-        function copyEmail() {
+        function copyEmail(event) {
             const email = 'hello@servantium.com';
-            const chip = document.getElementById('email-chip');
-            const text = document.getElementById('email-chip-text');
-            const icon = document.getElementById('email-chip-icon');
+            const chip = event ? event.currentTarget : document.getElementById('email-chip');
+            const text = chip.querySelector('.email-chip-text');
+            const icon = chip.querySelector('.email-chip-icon');
 
             navigator.clipboard.writeText(email).then(function() {
                 chip.classList.add('copied');
