@@ -1749,7 +1749,7 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: var(--space-xl);
-            align-items: start;
+            align-items: stretch;
         }
 
         .cta-column {
@@ -1758,6 +1758,8 @@
             padding: var(--space-lg);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
             color: var(--color-ink);
+            display: flex;
+            flex-direction: column;
         }
 
         .cta-column-header {
@@ -1871,6 +1873,14 @@
         /* Contact Form */
         .contact-form {
             text-align: left;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .contact-form textarea {
+            flex: 1;
+            min-height: 150px;
         }
 
         .form-group {
