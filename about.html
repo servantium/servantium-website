@@ -739,7 +739,8 @@
             bottom: 0;
             background: var(--neutral-25);
             z-index: 999;
-            padding: 100px 2rem 2rem;
+            padding: 2rem;
+            padding-top: 80px;
             flex-direction: column;
             gap: 0.5rem;
         }
@@ -748,7 +749,33 @@
             display: flex;
         }
 
-        .mobile-menu a {
+        .mobile-menu-close {
+            position: absolute;
+            top: 1rem;
+            right: 2rem;
+            width: 44px;
+            height: 44px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+        }
+
+        .mobile-menu-close svg {
+            width: 28px;
+            height: 28px;
+            stroke: var(--neutral-900);
+            stroke-width: 2;
+        }
+
+        .mobile-menu-close:hover svg {
+            stroke: var(--green-500);
+        }
+
+        .mobile-menu a:not(.btn) {
             display: block;
             padding: 1rem 0;
             font-size: 1.25rem;
@@ -759,13 +786,15 @@
             transition: color 0.2s;
         }
 
-        .mobile-menu a:hover {
+        .mobile-menu a:not(.btn):hover {
             color: var(--green-500);
         }
 
         .mobile-menu .btn {
             margin-top: 1rem;
             justify-content: center;
+            padding: 1rem 2rem;
+            font-size: 1rem;
         }
 
         /* Responsive */
@@ -833,6 +862,12 @@
 
     <!-- Mobile Menu -->
     <div class="mobile-menu" id="mobile-menu">
+        <button class="mobile-menu-close" aria-label="Close menu" onclick="closeMobileMenu()">
+            <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
         <a href="index.html#problem">The Problem</a>
         <a href="index.html#concept">How It Works</a>
         <a href="index.html#platform">Platform</a>
@@ -1138,11 +1173,25 @@
         const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
         const mobileMenu = document.getElementById('mobile-menu');
 
+        function closeMobileMenu() {
+            mobileMenu.classList.remove('active');
+            mobileMenuToggle.classList.remove('active');
+            mobileMenuToggle.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = '';
+        }
+
         mobileMenuToggle.addEventListener('click', function() {
             const isActive = mobileMenu.classList.toggle('active');
             this.classList.toggle('active');
             this.setAttribute('aria-expanded', isActive);
             document.body.style.overflow = isActive ? 'hidden' : '';
+        });
+
+        // Close mobile menu on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
+                closeMobileMenu();
+            }
         });
 
         // Close mobile menu on escape key

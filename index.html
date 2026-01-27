@@ -340,6 +340,12 @@
             font-size: 0.85rem;
         }
 
+        .nav-buttons {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
         .btn-primary {
             background: var(--color-servantium-green);
             color: var(--color-white);
@@ -1187,6 +1193,41 @@
             border-radius: 2px;
         }
 
+        /* Closed Loop Container */
+        .lifecycle-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .lifecycle-loop-arrow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: calc(100% + 60px);
+            height: calc(100% + 80px);
+            pointer-events: none;
+        }
+
+        .lifecycle-loop-arrow svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .loop-path {
+            fill: none;
+            stroke: url(#loopGradient);
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-dasharray: 8 6;
+            opacity: 0.6;
+        }
+
+        .loop-arrow-head {
+            fill: var(--color-servantium-green);
+            opacity: 0.8;
+        }
+
         /* Panel that appears below */
         .lifecycle-panel {
             margin-top: var(--space-xl);
@@ -1685,21 +1726,66 @@
         /* CTA Section */
         .cta-section {
             background: var(--color-mist-grey);
+        }
+
+        .cta-header {
             text-align: center;
-        }
-
-        .cta-content {
             max-width: 700px;
-            margin: 0 auto;
+            margin: 0 auto var(--space-xl);
         }
 
-        .cta-content h2 {
+        .cta-header h2 {
             margin-bottom: var(--space-md);
         }
 
-        .cta-content p {
+        .cta-header p {
             font-size: 1.25rem;
-            margin-bottom: var(--space-lg);
+        }
+
+        .cta-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-xl);
+            align-items: start;
+        }
+
+        .cta-column {
+            background: var(--color-white);
+            border-radius: 16px;
+            padding: var(--space-lg);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .cta-column-header {
+            text-align: center;
+            margin-bottom: var(--space-md);
+        }
+
+        .cta-column-header h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .cta-column-header p {
+            font-size: 0.95rem;
+            color: var(--color-ink-muted);
+        }
+
+        .cal-embed-container {
+            min-height: 450px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .cta-footer {
+            text-align: center;
+            margin-top: var(--space-xl);
+        }
+
+        @media (max-width: 900px) {
+            .cta-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         .cta-email {
@@ -1796,8 +1882,6 @@
 
         /* Contact Form */
         .contact-form {
-            max-width: 500px;
-            margin: var(--space-lg) auto 0;
             text-align: left;
         }
 
@@ -2145,7 +2229,8 @@
             bottom: 0;
             background: var(--color-white);
             z-index: 999;
-            padding: 100px var(--space-lg) var(--space-lg);
+            padding: var(--space-lg);
+            padding-top: 80px;
             flex-direction: column;
             gap: var(--space-sm);
         }
@@ -2154,7 +2239,33 @@
             display: flex;
         }
 
-        .mobile-menu a {
+        .mobile-menu-close {
+            position: absolute;
+            top: var(--space-sm);
+            right: var(--space-lg);
+            width: 44px;
+            height: 44px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+        }
+
+        .mobile-menu-close svg {
+            width: 28px;
+            height: 28px;
+            stroke: var(--color-ink);
+            stroke-width: 2;
+        }
+
+        .mobile-menu-close:hover svg {
+            stroke: var(--color-servantium-green);
+        }
+
+        .mobile-menu a:not(.btn) {
             display: block;
             padding: var(--space-md) 0;
             font-size: 1.25rem;
@@ -2165,18 +2276,20 @@
             transition: color 0.2s;
         }
 
-        .mobile-menu a:hover {
+        .mobile-menu a:not(.btn):hover {
             color: var(--color-servantium-green);
         }
 
         .mobile-menu .btn {
             margin-top: var(--space-md);
             justify-content: center;
+            padding: 1rem 2rem;
+            font-size: 1rem;
         }
 
         @media (max-width: 768px) {
             .nav-links { display: none; }
-            .btn-nav { display: none; }
+            .nav-buttons { display: none; }
             .mobile-menu-toggle { display: flex; }
             section { padding: var(--space-2xl) 0; }
             .phases-grid { grid-template-columns: 1fr; }
@@ -2185,6 +2298,19 @@
             .lifecycle-connector { width: 3px; height: 20px; }
             .footer-grid { grid-template-columns: 1fr 1fr; gap: var(--space-lg); }
             .footer-bottom { flex-direction: column; gap: var(--space-sm); text-align: center; }
+
+            /* Mobile hero fix */
+            .hero { min-height: auto; padding-top: 80px; padding-bottom: var(--space-lg); }
+            .hero-visual {
+                height: 300px;
+                width: 100%;
+                max-width: 300px;
+                margin: 0 auto;
+            }
+            .orbital-universe {
+                transform: scale(0.55);
+                transform-origin: center center;
+            }
         }
 
         @keyframes fadeInUp {
@@ -2207,7 +2333,10 @@
                 <li><a href="about.html">About</a></li>
                 <li><a href="blog.html">Blog</a></li>
             </ul>
-            <a href="https://app.servantium.com/" class="btn btn-primary btn-nav">Log In</a>
+            <div class="nav-buttons">
+                <button class="btn btn-secondary btn-nav" data-cal-link="christopher-veale-rh1jll/servantium-15-min-intro" data-cal-namespace="servantium-15-min-intro" data-cal-config='{"layout":"month_view"}'>Book a Demo</button>
+                <a href="https://app.servantium.com/" class="btn btn-primary btn-nav">Log In</a>
+            </div>
             <button class="mobile-menu-toggle" aria-label="Toggle menu" aria-expanded="false">
                 <span></span>
                 <span></span>
@@ -2218,11 +2347,18 @@
 
     <!-- Mobile Menu -->
     <div class="mobile-menu" id="mobile-menu">
+        <button class="mobile-menu-close" aria-label="Close menu" onclick="closeMobileMenu()">
+            <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
         <a href="#problem" onclick="closeMobileMenu()">The Problem</a>
         <a href="#concept" onclick="closeMobileMenu()">How It Works</a>
         <a href="#platform" onclick="closeMobileMenu()">Platform</a>
         <a href="about.html">About</a>
         <a href="blog.html">Blog</a>
+        <a href="#contact" onclick="closeMobileMenu()">Book a Demo</a>
         <a href="https://app.servantium.com/" class="btn btn-primary">Log In</a>
     </div>
 
@@ -2342,46 +2478,68 @@
                     from first conversation through delivery and into organizational memory.
                 </p>
             </div>
-            <div class="lifecycle-interactive">
-                <div class="lifecycle-step" data-index="0">
-                    <div class="lifecycle-circle">
-                        <div class="lifecycle-number">1</div>
-                        <div class="lifecycle-name">Discovery</div>
-                    </div>
+            <div class="lifecycle-wrapper">
+                <div class="lifecycle-loop-arrow">
+                    <svg viewBox="0 0 800 200" preserveAspectRatio="xMidYMid meet">
+                        <defs>
+                            <linearGradient id="loopGradient" x1="100%" y1="0%" x2="0%" y2="0%">
+                                <stop offset="0%" stop-color="var(--color-slate)" />
+                                <stop offset="50%" stop-color="var(--color-deep-teal)" />
+                                <stop offset="100%" stop-color="var(--color-servantium-green)" />
+                            </linearGradient>
+                        </defs>
+                        <!-- Arc path from right (Learning) curving under and back to left (Discovery) -->
+                        <path class="loop-path" d="M 720 100
+                            Q 750 100, 760 130
+                            Q 770 170, 720 180
+                            L 80 180
+                            Q 30 180, 30 130
+                            Q 30 100, 60 100" />
+                        <!-- Arrow head pointing right toward Discovery -->
+                        <polygon class="loop-arrow-head" points="70,92 70,108 85,100" />
+                    </svg>
                 </div>
-                <div class="lifecycle-connector"></div>
-                <div class="lifecycle-step" data-index="1">
-                    <div class="lifecycle-circle">
-                        <div class="lifecycle-number">2</div>
-                        <div class="lifecycle-name">Estimation</div>
+                <div class="lifecycle-interactive">
+                    <div class="lifecycle-step" data-index="0">
+                        <div class="lifecycle-circle">
+                            <div class="lifecycle-number">1</div>
+                            <div class="lifecycle-name">Discovery</div>
+                        </div>
                     </div>
-                </div>
-                <div class="lifecycle-connector"></div>
-                <div class="lifecycle-step" data-index="2">
-                    <div class="lifecycle-circle">
-                        <div class="lifecycle-number">3</div>
-                        <div class="lifecycle-name">Proposal</div>
+                    <div class="lifecycle-connector"></div>
+                    <div class="lifecycle-step" data-index="1">
+                        <div class="lifecycle-circle">
+                            <div class="lifecycle-number">2</div>
+                            <div class="lifecycle-name">Estimation</div>
+                        </div>
                     </div>
-                </div>
-                <div class="lifecycle-connector"></div>
-                <div class="lifecycle-step" data-index="3">
-                    <div class="lifecycle-circle">
-                        <div class="lifecycle-number">4</div>
-                        <div class="lifecycle-name">Contract</div>
+                    <div class="lifecycle-connector"></div>
+                    <div class="lifecycle-step" data-index="2">
+                        <div class="lifecycle-circle">
+                            <div class="lifecycle-number">3</div>
+                            <div class="lifecycle-name">Proposal</div>
+                        </div>
                     </div>
-                </div>
-                <div class="lifecycle-connector"></div>
-                <div class="lifecycle-step" data-index="4">
-                    <div class="lifecycle-circle">
-                        <div class="lifecycle-number">5</div>
-                        <div class="lifecycle-name">Delivery</div>
+                    <div class="lifecycle-connector"></div>
+                    <div class="lifecycle-step" data-index="3">
+                        <div class="lifecycle-circle">
+                            <div class="lifecycle-number">4</div>
+                            <div class="lifecycle-name">Contract</div>
+                        </div>
                     </div>
-                </div>
-                <div class="lifecycle-connector"></div>
-                <div class="lifecycle-step" data-index="5">
-                    <div class="lifecycle-circle">
-                        <div class="lifecycle-number">6</div>
-                        <div class="lifecycle-name">Learning</div>
+                    <div class="lifecycle-connector"></div>
+                    <div class="lifecycle-step" data-index="4">
+                        <div class="lifecycle-circle">
+                            <div class="lifecycle-number">5</div>
+                            <div class="lifecycle-name">Delivery</div>
+                        </div>
+                    </div>
+                    <div class="lifecycle-connector"></div>
+                    <div class="lifecycle-step" data-index="5">
+                        <div class="lifecycle-circle">
+                            <div class="lifecycle-number">6</div>
+                            <div class="lifecycle-name">Learning</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -2437,7 +2595,7 @@
                         </li>
                     </ul>
                     <div class="package-cta">
-                        <a href="#contact" class="btn btn-secondary">Contact Us</a>
+                        <a href="#contact" class="btn btn-secondary">Book a Call</a>
                     </div>
                 </div>
 
@@ -2471,7 +2629,7 @@
                         </li>
                     </ul>
                     <div class="package-cta">
-                        <a href="#contact" class="btn btn-secondary">Contact Us</a>
+                        <a href="#contact" class="btn btn-secondary">Book a Call</a>
                     </div>
                 </div>
 
@@ -2505,7 +2663,7 @@
                         </li>
                     </ul>
                     <div class="package-cta">
-                        <a href="#contact" class="btn btn-secondary">Contact Us</a>
+                        <a href="#contact" class="btn btn-secondary">Book a Call</a>
                     </div>
                 </div>
             </div>
@@ -2785,32 +2943,50 @@
     <!-- CTA -->
     <section class="cta-section" id="contact">
         <div class="container">
-            <div class="cta-content">
+            <div class="cta-header">
                 <h2>Ready to Encode Your Services?</h2>
                 <p>
                     We're working with a small number of services firms who believe their
                     operational knowledge deserves better than spreadsheets and tribal memory.
                 </p>
+            </div>
 
-                <form class="contact-form" id="contact-form">
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" id="name" name="name" required placeholder="Your name">
+            <div class="cta-grid">
+                <!-- Schedule a Demo Column -->
+                <div class="cta-column">
+                    <div class="cta-column-header">
+                        <h3>Schedule a Demo</h3>
+                        <p>Book a 15-minute intro call to see Servantium in action</p>
                     </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" required placeholder="you@company.com">
-                    </div>
-                    <div class="form-group">
-                        <label for="message">Message</label>
-                        <textarea id="message" name="message" required placeholder="Tell us about your services business and what you're looking for..."></textarea>
-                    </div>
-                    <button type="submit" class="form-submit" id="form-submit">Send Message</button>
-                    <div class="form-status" id="form-status"></div>
-                </form>
+                    <div class="cal-embed-container" id="cal-inline-embed"></div>
+                </div>
 
-                <div class="form-divider">or email us directly</div>
+                <!-- Send a Message Column -->
+                <div class="cta-column">
+                    <div class="cta-column-header">
+                        <h3>Send a Message</h3>
+                        <p>Prefer to write? We'll get back to you within 24 hours</p>
+                    </div>
+                    <form class="contact-form" id="contact-form">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" required placeholder="Your name">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required placeholder="you@company.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" required placeholder="Tell us about your services business and what you're looking for..."></textarea>
+                        </div>
+                        <button type="submit" class="form-submit" id="form-submit">Send Message</button>
+                        <div class="form-status" id="form-status"></div>
+                    </form>
+                </div>
+            </div>
 
+            <div class="cta-footer">
                 <div class="cta-email">
                     <button class="email-chip" id="email-chip" onclick="copyEmail(event)" aria-label="Copy email address">
                         <span class="email-chip-text" id="email-chip-text">hello@servantium.com</span>
@@ -4027,6 +4203,31 @@
             requestAnimationFrame(gameAnimationLoop);
         }
         gameAnimationLoop();
+    </script>
+
+    <!-- Cal.com Embed Script -->
+    <script type="text/javascript">
+        (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+
+        // Initialize Cal.com with namespace for popup triggers
+        Cal("init", "servantium-15-min-intro", {origin:"https://app.cal.com"});
+
+        // Inline embed in the contact section
+        Cal.ns["servantium-15-min-intro"]("inline", {
+            elementOrSelector: "#cal-inline-embed",
+            config: {"layout":"month_view","useSlotsViewOnSmallScreen":"true"},
+            calLink: "christopher-veale-rh1jll/servantium-15-min-intro"
+        });
+
+        // UI customization for both inline and popup
+        Cal.ns["servantium-15-min-intro"]("ui", {
+            "cssVarsPerTheme": {
+                "light": {"cal-brand":"#00C26D"},
+                "dark": {"cal-brand":"#00C26D"}
+            },
+            "hideEventTypeDetails": false,
+            "layout": "month_view"
+        });
     </script>
 </body>
 </html>
