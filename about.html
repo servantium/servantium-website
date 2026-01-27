@@ -153,11 +153,11 @@
             top: 0;
             left: 0;
             right: 0;
-            z-index: 1000;
-            padding: 1.25rem 0;
+            z-index: 100;
+            padding: 1rem 0;
             background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            box-shadow: 0 1px 0 rgba(0,0,0,0.05);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--neutral-300);
         }
 
         nav .container {
@@ -167,9 +167,9 @@
         }
 
         .logo {
+            text-decoration: none;
             display: flex;
             align-items: center;
-            text-decoration: none;
         }
 
         .logo-image {
@@ -183,7 +183,6 @@
 
         .nav-links {
             display: flex;
-            align-items: center;
             gap: 2.5rem;
             list-style: none;
         }
@@ -191,14 +190,14 @@
         .nav-links a {
             color: var(--neutral-700);
             text-decoration: none;
-            font-size: 0.9rem;
+            font-size: 1rem;
             font-weight: 500;
             transition: color 0.2s;
         }
 
         .nav-links a:hover,
         .nav-links a.active {
-            color: var(--green-600);
+            color: var(--green-500);
         }
 
         .btn {
@@ -208,9 +207,9 @@
             padding: 0.75rem 1.5rem;
             border-radius: 8px;
             font-size: 0.9rem;
-            font-weight: 500;
+            font-weight: 600;
             text-decoration: none;
-            transition: all 0.2s;
+            transition: all 0.25s ease;
             cursor: pointer;
             border: none;
         }
@@ -238,7 +237,7 @@
 
         .btn-secondary:hover {
             border-color: var(--green-500);
-            color: var(--green-600);
+            color: var(--green-500);
         }
 
         .nav-buttons {
