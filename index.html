@@ -1878,13 +1878,14 @@
             flex-direction: column;
         }
 
-        .contact-form textarea {
-            flex: 1;
-            min-height: 150px;
-        }
-
         .form-group {
             margin-bottom: var(--space-md);
+        }
+
+        .form-group.form-group-message {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
         }
 
         .form-group label {
@@ -1917,6 +1918,10 @@
         .form-group textarea {
             min-height: 120px;
             resize: vertical;
+        }
+
+        .form-group-message textarea {
+            flex: 1;
         }
 
         .form-submit {
@@ -2974,7 +2979,7 @@
                             <label for="email">Email</label>
                             <input type="email" id="email" name="email" required placeholder="you@company.com">
                         </div>
-                        <div class="form-group">
+                        <div class="form-group form-group-message">
                             <label for="message">Message</label>
                             <textarea id="message" name="message" required placeholder="Tell us about your services business and what you're looking for..."></textarea>
                         </div>
