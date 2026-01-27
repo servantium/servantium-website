@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Services Businesses Need CPQ — Servantium Blog</title>
+    <meta name="description" content="Product companies have had Configure, Price, Quote systems for decades. It's time services businesses caught up—here's why spreadsheets are costing you margin.">
+    <meta name="author" content="Christopher Veale">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Why Services Businesses Need CPQ">
+    <meta property="og:description" content="Product companies have had Configure, Price, Quote systems for decades. It's time services businesses caught up.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1200&h=630&fit=crop">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://servantium.com/blog/why-services-businesses-need-cpq">
+    <meta property="article:published_time" content="2025-01-15">
+    <meta property="article:author" content="Christopher Veale">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://servantium.com/blog/why-services-businesses-need-cpq">
+
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Why Services Businesses Need CPQ",
+        "description": "Product companies have had Configure, Price, Quote systems for decades. It's time services businesses caught up—here's why spreadsheets are costing you margin.",
+        "image": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1200&h=630&fit=crop",
+        "datePublished": "2025-01-15",
+        "dateModified": "2025-01-15",
+        "author": {
+            "@type": "Person",
+            "name": "Christopher Veale"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "@id": "https://servantium.com/#organization",
+            "name": "Servantium",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://servantium.com/logo.png"
+            }
+        },
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://servantium.com/blog/why-services-businesses-need-cpq"
+        }
+    }
+    </script>
+
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="../favicon-192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-servantium-green: #00C26D;
+            --color-green-hover: #00A95E;
+            --color-deep-forest: #023E25;
+            --color-soft-mint: #E8FBF1;
+            --color-ink: #0D0D0D;
+            --color-ink-light: #3d3d3d;
+            --color-ink-muted: #6b6b6b;
+            --color-white: #FFFFFF;
+            --color-mist-grey: #F5F6F7;
+            --color-cloud-grey: #E1E3E6;
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-body: 'Source Sans 3', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 18px;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--color-ink);
+            background-color: var(--color-white);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 1rem 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--color-cloud-grey);
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 2.5rem;
+        }
+
+        .logo {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-image {
+            height: 40px;
+            width: auto;
+        }
+
+        .footer-logo {
+            filter: brightness(0) invert(1);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--color-ink-light);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--color-servantium-green);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.25s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-nav {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+        }
+
+        .btn-primary {
+            background: var(--color-servantium-green);
+            color: var(--color-white);
+        }
+
+        .btn-primary:hover {
+            background: var(--color-green-hover);
+            transform: translateY(-1px);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            width: 28px;
+            height: 28px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 1001;
+        }
+
+        .mobile-menu-toggle span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background: var(--color-ink);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .mobile-menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--color-white);
+            z-index: 999;
+            padding: 100px 2.5rem 2.5rem;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .mobile-menu.active {
+            display: flex;
+        }
+
+        .mobile-menu a {
+            display: block;
+            padding: 1rem 0;
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: var(--color-ink);
+            text-decoration: none;
+            border-bottom: 1px solid var(--color-cloud-grey);
+            transition: color 0.2s;
+        }
+
+        .mobile-menu a:hover {
+            color: var(--color-servantium-green);
+        }
+
+        .mobile-menu .btn {
+            margin-top: 1rem;
+            justify-content: center;
+        }
+
+        /* Article Header */
+        .article-header {
+            padding: 8rem 0 3rem;
+            background: linear-gradient(180deg, var(--color-soft-mint) 0%, var(--color-white) 100%);
+        }
+
+        .article-header .container {
+            max-width: 800px;
+        }
+
+        .article-breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+
+        .article-breadcrumb a {
+            color: var(--color-servantium-green);
+            text-decoration: none;
+        }
+
+        .article-breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .article-breadcrumb span {
+            color: var(--color-ink-muted);
+        }
+
+        .article-category {
+            display: inline-block;
+            color: var(--color-servantium-green);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .article-title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 5vw, 3rem);
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            color: var(--color-ink);
+        }
+
+        .article-excerpt {
+            font-size: 1.25rem;
+            color: var(--color-ink-light);
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+
+        .article-meta {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .article-author {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .author-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--color-servantium-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .author-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .author-name {
+            font-weight: 600;
+            color: var(--color-ink);
+        }
+
+        .author-role {
+            font-size: 0.85rem;
+            color: var(--color-ink-muted);
+        }
+
+        .article-date {
+            color: var(--color-ink-muted);
+            font-size: 0.9rem;
+        }
+
+        .article-reading-time {
+            color: var(--color-ink-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Article Hero Image */
+        .article-hero-image {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2.5rem;
+        }
+
+        .article-hero-image img {
+            width: 100%;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Article Content */
+        .article-content {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 4rem 2.5rem 6rem;
+        }
+
+        .article-content h2 {
+            font-family: var(--font-display);
+            font-size: 1.75rem;
+            margin: 3rem 0 1.25rem;
+            color: var(--color-ink);
+        }
+
+        .article-content h3 {
+            font-family: var(--font-display);
+            font-size: 1.35rem;
+            margin: 2.5rem 0 1rem;
+            color: var(--color-ink);
+        }
+
+        .article-content p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--color-ink-light);
+        }
+
+        .article-content ul,
+        .article-content ol {
+            margin: 1.5rem 0;
+            padding-left: 1.5rem;
+        }
+
+        .article-content li {
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--color-ink-light);
+        }
+
+        .article-content blockquote {
+            margin: 2rem 0;
+            padding: 1.5rem 2rem;
+            background: var(--color-soft-mint);
+            border-left: 4px solid var(--color-servantium-green);
+            border-radius: 0 8px 8px 0;
+        }
+
+        .article-content blockquote p {
+            margin-bottom: 0;
+            font-style: italic;
+            color: var(--color-ink);
+        }
+
+        .article-content strong {
+            color: var(--color-ink);
+            font-weight: 600;
+        }
+
+        .article-content a {
+            color: var(--color-servantium-green);
+            text-decoration: underline;
+        }
+
+        .article-content a:hover {
+            color: var(--color-green-hover);
+        }
+
+        /* Article CTA */
+        .article-cta {
+            margin: 4rem 0;
+            padding: 2.5rem;
+            background: var(--color-deep-forest);
+            border-radius: 16px;
+            text-align: center;
+        }
+
+        .article-cta h3 {
+            font-family: var(--font-display);
+            color: var(--color-white);
+            margin-bottom: 0.75rem;
+        }
+
+        .article-cta p {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1.5rem;
+        }
+
+        .article-cta .btn-primary {
+            background: var(--color-servantium-green);
+        }
+
+        /* Article Footer */
+        .article-footer {
+            padding-top: 2rem;
+            border-top: 1px solid var(--color-cloud-grey);
+        }
+
+        .article-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .article-tag {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            background: var(--color-mist-grey);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--color-ink-muted);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .article-tag:hover {
+            background: var(--color-soft-mint);
+            color: var(--color-servantium-green);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--color-ink);
+            color: var(--color-white);
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand p {
+            font-size: 0.95rem;
+            opacity: 0.7;
+            margin-top: 1rem;
+            max-width: 280px;
+        }
+
+        .footer-address {
+            font-style: normal;
+            font-size: 0.85rem;
+            opacity: 0.5;
+            line-height: 1.6;
+            margin-top: 1rem;
+        }
+
+        .footer-column h4 {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.25rem;
+            opacity: 0.5;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-column a {
+            color: var(--color-white);
+            opacity: 0.7;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: opacity 0.2s;
+        }
+
+        .footer-column a:hover {
+            opacity: 1;
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            opacity: 0.5;
+        }
+
+        .footer-bottom a {
+            color: inherit;
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .btn-nav { display: none; }
+            .mobile-menu-toggle { display: flex; }
+
+            .article-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 0.5rem;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <a href="../index.html" class="logo">
+                <img src="../logo.png" alt="Servantium" class="logo-image">
+            </a>
+            <ul class="nav-links">
+                <li><a href="../index.html#problem">The Problem</a></li>
+                <li><a href="../index.html#concept">How It Works</a></li>
+                <li><a href="../index.html#platform">Platform</a></li>
+                <li><a href="../about.html">About</a></li>
+                <li><a href="../blog.html" class="active">Blog</a></li>
+            </ul>
+            <a href="https://app.servantium.com/" class="btn btn-primary btn-nav">Log In</a>
+            <button class="mobile-menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="../index.html#problem">The Problem</a>
+        <a href="../index.html#concept">How It Works</a>
+        <a href="../index.html#platform">Platform</a>
+        <a href="../about.html">About</a>
+        <a href="../blog.html">Blog</a>
+        <a href="https://app.servantium.com/" class="btn btn-primary">Log In</a>
+    </div>
+
+    <!-- Article Header -->
+    <header class="article-header">
+        <div class="container">
+            <div class="article-breadcrumb">
+                <a href="../blog.html">Blog</a>
+                <span>/</span>
+                <span>Strategy</span>
+            </div>
+            <span class="article-category">Strategy</span>
+            <h1 class="article-title">Why Services Businesses Need CPQ (And Why Spreadsheets Aren't Cutting It)</h1>
+            <p class="article-excerpt">
+                Product companies have had Configure, Price, Quote systems for decades. It's time services businesses caught up—here's why the old ways of pricing engagements are costing you margin.
+            </p>
+            <div class="article-meta">
+                <div class="article-author">
+                    <div class="author-avatar">CV</div>
+                    <div class="author-info">
+                        <span class="author-name">Christopher Veale</span>
+                        <span class="author-role">CEO, Servantium</span>
+                    </div>
+                </div>
+                <span class="article-date">January 15, 2025</span>
+                <span class="article-reading-time">8 min read</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Image -->
+    <div class="article-hero-image">
+        <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1200&h=600&fit=crop" alt="Professional services pricing and estimation">
+    </div>
+
+    <!-- Article Content -->
+    <article class="article-content">
+        <p>
+            If you've spent any time in professional services, you've lived this scenario: A promising deal comes in. Sales scrambles to put together a proposal. They copy last quarter's similar engagement, adjust some numbers in a spreadsheet, and hope the pricing holds up through delivery.
+        </p>
+        <p>
+            Six months later, the project is over budget, the team is burned out, and finance is trying to figure out where the margin went.
+        </p>
+        <p>
+            <strong>This isn't a failure of execution—it's a failure of systems.</strong>
+        </p>
+
+        <h2>The CPQ Gap in Professional Services</h2>
+        <p>
+            Product companies figured this out decades ago. Configure, Price, Quote (CPQ) systems transformed how they sell. Sales reps don't guess at pricing—they configure products from a catalog, apply approved pricing rules, and generate quotes that reflect actual costs and margins.
+        </p>
+        <p>
+            Professional services? We're still living in the spreadsheet era. Every engagement is priced from scratch. Tribal knowledge determines what to charge. And the gap between what we sell and what we deliver grows wider with every deal.
+        </p>
+
+        <h2>The Real Cost of "Good Enough"</h2>
+        <p>
+            The spreadsheet approach has hidden costs that compound over time:
+        </p>
+        <ul>
+            <li><strong>Inconsistent pricing</strong> — Similar engagements priced differently based on who built the estimate</li>
+            <li><strong>Margin leakage</strong> — Scope creep that never makes it into the contract</li>
+            <li><strong>Knowledge loss</strong> — Lessons from past engagements live only in people's heads</li>
+            <li><strong>Slow quoting</strong> — Days or weeks to produce proposals while opportunities cool</li>
+        </ul>
+        <p>
+            Research consistently shows that professional services firms lose 15-20% of potential margin to these inefficiencies. For a $10M services business, that's $1.5-2M walking out the door every year.
+        </p>
+
+        <h2>What CPQ for Services Looks Like</h2>
+        <p>
+            Bringing CPQ discipline to services doesn't mean treating every engagement like a product. Services are inherently customizable—that's the point. But beneath the customization, there's structure:
+        </p>
+        <ul>
+            <li><strong>Service definitions</strong> — Your offerings encoded with inputs, outputs, and resource requirements</li>
+            <li><strong>Pricing logic</strong> — Rules that reflect your actual cost structure and margin targets</li>
+            <li><strong>Composable building blocks</strong> — Mix and match capabilities to configure any engagement</li>
+            <li><strong>Learning loops</strong> — Actual delivery data feeding back into better estimates</li>
+        </ul>
+
+        <blockquote>
+            <p>"The goal isn't to eliminate human judgment—it's to give that judgment better inputs. When your pricing reflects encoded patterns from hundreds of past engagements, you're not guessing. You're deciding."</p>
+        </blockquote>
+
+        <h2>Structure Precedes Automation</h2>
+        <p>
+            Here's what we've learned building Servantium: You can't automate chaos. AI and machine learning are powerful, but they need structured data to learn from.
+        </p>
+        <p>
+            The services firms that will win in the next decade aren't just the ones with the best talent—they're the ones who encode their expertise into systems that compound knowledge over time.
+        </p>
+        <p>
+            Every engagement becomes a data point. Every delivery outcome feeds back into smarter estimates. Every lesson learned becomes organizational memory, not just individual experience.
+        </p>
+
+        <h2>Getting Started</h2>
+        <p>
+            You don't need to transform everything overnight. Start with your most common engagement types:
+        </p>
+        <ol>
+            <li><strong>Document what you actually deliver</strong> — Not the marketing version, the real scopes and deliverables</li>
+            <li><strong>Identify the variables</strong> — What changes between similar engagements? Complexity? Duration? Team composition?</li>
+            <li><strong>Encode the patterns</strong> — Turn tribal knowledge into explicit logic</li>
+            <li><strong>Connect sales to delivery</strong> — Make sure the context captured in sales flows through to the teams doing the work</li>
+        </ol>
+
+        <div class="article-cta">
+            <h3>Ready to encode your services?</h3>
+            <p>See how Servantium brings CPQ discipline to professional services.</p>
+            <a href="../index.html#contact" class="btn btn-primary">Schedule a Demo</a>
+        </div>
+
+        <h2>The Bottom Line</h2>
+        <p>
+            Professional services businesses have real products—they're just not treated that way. When you formalize how services are defined, priced, and delivered, you stop reinventing every engagement from scratch.
+        </p>
+        <p>
+            The margin you recover is just the beginning. The real win is building an organization that gets smarter with every engagement, where knowledge compounds instead of walks out the door.
+        </p>
+        <p>
+            That's what CPQ for services is really about.
+        </p>
+
+        <footer class="article-footer">
+            <div class="article-tags">
+                <a href="#" class="article-tag">CPQ</a>
+                <a href="#" class="article-tag">Professional Services</a>
+                <a href="#" class="article-tag">Pricing</a>
+                <a href="#" class="article-tag">Strategy</a>
+            </div>
+        </footer>
+    </article>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="../index.html" class="logo">
+                        <img src="../logo.png" alt="Servantium" class="logo-image footer-logo">
+                    </a>
+                    <p>The operating system for professional services. Systems that remember, reason, and improve.</p>
+                    <address class="footer-address">
+                        1111B S Governors Ave STE 48074<br>
+                        Dover, DE 19904
+                    </address>
+                </div>
+                <div class="footer-column">
+                    <h4>Platform</h4>
+                    <ul>
+                        <li><a href="../index.html#concept">How It Works</a></li>
+                        <li><a href="../index.html#platform">Packages</a></li>
+                        <li><a href="../index.html#faq">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="../about.html">About</a></li>
+                        <li><a href="../blog.html">Blog</a></li>
+                        <li><a href="../index.html#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="../privacy.html">Privacy Policy</a></li>
+                        <li><a href="../terms.html">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>&copy; 2025 Servantium Inc. All rights reserved.</span>
+                <span>Founded by <a href="https://linkedin.com/in/christopher-veale">Christopher Veale</a> & <a href="https://linkedin.com/in/maxwell-friel-2bb02b30">Maxwell Friel</a></span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuToggle.addEventListener('click', function() {
+            const isActive = mobileMenu.classList.toggle('active');
+            this.classList.toggle('active');
+            this.setAttribute('aria-expanded', isActive);
+            document.body.style.overflow = isActive ? 'hidden' : '';
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
+                mobileMenu.classList.remove('active');
+                mobileMenuToggle.classList.remove('active');
+                mobileMenuToggle.setAttribute('aria-expanded', 'false');
+                document.body.style.overflow = '';
+            }
+        });
+    </script>
+</body>
+</html>

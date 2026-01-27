@@ -4,7 +4,62 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About — Servantium</title>
-    <link rel="icon" type="image/png" href="icon.png">
+    <meta name="description" content="Servantium was founded to give services businesses the operational infrastructure they deserve. Meet the founders and learn why we're building the operating system for professional services.">
+    <meta name="author" content="Servantium Inc.">
+
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://servantium.com/about">
+    <meta property="og:title" content="About — Servantium">
+    <meta property="og:description" content="Servantium was founded to give services businesses the operational infrastructure they deserve. Meet the founders behind the operating system for professional services.">
+    <meta property="og:image" content="https://servantium.com/og-image.png">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://servantium.com/about">
+
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "AboutPage",
+        "mainEntity": {
+            "@type": "Organization",
+            "@id": "https://servantium.com/#organization",
+            "name": "Servantium",
+            "url": "https://servantium.com",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://servantium.com/logo.png"
+            },
+            "description": "The CPQ and engagement management platform built for professional services firms.",
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "1111B S Governors Ave STE 48074",
+                "addressLocality": "Dover",
+                "addressRegion": "DE",
+                "postalCode": "19904",
+                "addressCountry": "US"
+            },
+            "email": "hello@servantium.com",
+            "founder": [
+                {
+                    "@type": "Person",
+                    "name": "Christopher Veale",
+                    "jobTitle": "Co-founder"
+                },
+                {
+                    "@type": "Person",
+                    "name": "Callum Veale",
+                    "jobTitle": "Co-founder"
+                }
+            ]
+        }
+    }
+    </script>
+
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -118,7 +173,7 @@
         }
 
         .logo-image {
-            height: 32px;
+            height: 40px;
             width: auto;
         }
 
@@ -150,7 +205,7 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.875rem 1.75rem;
+            padding: 0.75rem 1.5rem;
             border-radius: 8px;
             font-size: 0.9rem;
             font-weight: 500;
@@ -158,6 +213,11 @@
             transition: all 0.2s;
             cursor: pointer;
             border: none;
+        }
+
+        .btn-nav {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
         }
 
         .btn-primary {
@@ -489,18 +549,66 @@
             color: rgba(255,255,255,0.5);
         }
 
-        .cta-email-address {
-            font-family: 'Playfair Display', Georgia, serif;
-            font-size: clamp(1.5rem, 4vw, 2.5rem);
-            color: var(--green-500);
-            text-decoration: none;
-            transition: color 0.2s ease;
-            letter-spacing: -0.01em;
+        .email-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.875rem 1.5rem;
+            background: transparent;
+            border: 2px solid var(--green-500);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            font-family: var(--font-body);
         }
 
-        .cta-email-address:hover {
-            color: var(--green-400);
-            text-decoration: underline;
+        .email-chip:hover {
+            background: rgba(0, 194, 109, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 194, 109, 0.2);
+        }
+
+        .email-chip:active {
+            transform: translateY(0);
+        }
+
+        .email-chip-text {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--green-500);
+            transition: color 0.2s ease;
+        }
+
+        .email-chip-icon {
+            width: 20px;
+            height: 20px;
+            color: var(--green-500);
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .email-chip.copied {
+            background: var(--green-500);
+            border-color: var(--green-500);
+        }
+
+        .email-chip.copied .email-chip-text {
+            color: white;
+        }
+
+        .email-chip.copied .email-chip-icon {
+            color: white;
+        }
+
+        @keyframes checkPop {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .email-chip.copied .email-chip-icon {
+            animation: checkPop 0.3s ease forwards;
         }
 
         /* Footer */
@@ -522,6 +630,14 @@
             font-size: 0.95rem;
             margin-top: 1rem;
             max-width: 280px;
+        }
+
+        .footer-address {
+            font-style: normal;
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.4);
+            line-height: 1.6;
+            margin-top: 1rem;
         }
 
         .footer-column h4 {
@@ -562,6 +678,80 @@
             color: rgba(255,255,255,0.4);
         }
 
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            width: 28px;
+            height: 28px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 1001;
+        }
+
+        .mobile-menu-toggle span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background: var(--neutral-900);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .mobile-menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--neutral-25);
+            z-index: 999;
+            padding: 100px 2rem 2rem;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .mobile-menu.active {
+            display: flex;
+        }
+
+        .mobile-menu a {
+            display: block;
+            padding: 1rem 0;
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: var(--neutral-900);
+            text-decoration: none;
+            border-bottom: 1px solid var(--neutral-300);
+            transition: color 0.2s;
+        }
+
+        .mobile-menu a:hover {
+            color: var(--green-500);
+        }
+
+        .mobile-menu .btn {
+            margin-top: 1rem;
+            justify-content: center;
+        }
+
         /* Responsive */
         @media (max-width: 1024px) {
             .story-grid {
@@ -577,6 +767,14 @@
         @media (max-width: 768px) {
             .nav-links {
                 display: none;
+            }
+
+            .btn-nav {
+                display: none;
+            }
+
+            .mobile-menu-toggle {
+                display: flex;
             }
 
             .founders-grid {
@@ -606,10 +804,26 @@
                 <li><a href="index.html#concept">How It Works</a></li>
                 <li><a href="index.html#platform">Platform</a></li>
                 <li><a href="about.html" class="active">About</a></li>
+                <li><a href="blog.html">Blog</a></li>
             </ul>
-            <a href="https://app.servantium.com/" class="btn btn-primary">Log In</a>
+            <a href="https://app.servantium.com/" class="btn btn-primary btn-nav">Log In</a>
+            <button class="mobile-menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
     </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="index.html#problem">The Problem</a>
+        <a href="index.html#concept">How It Works</a>
+        <a href="index.html#platform">Platform</a>
+        <a href="about.html">About</a>
+        <a href="blog.html">Blog</a>
+        <a href="https://app.servantium.com/" class="btn btn-primary">Log In</a>
+    </div>
 
     <!-- Hero -->
     <section class="about-hero">
@@ -814,7 +1028,13 @@
                 </p>
                 <div class="cta-email">
                     <span class="cta-email-label">Start a conversation</span>
-                    <a href="mailto:hello@servantium.com" class="cta-email-address">hello@servantium.com</a>
+                    <button class="email-chip" id="email-chip" onclick="copyEmail()" aria-label="Copy email address">
+                        <span class="email-chip-text" id="email-chip-text">hello@servantium.com</span>
+                        <svg class="email-chip-icon" id="email-chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </button>
                 </div>
             </div>
         </div>
@@ -832,6 +1052,10 @@
                         The operating system for services businesses.
                         Clarity, continuity, and leverage—without sacrificing flexibility.
                     </p>
+                    <address class="footer-address">
+                        1111B S Governors Ave STE 48074<br>
+                        Dover, DE 19904
+                    </address>
                 </div>
                 <div class="footer-column">
                     <h4>Platform</h4>
@@ -845,6 +1069,7 @@
                     <h4>Company</h4>
                     <ul>
                         <li><a href="about.html">About</a></li>
+                        <li><a href="blog.html">Blog</a></li>
                         <li><a href="#contact">Contact</a></li>
                     </ul>
                 </div>
@@ -860,4 +1085,52 @@
                 <span>© 2025 Servantium Inc. All rights reserved.</span>
                 <span>Founded by <a href="https://linkedin.com/in/christopher-veale" style="color: inherit; text-decoration: underline;">Christopher Veale</a> & <a href="https://linkedin.com/in/maxwell-friel-2bb02b30" style="color: inherit; text-decoration: underline;">Maxwell Friel</a></span>
             </div>
-  
+        </div>
+    </footer>
+
+    <script>
+        // Email Copy to Clipboard
+        function copyEmail() {
+            const email = 'hello@servantium.com';
+            const chip = document.getElementById('email-chip');
+            const text = document.getElementById('email-chip-text');
+            const icon = document.getElementById('email-chip-icon');
+
+            navigator.clipboard.writeText(email).then(function() {
+                chip.classList.add('copied');
+                text.textContent = 'Copied!';
+                icon.innerHTML = '<polyline points="20 6 9 17 4 12"></polyline>';
+
+                setTimeout(function() {
+                    chip.classList.remove('copied');
+                    text.textContent = email;
+                    icon.innerHTML = '<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>';
+                }, 2000);
+            }).catch(function(err) {
+                window.location.href = 'mailto:' + email;
+            });
+        }
+
+        // Mobile Menu Toggle
+        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuToggle.addEventListener('click', function() {
+            const isActive = mobileMenu.classList.toggle('active');
+            this.classList.toggle('active');
+            this.setAttribute('aria-expanded', isActive);
+            document.body.style.overflow = isActive ? 'hidden' : '';
+        });
+
+        // Close mobile menu on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
+                mobileMenu.classList.remove('active');
+                mobileMenuToggle.classList.remove('active');
+                mobileMenuToggle.setAttribute('aria-expanded', 'false');
+                document.body.style.overflow = '';
+            }
+        });
+    </script>
+</body>
+</html>

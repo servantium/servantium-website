@@ -1,0 +1,11 @@
+# Servantium robots.txt
+# https://servantium.com
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://servantium.com/sitemap.xml
+
+# Disallow admin and app paths
+Disallow: /cdn-cgi/
