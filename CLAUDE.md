@@ -197,9 +197,40 @@
 ## Known Issues / TODOs
 
 - [ ] Privacy and Terms pages are placeholders
-- [ ] Add analytics/tracking integration
 - [ ] Images don't use lazy loading
 - [x] ~~Implement pricing/feature comparison table~~
+- [x] ~~Add llms.txt for AI search visibility~~
+- [x] ~~Add og-image.png for social shares~~
+
+---
+
+## Pre-Production Launch Checklist
+
+**Manual setup required before going live on servantium.com:**
+
+### Google Search Console
+1. Go to https://search.google.com/search-console
+2. Add property for `servantium.com`
+3. Verify domain ownership (DNS TXT record or HTML file upload)
+4. Submit sitemap: `https://servantium.com/sitemap.xml`
+5. Request indexing for key pages
+
+### Bing Webmaster Tools
+1. Go to https://www.bing.com/webmasters
+2. Add site `servantium.com`
+3. Verify ownership
+4. Submit sitemap (covers Bing, Yahoo, DuckDuckGo)
+
+### Analytics (Optional but Recommended)
+1. Create GA4 property at https://analytics.google.com
+2. Get Measurement ID (G-XXXXXXXXXX)
+3. Add tracking script to all HTML pages (in `<head>`)
+4. If adding analytics, also add cookie consent banner (GDPR/CCPA)
+
+### DNS/Hosting
+- [ ] Point servantium.com DNS to hosting provider
+- [ ] Verify SSL certificate is active
+- [ ] Test all pages load correctly on production domain
 
 ---
 
