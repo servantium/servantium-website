@@ -7,5 +7,9 @@ Allow: /
 # Sitemap
 Sitemap: https://servantium.com/sitemap.xml
 
+# LLMs.txt for AI assistants
+# See https://llmstxt.org for specification
+# File location: https://servantium.com/llms.txt
+
 # Disallow admin and app paths
 Disallow: /cdn-cgi/
