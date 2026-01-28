@@ -113,7 +113,7 @@
         .mobile-menu-toggle { display: none; }
 
         .article-header { padding: 8rem 0 3rem; background: var(--color-white); }
-        .article-header .container { max-width: 800px; }
+        .article-header .container { max-width: 900px; }
         .article-breadcrumb { margin-bottom: 1.5rem; font-size: 0.9rem; }
         .article-breadcrumb a { color: var(--color-servantium-green); text-decoration: none; }
         .article-breadcrumb a:hover { text-decoration: underline; }
@@ -132,7 +132,7 @@
         .article-hero-image { max-width: 900px; margin: 0 auto; padding: 0 2.5rem; }
         .article-hero-image img { width: 100%; border-radius: 16px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); }
 
-        .article-content { max-width: 700px; margin: 0 auto; padding: 4rem 2.5rem 6rem; }
+        .article-content { max-width: 850px; margin: 0 auto; padding: 4rem 2.5rem 6rem; }
         .article-content h2 { font-family: var(--font-display); font-size: 1.75rem; margin: 3rem 0 1.25rem; color: var(--color-ink); }
         .article-content h3 { font-family: var(--font-display); font-size: 1.35rem; margin: 2.5rem 0 1rem; color: var(--color-ink); }
         .article-content p { margin-bottom: 1.5rem; font-size: 1.1rem; line-height: 1.8; color: var(--color-ink-light); }
@@ -408,11 +408,17 @@
         </div>
     </footer>
 
-    <script src="https://app.cal.com/embed/embed.js" async></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            Cal("init", "servantium-introduction", {origin: "https://app.cal.com"});
-            Cal.ns["servantium-introduction"]("ui", {"styles":{"branding":{"brandColor":"#00C26D"}}});
+    <!-- Cal.com Embed Script -->
+    <script type="text/javascript">
+        (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+        Cal("init", "servantium-introduction", {origin:"https://app.cal.com"});
+        Cal.ns["servantium-introduction"]("ui", {
+            "cssVarsPerTheme": {
+                "light": {"cal-brand":"#00C26D"},
+                "dark": {"cal-brand":"#00C26D"}
+            },
+            "hideEventTypeDetails": false,
+            "layout": "month_view"
         });
     </script>
 </body>
