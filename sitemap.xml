@@ -43,6 +43,12 @@
         <priority>0.7</priority>
     </url>
     <url>
+        <loc>https://servantium.com/blog/the-real-ai-opportunity-institutional-memory</loc>
+        <lastmod>2026-01-15</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
         <loc>https://servantium.com/privacy</loc>
         <lastmod>2025-01-27</lastmod>
         <changefreq>yearly</changefreq>
