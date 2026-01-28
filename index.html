@@ -1197,15 +1197,16 @@
         .lifecycle-wrapper {
             position: relative;
             display: inline-block;
+            padding-bottom: 50px;
         }
 
         .lifecycle-loop-arrow {
             position: absolute;
-            top: 50%;
+            top: 0;
             left: 50%;
-            transform: translate(-50%, -50%);
-            width: calc(100% + 60px);
-            height: calc(100% + 80px);
+            transform: translateX(-50%);
+            width: calc(100% + 80px);
+            height: calc(100% + 60px);
             pointer-events: none;
         }
 
@@ -1218,8 +1219,8 @@
             fill: none;
             stroke: url(#loopGradient);
             stroke-width: 3;
-            stroke-linecap: round;
-            stroke-dasharray: 8 6;
+            stroke-linecap: square;
+            stroke-dasharray: 10 6;
             opacity: 0.6;
         }
 
@@ -2297,8 +2298,6 @@
             section { padding: var(--space-2xl) 0; }
             .phases-grid { grid-template-columns: 1fr; }
             .problem-stats { grid-template-columns: 1fr; }
-            .lifecycle-interactive { flex-direction: column; }
-            .lifecycle-connector { width: 3px; height: 20px; }
             .footer-grid { grid-template-columns: 1fr 1fr; gap: var(--space-lg); }
             .footer-bottom { flex-direction: column; gap: var(--space-sm); text-align: center; }
 
@@ -2313,6 +2312,133 @@
             .orbital-universe {
                 transform: scale(0.55);
                 transform-origin: center center;
+            }
+
+            /* Mobile lifecycle - vertical centered with expandable panels */
+            .lifecycle-wrapper {
+                width: 100%;
+            }
+            .lifecycle-loop-arrow {
+                display: none;
+            }
+            .lifecycle-interactive {
+                flex-direction: column;
+                align-items: center;
+                gap: 0;
+            }
+            .lifecycle-step {
+                width: 100%;
+                max-width: 320px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            .lifecycle-circle {
+                width: 80px;
+                height: 80px;
+                z-index: 2;
+            }
+            .lifecycle-number {
+                font-size: 1.25rem;
+            }
+            .lifecycle-name {
+                font-size: 0.6rem;
+            }
+            .lifecycle-connector {
+                width: 3px;
+                height: 20px;
+            }
+            /* Mobile expandable content panel inline */
+            .lifecycle-step-content {
+                max-height: 0;
+                overflow: hidden;
+                opacity: 0;
+                width: 100%;
+                transition: max-height 0.4s ease, opacity 0.3s ease, margin 0.3s ease;
+                margin: 0;
+            }
+            .lifecycle-step.expanded .lifecycle-step-content {
+                max-height: 400px;
+                opacity: 1;
+                margin: var(--space-sm) 0;
+            }
+            .lifecycle-step-content-inner {
+                background: var(--color-white);
+                border-radius: 12px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+                overflow: hidden;
+            }
+            .lifecycle-step-content img {
+                width: 100%;
+                height: 140px;
+                object-fit: cover;
+            }
+            .lifecycle-step-content-text {
+                padding: var(--space-md);
+            }
+            .lifecycle-step-content-text h4 {
+                font-family: var(--font-display);
+                font-size: 1.1rem;
+                color: var(--color-servantium-green);
+                margin-bottom: var(--space-xs);
+            }
+            .lifecycle-step-content-text p {
+                font-size: 0.9rem;
+                line-height: 1.6;
+                color: var(--color-ink-light);
+            }
+            /* Hide desktop panel on mobile */
+            .lifecycle-panel {
+                display: none;
+            }
+            /* Mobile hint */
+            .mobile-tap-hint {
+                display: block;
+                text-align: center;
+                font-size: 0.85rem;
+                color: var(--color-ink-muted);
+                margin-top: var(--space-md);
+                padding: var(--space-sm) var(--space-md);
+                background: var(--color-mist-grey);
+                border-radius: 20px;
+                max-width: 200px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            /* Mobile loop indicator at bottom */
+            .mobile-loop-indicator {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: var(--space-sm);
+                margin-top: var(--space-lg);
+                padding: var(--space-md);
+                background: linear-gradient(135deg, var(--color-mint-tint) 0%, var(--color-white) 100%);
+                border-radius: 12px;
+                border: 2px solid var(--color-servantium-green);
+            }
+            .mobile-loop-indicator svg {
+                width: 24px;
+                height: 24px;
+                color: var(--color-servantium-green);
+            }
+            .mobile-loop-indicator span {
+                font-size: 0.9rem;
+                font-weight: 600;
+                color: var(--color-servantium-green);
+            }
+        }
+
+        /* Desktop: hide mobile elements */
+        @media (min-width: 769px) {
+            .lifecycle-step-content {
+                display: none;
+            }
+            .mobile-tap-hint {
+                display: none;
+            }
+            .mobile-loop-indicator {
+                display: none;
             }
         }
 
@@ -2483,7 +2609,7 @@
             </div>
             <div class="lifecycle-wrapper">
                 <div class="lifecycle-loop-arrow">
-                    <svg viewBox="0 0 800 200" preserveAspectRatio="xMidYMid meet">
+                    <svg viewBox="0 0 900 240" preserveAspectRatio="xMidYMid meet">
                         <defs>
                             <linearGradient id="loopGradient" x1="100%" y1="0%" x2="0%" y2="0%">
                                 <stop offset="0%" stop-color="var(--color-slate)" />
@@ -2491,15 +2617,13 @@
                                 <stop offset="100%" stop-color="var(--color-servantium-green)" />
                             </linearGradient>
                         </defs>
-                        <!-- Arc path from right (Learning) curving under and back to left (Discovery) -->
-                        <path class="loop-path" d="M 720 100
-                            Q 750 100, 760 130
-                            Q 770 170, 720 180
-                            L 80 180
-                            Q 30 180, 30 130
-                            Q 30 100, 60 100" />
-                        <!-- Arrow head pointing right toward Discovery -->
-                        <polygon class="loop-arrow-head" points="70,92 70,108 85,100" />
+                        <!-- Rectangular loop: down from Learning (#6), across bottom, up to Discovery (#1) -->
+                        <path class="loop-path" d="M 820 100
+                            L 820 200
+                            L 80 200
+                            L 80 100" />
+                        <!-- Arrow head pointing up toward Discovery -->
+                        <polygon class="loop-arrow-head" points="80,90 72,105 88,105" />
                     </svg>
                 </div>
                 <div class="lifecycle-interactive">
@@ -2508,12 +2632,30 @@
                             <div class="lifecycle-number">1</div>
                             <div class="lifecycle-name">Discovery</div>
                         </div>
+                        <div class="lifecycle-step-content">
+                            <div class="lifecycle-step-content-inner">
+                                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=400&fit=crop" alt="Discovery">
+                                <div class="lifecycle-step-content-text">
+                                    <h4>Discovery</h4>
+                                    <p>Understand client needs, pain points, and desired outcomes. Capture context that will inform every downstream decision.</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="lifecycle-connector"></div>
                     <div class="lifecycle-step" data-index="1">
                         <div class="lifecycle-circle">
                             <div class="lifecycle-number">2</div>
                             <div class="lifecycle-name">Estimation</div>
+                        </div>
+                        <div class="lifecycle-step-content">
+                            <div class="lifecycle-step-content-inner">
+                                <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=400&fit=crop" alt="Estimation">
+                                <div class="lifecycle-step-content-text">
+                                    <h4>Estimation</h4>
+                                    <p>Transform discovery insights into structured scope and pricing. Draw from encoded service definitions and historical data.</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="lifecycle-connector"></div>
@@ -2522,12 +2664,30 @@
                             <div class="lifecycle-number">3</div>
                             <div class="lifecycle-name">Proposal</div>
                         </div>
+                        <div class="lifecycle-step-content">
+                            <div class="lifecycle-step-content-inner">
+                                <img src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=800&h=400&fit=crop" alt="Proposal">
+                                <div class="lifecycle-step-content-text">
+                                    <h4>Proposal</h4>
+                                    <p>Generate proposals that reflect your actual service architecture. Scope, pricing, and deliverables flow from your estimation work.</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="lifecycle-connector"></div>
                     <div class="lifecycle-step" data-index="3">
                         <div class="lifecycle-circle">
                             <div class="lifecycle-number">4</div>
                             <div class="lifecycle-name">Contract</div>
+                        </div>
+                        <div class="lifecycle-step-content">
+                            <div class="lifecycle-step-content-inner">
+                                <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&h=400&fit=crop" alt="Contract">
+                                <div class="lifecycle-step-content-text">
+                                    <h4>Contract</h4>
+                                    <p>Move from proposal to binding agreement with terms that match your scoped work. Contract structures reflect your service definitions.</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="lifecycle-connector"></div>
@@ -2536,6 +2696,15 @@
                             <div class="lifecycle-number">5</div>
                             <div class="lifecycle-name">Delivery</div>
                         </div>
+                        <div class="lifecycle-step-content">
+                            <div class="lifecycle-step-content-inner">
+                                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=400&fit=crop" alt="Delivery">
+                                <div class="lifecycle-step-content-text">
+                                    <h4>Delivery</h4>
+                                    <p>Execute against the engagement scope with real-time visibility into progress, utilization, and margin.</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="lifecycle-connector"></div>
                     <div class="lifecycle-step" data-index="5">
@@ -2543,10 +2712,31 @@
                             <div class="lifecycle-number">6</div>
                             <div class="lifecycle-name">Learning</div>
                         </div>
+                        <div class="lifecycle-step-content">
+                            <div class="lifecycle-step-content-inner">
+                                <img src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=800&h=400&fit=crop" alt="Learning">
+                                <div class="lifecycle-step-content-text">
+                                    <h4>Learning</h4>
+                                    <p>Capture what actually happened. This intelligence feeds back into how you price and scope future work.</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <!-- Mobile hint -->
+                <div class="mobile-tap-hint">Tap circles to explore</div>
+                <!-- Mobile loop indicator -->
+                <div class="mobile-loop-indicator">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17 2.1l4 4-4 4"></path>
+                        <path d="M3 12.2v-2a4 4 0 0 1 4-4h12.8"></path>
+                        <path d="M7 21.9l-4-4 4-4"></path>
+                        <path d="M21 11.8v2a4 4 0 0 1-4 4H4.2"></path>
+                    </svg>
+                    <span>Continuous learning cycle</span>
+                </div>
             </div>
-            <!-- Panel that appears below -->
+            <!-- Panel that appears below (desktop only) -->
             <div class="lifecycle-panel" id="lifecycle-panel">
                 <img class="panel-image" id="panel-image" src="" alt="">
                 <div class="panel-content">
@@ -3197,18 +3387,46 @@
 
         let activeStep = null;
 
-        // Panel show/hide on hover and click
+        // Check if mobile
+        function isMobile() {
+            return window.innerWidth <= 768;
+        }
+
+        // Mobile: expand/collapse inline content
+        function toggleMobileStep(step) {
+            const wasExpanded = step.classList.contains('expanded');
+            // Collapse all steps first
+            document.querySelectorAll('.lifecycle-step').forEach(s => s.classList.remove('expanded'));
+            // If it wasn't expanded, expand it
+            if (!wasExpanded) {
+                step.classList.add('expanded');
+            }
+            // Hide the tap hint after first interaction
+            const hint = document.querySelector('.mobile-tap-hint');
+            if (hint) hint.style.display = 'none';
+        }
+
+        // Panel show/hide on hover and click (desktop)
         document.querySelectorAll('.lifecycle-step').forEach(step => {
             const index = parseInt(step.dataset.index);
 
-            step.addEventListener('mouseenter', () => showPanel(index, step));
-            step.addEventListener('click', () => {
-                if (activeStep === index) {
-                    hidePanel();
-                    activeStep = null;
-                } else {
+            step.addEventListener('mouseenter', () => {
+                if (!isMobile()) {
                     showPanel(index, step);
-                    activeStep = index;
+                }
+            });
+
+            step.addEventListener('click', () => {
+                if (isMobile()) {
+                    toggleMobileStep(step);
+                } else {
+                    if (activeStep === index) {
+                        hidePanel();
+                        activeStep = null;
+                    } else {
+                        showPanel(index, step);
+                        activeStep = index;
+                    }
                 }
             });
         });
@@ -3233,12 +3451,29 @@
             document.querySelectorAll('.lifecycle-step').forEach(s => s.classList.remove('active'));
         }
 
-        // Keep panel visible when mouse leaves if clicked
+        // Keep panel visible when mouse leaves if clicked (desktop only)
         document.querySelector('.core-concept').addEventListener('mouseleave', () => {
-            if (activeStep === null) {
+            if (!isMobile() && activeStep === null) {
                 hidePanel();
             }
         });
+
+        // On mobile, expand first step by default when section comes into view
+        const lifecycleObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && isMobile()) {
+                    const firstStep = document.querySelector('.lifecycle-step[data-index="0"]');
+                    if (firstStep && !firstStep.classList.contains('expanded')) {
+                        firstStep.classList.add('expanded');
+                    }
+                }
+            });
+        }, { threshold: 0.3 });
+
+        const conceptSection = document.querySelector('.core-concept');
+        if (conceptSection) {
+            lifecycleObserver.observe(conceptSection);
+        }
 
         // Section fade-in
         const observer = new IntersectionObserver((entries) => {
