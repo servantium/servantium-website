@@ -1199,16 +1199,15 @@
         .lifecycle-wrapper {
             position: relative;
             display: inline-block;
-            padding-top: 60px;
+            padding-top: 50px;
         }
 
         .lifecycle-loop-arrow {
             position: absolute;
             top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: calc(100% + 80px);
-            height: calc(100% + 20px);
+            left: 0;
+            right: 0;
+            height: calc(100% - 30px);
             pointer-events: none;
         }
 
@@ -1220,15 +1219,15 @@
         .loop-path {
             fill: none;
             stroke: url(#loopGradient);
-            stroke-width: 3;
+            stroke-width: 2;
             stroke-linecap: square;
-            stroke-dasharray: 10 6;
-            opacity: 0.6;
+            stroke-dasharray: 8 5;
+            opacity: 0.5;
         }
 
         .loop-arrow-head {
             fill: var(--color-servantium-green);
-            opacity: 0.8;
+            opacity: 0.7;
         }
 
         /* Panel that appears below */
@@ -2467,7 +2466,7 @@
                 <li><a href="blog.html">Blog</a></li>
             </ul>
             <div class="nav-buttons">
-                <button class="btn btn-secondary btn-nav" data-cal-link="christopher-veale-rh1jll/servantium-introduction?duration=15" data-cal-namespace="servantium-introduction" data-cal-config='{"layout":"month_view"}'>Book a Demo</button>
+                <button class="btn btn-secondary btn-nav" data-cal-link="christopher-veale/servantium-introduction?duration=15" data-cal-namespace="servantium-introduction" data-cal-config='{"layout":"month_view"}'>Book a Demo</button>
                 <a href="https://app.servantium.com/" class="btn btn-primary btn-nav">Log In</a>
             </div>
             <button class="mobile-menu-toggle" aria-label="Toggle menu" aria-expanded="false">
@@ -2613,21 +2612,18 @@
             </div>
             <div class="lifecycle-wrapper">
                 <div class="lifecycle-loop-arrow">
-                    <svg viewBox="0 0 900 200" preserveAspectRatio="xMidYMid meet">
+                    <svg viewBox="0 0 100 100" preserveAspectRatio="none">
                         <defs>
-                            <linearGradient id="loopGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <linearGradient id="loopGradient" x1="100%" y1="0%" x2="0%" y2="0%">
                                 <stop offset="0%" stop-color="var(--color-slate)" />
                                 <stop offset="50%" stop-color="var(--color-deep-teal)" />
                                 <stop offset="100%" stop-color="var(--color-servantium-green)" />
                             </linearGradient>
                         </defs>
-                        <!-- Rectangular loop: UP from Learning (#6), across top, DOWN to Discovery (#1) -->
-                        <path class="loop-path" d="M 820 140
-                            L 820 30
-                            L 80 30
-                            L 80 140" />
+                        <!-- Rectangular loop: UP from #6, across top, DOWN toward #1 -->
+                        <path class="loop-path" d="M 92 75 L 92 15 L 8 15 L 8 65" />
                         <!-- Arrow head pointing down toward Discovery -->
-                        <polygon class="loop-arrow-head" points="80,150 72,135 88,135" />
+                        <polygon class="loop-arrow-head" points="8,72 5,62 11,62" />
                     </svg>
                 </div>
                 <div class="lifecycle-interactive">
@@ -4447,7 +4443,7 @@
         Cal.ns["servantium-introduction"]("inline", {
             elementOrSelector: "#cal-inline-embed",
             config: {"layout":"month_view","useSlotsViewOnSmallScreen":"true"},
-            calLink: "christopher-veale-rh1jll/servantium-introduction"
+            calLink: "christopher-veale/servantium-introduction"
         });
 
         // UI customization for both inline and popup
