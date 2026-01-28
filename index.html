@@ -1207,10 +1207,10 @@
 
         .lifecycle-loop-arrow {
             position: absolute;
-            top: 20px;
-            left: 50px;
-            right: 50px;
-            height: 30px;
+            top: 0;
+            left: 30px;
+            right: 30px;
+            height: 50px;
             pointer-events: none;
         }
 
@@ -1222,15 +1222,13 @@
 
         .loop-path {
             fill: none;
-            stroke: var(--color-servantium-green);
+            stroke: url(#loopGradient);
             stroke-width: 2;
             stroke-dasharray: 8 5;
-            opacity: 0.5;
         }
 
         .loop-arrow-head {
             fill: var(--color-servantium-green);
-            opacity: 0.7;
         }
 
         /* Panel that appears below */
@@ -1437,6 +1435,169 @@
 
         .packages-note strong {
             color: var(--color-ink);
+        }
+
+        /* Feature Comparison Table */
+        .feature-table-wrapper {
+            overflow-x: auto;
+            margin: 0 -1rem;
+            padding: 0 1rem;
+        }
+
+        .feature-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+            min-width: 700px;
+        }
+
+        .feature-table thead {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .feature-table th {
+            background: var(--color-deep-forest);
+            color: var(--color-white);
+            font-family: var(--font-display);
+            font-weight: 500;
+            padding: 1.25rem 1rem;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .feature-table th:first-child {
+            text-align: left;
+            border-radius: 12px 0 0 0;
+            width: 40%;
+        }
+
+        .feature-table th:last-child {
+            border-radius: 0 12px 0 0;
+        }
+
+        .feature-table th .tier-desc {
+            display: block;
+            font-family: var(--font-body);
+            font-size: 0.8rem;
+            font-weight: 400;
+            opacity: 0.8;
+            margin-top: 0.25rem;
+        }
+
+        .feature-table tbody tr {
+            border-bottom: 1px solid var(--color-cloud-grey);
+            transition: background 0.15s ease;
+        }
+
+        .feature-table tbody tr:hover {
+            background: var(--color-mint-tint);
+        }
+
+        .feature-table tbody tr.category-row {
+            background: var(--color-mist-grey);
+        }
+
+        .feature-table tbody tr.category-row:hover {
+            background: var(--color-mist-grey);
+        }
+
+        .feature-table td {
+            padding: 1rem;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .feature-table td:first-child {
+            text-align: left;
+            color: var(--color-ink);
+        }
+
+        .feature-table .category-cell {
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--color-ink);
+            padding: 1.25rem 1rem 0.75rem;
+        }
+
+        .feature-table .feature-name {
+            color: var(--color-ink-light);
+            padding-left: 1.5rem;
+        }
+
+        .feature-table .feature-note {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--color-ink-muted);
+            margin-top: 0.15rem;
+        }
+
+        /* Check and dash icons */
+        .feature-check-icon {
+            color: var(--color-servantium-green);
+            width: 20px;
+            height: 20px;
+        }
+
+        .feature-dash {
+            color: var(--color-cloud-grey);
+            font-size: 1.25rem;
+            font-weight: 300;
+        }
+
+        /* Roadmap badge */
+        .roadmap-badge {
+            display: inline-block;
+            background: rgba(255, 176, 46, 0.15);
+            color: #b8860b;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        /* CTA row at bottom of table */
+        .feature-table tfoot td {
+            padding: 1.5rem 1rem;
+            background: var(--color-mist-grey);
+            border-radius: 0 0 12px 12px;
+        }
+
+        .feature-table tfoot td:first-child {
+            border-radius: 0 0 0 12px;
+        }
+
+        .feature-table tfoot td:last-child {
+            border-radius: 0 0 12px 0;
+        }
+
+        .feature-table .btn-table {
+            padding: 0.6rem 1.25rem;
+            font-size: 0.85rem;
+        }
+
+        /* Responsive table */
+        @media (max-width: 900px) {
+            .feature-table {
+                font-size: 0.85rem;
+            }
+
+            .feature-table th {
+                padding: 1rem 0.75rem;
+                font-size: 1rem;
+            }
+
+            .feature-table td {
+                padding: 0.75rem 0.5rem;
+            }
+
+            .feature-table .feature-name {
+                padding-left: 1rem;
+            }
         }
 
         /* Phases Section */
@@ -2615,11 +2776,18 @@
             </div>
             <div class="lifecycle-wrapper">
                 <div class="lifecycle-loop-arrow">
-                    <svg viewBox="0 0 100 10" preserveAspectRatio="none">
-                        <!-- Simple horizontal dashed line from 6 to 1 -->
-                        <line class="loop-path" x1="100" y1="5" x2="8" y2="5" />
-                        <!-- Arrow head pointing left toward Discovery -->
-                        <polygon class="loop-arrow-head" points="0,5 8,1 8,9" />
+                    <svg viewBox="0 0 1000 50" preserveAspectRatio="none">
+                        <defs>
+                            <linearGradient id="loopGradient" x1="100%" y1="0%" x2="0%" y2="0%">
+                                <stop offset="0%" stop-color="#4C82A7" />
+                                <stop offset="50%" stop-color="#26A899" />
+                                <stop offset="100%" stop-color="#00C26D" />
+                            </linearGradient>
+                        </defs>
+                        <!-- Rectangular path: up from 6, across top, down toward 1 -->
+                        <path class="loop-path" d="M 950 50 L 950 12 L 50 12 L 50 38" />
+                        <!-- Arrow head pointing down toward Discovery -->
+                        <polygon class="loop-arrow-head" points="50,50 42,38 58,38" />
                     </svg>
                 </div>
                 <div class="lifecycle-interactive">
@@ -2744,254 +2912,183 @@
     </section>
 
     <!-- Packages Section -->
-    <section class="packages" id="platform">
+    <section class="packages" id="packages">
         <div class="container">
             <div class="packages-header">
-                <h2>Built for Services Teams</h2>
+                <h2>Choose Your Plan</h2>
                 <p>
-                    Every plan includes the full engagement lifecycle—from discovery through delivery.
-                    Choose the support level that fits your team.
+                    Every plan includes the core CPQ engine. Scale your workspace and support as you grow.
                 </p>
             </div>
-            <div class="packages-grid">
-                <!-- Starter -->
-                <div class="package-card">
-                    <h3 class="package-name">Starter</h3>
-                    <div class="package-users">Up to 5 users included</div>
-                    <p class="package-description">
-                        Everything you need to formalize your services operations and stop losing margin to chaos.
-                    </p>
-                    <ul class="package-features">
-                        <li>
-                            <svg class="feature-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                            <span class="feature-text">Service definition & pricing</span>
-                        </li>
-                        <li>
-                            <svg class="feature-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                            <span class="feature-text">Estimation & proposals</span>
-                        </li>
-                        <li>
-                            <svg class="feature-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                            <span class="feature-text">Contract management</span>
-                        </li>
-                        <li>
-                            <svg class="feature-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                            <span class="feature-text">Delivery tracking</span>
-                        </li>
-                        <li>
-                            <svg class="feature-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                            <span class="feature-text">Community support</span>
-                        </li>
-                    </ul>
-                    <div class="package-cta">
-                        <a href="#contact" class="btn btn-secondary">Book a Call</a>
-                    </div>
-                </div>
+            <div class="feature-table-wrapper">
+                <table class="feature-table">
+                    <thead>
+                        <tr>
+                            <th>Features</th>
+                            <th>Individual<span class="tier-desc">Single user</span></th>
+                            <th>Teams<span class="tier-desc">Shared workspace</span></th>
+                            <th>Enterprise<span class="tier-desc">Dedicated tenant</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Core CPQ -->
+                        <tr class="category-row">
+                            <td class="category-cell" colspan="4">Core CPQ</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Engagement Templates</td>
+                            <td><svg class="feature-check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
+                            <td><svg class="feature-check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
+                            <td><svg class="feature-check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Service Catalog<span class="feature-note">Reusable line items</span></td>
+                            <td><svg class="feature-check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
+                            <td><svg class="feature-check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
+                            <td><svg class="feature-check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Contract Generation<span class="feature-note">PDF & DOCX</span></td>
+                            <td><svg class="feature-check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
+                            <td><svg class="feature-check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
+                            <td><svg class="feature-check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Client Management</td>
+                            <td><svg class="feature-check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
+                            <td><svg class="feature-check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
+                            <td><svg class="feature-check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">AI-Generated Estimates</td>
+                            <td><svg class="feature-check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
+                            <td><svg class="feature-check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
+                            <td><svg class="feature-check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
+                        </tr>
 
-                <!-- Professional -->
-                <div class="package-card featured">
-                    <h3 class="package-name">Professional</h3>
-                    <div class="package-users">Unlimited users</div>
-                    <p class="package-description">
-                        For growing teams that need guided implementation and responsive support.
-                    </p>
-                    <ul class="package-features">
-                        <li>
-                            <svg class="feature-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                            <span class="feature-text">Everything in Starter</span>
-                        </li>
-                        <li>
-                            <svg class="feature-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                            <span class="feature-text">Guided onboarding</span>
-                        </li>
-                        <li>
-                            <svg class="feature-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                            <span class="feature-text">Email & chat support</span>
-                        </li>
-                        <li>
-                            <svg class="feature-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                            <span class="feature-text">Advanced reporting</span>
-                        </li>
-                        <li>
-                            <svg class="feature-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                            <span class="feature-text">API access</span>
-                        </li>
-                    </ul>
-                    <div class="package-cta">
-                        <a href="#contact" class="btn btn-secondary">Book a Call</a>
-                    </div>
-                </div>
+                        <!-- Collaboration & History -->
+                        <tr class="category-row">
+                            <td class="category-cell" colspan="4">Collaboration & History</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Version History & Audit Trail</td>
+                            <td><svg class="feature-check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
+                            <td><svg class="feature-check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
+                            <td><svg class="feature-check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Team Workspace</td>
+                            <td><span class="feature-dash">—</span></td>
+                            <td><svg class="feature-check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
+                            <td><svg class="feature-check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Role-Based Permissions</td>
+                            <td><span class="feature-dash">—</span></td>
+                            <td><span class="roadmap-badge">Roadmap</span></td>
+                            <td><span class="roadmap-badge">Roadmap</span></td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Approval Workflows</td>
+                            <td><span class="feature-dash">—</span></td>
+                            <td><span class="roadmap-badge">Roadmap</span></td>
+                            <td><span class="roadmap-badge">Roadmap</span></td>
+                        </tr>
 
-                <!-- Enterprise -->
-                <div class="package-card">
-                    <h3 class="package-name">Enterprise</h3>
-                    <div class="package-users">Custom configuration</div>
-                    <p class="package-description">
-                        For organizations requiring dedicated support, custom integrations, and SLAs.
-                    </p>
-                    <ul class="package-features">
-                        <li>
-                            <svg class="feature-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                            <span class="feature-text">Everything in Professional</span>
-                        </li>
-                        <li>
-                            <svg class="feature-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                            <span class="feature-text">Dedicated success manager</span>
-                        </li>
-                        <li>
-                            <svg class="feature-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                            <span class="feature-text">Custom implementation</span>
-                        </li>
-                        <li>
-                            <svg class="feature-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                            <span class="feature-text">Custom integrations</span>
-                        </li>
-                        <li>
-                            <svg class="feature-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                            <span class="feature-text">SLA & priority support</span>
-                        </li>
-                    </ul>
-                    <div class="package-cta">
-                        <a href="#contact" class="btn btn-secondary">Book a Call</a>
-                    </div>
-                </div>
+                        <!-- Project Management -->
+                        <tr class="category-row">
+                            <td class="category-cell" colspan="4">Project Management <span class="roadmap-badge" style="margin-left: 0.5rem;">Coming Soon</span></td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Project Tracking</td>
+                            <td><span class="feature-dash">—</span></td>
+                            <td><span class="roadmap-badge">Roadmap</span></td>
+                            <td><span class="roadmap-badge">Roadmap</span></td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Project Status Tracking</td>
+                            <td><span class="feature-dash">—</span></td>
+                            <td><span class="roadmap-badge">Roadmap</span></td>
+                            <td><span class="roadmap-badge">Roadmap</span></td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">AI Health Score</td>
+                            <td><span class="feature-dash">—</span></td>
+                            <td><span class="roadmap-badge">Roadmap</span></td>
+                            <td><span class="roadmap-badge">Roadmap</span></td>
+                        </tr>
+
+                        <!-- Platform & Integrations -->
+                        <tr class="category-row">
+                            <td class="category-cell" colspan="4">Platform & Integrations</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Custom Branding<span class="feature-note">Logo on proposals</span></td>
+                            <td><span class="feature-dash">—</span></td>
+                            <td><svg class="feature-check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
+                            <td><svg class="feature-check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Multi-Organization Support</td>
+                            <td><span class="feature-dash">—</span></td>
+                            <td><span class="feature-dash">—</span></td>
+                            <td><svg class="feature-check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">HubSpot Integration</td>
+                            <td><span class="feature-dash">—</span></td>
+                            <td><svg class="feature-check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
+                            <td><svg class="feature-check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Salesforce Integration</td>
+                            <td><span class="feature-dash">—</span></td>
+                            <td><span class="roadmap-badge">Coming Soon</span></td>
+                            <td><span class="roadmap-badge">Coming Soon</span></td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">API Access</td>
+                            <td><span class="feature-dash">—</span></td>
+                            <td><span class="roadmap-badge">Roadmap</span></td>
+                            <td><span class="roadmap-badge">Roadmap</span></td>
+                        </tr>
+
+                        <!-- Security & Compliance -->
+                        <tr class="category-row">
+                            <td class="category-cell" colspan="4">Security & Compliance</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Dedicated Tenant</td>
+                            <td><span class="feature-dash">—</span></td>
+                            <td><span class="feature-dash">—</span></td>
+                            <td><svg class="feature-check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">SSO (SAML/OIDC)</td>
+                            <td><span class="feature-dash">—</span></td>
+                            <td><span class="feature-dash">—</span></td>
+                            <td><span class="roadmap-badge">Roadmap</span></td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">SOC 2 / ISO 27001 / GDPR</td>
+                            <td><span class="feature-dash">—</span></td>
+                            <td><span class="feature-dash">—</span></td>
+                            <td><span class="roadmap-badge">Roadmap</span></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td></td>
+                            <td><a href="#contact" class="btn btn-secondary btn-table">Get Started</a></td>
+                            <td><a href="#contact" class="btn btn-primary btn-table">Book a Demo</a></td>
+                            <td><a href="#contact" class="btn btn-secondary btn-table">Contact Sales</a></td>
+                        </tr>
+                    </tfoot>
+                </table>
             </div>
             <p class="packages-note">
-                <strong>All plans include:</strong> Full engagement lifecycle, service catalog, proposal generation, and engagement memory.
+                <strong>All plans include:</strong> Full engagement lifecycle, proposal generation, and engagement memory.
             </p>
-        </div>
-    </section>
-
-    <!-- Built in Layers -->
-    <section class="phases">
-        <div class="container">
-            <div class="phases-header">
-                <h2>Built in Layers, Not Bolted Together</h2>
-                <p class="text-large">
-                    Each phase unlocks the next. Structure before automation. 
-                    Intelligence earned through encoded practice.
-                </p>
-            </div>
-            <div class="phases-grid">
-                <div class="phase-card">
-                    <span class="phase-number">1</span>
-                    <div class="phase-label">Foundation</div>
-                    <h3>Service Definition & Pricing</h3>
-                    <p>Define services as composable products with structured inputs, pricing logic, and resource implications.</p>
-                </div>
-                <div class="phase-card">
-                    <span class="phase-number">2</span>
-                    <div class="phase-label">Execution</div>
-                    <h3>Delivery & Resource Management</h3>
-                    <p>Allocation, time tracking, and delivery management connected to your scoped work.</p>
-                </div>
-                <div class="phase-card">
-                    <span class="phase-number">3</span>
-                    <div class="phase-label">Intelligence</div>
-                    <h3>Pattern Recognition</h3>
-                    <p>Structured data enables identification of patterns, recommendations, and surfaced anomalies.</p>
-                </div>
-                <div class="phase-card">
-                    <span class="phase-number">4</span>
-                    <div class="phase-label">Scale</div>
-                    <h3>Compounding Knowledge</h3>
-                    <p>Playbooks, benchmarks, and forecasting driven by accumulated structure across engagements.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- AI Philosophy - RESTRUCTURED LAYOUT -->
-    <section class="ai-philosophy" id="intelligence">
-        <div class="container">
-            <div class="ai-content">
-                <!-- Centered header -->
-                <div class="ai-header">
-                    <h2>Intelligence That <em>Earns</em> Its Place</h2>
-                    <p class="ai-lead">
-                        The prevailing discourse around artificial intelligence in enterprise software tends toward the promissory and the vague. We take a different view.
-                    </p>
-                </div>
-
-                <!-- Two column: text left, visual right -->
-                <div class="ai-main">
-                    <div class="ai-body-text">
-                        Intelligence in Servantium operates under constraint—it reads structured operational data, not free-form text. It surfaces patterns that exist in your encoded practice, identifies deviation from established norms, and recommends actions grounded in your firm's actual history. No hallucinated scope. No invented context. No synthetic confidence.
-                    </div>
-                    <div class="ai-visual-new">
-                        <div class="ai-flow-prose">
-                            <div class="ai-flow-item">
-                                <span class="ai-flow-num">1</span>
-                                <div class="ai-flow-content">
-                                    <strong>Raw Activity & Time</strong> enters the system—hours logged, milestones hit, communications exchanged.
-                                </div>
-                            </div>
-                            <div class="ai-flow-item">
-                                <span class="ai-flow-num">2</span>
-                                <div class="ai-flow-content">
-                                    <strong>Encoded Service Definitions</strong> provide the structure that gives raw data meaning and context.
-                                </div>
-                            </div>
-                            <div class="ai-flow-item">
-                                <span class="ai-flow-num">3</span>
-                                <div class="ai-flow-content">
-                                    <strong>Engagement History</strong> accumulates over time, building a baseline of what "normal" looks like for your firm.
-                                </div>
-                            </div>
-                            <div class="ai-flow-item">
-                                <span class="ai-flow-num">4</span>
-                                <div class="ai-flow-content">
-                                    <strong>Constrained Insight</strong> emerges—recommendations grounded in your actual patterns, not generic best practices.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Tenets as horizontal prose -->
-                <div class="ai-tenets-prose">
-                    <p class="ai-tenets-intro">Our AI operates by four tenets:</p>
-                    <p class="ai-tenets-list">
-                        <span class="tenet-item">Structure precedes automation</span>
-                        <span class="tenet-divider">·</span>
-                        <span class="tenet-item">Clarity over cleverness</span>
-                        <span class="tenet-divider">·</span>
-                        <span class="tenet-item">Human judgment remains sovereign</span>
-                        <span class="tenet-divider">·</span>
-                        <span class="tenet-item">Day-one utility is non-negotiable</span>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Outcomes Section -->
-    <section class="outcomes">
-        <div class="container">
-            <div class="outcomes-header">
-                <h2>Designed for Impact</h2>
-                <p>
-                    When services work is structured and encoded, the operational gains compound. 
-                    Here's what becomes possible.
-                </p>
-            </div>
-            <div class="outcomes-grid">
-                <div class="outcome-card">
-                    <div class="outcome-number">2-3×</div>
-                    <h3>Faster Quoting</h3>
-                    <p>Structured service definitions and pricing logic eliminate the blank-page problem. Quotes that took days can take hours.</p>
-                </div>
-                <div class="outcome-card">
-                    <div class="outcome-number">+15%</div>
-                    <h3>Margin Visibility</h3>
-                    <p>Real-time connection between scoped work and actual delivery reveals margin erosion before it compounds.</p>
-                </div>
-                <div class="outcome-card">
-                    <div class="outcome-number">100%</div>
-                    <h3>Engagement Memory</h3>
-                    <p>Every engagement feeds forward. Pricing decisions, delivery lessons, and outcomes become institutional knowledge—not tribal lore.</p>
-                </div>
-            </div>
         </div>
     </section>
 

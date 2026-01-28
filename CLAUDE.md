@@ -14,25 +14,27 @@
 - **Google Fonts** - Playfair Display (headings) + Source Sans 3 (body)
 - **Cal.com** - Embedded booking system for demos
 
-## File Structure
+## File Structure & Paths
 
-```
-/
-├── index.html          # Homepage (main landing page)
-├── about.html          # About page with founders/values
-├── blog.html           # Blog listing
-├── blog/
-│   └── why-services-businesses-need-cpq.html
-├── 404.html            # Custom error page (ASCII astronaut)
-├── privacy.html        # Privacy policy (placeholder)
-├── terms.html          # Terms of service (placeholder)
-├── sitemap.xml         # XML sitemap for SEO
-├── robots.txt          # Search engine directives
-├── logo.png            # Main logo
-├── favicon-*.png       # Favicons (32, 192, 512px)
-├── apple-touch-icon.png
-└── CLAUDE.md           # This file
-```
+**Base path:** `/Users/christopherveale/Projects/Servantium/website`
+
+| File | Purpose | Key Sections/Lines |
+|------|---------|-------------------|
+| `index.html` | Homepage | CSS: ~100-1600, Hero: ~2400, Problem: ~2560, Packages: ~2900, FAQ: ~3040 |
+| `about.html` | About page | Founders, values, company story |
+| `blog.html` | Blog listing | Blog grid layout |
+| `blog/why-services-businesses-need-cpq.html` | Blog article | First CPQ article |
+| `404.html` | Error page | ASCII astronaut animation |
+| `privacy.html` | Privacy policy | Placeholder |
+| `terms.html` | Terms of service | Placeholder |
+| `sitemap.xml` | SEO sitemap | Update when adding pages |
+| `robots.txt` | Crawler rules | |
+| `CLAUDE.md` | This context file | Keep updated |
+
+**Assets:**
+- `logo.png` - Main logo
+- `favicon-32.png`, `favicon-192.png`, `favicon-512.png` - Favicons
+- `apple-touch-icon.png` - iOS icon
 
 ## Design System
 
@@ -171,12 +173,33 @@
 - Add to sitemap.xml
 - Link from blog.html listing
 
+## Current Work: Pricing/Feature Table
+
+**Status:** Implemented (2026-01-28) - Review needed
+
+### Tier Names
+- **Individual** - Personal account (single user)
+- **Teams** - Shared workspace (multi-user, one org)
+- **Enterprise** - Dedicated tenant (dedicated environment, potentially multiple orgs)
+
+### Terminology
+- Use **"Service Catalog"** (not "AI Line Item Library") - classic, clear naming
+
+### Implementation Notes
+- Table located at `#packages` section in index.html (~line 2900)
+- CSS for table at ~line 1438 (`.feature-table-*` classes)
+- Roadmap badge: amber/gold pill style
+- Categories: Core CPQ, Collaboration, PSA, Organization, Integrations, Security & Compliance, Support
+- Mobile responsive with horizontal scroll
+
+---
+
 ## Known Issues / TODOs
 
 - [ ] Privacy and Terms pages are placeholders
-- [ ] No analytics integration yet
+- [ ] Add analytics/tracking integration
 - [ ] Images don't use lazy loading
-- [ ] Founder photos may need updating
+- [x] ~~Implement pricing/feature comparison table~~
 
 ---
 

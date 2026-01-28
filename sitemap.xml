@@ -25,6 +25,24 @@
         <priority>0.7</priority>
     </url>
     <url>
+        <loc>https://servantium.com/blog/the-utilization-crisis-2025</loc>
+        <lastmod>2025-11-12</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://servantium.com/blog/ai-wont-save-services-structure-will</loc>
+        <lastmod>2025-11-28</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://servantium.com/blog/the-end-of-tribal-knowledge</loc>
+        <lastmod>2025-12-10</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
         <loc>https://servantium.com/privacy</loc>
         <lastmod>2025-01-27</lastmod>
         <changefreq>yearly</changefreq>
