@@ -349,11 +349,13 @@
         .btn-primary {
             background: var(--color-servantium-green);
             color: var(--color-white);
+            border: 2px solid var(--color-servantium-green);
             box-shadow: 0 2px 8px rgba(0, 194, 109, 0.25);
         }
 
         .btn-primary:hover {
             background: var(--color-green-hover);
+            border-color: var(--color-green-hover);
             transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(0, 194, 109, 0.3);
         }
@@ -1197,7 +1199,7 @@
         .lifecycle-wrapper {
             position: relative;
             display: inline-block;
-            padding-bottom: 50px;
+            padding-top: 60px;
         }
 
         .lifecycle-loop-arrow {
@@ -1206,7 +1208,7 @@
             left: 50%;
             transform: translateX(-50%);
             width: calc(100% + 80px);
-            height: calc(100% + 60px);
+            height: calc(100% + 20px);
             pointer-events: none;
         }
 
@@ -1382,6 +1384,7 @@
             gap: 0.75rem;
             padding: 0.6rem 0;
             border-bottom: 1px solid rgba(0,0,0,0.06);
+            min-height: 44px;
         }
 
         .package-card.featured .package-features li {
@@ -1401,6 +1404,7 @@
         .feature-text {
             font-size: 0.95rem;
             color: var(--color-ink-light);
+            line-height: 1.4;
         }
 
         .package-cta {
@@ -2581,10 +2585,10 @@
                         <div class="stat-source"><a href="https://www.deltek.com/en/blog/professional-services-benchmarks" target="_blank">SPI Research / Deltek 2025</a></div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-number">52%</div>
-                        <div class="stat-label">Projects Hit by Scope Creep</div>
-                        <div class="stat-description">Uncontrolled scope changes up from 43% five years ago</div>
-                        <div class="stat-source"><a href="https://www.pmi.org/learning/library/scope-creep-rising-11308" target="_blank">PMI Pulse of the Profession</a></div>
+                        <div class="stat-number">20%</div>
+                        <div class="stat-label">Hit Profit Margin Targets</div>
+                        <div class="stat-description">Only 1 in 5 firms consistently achieve their project profit goals</div>
+                        <div class="stat-source"><a href="https://spiresearch.com/2025/02/12/the-18th-annual-professional-services-maturity-benchmark-report-is-out-now/" target="_blank">SPI Research 2025</a></div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-number">68.9%</div>
@@ -2609,21 +2613,21 @@
             </div>
             <div class="lifecycle-wrapper">
                 <div class="lifecycle-loop-arrow">
-                    <svg viewBox="0 0 900 240" preserveAspectRatio="xMidYMid meet">
+                    <svg viewBox="0 0 900 200" preserveAspectRatio="xMidYMid meet">
                         <defs>
-                            <linearGradient id="loopGradient" x1="100%" y1="0%" x2="0%" y2="0%">
+                            <linearGradient id="loopGradient" x1="0%" y1="0%" x2="100%" y2="0%">
                                 <stop offset="0%" stop-color="var(--color-slate)" />
                                 <stop offset="50%" stop-color="var(--color-deep-teal)" />
                                 <stop offset="100%" stop-color="var(--color-servantium-green)" />
                             </linearGradient>
                         </defs>
-                        <!-- Rectangular loop: down from Learning (#6), across bottom, up to Discovery (#1) -->
-                        <path class="loop-path" d="M 820 100
-                            L 820 200
-                            L 80 200
-                            L 80 100" />
-                        <!-- Arrow head pointing up toward Discovery -->
-                        <polygon class="loop-arrow-head" points="80,90 72,105 88,105" />
+                        <!-- Rectangular loop: UP from Learning (#6), across top, DOWN to Discovery (#1) -->
+                        <path class="loop-path" d="M 820 140
+                            L 820 30
+                            L 80 30
+                            L 80 140" />
+                        <!-- Arrow head pointing down toward Discovery -->
+                        <polygon class="loop-arrow-head" points="80,150 72,135 88,135" />
                     </svg>
                 </div>
                 <div class="lifecycle-interactive">
@@ -3458,17 +3462,18 @@
             }
         });
 
-        // On mobile, expand first step by default when section comes into view
+        // Collapse mobile steps when scrolling away from section
         const lifecycleObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting && isMobile()) {
-                    const firstStep = document.querySelector('.lifecycle-step[data-index="0"]');
-                    if (firstStep && !firstStep.classList.contains('expanded')) {
-                        firstStep.classList.add('expanded');
-                    }
+                if (!entry.isIntersecting && isMobile()) {
+                    // Collapse all steps when section leaves view
+                    document.querySelectorAll('.lifecycle-step').forEach(s => s.classList.remove('expanded'));
+                    // Show the tap hint again
+                    const hint = document.querySelector('.mobile-tap-hint');
+                    if (hint) hint.style.display = 'block';
                 }
             });
-        }, { threshold: 0.3 });
+        }, { threshold: 0.1 });
 
         const conceptSection = document.querySelector('.core-concept');
         if (conceptSection) {
@@ -4448,8 +4453,17 @@
         // UI customization for both inline and popup
         Cal.ns["servantium-introduction"]("ui", {
             "cssVarsPerTheme": {
-                "light": {"cal-brand":"#00C26D"},
-                "dark": {"cal-brand":"#00C26D"}
+                "light": {
+                    "cal-brand": "#00C26D",
+                    "cal-brand-emphasis": "#00A95E",
+                    "cal-text": "#0D0D0D",
+                    "cal-text-emphasis": "#0D0D0D",
+                    "cal-border-subtle": "#E1E3E6"
+                },
+                "dark": {
+                    "cal-brand": "#00C26D",
+                    "cal-brand-emphasis": "#00A95E"
+                }
             },
             "hideEventTypeDetails": false,
             "layout": "month_view"
