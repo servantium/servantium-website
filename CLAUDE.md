@@ -25,6 +25,8 @@
 | `about.html` | About page | Founders, values, company story |
 | `blog.html` | Blog listing | Blog grid layout |
 | `blog/why-services-businesses-need-cpq.html` | Blog article | First CPQ article |
+| `blog/authors/christopher-veale.html` | Author page | CEO bio + articles |
+| `blog/authors/maxwell-friel.html` | Author page | CTO bio + articles |
 | `404.html` | Error page | ASCII astronaut animation |
 | `privacy.html` | Privacy policy | Placeholder |
 | `terms.html` | Terms of service | Placeholder |
@@ -197,8 +199,7 @@
 
 ## Known Issues / TODOs
 
-- [ ] Terms page is placeholder
-- [ ] Images don't use lazy loading
+- [ ] Terms page is placeholder (lawyer will handle)
 - [ ] LinkedIn feed widget on blog page (Elfsight, free tier 200 views) — decide after analytics data
 - [x] ~~Implement pricing/feature comparison table~~
 - [x] ~~Add llms.txt for AI search visibility~~
@@ -206,6 +207,10 @@
 - [x] ~~Privacy policy with GDPR rights~~
 - [x] ~~GA4 Analytics with cookie consent~~
 - [x] ~~Test environment protection (noindex, no analytics)~~
+- [x] ~~Images lazy loading~~
+- [x] ~~Author pages for blog (Christopher Veale, Maxwell Friel)~~
+- [x] ~~Related posts section on all blog articles~~
+- [x] ~~404 page footer link consistency~~
 
 ---
 
