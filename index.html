@@ -1643,6 +1643,91 @@
             }
         }
 
+        /* Mobile-optimized table with sticky first column */
+        @media (max-width: 768px) {
+            .feature-table-wrapper {
+                margin: 0 -1.5rem;
+                padding: 0;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .feature-table {
+                font-size: 0.8rem;
+                min-width: 520px;
+            }
+
+            .feature-table th:first-child,
+            .feature-table td:first-child {
+                position: sticky;
+                left: 0;
+                z-index: 5;
+                background: var(--color-white);
+                box-shadow: 2px 0 8px rgba(0,0,0,0.08);
+                min-width: 140px;
+                max-width: 160px;
+            }
+
+            .feature-table thead th:first-child {
+                background: var(--color-deep-forest);
+                z-index: 15;
+            }
+
+            .feature-table tbody tr.category-row td:first-child {
+                background: var(--color-mist-grey);
+            }
+
+            .feature-table tbody tr:hover td:first-child {
+                background: var(--color-mint-tint);
+            }
+
+            .feature-table th {
+                padding: 0.75rem 0.5rem;
+                font-size: 0.85rem;
+            }
+
+            .feature-table th .tier-desc {
+                font-size: 0.65rem;
+            }
+
+            .feature-table td {
+                padding: 0.6rem 0.4rem;
+            }
+
+            .feature-table .feature-name {
+                padding-left: 0.75rem;
+                font-size: 0.8rem;
+                line-height: 1.3;
+            }
+
+            .feature-table .feature-note {
+                font-size: 0.65rem;
+            }
+
+            .feature-table .category-cell {
+                font-size: 0.85rem;
+                padding: 0.75rem 0.5rem;
+            }
+
+            .feature-check-icon {
+                width: 16px;
+                height: 16px;
+            }
+
+            .roadmap-badge {
+                font-size: 0.6rem;
+                padding: 0.2rem 0.4rem;
+            }
+
+            .feature-table tfoot td {
+                padding: 1rem 0.5rem;
+            }
+
+            .feature-table .btn-table {
+                padding: 0.5rem 0.75rem;
+                font-size: 0.75rem;
+            }
+        }
+
         /* Phases Section */
         .phases {
             background: var(--color-mist-grey);
@@ -4618,11 +4703,13 @@
         var consent = localStorage.getItem('servantium_cookie_consent');
         if (!consent) {
             document.getElementById('cookie-consent').style.display = 'block';
+            document.body.style.paddingBottom = '80px';
         }
     })();
     function acceptCookies() {
         localStorage.setItem('servantium_cookie_consent', 'accepted');
         document.getElementById('cookie-consent').style.display = 'none';
+        document.body.style.paddingBottom = '';
         // Load GA4 after acceptance
         var script = document.createElement('script');
         script.async = true;
@@ -4637,6 +4724,7 @@
     function declineCookies() {
         localStorage.setItem('servantium_cookie_consent', 'declined');
         document.getElementById('cookie-consent').style.display = 'none';
+        document.body.style.paddingBottom = '';
     }
     </script>
 </body>

@@ -246,13 +246,13 @@
                 Everyone's chasing AI capabilities. But the firms that will actually benefit are the ones building something more fundamental: the institutional memory that makes AI worth using.
             </p>
             <div class="article-meta">
-                <div class="article-author">
-                    <div class="author-avatar">MF</div>
+                <a href="authors/maxwell-friel.html" class="article-author" style="text-decoration: none; color: inherit;">
+                    <img src="../maxwell-friel.png" alt="Maxwell Friel" class="author-avatar" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover;">
                     <div class="author-info">
                         <span class="author-name">Maxwell Friel</span>
                         <span class="author-role">CTO, Servantium</span>
                     </div>
-                </div>
+                </a>
                 <span class="article-date">January 15, 2026</span>
                 <span class="article-reading-time">7 min read</span>
             </div>
@@ -506,11 +506,13 @@
         var consent = localStorage.getItem('servantium_cookie_consent');
         if (!consent) {
             document.getElementById('cookie-consent').style.display = 'block';
+            document.body.style.paddingBottom = '80px';
         }
     })();
     function acceptCookies() {
         localStorage.setItem('servantium_cookie_consent', 'accepted');
         document.getElementById('cookie-consent').style.display = 'none';
+        document.body.style.paddingBottom = '';
         var script = document.createElement('script');
         script.async = true;
         script.src = 'https://www.googletagmanager.com/gtag/js?id=G-6EFX4FNH6H';
@@ -524,6 +526,7 @@
     function declineCookies() {
         localStorage.setItem('servantium_cookie_consent', 'declined');
         document.getElementById('cookie-consent').style.display = 'none';
+        document.body.style.paddingBottom = '';
     }
     </script>
 </body>

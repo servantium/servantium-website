@@ -244,11 +244,13 @@
         var consent = localStorage.getItem('servantium_cookie_consent');
         if (!consent) {
             document.getElementById('cookie-consent').style.display = 'block';
+            document.body.style.paddingBottom = '80px';
         }
     })();
     function acceptCookies() {
         localStorage.setItem('servantium_cookie_consent', 'accepted');
         document.getElementById('cookie-consent').style.display = 'none';
+        document.body.style.paddingBottom = '';
         var script = document.createElement('script');
         script.async = true;
         script.src = 'https://www.googletagmanager.com/gtag/js?id=G-6EFX4FNH6H';
@@ -262,6 +264,7 @@
     function declineCookies() {
         localStorage.setItem('servantium_cookie_consent', 'declined');
         document.getElementById('cookie-consent').style.display = 'none';
+        document.body.style.paddingBottom = '';
     }
     </script>
 </body>

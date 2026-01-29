@@ -707,13 +707,13 @@
                 Product companies have had Configure, Price, Quote systems for decades. It's time services businesses caught up—here's why the old ways of pricing engagements are costing you margin.
             </p>
             <div class="article-meta">
-                <div class="article-author">
-                    <div class="author-avatar">CV</div>
+                <a href="authors/christopher-veale.html" class="article-author" style="text-decoration: none; color: inherit;">
+                    <img src="../christopher-veale.png" alt="Christopher Veale" class="author-avatar" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover;">
                     <div class="author-info">
                         <span class="author-name">Christopher Veale</span>
                         <span class="author-role">CEO, Servantium</span>
                     </div>
-                </div>
+                </a>
                 <span class="article-date">January 15, 2025</span>
                 <span class="article-reading-time">8 min read</span>
             </div>
@@ -937,11 +937,13 @@
         var consent = localStorage.getItem('servantium_cookie_consent');
         if (!consent) {
             document.getElementById('cookie-consent').style.display = 'block';
+            document.body.style.paddingBottom = '80px';
         }
     })();
     function acceptCookies() {
         localStorage.setItem('servantium_cookie_consent', 'accepted');
         document.getElementById('cookie-consent').style.display = 'none';
+        document.body.style.paddingBottom = '';
         var script = document.createElement('script');
         script.async = true;
         script.src = 'https://www.googletagmanager.com/gtag/js?id=G-6EFX4FNH6H';
@@ -955,6 +957,7 @@
     function declineCookies() {
         localStorage.setItem('servantium_cookie_consent', 'declined');
         document.getElementById('cookie-consent').style.display = 'none';
+        document.body.style.paddingBottom = '';
     }
     </script>
 </body>

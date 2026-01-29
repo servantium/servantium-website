@@ -255,13 +255,13 @@
                 Billable utilization has fallen to its lowest point in years. Here's what the data reveals about professional services—and what forward-thinking leaders are doing about it.
             </p>
             <div class="article-meta">
-                <div class="article-author">
-                    <div class="author-avatar">CV</div>
+                <a href="authors/christopher-veale.html" class="article-author" style="text-decoration: none; color: inherit;">
+                    <img src="../christopher-veale.png" alt="Christopher Veale" class="author-avatar" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover;">
                     <div class="author-info">
                         <span class="author-name">Christopher Veale</span>
                         <span class="author-role">CEO, Servantium</span>
                     </div>
-                </div>
+                </a>
                 <span class="article-date">November 12, 2025</span>
                 <span class="article-reading-time">7 min read</span>
             </div>
@@ -486,11 +486,13 @@
         var consent = localStorage.getItem('servantium_cookie_consent');
         if (!consent) {
             document.getElementById('cookie-consent').style.display = 'block';
+            document.body.style.paddingBottom = '80px';
         }
     })();
     function acceptCookies() {
         localStorage.setItem('servantium_cookie_consent', 'accepted');
         document.getElementById('cookie-consent').style.display = 'none';
+        document.body.style.paddingBottom = '';
         var script = document.createElement('script');
         script.async = true;
         script.src = 'https://www.googletagmanager.com/gtag/js?id=G-6EFX4FNH6H';
@@ -504,6 +506,7 @@
     function declineCookies() {
         localStorage.setItem('servantium_cookie_consent', 'declined');
         document.getElementById('cookie-consent').style.display = 'none';
+        document.body.style.paddingBottom = '';
     }
     </script>
 </body>
