@@ -46,23 +46,23 @@
     })();
     </script>
 
-    <title>Servantium — The Operating System for Professional Services</title>
-    <meta name="description" content="Servantium is the CPQ and engagement management platform for professional services. Define, price, sell, and deliver services with a single system of record. Stop losing margin to spreadsheets and tribal knowledge.">
-    <meta name="keywords" content="professional services automation, PSA software, CPQ for services, services CPQ, engagement management, professional services platform, quote-to-cash, services business software">
+    <title>Professional Services CPQ & Engagement Management Platform | Servantium</title>
+    <meta name="description" content="Servantium is the professional services CPQ and engagement management platform. Define, price, sell, and deliver services with institutional memory built in. Stop losing margin to spreadsheets.">
+    <meta name="keywords" content="professional services CPQ, CPQ for services, professional services automation, PSA software, services CPQ, engagement management, consulting CPQ, services pricing software, quote-to-cash services">
     <meta name="author" content="Servantium Inc.">
 
     <!-- Open Graph / Social -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://servantium.com/">
+    <meta property="og:site_name" content="Servantium">
     <meta property="og:title" content="Servantium — The Operating System for Professional Services">
-    <meta property="og:description" content="The CPQ and engagement management platform for professional services. Define, price, sell, and deliver services with a single system of record.">
+    <meta property="og:description" content="Professional services CPQ and engagement management platform. Define, price, sell, and deliver services with a single system of record.">
     <meta property="og:image" content="https://servantium.com/og-image.png">
-
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Servantium — The Operating System for Professional Services">
-    <meta name="twitter:description" content="The CPQ and engagement management platform for professional services. Stop losing margin to spreadsheets and tribal knowledge.">
-    <meta name="twitter:image" content="https://servantium.com/og-image.png">
+    <meta property="og:image:secure_url" content="https://servantium.com/og-image.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Servantium - The Operating System for Professional Services">
 
     <!-- Canonical -->
     <link rel="canonical" href="https://servantium.com/">
@@ -896,7 +896,7 @@
             opacity: 0.6;
         }
 
-        /* Mobile Touch Controls */
+        /* Mobile Touch Controls - iOS Arcade Style */
         .touch-controls {
             display: none;
             position: absolute;
@@ -913,6 +913,7 @@
             pointer-events: auto;
         }
 
+        /* Invisible touch zones for input detection */
         .touch-zone {
             position: absolute;
             top: 0;
@@ -920,60 +921,69 @@
         }
 
         .touch-zone-move {
-            position: absolute;
             left: 0;
-            top: 0;
-            width: 60%;
-            height: 100%;
+            width: 50%;
         }
 
         .touch-zone-fire {
-            position: absolute;
             right: 0;
-            top: 0;
-            width: 40%;
-            height: 100%;
+            width: 50%;
         }
 
+        /* Fixed joystick at bottom-left - always visible in game mode */
         .touch-joystick {
             position: absolute;
-            width: 100px;
-            height: 100px;
-            border: 2px solid rgba(0, 194, 109, 0.3);
+            bottom: 20px;
+            left: 20px;
+            width: 120px;
+            height: 120px;
+            border: 3px solid rgba(0, 194, 109, 0.4);
             border-radius: 50%;
+            background: rgba(0, 0, 0, 0.2);
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.15s ease;
+            transition: opacity 0.2s ease;
+        }
+
+        .game-mode .touch-joystick {
+            opacity: 1;
         }
 
         .touch-joystick.active {
-            opacity: 1;
+            border-color: rgba(0, 194, 109, 0.7);
+            background: rgba(0, 0, 0, 0.3);
         }
 
         .touch-joystick-knob {
             position: absolute;
-            width: 40px;
-            height: 40px;
-            background: rgba(0, 194, 109, 0.5);
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 194, 109, 0.6);
+            border: 2px solid rgba(0, 194, 109, 0.8);
             border-radius: 50%;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            box-shadow: 0 0 15px rgba(0, 194, 109, 0.4);
+            box-shadow: 0 0 20px rgba(0, 194, 109, 0.5);
+            transition: transform 0.05s ease-out;
         }
 
+        /* Fixed fire button at bottom-right */
         .touch-fire-indicator {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 70px;
-            height: 70px;
-            border: 2px solid rgba(0, 194, 109, 0.25);
+            bottom: 20px;
+            right: 20px;
+            width: 90px;
+            height: 90px;
+            border: 3px solid rgba(0, 194, 109, 0.4);
             border-radius: 50%;
+            background: rgba(0, 0, 0, 0.2);
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.2s ease;
+            transition: all 0.1s ease;
+            transform: none;
+            top: auto;
+            left: auto;
         }
 
         .game-mode .touch-fire-indicator {
@@ -981,29 +991,34 @@
         }
 
         .touch-fire-indicator.active {
-            background: rgba(0, 194, 109, 0.2);
-            box-shadow: 0 0 20px rgba(0, 194, 109, 0.4);
+            background: rgba(0, 194, 109, 0.4);
+            border-color: rgba(0, 194, 109, 0.9);
+            box-shadow: 0 0 30px rgba(0, 194, 109, 0.6);
+            transform: scale(0.95);
         }
 
         .touch-fire-indicator::after {
-            content: '';
+            content: 'FIRE';
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 20px;
-            height: 20px;
-            background: var(--color-servantium-green);
-            border-radius: 50%;
-            opacity: 0.5;
+            font-family: var(--font-body);
+            font-size: 12px;
+            font-weight: 700;
+            color: rgba(0, 194, 109, 0.8);
+            letter-spacing: 0.1em;
+        }
+
+        .touch-fire-indicator.active::after {
+            color: white;
         }
 
         .touch-label {
             position: absolute;
-            bottom: 15px;
             font-family: var(--font-body);
-            font-size: 10px;
-            color: var(--color-slate);
+            font-size: 9px;
+            color: rgba(255, 255, 255, 0.5);
             opacity: 0;
             text-transform: uppercase;
             letter-spacing: 0.1em;
@@ -1012,17 +1027,35 @@
         }
 
         .game-mode .touch-label {
-            opacity: 0.4;
+            opacity: 1;
         }
 
         .touch-zone-move .touch-label {
-            left: 50%;
-            transform: translateX(-50%);
+            bottom: 150px;
+            left: 55px;
         }
 
         .touch-zone-fire .touch-label {
-            left: 50%;
-            transform: translateX(-50%);
+            display: none;
+        }
+
+        /* Thrust indicator on joystick */
+        .touch-thrust-indicator {
+            position: absolute;
+            bottom: 145px;
+            left: 63px;
+            font-family: var(--font-body);
+            font-size: 9px;
+            font-weight: 600;
+            color: rgba(255, 194, 0, 0.7);
+            letter-spacing: 0.05em;
+            opacity: 0;
+            transition: opacity 0.1s ease;
+            pointer-events: none;
+        }
+
+        .touch-thrust-indicator.active {
+            opacity: 1;
         }
 
         /* Hide touch controls on desktop (mouse/trackpad) */
@@ -1037,7 +1070,7 @@
             .game-mode .game-ui {
                 font-size: 12px;
             }
-            
+
             .game-life {
                 border-left-width: 5px;
                 border-right-width: 5px;
@@ -1046,6 +1079,36 @@
 
             .game-hint {
                 font-size: 10px;
+                bottom: 130px;
+            }
+
+            .touch-joystick {
+                width: 100px;
+                height: 100px;
+                bottom: 15px;
+                left: 15px;
+            }
+
+            .touch-joystick-knob {
+                width: 44px;
+                height: 44px;
+            }
+
+            .touch-fire-indicator {
+                width: 80px;
+                height: 80px;
+                bottom: 15px;
+                right: 15px;
+            }
+
+            .touch-zone-move .touch-label {
+                bottom: 125px;
+                left: 40px;
+            }
+
+            .touch-thrust-indicator {
+                bottom: 120px;
+                left: 48px;
             }
         }
 
@@ -2791,10 +2854,10 @@
         <div class="container">
             <div class="hero-content">
                 <div class="hero-text">
-                    <div class="hero-eyebrow">The Operating System for Professional Services</div>
-                    <h1>One system of record.<br><em>Every engagement.</em></h1>
+                    <div class="hero-eyebrow">Professional Services CPQ & Engagement Management</div>
+                    <h1>The operating system for<br><em>professional services.</em></h1>
                     <p class="hero-description">
-                        Services businesses operate across fragmented workflows. Pricing lives in spreadsheets, delivery knowledge is tribal, and lessons learned never feed back into sales. Servantium changes that.
+                        Professional services firms operate across fragmented workflows. Pricing lives in spreadsheets, delivery knowledge is tribal, and lessons learned never feed back into sales. Servantium changes that—with one system of record for every engagement.
                     </p>
                     <div class="hero-ctas">
                         <a href="#contact" class="btn btn-primary">Schedule a Call</a>
@@ -2832,18 +2895,15 @@
                             <p>Click sun to play again</p>
                         </div>
                         <div class="game-hint" id="game-hint">Press Esc to exit</div>
-                        <!-- Mobile Touch Controls -->
+                        <!-- Mobile Touch Controls - iOS Arcade Style -->
                         <div class="touch-controls" id="touch-controls">
-                            <div class="touch-zone touch-zone-move" id="touch-zone-move">
-                                <div class="touch-joystick" id="touch-joystick">
-                                    <div class="touch-joystick-knob" id="touch-joystick-knob"></div>
-                                </div>
-                                <div class="touch-label">Move</div>
+                            <div class="touch-zone touch-zone-move" id="touch-zone-move"></div>
+                            <div class="touch-zone touch-zone-fire" id="touch-zone-fire"></div>
+                            <div class="touch-joystick" id="touch-joystick">
+                                <div class="touch-joystick-knob" id="touch-joystick-knob"></div>
                             </div>
-                            <div class="touch-zone touch-zone-fire" id="touch-zone-fire">
-                                <div class="touch-fire-indicator" id="touch-fire-indicator"></div>
-                                <div class="touch-label">Fire</div>
-                            </div>
+                            <div class="touch-thrust-indicator" id="touch-thrust-indicator">THRUST</div>
+                            <div class="touch-fire-indicator" id="touch-fire-indicator"></div>
                         </div>
                     </div>
                 </div>
@@ -2856,9 +2916,9 @@
         <div class="container">
             <div class="problem-content">
                 <div class="problem-header">
-                    <h2>The Problem</h2>
+                    <h2>Why Professional Services Firms Struggle</h2>
                     <p>
-                        Services businesses are fundamentally disadvantaged because their offerings are
+                        Professional services businesses are fundamentally disadvantaged because their offerings are
                         implicit, tribal, and fragmented—rather than encoded in systems that remember and improve. <strong>Let's fix that.</strong>
                     </p>
                 </div>
@@ -2896,9 +2956,9 @@
     <section class="core-concept" id="concept">
         <div class="container">
             <div class="concept-header">
-                <h2>The Core Concept: The Engagement</h2>
+                <h2>Engagement Management for Professional Services</h2>
                 <p class="text-large">
-                    Everything in Servantium revolves around an Engagement—a living object that evolves 
+                    Everything in Servantium revolves around an Engagement—a living object that evolves
                     from first conversation through delivery and into organizational memory.
                 </p>
             </div>
@@ -3043,7 +3103,7 @@
     <section class="packages" id="packages">
         <div class="container">
             <div class="packages-header">
-                <h2>Built for How You Work</h2>
+                <h2>Professional Services CPQ & PSA Pricing</h2>
                 <p>
                     Every plan includes the full engagement platform. Scale your workspace and support as your team grows.
                 </p>
@@ -3221,9 +3281,9 @@
     <section class="faq" id="faq">
         <div class="container">
             <div class="faq-header">
-                <h2>Frequently Asked Questions</h2>
+                <h2>Professional Services CPQ & Engagement Management FAQ</h2>
                 <p class="text-large">
-                    Everything you need to know about Servantium and how it transforms services operations.
+                    Everything you need to know about Servantium and how it transforms professional services operations.
                 </p>
             </div>
             <div class="faq-list">
@@ -4478,31 +4538,32 @@
         });
 
         // ==========================================
-        // MOBILE TOUCH CONTROLS
+        // MOBILE TOUCH CONTROLS - iOS ARCADE STYLE
         // ==========================================
-        
+
         const touchState = {
             moveTouch: null,      // Touch ID for movement
             fireTouch: null,      // Touch ID for firing
-            joystickOrigin: null, // {x, y} of initial touch
+            autoFireInterval: null, // Auto-fire interval
         };
 
         const touchJoystick = document.getElementById('touch-joystick');
         const touchJoystickKnob = document.getElementById('touch-joystick-knob');
         const touchFireIndicator = document.getElementById('touch-fire-indicator');
+        const touchThrustIndicator = document.getElementById('touch-thrust-indicator');
         const touchZoneMove = document.getElementById('touch-zone-move');
         const touchZoneFire = document.getElementById('touch-zone-fire');
 
-        // Get touch position relative to a zone element
-        function getTouchPosInZone(touch, zone) {
-            const rect = zone.getBoundingClientRect();
+        // Get joystick center position (fixed at bottom-left)
+        function getJoystickCenter() {
+            const rect = touchJoystick.getBoundingClientRect();
             return {
-                x: touch.clientX - rect.left,
-                y: touch.clientY - rect.top
+                x: rect.left + rect.width / 2,
+                y: rect.top + rect.height / 2
             };
         }
 
-        // Movement zone touch handlers
+        // Movement zone touch handlers - uses fixed joystick position
         touchZoneMove.addEventListener('touchstart', (e) => {
             if (!gameState.active || gameState.gameOver) return;
             e.preventDefault();
@@ -4510,61 +4571,70 @@
             for (const touch of e.changedTouches) {
                 if (touchState.moveTouch === null) {
                     touchState.moveTouch = touch.identifier;
-                    const pos = getTouchPosInZone(touch, touchZoneMove);
-                    touchState.joystickOrigin = pos;
-                    
-                    // Show joystick at touch position
-                    touchJoystick.style.left = (pos.x - 50) + 'px';
-                    touchJoystick.style.top = (pos.y - 50) + 'px';
                     touchJoystick.classList.add('active');
-                    touchJoystickKnob.style.transform = 'translate(-50%, -50%)';
+                    // Process initial touch position
+                    processJoystickTouch(touch);
                     break;
                 }
             }
         }, { passive: false });
+
+        function processJoystickTouch(touch) {
+            const center = getJoystickCenter();
+            const dx = touch.clientX - center.x;
+            const dy = touch.clientY - center.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            const maxDistance = 35; // Visual knob movement limit
+            const inputRadius = 120; // Input detection radius (larger for easier control)
+
+            // Clamp knob position for visual feedback
+            const clampedDist = Math.min(distance, maxDistance);
+            const angle = Math.atan2(dy, dx);
+            const knobX = Math.cos(angle) * clampedDist;
+            const knobY = Math.sin(angle) * clampedDist;
+
+            touchJoystickKnob.style.transform = `translate(calc(-50% + ${knobX}px), calc(-50% + ${knobY}px))`;
+
+            // Normalize input based on input radius
+            const normalizedDist = Math.min(distance / inputRadius, 1);
+            const normalizedX = (dx / inputRadius);
+            const normalizedY = (dy / inputRadius);
+
+            // Rotation (left/right based on horizontal movement)
+            // More responsive thresholds
+            if (normalizedX < -0.2) {
+                gameState.keys['ArrowLeft'] = true;
+                gameState.keys['ArrowRight'] = false;
+            } else if (normalizedX > 0.2) {
+                gameState.keys['ArrowRight'] = true;
+                gameState.keys['ArrowLeft'] = false;
+            } else {
+                gameState.keys['ArrowLeft'] = false;
+                gameState.keys['ArrowRight'] = false;
+            }
+
+            // Thrust (push up OR push far in any direction)
+            // Up = negative Y in screen coords
+            const isThrusting = normalizedY < -0.2 || normalizedDist > 0.5;
+            gameState.keys['ArrowUp'] = isThrusting;
+
+            // Visual thrust indicator
+            if (touchThrustIndicator) {
+                if (isThrusting) {
+                    touchThrustIndicator.classList.add('active');
+                } else {
+                    touchThrustIndicator.classList.remove('active');
+                }
+            }
+        }
 
         touchZoneMove.addEventListener('touchmove', (e) => {
             if (!gameState.active || gameState.gameOver) return;
             e.preventDefault();
 
             for (const touch of e.changedTouches) {
-                if (touch.identifier === touchState.moveTouch && touchState.joystickOrigin) {
-                    const pos = getTouchPosInZone(touch, touchZoneMove);
-                    const dx = pos.x - touchState.joystickOrigin.x;
-                    const dy = pos.y - touchState.joystickOrigin.y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    const maxDistance = 40;
-                    
-                    // Clamp knob position
-                    const clampedDist = Math.min(distance, maxDistance);
-                    const angle = Math.atan2(dy, dx);
-                    const knobX = Math.cos(angle) * clampedDist;
-                    const knobY = Math.sin(angle) * clampedDist;
-                    
-                    touchJoystickKnob.style.transform = `translate(calc(-50% + ${knobX}px), calc(-50% + ${knobY}px))`;
-                    
-                    // Apply controls based on joystick position
-                    const normalizedX = dx / maxDistance;
-                    const normalizedY = dy / maxDistance;
-                    
-                    // Rotation (left/right based on horizontal)
-                    if (normalizedX < -0.3) {
-                        gameState.keys['ArrowLeft'] = true;
-                        gameState.keys['ArrowRight'] = false;
-                    } else if (normalizedX > 0.3) {
-                        gameState.keys['ArrowRight'] = true;
-                        gameState.keys['ArrowLeft'] = false;
-                    } else {
-                        gameState.keys['ArrowLeft'] = false;
-                        gameState.keys['ArrowRight'] = false;
-                    }
-                    
-                    // Thrust (when pushing up/forward - negative Y, or strong push in any direction)
-                    if (normalizedY < -0.25 || distance > maxDistance * 0.7) {
-                        gameState.keys['ArrowUp'] = true;
-                    } else {
-                        gameState.keys['ArrowUp'] = false;
-                    }
+                if (touch.identifier === touchState.moveTouch) {
+                    processJoystickTouch(touch);
                 }
             }
         }, { passive: false });
@@ -4573,14 +4643,18 @@
             for (const touch of e.changedTouches) {
                 if (touch.identifier === touchState.moveTouch) {
                     touchState.moveTouch = null;
-                    touchState.joystickOrigin = null;
                     touchJoystick.classList.remove('active');
                     touchJoystickKnob.style.transform = 'translate(-50%, -50%)';
-                    
+
                     // Reset movement keys
                     gameState.keys['ArrowLeft'] = false;
                     gameState.keys['ArrowRight'] = false;
                     gameState.keys['ArrowUp'] = false;
+
+                    // Hide thrust indicator
+                    if (touchThrustIndicator) {
+                        touchThrustIndicator.classList.remove('active');
+                    }
                 }
             }
         }
@@ -4588,7 +4662,7 @@
         touchZoneMove.addEventListener('touchend', handleMoveEnd);
         touchZoneMove.addEventListener('touchcancel', handleMoveEnd);
 
-        // Fire zone touch handlers
+        // Fire zone touch handlers with auto-fire
         touchZoneFire.addEventListener('touchstart', (e) => {
             if (!gameState.active || gameState.gameOver) return;
             e.preventDefault();
@@ -4597,11 +4671,18 @@
                 if (touchState.fireTouch === null) {
                     touchState.fireTouch = touch.identifier;
                     touchFireIndicator.classList.add('active');
-                    
+
                     // Fire immediately
                     if (gameState.ship) {
                         gameState.ship.shoot();
                     }
+
+                    // Start auto-fire (fires every 150ms while holding)
+                    touchState.autoFireInterval = setInterval(() => {
+                        if (gameState.ship && gameState.active && !gameState.gameOver) {
+                            gameState.ship.shoot();
+                        }
+                    }, 150);
                     break;
                 }
             }
@@ -4610,8 +4691,7 @@
         touchZoneFire.addEventListener('touchmove', (e) => {
             if (!gameState.active || gameState.gameOver) return;
             e.preventDefault();
-            
-            // Auto-fire while holding
+            // Auto-fire continues while holding
             for (const touch of e.changedTouches) {
                 if (touch.identifier === touchState.fireTouch && gameState.ship) {
                     gameState.ship.shoot();
@@ -4624,6 +4704,12 @@
                 if (touch.identifier === touchState.fireTouch) {
                     touchState.fireTouch = null;
                     touchFireIndicator.classList.remove('active');
+
+                    // Stop auto-fire
+                    if (touchState.autoFireInterval) {
+                        clearInterval(touchState.autoFireInterval);
+                        touchState.autoFireInterval = null;
+                    }
                 }
             }
         }

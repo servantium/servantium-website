@@ -46,15 +46,21 @@
     })();
     </script>
 
-    <title>Blog — Servantium</title>
-    <meta name="description" content="Insights on professional services operations, CPQ for services, and building systems that help services businesses scale.">
+    <title>Professional Services CPQ & PSA Blog | Servantium Insights</title>
+    <meta name="description" content="Expert insights on professional services CPQ, PSA software, engagement management, and building systems that help consulting firms and agencies scale.">
 
     <!-- Open Graph / Social -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://servantium.com/blog">
-    <meta property="og:title" content="Blog — Servantium">
-    <meta property="og:description" content="Insights on professional services operations, CPQ for services, and building systems that help services businesses scale.">
+    <meta property="og:site_name" content="Servantium">
+    <meta property="og:title" content="Professional Services CPQ & PSA Blog — Servantium">
+    <meta property="og:description" content="Insights on professional services operations, CPQ for services, engagement management, and building systems that help services businesses scale.">
     <meta property="og:image" content="https://servantium.com/og-image.png">
+    <meta property="og:image:secure_url" content="https://servantium.com/og-image.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Servantium Blog - Professional Services CPQ & PSA Insights">
 
     <!-- Canonical -->
     <link rel="canonical" href="https://servantium.com/blog">
@@ -464,13 +470,26 @@
             width: 36px;
             height: 36px;
             border-radius: 50%;
-            background: var(--color-servantium-green);
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .author-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .blog-card-author a {
             display: flex;
             align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 600;
-            font-size: 0.8rem;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .blog-card-author a:hover .author-name {
+            color: var(--color-servantium-green);
         }
 
         .author-info {
@@ -730,11 +749,15 @@
                         <h2 class="blog-card-title">Why Services Businesses Need CPQ (And Why Spreadsheets Aren't Cutting It)</h2>
                         <p class="blog-card-excerpt">Product companies have had Configure, Price, Quote systems for decades. It's time services businesses caught up—here's why the old ways of pricing engagements are costing you margin.</p>
                         <div class="blog-card-author">
-                            <div class="author-avatar">CV</div>
-                            <div class="author-info">
-                                <span class="author-name">Christopher Veale</span>
-                                <span class="author-role">CEO, Servantium</span>
-                            </div>
+                            <a href="blog/authors/christopher-veale.html" onclick="event.stopPropagation();">
+                                <div class="author-avatar">
+                                    <img src="christopher-veale.png" alt="Christopher Veale" loading="lazy">
+                                </div>
+                                <div class="author-info">
+                                    <span class="author-name">Christopher Veale</span>
+                                    <span class="author-role">CEO, Servantium</span>
+                                </div>
+                            </a>
                         </div>
                     </div>
                 </a>
@@ -752,11 +775,15 @@
                         <h3 class="blog-card-title">The Real AI Opportunity: Building Institutional Memory</h3>
                         <p class="blog-card-excerpt">AI models are only as good as the data they learn from. The firms that will actually benefit are the ones building the institutional memory that makes AI worth using.</p>
                         <div class="blog-card-author">
-                            <div class="author-avatar">MF</div>
-                            <div class="author-info">
-                                <span class="author-name">Maxwell Friel</span>
-                                <span class="author-role">CTO, Servantium</span>
-                            </div>
+                            <a href="blog/authors/maxwell-friel.html" onclick="event.stopPropagation();">
+                                <div class="author-avatar">
+                                    <img src="maxwell-friel.png" alt="Maxwell Friel" loading="lazy">
+                                </div>
+                                <div class="author-info">
+                                    <span class="author-name">Maxwell Friel</span>
+                                    <span class="author-role">CTO, Servantium</span>
+                                </div>
+                            </a>
                         </div>
                     </div>
                 </a>
@@ -773,11 +800,15 @@
                         <h3 class="blog-card-title">The End of Tribal Knowledge: Why 2026 Is Different</h3>
                         <p class="blog-card-excerpt">The services industry is at an inflection point. Firms that encode their expertise into systems will compound. Those that don't will watch their best knowledge walk out the door.</p>
                         <div class="blog-card-author">
-                            <div class="author-avatar">CV</div>
-                            <div class="author-info">
-                                <span class="author-name">Christopher Veale</span>
-                                <span class="author-role">CEO, Servantium</span>
-                            </div>
+                            <a href="blog/authors/christopher-veale.html" onclick="event.stopPropagation();">
+                                <div class="author-avatar">
+                                    <img src="christopher-veale.png" alt="Christopher Veale" loading="lazy">
+                                </div>
+                                <div class="author-info">
+                                    <span class="author-name">Christopher Veale</span>
+                                    <span class="author-role">CEO, Servantium</span>
+                                </div>
+                            </a>
                         </div>
                     </div>
                 </a>
@@ -794,11 +825,15 @@
                         <h3 class="blog-card-title">AI Won't Save Your Services Business. Structure Will.</h3>
                         <p class="blog-card-excerpt">Professional services leads all sectors in AI adoption. But without operational structure, AI is just a faster way to make the same mistakes—at scale.</p>
                         <div class="blog-card-author">
-                            <div class="author-avatar">CV</div>
-                            <div class="author-info">
-                                <span class="author-name">Christopher Veale</span>
-                                <span class="author-role">CEO, Servantium</span>
-                            </div>
+                            <a href="blog/authors/christopher-veale.html" onclick="event.stopPropagation();">
+                                <div class="author-avatar">
+                                    <img src="christopher-veale.png" alt="Christopher Veale" loading="lazy">
+                                </div>
+                                <div class="author-info">
+                                    <span class="author-name">Christopher Veale</span>
+                                    <span class="author-role">CEO, Servantium</span>
+                                </div>
+                            </a>
                         </div>
                     </div>
                 </a>
@@ -815,11 +850,15 @@
                         <h3 class="blog-card-title">The Utilization Crisis: What 68.9% Means for Your Firm</h3>
                         <p class="blog-card-excerpt">Billable utilization has fallen to its lowest point in years. Here's what the data reveals about professional services—and what forward-thinking leaders are doing about it.</p>
                         <div class="blog-card-author">
-                            <div class="author-avatar">CV</div>
-                            <div class="author-info">
-                                <span class="author-name">Christopher Veale</span>
-                                <span class="author-role">CEO, Servantium</span>
-                            </div>
+                            <a href="blog/authors/christopher-veale.html" onclick="event.stopPropagation();">
+                                <div class="author-avatar">
+                                    <img src="christopher-veale.png" alt="Christopher Veale" loading="lazy">
+                                </div>
+                                <div class="author-info">
+                                    <span class="author-name">Christopher Veale</span>
+                                    <span class="author-role">CEO, Servantium</span>
+                                </div>
+                            </a>
                         </div>
                     </div>
                 </a>
