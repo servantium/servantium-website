@@ -307,6 +307,10 @@
         .footer-divider { opacity: 0.5; }
         .footer-bottom a { color: var(--color-white); text-decoration: none; transition: opacity 0.2s; }
         .footer-bottom a:hover { opacity: 1; text-decoration: underline; }
+        .footer-email-btn { background: none; border: none; color: var(--color-white); cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem; font-size: inherit; font-family: inherit; padding: 0; opacity: 0.7; transition: opacity 0.2s; }
+        .footer-email-btn:hover { opacity: 1; }
+        .footer-email-icon { opacity: 0.7; transition: opacity 0.2s; }
+        .footer-email-btn:hover .footer-email-icon { opacity: 1; }
 
         @media (max-width: 768px) {
             .nav-links, .nav-buttons { display: none; }
@@ -458,7 +462,13 @@
                 <div class="footer-bottom-left">
                     <span>&copy; 2026 Servantium Inc.</span>
                     <span class="footer-divider">&middot;</span>
-                    <a href="mailto:hello@servantium.com">hello@servantium.com</a>
+                    <button class="footer-email-btn" onclick="copyEmail(event)">
+                        <span class="footer-email-text">hello@servantium.com</span>
+                        <svg class="footer-email-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </button>
                 </div>
                 <div class="footer-bottom-right">
                     <span>Founded by <a href="https://linkedin.com/in/christopher-veale">Christopher Veale</a> & <a href="https://linkedin.com/in/maxwell-friel-2bb02b30">Maxwell Friel</a></span>
@@ -520,6 +530,22 @@
         localStorage.setItem('servantium_cookie_consent', 'declined');
         document.getElementById('cookie-consent').style.display = 'none';
         document.body.style.paddingBottom = '';
+    }
+    function copyEmail(event) {
+        const email = 'hello@servantium.com';
+        const btn = event.currentTarget;
+        const text = btn.querySelector('.footer-email-text');
+        const icon = btn.querySelector('.footer-email-icon');
+        navigator.clipboard.writeText(email).then(function() {
+            btn.classList.add('copied');
+            text.textContent = 'Copied!';
+            icon.innerHTML = '<polyline points="20 6 9 17 4 12"></polyline>';
+            setTimeout(function() {
+                btn.classList.remove('copied');
+                text.textContent = email;
+                icon.innerHTML = '<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>';
+            }, 2000);
+        });
     }
     </script>
 </body>

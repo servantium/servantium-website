@@ -800,6 +800,33 @@
             text-decoration: underline;
         }
 
+        .footer-email-btn {
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.7);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: inherit;
+            font-family: inherit;
+            padding: 0;
+            transition: color 0.2s;
+        }
+
+        .footer-email-btn:hover {
+            color: white;
+        }
+
+        .footer-email-icon {
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .footer-email-btn:hover .footer-email-icon {
+            opacity: 1;
+        }
+
         /* Mobile Menu */
         .mobile-menu-toggle {
             display: none;
@@ -1263,7 +1290,13 @@
                 <div class="footer-bottom-left">
                     <span>© 2026 Servantium Inc.</span>
                     <span class="footer-divider">·</span>
-                    <a href="mailto:hello@servantium.com">hello@servantium.com</a>
+                    <button class="footer-email-btn" onclick="copyEmail(event)">
+                        <span class="footer-email-text">hello@servantium.com</span>
+                        <svg class="footer-email-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </button>
                 </div>
                 <div class="footer-bottom-right">
                     <span>Founded by <a href="https://linkedin.com/in/christopher-veale">Christopher Veale</a> & <a href="https://linkedin.com/in/maxwell-friel-2bb02b30">Maxwell Friel</a></span>
