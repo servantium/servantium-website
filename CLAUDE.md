@@ -176,6 +176,90 @@
 - Add to sitemap.xml
 - Link from blog.html listing
 
+---
+
+## Shared Components (Keep in Sync!)
+
+**CRITICAL:** These components appear in multiple files. When updating, sync ALL files.
+
+### Files with shared components
+
+| File | Nav | Footer | Cookie Banner |
+|------|-----|--------|---------------|
+| index.html | ✓ | ✓ | ✓ |
+| about.html | ✓ | ✓ | ✓ |
+| blog.html | ✓ | ✓ | ✓ |
+| 404.html | ✓ | Simplified | ✓ |
+| blog/why-services-businesses-need-cpq.html | ✓ | ✓ | ✓ |
+| blog/the-end-of-tribal-knowledge.html | ✓ | ✓ | ✓ |
+| blog/ai-wont-save-services-structure-will.html | ✓ | ✓ | ✓ |
+| blog/the-utilization-crisis-2025.html | ✓ | ✓ | ✓ |
+| blog/the-real-ai-opportunity-institutional-memory.html | ✓ | ✓ | ✓ |
+| blog/authors/christopher-veale.html | ✓ | ✓ | ✓ |
+| blog/authors/maxwell-friel.html | ✓ | ✓ | ✓ |
+
+### Footer Structure (current)
+
+```html
+<footer>
+    <div class="container">
+        <div class="footer-grid">
+            <!-- 4 columns: Brand, Explore, Company, Legal -->
+        </div>
+        <div class="footer-bottom">
+            <div class="footer-bottom-left">
+                <span>© 2026 Servantium Inc.</span>
+                <span class="footer-divider">·</span>
+                <button class="footer-email-btn" onclick="copyEmail(event)">...</button>
+            </div>
+            <div class="footer-bottom-right">
+                <span>Founded by <a href="...">Christopher Veale</a> & <a href="...">Maxwell Friel</a></span>
+            </div>
+        </div>
+    </div>
+</footer>
+```
+
+### Footer CSS required
+```css
+.footer-email-btn { background: none; border: none; color: var(--color-white); cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem; font-size: inherit; font-family: inherit; padding: 0; opacity: 0.7; transition: opacity 0.2s; }
+.footer-email-btn:hover { opacity: 1; }
+.footer-email-icon { opacity: 0.7; transition: opacity 0.2s; }
+.footer-email-btn:hover .footer-email-icon { opacity: 1; }
+```
+
+### Footer JS required (copyEmail function)
+```javascript
+function copyEmail(event) {
+    const email = 'hello@servantium.com';
+    const btn = event.currentTarget;
+    const text = btn.querySelector('.footer-email-text');
+    const icon = btn.querySelector('.footer-email-icon');
+    navigator.clipboard.writeText(email).then(function() {
+        btn.classList.add('copied');
+        text.textContent = 'Copied!';
+        icon.innerHTML = '<polyline points="20 6 9 17 4 12"></polyline>';
+        setTimeout(function() {
+            btn.classList.remove('copied');
+            text.textContent = email;
+            icon.innerHTML = '<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>';
+        }, 2000);
+    });
+}
+```
+
+### Navigation links (relative paths vary by depth)
+- Root pages: `index.html`, `about.html`, `blog.html`
+- Blog posts: `../index.html`, `../about.html`, `../blog.html`
+- Author pages: `../../index.html`, `../../about.html`, `../../blog.html`
+
+### Social links in footer
+- LinkedIn company: `https://linkedin.com/company/servantium`
+- Format: "Follow us on" + icon button
+
+### 404 page footer (simplified)
+The 404 page has a minimal footer: `Lost? <a href="mailto:...">Contact us</a> | Privacy | Terms`
+
 ## Current Work: Pricing/Feature Table
 
 **Status:** Implemented (2026-01-28) - Review needed
@@ -218,6 +302,11 @@
 - [x] SEO optimization: Titles, H1s, H2s, metas with "Professional Services CPQ"
 - [x] Open Graph meta tags: Added width/height/alt/site_name
 - [x] llms.txt rewritten: OS framing, "What It's Not" section
+- [x] Footer redesign: less tall, better balanced, "Follow us on" format
+- [x] Footer email: copy-to-clipboard button (not mailto link)
+- [x] Floating share sidebar on blog posts (LinkedIn, X, copy link)
+- [x] Footer navigation synced across all 11 pages
+- [x] Added shared components documentation to CLAUDE.md
 
 ---
 
