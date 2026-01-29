@@ -197,11 +197,14 @@
 
 ## Known Issues / TODOs
 
-- [ ] Privacy and Terms pages are placeholders
+- [ ] Terms page is placeholder
 - [ ] Images don't use lazy loading
 - [x] ~~Implement pricing/feature comparison table~~
 - [x] ~~Add llms.txt for AI search visibility~~
 - [x] ~~Add og-image.png for social shares~~
+- [x] ~~Privacy policy with GDPR rights~~
+- [x] ~~GA4 Analytics with cookie consent~~
+- [x] ~~Test environment protection (noindex, no analytics)~~
 
 ---
 
@@ -222,17 +225,18 @@
 3. Verify ownership
 4. Submit sitemap (covers Bing, Yahoo, DuckDuckGo)
 
-### Analytics (Optional but Recommended)
-1. Create GA4 property at https://analytics.google.com
-2. Get Measurement ID (G-XXXXXXXXXX)
-3. Add tracking script to all HTML pages (in `<head>`)
-4. If adding analytics, also add cookie consent banner (GDPR/CCPA)
+### Analytics ✅ COMPLETED
+- GA4 Property ID: `G-6EFX4FNH6H`
+- Cookie consent banner implemented on all pages
+- Analytics only loads after user accepts cookies
+- Automatically disabled on test.servantium.com
 
 ### DNS/Hosting (Cloudflare Pages)
-- [ ] Connect GitHub repo to Cloudflare Pages for production (servantium.com)
-- [ ] Set up test environment (test.servantium.com) on separate Cloudflare Pages project
-- [ ] Configure custom domains in Cloudflare Pages dashboard
-- [ ] Verify SSL certificate is active (automatic with Cloudflare)
+- [x] Connect GitHub repo to Cloudflare Pages
+- [x] Set up test environment (test.servantium.com) pointing to `develop` branch
+- [ ] Add production domain (servantium.com) pointing to `main` branch
+- [x] Configure custom domains in Cloudflare Pages dashboard
+- [ ] Verify SSL certificate is active on production
 - [ ] Test all pages load correctly on production domain
 
 ---
@@ -261,6 +265,15 @@ Cloudflare Pages provides:
 3. **Review:** Verify changes at test.servantium.com
 4. **Production:** Merge `develop` → `main` → auto-deploys to servantium.com
 
+### Test Environment Protection
+
+All HTML files include a script that detects `test.servantium.com` and:
+- Injects `<meta name="robots" content="noindex, nofollow">` to block search indexing
+- Disables GA4 analytics entirely
+- Shows an orange "TEST ENVIRONMENT" banner at the top of the page
+
+This ensures test content never appears in search results or pollutes analytics data.
+
 ### Cloudflare Pages Setup
 
 **To set up the pipeline:**
@@ -278,7 +291,13 @@ Cloudflare Pages provides:
    - Option B: Use Cloudflare's branch preview URLs (auto-generated)
    - Add custom domain: test.servantium.com
 
-**Recommended:** Use two separate Cloudflare Pages projects for cleaner separation between test and production environments.
+### Cloudflare Branch Settings
+
+**Current setup uses single project with branch deployments:**
+- Production branch: `main` → servantium.com
+- Preview branches: All non-production (includes `develop`) → test.servantium.com
+
+**Branch control:** Set to "All non-production branches" - no include/exclude rules needed since `develop` is automatically included.
 
 ---
 
