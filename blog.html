@@ -470,13 +470,15 @@
             width: 36px;
             height: 36px;
             border-radius: 50%;
-            background: var(--color-servantium-green);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 600;
-            font-size: 0.8rem;
+            background: white;
+            border: 2px solid var(--color-cloud-grey);
+            overflow: hidden;
+        }
+
+        .author-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .author-info {
@@ -588,6 +590,63 @@
             opacity: 0.5;
             line-height: 1.6;
             margin-top: 1rem;
+        }
+
+        .email-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 1rem;
+        }
+
+        .email-chip:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .email-chip-text {
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            color: var(--color-white);
+        }
+
+        .email-chip-icon {
+            width: 16px;
+            height: 16px;
+            color: var(--color-white);
+            opacity: 0.7;
+        }
+
+        .email-chip.copied {
+            background: var(--color-servantium-green);
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--color-white);
+            transition: all 0.2s ease;
+        }
+
+        .social-link:hover {
+            background: var(--color-servantium-green);
+            transform: translateY(-2px);
         }
 
         .footer-column h4 {
@@ -736,7 +795,7 @@
                         <h2 class="blog-card-title">Why Services Businesses Need CPQ (And Why Spreadsheets Aren't Cutting It)</h2>
                         <p class="blog-card-excerpt">Product companies have had Configure, Price, Quote systems for decades. It's time services businesses caught up—here's why the old ways of pricing engagements are costing you margin.</p>
                         <div class="blog-card-author">
-                            <div class="author-avatar">CV</div>
+                            <div class="author-avatar"><img src="christopher-veale.png" alt="Christopher Veale" loading="lazy"></div>
                             <div class="author-info">
                                 <span class="author-name">Christopher Veale</span>
                                 <span class="author-role">CEO, Servantium</span>
@@ -758,7 +817,7 @@
                         <h3 class="blog-card-title">The Real AI Opportunity: Building Institutional Memory</h3>
                         <p class="blog-card-excerpt">AI models are only as good as the data they learn from. The firms that will actually benefit are the ones building the institutional memory that makes AI worth using.</p>
                         <div class="blog-card-author">
-                            <div class="author-avatar">MF</div>
+                            <div class="author-avatar"><img src="maxwell-friel.png" alt="Maxwell Friel" loading="lazy"></div>
                             <div class="author-info">
                                 <span class="author-name">Maxwell Friel</span>
                                 <span class="author-role">CTO, Servantium</span>
@@ -779,7 +838,7 @@
                         <h3 class="blog-card-title">The End of Tribal Knowledge: Why 2026 Is Different</h3>
                         <p class="blog-card-excerpt">The services industry is at an inflection point. Firms that encode their expertise into systems will compound. Those that don't will watch their best knowledge walk out the door.</p>
                         <div class="blog-card-author">
-                            <div class="author-avatar">CV</div>
+                            <div class="author-avatar"><img src="christopher-veale.png" alt="Christopher Veale" loading="lazy"></div>
                             <div class="author-info">
                                 <span class="author-name">Christopher Veale</span>
                                 <span class="author-role">CEO, Servantium</span>
@@ -800,7 +859,7 @@
                         <h3 class="blog-card-title">AI Won't Save Your Services Business. Structure Will.</h3>
                         <p class="blog-card-excerpt">Professional services leads all sectors in AI adoption. But without operational structure, AI is just a faster way to make the same mistakes—at scale.</p>
                         <div class="blog-card-author">
-                            <div class="author-avatar">CV</div>
+                            <div class="author-avatar"><img src="christopher-veale.png" alt="Christopher Veale" loading="lazy"></div>
                             <div class="author-info">
                                 <span class="author-name">Christopher Veale</span>
                                 <span class="author-role">CEO, Servantium</span>
@@ -821,7 +880,7 @@
                         <h3 class="blog-card-title">The Utilization Crisis: What 68.9% Means for Your Firm</h3>
                         <p class="blog-card-excerpt">Billable utilization has fallen to its lowest point in years. Here's what the data reveals about professional services—and what forward-thinking leaders are doing about it.</p>
                         <div class="blog-card-author">
-                            <div class="author-avatar">CV</div>
+                            <div class="author-avatar"><img src="christopher-veale.png" alt="Christopher Veale" loading="lazy"></div>
                             <div class="author-info">
                                 <span class="author-name">Christopher Veale</span>
                                 <span class="author-role">CEO, Servantium</span>
@@ -853,6 +912,20 @@
                         1111B S Governors Ave STE 48074<br>
                         Dover, DE 19904
                     </address>
+                    <button class="email-chip footer-email-chip" onclick="copyEmail(event)" aria-label="Copy email address">
+                        <span class="email-chip-text">hello@servantium.com</span>
+                        <svg class="email-chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </button>
+                    <div class="footer-social">
+                        <a href="https://linkedin.com/company/servantium" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Follow Servantium on LinkedIn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                        </a>
+                    </div>
                 </div>
                 <div class="footer-column">
                     <h4>Product</h4>
@@ -886,6 +959,28 @@
     </footer>
 
     <script>
+        // Email Copy to Clipboard
+        function copyEmail(event) {
+            const email = 'hello@servantium.com';
+            const chip = event ? event.currentTarget : document.getElementById('email-chip');
+            const text = chip.querySelector('.email-chip-text');
+            const icon = chip.querySelector('.email-chip-icon');
+
+            navigator.clipboard.writeText(email).then(function() {
+                chip.classList.add('copied');
+                text.textContent = 'Copied!';
+                icon.innerHTML = '<polyline points="20 6 9 17 4 12"></polyline>';
+
+                setTimeout(function() {
+                    chip.classList.remove('copied');
+                    text.textContent = email;
+                    icon.innerHTML = '<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>';
+                }, 2000);
+            }).catch(function(err) {
+                window.location.href = 'mailto:' + email;
+            });
+        }
+
         // Mobile Menu Toggle
         const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
         const mobileMenu = document.getElementById('mobile-menu');
