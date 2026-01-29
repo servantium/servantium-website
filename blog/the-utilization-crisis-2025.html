@@ -228,10 +228,124 @@
         .footer-divider { opacity: 0.5; }
         .footer-bottom a { color: var(--color-white); text-decoration: none; transition: opacity 0.2s; }
         .footer-bottom a:hover { opacity: 1; text-decoration: underline; }
-        .footer-email-btn { background: none; border: none; color: var(--color-white); cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem; font-size: inherit; font-family: inherit; padding: 0; opacity: 0.7; transition: opacity 0.2s; }
-        .footer-email-btn:hover { opacity: 1; }
-        .footer-email-icon { opacity: 0.7; transition: opacity 0.2s; }
-        .footer-email-btn:hover .footer-email-icon { opacity: 1; }
+        .footer-email-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: transparent;
+            border: 1.5px solid var(--color-servantium-green);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+            font-size: 0.85rem;
+        }
+
+        .footer-email-chip:hover {
+            background: rgba(0, 194, 109, 0.15);
+        }
+
+        .footer-email-chip-text {
+            color: var(--color-servantium-green);
+            font-weight: 500;
+        }
+
+        .footer-email-chip-icon {
+            width: 14px;
+            height: 14px;
+            color: var(--color-servantium-green);
+            flex-shrink: 0;
+        }
+
+        .footer-email-chip.copied {
+            background: var(--color-servantium-green);
+            border-color: var(--color-servantium-green);
+        }
+
+        .footer-email-chip.copied .footer-email-chip-text,
+        .footer-email-chip.copied .footer-email-chip-icon {
+            color: white;
+        }
+
+        /* Floating Share Sidebar */
+        .share-sidebar {
+            position: fixed;
+            left: calc(50% - 500px);
+            top: 200px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            z-index: 50;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .share-sidebar.faded {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .share-sidebar-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .share-sidebar-btn.linkedin {
+            background: #0A66C2;
+            color: white;
+        }
+
+        .share-sidebar-btn.linkedin:hover {
+            background: #004182;
+            transform: scale(1.1);
+        }
+
+        .share-sidebar-btn.twitter {
+            background: #000000;
+            color: white;
+        }
+
+        .share-sidebar-btn.twitter:hover {
+            background: #333333;
+            transform: scale(1.1);
+        }
+
+        .share-sidebar-btn.copy {
+            background: var(--color-mist-grey);
+            color: var(--color-ink);
+            border: 1px solid var(--color-cloud-grey);
+        }
+
+        .share-sidebar-btn.copy:hover {
+            background: var(--color-cloud-grey);
+            transform: scale(1.1);
+        }
+
+        .share-sidebar-btn.copy.copied {
+            background: var(--color-servantium-green);
+            color: white;
+            border-color: var(--color-servantium-green);
+        }
+
+        .share-sidebar-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        @media (max-width: 1200px) {
+            .share-sidebar {
+                display: none;
+            }
+        }
 
         @media (max-width: 768px) {
             .nav-links, .nav-buttons { display: none; }
@@ -289,6 +403,19 @@
             </div>
         </div>
     </header>
+
+    <!-- Floating Share Sidebar -->
+    <div class="share-sidebar" id="share-sidebar">
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fservantium.com%2Fblog%2Fthe-utilization-crisis-2025" target="_blank" rel="noopener noreferrer" class="share-sidebar-btn linkedin" aria-label="Share on LinkedIn">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+        <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fservantium.com%2Fblog%2Fthe-utilization-crisis-2025&text=The%20Utilization%20Crisis%3A%20What%2068.9%25%20Means%20for%20Your%20Firm%20%E2%80%94%20great%20read%20from%20%40Servantium" target="_blank" rel="noopener noreferrer" class="share-sidebar-btn twitter" aria-label="Share on X">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <button class="share-sidebar-btn copy" onclick="copySidebarLink(this)" aria-label="Copy link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+        </button>
+    </div>
 
     <div class="article-hero-image">
         <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=600&fit=crop" alt="Professional services analytics and metrics" loading="lazy">
@@ -477,9 +604,9 @@
                 <div class="footer-bottom-left">
                     <span>&copy; 2026 Servantium Inc.</span>
                     <span class="footer-divider">&middot;</span>
-                    <button class="footer-email-btn" onclick="copyEmail(event)">
-                        <span class="footer-email-text">hello@servantium.com</span>
-                        <svg class="footer-email-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <button class="footer-email-chip" onclick="copyFooterEmail(this)">
+                        <span class="footer-email-chip-text">hello@servantium.com</span>
+                        <svg class="footer-email-chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                             <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                         </svg>
@@ -546,11 +673,51 @@
         document.getElementById('cookie-consent').style.display = 'none';
         document.body.style.paddingBottom = '';
     }
-    function copyEmail(event) {
+    // Share Sidebar Scroll Behavior
+    (function() {
+        const sidebar = document.getElementById('share-sidebar');
+        if (!sidebar) return;
+
+        const articleContent = document.querySelector('.article-content');
+        if (!articleContent) return;
+
+        function updateSidebarVisibility() {
+            const articleRect = articleContent.getBoundingClientRect();
+            const articleTop = articleRect.top + window.scrollY;
+            const articleHeight = articleContent.offsetHeight;
+            const halfwayPoint = articleTop + (articleHeight / 2);
+            const scrollY = window.scrollY;
+
+            // Fade out after scrolling past halfway through the article
+            if (scrollY > halfwayPoint) {
+                sidebar.classList.add('faded');
+            } else {
+                sidebar.classList.remove('faded');
+            }
+        }
+
+        window.addEventListener('scroll', updateSidebarVisibility, { passive: true });
+        updateSidebarVisibility();
+    })();
+
+    // Copy Sidebar Link
+    function copySidebarLink(button) {
+        const url = window.location.href.split('?')[0];
+        navigator.clipboard.writeText(url).then(function() {
+            button.classList.add('copied');
+            button.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+
+            setTimeout(function() {
+                button.classList.remove('copied');
+                button.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>';
+            }, 2000);
+        });
+    }
+
+    function copyFooterEmail(btn) {
         const email = 'hello@servantium.com';
-        const btn = event.currentTarget;
-        const text = btn.querySelector('.footer-email-text');
-        const icon = btn.querySelector('.footer-email-icon');
+        const text = btn.querySelector('.footer-email-chip-text');
+        const icon = btn.querySelector('.footer-email-chip-icon');
         navigator.clipboard.writeText(email).then(function() {
             btn.classList.add('copied');
             text.textContent = 'Copied!';
@@ -560,6 +727,8 @@
                 text.textContent = email;
                 icon.innerHTML = '<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>';
             }, 2000);
+        }).catch(function() {
+            window.location.href = 'mailto:' + email;
         });
     }
     </script>
