@@ -199,18 +199,71 @@
 
 ## Known Issues / TODOs
 
+### Pending
 - [ ] Terms page is placeholder (lawyer will handle)
-- [ ] LinkedIn feed widget on blog page (Elfsight, free tier 200 views) — decide after analytics data
-- [x] ~~Implement pricing/feature comparison table~~
-- [x] ~~Add llms.txt for AI search visibility~~
-- [x] ~~Add og-image.png for social shares~~
-- [x] ~~Privacy policy with GDPR rights~~
-- [x] ~~GA4 Analytics with cookie consent~~
-- [x] ~~Test environment protection (noindex, no analytics)~~
-- [x] ~~Images lazy loading~~
-- [x] ~~Author pages for blog (Christopher Veale, Maxwell Friel)~~
-- [x] ~~Related posts section on all blog articles~~
-- [x] ~~404 page footer link consistency~~
+- [ ] LinkedIn feed widget on blog page (Elfsight) — decide after analytics data
+- [ ] Set up LinkedIn company page and add URL to footer
+
+### Content Backlog (Post-Launch SEO)
+- [ ] Blog: "Professional Services CPQ vs. PSA: What's the Difference?"
+- [ ] Blog: "How Professional Services CPQ Improves Utilization"
+- [ ] Blog: "Consulting Firm CPQ: Pricing Engagements for Margin"
+- [ ] Landing page: "Professional Services CPQ Solutions"
+
+### Completed (Session 2026-01-29)
+- [x] og-image.png resized to 1200x630 (optimal social preview size)
+- [x] Blog author avatars: now use photos with links to author pages
+- [x] Removed Twitter Cards (no Twitter account)
+- [x] Mobile game controls: iOS arcade-style with fixed joystick and auto-fire
+- [x] SEO optimization: Titles, H1s, H2s, metas with "Professional Services CPQ"
+- [x] Open Graph meta tags: Added width/height/alt/site_name
+- [x] llms.txt rewritten: OS framing, "What It's Not" section
+
+---
+
+## SEO Strategy: Professional Services CPQ Dominance
+
+**Goal:** Become #1 landing place for "Professional Services CPQ" and "Professional Services PSA" searches.
+
+### Primary Keywords (Optimized 2026-01-29)
+- Professional Services CPQ
+- CPQ for services / Services CPQ
+- Professional Services PSA
+- Engagement management platform
+- Consulting CPQ
+
+### Page Title Strategy
+| Page | Title |
+|------|-------|
+| Homepage | Professional Services CPQ & Engagement Management Platform \| Servantium |
+| Blog | Professional Services CPQ & PSA Blog \| Servantium Insights |
+| About | About Servantium — The Founders & Our Mission |
+
+### H1/H2 Optimization (Homepage)
+- H1: "The operating system for professional services."
+- H2s include: "Why Professional Services Firms Struggle", "Engagement Management for Professional Services", "Professional Services CPQ & PSA Pricing", "Professional Services CPQ & Engagement Management FAQ"
+
+### Content Cluster Opportunities (Future)
+1. New blog post: "Professional Services CPQ vs. PSA: What's the Difference?"
+2. New blog post: "How Professional Services CPQ Improves Utilization"
+3. New blog post: "Consulting Firm CPQ: Pricing Engagements for Margin"
+4. Dedicated landing page: "Professional Services CPQ Solutions"
+
+---
+
+## Open Graph & Social Sharing
+
+### Current Implementation
+All pages have complete OG meta tags including:
+- `og:image:width` and `og:image:height` (required for iOS/iMessage)
+- `og:image:alt` for accessibility
+- `og:site_name` for brand consistency
+- `og:image:secure_url` for HTTPS
+
+### Image Specifications
+- **og-image.png**: 1200x630px (optimal for all social platforms)
+- Blog posts use Unsplash images with `?w=1200&h=630&fit=crop`
+- Author pages use profile photos at 400x400px
 
 ---
 
@@ -229,7 +282,6 @@
 ### Social Media
 - [ ] Create LinkedIn company page for Servantium
 - [ ] Add LinkedIn URL to website footer
-- [ ] Consider: Twitter/X, maybe later
 
 ### Post-Launch
 - [ ] Request indexing for key pages in Search Console
@@ -310,6 +362,34 @@ This ensures test content never appears in search results or pollutes analytics 
 - Preview branches: All non-production (includes `develop`) → test.servantium.com
 
 **Branch control:** Set to "All non-production branches" - no include/exclude rules needed since `develop` is automatically included.
+
+---
+
+## Easter Egg: Asteroids Game
+
+Hidden game in the hero section of the homepage. Activated by double-clicking/tapping the sun (orbital core).
+
+### Controls
+- **Desktop:** Arrow keys to move, Space to shoot, Escape to exit
+- **Mobile:** Virtual joystick (left) for movement, fire button (right) with auto-fire
+
+### Touch Controls Implementation
+- Fixed joystick at bottom-left (iOS arcade style)
+- Fixed fire button at bottom-right with "FIRE" label
+- Thrust indicator shows when thrusting
+- Auto-fire while holding fire button (150ms interval)
+
+---
+
+## AI Search Visibility (llms.txt)
+
+The llms.txt file has been rewritten with:
+1. **OS framing** - Explicitly states Servantium is not a traditional PSA or CPQ
+2. **"What It's Not" section** - Prevents misclassification by LLMs
+3. **Institutional Memory Engine** - Named as a distinct system, not just a feature
+4. **Engagement-centric model** - Emphasized as core differentiator
+5. **Grounded learning language** - Concrete descriptions of what "learning" means (engagement data, delivery outcomes, margin performance)
+6. **Qualified target audience** - Initially focused on consulting, IT services, and agencies
 
 ---
 
