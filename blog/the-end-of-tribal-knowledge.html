@@ -4,11 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Cookie Consent & Analytics -->
+    <!-- Test Environment Detection & Analytics -->
     <script>
     (function() {
+        var isTestEnv = window.location.hostname === 'test.servantium.com';
+
+        // Block indexing on test environment
+        if (isTestEnv) {
+            var noindex = document.createElement('meta');
+            noindex.name = 'robots';
+            noindex.content = 'noindex, nofollow';
+            document.head.appendChild(noindex);
+        }
+
+        // Only load analytics on production AND with consent
         var consent = localStorage.getItem('servantium_cookie_consent');
-        if (consent === 'accepted') {
+        if (consent === 'accepted' && !isTestEnv) {
             var script = document.createElement('script');
             script.async = true;
             script.src = 'https://www.googletagmanager.com/gtag/js?id=G-6EFX4FNH6H';
@@ -18,6 +29,17 @@
             window.gtag = gtag;
             gtag('js', new Date());
             gtag('config', 'G-6EFX4FNH6H');
+        }
+
+        // Show test environment banner
+        if (isTestEnv) {
+            document.addEventListener('DOMContentLoaded', function() {
+                var banner = document.createElement('div');
+                banner.style.cssText = 'position:fixed;top:0;left:0;right:0;background:#ff6b35;color:#fff;text-align:center;padding:8px;font-size:14px;font-weight:600;z-index:99999;';
+                banner.textContent = 'TEST ENVIRONMENT — Changes here do not affect production';
+                document.body.prepend(banner);
+                document.body.style.paddingTop = '40px';
+            });
         }
     })();
     </script>
