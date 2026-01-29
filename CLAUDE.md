@@ -13,6 +13,7 @@
 - **Vanilla JS** - Minimal JavaScript for mobile menu and interactions
 - **Google Fonts** - Playfair Display (headings) + Source Sans 3 (body)
 - **Cal.com** - Embedded booking system for demos
+- **Cloudflare Pages** - Static site hosting with global CDN
 
 ## File Structure & Paths
 
@@ -227,11 +228,58 @@
 3. Add tracking script to all HTML pages (in `<head>`)
 4. If adding analytics, also add cookie consent banner (GDPR/CCPA)
 
-### DNS/Hosting
-- [ ] Point servantium.com DNS to hosting provider
-- [ ] Verify SSL certificate is active
+### DNS/Hosting (Cloudflare Pages)
+- [ ] Connect GitHub repo to Cloudflare Pages for production (servantium.com)
+- [ ] Set up test environment (test.servantium.com) on separate Cloudflare Pages project
+- [ ] Configure custom domains in Cloudflare Pages dashboard
+- [ ] Verify SSL certificate is active (automatic with Cloudflare)
 - [ ] Test all pages load correctly on production domain
 
 ---
 
-*Last updated: 2026-01-28*
+## Hosting & Deployment
+
+**Platform:** Cloudflare Pages
+
+Cloudflare Pages provides:
+- Global CDN for fast page loads
+- Automatic SSL certificates
+- Git-based deployments
+- Preview URLs for branches/PRs
+
+### Environment Setup
+
+| Environment | Domain | Branch | Purpose |
+|-------------|--------|--------|---------|
+| Production | servantium.com | `main` | Live public site |
+| Test | test.servantium.com | `develop` | Pre-production testing |
+
+### Deployment Workflow
+
+1. **Development:** Make changes locally, commit to `develop` branch
+2. **Test:** Push to `develop` → auto-deploys to test.servantium.com
+3. **Review:** Verify changes at test.servantium.com
+4. **Production:** Merge `develop` → `main` → auto-deploys to servantium.com
+
+### Cloudflare Pages Setup
+
+**To set up the pipeline:**
+
+1. **Production Project:**
+   - Go to Cloudflare Dashboard → Pages → Create a project
+   - Connect GitHub repo
+   - Set production branch to `main`
+   - Add custom domain: servantium.com
+   - Build settings: None (static HTML)
+
+2. **Test Project (separate project):**
+   - Create another Pages project OR use preview deployments
+   - Option A: Separate project with `develop` branch as production
+   - Option B: Use Cloudflare's branch preview URLs (auto-generated)
+   - Add custom domain: test.servantium.com
+
+**Recommended:** Use two separate Cloudflare Pages projects for cleaner separation between test and production environments.
+
+---
+
+*Last updated: 2026-01-29*

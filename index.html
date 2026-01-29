@@ -2849,7 +2849,7 @@
                         </div>
                         <div class="lifecycle-step-content">
                             <div class="lifecycle-step-content-inner">
-                                <img src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=800&h=400&fit=crop" alt="Proposal">
+                                <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&h=400&fit=crop" alt="Proposal">
                                 <div class="lifecycle-step-content-text">
                                     <h4>Proposal</h4>
                                     <p>Generate proposals that reflect your actual service architecture. Scope, pricing, and deliverables flow from your estimation work.</p>
@@ -3025,6 +3025,12 @@
                             <td class="category-cell" colspan="4">Project Management <span class="roadmap-badge" style="margin-left: 0.5rem;">Coming Soon</span></td>
                         </tr>
                         <tr>
+                            <td class="feature-name">Resource Forecasting</td>
+                            <td><span class="feature-dash">—</span></td>
+                            <td><span class="roadmap-badge">Coming Soon</span></td>
+                            <td><span class="roadmap-badge">Coming Soon</span></td>
+                        </tr>
+                        <tr>
                             <td class="feature-name">Project Tracking</td>
                             <td><span class="feature-dash">—</span></td>
                             <td><span class="roadmap-badge">Roadmap</span></td>
@@ -3042,12 +3048,6 @@
                             <td><span class="roadmap-badge">Roadmap</span></td>
                             <td><span class="roadmap-badge">Roadmap</span></td>
                         </tr>
-                        <tr>
-                            <td class="feature-name">Resource Forecasting</td>
-                            <td><span class="feature-dash">—</span></td>
-                            <td><span class="roadmap-badge">Coming Soon</span></td>
-                            <td><span class="roadmap-badge">Coming Soon</span></td>
-                        </tr>
 
                         <!-- Platform & Integrations -->
                         <tr class="category-row">
@@ -3056,7 +3056,7 @@
                         <tr>
                             <td class="feature-name">Multi-Organization Support</td>
                             <td><span class="feature-dash">—</span></td>
-                            <td><span class="feature-dash">—</span></td>
+                            <td><svg class="feature-check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
                             <td><svg class="feature-check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
                         </tr>
                         <tr>
@@ -3203,7 +3203,7 @@
                     <div class="faq-answer">
                         <div class="faq-answer-content">
                             <p>Day-one usability is non-negotiable for us. Most teams are up and running within days, not months. You can start by encoding your most common service offerings and expand from there.</p>
-                            <p>We offer guided onboarding for Professional plans and custom implementation support for Enterprise customers who need deeper integration with existing systems.</p>
+                            <p>We offer guided onboarding for Teams plans and custom implementation support for Enterprise customers who need deeper integration with existing systems.</p>
                         </div>
                     </div>
                 </div>
@@ -3215,7 +3215,8 @@
                     </button>
                     <div class="faq-answer">
                         <div class="faq-answer-content">
-                            <p>Servantium provides API access on Professional and Enterprise plans, allowing you to connect with your existing CRM, accounting systems, and other business tools. We're building integrations with popular platforms—contact us to discuss your specific needs.</p>
+                            <p>Servantium is built API-first—every feature in Servantium has a corresponding API. We're actively testing these private APIs and using them to build and extend third-party integrations.</p>
+                            <p>API access will be available on Teams and Enterprise plans, allowing you to connect with your existing CRM, accounting systems, and other business tools. We'll provide customer access to developer endpoints in a future release, but customers can contact us for early previews.</p>
                         </div>
                     </div>
                 </div>
@@ -3475,7 +3476,7 @@
             {
                 title: "Proposal",
                 description: "Generate proposals that reflect your actual service architecture—not copy-pasted templates. Scope, pricing, and deliverables flow directly from your estimation work.",
-                image: "https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=800&h=400&fit=crop"
+                image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&h=400&fit=crop"
             },
             {
                 title: "Contract",
@@ -4576,15 +4577,15 @@
     </script>
 
     <!-- Cookie Consent Banner -->
-    <div id="cookie-consent" style="display: none; position: fixed; bottom: 0; left: 0; right: 0; background: #1a1a2e; color: #fff; padding: 16px 24px; z-index: 10000; box-shadow: 0 -4px 20px rgba(0,0,0,0.3);">
+    <div id="cookie-consent" style="display: none; position: fixed; bottom: 0; left: 0; right: 0; background: #1a1a2e; padding: 16px 24px; z-index: 10000; box-shadow: 0 -4px 20px rgba(0,0,0,0.3);">
         <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px;">
-            <p style="margin: 0; flex: 1; min-width: 280px; font-size: 14px; line-height: 1.5;">
+            <p style="margin: 0; flex: 1; min-width: 280px; font-size: 14px; line-height: 1.5; color: #d1d5db;">
                 We use cookies to analyze site traffic and improve your experience. By clicking "Accept All", you consent to our use of analytics cookies.
-                <a href="/privacy" style="color: #00A95E; text-decoration: underline;">Privacy Policy</a>
+                <a href="/privacy" style="color: #00C26D; text-decoration: underline;">Privacy Policy</a>
             </p>
             <div style="display: flex; gap: 12px; flex-shrink: 0;">
-                <button onclick="declineCookies()" style="padding: 10px 20px; background: transparent; border: 1px solid #666; color: #fff; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.2s;">Decline All</button>
-                <button onclick="acceptCookies()" style="padding: 10px 20px; background: #00A95E; border: none; color: #fff; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.2s;">Accept All</button>
+                <button onclick="declineCookies()" style="padding: 10px 20px; background: transparent; border: 1px solid #9ca3af; color: #ffffff; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.2s;">Decline All</button>
+                <button onclick="acceptCookies()" style="padding: 10px 20px; background: #00C26D; border: none; color: #ffffff; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.2s;">Accept All</button>
             </div>
         </div>
     </div>
