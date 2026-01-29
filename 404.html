@@ -57,6 +57,7 @@
         :root {
             --color-servantium-green: #00C26D;
             --color-green-hover: #00A95E;
+            --color-fresh-green: #00E67D;
             --color-deep-forest: #023E25;
             --color-soft-mint: #E8FBF1;
             --color-ink: #0D0D0D;
@@ -65,6 +66,11 @@
             --color-white: #FFFFFF;
             --color-mist-grey: #F5F6F7;
             --color-cloud-grey: #E1E3E6;
+            --color-slate: #64748B;
+            --color-amber: #FFB02E;
+            --color-coral: #FF5C70;
+            --color-slate-blue: #4C82A7;
+            --color-deep-teal: #26A899;
             --font-display: 'Playfair Display', Georgia, serif;
             --font-body: 'Source Sans 3', -apple-system, BlinkMacSystemFont, sans-serif;
         }
@@ -90,6 +96,8 @@
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--color-cloud-grey);
+            position: relative;
+            z-index: 200;
         }
 
         .logo-image {
@@ -105,6 +113,35 @@
             justify-content: center;
             padding: 2rem;
             text-align: center;
+            position: relative;
+        }
+
+        /* Game Arena - full screen overlay when game active */
+        .game-arena {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg, #0a0a15 0%, #1a1a2e 50%, #0d0d15 100%);
+            display: none;
+            z-index: 100;
+        }
+
+        .game-arena.active {
+            display: block;
+        }
+
+        .game-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: min(500px, 90vw);
+            height: min(500px, 90vw);
+            border: 2px solid rgba(0, 194, 109, 0.3);
+            border-radius: 8px;
+            overflow: hidden;
         }
 
         .error-visual {
@@ -131,6 +168,12 @@
             z-index: 1;
             width: 180px;
             height: 180px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .lost-astronaut:hover {
+            transform: scale(1.05);
         }
 
         .astronaut-body {
@@ -159,6 +202,15 @@
             animation: float 4s ease-in-out infinite;
         }
 
+        .lost-astronaut:hover {
+            animation: float 4s ease-in-out infinite, pulse 0.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { filter: drop-shadow(0 0 5px rgba(0, 194, 109, 0.5)); }
+            50% { filter: drop-shadow(0 0 15px rgba(0, 194, 109, 0.8)); }
+        }
+
         .stars {
             position: absolute;
             width: 100%;
@@ -185,6 +237,50 @@
         @keyframes twinkle {
             0%, 100% { opacity: 0.4; transform: scale(1); }
             50% { opacity: 1; transform: scale(1.5); }
+        }
+
+        /* Wiggly Arrow Hint */
+        .game-hint-arrow {
+            position: absolute;
+            top: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: wiggle 1s ease-in-out infinite;
+            z-index: 2;
+        }
+
+        .hint-text {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--color-servantium-green);
+            font-weight: 600;
+            margin-bottom: 8px;
+            white-space: nowrap;
+            text-shadow: 0 0 10px rgba(0, 194, 109, 0.5);
+        }
+
+        .wiggly-arrow {
+            width: 40px;
+            height: 40px;
+        }
+
+        .wiggly-arrow path {
+            fill: none;
+            stroke: var(--color-servantium-green);
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            filter: drop-shadow(0 0 4px rgba(0, 194, 109, 0.6));
+        }
+
+        @keyframes wiggle {
+            0%, 100% { transform: translateX(-50%) translateY(0) rotate(-5deg); }
+            25% { transform: translateX(-50%) translateY(5px) rotate(5deg); }
+            50% { transform: translateX(-50%) translateY(0) rotate(-5deg); }
+            75% { transform: translateX(-50%) translateY(5px) rotate(5deg); }
         }
 
         h1 {
@@ -263,6 +359,8 @@
             text-align: center;
             font-size: 0.9rem;
             color: var(--color-ink-muted);
+            position: relative;
+            z-index: 200;
         }
 
         footer a {
@@ -280,6 +378,361 @@
             }
             .btn-secondary {
                 margin-left: 0;
+            }
+            .game-hint-arrow {
+                top: -50px;
+            }
+            .hint-text {
+                font-size: 0.75rem;
+            }
+        }
+
+        /* ==================== ASTEROIDS GAME STYLES ==================== */
+
+        .game-ship {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            border-bottom: 28px solid var(--color-servantium-green);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 20;
+            filter: drop-shadow(0 0 8px var(--color-servantium-green)) drop-shadow(0 0 16px rgba(0, 194, 109, 0.4));
+            transition: none;
+        }
+
+        .game-ship::before {
+            content: '';
+            position: absolute;
+            bottom: -24px;
+            left: -6px;
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-bottom: 16px solid var(--color-fresh-green);
+            opacity: 0.6;
+        }
+
+        .game-ship.active {
+            opacity: 1;
+        }
+
+        .game-ship.thrusting::after {
+            content: '';
+            position: absolute;
+            bottom: -32px;
+            left: -6px;
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 16px solid var(--color-amber);
+            filter: blur(1px);
+            animation: thrustFlicker 0.08s infinite;
+        }
+
+        @keyframes thrustFlicker {
+            0%, 100% { opacity: 1; border-top-color: var(--color-amber); transform: scaleY(1); }
+            50% { opacity: 0.7; border-top-color: var(--color-coral); transform: scaleY(0.8); }
+        }
+
+        .game-ship.invulnerable {
+            animation: shipBlink 0.12s infinite;
+        }
+
+        @keyframes shipBlink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.2; }
+        }
+
+        .game-bullet {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: var(--color-servantium-green);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--color-servantium-green), 0 0 12px var(--color-servantium-green);
+            pointer-events: none;
+            z-index: 15;
+        }
+
+        .game-asteroid {
+            position: absolute;
+            border-radius: 40% 60% 55% 45% / 55% 45% 60% 40%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .game-asteroid.large {
+            width: 50px;
+            height: 46px;
+        }
+
+        .game-asteroid.medium {
+            width: 30px;
+            height: 28px;
+        }
+
+        .game-asteroid.small {
+            width: 16px;
+            height: 14px;
+        }
+
+        .game-ui {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            display: flex;
+            justify-content: space-between;
+            font-family: var(--font-body);
+            font-size: 14px;
+            color: var(--color-white);
+            text-shadow: 0 0 10px rgba(0, 194, 109, 0.8);
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        .game-score {
+            font-weight: 600;
+            letter-spacing: 0.1em;
+        }
+
+        .game-lives {
+            display: flex;
+            gap: 6px;
+        }
+
+        .game-life {
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-bottom: 14px solid var(--color-servantium-green);
+        }
+
+        .game-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: var(--color-white);
+            font-family: var(--font-display);
+            z-index: 101;
+            display: none;
+            pointer-events: none;
+        }
+
+        .game-message.active {
+            display: block;
+        }
+
+        .game-message h3 {
+            font-size: 2rem;
+            color: var(--color-servantium-green);
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 20px var(--color-servantium-green);
+        }
+
+        .game-message p {
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            color: var(--color-white);
+            opacity: 0.8;
+        }
+
+        .game-exit-hint {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: var(--font-body);
+            font-size: 12px;
+            color: var(--color-slate);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .game-exit-hint.visible {
+            opacity: 0.6;
+        }
+
+        /* Mobile Touch Controls */
+        .touch-controls {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: auto;
+            z-index: 90;
+        }
+
+        .touch-zone {
+            position: absolute;
+            top: 0;
+            height: 100%;
+        }
+
+        .touch-zone-move {
+            left: 0;
+            width: 50%;
+        }
+
+        .touch-zone-fire {
+            right: 0;
+            width: 50%;
+        }
+
+        .touch-joystick {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            width: 120px;
+            height: 120px;
+            border: 3px solid rgba(0, 194, 109, 0.4);
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .touch-joystick.visible {
+            opacity: 1;
+        }
+
+        .touch-joystick.active {
+            border-color: rgba(0, 194, 109, 0.7);
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .touch-joystick-knob {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 194, 109, 0.6);
+            border: 2px solid rgba(0, 194, 109, 0.8);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 20px rgba(0, 194, 109, 0.5);
+            transition: transform 0.05s ease-out;
+        }
+
+        .touch-fire-indicator {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 90px;
+            height: 90px;
+            border: 3px solid rgba(0, 194, 109, 0.4);
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.1s ease;
+        }
+
+        .touch-fire-indicator.visible {
+            opacity: 1;
+        }
+
+        .touch-fire-indicator.active {
+            background: rgba(0, 194, 109, 0.4);
+            border-color: rgba(0, 194, 109, 0.9);
+            box-shadow: 0 0 30px rgba(0, 194, 109, 0.6);
+            transform: scale(0.95);
+        }
+
+        .touch-fire-indicator::after {
+            content: 'FIRE';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: var(--font-body);
+            font-size: 12px;
+            font-weight: 700;
+            color: rgba(0, 194, 109, 0.8);
+            letter-spacing: 0.1em;
+        }
+
+        .touch-fire-indicator.active::after {
+            color: white;
+        }
+
+        .touch-thrust-indicator {
+            position: absolute;
+            bottom: 145px;
+            left: 63px;
+            font-family: var(--font-body);
+            font-size: 9px;
+            font-weight: 600;
+            color: rgba(255, 194, 0, 0.7);
+            letter-spacing: 0.05em;
+            opacity: 0;
+            transition: opacity 0.1s ease;
+            pointer-events: none;
+        }
+
+        .touch-thrust-indicator.active {
+            opacity: 1;
+        }
+
+        /* Hide touch controls on desktop */
+        @media (hover: hover) and (pointer: fine) {
+            .touch-controls {
+                display: none !important;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .game-ui {
+                font-size: 12px;
+            }
+
+            .game-life {
+                border-left-width: 5px;
+                border-right-width: 5px;
+                border-bottom-width: 12px;
+            }
+
+            .game-exit-hint {
+                font-size: 10px;
+                bottom: 130px;
+            }
+
+            .touch-joystick {
+                width: 100px;
+                height: 100px;
+                bottom: 15px;
+                left: 15px;
+            }
+
+            .touch-joystick-knob {
+                width: 44px;
+                height: 44px;
+            }
+
+            .touch-fire-indicator {
+                width: 80px;
+                height: 80px;
+                bottom: 15px;
+                right: 15px;
+            }
+
+            .touch-thrust-indicator {
+                bottom: 120px;
+                left: 48px;
             }
         }
     </style>
@@ -301,7 +754,16 @@
                 <div class="star"></div>
             </div>
             <span class="error-code">404</span>
-            <svg class="lost-astronaut" viewBox="0 0 100 100">
+
+            <!-- Wiggly Arrow Hint -->
+            <div class="game-hint-arrow" id="game-hint-arrow">
+                <span class="hint-text">Double-click to play!</span>
+                <svg class="wiggly-arrow" viewBox="0 0 40 40">
+                    <path d="M20 5 Q15 12 20 18 Q25 24 20 30 L20 38 M12 30 L20 38 L28 30"/>
+                </svg>
+            </div>
+
+            <svg class="lost-astronaut" id="astronaut-trigger" viewBox="0 0 100 100">
                 <!-- Helmet -->
                 <circle cx="50" cy="40" r="25" class="astronaut-body"/>
                 <!-- Visor -->
@@ -340,9 +802,729 @@
         </div>
     </div>
 
+    <!-- Game Arena (hidden until activated) -->
+    <div class="game-arena" id="game-arena">
+        <div class="game-container" id="game-container">
+            <div class="game-ship" id="game-ship"></div>
+            <div class="game-ui">
+                <div class="game-score">SCORE: <span id="game-score-value">0</span></div>
+                <div class="game-lives" id="game-lives"></div>
+            </div>
+            <div class="game-message" id="game-message">
+                <h3>GAME OVER</h3>
+                <p>Double-click to play again</p>
+            </div>
+            <div class="game-exit-hint" id="game-exit-hint">Press Esc to exit</div>
+
+            <!-- Touch Controls -->
+            <div class="touch-controls" id="touch-controls">
+                <div class="touch-zone touch-zone-move" id="touch-zone-move"></div>
+                <div class="touch-zone touch-zone-fire" id="touch-zone-fire"></div>
+                <div class="touch-joystick" id="touch-joystick">
+                    <div class="touch-joystick-knob" id="touch-joystick-knob"></div>
+                </div>
+                <div class="touch-fire-indicator" id="touch-fire-indicator"></div>
+                <div class="touch-thrust-indicator" id="touch-thrust-indicator">THRUST</div>
+            </div>
+        </div>
+    </div>
+
     <footer>
         Lost? <a href="mailto:hello@servantium.com">Contact us</a> and we'll help you find your way.
     </footer>
+
+    <script>
+    // ==========================================
+    // ASTEROIDS GAME
+    // ==========================================
+
+    const gameState = {
+        active: false,
+        score: 0,
+        lives: 3,
+        level: 1,
+        ship: null,
+        bullets: [],
+        asteroids: [],
+        keys: {},
+        lastShot: 0,
+        shotCooldown: 150,
+        invulnerable: false,
+        invulnerableTime: 0,
+        gameOver: false,
+        hintTimeout: null,
+        gameStartTime: 0,
+        gracePeriod: 60000,
+        playerHasMoved: false
+    };
+
+    const gameContainer = document.getElementById('game-container');
+    const GAME_WIDTH = gameContainer ? gameContainer.offsetWidth : 500;
+    const GAME_HEIGHT = gameContainer ? gameContainer.offsetHeight : 500;
+
+    const asteroidColors = [
+        { bg: 'linear-gradient(135deg, #4C82A7 0%, #3a6a8a 50%, #2d5570 100%)', shadow: '#4C82A7' },
+        { bg: 'linear-gradient(135deg, #26A899 0%, #1e8a7d 50%, #176b61 100%)', shadow: '#26A899' },
+        { bg: 'linear-gradient(135deg, #00C26D 0%, #00a35c 50%, #00844b 100%)', shadow: '#00C26D' },
+        { bg: 'linear-gradient(135deg, #FFB02E 0%, #e09a28 50%, #c08420 100%)', shadow: '#FFB02E' },
+        { bg: 'linear-gradient(135deg, #FF5C70 0%, #e04d5f 50%, #c03d4e 100%)', shadow: '#FF5C70' },
+        { bg: 'linear-gradient(135deg, #64748B 0%, #536275 50%, #42505f 100%)', shadow: '#64748B' }
+    ];
+
+    class Ship {
+        constructor() {
+            this.x = GAME_WIDTH / 2;
+            this.y = GAME_HEIGHT / 2;
+            this.vx = 0;
+            this.vy = 0;
+            this.angle = -Math.PI / 2;
+            this.rotationSpeed = 0.22;
+            this.thrust = 0.22;
+            this.friction = 0.985;
+            this.maxSpeed = 7;
+            this.element = document.getElementById('game-ship');
+        }
+
+        update() {
+            if (gameState.keys['ArrowLeft'] || gameState.keys['ArrowRight'] || gameState.keys['ArrowUp']) {
+                gameState.playerHasMoved = true;
+            }
+
+            if (gameState.keys['ArrowLeft']) this.angle -= this.rotationSpeed;
+            if (gameState.keys['ArrowRight']) this.angle += this.rotationSpeed;
+
+            if (gameState.keys['ArrowUp']) {
+                this.vx += Math.cos(this.angle) * this.thrust;
+                this.vy += Math.sin(this.angle) * this.thrust;
+                this.element.classList.add('thrusting');
+            } else {
+                this.element.classList.remove('thrusting');
+            }
+
+            this.vx *= this.friction;
+            this.vy *= this.friction;
+
+            const speed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+            if (speed > this.maxSpeed) {
+                this.vx = (this.vx / speed) * this.maxSpeed;
+                this.vy = (this.vy / speed) * this.maxSpeed;
+            }
+
+            this.x += this.vx;
+            this.y += this.vy;
+
+            if (this.x < -20) this.x = GAME_WIDTH + 20;
+            if (this.x > GAME_WIDTH + 20) this.x = -20;
+            if (this.y < -20) this.y = GAME_HEIGHT + 20;
+            if (this.y > GAME_HEIGHT + 20) this.y = -20;
+
+            this.element.style.left = this.x + 'px';
+            this.element.style.top = this.y + 'px';
+            this.element.style.transform = `translate(-50%, -50%) rotate(${this.angle + Math.PI / 2}rad)`;
+        }
+
+        shoot() {
+            const now = performance.now();
+            if (now - gameState.lastShot < gameState.shotCooldown) return;
+            gameState.lastShot = now;
+            gameState.playerHasMoved = true;
+
+            const bullet = new Bullet(
+                this.x + Math.cos(this.angle) * 15,
+                this.y + Math.sin(this.angle) * 15,
+                Math.cos(this.angle) * 10 + this.vx * 0.5,
+                Math.sin(this.angle) * 10 + this.vy * 0.5
+            );
+            gameState.bullets.push(bullet);
+        }
+
+        reset() {
+            this.x = GAME_WIDTH / 2;
+            this.y = GAME_HEIGHT / 2;
+            this.vx = 0;
+            this.vy = 0;
+            this.angle = -Math.PI / 2;
+        }
+    }
+
+    class Bullet {
+        constructor(x, y, vx, vy) {
+            this.x = x;
+            this.y = y;
+            this.vx = vx;
+            this.vy = vy;
+            this.life = 60;
+            this.element = document.createElement('div');
+            this.element.className = 'game-bullet';
+            gameContainer.appendChild(this.element);
+        }
+
+        update() {
+            this.x += this.vx;
+            this.y += this.vy;
+            this.life--;
+
+            if (this.x < 0) this.x = GAME_WIDTH;
+            if (this.x > GAME_WIDTH) this.x = 0;
+            if (this.y < 0) this.y = GAME_HEIGHT;
+            if (this.y > GAME_HEIGHT) this.y = 0;
+
+            this.element.style.left = this.x + 'px';
+            this.element.style.top = this.y + 'px';
+        }
+
+        destroy() {
+            this.element.remove();
+        }
+    }
+
+    class GameAsteroid {
+        constructor(x, y, size, vx, vy) {
+            this.x = x;
+            this.y = y;
+            this.size = size;
+            this.vx = vx || (Math.random() - 0.5) * 3;
+            this.vy = vy || (Math.random() - 0.5) * 3;
+            this.rotation = Math.random() * 360;
+            this.rotationSpeed = (Math.random() - 0.5) * 3;
+            this.colorIndex = Math.floor(Math.random() * asteroidColors.length);
+
+            this.element = document.createElement('div');
+            this.element.className = `game-asteroid ${size}`;
+            const color = asteroidColors[this.colorIndex];
+            this.element.style.background = color.bg;
+            this.element.style.boxShadow = `0 0 10px ${color.shadow}, inset -2px -2px 4px rgba(0,0,0,0.3)`;
+            gameContainer.appendChild(this.element);
+
+            this.radius = size === 'large' ? 25 : size === 'medium' ? 15 : 8;
+            this.points = size === 'large' ? 20 : size === 'medium' ? 50 : 100;
+        }
+
+        update() {
+            this.x += this.vx;
+            this.y += this.vy;
+            this.rotation += this.rotationSpeed;
+
+            if (this.x < -30) this.x = GAME_WIDTH + 30;
+            if (this.x > GAME_WIDTH + 30) this.x = -30;
+            if (this.y < -30) this.y = GAME_HEIGHT + 30;
+            if (this.y > GAME_HEIGHT + 30) this.y = -30;
+
+            this.element.style.left = this.x + 'px';
+            this.element.style.top = this.y + 'px';
+            this.element.style.transform = `translate(-50%, -50%) rotate(${this.rotation}deg)`;
+        }
+
+        destroy() {
+            this.element.remove();
+        }
+
+        split() {
+            const newAsteroids = [];
+            if (this.size === 'large') {
+                for (let i = 0; i < 2; i++) {
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = 1.5 + Math.random();
+                    newAsteroids.push(new GameAsteroid(
+                        this.x, this.y, 'medium',
+                        Math.cos(angle) * speed,
+                        Math.sin(angle) * speed
+                    ));
+                }
+            } else if (this.size === 'medium') {
+                for (let i = 0; i < 2; i++) {
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = 2 + Math.random();
+                    newAsteroids.push(new GameAsteroid(
+                        this.x, this.y, 'small',
+                        Math.cos(angle) * speed,
+                        Math.sin(angle) * speed
+                    ));
+                }
+            }
+            return newAsteroids;
+        }
+    }
+
+    function createExplosion(x, y, color) {
+        for (let i = 0; i < 8; i++) {
+            const particle = document.createElement('div');
+            const angle = (Math.PI * 2 / 8) * i;
+            const speed = 30 + Math.random() * 30;
+            particle.style.cssText = `
+                position: absolute;
+                left: ${x}px;
+                top: ${y}px;
+                width: 3px;
+                height: 3px;
+                background: ${color};
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 25;
+            `;
+            gameContainer.appendChild(particle);
+
+            const vx = Math.cos(angle) * speed;
+            const vy = Math.sin(angle) * speed;
+            let px = x, py = y, opacity = 1;
+
+            const animate = () => {
+                px += vx * 0.03;
+                py += vy * 0.03;
+                opacity -= 0.03;
+                particle.style.left = px + 'px';
+                particle.style.top = py + 'px';
+                particle.style.opacity = Math.max(0, opacity);
+                if (opacity > 0) {
+                    requestAnimationFrame(animate);
+                } else {
+                    particle.remove();
+                }
+            };
+            requestAnimationFrame(animate);
+        }
+    }
+
+    function isInGracePeriod() {
+        const now = performance.now();
+        const timeSinceStart = now - gameState.gameStartTime;
+        return timeSinceStart < gameState.gracePeriod && !gameState.playerHasMoved;
+    }
+
+    function spawnAsteroids(count) {
+        const exclusionRadius = isInGracePeriod() ? 180 : 100;
+        const centerX = GAME_WIDTH / 2;
+        const centerY = GAME_HEIGHT / 2;
+
+        for (let i = 0; i < count; i++) {
+            let x, y, vx, vy;
+            do {
+                x = Math.random() * GAME_WIDTH;
+                y = Math.random() * GAME_HEIGHT;
+            } while (Math.sqrt((x - centerX) ** 2 + (y - centerY) ** 2) < exclusionRadius);
+
+            if (isInGracePeriod()) {
+                const angleFromCenter = Math.atan2(y - centerY, x - centerX);
+                const speed = 1 + Math.random() * 1.5;
+                const velocityAngle = angleFromCenter + (Math.random() - 0.5) * Math.PI * 0.5;
+                vx = Math.cos(velocityAngle) * speed;
+                vy = Math.sin(velocityAngle) * speed;
+            } else {
+                vx = (Math.random() - 0.5) * 3;
+                vy = (Math.random() - 0.5) * 3;
+            }
+
+            gameState.asteroids.push(new GameAsteroid(x, y, 'large', vx, vy));
+        }
+    }
+
+    function updateLivesDisplay() {
+        const livesEl = document.getElementById('game-lives');
+        livesEl.innerHTML = '';
+        for (let i = 0; i < gameState.lives; i++) {
+            const life = document.createElement('div');
+            life.className = 'game-life';
+            livesEl.appendChild(life);
+        }
+    }
+
+    function updateScore(points) {
+        gameState.score += points;
+        document.getElementById('game-score-value').textContent = gameState.score;
+    }
+
+    function checkCollisions() {
+        for (let i = gameState.bullets.length - 1; i >= 0; i--) {
+            const bullet = gameState.bullets[i];
+            for (let j = gameState.asteroids.length - 1; j >= 0; j--) {
+                const asteroid = gameState.asteroids[j];
+                const dx = bullet.x - asteroid.x;
+                const dy = bullet.y - asteroid.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+
+                if (dist < asteroid.radius) {
+                    bullet.destroy();
+                    gameState.bullets.splice(i, 1);
+
+                    const color = asteroidColors[asteroid.colorIndex].shadow;
+                    createExplosion(asteroid.x, asteroid.y, color);
+                    updateScore(asteroid.points);
+
+                    const newAsteroids = asteroid.split();
+                    asteroid.destroy();
+                    gameState.asteroids.splice(j, 1);
+                    gameState.asteroids.push(...newAsteroids);
+                    break;
+                }
+            }
+        }
+
+        if (!gameState.invulnerable && gameState.ship && !isInGracePeriod()) {
+            for (const asteroid of gameState.asteroids) {
+                const dx = gameState.ship.x - asteroid.x;
+                const dy = gameState.ship.y - asteroid.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+
+                if (dist < asteroid.radius + 10) {
+                    shipHit();
+                    break;
+                }
+            }
+        }
+    }
+
+    function shipHit() {
+        gameState.lives--;
+        updateLivesDisplay();
+        createExplosion(gameState.ship.x, gameState.ship.y, '#00C26D');
+
+        if (gameState.lives <= 0) {
+            gameOver();
+        } else {
+            gameState.ship.reset();
+            gameState.invulnerable = true;
+            gameState.invulnerableTime = performance.now();
+            gameState.ship.element.classList.add('invulnerable');
+        }
+    }
+
+    function gameOver() {
+        gameState.gameOver = true;
+        gameState.ship.element.classList.remove('active');
+        document.getElementById('game-message').classList.add('active');
+        document.getElementById('game-exit-hint').classList.remove('visible');
+        if (gameState.hintTimeout) clearTimeout(gameState.hintTimeout);
+    }
+
+    function nextLevel() {
+        gameState.level++;
+        spawnAsteroids(4 + gameState.level);
+    }
+
+    function startGame() {
+        document.getElementById('game-arena').classList.add('active');
+        document.getElementById('game-hint-arrow').style.display = 'none';
+
+        // Show touch controls on touch devices
+        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+        if (isTouchDevice) {
+            document.getElementById('touch-controls').style.display = 'block';
+            document.getElementById('touch-joystick').classList.add('visible');
+            document.getElementById('touch-fire-indicator').classList.add('visible');
+        }
+
+        gameState.active = true;
+        gameState.score = 0;
+        gameState.lives = 3;
+        gameState.level = 1;
+        gameState.gameOver = false;
+        gameState.invulnerable = true;
+        gameState.invulnerableTime = performance.now();
+        gameState.gameStartTime = performance.now();
+        gameState.playerHasMoved = false;
+
+        gameState.bullets.forEach(b => b.destroy());
+        gameState.bullets = [];
+        gameState.asteroids.forEach(a => a.destroy());
+        gameState.asteroids = [];
+
+        if (!gameState.ship) {
+            gameState.ship = new Ship();
+        }
+        gameState.ship.reset();
+        gameState.ship.element.classList.add('active', 'invulnerable');
+
+        document.getElementById('game-score-value').textContent = '0';
+        updateLivesDisplay();
+        document.getElementById('game-message').classList.remove('active');
+
+        const hint = document.getElementById('game-exit-hint');
+        hint.classList.remove('visible');
+        if (gameState.hintTimeout) clearTimeout(gameState.hintTimeout);
+        gameState.hintTimeout = setTimeout(() => {
+            if (gameState.active && !gameState.gameOver) {
+                hint.classList.add('visible');
+            }
+        }, 7000);
+
+        spawnAsteroids(5);
+    }
+
+    function endGame() {
+        document.getElementById('game-arena').classList.remove('active');
+        document.getElementById('game-hint-arrow').style.display = 'flex';
+        document.getElementById('touch-controls').style.display = 'none';
+        gameState.active = false;
+
+        gameState.bullets.forEach(b => b.destroy());
+        gameState.bullets = [];
+        gameState.asteroids.forEach(a => a.destroy());
+        gameState.asteroids = [];
+
+        if (gameState.ship) {
+            gameState.ship.element.classList.remove('active', 'thrusting', 'invulnerable');
+        }
+
+        document.getElementById('game-message').classList.remove('active');
+        document.getElementById('game-exit-hint').classList.remove('visible');
+        if (gameState.hintTimeout) clearTimeout(gameState.hintTimeout);
+    }
+
+    function gameLoop() {
+        if (!gameState.active || gameState.gameOver) return;
+
+        gameState.ship.update();
+
+        if (gameState.keys[' ']) {
+            gameState.ship.shoot();
+        }
+
+        for (let i = gameState.bullets.length - 1; i >= 0; i--) {
+            gameState.bullets[i].update();
+            if (gameState.bullets[i].life <= 0) {
+                gameState.bullets[i].destroy();
+                gameState.bullets.splice(i, 1);
+            }
+        }
+
+        gameState.asteroids.forEach(a => a.update());
+        checkCollisions();
+
+        if (gameState.invulnerable && performance.now() - gameState.invulnerableTime > 2000) {
+            gameState.invulnerable = false;
+            gameState.ship.element.classList.remove('invulnerable');
+        }
+
+        if (gameState.asteroids.length === 0) {
+            nextLevel();
+        }
+    }
+
+    // Double-click astronaut to start game
+    let lastAstronautClick = 0;
+    const astronautTrigger = document.getElementById('astronaut-trigger');
+    const gameArena = document.getElementById('game-arena');
+
+    function handleAstronautActivation(e) {
+        const now = performance.now();
+        if (now - lastAstronautClick < 500) {
+            e.stopPropagation();
+            e.preventDefault();
+            startGame();
+            lastAstronautClick = 0;
+        } else {
+            lastAstronautClick = now;
+        }
+    }
+
+    astronautTrigger.addEventListener('click', handleAstronautActivation);
+    astronautTrigger.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        handleAstronautActivation(e);
+    }, { passive: false });
+
+    // Double-click game arena to restart or exit
+    gameArena.addEventListener('dblclick', (e) => {
+        if (gameState.gameOver) {
+            startGame();
+        }
+    });
+
+    // Keyboard controls
+    document.addEventListener('keydown', (e) => {
+        if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', ' '].includes(e.key)) {
+            if (gameState.active) {
+                e.preventDefault();
+            }
+            gameState.keys[e.key] = true;
+        }
+        if (e.key === 'Escape' && gameState.active) {
+            endGame();
+        }
+    });
+
+    document.addEventListener('keyup', (e) => {
+        gameState.keys[e.key] = false;
+    });
+
+    // ==========================================
+    // MOBILE TOUCH CONTROLS
+    // ==========================================
+
+    const touchState = {
+        moveTouch: null,
+        fireTouch: null,
+        autoFireInterval: null,
+    };
+
+    const touchJoystick = document.getElementById('touch-joystick');
+    const touchJoystickKnob = document.getElementById('touch-joystick-knob');
+    const touchFireIndicator = document.getElementById('touch-fire-indicator');
+    const touchThrustIndicator = document.getElementById('touch-thrust-indicator');
+    const touchZoneMove = document.getElementById('touch-zone-move');
+    const touchZoneFire = document.getElementById('touch-zone-fire');
+
+    function getJoystickCenter() {
+        const rect = touchJoystick.getBoundingClientRect();
+        return {
+            x: rect.left + rect.width / 2,
+            y: rect.top + rect.height / 2
+        };
+    }
+
+    touchZoneMove.addEventListener('touchstart', (e) => {
+        if (!gameState.active || gameState.gameOver) return;
+        e.preventDefault();
+
+        for (const touch of e.changedTouches) {
+            if (touchState.moveTouch === null) {
+                touchState.moveTouch = touch.identifier;
+                touchJoystick.classList.add('active');
+                processJoystickTouch(touch);
+                break;
+            }
+        }
+    }, { passive: false });
+
+    function processJoystickTouch(touch) {
+        const center = getJoystickCenter();
+        const dx = touch.clientX - center.x;
+        const dy = touch.clientY - center.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        const maxDistance = 35;
+        const inputRadius = 120;
+
+        const clampedDist = Math.min(distance, maxDistance);
+        const angle = Math.atan2(dy, dx);
+        const knobX = Math.cos(angle) * clampedDist;
+        const knobY = Math.sin(angle) * clampedDist;
+
+        touchJoystickKnob.style.transform = `translate(calc(-50% + ${knobX}px), calc(-50% + ${knobY}px))`;
+
+        const normalizedDist = Math.min(distance / inputRadius, 1);
+        const normalizedX = (dx / inputRadius);
+        const normalizedY = (dy / inputRadius);
+
+        if (normalizedX < -0.2) {
+            gameState.keys['ArrowLeft'] = true;
+            gameState.keys['ArrowRight'] = false;
+        } else if (normalizedX > 0.2) {
+            gameState.keys['ArrowRight'] = true;
+            gameState.keys['ArrowLeft'] = false;
+        } else {
+            gameState.keys['ArrowLeft'] = false;
+            gameState.keys['ArrowRight'] = false;
+        }
+
+        const isThrusting = normalizedY < -0.2 || normalizedDist > 0.5;
+        gameState.keys['ArrowUp'] = isThrusting;
+
+        if (touchThrustIndicator) {
+            if (isThrusting) {
+                touchThrustIndicator.classList.add('active');
+            } else {
+                touchThrustIndicator.classList.remove('active');
+            }
+        }
+    }
+
+    touchZoneMove.addEventListener('touchmove', (e) => {
+        if (!gameState.active || gameState.gameOver) return;
+        e.preventDefault();
+
+        for (const touch of e.changedTouches) {
+            if (touch.identifier === touchState.moveTouch) {
+                processJoystickTouch(touch);
+            }
+        }
+    }, { passive: false });
+
+    function handleMoveEnd(e) {
+        for (const touch of e.changedTouches) {
+            if (touch.identifier === touchState.moveTouch) {
+                touchState.moveTouch = null;
+                touchJoystick.classList.remove('active');
+                touchJoystickKnob.style.transform = 'translate(-50%, -50%)';
+
+                gameState.keys['ArrowLeft'] = false;
+                gameState.keys['ArrowRight'] = false;
+                gameState.keys['ArrowUp'] = false;
+
+                if (touchThrustIndicator) {
+                    touchThrustIndicator.classList.remove('active');
+                }
+            }
+        }
+    }
+
+    touchZoneMove.addEventListener('touchend', handleMoveEnd);
+    touchZoneMove.addEventListener('touchcancel', handleMoveEnd);
+
+    touchZoneFire.addEventListener('touchstart', (e) => {
+        if (!gameState.active || gameState.gameOver) return;
+        e.preventDefault();
+
+        for (const touch of e.changedTouches) {
+            if (touchState.fireTouch === null) {
+                touchState.fireTouch = touch.identifier;
+                touchFireIndicator.classList.add('active');
+
+                if (gameState.ship) {
+                    gameState.ship.shoot();
+                }
+
+                touchState.autoFireInterval = setInterval(() => {
+                    if (gameState.ship && gameState.active && !gameState.gameOver) {
+                        gameState.ship.shoot();
+                    }
+                }, 150);
+                break;
+            }
+        }
+    }, { passive: false });
+
+    touchZoneFire.addEventListener('touchmove', (e) => {
+        if (!gameState.active || gameState.gameOver) return;
+        e.preventDefault();
+        for (const touch of e.changedTouches) {
+            if (touch.identifier === touchState.fireTouch && gameState.ship) {
+                gameState.ship.shoot();
+            }
+        }
+    }, { passive: false });
+
+    function handleFireEnd(e) {
+        for (const touch of e.changedTouches) {
+            if (touch.identifier === touchState.fireTouch) {
+                touchState.fireTouch = null;
+                touchFireIndicator.classList.remove('active');
+
+                if (touchState.autoFireInterval) {
+                    clearInterval(touchState.autoFireInterval);
+                    touchState.autoFireInterval = null;
+                }
+            }
+        }
+    }
+
+    touchZoneFire.addEventListener('touchend', handleFireEnd);
+    touchZoneFire.addEventListener('touchcancel', handleFireEnd);
+
+    gameContainer.addEventListener('touchstart', (e) => {
+        if (gameState.active) {
+            e.preventDefault();
+        }
+    }, { passive: false });
+
+    // Game animation loop
+    function gameAnimationLoop() {
+        if (gameState.active) {
+            gameLoop();
+        }
+        requestAnimationFrame(gameAnimationLoop);
+    }
+    gameAnimationLoop();
+    </script>
 
     <!-- Cookie Consent Banner -->
     <div id="cookie-consent" style="display: none; position: fixed; bottom: 0; left: 0; right: 0; background: #1a1a2e; padding: 16px 24px; z-index: 10000; box-shadow: 0 -4px 20px rgba(0,0,0,0.3);">
