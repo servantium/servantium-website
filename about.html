@@ -39,6 +39,8 @@
                 banner.textContent = 'TEST ENVIRONMENT — Changes here do not affect production';
                 document.body.prepend(banner);
                 document.body.style.paddingTop = '40px';
+                var nav = document.querySelector('nav');
+                if (nav) nav.style.top = '40px';
             });
         }
     })();

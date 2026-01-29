@@ -199,6 +199,7 @@
 
 - [ ] Terms page is placeholder
 - [ ] Images don't use lazy loading
+- [ ] LinkedIn feed widget on blog page (Elfsight, free tier 200 views) — decide after analytics data
 - [x] ~~Implement pricing/feature comparison table~~
 - [x] ~~Add llms.txt for AI search visibility~~
 - [x] ~~Add og-image.png for social shares~~
@@ -208,36 +209,42 @@
 
 ---
 
-## Pre-Production Launch Checklist
+## Launch Day Checklist (2026-01-30)
 
-**Manual setup required before going live on servantium.com:**
+### Cloudflare Pages
+- [ ] Add `servantium.com` as production custom domain (pointing to `main` branch)
+- [ ] Verify SSL certificate is active
+- [ ] Test all pages load correctly on production domain
+- [ ] Confirm test.servantium.com is assigned to `develop` branch
 
-### Google Search Console
-1. Go to https://search.google.com/search-console
-2. Add property for `servantium.com`
-3. Verify domain ownership (DNS TXT record or HTML file upload)
-4. Submit sitemap: `https://servantium.com/sitemap.xml`
-5. Request indexing for key pages
+### Search Engines
+- [ ] **Google Search Console:** Add property, verify via DNS TXT record, submit sitemap
+- [ ] **Bing Webmaster Tools:** Add site, verify, submit sitemap (covers Yahoo, DuckDuckGo)
 
-### Bing Webmaster Tools
-1. Go to https://www.bing.com/webmasters
-2. Add site `servantium.com`
-3. Verify ownership
-4. Submit sitemap (covers Bing, Yahoo, DuckDuckGo)
+### Social Media
+- [ ] Create LinkedIn company page for Servantium
+- [ ] Add LinkedIn URL to website footer
+- [ ] Consider: Twitter/X, maybe later
 
-### Analytics ✅ COMPLETED
+### Post-Launch
+- [ ] Request indexing for key pages in Search Console
+- [ ] Monitor GA4 for initial traffic
+- [ ] Check Core Web Vitals in Search Console (after a few days)
+
+---
+
+## Completed Setup
+
+### Analytics ✅
 - GA4 Property ID: `G-6EFX4FNH6H`
-- Cookie consent banner implemented on all pages
+- Cookie consent banner on all pages
 - Analytics only loads after user accepts cookies
 - Automatically disabled on test.servantium.com
 
-### DNS/Hosting (Cloudflare Pages)
-- [x] Connect GitHub repo to Cloudflare Pages
-- [x] Set up test environment (test.servantium.com) pointing to `develop` branch
-- [ ] Add production domain (servantium.com) pointing to `main` branch
-- [x] Configure custom domains in Cloudflare Pages dashboard
-- [ ] Verify SSL certificate is active on production
-- [ ] Test all pages load correctly on production domain
+### Cloudflare Pages ✅
+- GitHub repo connected
+- Test environment (test.servantium.com) configured for `develop` branch
+- Branch control: All non-production branches
 
 ---
 
