@@ -2309,16 +2309,68 @@
             display: none;
         }
 
-        .form-status.success {
-            display: block;
-            background: var(--color-soft-mint);
-            color: var(--color-deep-forest);
-        }
-
         .form-status.error {
             display: block;
             background: #FEE2E2;
             color: #991B1B;
+        }
+
+        /* Success overlay */
+        .form-success-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--color-white);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: var(--space-lg);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            border-radius: 12px;
+        }
+
+        .form-success-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .form-success-icon {
+            width: 64px;
+            height: 64px;
+            background: var(--color-soft-mint);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--space-md);
+        }
+
+        .form-success-icon svg {
+            width: 32px;
+            height: 32px;
+            color: var(--color-servantium-green);
+        }
+
+        .form-success-overlay h4 {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            margin-bottom: var(--space-xs);
+            color: var(--color-ink);
+        }
+
+        .form-success-overlay p {
+            color: var(--color-ink-muted);
+            font-size: 1rem;
+        }
+
+        .contact-form {
+            position: relative;
         }
 
         .form-divider {
@@ -3527,6 +3579,15 @@
                         </div>
                         <button type="submit" class="form-submit" id="form-submit">Send Message</button>
                         <div class="form-status" id="form-status"></div>
+                        <div class="form-success-overlay" id="form-success-overlay">
+                            <div class="form-success-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </div>
+                            <h4>Message Sent</h4>
+                            <p>Thanks for reaching out! We'll be in touch within 24 hours.</p>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -3663,6 +3724,7 @@
         const contactForm = document.getElementById('contact-form');
         const formStatus = document.getElementById('form-status');
         const formSubmit = document.getElementById('form-submit');
+        const formSuccessOverlay = document.getElementById('form-success-overlay');
 
         contactForm.addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -3689,15 +3751,21 @@
                 });
 
                 if (response.ok) {
-                    formStatus.className = 'form-status success';
-                    formStatus.textContent = 'Thanks for reaching out! We\'ll be in touch soon.';
+                    // Show success overlay
+                    formSuccessOverlay.classList.add('active');
                     contactForm.reset();
+
+                    // Hide overlay and reset form after 4 seconds
+                    setTimeout(function() {
+                        formSuccessOverlay.classList.remove('active');
+                    }, 4000);
                 } else {
                     throw new Error('Form submission failed');
                 }
             } catch (error) {
                 formStatus.className = 'form-status error';
                 formStatus.textContent = 'Something went wrong. Please email us directly at hello@servantium.com';
+                formStatus.style.display = 'block';
             } finally {
                 formSubmit.disabled = false;
                 formSubmit.textContent = 'Send Message';
