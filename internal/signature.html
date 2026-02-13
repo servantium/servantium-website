@@ -4,6 +4,17 @@
   <meta charset="UTF-8">
   <title>Email Signature — Servantium Internal</title>
   <meta name="robots" content="noindex, nofollow">
+  <script>
+    // Block access on production - only allow test.servantium.com
+    (function() {
+      var host = window.location.hostname;
+      var isAllowed = host === 'test.servantium.com' || host === 'localhost' || host === '127.0.0.1';
+      if (!isAllowed) {
+        document.documentElement.innerHTML = '';
+        window.location.href = '/';
+      }
+    })();
+  </script>
   <style>
     /* Preview styling only - not included in signature */
     body {
