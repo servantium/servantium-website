@@ -141,6 +141,10 @@
             outline-offset: 2px;
         }
 
+        #main-content:focus {
+            outline: none;
+        }
+
         html {
             scroll-behavior: smooth;
             font-size: 18px;
@@ -836,7 +840,7 @@
         <a href="https://app.servantium.com/" class="btn btn-primary">Log In</a>
     </div>
 
-    <main id="main-content">
+    <main id="main-content" tabindex="-1">
     <!-- Hero -->
     <section class="blog-hero">
         <div class="container">
