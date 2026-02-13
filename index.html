@@ -35,6 +35,7 @@
         if (isTestEnv) {
             document.addEventListener('DOMContentLoaded', function() {
                 var banner = document.createElement('div');
+                banner.setAttribute('role', 'alert');
                 banner.style.cssText = 'position:fixed;top:0;left:0;right:0;background:#ff6b35;color:#fff;text-align:center;padding:8px;font-size:14px;font-weight:600;z-index:99999;';
                 banner.textContent = 'TEST ENVIRONMENT — Changes here do not affect production';
                 document.body.prepend(banner);
@@ -254,6 +255,28 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+
+        /* Skip to content link for accessibility */
+        .skip-link {
+            position: absolute;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--color-servantium-green);
+            color: var(--color-white);
+            padding: 0.75rem 1.5rem;
+            border-radius: 0 0 8px 8px;
+            font-weight: 600;
+            text-decoration: none;
+            z-index: 1000;
+            transition: top 0.2s ease;
+        }
+
+        .skip-link:focus {
+            top: 0;
+            outline: 2px solid var(--color-deep-forest);
+            outline-offset: 2px;
         }
 
         html {
@@ -1280,6 +1303,15 @@
         .lifecycle-step.active .lifecycle-circle {
             transform: scale(1.1);
             box-shadow: 0 8px 30px rgba(0, 194, 109, 0.2);
+        }
+
+        .lifecycle-step:focus {
+            outline: none;
+        }
+
+        .lifecycle-step:focus .lifecycle-circle {
+            outline: 3px solid var(--color-servantium-green);
+            outline-offset: 4px;
         }
 
         .lifecycle-number {
@@ -2524,7 +2556,7 @@
 
         .footer-social-label {
             font-size: 0.85rem;
-            opacity: 0.5;
+            opacity: 0.7;
         }
 
         .social-link {
@@ -2551,7 +2583,7 @@
             text-transform: uppercase;
             letter-spacing: 0.1em;
             margin-bottom: var(--space-sm);
-            opacity: 0.4;
+            opacity: 0.6;
         }
 
         .footer-column ul {
@@ -2581,7 +2613,7 @@
             justify-content: space-between;
             align-items: center;
             font-size: 0.85rem;
-            opacity: 0.5;
+            opacity: 0.7;
         }
 
         .footer-bottom-left {
@@ -2932,6 +2964,8 @@
     </style>
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
     <!-- Navigation -->
     <nav>
         <div class="container">
@@ -2958,7 +2992,7 @@
     </nav>
 
     <!-- Mobile Menu -->
-    <div class="mobile-menu" id="mobile-menu">
+    <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
         <button class="mobile-menu-close" aria-label="Close menu" onclick="closeMobileMenu()">
             <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -2975,6 +3009,7 @@
     </div>
 
     <!-- Hero -->
+    <main id="main-content">
     <section class="hero">
         <div class="container">
             <div class="hero-content">
@@ -3104,7 +3139,7 @@
                     </svg>
                 </div>
                 <div class="lifecycle-interactive">
-                    <div class="lifecycle-step" data-index="0">
+                    <div class="lifecycle-step" data-index="0" role="button" tabindex="0" aria-expanded="false" aria-label="Discovery phase - click to learn more">
                         <div class="lifecycle-circle">
                             <div class="lifecycle-number">1</div>
                             <div class="lifecycle-name">Discovery</div>
@@ -3120,7 +3155,7 @@
                         </div>
                     </div>
                     <div class="lifecycle-connector"></div>
-                    <div class="lifecycle-step" data-index="1">
+                    <div class="lifecycle-step" data-index="1" role="button" tabindex="0" aria-expanded="false" aria-label="Estimation phase - click to learn more">
                         <div class="lifecycle-circle">
                             <div class="lifecycle-number">2</div>
                             <div class="lifecycle-name">Estimation</div>
@@ -3136,7 +3171,7 @@
                         </div>
                     </div>
                     <div class="lifecycle-connector"></div>
-                    <div class="lifecycle-step" data-index="2">
+                    <div class="lifecycle-step" data-index="2" role="button" tabindex="0" aria-expanded="false" aria-label="Proposal phase - click to learn more">
                         <div class="lifecycle-circle">
                             <div class="lifecycle-number">3</div>
                             <div class="lifecycle-name">Proposal</div>
@@ -3152,7 +3187,7 @@
                         </div>
                     </div>
                     <div class="lifecycle-connector"></div>
-                    <div class="lifecycle-step" data-index="3">
+                    <div class="lifecycle-step" data-index="3" role="button" tabindex="0" aria-expanded="false" aria-label="Contract phase - click to learn more">
                         <div class="lifecycle-circle">
                             <div class="lifecycle-number">4</div>
                             <div class="lifecycle-name">Contract</div>
@@ -3168,7 +3203,7 @@
                         </div>
                     </div>
                     <div class="lifecycle-connector"></div>
-                    <div class="lifecycle-step" data-index="4">
+                    <div class="lifecycle-step" data-index="4" role="button" tabindex="0" aria-expanded="false" aria-label="Delivery phase - click to learn more">
                         <div class="lifecycle-circle">
                             <div class="lifecycle-number">5</div>
                             <div class="lifecycle-name">Delivery</div>
@@ -3184,7 +3219,7 @@
                         </div>
                     </div>
                     <div class="lifecycle-connector"></div>
-                    <div class="lifecycle-step" data-index="5">
+                    <div class="lifecycle-step" data-index="5" role="button" tabindex="0" aria-expanded="false" aria-label="Learning phase - click to learn more">
                         <div class="lifecycle-circle">
                             <div class="lifecycle-number">6</div>
                             <div class="lifecycle-name">Learning</div>
@@ -3593,6 +3628,7 @@
             </div>
         </div>
     </section>
+    </main>
 
     <!-- Footer -->
     <footer>
@@ -3640,7 +3676,7 @@
                 <div class="footer-bottom-left">
                     <span>© 2026 Servantium Inc.</span>
                     <span class="footer-divider">·</span>
-                    <button class="footer-email-chip" onclick="copyFooterEmail(this)">
+                    <button class="footer-email-chip" onclick="copyFooterEmail(this)" aria-label="Copy email address hello@servantium.com to clipboard">
                         <span class="footer-email-chip-text">hello@servantium.com</span>
                         <svg class="footer-email-chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
@@ -3778,6 +3814,7 @@
 
         function closeMobileMenu() {
             mobileMenu.classList.remove('active');
+            mobileMenu.setAttribute('aria-hidden', 'true');
             mobileMenuToggle.classList.remove('active');
             mobileMenuToggle.setAttribute('aria-expanded', 'false');
             document.body.style.overflow = '';
@@ -3787,6 +3824,7 @@
             const isActive = mobileMenu.classList.toggle('active');
             this.classList.toggle('active');
             this.setAttribute('aria-expanded', isActive);
+            mobileMenu.setAttribute('aria-hidden', !isActive);
             document.body.style.overflow = isActive ? 'hidden' : '';
         });
 
@@ -3862,17 +3900,33 @@
                 }
             });
 
-            step.addEventListener('click', () => {
+            // Handle both click and keyboard activation
+            function activateStep() {
                 if (isMobile()) {
                     toggleMobileStep(step);
                 } else {
                     if (activeStep === index) {
                         hidePanel();
                         activeStep = null;
+                        step.setAttribute('aria-expanded', 'false');
                     } else {
                         showPanel(index, step);
                         activeStep = index;
+                        // Update aria-expanded on all steps
+                        document.querySelectorAll('.lifecycle-step').forEach(s => {
+                            s.setAttribute('aria-expanded', s === step ? 'true' : 'false');
+                        });
                     }
+                }
+            }
+
+            step.addEventListener('click', activateStep);
+
+            // Keyboard support: Enter and Space
+            step.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    activateStep();
                 }
             });
         });
@@ -3882,6 +3936,7 @@
             const data = lifecycleData[index];
 
             document.getElementById('panel-image').src = data.image;
+            document.getElementById('panel-image').alt = data.title + ' phase illustration';
             document.getElementById('panel-title').textContent = data.title;
             document.getElementById('panel-description').textContent = data.description;
 
