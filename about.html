@@ -42,6 +42,11 @@
                 document.body.style.paddingTop = '40px';
                 var nav = document.querySelector('nav');
                 if (nav) nav.style.top = '40px';
+                // Adjust mobile menu for test banner
+                var mobileMenu = document.getElementById('mobile-menu');
+                if (mobileMenu) {
+                    mobileMenu.style.paddingTop = '120px';
+                }
             });
         }
     })();
@@ -150,7 +155,7 @@
 
         /* Skip to content link for accessibility */
         .skip-link {
-            position: absolute;
+            position: fixed;
             top: -100px;
             left: 50%;
             transform: translateX(-50%);
@@ -160,7 +165,7 @@
             border-radius: 0 0 8px 8px;
             font-weight: 600;
             text-decoration: none;
-            z-index: 1000;
+            z-index: 100000;
             transition: top 0.2s ease;
         }
 
