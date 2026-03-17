@@ -52,16 +52,17 @@
     })();
     </script>
 
-    <title>About — Servantium</title>
-    <meta name="description" content="Servantium was founded to give services businesses the operational infrastructure they deserve. Meet the founders and learn why we're building the operating system for professional services.">
+    <title>Platform — Professional Services CPQ & Engagement Management | Servantium</title>
+    <meta name="description" content="Explore Servantium's professional services platform. See the full capability set — from engagement scoping and AI-powered estimation to resource planning, Salesforce integration, and institutional memory.">
+    <meta name="keywords" content="professional services CPQ, CPQ platform, services engagement management, professional services automation, PSA platform, engagement scoping, AI estimation, resource planning">
     <meta name="author" content="Servantium Inc.">
 
     <!-- Open Graph / Social -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://servantium.com/about">
+    <meta property="og:url" content="https://servantium.com/platform">
     <meta property="og:site_name" content="Servantium">
-    <meta name="title" property="og:title" content="About Servantium — The Founders & Our Mission">
-    <meta name="description" property="og:description" content="Servantium was founded to give professional services businesses the operational infrastructure they deserve. Meet the founders behind the operating system for professional services.">
+    <meta name="title" property="og:title" content="Platform — Professional Services CPQ & Engagement Management | Servantium">
+    <meta name="description" property="og:description" content="Explore Servantium's professional services platform. Engagement scoping, AI-powered estimation, resource planning, Salesforce integration, and institutional memory.">
     <meta name="image" property="og:image" content="https://servantium.com/og-image.png">
     <meta property="og:image:secure_url" content="https://servantium.com/og-image.png">
     <meta property="og:image:type" content="image/png">
@@ -70,44 +71,24 @@
     <meta property="og:image:alt" content="Servantium - The Operating System for Professional Services">
 
     <!-- Canonical -->
-    <link rel="canonical" href="https://servantium.com/about">
+    <link rel="canonical" href="https://servantium.com/platform">
 
     <!-- Schema.org Structured Data -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@type": "AboutPage",
-        "mainEntity": {
-            "@type": "Organization",
-            "@id": "https://servantium.com/#organization",
-            "name": "Servantium",
-            "url": "https://servantium.com",
-            "logo": {
-                "@type": "ImageObject",
-                "url": "https://servantium.com/logo.png"
-            },
-            "description": "The CPQ and engagement management platform built for professional services firms.",
-            "address": {
-                "@type": "PostalAddress",
-                "streetAddress": "1111B S Governors Ave STE 48074",
-                "addressLocality": "Dover",
-                "addressRegion": "DE",
-                "postalCode": "19904",
-                "addressCountry": "US"
-            },
-            "email": "hello@servantium.com",
-            "founder": [
-                {
-                    "@type": "Person",
-                    "name": "Christopher Veale",
-                    "jobTitle": "Co-founder & CEO"
-                },
-                {
-                    "@type": "Person",
-                    "name": "Maxwell Friel",
-                    "jobTitle": "Co-founder & CTO"
-                }
-            ]
+        "@type": "WebPage",
+        "name": "Platform — Professional Services CPQ & Engagement Management",
+        "description": "Explore Servantium's professional services platform. See the full capability set — from engagement scoping and AI-powered estimation to resource planning, Salesforce integration, and institutional memory.",
+        "url": "https://servantium.com/platform",
+        "isPartOf": {
+            "@id": "https://servantium.com/#website"
+        },
+        "about": {
+            "@id": "https://servantium.com/#software"
+        },
+        "publisher": {
+            "@id": "https://servantium.com/#organization"
         }
     }
     </script>
@@ -130,19 +111,19 @@
             --green-100: #C8F5DE;
             --green-50: #E8FBF1;
             --green-25: #F3FCF8;
-            
+
             --coral: #FF5C70;
             --slate-blue: #4C82A7;
             --amber: #FFB02E;
             --deep-teal: #26A899;
             --slate: #64748B;
-            
+
             --neutral-25: #FFFFFF;
             --neutral-100: #F5F6F7;
             --neutral-300: #E1E3E6;
             --neutral-700: #64748B;
             --neutral-900: #0D0D0D;
-            
+
             --font-display: 'Playfair Display', Georgia, serif;
             --font-body: 'Source Sans 3', -apple-system, BlinkMacSystemFont, sans-serif;
         }
@@ -327,20 +308,15 @@
             color: var(--green-500);
         }
 
+        .btn-large {
+            padding: 1rem 2rem;
+            font-size: 1rem;
+        }
+
         .nav-buttons {
             display: flex;
             gap: 0.75rem;
             align-items: center;
-        }
-
-        /* Hero */
-        .about-hero {
-            padding: 10rem 0 6rem;
-            background: linear-gradient(180deg, var(--green-25) 0%, var(--neutral-25) 100%);
-        }
-
-        .about-hero-content {
-            max-width: 800px;
         }
 
         .section-label {
@@ -353,357 +329,359 @@
             margin-bottom: 1.5rem;
         }
 
-        .about-hero h1 {
+        /* ===========================
+           Platform Hero
+           =========================== */
+        .platform-hero {
+            padding: 10rem 0 6rem;
+            background: linear-gradient(180deg, var(--green-25) 0%, var(--neutral-25) 100%);
+            text-align: center;
+        }
+
+        .platform-hero-eyebrow {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--green-600);
             margin-bottom: 1.5rem;
         }
 
-        .about-hero .text-large {
-            max-width: 650px;
+        .platform-hero h1 {
+            margin-bottom: 1.5rem;
         }
 
-        /* Story Section */
-        .story {
+        .platform-hero-desc {
+            max-width: 680px;
+            margin: 0 auto;
+            font-size: 1.25rem;
+            line-height: 1.7;
+        }
+
+        /* ===========================
+           Capability Cards
+           =========================== */
+        .capabilities {
             padding: 6rem 0;
             background: var(--neutral-25);
         }
 
-        .story-grid {
+        .capabilities-header {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 4rem;
+        }
+
+        .capabilities-header h2 {
+            margin-bottom: 1rem;
+        }
+
+        .capabilities-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 6rem;
-            align-items: start;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
         }
 
-        .story-content h2 {
-            margin-bottom: 2rem;
+        .capability-card {
+            background: white;
+            border: 1px solid var(--neutral-300);
+            border-radius: 16px;
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
         }
 
-        .story-text {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: var(--neutral-700);
+        .capability-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
         }
 
-        .story-text p {
+        .capability-card:nth-child(1)::before { background: var(--green-500); }
+        .capability-card:nth-child(2)::before { background: var(--slate-blue); }
+        .capability-card:nth-child(3)::before { background: var(--deep-teal); }
+        .capability-card:nth-child(4)::before { background: var(--amber); }
+
+        .capability-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             margin-bottom: 1.5rem;
         }
 
-        .story-text strong {
-            color: var(--neutral-900);
-            font-weight: 500;
+        .capability-card:nth-child(1) .capability-icon { background: rgba(0, 194, 109, 0.1); }
+        .capability-card:nth-child(2) .capability-icon { background: rgba(76, 130, 167, 0.1); }
+        .capability-card:nth-child(3) .capability-icon { background: rgba(38, 168, 153, 0.1); }
+        .capability-card:nth-child(4) .capability-icon { background: rgba(255, 176, 46, 0.1); }
+
+        .capability-icon svg {
+            width: 26px;
+            height: 26px;
         }
 
-        .story-sidebar {
-            background: var(--green-950);
-            border-radius: 16px;
-            padding: 3rem;
-            color: white;
-            position: sticky;
-            top: 120px;
+        .capability-card h3 {
+            font-family: var(--font-body);
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
         }
 
-        .story-sidebar h3 {
-            font-size: 1.25rem;
-            margin-bottom: 2rem;
-            color: var(--green-500);
+        .capability-card ul {
+            list-style: none;
+            padding: 0;
         }
 
-        .belief {
-            padding: 1.25rem 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .belief:last-child {
-            border-bottom: none;
-        }
-
-        .belief-title {
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-            font-size: 1rem;
-        }
-
-        .belief-description {
-            font-size: 0.9rem;
-            color: rgba(255,255,255,0.7);
+        .capability-card li {
+            padding: 0.4rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            font-size: 0.95rem;
+            color: var(--neutral-700);
             line-height: 1.6;
         }
 
-        /* Founders Section */
-        .founders {
+        .capability-card li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.7rem;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--green-500);
+            opacity: 0.5;
+        }
+
+        /* ===========================
+           Integrations
+           =========================== */
+        .integrations {
             padding: 6rem 0;
             background: var(--neutral-100);
         }
 
-        .founders-header {
+        .integrations-header {
             text-align: center;
             max-width: 600px;
             margin: 0 auto 4rem;
         }
 
-        .founders-header h2 {
+        .integrations-header h2 {
             margin-bottom: 1rem;
         }
 
-        .founders-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 3rem;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .founder-card {
-            background: white;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-        }
-
-        .founder-photo {
-            aspect-ratio: 4/3;
-            background: linear-gradient(135deg, var(--green-950) 0%, var(--green-800) 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .founder-photo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center top;
-        }
-
-        .founder-initials {
-            width: 100px;
-            height: 100px;
-            background: var(--green-500);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: var(--font-display);
-            font-size: 2.5rem;
-            color: white;
-            position: relative;
-            z-index: 1;
-        }
-
-        .founder-info {
-            padding: 2rem;
-        }
-
-        .founder-name {
-            font-family: var(--font-display);
-            font-size: 1.5rem;
-            margin-bottom: 0.25rem;
-        }
-
-        .founder-title {
-            color: var(--green-600);
-            font-weight: 500;
-            font-size: 0.9rem;
-            margin-bottom: 1.25rem;
-        }
-
-        .founder-bio {
-            font-size: 0.95rem;
-            line-height: 1.7;
-            color: var(--neutral-700);
-            margin-bottom: 1.5rem;
-        }
-
-        .founder-links {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .founder-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--slate);
-            text-decoration: none;
-            font-size: 0.85rem;
-            transition: color 0.2s;
-        }
-
-        .founder-link:hover {
-            color: var(--green-600);
-        }
-
-        .founder-link svg {
-            width: 18px;
-            height: 18px;
-        }
-
-        /* Values Section */
-        .values {
-            padding: 6rem 0;
-            background: white;
-        }
-
-        .values-header {
-            text-align: center;
-            max-width: 600px;
-            margin: 0 auto 4rem;
-        }
-
-        .values-grid {
+        .integration-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 2rem;
         }
 
-        .value-card {
-            padding: 2.5rem;
-            background: var(--neutral-100);
-            border-radius: 12px;
+        .integration-card {
+            background: white;
+            border: 1px solid var(--neutral-300);
+            border-radius: 16px;
+            padding: 2rem;
             text-align: center;
         }
 
-        .value-icon {
+        .integration-icon {
             width: 56px;
             height: 56px;
-            background: var(--green-500);
             border-radius: 14px;
+            background: var(--neutral-100);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 1.5rem;
+            margin: 0 auto 1.25rem;
         }
 
-        .value-icon svg {
+        .integration-icon svg {
             width: 28px;
             height: 28px;
-            stroke: white;
         }
 
-        .value-card h3 {
+        .integration-card h3 {
             font-family: var(--font-body);
             font-size: 1.1rem;
             font-weight: 600;
             margin-bottom: 0.75rem;
         }
 
-        .value-card p {
+        .integration-card p {
             font-size: 0.9rem;
             line-height: 1.6;
+            margin-bottom: 1rem;
         }
 
-        /* CTA Section */
-        .about-cta {
+        .integration-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            padding: 0.3rem 0.75rem;
+            border-radius: 50px;
+        }
+
+        .integration-status.live {
+            background: rgba(0, 194, 109, 0.1);
+            color: var(--green-600);
+        }
+
+        .integration-status.dev {
+            background: rgba(255, 176, 46, 0.12);
+            color: #b87a00;
+        }
+
+        /* ===========================
+           Feature List
+           =========================== */
+        .features {
+            padding: 6rem 0;
+            background: var(--neutral-25);
+        }
+
+        .features-header {
+            text-align: center;
+            max-width: 650px;
+            margin: 0 auto 4rem;
+        }
+
+        .features-header h2 {
+            margin-bottom: 1rem;
+        }
+
+        .feature-categories {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2.5rem;
+        }
+
+        .feature-category {
+            padding: 2rem;
+            background: var(--neutral-100);
+            border-radius: 12px;
+            border-left: 4px solid var(--green-500);
+        }
+
+        .feature-category:nth-child(2) { border-left-color: var(--amber); }
+        .feature-category:nth-child(3) { border-left-color: var(--deep-teal); }
+        .feature-category:nth-child(4) { border-left-color: var(--slate-blue); }
+        .feature-category:nth-child(5) { border-left-color: var(--coral); }
+        .feature-category:nth-child(6) { border-left-color: var(--slate); }
+
+        .feature-category h3 {
+            font-family: var(--font-body);
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 1.25rem;
+            color: var(--neutral-900);
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-list li {
+            padding: 0.4rem 0;
+            padding-left: 1.75rem;
+            position: relative;
+            font-size: 0.95rem;
+            color: var(--neutral-700);
+            line-height: 1.5;
+        }
+
+        .feature-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.6rem;
+            width: 16px;
+            height: 16px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300C26D' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
+        .feature-list li.coming-soon {
+            color: var(--slate);
+        }
+
+        .feature-list li.coming-soon::before {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
+            opacity: 0.4;
+        }
+
+        .feature-list li.coming-soon::after {
+            content: 'Roadmap';
+            display: inline-block;
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            background: rgba(255, 176, 46, 0.15);
+            color: #b87a00;
+            padding: 0.1rem 0.5rem;
+            border-radius: 50px;
+            margin-left: 0.5rem;
+            vertical-align: middle;
+        }
+
+        /* ===========================
+           CTA Section
+           =========================== */
+        .platform-cta {
             padding: 6rem 0;
             background: var(--green-950);
             text-align: center;
         }
 
-        .about-cta-content {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .about-cta h2 {
+        .platform-cta h2 {
             color: white;
             margin-bottom: 1.25rem;
         }
 
-        .about-cta p {
+        .platform-cta > .container > p {
             font-size: 1.15rem;
             color: rgba(255,255,255,0.7);
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
+            max-width: 550px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        .about-cta .btn-secondary {
+        .platform-cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .platform-cta .btn-secondary {
             border-color: rgba(255,255,255,0.2);
             color: white;
         }
 
-        .about-cta .btn-secondary:hover {
+        .platform-cta .btn-secondary:hover {
             border-color: var(--green-500);
             background: rgba(0, 194, 109, 0.1);
         }
 
-        .cta-email {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .cta-email-label {
-            font-size: 0.875rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: rgba(255,255,255,0.5);
-        }
-
-        .email-chip {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.875rem 1.5rem;
-            background: transparent;
-            border: 2px solid var(--green-500);
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            position: relative;
-            font-family: var(--font-body);
-        }
-
-        .email-chip:hover {
-            background: rgba(0, 194, 109, 0.1);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 194, 109, 0.2);
-        }
-
-        .email-chip:active {
-            transform: translateY(0);
-        }
-
-        .email-chip-text {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--green-500);
-            transition: color 0.2s ease;
-        }
-
-        .email-chip-icon {
-            width: 20px;
-            height: 20px;
-            color: var(--green-500);
-            transition: all 0.2s ease;
-            flex-shrink: 0;
-        }
-
-        .email-chip.copied {
-            background: var(--green-500);
-            border-color: var(--green-500);
-        }
-
-        .email-chip.copied .email-chip-text {
-            color: white;
-        }
-
-        .email-chip.copied .email-chip-icon {
-            color: white;
-        }
-
-        @keyframes checkPop {
-            0% { transform: scale(0); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
-
-        .email-chip.copied .email-chip-icon {
-            animation: checkPop 0.3s ease forwards;
-        }
-
-        /* Footer */
+        /* ===========================
+           Footer
+           =========================== */
         footer {
             background: var(--neutral-900);
             color: white;
@@ -856,7 +834,9 @@
             color: white;
         }
 
-        /* Mobile Menu */
+        /* ===========================
+           Mobile Menu
+           =========================== */
         .mobile-menu-toggle {
             display: none;
             flex-direction: column;
@@ -959,15 +939,14 @@
             font-size: 1rem;
         }
 
-        /* Responsive */
+        /* ===========================
+           Responsive
+           =========================== */
         @media (max-width: 1024px) {
-            .story-grid {
+            .integration-grid {
                 grid-template-columns: 1fr;
-                gap: 3rem;
-            }
-
-            .story-sidebar {
-                position: static;
+                max-width: 480px;
+                margin: 0 auto;
             }
         }
 
@@ -984,12 +963,23 @@
                 display: flex;
             }
 
-            .founders-grid {
+            .capabilities-grid {
                 grid-template-columns: 1fr;
             }
 
-            .values-grid {
+            .feature-categories {
                 grid-template-columns: 1fr;
+            }
+
+            .platform-hero {
+                padding: 8rem 0 4rem;
+            }
+
+            .capabilities,
+            .integrations,
+            .features,
+            .platform-cta {
+                padding: 4rem 0;
             }
 
             .footer-grid {
@@ -1011,21 +1001,26 @@
             .footer-divider {
                 display: none;
             }
+
+            .platform-cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
         }
     </style>
 </head>
 <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
-    <!-- Navigation -->
     <nav>
         <div class="container">
             <a href="index.html" class="logo">
                 <img src="logo.png" alt="Servantium" class="logo-image">
             </a>
             <ul class="nav-links">
-                <li><a href="platform.html">Platform</a></li>
-                <li><a href="about.html" class="active">About</a></li>
+                <li><a href="platform.html" class="active">Platform</a></li>
+                <li><a href="index.html#concept">How It Works</a></li>
+                <li><a href="about.html">About</a></li>
                 <li><a href="blog.html">Blog</a></li>
             </ul>
             <div class="nav-buttons">
@@ -1049,228 +1044,243 @@
             </svg>
         </button>
         <a href="platform.html">Platform</a>
+        <a href="index.html#concept">How It Works</a>
         <a href="about.html">About</a>
         <a href="blog.html">Blog</a>
+        <a href="#contact" onclick="closeMobileMenu()">Book a Demo</a>
         <a href="https://app.servantium.com/" class="btn btn-primary">Log In</a>
     </div>
 
     <main id="main-content" tabindex="-1">
-    <!-- Hero -->
-    <section class="about-hero">
+
+    <!-- Platform Hero -->
+    <section class="platform-hero">
         <div class="container">
-            <div class="about-hero-content">
-                <span class="section-label">About Servantium</span>
-                <h1>We're building the infrastructure services businesses have always needed</h1>
-                <p class="text-large">
-                    Servantium was founded on a simple observation: services businesses have real products,
-                    but no system to define, price, and deliver them consistently. We're here to change that.
-                </p>
-            </div>
+            <div class="platform-hero-eyebrow">The Platform</div>
+            <h1>A platform that learns.</h1>
+            <p class="platform-hero-desc">Every engagement, every estimate, every outcome feeds back into how you price and scope the next one. Servantium doesn't just store your data — it compounds your firm's intelligence over time.</p>
         </div>
     </section>
 
-    <!-- Story Section -->
-    <section class="story">
+    <!-- Capability Cards -->
+    <section class="capabilities">
         <div class="container">
-            <div class="story-grid">
-                <div class="story-content">
-                    <h2>The story behind Servantium</h2>
-                    <div class="story-text">
-                        <p>
-                            <strong>We've spent our careers in the trenches of professional services,</strong> building
-                            delivery teams, implementing enterprise software, and watching firsthand as talented
-                            consultants struggled with the same problems over and over again.
-                        </p>
-                        <p>
-                            Pricing decisions made in isolation. Scope changes that never made it to the contract.
-                            Delivery teams reinventing the wheel because lessons from past projects lived only in
-                            people's heads. We saw how much margin leaked through the cracks of disconnected systems.
-                        </p>
-                        <p>
-                            The frustrating part? <strong>Product companies don't have these problems.</strong> They have
-                            systems that remember everything: every price change, every customer interaction, every
-                            feature update feeds back into better decisions. Services businesses deserve the same advantage.
-                        </p>
-                        <p>
-                            So we built Servantium. The name fuses <em>servare</em>, the Latin root meaning to serve,
-                            protect, and preserve, with <em>-ium</em>, the suffix used for foundational elements.
-                            Like titanium or platinum, Servantium is meant to be essential infrastructure: strong,
-                            enduring, and built to last.
-                        </p>
-                        <p>
-                            Not another tool that bends to chaos, but a system that creates structure. A single
-                            source of truth for how services are sold, priced, contracted, and delivered. An
-                            operating system that gives services businesses the operational discipline traditionally
-                            reserved for product companies, without sacrificing the flexibility and human expertise
-                            that makes services work.
-                        </p>
-                    </div>
-                </div>
-                <div class="story-sidebar">
-                    <h3>What We Believe</h3>
-                    <div class="belief">
-                        <div class="belief-title">Structure before automation</div>
-                        <div class="belief-description">
-                            AI and automation only work when built on structured foundations. We create the structure first.
-                        </div>
-                    </div>
-                    <div class="belief">
-                        <div class="belief-title">Humans stay in control</div>
-                        <div class="belief-description">
-                            Technology should amplify human expertise, not replace human judgment. Services are built on relationships.
-                        </div>
-                    </div>
-                    <div class="belief">
-                        <div class="belief-title">Clarity over cleverness</div>
-                        <div class="belief-description">
-                            Simple, understandable systems beat complex ones. If you can't explain it, you can't trust it.
-                        </div>
-                    </div>
-                    <div class="belief">
-                        <div class="belief-title">Day-one usability matters</div>
-                        <div class="belief-description">
-                            Software should deliver value immediately, not require months of configuration before it's useful.
-                        </div>
-                    </div>
-                </div>
+            <div class="capabilities-header">
+                <h2>What Servantium does</h2>
+                <p>Four capabilities. One connected system.</p>
             </div>
-        </div>
-    </section>
-
-    <!-- Founders Section -->
-    <section class="founders">
-        <div class="container">
-            <div class="founders-header">
-                <span class="section-label">Leadership</span>
-                <h2>Meet the founders</h2>
-                <p class="text-large">
-                    Two operators who've lived the problems Servantium solves.
-                </p>
-            </div>
-            
-            <div class="founders-grid">
-                <div class="founder-card">
-                    <div class="founder-photo">
-                        <img src="christopher-veale.png" alt="Christopher Veale">
-                    </div>
-                    <div class="founder-info">
-                        <h3 class="founder-name">Christopher Veale</h3>
-                        <div class="founder-title">Chief Executive Officer</div>
-                        <p class="founder-bio">
-                            Christopher brings deep experience in enterprise software and professional services
-                            delivery. He's spent years at the intersection of products and services, helping
-                            organizations automate their professional services workflows and scale operations
-                            without losing the human touch that makes services businesses work.
-                        </p>
-                        <div class="founder-links">
-                            <a href="https://linkedin.com/in/christopher-veale" class="founder-link" target="_blank">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/>
-                                    <rect x="2" y="9" width="4" height="12"/>
-                                    <circle cx="4" cy="4" r="2"/>
-                                </svg>
-                                LinkedIn
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="founder-card">
-                    <div class="founder-photo">
-                        <img src="maxwell-friel.png" alt="Maxwell Friel">
-                    </div>
-                    <div class="founder-info">
-                        <h3 class="founder-name">Maxwell Friel</h3>
-                        <div class="founder-title">Chief Technology Officer</div>
-                        <p class="founder-bio">
-                            Maxwell is a seasoned technology leader with over a decade of experience building
-                            and delivering enterprise software solutions. His background in solution architecture,
-                            CRM systems, and professional services delivery gives him unique insight into what
-                            services organizations actually need, and what they don't.
-                        </p>
-                        <div class="founder-links">
-                            <a href="https://linkedin.com/in/maxwell-friel-2bb02b30" class="founder-link" target="_blank">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/>
-                                    <rect x="2" y="9" width="4" height="12"/>
-                                    <circle cx="4" cy="4" r="2"/>
-                                </svg>
-                                LinkedIn
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Values Section -->
-    <section class="values">
-        <div class="container">
-            <div class="values-header">
-                <span class="section-label">Our Values</span>
-                <h2>How we operate</h2>
-                <p class="text-large">
-                    The principles that guide everything we build.
-                </p>
-            </div>
-            
-            <div class="values-grid">
-                <div class="value-card">
-                    <div class="value-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+            <div class="capabilities-grid">
+                <!-- Card 1: Engagement Scoping & Pricing -->
+                <div class="capability-card">
+                    <div class="capability-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#00C26D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="1" x2="12" y2="23"></line>
+                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
                         </svg>
                     </div>
-                    <h3>Startup Speed</h3>
-                    <p>Ship fast, iterate faster. We move at startup pace while delivering enterprise reliability.</p>
+                    <h3>Engagement Scoping & Pricing</h3>
+                    <ul>
+                        <li>Build estimates from your encoded service catalog</li>
+                        <li>AI-generated estimates that improve from past engagement data</li>
+                        <li>Tiered discount rules and custom pricing logic</li>
+                        <li>Engagement templates for repeatable scoping</li>
+                    </ul>
                 </div>
-                <div class="value-card">
-                    <div class="value-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
-                            <circle cx="9" cy="7" r="4"/>
-                            <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
+
+                <!-- Card 2: Document Generation -->
+                <div class="capability-card">
+                    <div class="capability-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#4C82A7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                            <polyline points="10 9 9 9 8 9"></polyline>
                         </svg>
                     </div>
-                    <h3>Customer First</h3>
-                    <p>Every feature we build solves a real problem for real customers. No vanity features.</p>
+                    <h3>Document Generation</h3>
+                    <ul>
+                        <li>Generate proposals and SOWs from your estimates</li>
+                        <li>Custom templates with full design control</li>
+                        <li>PDF & DOCX output</li>
+                        <li>Version history and audit trail</li>
+                    </ul>
                 </div>
-                <div class="value-card">
-                    <div class="value-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+
+                <!-- Card 3: Resource & Delivery -->
+                <div class="capability-card">
+                    <div class="capability-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#26A899" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                         </svg>
                     </div>
-                    <h3>Relentless Iteration</h3>
-                    <p>We treat feedback as a gift. Every conversation shapes the product. We're never done improving.</p>
+                    <h3>Resource & Delivery</h3>
+                    <ul>
+                        <li>Resource planning grid with capacity tracking</li>
+                        <li>Project planning and team assignment</li>
+                        <li>Pipeline analytics and dashboards</li>
+                        <li>Engagement notes and client management</li>
+                    </ul>
+                </div>
+
+                <!-- Card 4: Intelligence That Compounds -->
+                <div class="capability-card">
+                    <div class="capability-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#FFB02E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="16" x2="12" y2="12"></line>
+                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                        </svg>
+                    </div>
+                    <h3>Intelligence That Compounds</h3>
+                    <ul>
+                        <li>Similar engagement search (semantic)</li>
+                        <li>Institutional Memory Engine</li>
+                        <li>Your estimates get sharper with every delivery</li>
+                        <li>Knowledge doesn't walk out the door when people leave</li>
+                    </ul>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- CTA Section -->
-    <section class="about-cta" id="contact">
+    <!-- Integrations -->
+    <section class="integrations">
         <div class="container">
-            <div class="about-cta-content">
-                <h2>Let's talk</h2>
-                <p>
-                    Curious how Servantium could work for your services business?
-                    We'd love to show you.
-                </p>
-                <div class="cta-email">
-                    <span class="cta-email-label">Start a conversation</span>
-                    <button class="email-chip" id="email-chip" onclick="copyEmail(event)" aria-label="Copy email address">
-                        <span class="email-chip-text" id="email-chip-text">hello@servantium.com</span>
-                        <svg class="email-chip-icon" id="email-chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            <div class="integrations-header">
+                <h2>Connects with your stack</h2>
+                <p>Servantium doesn't replace your tools — it connects them.</p>
+            </div>
+            <div class="integration-grid">
+                <div class="integration-card">
+                    <div class="integration-icon">
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z" fill="#00A1E0"/>
                         </svg>
-                    </button>
+                    </div>
+                    <h3>Salesforce</h3>
+                    <p>Bi-directional sync. Opportunities, contacts, and engagement data flow both ways.</p>
+                    <span class="integration-status live">Live</span>
+                </div>
+                <div class="integration-card">
+                    <div class="integration-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="16 18 22 12 16 6"></polyline>
+                            <polyline points="8 6 2 12 8 18"></polyline>
+                            <line x1="14" y1="4" x2="10" y2="20"></line>
+                        </svg>
+                    </div>
+                    <h3>REST API</h3>
+                    <p>Connect any system. Every feature in Servantium has a corresponding API endpoint.</p>
+                    <span class="integration-status dev">In Development</span>
+                </div>
+                <div class="integration-card">
+                    <div class="integration-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                            <line x1="10" y1="9" x2="8" y2="9"></line>
+                        </svg>
+                    </div>
+                    <h3>CSV Import</h3>
+                    <p>Migrate your existing data. Import clients, services, and historical engagements.</p>
+                    <span class="integration-status live">Live</span>
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- Feature List -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="features-header">
+                <h2>Everything you need to run services</h2>
+                <p>One platform. Every stage of the engagement lifecycle.</p>
+            </div>
+            <div class="feature-categories">
+                <div class="feature-category">
+                    <h3>Core Platform</h3>
+                    <ul class="feature-list">
+                        <li>Engagement Templates</li>
+                        <li>AI-Generated Templates</li>
+                        <li>Service Catalog</li>
+                        <li>Catalog Learning</li>
+                        <li>AI-Generated Estimates</li>
+                        <li>Tiered Discount Rules</li>
+                        <li>Document Generation (PDF & DOCX)</li>
+                        <li>Custom Document Templates</li>
+                        <li>Client & Contact Management</li>
+                        <li>Engagement Notes</li>
+                        <li>Dashboard & Pipeline Analytics</li>
+                    </ul>
+                </div>
+                <div class="feature-category">
+                    <h3>Intelligence</h3>
+                    <ul class="feature-list">
+                        <li>Similar Engagement Search</li>
+                        <li>Semantic Note Search</li>
+                        <li>Institutional Memory Engine</li>
+                    </ul>
+                </div>
+                <div class="feature-category">
+                    <h3>Resource Management</h3>
+                    <ul class="feature-list">
+                        <li>Resource Planning Grid</li>
+                        <li>Resource Capacity Tracking</li>
+                        <li>Resource Groups & Tags</li>
+                        <li>Project Planning Grid</li>
+                        <li class="coming-soon">Project Status Tracking</li>
+                        <li class="coming-soon">AI Health Score</li>
+                    </ul>
+                </div>
+                <div class="feature-category">
+                    <h3>Collaboration</h3>
+                    <ul class="feature-list">
+                        <li>Version History & Audit Trail</li>
+                        <li>Team Workspace</li>
+                        <li class="coming-soon">Role-Based Permissions</li>
+                        <li class="coming-soon">Approval Workflows</li>
+                    </ul>
+                </div>
+                <div class="feature-category">
+                    <h3>Data & Integrations</h3>
+                    <ul class="feature-list">
+                        <li>CSV Data Import</li>
+                        <li>Salesforce Integration (bi-directional)</li>
+                        <li>Multi-Organization Support</li>
+                        <li class="coming-soon">REST API</li>
+                    </ul>
+                </div>
+                <div class="feature-category">
+                    <h3>Security & Compliance</h3>
+                    <ul class="feature-list">
+                        <li>Dedicated Tenant (Enterprise)</li>
+                        <li class="coming-soon">SSO (SAML/OIDC)</li>
+                        <li class="coming-soon">SOC 2 / ISO 27001 / GDPR</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="platform-cta">
+        <div class="container">
+            <h2>Ready to see it in action?</h2>
+            <p>Book a 15-minute demo and we'll show you how Servantium works for your firm.</p>
+            <div class="platform-cta-buttons">
+                <button class="btn btn-primary btn-large" data-cal-link="christopher-veale/servantium-introduction?duration=15" data-cal-namespace="servantium-introduction" data-cal-config='{"layout":"month_view"}'>Book a Demo</button>
+                <a href="mailto:hello@servantium.com" class="btn btn-secondary btn-large" style="border-color: rgba(255,255,255,0.3); color: white;">Email Us</a>
+            </div>
+        </div>
+    </section>
+
     </main>
 
     <!-- Footer -->
@@ -1295,8 +1305,8 @@
                     <h4>Explore</h4>
                     <ul>
                         <li><a href="platform.html">Platform</a></li>
-                        <li><a href="about.html">About</a></li>
-                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="index.html#concept">How It Works</a></li>
+                        <li><a href="index.html#problem">The Problem</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
@@ -1317,8 +1327,8 @@
             </div>
             <div class="footer-bottom">
                 <div class="footer-bottom-left">
-                    <span>© 2026 Servantium Inc.</span>
-                    <span class="footer-divider">·</span>
+                    <span>&copy; 2026 Servantium Inc.</span>
+                    <span class="footer-divider">&middot;</span>
                     <button class="footer-email-chip" onclick="copyFooterEmail(this)" aria-label="Copy email address hello@servantium.com to clipboard">
                         <span class="footer-email-chip-text">hello@servantium.com</span>
                         <svg class="footer-email-chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1378,16 +1388,6 @@
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
                 closeMobileMenu();
-            }
-        });
-
-        // Close mobile menu on escape key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
-                mobileMenu.classList.remove('active');
-                mobileMenuToggle.classList.remove('active');
-                mobileMenuToggle.setAttribute('aria-expanded', 'false');
-                document.body.style.overflow = '';
             }
         });
     </script>
