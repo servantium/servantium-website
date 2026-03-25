@@ -55,6 +55,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/nav.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/components.css">
     <style>
         :root {
             --color-servantium-green: #00C26D;
@@ -67,31 +71,6 @@
             --color-cloud-grey: #E1E3E6;
             --font-display: 'Playfair Display', Georgia, serif;
             --font-body: 'Source Sans 3', -apple-system, BlinkMacSystemFont, sans-serif;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: var(--font-body);
-            color: var(--color-ink);
-            background: var(--color-white);
-            line-height: 1.7;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        nav {
-            padding: 1.5rem 2.5rem;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--color-cloud-grey);
-        }
-
-        .logo-image { height: 40px; width: auto; }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 2.5rem;
         }
 
         .legal-header {
@@ -149,17 +128,7 @@
         .placeholder-notice a {
             color: var(--color-servantium-green);
         }
-
-        footer {
-            background: var(--color-ink);
-            color: white;
-            padding: 2rem;
-            text-align: center;
-            font-size: 0.9rem;
-            opacity: 0.7;
-        }
-
-        footer a {
+footer a {
             color: inherit;
             text-decoration: underline;
         }
@@ -170,29 +139,35 @@
         <a href="index.html">
             <img src="logo.png" alt="Servantium" class="logo-image">
         </a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="platform.html">Platform</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="blog.html">Blog</a></li>
+        </ul>
     </nav>
 
     <header class="legal-header">
         <div class="container">
             <h1>Terms of Service</h1>
-            <p>Last updated: January 2025</p>
+            <p>Last updated: March 2026</p>
         </div>
     </header>
 
     <main class="legal-content">
         <div class="container">
             <div class="placeholder-notice">
-                <p>Our full Terms of Service are being finalized.</p>
+                <p>These Terms of Service are currently under legal review and will be updated prior to general availability.</p>
                 <p>For questions, please contact us at <a href="mailto:hello@servantium.com">hello@servantium.com</a></p>
             </div>
 
-            <h2>Acceptance of Terms</h2>
+            <h2>1. Acceptance of Terms</h2>
             <p>By accessing or using Servantium's services, you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our services.</p>
 
-            <h2>Description of Service</h2>
-            <p>Servantium provides a software platform for professional services businesses to manage their engagements, pricing, proposals, and delivery operations.</p>
+            <h2>2. Description of Service</h2>
+            <p>Servantium provides a software platform for professional services businesses to manage their engagements, pricing, proposals, and delivery operations. The platform includes tools for configure-price-quote (CPQ), resource management, collaboration, and engagement intelligence.</p>
 
-            <h2>User Responsibilities</h2>
+            <h2>3. User Responsibilities</h2>
             <p>As a user of our services, you agree to:</p>
             <ul>
                 <li>Provide accurate and complete information</li>
@@ -201,13 +176,22 @@
                 <li>Not interfere with the operation of our services</li>
             </ul>
 
-            <h2>Intellectual Property</h2>
-            <p>All content, features, and functionality of our services are owned by Servantium Inc. and are protected by intellectual property laws.</p>
+            <h2>4. Subscription & Billing</h2>
+            <p>Access to Servantium is provided on a subscription basis. Subscription tiers, pricing, and included features are described on our website and may be updated from time to time. Payment terms, billing cycles, and applicable taxes will be outlined in your subscription agreement.</p>
 
-            <h2>Limitation of Liability</h2>
+            <h2>5. Intellectual Property</h2>
+            <p>All content, features, and functionality of our services are owned by Servantium Inc. and are protected by intellectual property laws. Your data remains your own — Servantium does not claim ownership of any content you upload or create within the platform.</p>
+
+            <h2>6. Termination</h2>
+            <p>Either party may terminate the subscription in accordance with the terms of the applicable agreement. Upon termination, your access to the platform will be revoked. You may request an export of your data within 30 days of termination.</p>
+
+            <h2>7. Modifications to Terms</h2>
+            <p>Servantium reserves the right to modify these Terms of Service at any time. Material changes will be communicated via email or through the platform with reasonable advance notice. Continued use of the service after changes take effect constitutes acceptance of the revised terms.</p>
+
+            <h2>8. Limitation of Liability</h2>
             <p>Servantium shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use of our services.</p>
 
-            <h2>Contact</h2>
+            <h2>9. Contact</h2>
             <p>Questions about these Terms of Service should be directed to <a href="mailto:hello@servantium.com">hello@servantium.com</a></p>
         </div>
     </main>
@@ -221,7 +205,7 @@
         <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px;">
             <p style="margin: 0; flex: 1; min-width: 280px; font-size: 14px; line-height: 1.5; color: #d1d5db;">
                 We use cookies to analyze site traffic and improve your experience. By clicking "Accept All", you consent to our use of analytics cookies.
-                <a href="/privacy" style="color: #00C26D; text-decoration: underline;">Privacy Policy</a>
+                <a href="privacy.html" style="color: #00C26D; text-decoration: underline;">Privacy Policy</a>
             </p>
             <div style="display: flex; gap: 12px; flex-shrink: 0;">
                 <button onclick="declineCookies()" style="padding: 10px 20px; background: transparent; border: 1px solid #9ca3af; color: #ffffff; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.2s;">Decline All</button>
@@ -229,33 +213,8 @@
             </div>
         </div>
     </div>
-    <script>
-    (function() {
-        var consent = localStorage.getItem('servantium_cookie_consent');
-        if (!consent) {
-            document.getElementById('cookie-consent').style.display = 'block';
-            document.body.style.paddingBottom = '80px';
-        }
-    })();
-    function acceptCookies() {
-        localStorage.setItem('servantium_cookie_consent', 'accepted');
-        document.getElementById('cookie-consent').style.display = 'none';
-        document.body.style.paddingBottom = '';
-        var script = document.createElement('script');
-        script.async = true;
-        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-6EFX4FNH6H';
-        document.head.appendChild(script);
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        window.gtag = gtag;
-        gtag('js', new Date());
-        gtag('config', 'G-6EFX4FNH6H');
-    }
-    function declineCookies() {
-        localStorage.setItem('servantium_cookie_consent', 'declined');
-        document.getElementById('cookie-consent').style.display = 'none';
-        document.body.style.paddingBottom = '';
-    }
-    </script>
+    <script src="js/nav.js"></script>
+    <script src="js/footer.js"></script>
+    <script src="js/cookie-consent.js"></script>
 </body>
 </html>

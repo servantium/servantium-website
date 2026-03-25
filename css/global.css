@@ -1,0 +1,188 @@
+/* ===========================
+   Global Styles — Servantium
+   Shared across all pages
+   =========================== */
+
+:root {
+    /* Servantium Official Colors */
+    --color-servantium-green: #00C26D;
+    --color-green-hover: #00A95E;
+    --color-deep-forest: #023E25;
+    --color-forest: #045F37;
+    --color-emerald: #037A47;
+    --color-fresh-green: #36D993;
+    --color-jade: #6FE7B0;
+    --color-light-jade: #A1EEC8;
+    --color-pale-green: #C8F5DE;
+    --color-soft-mint: #E8FBF1;
+    --color-mint-tint: #F3FCF8;
+
+    /* Accent Colors */
+    --color-coral: #FF5C70;
+    --color-slate-blue: #4C82A7;
+    --color-amber: #FFB02E;
+    --color-deep-teal: #26A899;
+    --color-slate: #64748B;
+
+    /* Neutrals */
+    --color-ink: #0D0D0D;
+    --color-ink-light: #3d3d3d;
+    --color-ink-muted: #6b6b6b;
+    --color-white: #FFFFFF;
+    --color-mist-grey: #F5F6F7;
+    --color-cloud-grey: #E1E3E6;
+
+    /* Typography */
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body: 'Source Sans 3', -apple-system, BlinkMacSystemFont, sans-serif;
+
+    /* Spacing */
+    --space-xs: 0.5rem;
+    --space-sm: 1rem;
+    --space-md: 1.5rem;
+    --space-lg: 2.5rem;
+    --space-xl: 4rem;
+    --space-2xl: 6rem;
+    --space-3xl: 8rem;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Skip to content link for accessibility */
+.skip-link {
+    position: fixed;
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--color-servantium-green);
+    color: var(--color-white);
+    padding: 0.75rem 1.5rem;
+    border-radius: 0 0 8px 8px;
+    font-weight: 600;
+    text-decoration: none;
+    z-index: 100000;
+    transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+    top: 0;
+    outline: 2px solid var(--color-deep-forest);
+    outline-offset: 2px;
+}
+
+#main-content:focus {
+    outline: none;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 18px;
+}
+
+body {
+    font-family: var(--font-body);
+    color: var(--color-ink);
+    background-color: var(--color-white);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    line-height: 1.25;
+    color: var(--color-ink);
+}
+
+h1 {
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    letter-spacing: -0.02em;
+}
+
+h2 {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    letter-spacing: -0.01em;
+}
+
+h3 {
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+p {
+    color: var(--color-ink-light);
+    font-size: 1.125rem;
+}
+
+.text-large {
+    font-size: 1.35rem;
+    line-height: 1.7;
+}
+
+.container {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 0 var(--space-lg);
+}
+
+section {
+    padding: var(--space-3xl) 0;
+}
+
+/* Buttons */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs);
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1.2;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    cursor: pointer;
+    border: none;
+}
+
+.btn-primary {
+    background: var(--color-servantium-green);
+    color: var(--color-white);
+    border: 2px solid var(--color-servantium-green);
+    box-shadow: 0 2px 8px rgba(0, 194, 109, 0.25);
+}
+
+.btn-primary:hover {
+    background: var(--color-green-hover);
+    border-color: var(--color-green-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 194, 109, 0.3);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--color-ink);
+    border: 2px solid var(--color-cloud-grey);
+}
+
+.btn-secondary:hover {
+    border-color: var(--color-servantium-green);
+    color: var(--color-servantium-green);
+}
+
+.btn-large {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    section { padding: var(--space-2xl) 0; }
+}

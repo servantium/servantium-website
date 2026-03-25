@@ -97,6 +97,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/nav.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/components.css">
     <style>
         :root {
             --color-servantium-green: #00C26D;
@@ -113,279 +117,9 @@
             --font-body: 'Source Sans 3', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        /* Skip to content link for accessibility */
-        .skip-link {
-            position: fixed;
-            top: -100px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--color-servantium-green);
-            color: var(--color-white);
-            padding: 0.75rem 1.5rem;
-            border-radius: 0 0 8px 8px;
-            font-weight: 600;
-            text-decoration: none;
-            z-index: 100000;
-            transition: top 0.2s ease;
-        }
-
-        .skip-link:focus {
-            top: 0;
-            outline: 2px solid var(--color-deep-forest);
-            outline-offset: 2px;
-        }
-
-        #main-content:focus {
-            outline: none;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            font-size: 18px;
-        }
-
-        body {
-            font-family: var(--font-body);
-            color: var(--color-ink);
-            background-color: var(--color-white);
-            line-height: 1.7;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        h1, h2, h3 {
-            font-family: var(--font-display);
-            font-weight: 500;
-            line-height: 1.25;
-        }
-
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 100;
-            padding: 1rem 0;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--color-cloud-grey);
-        }
-
-        nav .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .container {
-            max-width: 1140px;
-            margin: 0 auto;
-            padding: 0 2.5rem;
-        }
-
-        .container-wide {
-            max-width: 1400px;
-        }
-
-        .logo {
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-        }
-
-        .logo-image {
-            height: 40px;
-            width: auto;
-        }
-
-        .footer-logo {
-            filter: brightness(0) invert(1);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2.5rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--color-ink-light);
-            text-decoration: none;
-            font-size: 1rem;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-
-        .nav-links a:hover,
-        .nav-links a.active {
-            color: var(--color-servantium-green);
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            font-family: var(--font-body);
-            font-size: 0.9rem;
-            font-weight: 600;
-            line-height: 1.2;
-            text-decoration: none;
-            transition: all 0.25s ease;
-            cursor: pointer;
-            border: none;
-        }
-
-        .btn-nav {
-            padding: 0.5rem 1rem;
-            font-size: 0.85rem;
-        }
-
-        .btn-primary {
-            background: var(--color-servantium-green);
-            color: var(--color-white);
-            border: 2px solid var(--color-servantium-green);
-            box-shadow: 0 2px 8px rgba(0, 194, 109, 0.25);
-        }
-
-        .btn-primary:hover {
-            background: var(--color-green-hover);
-            border-color: var(--color-green-hover);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0, 194, 109, 0.3);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--color-ink);
-            border: 2px solid var(--color-cloud-grey);
-        }
-
-        .btn-secondary:hover {
-            border-color: var(--color-servantium-green);
-            color: var(--color-servantium-green);
-        }
-
-        .nav-buttons {
-            display: flex;
-            gap: 0.75rem;
-            align-items: center;
-        }
-
-        /* Mobile Menu */
-        .mobile-menu-toggle {
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            gap: 5px;
-            width: 28px;
-            height: 28px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 0;
-            z-index: 1001;
-        }
-
-        .mobile-menu-toggle span {
-            display: block;
-            width: 100%;
-            height: 2px;
-            background: var(--color-ink);
-            border-radius: 2px;
-            transition: all 0.3s ease;
-        }
-
-        .mobile-menu-toggle.active span:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 5px);
-        }
-
-        .mobile-menu-toggle.active span:nth-child(2) {
-            opacity: 0;
-        }
-
-        .mobile-menu-toggle.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(5px, -5px);
-        }
-
-        .mobile-menu {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--color-white);
-            z-index: 999;
-            padding: 2.5rem;
-            padding-top: 80px;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .mobile-menu.active {
-            display: flex;
-        }
-
-        .mobile-menu-close {
-            position: absolute;
-            top: 1rem;
-            right: 2.5rem;
-            width: 44px;
-            height: 44px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0;
-        }
-
-        .mobile-menu-close svg {
-            width: 28px;
-            height: 28px;
-            stroke: var(--color-ink);
-            stroke-width: 2;
-        }
-
-        .mobile-menu-close:hover svg {
-            stroke: var(--color-servantium-green);
-        }
-
-        .mobile-menu a:not(.btn) {
-            display: block;
-            padding: 1rem 0;
-            font-size: 1.25rem;
-            font-weight: 500;
-            color: var(--color-ink);
-            text-decoration: none;
-            border-bottom: 1px solid var(--color-cloud-grey);
-            transition: color 0.2s;
-        }
-
-        .mobile-menu a:not(.btn):hover {
-            color: var(--color-servantium-green);
-        }
-
-        .mobile-menu .btn {
-            margin-top: 1rem;
-            justify-content: center;
-            padding: 1rem 2rem;
-            font-size: 1rem;
-        }
-
         /* Blog Hero */
         .blog-hero {
-            padding: 8rem 0 4rem;
+            padding: 8rem 0 3rem;
             background: linear-gradient(180deg, var(--color-soft-mint) 0%, var(--color-white) 100%);
             text-align: center;
         }
@@ -394,31 +128,127 @@
             font-family: var(--font-display);
             font-size: clamp(2.5rem, 5vw, 3.5rem);
             margin-bottom: 1rem;
+            color: var(--color-ink);
         }
 
         .blog-hero p {
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             color: var(--color-ink-light);
-            max-width: 600px;
+            max-width: 620px;
             margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* Search + Filter Bar */
+        .blog-toolbar {
+            padding: 2rem 0 0;
+            position: sticky;
+            top: 72px;
+            background: var(--color-white);
+            z-index: 90;
+            border-bottom: 1px solid var(--color-cloud-grey);
+        }
+
+        .toolbar-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .blog-search {
+            position: relative;
+            flex: 0 0 280px;
+        }
+
+        .blog-search input {
+            width: 100%;
+            padding: 0.6rem 1rem 0.6rem 2.5rem;
+            border: 1px solid var(--color-cloud-grey);
+            border-radius: 8px;
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            background: var(--color-mist-grey);
+            transition: border-color 0.2s, background 0.2s;
+            outline: none;
+        }
+
+        .blog-search input:focus {
+            border-color: var(--color-servantium-green);
+            background: var(--color-white);
+        }
+
+        .blog-search-icon {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--color-ink-muted);
+            pointer-events: none;
+        }
+
+        .category-filters {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            flex: 1;
+            padding-bottom: 1rem;
+        }
+
+        .category-pill {
+            padding: 0.4rem 1rem;
+            border-radius: 100px;
+            border: 1px solid var(--color-cloud-grey);
+            background: var(--color-white);
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--color-ink-light);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .category-pill:hover {
+            border-color: var(--color-servantium-green);
+            color: var(--color-servantium-green);
+        }
+
+        .category-pill.active {
+            background: var(--color-servantium-green);
+            border-color: var(--color-servantium-green);
+            color: var(--color-white);
+        }
+
+        .category-count {
+            font-size: 0.75rem;
+            opacity: 0.7;
+            margin-left: 0.25rem;
         }
 
         /* Blog Grid */
         .blog-section {
-            padding: 4rem 0 6rem;
+            padding: 3rem 0 6rem;
             min-height: 50vh;
+        }
+
+        .blog-section .container {
+            max-width: 1200px;
         }
 
         .blog-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 2.5rem;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
         }
 
         /* Blog Card */
         .blog-card {
             background: var(--color-white);
-            border-radius: 16px;
+            border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -426,6 +256,7 @@
             color: inherit;
             display: flex;
             flex-direction: column;
+            border: 1px solid rgba(0, 0, 0, 0.04);
         }
 
         .blog-card:hover {
@@ -447,11 +278,11 @@
         }
 
         .blog-card:hover .blog-card-image img {
-            transform: scale(1.05);
+            transform: scale(1.03);
         }
 
         .blog-card-content {
-            padding: 1.75rem;
+            padding: 1.5rem;
             display: flex;
             flex-direction: column;
             flex-grow: 1;
@@ -460,51 +291,63 @@
         .blog-card-meta {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.75rem;
             margin-bottom: 0.75rem;
-            font-size: 0.85rem;
-            color: var(--color-ink-muted);
         }
 
         .blog-card-category {
+            display: inline-block;
             color: var(--color-servantium-green);
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            font-size: 0.75rem;
+            font-size: 0.72rem;
+            background: var(--color-soft-mint);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+        }
+
+        .blog-card-date {
+            font-size: 0.82rem;
+            color: var(--color-ink-muted);
         }
 
         .blog-card-title {
             font-family: var(--font-display);
-            font-size: 1.35rem;
-            line-height: 1.3;
-            margin-bottom: 0.75rem;
+            font-size: 1.2rem;
+            line-height: 1.35;
+            margin-bottom: 0.6rem;
             color: var(--color-ink);
         }
 
         .blog-card-excerpt {
-            font-size: 0.95rem;
+            font-size: 0.92rem;
             color: var(--color-ink-light);
             line-height: 1.6;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.25rem;
             flex-grow: 1;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
         .blog-card-author {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.6rem;
             padding-top: 1rem;
             border-top: 1px solid var(--color-cloud-grey);
+            margin-top: auto;
         }
 
         .author-avatar {
-            width: 36px;
-            height: 36px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
-            background: white;
-            border: 2px solid var(--color-cloud-grey);
             overflow: hidden;
+            flex-shrink: 0;
+            border: 2px solid var(--color-cloud-grey);
         }
 
         .author-avatar img {
@@ -513,285 +356,70 @@
             object-fit: cover;
         }
 
-        .author-info {
-            display: flex;
-            flex-direction: column;
-        }
-
         .author-name {
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: var(--color-ink);
         }
 
-        .author-role {
-            font-size: 0.8rem;
-            color: var(--color-ink-muted);
-        }
-
-        /* Featured Post */
-        .featured-post {
-            grid-column: span 2;
-            display: grid;
-            grid-template-columns: 1.2fr 1fr;
-            gap: 0;
-            min-height: 400px;
-        }
-
-        .featured-post .blog-card-image {
-            aspect-ratio: auto;
-            min-height: 100%;
-            border-radius: 16px 0 0 16px;
-        }
-
-        .featured-post .blog-card-content {
-            padding: 3rem;
-            justify-content: center;
-            background: var(--color-white);
-        }
-
-        .featured-post .blog-card-title {
-            font-size: 2rem;
-            line-height: 1.25;
-        }
-
-        .featured-post .blog-card-excerpt {
-            font-size: 1.1rem;
-            line-height: 1.7;
-        }
-
-        .featured-badge {
-            display: inline-block;
-            background: var(--color-servantium-green);
-            color: white;
-            font-size: 0.7rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            padding: 0.3rem 0.6rem;
-            border-radius: 4px;
-            margin-bottom: 1rem;
-        }
-
-        /* Single post centered layout */
-        .blog-grid:has(.featured-post:only-child) {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        /* Empty State */
-        .blog-empty {
+        /* No results */
+        .blog-no-results {
             text-align: center;
             padding: 4rem 2rem;
-            background: var(--color-mist-grey);
-            border-radius: 16px;
+            display: none;
+            grid-column: 1 / -1;
         }
 
-        .blog-empty h3 {
+        .blog-no-results h3 {
+            font-family: var(--font-display);
             margin-bottom: 0.5rem;
+            color: var(--color-ink);
         }
 
-        .blog-empty p {
+        .blog-no-results p {
             color: var(--color-ink-muted);
         }
 
-        /* Footer */
-        footer {
-            background: var(--color-ink);
-            color: var(--color-white);
-            padding: 3rem 0 1.5rem;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: 1.5fr 1fr 1fr 1fr;
-            gap: 3rem;
-            margin-bottom: 2rem;
-        }
-
-        .footer-brand {
-            max-width: 280px;
-        }
-
-        .footer-brand p {
+        /* Result count */
+        .blog-result-count {
             font-size: 0.9rem;
-            opacity: 0.7;
-            margin-top: 0.75rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .footer-social {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-top: 0.75rem;
-        }
-
-        .footer-social-label {
-            font-size: 0.85rem;
-            opacity: 0.7;
-        }
-
-        .social-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 32px;
-            height: 32px;
-            border-radius: 6px;
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--color-white);
-            transition: all 0.2s ease;
-        }
-
-        .social-link:hover {
-            background: var(--color-servantium-green);
-            transform: translateY(-1px);
-        }
-
-        .footer-column h4 {
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 1rem;
-            opacity: 0.6;
-        }
-
-        .footer-column ul {
-            list-style: none;
-        }
-
-        .footer-column li {
-            margin-bottom: 0.35rem;
-        }
-
-        .footer-column a {
-            color: var(--color-white);
-            opacity: 0.7;
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: opacity 0.2s;
-        }
-
-        .footer-column a:hover {
-            opacity: 1;
-        }
-
-        .footer-bottom {
-            padding-top: 1.5rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.85rem;
-            opacity: 0.7;
-        }
-
-        .footer-bottom-left {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .footer-divider {
-            opacity: 0.7;
-        }
-
-        .footer-bottom a {
-            color: var(--color-white);
-            text-decoration: none;
-            transition: opacity 0.2s;
-        }
-
-        .footer-bottom a:hover {
-            opacity: 1;
-            text-decoration: underline;
-        }
-
-        .footer-email-chip {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            background: transparent;
-            border: 1.5px solid var(--color-servantium-green);
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-family: inherit;
-            font-size: 0.85rem;
-        }
-
-        .footer-email-chip:hover {
-            background: rgba(0, 194, 109, 0.15);
-        }
-
-        .footer-email-chip-text {
-            color: var(--color-servantium-green);
-            font-weight: 500;
-        }
-
-        .footer-email-chip-icon {
-            width: 14px;
-            height: 14px;
-            color: var(--color-servantium-green);
-            flex-shrink: 0;
-        }
-
-        .footer-email-chip.copied {
-            background: var(--color-servantium-green);
-            border-color: var(--color-servantium-green);
-        }
-
-        .footer-email-chip.copied .footer-email-chip-text,
-        .footer-email-chip.copied .footer-email-chip-icon {
-            color: white;
+            color: var(--color-ink-muted);
+            margin-bottom: 1.5rem;
         }
 
         /* Responsive */
         @media (max-width: 1024px) {
-            .featured-post {
-                grid-template-columns: 1fr;
-            }
-
-            .featured-post .blog-card-image {
-                border-radius: 16px 16px 0 0;
-                aspect-ratio: 16/9;
+            .blog-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
 
         @media (max-width: 768px) {
-            .nav-links { display: none; }
-            .nav-buttons { display: none; }
-            .mobile-menu-toggle { display: flex; }
+            .blog-toolbar {
+                position: static;
+            }
+
+            .toolbar-inner {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1rem;
+            }
+
+            .blog-search {
+                flex: 1 1 100%;
+            }
+
+            .category-filters {
+                gap: 0.4rem;
+            }
+
+            .category-pill {
+                font-size: 0.8rem;
+                padding: 0.35rem 0.75rem;
+            }
 
             .blog-grid {
                 grid-template-columns: 1fr;
-            }
-
-            .featured-post {
-                grid-column: span 1;
-            }
-
-            .footer-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 2rem;
-            }
-
-            .footer-bottom {
-                flex-direction: column;
-                gap: 0.5rem;
-                text-align: center;
-            }
-
-            .footer-bottom-left {
-                flex-direction: column;
-                gap: 0.25rem;
-            }
-
-            .footer-divider {
-                display: none;
             }
         }
     </style>
@@ -806,6 +434,7 @@
                 <img src="logo.png" alt="Servantium" class="logo-image">
             </a>
             <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
                 <li><a href="platform.html">Platform</a></li>
                 <li><a href="about.html">About</a></li>
                 <li><a href="blog.html" class="active">Blog</a></li>
@@ -830,6 +459,7 @@
                 <line x1="6" y1="6" x2="18" y2="18"></line>
             </svg>
         </button>
+        <a href="index.html">Home</a>
         <a href="platform.html">Platform</a>
         <a href="about.html">About</a>
         <a href="blog.html">Blog</a>
@@ -840,127 +470,612 @@
     <!-- Hero -->
     <section class="blog-hero">
         <div class="container">
-            <h1>The Servantium Blog</h1>
-            <p>Insights on professional services operations, engagement management, and building systems that scale.</p>
+            <h1>Insights</h1>
+            <p>Practical thinking on professional services operations, technology, and growth.</p>
         </div>
     </section>
 
+    <!-- Filter Toolbar -->
+    <div class="blog-toolbar">
+        <div class="toolbar-inner">
+            <div class="blog-search">
+                <svg class="blog-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input type="text" id="blog-search-input" placeholder="Search articles..." aria-label="Search articles">
+            </div>
+            <div class="category-filters" role="group" aria-label="Filter by category">
+                <button class="category-pill active" data-category="all">All<span class="category-count" id="count-all"></span></button>
+                <button class="category-pill" data-category="Strategy">Strategy<span class="category-count" id="count-Strategy"></span></button>
+                <button class="category-pill" data-category="Operations">Operations<span class="category-count" id="count-Operations"></span></button>
+                <button class="category-pill" data-category="Technology">Technology<span class="category-count" id="count-Technology"></span></button>
+                <button class="category-pill" data-category="Product">Product<span class="category-count" id="count-Product"></span></button>
+                <button class="category-pill" data-category="Sales">Sales<span class="category-count" id="count-Sales"></span></button>
+            </div>
+        </div>
+    </div>
+
     <!-- Blog Grid -->
     <section class="blog-section">
-        <div class="container container-wide">
-            <div class="blog-grid">
-                <!-- Featured Post -->
-                <a href="blog/why-services-businesses-need-cpq.html" class="blog-card featured-post">
+        <div class="container">
+            <p class="blog-result-count" id="blog-result-count"></p>
+            <div class="blog-grid" id="blog-grid">
+
+                <!-- 30. 2026-03-18 -->
+                <a href="blog/what-we-mean-platform-that-remembers.html" class="blog-card" data-category="Product" data-publish-date="2026-03-18">
                     <div class="blog-card-image">
-                        <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=500&fit=crop" loading="lazy" alt="Why Services Businesses Need CPQ">
+                        <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600&h=340&fit=crop" loading="lazy" alt="What We Mean When We Say The Platform That Remembers">
                     </div>
                     <div class="blog-card-content">
-                        <span class="featured-badge">Featured</span>
-                        <span class="blog-card-category">Strategy</span>
-                        <h2 class="blog-card-title">Why Services Businesses Need CPQ (And Why Spreadsheets Aren't Cutting It)</h2>
-                        <p class="blog-card-excerpt">Product companies have had Configure, Price, Quote systems for decades. It's time services businesses caught up—here's why the old ways of pricing engagements are costing you margin.</p>
+                        <div class="blog-card-meta">
+                            <span class="blog-card-category">Product</span>
+                            <span class="blog-card-date">Mar 18, 2026</span>
+                        </div>
+                        <h2 class="blog-card-title">What We Mean When We Say 'The Platform That Remembers'</h2>
+                        <p class="blog-card-excerpt">A founder's deep-dive on the architectural philosophy behind Servantium. Why we built it this way, what 'remembers' actually means in practice, and where we're heading.</p>
                         <div class="blog-card-author">
-                            <div class="author-avatar"><img src="christopher-veale.png" alt="Christopher Veale" loading="lazy"></div>
-                            <div class="author-info">
-                                <span class="author-name">Christopher Veale</span>
-                                <span class="author-role">CEO, Servantium</span>
-                            </div>
+                            <div class="author-avatar"><img src="maxwell-friel.png" alt="Maxwell Friel" loading="lazy"></div>
+                            <span class="author-name">Maxwell Friel</span>
                         </div>
                     </div>
                 </a>
 
-                <!-- Regular Posts -->
-                <a href="blog/the-real-ai-opportunity-institutional-memory.html" class="blog-card">
+                <!-- 29. 2026-03-17 -->
+                <a href="blog/the-data-problem-in-professional-services.html" class="blog-card" data-category="Strategy" data-publish-date="2026-03-17">
                     <div class="blog-card-image">
-                        <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=600&h=340&fit=crop" loading="lazy" alt="The Real AI Opportunity">
+                        <img src="https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=600&h=340&fit=crop" loading="lazy" alt="The Data Problem in Professional Services">
+                    </div>
+                    <div class="blog-card-content">
+                        <div class="blog-card-meta">
+                            <span class="blog-card-category">Strategy</span>
+                            <span class="blog-card-date">Mar 17, 2026</span>
+                        </div>
+                        <h2 class="blog-card-title">The Data Problem No One Talks About in Professional Services</h2>
+                        <p class="blog-card-excerpt">Professional services firms generate massive amounts of operational data but store almost none of it in a structured way. The opportunity cost is enormous and growing.</p>
+                        <div class="blog-card-author">
+                            <div class="author-avatar"><img src="maxwell-friel.png" alt="Maxwell Friel" loading="lazy"></div>
+                            <span class="author-name">Maxwell Friel</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- 28. 2026-03-16 -->
+                <a href="blog/stop-selling-hours-start-selling-outcomes.html" class="blog-card" data-category="Strategy" data-publish-date="2026-03-16">
+                    <div class="blog-card-image">
+                        <img src="https://images.unsplash.com/photo-1559526324-c1f275fbfa32?w=600&h=340&fit=crop" loading="lazy" alt="Stop Selling Hours Start Selling Outcomes">
+                    </div>
+                    <div class="blog-card-content">
+                        <div class="blog-card-meta">
+                            <span class="blog-card-category">Strategy</span>
+                            <span class="blog-card-date">Mar 16, 2026</span>
+                        </div>
+                        <h2 class="blog-card-title">Stop Selling Hours, Start Selling Outcomes</h2>
+                        <p class="blog-card-excerpt">The hourly billing model is dying. Value-based pricing requires you actually know what value you deliver -- which requires data most firms don't have.</p>
+                        <div class="blog-card-author">
+                            <div class="author-avatar"><img src="christopher-veale.png" alt="Christopher Veale" loading="lazy"></div>
+                            <span class="author-name">Christopher Veale</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- 27. 2026-03-14 -->
+                <a href="blog/from-call-notes-to-contracts.html" class="blog-card" data-category="Technology" data-publish-date="2026-03-14">
+                    <div class="blog-card-image">
+                        <img src="https://images.unsplash.com/photo-1553484771-047a44eee27b?w=600&h=340&fit=crop" loading="lazy" alt="From Call Notes to Contracts">
                     </div>
                     <div class="blog-card-content">
                         <div class="blog-card-meta">
                             <span class="blog-card-category">Technology</span>
-                            <span>7 min read</span>
+                            <span class="blog-card-date">Mar 14, 2026</span>
                         </div>
-                        <h3 class="blog-card-title">The Real AI Opportunity: Building Institutional Memory</h3>
-                        <p class="blog-card-excerpt">AI models are only as good as the data they learn from. The firms that will actually benefit are the ones building the institutional memory that makes AI worth using.</p>
+                        <h2 class="blog-card-title">From Call Notes to Contracts: Automating the Services Pipeline</h2>
+                        <p class="blog-card-excerpt">The technical pipeline from unstructured call notes to parsed entities to structured estimates to generated SOWs. Where AI fits in professional services automation, and where it doesn't.</p>
                         <div class="blog-card-author">
                             <div class="author-avatar"><img src="maxwell-friel.png" alt="Maxwell Friel" loading="lazy"></div>
-                            <div class="author-info">
-                                <span class="author-name">Maxwell Friel</span>
-                                <span class="author-role">CTO, Servantium</span>
-                            </div>
+                            <span class="author-name">Maxwell Friel</span>
                         </div>
                     </div>
                 </a>
 
-                <a href="blog/the-end-of-tribal-knowledge.html" class="blog-card">
+                <!-- 26. 2026-03-13 -->
+                <a href="blog/the-proposal-factory.html" class="blog-card" data-category="Sales" data-publish-date="2026-03-13">
+                    <div class="blog-card-image">
+                        <img src="https://images.unsplash.com/photo-1553484771-371a605b060b?w=600&h=340&fit=crop" loading="lazy" alt="The Proposal Factory">
+                    </div>
+                    <div class="blog-card-content">
+                        <div class="blog-card-meta">
+                            <span class="blog-card-category">Sales</span>
+                            <span class="blog-card-date">Mar 13, 2026</span>
+                        </div>
+                        <h2 class="blog-card-title">The Proposal Factory: Why Speed-to-Quote Wins Deals</h2>
+                        <p class="blog-card-excerpt">The firm that gets a quality proposal out first wins 70% of the time. Here's how to go from 2 weeks to 2 hours without sacrificing quality.</p>
+                        <div class="blog-card-author">
+                            <div class="author-avatar"><img src="christopher-veale.png" alt="Christopher Veale" loading="lazy"></div>
+                            <span class="author-name">Christopher Veale</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- 25. 2026-03-11 -->
+                <a href="blog/resource-planning-that-actually-works.html" class="blog-card" data-category="Operations" data-publish-date="2026-03-11">
+                    <div class="blog-card-image">
+                        <img src="https://images.unsplash.com/photo-1542744094-3a31f272c490?w=600&h=340&fit=crop" loading="lazy" alt="Resource Planning That Actually Works">
+                    </div>
+                    <div class="blog-card-content">
+                        <div class="blog-card-meta">
+                            <span class="blog-card-category">Operations</span>
+                            <span class="blog-card-date">Mar 11, 2026</span>
+                        </div>
+                        <h2 class="blog-card-title">Resource Planning That Actually Works</h2>
+                        <p class="blog-card-excerpt">Why most resource planning fails in professional services. The tools were designed for project managers, not services firms. Here's what cross-engagement visibility actually looks like.</p>
+                        <div class="blog-card-author">
+                            <div class="author-avatar"><img src="maxwell-friel.png" alt="Maxwell Friel" loading="lazy"></div>
+                            <span class="author-name">Maxwell Friel</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- 24. 2026-03-10 -->
+                <a href="blog/consulting-firm-cpq-pricing-engagements.html" class="blog-card" data-category="Strategy" data-publish-date="2026-03-10">
+                    <div class="blog-card-image">
+                        <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=600&h=340&fit=crop" loading="lazy" alt="Consulting Firm CPQ Pricing Engagements">
+                    </div>
+                    <div class="blog-card-content">
+                        <div class="blog-card-meta">
+                            <span class="blog-card-category">Strategy</span>
+                            <span class="blog-card-date">Mar 10, 2026</span>
+                        </div>
+                        <h2 class="blog-card-title">Consulting Firm CPQ: Pricing Engagements for Margin</h2>
+                        <p class="blog-card-excerpt">Most consulting firms underprice by 15-20%. Here's why structured pricing with historical data fixes it -- and why your spreadsheet isn't cutting it anymore.</p>
+                        <div class="blog-card-author">
+                            <div class="author-avatar"><img src="christopher-veale.png" alt="Christopher Veale" loading="lazy"></div>
+                            <span class="author-name">Christopher Veale</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- 23. 2026-03-08 -->
+                <a href="blog/the-architecture-of-a-learning-platform.html" class="blog-card" data-category="Technology" data-publish-date="2026-03-08">
+                    <div class="blog-card-image">
+                        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&h=340&fit=crop" loading="lazy" alt="The Architecture of a Learning Platform">
+                    </div>
+                    <div class="blog-card-content">
+                        <div class="blog-card-meta">
+                            <span class="blog-card-category">Technology</span>
+                            <span class="blog-card-date">Mar 8, 2026</span>
+                        </div>
+                        <h2 class="blog-card-title">The Architecture of a Learning Platform</h2>
+                        <p class="blog-card-excerpt">What it actually means architecturally for a platform to learn. Not ML buzzwords -- real data feedback loops, variance tracking, and confidence scoring in professional services.</p>
+                        <div class="blog-card-author">
+                            <div class="author-avatar"><img src="maxwell-friel.png" alt="Maxwell Friel" loading="lazy"></div>
+                            <span class="author-name">Maxwell Friel</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- 22. 2026-03-07 -->
+                <a href="blog/how-cpq-improves-utilization.html" class="blog-card" data-category="Operations" data-publish-date="2026-03-07">
+                    <div class="blog-card-image">
+                        <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=600&h=340&fit=crop" loading="lazy" alt="How CPQ Improves Utilization">
+                    </div>
+                    <div class="blog-card-content">
+                        <div class="blog-card-meta">
+                            <span class="blog-card-category">Operations</span>
+                            <span class="blog-card-date">Mar 7, 2026</span>
+                        </div>
+                        <h2 class="blog-card-title">How Professional Services CPQ Improves Utilization</h2>
+                        <p class="blog-card-excerpt">When you scope and price engagements with resource visibility, you stop overbooking your best people and underusing your bench. Here's how CPQ fixes the utilization problem.</p>
+                        <div class="blog-card-author">
+                            <div class="author-avatar"><img src="christopher-veale.png" alt="Christopher Veale" loading="lazy"></div>
+                            <span class="author-name">Christopher Veale</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- 21. 2026-03-05 -->
+                <a href="blog/why-most-ai-implementations-fail-services.html" class="blog-card" data-category="Technology" data-publish-date="2026-03-05">
+                    <div class="blog-card-image">
+                        <img src="https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=600&h=340&fit=crop" loading="lazy" alt="Why Most AI Implementations Fail in Services">
+                    </div>
+                    <div class="blog-card-content">
+                        <div class="blog-card-meta">
+                            <span class="blog-card-category">Technology</span>
+                            <span class="blog-card-date">Mar 5, 2026</span>
+                        </div>
+                        <h2 class="blog-card-title">Why Most AI Implementations in Services Firms Fail</h2>
+                        <p class="blog-card-excerpt">The dirty secret of AI in professional services: firms buy AI tools with no structured data to feed them. Garbage in, garbage out. The fix starts with data architecture.</p>
+                        <div class="blog-card-author">
+                            <div class="author-avatar"><img src="maxwell-friel.png" alt="Maxwell Friel" loading="lazy"></div>
+                            <span class="author-name">Maxwell Friel</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- 20. 2026-03-04 -->
+                <a href="blog/professional-services-cpq-vs-psa.html" class="blog-card" data-category="Technology" data-publish-date="2026-03-04">
+                    <div class="blog-card-image">
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=340&fit=crop" loading="lazy" alt="Professional Services CPQ vs PSA">
+                    </div>
+                    <div class="blog-card-content">
+                        <div class="blog-card-meta">
+                            <span class="blog-card-category">Technology</span>
+                            <span class="blog-card-date">Mar 4, 2026</span>
+                        </div>
+                        <h2 class="blog-card-title">Professional Services CPQ vs. PSA: What's the Difference?</h2>
+                        <p class="blog-card-excerpt">CPQ handles pre-sale: scope, price, quote. PSA handles post-sale: track, bill, deliver. Most professional services firms only have PSA. Here's what they're missing.</p>
+                        <div class="blog-card-author">
+                            <div class="author-avatar"><img src="christopher-veale.png" alt="Christopher Veale" loading="lazy"></div>
+                            <span class="author-name">Christopher Veale</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- 19. 2026-03-01 -->
+                <a href="blog/building-an-institutional-memory-engine.html" class="blog-card" data-category="Technology" data-publish-date="2026-03-01">
+                    <div class="blog-card-image">
+                        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=340&fit=crop" loading="lazy" alt="Building an Institutional Memory Engine">
+                    </div>
+                    <div class="blog-card-content">
+                        <div class="blog-card-meta">
+                            <span class="blog-card-category">Technology</span>
+                            <span class="blog-card-date">Mar 1, 2026</span>
+                        </div>
+                        <h2 class="blog-card-title">Building an Institutional Memory Engine</h2>
+                        <p class="blog-card-excerpt">The technical architecture behind encoding knowledge into a platform. Data models, feedback loops, and why most 'AI' approaches to institutional memory miss the point entirely.</p>
+                        <div class="blog-card-author">
+                            <div class="author-avatar"><img src="maxwell-friel.png" alt="Maxwell Friel" loading="lazy"></div>
+                            <span class="author-name">Maxwell Friel</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- 18. 2026-02-25 -->
+                <a href="blog/why-your-best-consultant-leaving-shouldnt-be-a-crisis.html" class="blog-card" data-category="Strategy" data-publish-date="2026-02-25">
+                    <div class="blog-card-image">
+                        <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?w=600&h=340&fit=crop" loading="lazy" alt="Why Your Best Consultant Leaving Shouldn't Be a Crisis">
+                    </div>
+                    <div class="blog-card-content">
+                        <div class="blog-card-meta">
+                            <span class="blog-card-category">Strategy</span>
+                            <span class="blog-card-date">Feb 25, 2026</span>
+                        </div>
+                        <h2 class="blog-card-title">Why Your Best Consultant Leaving Shouldn't Be a Crisis</h2>
+                        <p class="blog-card-excerpt">If one person leaving tanks your delivery quality, you don't have a people problem. You have a knowledge architecture problem. Here's how to fix it.</p>
+                        <div class="blog-card-author">
+                            <div class="author-avatar"><img src="christopher-veale.png" alt="Christopher Veale" loading="lazy"></div>
+                            <span class="author-name">Christopher Veale</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- 17. 2026-02-22 -->
+                <a href="blog/the-death-of-the-spreadsheet-estimate.html" class="blog-card" data-category="Technology" data-publish-date="2026-02-22">
+                    <div class="blog-card-image">
+                        <img src="https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?w=600&h=340&fit=crop" loading="lazy" alt="The Death of the Spreadsheet Estimate">
+                    </div>
+                    <div class="blog-card-content">
+                        <div class="blog-card-meta">
+                            <span class="blog-card-category">Technology</span>
+                            <span class="blog-card-date">Feb 22, 2026</span>
+                        </div>
+                        <h2 class="blog-card-title">The Death of the Spreadsheet Estimate</h2>
+                        <p class="blog-card-excerpt">Why spreadsheet-based estimation is technically bankrupt. No version control, formula rot, zero institutional memory, and no learning loop. There's a better way.</p>
+                        <div class="blog-card-author">
+                            <div class="author-avatar"><img src="maxwell-friel.png" alt="Maxwell Friel" loading="lazy"></div>
+                            <span class="author-name">Maxwell Friel</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- 16. 2026-02-18 -->
+                <a href="blog/the-hidden-cost-of-bad-estimates.html" class="blog-card" data-category="Operations" data-publish-date="2026-02-18">
+                    <div class="blog-card-image">
+                        <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&h=340&fit=crop" loading="lazy" alt="The Hidden Cost of Bad Estimates">
+                    </div>
+                    <div class="blog-card-content">
+                        <div class="blog-card-meta">
+                            <span class="blog-card-category">Operations</span>
+                            <span class="blog-card-date">Feb 18, 2026</span>
+                        </div>
+                        <h2 class="blog-card-title">The Hidden Cost of Bad Estimates</h2>
+                        <p class="blog-card-excerpt">Bad estimates don't just lose money on one deal. They create a spiral of scope creep, team burnout, client distrust, and lost references that compounds over years.</p>
+                        <div class="blog-card-author">
+                            <div class="author-avatar"><img src="christopher-veale.png" alt="Christopher Veale" loading="lazy"></div>
+                            <span class="author-name">Christopher Veale</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- 15. 2026-02-15 -->
+                <a href="blog/how-servantium-fits-your-service-business.html" class="blog-card" data-category="Product" data-publish-date="2026-02-15">
+                    <div class="blog-card-image">
+                        <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=600&h=340&fit=crop" loading="lazy" alt="How Servantium Fits Your Service Business">
+                    </div>
+                    <div class="blog-card-content">
+                        <div class="blog-card-meta">
+                            <span class="blog-card-category">Product</span>
+                            <span class="blog-card-date">Feb 15, 2026</span>
+                        </div>
+                        <h2 class="blog-card-title">How Servantium Fits Into Your Service Business</h2>
+                        <p class="blog-card-excerpt">An honest walkthrough of what Servantium does, where it fits in your stack, and what it doesn't do yet. No marketing fluff -- just architecture and trade-offs.</p>
+                        <div class="blog-card-author">
+                            <div class="author-avatar"><img src="maxwell-friel.png" alt="Maxwell Friel" loading="lazy"></div>
+                            <span class="author-name">Maxwell Friel</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- 14. 2026-02-11 -->
+                <a href="blog/choosing-saas-platform-service-business-2026.html" class="blog-card" data-category="Strategy" data-publish-date="2026-02-11">
+                    <div class="blog-card-image">
+                        <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600&h=340&fit=crop" loading="lazy" alt="Choosing a SaaS Platform for Service Business">
+                    </div>
+                    <div class="blog-card-content">
+                        <div class="blog-card-meta">
+                            <span class="blog-card-category">Strategy</span>
+                            <span class="blog-card-date">Feb 11, 2026</span>
+                        </div>
+                        <h2 class="blog-card-title">Choosing the Right SaaS Platform for Your Service Business in 2026</h2>
+                        <p class="blog-card-excerpt">Forget feature checklists. The SaaS platform that works for your service business is the one that matches how your firm actually operates.</p>
+                        <div class="blog-card-author">
+                            <div class="author-avatar"><img src="christopher-veale.png" alt="Christopher Veale" loading="lazy"></div>
+                            <span class="author-name">Christopher Veale</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- 13. 2026-02-08 -->
+                <a href="blog/top-features-professional-services-os.html" class="blog-card" data-category="Technology" data-publish-date="2026-02-08">
+                    <div class="blog-card-image">
+                        <img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=600&h=340&fit=crop" loading="lazy" alt="Top Features of a Professional Services OS">
+                    </div>
+                    <div class="blog-card-content">
+                        <div class="blog-card-meta">
+                            <span class="blog-card-category">Technology</span>
+                            <span class="blog-card-date">Feb 8, 2026</span>
+                        </div>
+                        <h2 class="blog-card-title">Top Features to Look for in a Professional Services Operating System</h2>
+                        <p class="blog-card-excerpt">Not a feature checklist -- the architectural patterns that separate real professional services platforms from dressed-up spreadsheets. A CTO's guide.</p>
+                        <div class="blog-card-author">
+                            <div class="author-avatar"><img src="maxwell-friel.png" alt="Maxwell Friel" loading="lazy"></div>
+                            <span class="author-name">Maxwell Friel</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- 12. 2026-02-04 -->
+                <a href="blog/compare-professional-services-platforms-2026.html" class="blog-card" data-category="Strategy" data-publish-date="2026-02-04">
+                    <div class="blog-card-image">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=340&fit=crop" loading="lazy" alt="Compare Professional Services Platforms 2026">
+                    </div>
+                    <div class="blog-card-content">
+                        <div class="blog-card-meta">
+                            <span class="blog-card-category">Strategy</span>
+                            <span class="blog-card-date">Feb 4, 2026</span>
+                        </div>
+                        <h2 class="blog-card-title">Compare Top Professional Services Automation Platforms of 2026</h2>
+                        <p class="blog-card-excerpt">An honest comparison of the PSA and engagement management landscape in 2026. Where each excels and where they fall short.</p>
+                        <div class="blog-card-author">
+                            <div class="author-avatar"><img src="christopher-veale.png" alt="Christopher Veale" loading="lazy"></div>
+                            <span class="author-name">Christopher Veale</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- 11. 2026-02-01 -->
+                <a href="blog/unified-operating-system-for-services.html" class="blog-card" data-category="Technology" data-publish-date="2026-02-01">
+                    <div class="blog-card-image">
+                        <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&h=340&fit=crop" loading="lazy" alt="Unified Operating System for Services">
+                    </div>
+                    <div class="blog-card-content">
+                        <div class="blog-card-meta">
+                            <span class="blog-card-category">Technology</span>
+                            <span class="blog-card-date">Feb 1, 2026</span>
+                        </div>
+                        <h2 class="blog-card-title">Transforming Service Engagements with a Unified Operating System</h2>
+                        <p class="blog-card-excerpt">Why professional services need an OS, not a bundle of point solutions. The architecture argument for unified engagement management.</p>
+                        <div class="blog-card-author">
+                            <div class="author-avatar"><img src="maxwell-friel.png" alt="Maxwell Friel" loading="lazy"></div>
+                            <span class="author-name">Maxwell Friel</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- 10. 2026-01-28 -->
+                <a href="blog/full-lifecycle-professional-services-engagements.html" class="blog-card" data-category="Operations" data-publish-date="2026-01-28">
+                    <div class="blog-card-image">
+                        <img src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=600&h=340&fit=crop" loading="lazy" alt="Full Lifecycle of Professional Services Engagements">
+                    </div>
+                    <div class="blog-card-content">
+                        <div class="blog-card-meta">
+                            <span class="blog-card-category">Operations</span>
+                            <span class="blog-card-date">Jan 28, 2026</span>
+                        </div>
+                        <h2 class="blog-card-title">Understanding the Full Lifecycle of Professional Services Engagements</h2>
+                        <p class="blog-card-excerpt">Discovery, Estimate, Proposal, Activation, Delivery, Learning -- six stages of every engagement. Most firms only have tooling for two of them.</p>
+                        <div class="blog-card-author">
+                            <div class="author-avatar"><img src="christopher-veale.png" alt="Christopher Veale" loading="lazy"></div>
+                            <span class="author-name">Christopher Veale</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- 9. 2026-01-21 -->
+                <a href="blog/modern-engagement-platform-vs-traditional-psa.html" class="blog-card" data-category="Technology" data-publish-date="2026-01-21">
+                    <div class="blog-card-image">
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=340&fit=crop" loading="lazy" alt="Modern Engagement Platform vs Traditional PSA">
+                    </div>
+                    <div class="blog-card-content">
+                        <div class="blog-card-meta">
+                            <span class="blog-card-category">Technology</span>
+                            <span class="blog-card-date">Jan 21, 2026</span>
+                        </div>
+                        <h2 class="blog-card-title">Why a Modern Engagement Platform Outperforms Traditional PSA Tools</h2>
+                        <p class="blog-card-excerpt">PSA tools track time after the deal. Engagement platforms start at scoping. The gap between them costs services firms real money on every single engagement.</p>
+                        <div class="blog-card-author">
+                            <div class="author-avatar"><img src="christopher-veale.png" alt="Christopher Veale" loading="lazy"></div>
+                            <span class="author-name">Christopher Veale</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- 8. 2026-01-17 -->
+                <a href="blog/integrating-servantium-with-your-crm.html" class="blog-card" data-category="Technology" data-publish-date="2026-01-17">
+                    <div class="blog-card-image">
+                        <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&h=340&fit=crop" loading="lazy" alt="Integrating Servantium with Your CRM">
+                    </div>
+                    <div class="blog-card-content">
+                        <div class="blog-card-meta">
+                            <span class="blog-card-category">Technology</span>
+                            <span class="blog-card-date">Jan 17, 2026</span>
+                        </div>
+                        <h2 class="blog-card-title">Maximize Efficiency: Integrating Servantium with Your Existing CRM</h2>
+                        <p class="blog-card-excerpt">The technical reality of CRM integration -- what data flows where, common pitfalls, and why most integration projects are overscoped.</p>
+                        <div class="blog-card-author">
+                            <div class="author-avatar"><img src="maxwell-friel.png" alt="Maxwell Friel" loading="lazy"></div>
+                            <span class="author-name">Maxwell Friel</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- 7. 2026-01-15 -->
+                <a href="blog/the-real-ai-opportunity-institutional-memory.html" class="blog-card" data-category="Technology" data-publish-date="2026-01-15">
+                    <div class="blog-card-image">
+                        <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=600&h=340&fit=crop" loading="lazy" alt="The Real AI Opportunity: Institutional Memory">
+                    </div>
+                    <div class="blog-card-content">
+                        <div class="blog-card-meta">
+                            <span class="blog-card-category">Technology</span>
+                            <span class="blog-card-date">Jan 15, 2026</span>
+                        </div>
+                        <h2 class="blog-card-title">The Real AI Opportunity: Building Institutional Memory</h2>
+                        <p class="blog-card-excerpt">AI models are only as good as the data they learn from. The firms that will actually benefit are the ones building the institutional memory that makes AI worth using.</p>
+                        <div class="blog-card-author">
+                            <div class="author-avatar"><img src="maxwell-friel.png" alt="Maxwell Friel" loading="lazy"></div>
+                            <span class="author-name">Maxwell Friel</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- 6. 2026-01-14 -->
+                <a href="blog/the-ultimate-guide-to-engagement-management.html" class="blog-card" data-category="Operations" data-publish-date="2026-01-14">
+                    <div class="blog-card-image">
+                        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=340&fit=crop" loading="lazy" alt="The Ultimate Guide to Engagement Management">
+                    </div>
+                    <div class="blog-card-content">
+                        <div class="blog-card-meta">
+                            <span class="blog-card-category">Operations</span>
+                            <span class="blog-card-date">Jan 14, 2026</span>
+                        </div>
+                        <h2 class="blog-card-title">The Ultimate Guide to Engagement Management for Service-Based Businesses</h2>
+                        <p class="blog-card-excerpt">Engagement management isn't project management with a fancier name. It's the entire lifecycle from scoping through delivery to learning.</p>
+                        <div class="blog-card-author">
+                            <div class="author-avatar"><img src="christopher-veale.png" alt="Christopher Veale" loading="lazy"></div>
+                            <span class="author-name">Christopher Veale</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- 5. 2026-01-07 -->
+                <a href="blog/case-study-leading-firms-service-delivery.html" class="blog-card" data-category="Strategy" data-publish-date="2026-01-07">
+                    <div class="blog-card-image">
+                        <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600&h=340&fit=crop" loading="lazy" alt="Case Study: Leading Firms Service Delivery">
+                    </div>
+                    <div class="blog-card-content">
+                        <div class="blog-card-meta">
+                            <span class="blog-card-category">Strategy</span>
+                            <span class="blog-card-date">Jan 7, 2026</span>
+                        </div>
+                        <h2 class="blog-card-title">Case Study: How Leading Firms Are Revolutionizing Service Delivery</h2>
+                        <p class="blog-card-excerpt">Top-performing services firms are encoding their delivery patterns into systems instead of relying on heroics. Here's what that actually looks like in practice.</p>
+                        <div class="blog-card-author">
+                            <div class="author-avatar"><img src="christopher-veale.png" alt="Christopher Veale" loading="lazy"></div>
+                            <span class="author-name">Christopher Veale</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- 4. 2025-12-10 -->
+                <a href="blog/the-end-of-tribal-knowledge.html" class="blog-card" data-category="Strategy" data-publish-date="2025-12-10">
                     <div class="blog-card-image">
                         <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&h=340&fit=crop" loading="lazy" alt="The End of Tribal Knowledge">
                     </div>
                     <div class="blog-card-content">
                         <div class="blog-card-meta">
                             <span class="blog-card-category">Strategy</span>
-                            <span>8 min read</span>
+                            <span class="blog-card-date">Dec 10, 2025</span>
                         </div>
-                        <h3 class="blog-card-title">The End of Tribal Knowledge: Why 2026 Is Different</h3>
+                        <h2 class="blog-card-title">The End of Tribal Knowledge: Why 2026 Is Different</h2>
                         <p class="blog-card-excerpt">The services industry is at an inflection point. Firms that encode their expertise into systems will compound. Those that don't will watch their best knowledge walk out the door.</p>
                         <div class="blog-card-author">
                             <div class="author-avatar"><img src="christopher-veale.png" alt="Christopher Veale" loading="lazy"></div>
-                            <div class="author-info">
-                                <span class="author-name">Christopher Veale</span>
-                                <span class="author-role">CEO, Servantium</span>
-                            </div>
+                            <span class="author-name">Christopher Veale</span>
                         </div>
                     </div>
                 </a>
 
-                <a href="blog/ai-wont-save-services-structure-will.html" class="blog-card">
+                <!-- 3. 2025-11-28 -->
+                <a href="blog/ai-wont-save-services-structure-will.html" class="blog-card" data-category="Strategy" data-publish-date="2025-11-28">
                     <div class="blog-card-image">
                         <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=340&fit=crop" loading="lazy" alt="AI Won't Save Your Services Business">
                     </div>
                     <div class="blog-card-content">
                         <div class="blog-card-meta">
-                            <span class="blog-card-category">Opinion</span>
-                            <span>6 min read</span>
+                            <span class="blog-card-category">Strategy</span>
+                            <span class="blog-card-date">Nov 28, 2025</span>
                         </div>
-                        <h3 class="blog-card-title">AI Won't Save Your Services Business. Structure Will.</h3>
-                        <p class="blog-card-excerpt">Professional services leads all sectors in AI adoption. But without operational structure, AI is just a faster way to make the same mistakes—at scale.</p>
+                        <h2 class="blog-card-title">AI Won't Save Your Services Business. Structure Will.</h2>
+                        <p class="blog-card-excerpt">Everyone's talking about AI transforming professional services. But without operational structure, AI is just a faster way to make the same mistakes.</p>
                         <div class="blog-card-author">
                             <div class="author-avatar"><img src="christopher-veale.png" alt="Christopher Veale" loading="lazy"></div>
-                            <div class="author-info">
-                                <span class="author-name">Christopher Veale</span>
-                                <span class="author-role">CEO, Servantium</span>
-                            </div>
+                            <span class="author-name">Christopher Veale</span>
                         </div>
                     </div>
                 </a>
 
-                <a href="blog/the-utilization-crisis-2025.html" class="blog-card">
+                <!-- 2. 2025-11-12 -->
+                <a href="blog/the-utilization-crisis-2025.html" class="blog-card" data-category="Operations" data-publish-date="2025-11-12">
                     <div class="blog-card-image">
                         <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=340&fit=crop" loading="lazy" alt="The Utilization Crisis">
                     </div>
                     <div class="blog-card-content">
                         <div class="blog-card-meta">
-                            <span class="blog-card-category">Industry</span>
-                            <span>7 min read</span>
+                            <span class="blog-card-category">Operations</span>
+                            <span class="blog-card-date">Nov 12, 2025</span>
                         </div>
-                        <h3 class="blog-card-title">The Utilization Crisis: What 68.9% Means for Your Firm</h3>
-                        <p class="blog-card-excerpt">Billable utilization has fallen to its lowest point in years. Here's what the data reveals about professional services—and what forward-thinking leaders are doing about it.</p>
+                        <h2 class="blog-card-title">The Utilization Crisis: What 68.9% Means for Your Firm</h2>
+                        <p class="blog-card-excerpt">Billable utilization has fallen to its lowest point in years. Here's what the data reveals about professional services and what it means for leaders navigating 2026.</p>
                         <div class="blog-card-author">
                             <div class="author-avatar"><img src="christopher-veale.png" alt="Christopher Veale" loading="lazy"></div>
-                            <div class="author-info">
-                                <span class="author-name">Christopher Veale</span>
-                                <span class="author-role">CEO, Servantium</span>
-                            </div>
+                            <span class="author-name">Christopher Veale</span>
                         </div>
                     </div>
                 </a>
-            </div>
 
-            <!-- Uncomment when you have more posts
-            <div class="blog-empty">
-                <h3>More posts coming soon</h3>
-                <p>We're just getting started. Check back for more insights on services operations.</p>
+                <!-- 1. 2025-11-05 -->
+                <a href="blog/why-services-businesses-need-cpq.html" class="blog-card" data-category="Strategy" data-publish-date="2025-11-05">
+                    <div class="blog-card-image">
+                        <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&h=340&fit=crop" loading="lazy" alt="Why Services Businesses Need CPQ">
+                    </div>
+                    <div class="blog-card-content">
+                        <div class="blog-card-meta">
+                            <span class="blog-card-category">Strategy</span>
+                            <span class="blog-card-date">Nov 5, 2025</span>
+                        </div>
+                        <h2 class="blog-card-title">Why Services Businesses Need CPQ (And Why Spreadsheets Aren't Cutting It)</h2>
+                        <p class="blog-card-excerpt">Product companies have had Configure, Price, Quote systems for decades. It's time services businesses caught up.</p>
+                        <div class="blog-card-author">
+                            <div class="author-avatar"><img src="christopher-veale.png" alt="Christopher Veale" loading="lazy"></div>
+                            <span class="author-name">Christopher Veale</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- No Results Message -->
+                <div class="blog-no-results" id="blog-no-results">
+                    <h3>No articles found</h3>
+                    <p>Try a different search term or category.</p>
+                </div>
+
             </div>
-            -->
         </div>
     </section>
     </main>
@@ -1026,52 +1141,6 @@
         </div>
     </footer>
 
-    <script>
-        // Email Copy to Clipboard
-        function copyFooterEmail(btn) {
-            const email = 'hello@servantium.com';
-            const text = btn.querySelector('.footer-email-chip-text');
-            const icon = btn.querySelector('.footer-email-chip-icon');
-            navigator.clipboard.writeText(email).then(function() {
-                btn.classList.add('copied');
-                text.textContent = 'Copied!';
-                icon.innerHTML = '<polyline points="20 6 9 17 4 12"></polyline>';
-                setTimeout(function() {
-                    btn.classList.remove('copied');
-                    text.textContent = email;
-                    icon.innerHTML = '<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>';
-                }, 2000);
-            }).catch(function() {
-                window.location.href = 'mailto:' + email;
-            });
-        }
-
-        // Mobile Menu Toggle
-        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-        function closeMobileMenu() {
-            mobileMenu.classList.remove('active');
-            mobileMenuToggle.classList.remove('active');
-            mobileMenuToggle.setAttribute('aria-expanded', 'false');
-            mobileMenu.setAttribute('aria-hidden', 'true');
-            document.body.style.overflow = '';
-        }
-
-        mobileMenuToggle.addEventListener('click', function() {
-            const isActive = mobileMenu.classList.toggle('active');
-            this.classList.toggle('active');
-            this.setAttribute('aria-expanded', isActive);
-            mobileMenu.setAttribute('aria-hidden', !isActive);
-            document.body.style.overflow = isActive ? 'hidden' : '';
-        });
-
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
-                closeMobileMenu();
-            }
-        });
-    </script>
 
     <!-- Cal.com Embed Script -->
     <script type="text/javascript">
@@ -1092,7 +1161,7 @@
         <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px;">
             <p style="margin: 0; flex: 1; min-width: 280px; font-size: 14px; line-height: 1.5; color: #d1d5db;">
                 We use cookies to analyze site traffic and improve your experience. By clicking "Accept All", you consent to our use of analytics cookies.
-                <a href="/privacy" style="color: #00C26D; text-decoration: underline;">Privacy Policy</a>
+                <a href="privacy.html" style="color: #00C26D; text-decoration: underline;">Privacy Policy</a>
             </p>
             <div style="display: flex; gap: 12px; flex-shrink: 0;">
                 <button onclick="declineCookies()" style="padding: 10px 20px; background: transparent; border: 1px solid #9ca3af; color: #ffffff; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.2s;">Decline All</button>
@@ -1100,33 +1169,91 @@
             </div>
         </div>
     </div>
+    <script src="js/nav.js"></script>
+    <script src="js/footer.js"></script>
+    <script src="js/cookie-consent.js"></script>
+
+    <!-- Blog Filter & Search -->
     <script>
     (function() {
-        var consent = localStorage.getItem('servantium_cookie_consent');
-        if (!consent) {
-            document.getElementById('cookie-consent').style.display = 'block';
-            document.body.style.paddingBottom = '80px';
+        var grid = document.getElementById('blog-grid');
+        var cards = Array.from(grid.querySelectorAll('.blog-card'));
+        var searchInput = document.getElementById('blog-search-input');
+        var pills = document.querySelectorAll('.category-pill');
+        var noResults = document.getElementById('blog-no-results');
+        var resultCount = document.getElementById('blog-result-count');
+        var activeCategory = 'all';
+
+        // Hide future-dated posts
+        var today = new Date().toISOString().split('T')[0];
+        cards.forEach(function(card) {
+            var publishDate = card.getAttribute('data-publish-date');
+            if (publishDate && publishDate > today) {
+                card.style.display = 'none';
+                card.setAttribute('data-future', 'true');
+            }
+        });
+
+        // Count categories
+        function countCategories() {
+            var counts = { all: 0 };
+            cards.forEach(function(card) {
+                if (card.getAttribute('data-future') === 'true') return;
+                counts.all++;
+                var cat = card.getAttribute('data-category');
+                if (cat) counts[cat] = (counts[cat] || 0) + 1;
+            });
+            Object.keys(counts).forEach(function(key) {
+                var el = document.getElementById('count-' + key);
+                if (el) el.textContent = ' (' + counts[key] + ')';
+            });
         }
+        countCategories();
+
+        function filterCards() {
+            var query = searchInput.value.toLowerCase().trim();
+            var visible = 0;
+
+            cards.forEach(function(card) {
+                if (card.getAttribute('data-future') === 'true') return;
+
+                var category = card.getAttribute('data-category');
+                var title = card.querySelector('.blog-card-title');
+                var titleText = title ? title.textContent.toLowerCase() : '';
+                var excerpt = card.querySelector('.blog-card-excerpt');
+                var excerptText = excerpt ? excerpt.textContent.toLowerCase() : '';
+
+                var matchesCategory = (activeCategory === 'all' || category === activeCategory);
+                var matchesSearch = !query || titleText.indexOf(query) !== -1 || excerptText.indexOf(query) !== -1;
+
+                if (matchesCategory && matchesSearch) {
+                    card.style.display = '';
+                    visible++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            noResults.style.display = visible === 0 ? 'block' : 'none';
+
+            if (query || activeCategory !== 'all') {
+                resultCount.textContent = visible + ' article' + (visible !== 1 ? 's' : '') + (activeCategory !== 'all' ? ' in ' + activeCategory : '') + (query ? ' matching "' + searchInput.value.trim() + '"' : '');
+            } else {
+                resultCount.textContent = '';
+            }
+        }
+
+        pills.forEach(function(pill) {
+            pill.addEventListener('click', function() {
+                pills.forEach(function(p) { p.classList.remove('active'); });
+                pill.classList.add('active');
+                activeCategory = pill.getAttribute('data-category');
+                filterCards();
+            });
+        });
+
+        searchInput.addEventListener('input', filterCards);
     })();
-    function acceptCookies() {
-        localStorage.setItem('servantium_cookie_consent', 'accepted');
-        document.getElementById('cookie-consent').style.display = 'none';
-        document.body.style.paddingBottom = '';
-        var script = document.createElement('script');
-        script.async = true;
-        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-6EFX4FNH6H';
-        document.head.appendChild(script);
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        window.gtag = gtag;
-        gtag('js', new Date());
-        gtag('config', 'G-6EFX4FNH6H');
-    }
-    function declineCookies() {
-        localStorage.setItem('servantium_cookie_consent', 'declined');
-        document.getElementById('cookie-consent').style.display = 'none';
-        document.body.style.paddingBottom = '';
-    }
     </script>
 </body>
 </html>

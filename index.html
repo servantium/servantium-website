@@ -212,311 +212,1116 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/nav.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/components.css">
     <style>
-        :root {
-            /* Servantium Official Colors */
-            --color-servantium-green: #00C26D;
-            --color-green-hover: #00A95E;
-            --color-deep-forest: #023E25;
-            --color-forest: #045F37;
-            --color-emerald: #037A47;
-            --color-fresh-green: #36D993;
-            --color-jade: #6FE7B0;
-            --color-light-jade: #A1EEC8;
-            --color-pale-green: #C8F5DE;
-            --color-soft-mint: #E8FBF1;
-            --color-mint-tint: #F3FCF8;
-
-            /* Accent Colors */
-            --color-coral: #FF5C70;
-            --color-slate-blue: #4C82A7;
-            --color-amber: #FFB02E;
-            --color-deep-teal: #26A899;
-            --color-slate: #64748B;
-
-            /* Neutrals */
-            --color-ink: #0D0D0D;
-            --color-ink-light: #3d3d3d;
-            --color-ink-muted: #6b6b6b;
-            --color-white: #FFFFFF;
-            --color-mist-grey: #F5F6F7;
-            --color-cloud-grey: #E1E3E6;
-
-            /* Typography */
-            --font-display: 'Playfair Display', Georgia, serif;
-            --font-body: 'Source Sans 3', -apple-system, BlinkMacSystemFont, sans-serif;
-
-            /* Spacing */
-            --space-xs: 0.5rem;
-            --space-sm: 1rem;
-            --space-md: 1.5rem;
-            --space-lg: 2.5rem;
-            --space-xl: 4rem;
-            --space-2xl: 6rem;
-            --space-3xl: 8rem;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        /* Skip to content link for accessibility */
-        .skip-link {
-            position: fixed;
-            top: -100px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--color-servantium-green);
-            color: var(--color-white);
-            padding: 0.75rem 1.5rem;
-            border-radius: 0 0 8px 8px;
-            font-weight: 600;
-            text-decoration: none;
-            z-index: 100000;
-            transition: top 0.2s ease;
-        }
-
-        .skip-link:focus {
-            top: 0;
-            outline: 2px solid var(--color-deep-forest);
-            outline-offset: 2px;
-        }
-
-        #main-content:focus {
-            outline: none;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            font-size: 18px;
-        }
-
-        body {
-            font-family: var(--font-body);
-            color: var(--color-ink);
-            background-color: var(--color-white);
-            line-height: 1.7;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
-        h1, h2, h3, h4 {
-            font-family: var(--font-display);
-            font-weight: 500;
-            line-height: 1.25;
-            color: var(--color-ink);
-        }
-
-        h1 {
-            font-size: clamp(2.5rem, 5vw, 3.5rem);
-            letter-spacing: -0.02em;
-        }
-
-        h2 {
-            font-size: clamp(2rem, 4vw, 2.75rem);
-            letter-spacing: -0.01em;
-        }
-
-        h3 {
-            font-size: 1.5rem;
-            font-weight: 500;
-        }
-
-        p {
-            color: var(--color-ink-light);
-            font-size: 1.125rem;
-        }
-
-        .text-large {
-            font-size: 1.35rem;
-            line-height: 1.7;
-        }
-
-        .container {
-            max-width: 1140px;
-            margin: 0 auto;
-            padding: 0 var(--space-lg);
-        }
-
-        section {
-            padding: var(--space-3xl) 0;
-        }
-
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 100;
-            padding: var(--space-sm) 0;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--color-cloud-grey);
-        }
-
-        nav .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-        }
-
-        .logo-image {
-            height: 40px;
-            width: auto;
-        }
-
-        .footer-logo {
-            filter: brightness(0) invert(1);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: var(--space-lg);
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--color-ink-light);
-            text-decoration: none;
-            font-size: 1rem;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-
-        .nav-links a:hover {
-            color: var(--color-servantium-green);
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: var(--space-xs);
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            font-family: var(--font-body);
-            font-size: 0.9rem;
-            font-weight: 600;
-            line-height: 1.2;
-            text-decoration: none;
-            transition: all 0.25s ease;
-            cursor: pointer;
-            border: none;
-        }
-
-        .btn-nav {
-            padding: 0.5rem 1rem;
-            font-size: 0.85rem;
-        }
-
-        .nav-buttons {
-            display: flex;
-            gap: 0.75rem;
-            align-items: center;
-        }
-
-        .btn-primary {
-            background: var(--color-servantium-green);
-            color: var(--color-white);
-            border: 2px solid var(--color-servantium-green);
-            box-shadow: 0 2px 8px rgba(0, 194, 109, 0.25);
-        }
-
-        .btn-primary:hover {
-            background: var(--color-green-hover);
-            border-color: var(--color-green-hover);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0, 194, 109, 0.3);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--color-ink);
-            border: 2px solid var(--color-cloud-grey);
-        }
-
-        .btn-secondary:hover {
-            border-color: var(--color-servantium-green);
-            color: var(--color-servantium-green);
-        }
-
         /* Hero */
         .hero {
-            min-height: 100vh;
             display: flex;
-            align-items: center;
-            padding-top: 100px;
+            flex-direction: column;
+            height: 100vh;
+            min-height: 600px;
+            padding-top: 55px;
+            box-sizing: border-box;
             position: relative;
             overflow: hidden;
             background: var(--hero-bg, linear-gradient(180deg, var(--color-white) 0%, var(--color-mist-grey) 100%));
         }
 
-        .hero-canvas {
+        .hero > .container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-bar-inner {
+            width: 100%;
+            padding: var(--space-sm) 0;
+            border-top: 1px solid var(--color-cloud-grey);
+            position: relative;
+            z-index: 2;
+            flex-shrink: 0;
+        }
+
+        /* ── Animated Product Mockup ── */
+        .hero-mockup-wrapper {
+            width: 100%;
+            height: 100%;
+        }
+
+        .hero-mockup {
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            background: var(--color-white);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.10), 0 4px 16px rgba(0,0,0,0.05);
+            position: relative;
+            font-family: var(--font-body);
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(0,0,0,0.08);
+        }
+
+        /* Safari-style browser chrome */
+        .mockup-browser {
+            height: 36px;
+            background: linear-gradient(180deg, #ececec 0%, #d8d8d8 100%);
+            border-bottom: 1px solid #b3b3b3;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            gap: 8px;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .mockup-browser-dots {
+            display: flex;
+            gap: 5px;
+            flex-shrink: 0;
+        }
+
+        .mockup-browser-dots span {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+        }
+
+        .mockup-browser-dots span:nth-child(1) { background: #FF5F57; border: 0.5px solid #e0443e; }
+        .mockup-browser-dots span:nth-child(2) { background: #FFBD2E; border: 0.5px solid #dea123; }
+        .mockup-browser-dots span:nth-child(3) { background: #28C840; border: 0.5px solid #1dad2f; }
+
+        .mockup-browser-nav {
+            display: flex;
+            gap: 1px;
+            flex-shrink: 0;
+        }
+
+        .mockup-browser-nav span {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: #888;
+            line-height: 1;
+        }
+
+        .mockup-url-bar {
+            flex: 1;
+            max-width: 340px;
+            margin: 0 auto;
+            background: white;
+            border: 1px solid #c0bec0;
+            border-radius: 6px;
+            padding: 3px 10px;
+            font-size: 10px;
+            color: #555;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            text-align: center;
+        }
+
+        .mockup-url-lock {
+            display: flex;
+            align-items: center;
+        }
+
+        .mockup-url-lock svg {
+            width: 9px;
+            height: 9px;
+            stroke: #999;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        /* Servantium app top bar */
+        .mockup-topbar {
+            height: 36px;
+            background: var(--color-white);
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .mockup-topbar-logo {
+            height: 18px;
+            width: auto;
+        }
+
+        .mockup-topbar-actions {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .mockup-topbar-btn {
+            font-size: 8px;
+            font-weight: 600;
+            background: var(--color-servantium-green);
+            color: white;
+            border: none;
+            padding: 3px 8px;
+            border-radius: 5px;
+            cursor: default;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .mockup-topbar-help {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 1px solid var(--color-cloud-grey);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+            color: var(--color-ink-muted);
+        }
+
+        .mockup-topbar-avatar {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--color-servantium-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8px;
+            font-weight: 600;
+            color: white;
+        }
+
+        /* App layout — sidebar + main */
+        .mockup-app {
+            display: flex;
+            flex: 1;
+            min-height: 0;
+        }
+
+        /* Navigation rail matching real app */
+        .mockup-nav {
+            width: 40px;
+            background: var(--color-white);
+            border-right: 1px solid rgba(0,0,0,0.06);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 6px 0;
+            gap: 2px;
+            flex-shrink: 0;
+        }
+
+        .mockup-nav-item {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .mockup-nav-item svg {
+            width: 14px;
+            height: 14px;
+            stroke: var(--color-ink-muted);
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .mockup-nav-item.active {
+            background: var(--color-servantium-green);
+        }
+
+        .mockup-nav-item.active svg {
+            stroke: white;
+        }
+
+        .mockup-nav-item:hover:not(.active) {
+            background: var(--color-mist-grey);
+        }
+
+        .mockup-nav-settings {
+            margin-top: auto;
+        }
+
+        .mockup-body {
+            position: relative;
+            flex: 1;
+            overflow: hidden;
+            background: var(--color-white);
+        }
+
+        /* Page container — each page positioned, shown/hidden by JS */
+        .mockup-page {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            padding: 12px;
+            opacity: 0;
+            transform: translateY(6px);
+            transition: opacity 0.3s, transform 0.3s;
+            display: flex;
+            flex-direction: column;
             pointer-events: none;
-            z-index: 0;
+            overflow-y: auto;
         }
 
-        /* Video hero variant */
-        .hero-video-bg {
-            display: none;
+        .mockup-page.active {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .mockup-page-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--color-ink);
+            margin-bottom: 10px;
+        }
+
+        .mockup-sparkle {
+            display: inline-block;
+            animation: sparkle-pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes sparkle-pulse {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* Auto-cycle indicator */
+        .mockup-auto-indicator {
             position: absolute;
-            top: 0;
-            left: 0;
+            bottom: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 4px;
+            z-index: 5;
+        }
+
+        .mockup-auto-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--color-cloud-grey);
+            transition: background 0.3s;
+        }
+
+        .mockup-auto-dot.active {
+            background: var(--color-servantium-green);
+        }
+
+        /* Page 1: Dashboard */
+        .mock-dash-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+
+        .mock-dash-stat {
+            background: var(--color-mist-grey);
+            border-radius: 6px;
+            padding: 8px;
+        }
+
+        .mock-dash-stat-val {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--color-ink);
+        }
+
+        .mock-dash-stat-label {
+            font-size: 8px;
+            color: var(--color-ink-muted);
+        }
+
+        .mock-dash-table {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: 0;
+            font-size: 10px;
+            border-collapse: collapse;
         }
 
-        .hero-video-bg.active {
-            display: block;
+        .mock-dash-table th {
+            text-align: left;
+            font-weight: 600;
+            color: var(--color-ink-muted);
+            padding: 4px 6px;
+            border-bottom: 1px solid var(--color-cloud-grey);
+            font-size: 9px;
         }
 
-        .hero-video-bg.active + .hero-canvas {
-            display: none;
+        .mock-dash-table th:last-child { text-align: right; }
+
+        .mock-dash-table td {
+            padding: 5px 6px;
+            color: var(--color-ink-light);
+            border-bottom: 1px solid rgba(225,227,230,0.4);
         }
 
-        .hero-video-overlay {
-            display: none;
-            position: absolute;
-            top: 0;
-            left: 0;
+        .mock-dash-table td:last-child {
+            text-align: right;
+            font-weight: 500;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .mock-status {
+            display: inline-block;
+            font-size: 8px;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 10px;
+            background: rgba(0,194,109,0.1);
+            color: var(--color-servantium-green);
+        }
+
+        /* Page 2: Engagement / Estimate */
+        .mock-eng-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+
+        .mock-eng-icon {
+            width: 28px;
+            height: 28px;
+            background: var(--color-servantium-green);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+        }
+
+        .mock-eng-icon svg {
+            width: 14px;
+            height: 14px;
+            stroke: white;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        .mock-eng-name {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .mock-eng-client {
+            font-size: 9px;
+            color: var(--color-ink-muted);
+            margin-left: 36px;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .mock-eng-tabs {
+            display: flex;
+            gap: 14px;
+            border-bottom: 1px solid var(--color-cloud-grey);
+            margin-bottom: 8px;
+            font-size: 10px;
+        }
+
+        .mock-eng-tab {
+            padding: 4px 0;
+            color: var(--color-ink-muted);
+            font-weight: 500;
+        }
+
+        .mock-eng-tab.active {
+            color: var(--color-servantium-green);
+            border-bottom: 2px solid var(--color-servantium-green);
+        }
+
+        /* Quote toolbar */
+        .mock-quote-toolbar {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 6px;
+        }
+
+        .mock-quote-toolbar-btn {
+            font-size: 7.5px;
+            font-weight: 600;
+            background: var(--color-servantium-green);
+            color: white;
+            border: none;
+            padding: 3px 7px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .mock-quote-label {
+            font-size: 9px;
+            color: var(--color-ink-muted);
+            margin-left: auto;
+        }
+
+        /* Estimate table — matching real app */
+        .estimate-table {
             width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.75) 60%, rgba(255,255,255,0.6) 100%);
-            z-index: 1;
-            pointer-events: none;
+            font-size: 9px;
+            border-collapse: collapse;
         }
 
-        .hero-video-bg.active ~ .hero-video-overlay {
-            display: block;
+        .estimate-table th {
+            text-align: left;
+            font-weight: 600;
+            color: var(--color-ink-muted);
+            padding: 3px 4px;
+            border-bottom: 1px solid var(--color-cloud-grey);
+            font-size: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .estimate-table th.r { text-align: right; }
+
+        .estimate-table td {
+            padding: 3px 4px;
+            color: var(--color-ink-light);
+            border-bottom: 1px solid rgba(225,227,230,0.4);
+        }
+
+        .estimate-table td.r {
+            text-align: right;
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Group header row — green tint like real app */
+        .est-group td {
+            font-weight: 600;
+            color: var(--color-ink);
+            background: rgba(0,194,109,0.05);
+            padding: 5px 4px;
+            border-bottom: 1px solid rgba(0,194,109,0.15);
+        }
+
+        .est-group-icon {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .est-group-icon svg {
+            width: 10px;
+            height: 10px;
+            stroke: var(--color-servantium-green);
+            fill: none;
+            stroke-width: 2;
+        }
+
+        .est-group td.r {
+            color: var(--color-ink);
+            font-weight: 600;
+        }
+
+        /* Engagement group highlight animation */
+        @keyframes group-pulse {
+            0% { background: rgba(0,194,109,0.05); }
+            40% { background: rgba(0,194,109,0.18); }
+            100% { background: rgba(0,194,109,0.05); }
+        }
+        .est-group-highlight td {
+            animation: group-pulse 1.2s ease;
+        }
+
+        /* Documents scroll animation */
+        .mock-doc-preview.doc-scrolling {
+            scroll-behavior: smooth;
+            overflow-y: auto;
+            max-height: 180px;
+        }
+
+        /* Learning cards stagger animation */
+        .mock-learn-card.learn-hidden {
+            opacity: 0;
+            transform: translateY(6px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .mock-learn-card.learn-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .mock-learn-feed.learn-hidden {
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .mock-learn-feed.learn-visible {
+            opacity: 1;
+        }
+
+        /* Type badge — Resource / Material like real app */
+        .est-type {
+            display: inline-block;
+            font-size: 7.5px;
+            font-weight: 600;
+            padding: 1.5px 5px;
+            border-radius: 3px;
+            min-width: 42px;
+            text-align: center;
+        }
+
+        .est-type.resource {
+            background: rgba(76,130,167,0.1);
+            color: #4C82A7;
+        }
+
+        .est-type.material {
+            background: rgba(255,176,46,0.12);
+            color: #c68a00;
+        }
+
+        /* Drag handle dots */
+        .est-drag {
+            color: var(--color-cloud-grey);
+            font-size: 8px;
+            letter-spacing: 1px;
+        }
+
+        .est-del {
+            color: var(--color-cloud-grey);
+            font-size: 9px;
+        }
+
+        .est-add-item {
+            font-size: 8px;
+            color: var(--color-servantium-green);
+            padding: 3px 4px;
+            font-weight: 500;
+        }
+
+        /* Total bar at bottom */
+        .estimate-total-bar {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 12px;
+            padding: 6px 4px;
+            border-top: 2px solid var(--color-servantium-green);
+            margin-top: 4px;
+            font-size: 9px;
+        }
+
+        .estimate-total-bar .et-label {
+            color: var(--color-ink-muted);
+            font-weight: 500;
+        }
+
+        .estimate-total-bar .et-val {
+            font-weight: 600;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .estimate-total-bar .et-total {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--color-servantium-green);
+        }
+
+        /* Page 3: Resource Planning */
+        .mock-res-toggle {
+            display: flex;
+            border: 1px solid var(--color-cloud-grey);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-left: auto;
+        }
+
+        .mock-res-toggle span {
+            padding: 2px 8px;
+            font-size: 8px;
+            font-weight: 500;
+            color: var(--color-ink-muted);
+            cursor: default;
+        }
+
+        .mock-res-toggle span.active {
+            background: var(--color-ink);
+            color: white;
+        }
+
+        .mock-res-grid {
+            width: 100%;
+            font-size: 8.5px;
+            border-collapse: collapse;
+        }
+
+        .mock-res-grid th {
+            text-align: center;
+            font-weight: 600;
+            color: var(--color-ink-muted);
+            padding: 3px 3px;
+            border-bottom: 1px solid var(--color-cloud-grey);
+            font-size: 7.5px;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+
+        .mock-res-grid th:first-child { text-align: left; }
+        .mock-res-grid th:nth-child(2) { text-align: left; }
+
+        .mock-res-grid td {
+            padding: 3px 3px;
+            text-align: center;
+            border-bottom: 1px solid rgba(225,227,230,0.3);
+        }
+
+        .mock-res-grid td:first-child {
+            text-align: left;
+            font-weight: 500;
+            color: var(--color-ink);
+        }
+
+        .mock-res-grid td:nth-child(2) {
+            text-align: left;
+            color: var(--color-ink-muted);
+            font-size: 7.5px;
+        }
+
+        /* Project group row */
+        .res-project td {
+            font-weight: 600;
+            color: var(--color-ink);
+            background: var(--color-mist-grey);
+            padding: 4px 3px;
+            font-size: 8.5px;
+        }
+
+        .res-project-icon {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .res-project-icon svg {
+            width: 9px;
+            height: 9px;
+            stroke: var(--color-servantium-green);
+            fill: none;
+            stroke-width: 2;
+        }
+
+        .mock-res-cell {
+            display: inline-block;
+            padding: 1.5px 5px;
+            border-radius: 3px;
+            font-size: 8px;
+            font-weight: 500;
+            min-width: 24px;
+        }
+
+        .mock-res-cell.green {
+            background: rgba(0,194,109,0.15);
+            color: #00854a;
+        }
+
+        .mock-res-cell.amber {
+            background: rgba(255,176,46,0.15);
+            color: #c68a00;
+        }
+
+        .mock-res-cell.red {
+            background: rgba(255,92,112,0.12);
+            color: #cc3344;
+        }
+
+        .mock-res-cell.empty {
+            color: rgba(0,0,0,0.15);
+        }
+
+        /* Page 4: Notes / AI */
+        .mock-note-card {
+            border: 1px solid var(--color-cloud-grey);
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 8px;
+        }
+
+        .mock-note-header {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 6px;
+        }
+
+        .mock-note-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--color-servantium-green);
+        }
+
+        .mock-note-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--color-ink);
+        }
+
+        .mock-note-time {
+            margin-left: auto;
+            font-size: 8px;
+            color: var(--color-ink-muted);
+        }
+
+        .mock-note-body {
+            font-size: 10px;
+            color: var(--color-ink-light);
+            line-height: 1.5;
+        }
+
+        .mock-note-highlight {
+            background: rgba(0,194,109,0.1);
+            color: var(--color-servantium-green);
+            padding: 1px 3px;
+            border-radius: 2px;
+            font-weight: 500;
+        }
+
+        .mock-insight-bar {
+            background: rgba(0,194,109,0.06);
+            border: 1px solid rgba(0,194,109,0.15);
+            border-radius: 8px;
+            padding: 8px 10px;
+            font-size: 10px;
+            color: var(--color-ink-light);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .mock-insight-bar strong {
+            color: var(--color-servantium-green);
+        }
+
+        /* Engagement sidebar (group list) */
+        .mock-eng-layout {
+            display: flex;
+            flex: 1;
+            min-height: 0;
+            gap: 0;
+        }
+
+        .mock-eng-sidebar {
+            width: 140px;
+            border-right: 1px solid var(--color-cloud-grey);
+            padding: 6px 0;
+            flex-shrink: 0;
+            overflow-y: auto;
+        }
+
+        .mock-eng-sidebar-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 8px;
+            font-size: 8px;
+            color: var(--color-ink-light);
+            cursor: default;
+        }
+
+        .mock-eng-sidebar-item svg {
+            width: 10px;
+            height: 10px;
+            stroke: var(--color-servantium-green);
+            fill: none;
+            stroke-width: 2;
+            flex-shrink: 0;
+        }
+
+        .mock-eng-main {
+            flex: 1;
+            padding: 0 0 0 10px;
+            overflow-y: auto;
+            min-width: 0;
+        }
+
+        /* Page 5: Documents / SOW */
+        .mock-doc-card {
+            border: 1px solid var(--color-cloud-grey);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .mock-doc-card-header {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 10px;
+            background: var(--color-mist-grey);
+            border-bottom: 1px solid var(--color-cloud-grey);
+        }
+
+        .mock-doc-card-header svg {
+            width: 14px;
+            height: 14px;
+            stroke: var(--color-servantium-green);
+            fill: none;
+            stroke-width: 2;
+        }
+
+        .mock-doc-card-title {
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--color-ink);
+        }
+
+        .mock-doc-badge {
+            margin-left: auto;
+            font-size: 7px;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 10px;
+            background: rgba(0,194,109,0.1);
+            color: var(--color-servantium-green);
+        }
+
+        .mock-doc-preview {
+            padding: 10px 12px;
+            font-size: 8.5px;
+            color: var(--color-ink-light);
+            line-height: 1.6;
+        }
+
+        .mock-doc-preview-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--color-ink);
+            text-align: center;
+            margin-bottom: 6px;
+        }
+
+        .mock-doc-preview-subtitle {
+            font-size: 9px;
+            color: var(--color-ink-muted);
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .mock-doc-section {
+            font-size: 9px;
+            font-weight: 600;
+            color: var(--color-ink);
+            margin: 6px 0 3px;
+        }
+
+        .mock-doc-table {
+            width: 100%;
+            font-size: 8px;
+            border-collapse: collapse;
+            margin: 4px 0;
+        }
+
+        .mock-doc-table th {
+            text-align: left;
+            font-weight: 600;
+            color: var(--color-ink-muted);
+            padding: 2px 4px;
+            border-bottom: 1px solid var(--color-cloud-grey);
+            font-size: 7px;
+        }
+
+        .mock-doc-table td {
+            padding: 2px 4px;
+            border-bottom: 1px solid rgba(225,227,230,0.3);
+        }
+
+        .mock-doc-table td:last-child {
+            text-align: right;
+            font-weight: 500;
+        }
+
+        /* Page 6: Learning / Feedback Loop */
+        .mock-learn-card {
+            border: 1px solid rgba(0,194,109,0.2);
+            border-radius: 8px;
+            padding: 8px 10px;
+            margin-bottom: 6px;
+            background: rgba(0,194,109,0.03);
+        }
+
+        .mock-learn-header {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 4px;
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--color-ink);
+        }
+
+        .mock-learn-header svg {
+            width: 12px;
+            height: 12px;
+            stroke: var(--color-servantium-green);
+            fill: none;
+            stroke-width: 2;
+        }
+
+        .mock-learn-body {
+            font-size: 9px;
+            color: var(--color-ink-light);
+            line-height: 1.5;
+        }
+
+        .mock-learn-metric {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            font-size: 9px;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 10px;
+            margin: 2px 2px 2px 0;
+        }
+
+        .mock-learn-metric.up {
+            background: rgba(0,194,109,0.1);
+            color: #00854a;
+        }
+
+        .mock-learn-metric.down {
+            background: rgba(255,92,112,0.1);
+            color: #cc3344;
+        }
+
+        .mock-learn-metric.neutral {
+            background: rgba(76,130,167,0.1);
+            color: #4C82A7;
+        }
+
+        .mock-learn-divider {
+            height: 1px;
+            background: rgba(0,194,109,0.15);
+            margin: 6px 0;
+        }
+
+        .mock-learn-feed {
+            font-size: 8.5px;
+            color: var(--color-ink-muted);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .mock-learn-arrow {
+            color: var(--color-servantium-green);
+            font-weight: 600;
+        }
+
+        /* Notes typewriter animation */
+        .mock-note-body .note-chunk {
+            opacity: 1;
+            transition: opacity 0.4s ease;
+        }
+
+        .mock-note-body .note-chunk.typing {
+            opacity: 0;
+        }
+
+        .mock-note-cursor {
+            display: inline-block;
+            width: 1px;
+            height: 10px;
+            background: var(--color-servantium-green);
+            margin-left: 2px;
+            animation: cursor-blink 0.6s step-end infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes cursor-blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .mock-insight-bar.note-hidden {
+            opacity: 0;
+            transform: translateY(4px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .mock-insight-bar.note-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Week view variant for resources */
+        .mock-res-week-grid {
+            width: 100%;
+            font-size: 8px;
+            border-collapse: collapse;
+        }
+
+        .mock-res-week-grid th {
+            text-align: center;
+            font-weight: 600;
+            color: var(--color-ink-muted);
+            padding: 3px 2px;
+            border-bottom: 1px solid var(--color-cloud-grey);
+            font-size: 7px;
+            text-transform: uppercase;
+        }
+
+        .mock-res-week-grid th:first-child { text-align: left; }
+        .mock-res-week-grid th:nth-child(2) { text-align: left; }
+
+        .mock-res-week-grid td {
+            padding: 3px 2px;
+            text-align: center;
+            border-bottom: 1px solid rgba(225,227,230,0.3);
+            font-size: 8px;
+        }
+
+        .mock-res-week-grid td:first-child {
+            text-align: left;
+            font-weight: 500;
+            color: var(--color-ink);
+        }
+
+        .mock-res-week-grid td:nth-child(2) {
+            text-align: left;
+            color: var(--color-ink-muted);
+            font-size: 7px;
         }
 
         .hero-content {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: var(--space-2xl);
+            grid-template-columns: 0.9fr 1.6fr;
+            gap: var(--space-lg);
             align-items: center;
             position: relative;
             z-index: 2;
         }
 
         .hero-text {
-            max-width: 580px;
+            max-width: 520px;
         }
 
         .hero-eyebrow {
@@ -547,6 +1352,46 @@
             color: var(--color-servantium-green);
         }
 
+        /* Rotating word — 3D revolving door flip */
+        .hero-rotating {
+            display: inline-block;
+            position: relative;
+            perspective: 600px;
+            vertical-align: baseline;
+        }
+
+        .hero-rotating-inner {
+            display: inline-block;
+            position: relative;
+            transform-style: preserve-3d;
+            width: 100%;
+        }
+
+        .hero-rotating-word {
+            display: inline-block;
+            position: absolute;
+            left: 0;
+            top: 0;
+            backface-visibility: hidden;
+            color: var(--color-servantium-green);
+            font-style: italic;
+            transform: rotateX(90deg);
+            opacity: 0;
+            transition: transform 0.6s cubic-bezier(0.35, 0, 0.25, 1), opacity 0.6s ease;
+            white-space: nowrap;
+        }
+
+        .hero-rotating-word.active {
+            position: relative;
+            transform: rotateX(0deg);
+            opacity: 1;
+        }
+
+        .hero-rotating-word.exit {
+            transform: rotateX(-90deg);
+            opacity: 0;
+        }
+
         .hero-description {
             font-size: 1.25rem;
             color: var(--color-ink-light);
@@ -562,27 +1407,30 @@
 
         .hero-visual {
             position: relative;
-            height: 520px;
+            width: 115%;
+            margin-right: -15%;
+            aspect-ratio: 16 / 10;
             display: flex;
-            align-items: center;
-            justify-content: center;
+            align-items: stretch;
         }
+
+        /* Hero text (single variant — light only) */
 
         /* Logo Bar */
         .logo-bar {
-            padding: var(--space-xl) 0;
+            padding: var(--space-sm) 0;
             background: var(--color-white);
             border-bottom: 1px solid var(--color-cloud-grey);
         }
 
         .logo-bar-label {
             text-align: center;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.12em;
             color: var(--color-ink-muted);
-            margin-bottom: var(--space-md);
+            margin-bottom: var(--space-xs);
         }
 
         .logo-bar-logos {
@@ -599,177 +1447,6 @@
             background: var(--color-cloud-grey);
             border-radius: 8px;
             opacity: 0.4;
-        }
-
-        /* A/B Variant Switcher */
-        .ab-switcher {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 9999;
-            background: var(--color-ink);
-            border-radius: 12px;
-            padding: var(--space-sm) var(--space-md);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-            font-family: var(--font-body);
-            font-size: 0.8rem;
-            color: var(--color-white);
-        }
-
-        .ab-switcher-title {
-            font-weight: 600;
-            margin-bottom: var(--space-xs);
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--color-servantium-green);
-        }
-
-        .ab-switcher-row {
-            display: flex;
-            gap: var(--space-xs);
-            margin-bottom: var(--space-xs);
-        }
-
-        .ab-switcher-row:last-child {
-            margin-bottom: 0;
-        }
-
-        .ab-switcher label {
-            font-size: 0.75rem;
-            color: rgba(255,255,255,0.7);
-            min-width: 50px;
-        }
-
-        .ab-switcher button {
-            padding: 0.25rem 0.5rem;
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 4px;
-            background: transparent;
-            color: rgba(255,255,255,0.7);
-            font-size: 0.7rem;
-            cursor: pointer;
-            font-family: var(--font-body);
-            transition: all 0.15s ease;
-        }
-
-        .ab-switcher button.active {
-            background: var(--color-servantium-green);
-            border-color: var(--color-servantium-green);
-            color: white;
-        }
-
-        .ab-switcher button:hover:not(.active) {
-            border-color: rgba(255,255,255,0.5);
-            color: white;
-        }
-
-        /* Dark Theme Overrides */
-        body.theme-dark {
-            background-color: var(--color-ink);
-            color: var(--color-white);
-        }
-
-        body.theme-dark .hero {
-            --hero-bg: linear-gradient(180deg, #0D0D0D 0%, #1a1a1a 100%);
-        }
-
-        body.theme-dark .hero-video-overlay {
-            background: linear-gradient(135deg, rgba(13,13,13,0.92) 0%, rgba(13,13,13,0.75) 60%, rgba(13,13,13,0.6) 100%);
-        }
-
-        body.theme-dark h1, body.theme-dark h2, body.theme-dark h3, body.theme-dark h4 {
-            color: var(--color-white);
-        }
-
-        body.theme-dark p {
-            color: rgba(255,255,255,0.75);
-        }
-
-        body.theme-dark .hero-description {
-            color: rgba(255,255,255,0.8);
-        }
-
-        body.theme-dark nav {
-            background: rgba(13, 13, 13, 0.95);
-            border-bottom-color: rgba(255,255,255,0.1);
-        }
-
-        body.theme-dark .nav-links a {
-            color: rgba(255,255,255,0.7);
-        }
-
-        body.theme-dark .btn-secondary {
-            color: var(--color-white);
-            border-color: rgba(255,255,255,0.3);
-        }
-
-        body.theme-dark .mobile-menu {
-            background: var(--color-ink);
-        }
-
-        body.theme-dark .mobile-menu a:not(.btn) {
-            color: var(--color-white);
-            border-bottom-color: rgba(255,255,255,0.1);
-        }
-
-        body.theme-dark .logo-bar {
-            background: #1a1a1a;
-            border-bottom-color: rgba(255,255,255,0.1);
-        }
-
-        body.theme-dark .logo-placeholder {
-            background: rgba(255,255,255,0.1);
-        }
-
-        body.theme-dark .core-concept {
-            background: #111;
-        }
-
-        body.theme-dark .lifecycle-circle {
-            background: #1a1a1a;
-            border-color: rgba(255,255,255,0.2);
-        }
-
-        body.theme-dark .lifecycle-number {
-            color: var(--color-white);
-        }
-
-        body.theme-dark .lifecycle-name {
-            color: rgba(255,255,255,0.6);
-        }
-
-        body.theme-dark .lifecycle-panel {
-            background: #1a1a1a;
-        }
-
-        body.theme-dark .panel-content p {
-            color: rgba(255,255,255,0.7);
-        }
-
-        body.theme-dark .faq {
-            background: #111;
-        }
-
-        body.theme-dark .faq-item {
-            background: #1a1a1a;
-        }
-
-        body.theme-dark .faq-question {
-            color: var(--color-white);
-        }
-
-        body.theme-dark .faq-answer-content,
-        body.theme-dark .faq-answer-content p {
-            color: rgba(255,255,255,0.7);
-        }
-
-        body.theme-dark .mobile-menu-toggle span {
-            background: var(--color-white);
-        }
-
-        body.theme-dark .mobile-menu-close svg {
-            stroke: var(--color-white);
         }
 
         /* The Problem Section */
@@ -866,7 +1543,7 @@
 
         /* Core Concept - Panel Below on Hover/Click */
         .core-concept {
-            background: var(--color-mist-grey);
+            background: var(--color-white);
         }
 
         .concept-header {
@@ -1186,176 +1863,8 @@
             animation: checkPop 0.3s ease forwards;
         }
 
-        /* Contact Form */
-        .contact-form {
-            text-align: left;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-group {
-            margin-bottom: var(--space-md);
-        }
-
-        .form-group.form-group-message {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 0.875rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--color-ink);
-        }
-
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 0.875rem 1rem;
-            font-size: 1rem;
-            font-family: var(--font-body);
-            border: 2px solid var(--color-cloud-grey);
-            border-radius: 8px;
-            background: var(--color-white);
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--color-servantium-green);
-            box-shadow: 0 0 0 3px rgba(0, 194, 109, 0.1);
-        }
-
-        .form-group textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        .form-group-message textarea {
-            flex: 1;
-        }
-
-        .form-submit {
-            width: 100%;
-            padding: 1rem;
-            font-size: 1rem;
-            font-weight: 600;
-            font-family: var(--font-body);
-            background: var(--color-servantium-green);
-            color: var(--color-white);
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background 0.2s ease, transform 0.2s ease;
-        }
-
-        .form-submit:hover {
-            background: var(--color-green-hover);
-            transform: translateY(-1px);
-        }
-
-        .form-submit:active {
-            transform: translateY(0);
-        }
-
-        .form-submit:disabled {
-            background: var(--color-cloud-grey);
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .form-status {
-            margin-top: var(--space-sm);
-            padding: 1rem;
-            border-radius: 8px;
-            text-align: center;
-            display: none;
-        }
-
-        .form-status.error {
-            display: block;
-            background: #FEE2E2;
-            color: #991B1B;
-        }
-
-        /* Success overlay */
-        .form-success-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--color-white);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: var(--space-lg);
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-            border-radius: 12px;
-        }
-
-        .form-success-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .form-success-icon {
-            width: 64px;
-            height: 64px;
-            background: var(--color-soft-mint);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: var(--space-md);
-        }
-
-        .form-success-icon svg {
-            width: 32px;
-            height: 32px;
-            color: var(--color-servantium-green);
-        }
-
-        .form-success-overlay h4 {
-            font-family: var(--font-display);
-            font-size: 1.5rem;
-            margin-bottom: var(--space-xs);
-            color: var(--color-ink);
-        }
-
-        .form-success-overlay p {
-            color: var(--color-ink-muted);
-            font-size: 1rem;
-        }
-
         .contact-form {
             position: relative;
-        }
-
-        .form-divider {
-            display: flex;
-            align-items: center;
-            gap: var(--space-sm);
-            margin: var(--space-lg) 0;
-            color: var(--color-ink-muted);
-            font-size: 0.875rem;
-        }
-
-        .form-divider::before,
-        .form-divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: var(--color-cloud-grey);
         }
 
         /* FAQ Section */
@@ -1453,303 +1962,80 @@
             margin-bottom: 0.5rem;
         }
 
-        /* Footer */
-        footer {
-            background: var(--color-ink);
-            color: var(--color-white);
-            padding: var(--space-xl) 0 var(--space-md);
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: 1.5fr 1fr 1fr 1fr;
-            gap: var(--space-xl);
-            margin-bottom: var(--space-lg);
-        }
-
-        .footer-brand {
-            max-width: 280px;
-        }
-
-        .footer-brand .logo {
-            margin-bottom: var(--space-sm);
-        }
-
-        .footer-brand p {
-            font-size: 0.9rem;
-            opacity: 0.6;
-            color: var(--color-white);
-            line-height: 1.6;
-            margin-bottom: var(--space-sm);
-        }
-
-        .footer-social {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-top: var(--space-sm);
-        }
-
-        .footer-social-label {
-            font-size: 0.85rem;
-            opacity: 0.7;
-        }
-
-        .social-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 32px;
-            height: 32px;
-            border-radius: 6px;
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--color-white);
-            transition: all 0.2s ease;
-        }
-
-        .social-link:hover {
-            background: var(--color-servantium-green);
-            transform: translateY(-1px);
-        }
-
-        .footer-column h4 {
-            font-family: var(--font-body);
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: var(--space-sm);
-            opacity: 0.6;
-        }
-
-        .footer-column ul {
-            list-style: none;
-        }
-
-        .footer-column li {
-            margin-bottom: 0.35rem;
-        }
-
-        .footer-column a {
-            color: var(--color-white);
-            opacity: 0.7;
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: opacity 0.2s;
-        }
-
-        .footer-column a:hover {
-            opacity: 1;
-        }
-
-        .footer-bottom {
-            padding-top: var(--space-md);
-            border-top: 1px solid rgba(255,255,255,0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.85rem;
-            opacity: 0.7;
-        }
-
-        .footer-bottom-left {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .footer-divider {
-            opacity: 0.5;
-        }
-
-        .footer-bottom a {
-            color: var(--color-white);
-            text-decoration: none;
-            transition: opacity 0.2s;
-        }
-
-        .footer-bottom a:hover {
-            opacity: 1;
-            text-decoration: underline;
-        }
-
-        .footer-email-chip {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            background: transparent;
-            border: 1.5px solid var(--color-servantium-green);
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-family: inherit;
-            font-size: 0.85rem;
-        }
-
-        .footer-email-chip:hover {
-            background: rgba(0, 194, 109, 0.15);
-        }
-
-        .footer-email-chip-text {
-            color: var(--color-servantium-green);
-            font-weight: 500;
-        }
-
-        .footer-email-chip-icon {
-            width: 14px;
-            height: 14px;
-            color: var(--color-servantium-green);
-            flex-shrink: 0;
-        }
-
-        .footer-email-chip.copied {
-            background: var(--color-servantium-green);
-            border-color: var(--color-servantium-green);
-        }
-
-        .footer-email-chip.copied .footer-email-chip-text,
-        .footer-email-chip.copied .footer-email-chip-icon {
-            color: white;
-        }
-
         /* Responsive */
         @media (max-width: 1024px) {
             html { font-size: 16px; }
 
-            .hero-content {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-
+            .hero-content { grid-template-columns: 1fr; text-align: center; }
             .hero-text { max-width: 100%; }
+            .hero-eyebrow { justify-content: center; }
             .hero-ctas { justify-content: center; }
-            .hero-visual { height: 400px; }
+            .hero-visual { margin: 0 auto; width: 100%; max-width: 800px; aspect-ratio: 16 / 10; }
             .problem-stats { grid-template-columns: repeat(2, 1fr); }
             .lifecycle-panel { grid-template-columns: 1fr; }
             .panel-image { min-height: 200px; }
         }
 
-        /* Mobile Menu */
-        .mobile-menu-toggle {
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            gap: 5px;
-            width: 28px;
-            height: 28px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 0;
-            z-index: 1001;
-        }
-
-        .mobile-menu-toggle span {
-            display: block;
-            width: 100%;
-            height: 2px;
-            background: var(--color-ink);
-            border-radius: 2px;
-            transition: all 0.3s ease;
-        }
-
-        .mobile-menu-toggle.active span:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 5px);
-        }
-
-        .mobile-menu-toggle.active span:nth-child(2) {
-            opacity: 0;
-        }
-
-        .mobile-menu-toggle.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(5px, -5px);
-        }
-
-        .mobile-menu {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--color-white);
-            z-index: 999;
-            padding: var(--space-lg);
-            padding-top: 80px;
-            flex-direction: column;
-            gap: var(--space-sm);
-        }
-
-        .mobile-menu.active {
-            display: flex;
-        }
-
-        .mobile-menu-close {
-            position: absolute;
-            top: var(--space-sm);
-            right: var(--space-lg);
-            width: 44px;
-            height: 44px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0;
-        }
-
-        .mobile-menu-close svg {
-            width: 28px;
-            height: 28px;
-            stroke: var(--color-ink);
-            stroke-width: 2;
-        }
-
-        .mobile-menu-close:hover svg {
-            stroke: var(--color-servantium-green);
-        }
-
-        .mobile-menu a:not(.btn) {
-            display: block;
-            padding: var(--space-md) 0;
-            font-size: 1.25rem;
-            font-weight: 500;
-            color: var(--color-ink);
-            text-decoration: none;
-            border-bottom: 1px solid var(--color-cloud-grey);
-            transition: color 0.2s;
-        }
-
-        .mobile-menu a:not(.btn):hover {
-            color: var(--color-servantium-green);
-        }
-
-        .mobile-menu .btn {
-            margin-top: var(--space-md);
-            justify-content: center;
-            padding: 1rem 2rem;
-            font-size: 1rem;
-        }
-
         @media (max-width: 768px) {
-            .nav-links { display: none; }
-            .nav-buttons { display: none; }
-            .mobile-menu-toggle { display: flex; }
-            section { padding: var(--space-2xl) 0; }
             .problem-stats { grid-template-columns: 1fr; }
-            .footer-grid { grid-template-columns: 1fr 1fr; gap: var(--space-lg); }
-            .footer-bottom { flex-direction: column; gap: var(--space-sm); text-align: center; }
-            .footer-bottom-left { flex-direction: column; gap: 0.25rem; }
-            .footer-divider { display: none; }
 
             /* Mobile hero fix */
             .hero { min-height: auto; padding-top: 80px; padding-bottom: var(--space-lg); }
-            .hero-content { grid-template-columns: 1fr; text-align: center; }
             .hero-text { max-width: 100%; }
-            .hero-ctas { justify-content: center; }
-            .hero-visual { display: none; }
+            .hero-visual {
+                width: 100%;
+                aspect-ratio: 16 / 10;
+                margin: 0;
+            }
+            .mockup-nav { display: none; }
+            .mockup-topbar-logo { height: 14px; }
+            .mockup-topbar { height: 28px; padding: 0 6px; }
+            .mockup-topbar-btn { font-size: 6px; padding: 2px 5px; }
+            .mockup-topbar-help { width: 14px; height: 14px; font-size: 7px; }
+            .mockup-topbar-avatar { width: 16px; height: 16px; font-size: 6px; }
+            .mockup-browser { height: 28px; }
+            .mockup-browser-dots span { width: 7px; height: 7px; }
+            .mockup-url-bar { font-size: 8px; padding: 2px 6px; }
+            .mockup-page { padding: 8px; }
+            .mockup-page-title { font-size: 10px; margin-bottom: 6px; }
+            .mock-dash-stats { gap: 4px; }
+            .mock-dash-stat { padding: 5px; }
+            .mock-dash-stat-val { font-size: 12px; }
+            .mock-dash-stat-label { font-size: 6px; }
+            .mock-dash-table { font-size: 7px; }
+            .mock-dash-table th { font-size: 6px; }
+            .mock-eng-sidebar { display: none; }
+            .estimate-table { font-size: 7px; }
+            .estimate-table th { font-size: 6px; }
+            .mock-eng-name { font-size: 10px; }
+            .mock-eng-tabs { font-size: 7px; gap: 6px; }
+            .mock-eng-client { font-size: 7px; margin-left: 0; }
+            .mock-eng-icon { width: 20px; height: 20px; }
+            .mock-eng-icon svg { width: 10px; height: 10px; }
+            .mock-res-grid, .mock-res-week-grid { font-size: 6.5px; }
+            .mock-res-grid th, .mock-res-week-grid th { font-size: 6px; }
+            .mock-res-cell { font-size: 6px; padding: 1px 3px; min-width: 16px; }
+            .mock-note-card { padding: 6px; }
+            .mock-note-title { font-size: 8px; }
+            .mock-note-body { font-size: 7px; }
+            .mock-note-time { font-size: 6px; }
+            .mock-insight-bar { font-size: 7px; padding: 5px 6px; }
+            .mock-doc-card-title { font-size: 8px; }
+            .mock-doc-preview { font-size: 7px; padding: 6px 8px; }
+            .mock-doc-preview-title { font-size: 9px; }
+            .mock-doc-section { font-size: 7px; }
+            .mock-doc-table { font-size: 6px; }
+            .mock-learn-card { padding: 5px 6px; }
+            .mock-learn-header { font-size: 8px; }
+            .mock-learn-body { font-size: 7px; }
+            .mock-learn-metric { font-size: 6.5px; }
+            .mockup-auto-dot { width: 4px; height: 4px; }
+            .est-type { font-size: 5.5px; padding: 1px 3px; min-width: 30px; }
+            .est-drag { font-size: 6px; }
+            .estimate-total-bar { font-size: 7px; gap: 6px; }
+            .estimate-total-bar .et-total { font-size: 8px; }
+            .mock-quote-toolbar-btn { font-size: 6px; }
+            .mock-quote-label { font-size: 7px; }
 
             /* Mobile lifecycle - vertical centered with expandable panels */
             .lifecycle-wrapper {
@@ -1879,10 +2165,6 @@
             }
         }
 
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(24px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
     </style>
 </head>
 <body>
@@ -1895,8 +2177,8 @@
                 <img src="logo.png" alt="Servantium" class="logo-image">
             </a>
             <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
                 <li><a href="platform.html">Platform</a></li>
-                <li><a href="#concept">How It Works</a></li>
                 <li><a href="about.html">About</a></li>
                 <li><a href="blog.html">Blog</a></li>
             </ul>
@@ -1920,8 +2202,8 @@
                 <line x1="6" y1="6" x2="18" y2="18"></line>
             </svg>
         </button>
+        <a href="index.html">Home</a>
         <a href="platform.html">Platform</a>
-        <a href="#concept" onclick="closeMobileMenu()">How It Works</a>
         <a href="about.html">About</a>
         <a href="blog.html">Blog</a>
         <a href="#contact" onclick="closeMobileMenu()">Book a Demo</a>
@@ -1931,19 +2213,13 @@
     <!-- Hero -->
     <main id="main-content" tabindex="-1">
     <section class="hero">
-        <!-- Video background (hidden by default, activated via ?hero=video) -->
-        <video class="hero-video-bg" id="hero-video" muted autoplay loop playsinline>
-            <!-- Add video source: <source src="hero-bg.mp4" type="video/mp4"> -->
-        </video>
-        <canvas class="hero-canvas" id="hero-canvas"></canvas>
-        <div class="hero-video-overlay"></div>
         <div class="container">
-            <div class="hero-content">
+            <div class="hero-content" id="hero-content">
                 <div class="hero-text">
-                    <div class="hero-eyebrow">Every engagement makes the next one smarter</div>
-                    <h1>The platform that<br><em>learns your business.</em></h1>
+                    <div class="hero-eyebrow">The Agentic Services Platform</div>
+                    <h1>The operating system for<br><em>your </em><span class="hero-rotating" id="hero-rotate-a"><span class="hero-rotating-inner"><span class="hero-rotating-word active">firm.</span><span class="hero-rotating-word">team.</span><span class="hero-rotating-word">clients.</span><span class="hero-rotating-word">growth.</span></span></span></h1>
                     <p class="hero-description">
-                        Stop reinventing every engagement from scratch. Servantium encodes how you scope, price, and deliver services — then gets smarter with every deal you close.
+                        Scope, price, deliver, and learn from every engagement. Servantium is the agentic platform that turns your operational knowledge into a compounding advantage.
                     </p>
                     <div class="hero-ctas">
                         <a href="#contact" class="btn btn-primary">Schedule a Call</a>
@@ -1951,23 +2227,298 @@
                     </div>
                 </div>
                 <div class="hero-visual">
-                    <!-- Canvas animation fills this area on desktop -->
+                    <div class="hero-mockup-wrapper">
+                    <div class="hero-mockup" id="hero-mockup">
+                        <!-- Safari-style browser chrome -->
+                        <div class="mockup-browser">
+                            <div class="mockup-browser-dots"><span></span><span></span><span></span></div>
+                            <div class="mockup-browser-nav">
+                                <span>&#8249;</span>
+                                <span>&#8250;</span>
+                            </div>
+                            <div class="mockup-url-bar">
+                                <span class="mockup-url-lock"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg></span>
+                                <span id="mockup-url">app.servantium.com</span>
+                            </div>
+                        </div>
+                        <!-- Servantium app top bar -->
+                        <div class="mockup-topbar">
+                            <img src="logo.png" alt="Servantium" class="mockup-topbar-logo">
+                            <div class="mockup-topbar-actions">
+                                <span class="mockup-topbar-btn">&#9733; Create Engagement</span>
+                                <span class="mockup-topbar-help">?</span>
+                                <span class="mockup-topbar-avatar">RB</span>
+                            </div>
+                        </div>
+                        <!-- App layout: nav rail + content -->
+                        <div class="mockup-app">
+                        <div class="mockup-nav">
+                            <div class="mockup-nav-item" data-page="dashboard" title="Dashboard">
+                                <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                            </div>
+                            <div class="mockup-nav-item" data-page="engagement" title="Engagements">
+                                <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                            </div>
+                            <div class="mockup-nav-item" data-page="resources" title="Resources">
+                                <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                            </div>
+                            <div class="mockup-nav-item active" data-page="notes" title="Notes">
+                                <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                            </div>
+                            <div class="mockup-nav-item" data-page="documents" title="Documents">
+                                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                            </div>
+                            <div class="mockup-nav-item" data-page="learning" title="Learning">
+                                <svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+                            </div>
+                            <div class="mockup-nav-item mockup-nav-settings">
+                                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                            </div>
+                        </div><!-- /.mockup-nav -->
+                        <div class="mockup-body">
+
+                            <!-- Page 1: Dashboard -->
+                            <div class="mockup-page" data-page="dashboard">
+                                <div class="mockup-page-title">Your work today</div>
+                                <div class="mock-dash-stats">
+                                    <div class="mock-dash-stat"><div class="mock-dash-stat-val">12</div><div class="mock-dash-stat-label">Active</div></div>
+                                    <div class="mock-dash-stat"><div class="mock-dash-stat-val">34</div><div class="mock-dash-stat-label">Proposals</div></div>
+                                    <div class="mock-dash-stat"><div class="mock-dash-stat-val">$842k</div><div class="mock-dash-stat-label">Pipeline</div></div>
+                                    <div class="mock-dash-stat"><div class="mock-dash-stat-val">3</div><div class="mock-dash-stat-label">Due</div></div>
+                                </div>
+                                <table class="mock-dash-table">
+                                    <thead><tr><th>Engagement</th><th>Client</th><th>Status</th><th>Value</th></tr></thead>
+                                    <tbody>
+                                        <tr><td>Salesforce CRM</td><td>KVWN Channel 4</td><td><span class="mock-status">Active</span></td><td>$117,600</td></tr>
+                                        <tr><td>ERP Migration</td><td>Stark Industries</td><td><span class="mock-status">Active</span></td><td>$248,500</td></tr>
+                                        <tr><td>Data Platform</td><td>Globex Corp</td><td><span class="mock-status">Active</span></td><td>$89,200</td></tr>
+                                        <tr><td>Cloud Strategy</td><td>Initech</td><td><span class="mock-status">Active</span></td><td>$62,000</td></tr>
+                                        <tr><td>Security Audit</td><td>Hooli</td><td><span class="mock-status">Active</span></td><td>$41,500</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Page 2: Engagement / Estimate -->
+                            <div class="mockup-page" data-page="engagement" style="padding:0;">
+                                <div style="padding:10px 12px 0;">
+                                    <div class="mock-eng-header">
+                                        <div class="mock-eng-icon"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg></div>
+                                        <div class="mock-eng-name">KVWN — Salesforce CRM</div>
+                                        <span class="mock-status">Active</span>
+                                    </div>
+                                    <div class="mock-eng-client">KVWN Channel 4 News &nbsp;·&nbsp; 3 hours ago</div>
+                                    <div class="mock-eng-tabs">
+                                        <span class="mock-eng-tab">Info</span>
+                                        <span class="mock-eng-tab">Similars</span>
+                                        <span class="mock-eng-tab">Notes</span>
+                                        <span class="mock-eng-tab active">Quotes</span>
+                                        <span class="mock-eng-tab">Documents</span>
+                                        <span class="mock-eng-tab">Resource Plans</span>
+                                    </div>
+                                </div>
+                                <div class="mock-eng-layout">
+                                    <div class="mock-eng-sidebar">
+                                        <div class="mock-eng-sidebar-item"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg> Discovery &amp; Req.</div>
+                                        <div class="mock-eng-sidebar-item"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg> Implementation</div>
+                                        <div class="mock-eng-sidebar-item"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg> Training &amp; Rollout</div>
+                                    </div>
+                                    <div class="mock-eng-main">
+                                        <div class="mock-quote-toolbar">
+                                            <span class="mock-quote-toolbar-btn">&#9830; Add Group</span>
+                                            <span class="mock-quote-label">New Quote</span>
+                                        </div>
+                                        <table class="estimate-table">
+                                            <thead><tr><th></th><th>Item Type</th><th>Item Name</th><th class="r">Qty</th><th class="r">Cost</th><th class="r">Markup</th><th class="r">Total</th><th></th></tr></thead>
+                                            <tbody>
+                                                <tr class="est-group"><td colspan="5"><span class="est-group-icon"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg> Discovery &amp; Requirements</span></td><td class="r">$16,600</td><td class="r">50%</td><td class="r" style="font-weight:700">$24,900</td></tr>
+                                                <tr><td class="est-drag">⠿</td><td><span class="est-type resource">Resource</span></td><td>Lead Consultant — Discovery Workshops</td><td class="r">40</td><td class="r">250</td><td class="r">50</td><td class="r">$15,000</td><td class="est-del">&#128465;</td></tr>
+                                                <tr><td class="est-drag">⠿</td><td><span class="est-type resource">Resource</span></td><td>Solution Architect — Requirements</td><td class="r">24</td><td class="r">275</td><td class="r">50</td><td class="r">$9,900</td><td class="est-del">&#128465;</td></tr>
+                                                <tr><td colspan="8" class="est-add-item">+ Add Item</td></tr>
+                                                <tr class="est-group"><td colspan="5"><span class="est-group-icon"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg> Implementation</span></td><td class="r">$78,000</td><td class="r">40%</td><td class="r" style="font-weight:700">$109,200</td></tr>
+                                                <tr><td class="est-drag">⠿</td><td><span class="est-type resource">Resource</span></td><td>Solution Architect — Config &amp; Build</td><td class="r">120</td><td class="r">275</td><td class="r">40</td><td class="r">$46,200</td><td class="est-del">&#128465;</td></tr>
+                                                <tr><td class="est-drag">⠿</td><td><span class="est-type resource">Resource</span></td><td>SF Developer — Custom Development</td><td class="r">200</td><td class="r">225</td><td class="r">40</td><td class="r">$63,000</td><td class="est-del">&#128465;</td></tr>
+                                                <tr><td colspan="8" class="est-add-item">+ Add Item</td></tr>
+                                                <tr class="est-group"><td colspan="5"><span class="est-group-icon"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg> Training &amp; Rollout</span></td><td class="r">$23,000</td><td class="r">45%</td><td class="r" style="font-weight:700">$33,350</td></tr>
+                                                <tr><td class="est-drag">⠿</td><td><span class="est-type resource">Resource</span></td><td>Change Mgmt Lead — Rollout Plan</td><td class="r">60</td><td class="r">250</td><td class="r">45</td><td class="r">$21,750</td><td class="est-del">&#128465;</td></tr>
+                                                <tr><td class="est-drag">⠿</td><td><span class="est-type material">Material</span></td><td>Training Materials &amp; Documentation</td><td class="r">1</td><td class="r">3,500</td><td class="r">45</td><td class="r">$5,075</td><td class="est-del">&#128465;</td></tr>
+                                                <tr><td class="est-drag">⠿</td><td><span class="est-type resource">Resource</span></td><td>Lead Consultant — UAT Support</td><td class="r">32</td><td class="r">250</td><td class="r">45</td><td class="r">$11,600</td><td class="est-del">&#128465;</td></tr>
+                                                <tr><td colspan="8" class="est-add-item">+ Add Item</td></tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="estimate-total-bar">
+                                            <span class="et-label">COST</span> <span class="et-val">$117,600</span>
+                                            <span class="et-label">MARKUP</span> <span class="et-val">42%</span>
+                                            <span class="et-label" style="color:var(--color-servantium-green);font-weight:700">TOTAL ESTIMATE</span> <span class="et-total">$167,450</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Page 3: Resource Planning -->
+                            <div class="mockup-page" data-page="resources">
+                                <div class="mockup-page-title" style="display:flex;align-items:center;">Resource Planning
+                                    <div class="mock-res-toggle" style="margin-left:auto"><span>Day</span><span>Week</span><span class="active">Month</span></div>
+                                </div>
+                                <!-- Month View (default) -->
+                                <div class="res-month-view">
+                                <table class="mock-res-grid">
+                                    <thead><tr><th>Resource</th><th>Role</th><th>Apr</th><th>May</th><th>Jun</th><th>Jul</th><th>Total</th></tr></thead>
+                                    <tbody>
+                                        <tr class="res-project"><td colspan="7"><span class="res-project-icon"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg> KVWN — Salesforce CRM</span></td></tr>
+                                        <tr><td>R. Burgundy</td><td>Lead Consultant</td><td><span class="mock-res-cell green">40</span></td><td><span class="mock-res-cell green">32</span></td><td><span class="mock-res-cell empty">—</span></td><td><span class="mock-res-cell empty">—</span></td><td><span class="mock-res-cell green">72h</span></td></tr>
+                                        <tr><td>B. Fantana</td><td>Solution Architect</td><td><span class="mock-res-cell green">24</span></td><td><span class="mock-res-cell amber">120</span></td><td><span class="mock-res-cell green">80</span></td><td><span class="mock-res-cell empty">—</span></td><td><span class="mock-res-cell amber">224h</span></td></tr>
+                                        <tr><td>B. Tamland</td><td>SF Developer</td><td><span class="mock-res-cell empty">—</span></td><td><span class="mock-res-cell red">160</span></td><td><span class="mock-res-cell red">160</span></td><td><span class="mock-res-cell green">40</span></td><td><span class="mock-res-cell red">360h</span></td></tr>
+                                        <tr><td>V. Corningstone</td><td>Change Mgmt Lead</td><td><span class="mock-res-cell empty">—</span></td><td><span class="mock-res-cell empty">—</span></td><td><span class="mock-res-cell green">60</span></td><td><span class="mock-res-cell green">32</span></td><td><span class="mock-res-cell green">92h</span></td></tr>
+                                        <tr class="res-project"><td colspan="7"><span class="res-project-icon"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg> Stark Industries — ERP Migration</span></td></tr>
+                                        <tr><td>B. Fantana</td><td>Lead Architect</td><td><span class="mock-res-cell green">40</span></td><td><span class="mock-res-cell red">160</span></td><td><span class="mock-res-cell green">80</span></td><td><span class="mock-res-cell green">40</span></td><td><span class="mock-res-cell red">320h</span></td></tr>
+                                        <tr><td>C. Tamland</td><td>Data Analyst</td><td><span class="mock-res-cell green">16</span></td><td><span class="mock-res-cell green">40</span></td><td><span class="mock-res-cell green">80</span></td><td><span class="mock-res-cell green">32</span></td><td><span class="mock-res-cell green">168h</span></td></tr>
+                                    </tbody>
+                                </table>
+                                </div>
+                                <!-- Week View (shown mid-rotation) -->
+                                <div class="res-week-view" style="display:none;">
+                                <table class="mock-res-week-grid">
+                                    <thead><tr><th>Resource</th><th>Role</th><th>Mon 7</th><th>Tue 8</th><th>Wed 9</th><th>Thu 10</th><th>Fri 11</th><th>Total</th></tr></thead>
+                                    <tbody>
+                                        <tr class="res-project"><td colspan="8"><span class="res-project-icon"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg> KVWN — Salesforce CRM &nbsp;·&nbsp; Apr Week 2</span></td></tr>
+                                        <tr><td>R. Burgundy</td><td>Lead</td><td><span class="mock-res-cell green">8</span></td><td><span class="mock-res-cell green">8</span></td><td><span class="mock-res-cell green">4</span></td><td><span class="mock-res-cell empty">—</span></td><td><span class="mock-res-cell empty">—</span></td><td><span class="mock-res-cell green">20h</span></td></tr>
+                                        <tr><td>B. Fantana</td><td>Arch.</td><td><span class="mock-res-cell green">4</span></td><td><span class="mock-res-cell green">8</span></td><td><span class="mock-res-cell green">8</span></td><td><span class="mock-res-cell green">4</span></td><td><span class="mock-res-cell empty">—</span></td><td><span class="mock-res-cell green">24h</span></td></tr>
+                                        <tr><td>B. Tamland</td><td>Dev</td><td><span class="mock-res-cell empty">—</span></td><td><span class="mock-res-cell empty">—</span></td><td><span class="mock-res-cell empty">—</span></td><td><span class="mock-res-cell empty">—</span></td><td><span class="mock-res-cell empty">—</span></td><td><span class="mock-res-cell empty">0h</span></td></tr>
+                                        <tr class="res-project"><td colspan="8"><span class="res-project-icon"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg> Stark Industries — ERP &nbsp;·&nbsp; Apr Week 2</span></td></tr>
+                                        <tr><td>B. Fantana</td><td>Arch.</td><td><span class="mock-res-cell green">4</span></td><td><span class="mock-res-cell empty">—</span></td><td><span class="mock-res-cell empty">—</span></td><td><span class="mock-res-cell green">4</span></td><td><span class="mock-res-cell green">8</span></td><td><span class="mock-res-cell green">16h</span></td></tr>
+                                        <tr><td>C. Tamland</td><td>Analyst</td><td><span class="mock-res-cell green">4</span></td><td><span class="mock-res-cell green">4</span></td><td><span class="mock-res-cell empty">—</span></td><td><span class="mock-res-cell green">4</span></td><td><span class="mock-res-cell green">4</span></td><td><span class="mock-res-cell green">16h</span></td></tr>
+                                    </tbody>
+                                </table>
+                                </div>
+                            </div>
+
+                            <!-- Page 4: Notes / AI -->
+                            <div class="mockup-page active" data-page="notes">
+                                <div class="mockup-page-title"><span class="mockup-sparkle">&#10024;</span> Engagement Notes</div>
+                                <div class="mock-note-card">
+                                    <div class="mock-note-header">
+                                        <span class="mock-note-dot"></span>
+                                        <span class="mock-note-title">KVWN — Initial Discovery</span>
+                                        <span class="mock-note-time">2 hours ago</span>
+                                    </div>
+                                    <div class="mock-note-body" id="note-typewriter">
+                                        <span class="note-chunk">Ron Burgundy needs </span><span class="note-chunk"><span class="mock-note-highlight">Salesforce CRM</span></span><span class="note-chunk"> for </span><span class="note-chunk"><span class="mock-note-highlight">60 users</span>.</span><span class="note-chunk"> Timeline: </span><span class="note-chunk"><span class="mock-note-highlight">Q3 2026</span>.</span><span class="note-chunk"> Budget </span><span class="note-chunk"><span class="mock-note-highlight">~$180K</span>.</span><span class="note-chunk"> Agreed on </span><span class="note-chunk"><span class="mock-note-highlight">discovery workshop</span></span><span class="note-chunk"> first, then </span><span class="note-chunk"><span class="mock-note-highlight">phased rollout</span>.</span><span class="mock-note-cursor" id="note-cursor"></span>
+                                    </div>
+                                </div>
+                                <div class="mock-note-card" style="opacity:0.7;">
+                                    <div class="mock-note-header">
+                                        <span class="mock-note-dot" style="background:var(--color-slate-blue, #4C82A7);"></span>
+                                        <span class="mock-note-title">KVWN — Technical Requirements</span>
+                                        <span class="mock-note-time">Yesterday</span>
+                                    </div>
+                                    <div class="mock-note-body">
+                                        Current stack: legacy Access DB + <span class="mock-note-highlight">custom VBA forms</span>. Need <span class="mock-note-highlight">data migration</span> for 45K contacts. SSO via <span class="mock-note-highlight">Azure AD</span>. Want <span class="mock-note-highlight">mobile access</span> for field reporters.
+                                    </div>
+                                </div>
+                                <div class="mock-note-card" style="opacity:0.5;">
+                                    <div class="mock-note-header">
+                                        <span class="mock-note-dot" style="background:var(--color-amber, #FFB02E);"></span>
+                                        <span class="mock-note-title">KVWN — Stakeholder Alignment</span>
+                                        <span class="mock-note-time">3 days ago</span>
+                                    </div>
+                                    <div class="mock-note-body">
+                                        Executive sponsor: <span class="mock-note-highlight">Ron Burgundy</span> (News Director). Day-to-day: <span class="mock-note-highlight">Veronica Corningstone</span> (Managing Editor). IT contact: <span class="mock-note-highlight">Brick Tamland</span>.
+                                    </div>
+                                </div>
+                                <div class="mock-insight-bar note-hidden" id="note-insight">
+                                    <span class="mockup-sparkle">&#10024;</span>
+                                    <span>Estimate accuracy: <strong>94%</strong> — CRM projects now <strong>12% faster</strong> to scope</span>
+                                </div>
+                            </div>
+
+                            <!-- Page 5: Documents / SOW -->
+                            <div class="mockup-page" data-page="documents">
+                                <div class="mockup-page-title">Documents</div>
+                                <div class="mock-doc-card">
+                                    <div class="mock-doc-card-header">
+                                        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                                        <span class="mock-doc-card-title">KVWN — Statement of Work</span>
+                                        <span class="mock-doc-badge">Generated</span>
+                                    </div>
+                                    <div class="mock-doc-preview">
+                                        <div class="mock-doc-preview-title">Statement of Work</div>
+                                        <div class="mock-doc-preview-subtitle">KVWN Channel 4 News — Salesforce CRM Implementation</div>
+                                        <div class="mock-doc-section">1. Project Overview</div>
+                                        <div>This SOW covers the implementation of Salesforce CRM for KVWN Channel 4 News, including discovery workshops, platform configuration, custom development, data migration, and end-user training for 60 users.</div>
+                                        <div class="mock-doc-section">2. Deliverables &amp; Timeline</div>
+                                        <table class="mock-doc-table">
+                                            <thead><tr><th>Phase</th><th>Duration</th><th>Value</th></tr></thead>
+                                            <tbody>
+                                                <tr><td>Discovery &amp; Requirements</td><td>3 weeks</td><td>$24,900</td></tr>
+                                                <tr><td>Implementation</td><td>10 weeks</td><td>$109,200</td></tr>
+                                                <tr><td>Training &amp; Rollout</td><td>4 weeks</td><td>$33,350</td></tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="mock-doc-section">3. Total Investment</div>
+                                        <div style="font-weight:600;color:var(--color-servantium-green);">$167,450</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Page 6: Learning / Feedback Loop -->
+                            <div class="mockup-page" data-page="learning">
+                                <div class="mockup-page-title"><span class="mockup-sparkle">&#10024;</span> Engagement Intelligence</div>
+                                <div class="mock-learn-card">
+                                    <div class="mock-learn-header">
+                                        <svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+                                        KVWN — Post-Delivery Analysis
+                                    </div>
+                                    <div class="mock-learn-body">
+                                        <span class="mock-learn-metric up">&#9650; 94% estimate accuracy</span>
+                                        <span class="mock-learn-metric up">&#9650; 8% under budget</span>
+                                        <span class="mock-learn-metric neutral">&#9679; 17 weeks actual vs 17 planned</span>
+                                    </div>
+                                </div>
+                                <div class="mock-learn-card">
+                                    <div class="mock-learn-header">
+                                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+                                        Patterns Detected
+                                    </div>
+                                    <div class="mock-learn-body">
+                                        CRM implementations with <strong>60+ users</strong> average <strong>12% longer</strong> in training phase. Discovery workshops reduce scope creep by <strong>34%</strong>. Recommending <strong>+1 week buffer</strong> for future projects of this size.
+                                    </div>
+                                </div>
+                                <div class="mock-learn-divider"></div>
+                                <div class="mock-learn-feed">
+                                    <span class="mock-learn-arrow">&#8594;</span>
+                                    Feeding insights into <strong style="color:var(--color-servantium-green);margin:0 3px;">Service Catalog</strong> &amp; future estimates
+                                </div>
+                            </div>
+
+                            <!-- Auto-cycle dots -->
+                            <div class="mockup-auto-indicator">
+                                <span class="mockup-auto-dot active" data-page="notes"></span>
+                                <span class="mockup-auto-dot" data-page="engagement"></span>
+                                <span class="mockup-auto-dot" data-page="documents"></span>
+                                <span class="mockup-auto-dot" data-page="resources"></span>
+                                <span class="mockup-auto-dot" data-page="dashboard"></span>
+                                <span class="mockup-auto-dot" data-page="learning"></span>
+                            </div>
+
+                        </div>
+                        </div><!-- /.mockup-app -->
+                    </div>
+                    </div><!-- /.hero-mockup-wrapper -->
                 </div>
             </div>
         </div>
-    </section>
-
-    <!-- Logo Bar -->
-    <section class="logo-bar">
-        <div class="container">
-            <div class="logo-bar-label">Trusted by innovative services teams</div>
-            <div class="logo-bar-logos">
-                <div class="logo-placeholder"></div>
-                <div class="logo-placeholder"></div>
-                <div class="logo-placeholder"></div>
-                <div class="logo-placeholder"></div>
-                <div class="logo-placeholder"></div>
-                <div class="logo-placeholder"></div>
+        <!-- Logo Bar (inside hero) -->
+        <div class="logo-bar-inner">
+            <div class="container">
+                <div class="logo-bar-label">Trusted by innovative services teams</div>
+                <div class="logo-bar-logos">
+                    <div class="logo-placeholder"></div>
+                    <div class="logo-placeholder"></div>
+                    <div class="logo-placeholder"></div>
+                    <div class="logo-placeholder"></div>
+                    <div class="logo-placeholder"></div>
+                    <div class="logo-placeholder"></div>
+                </div>
             </div>
         </div>
     </section>
@@ -2019,7 +2570,7 @@
             <div class="concept-header">
                 <h2>Engagement Management for Professional Services</h2>
                 <p class="text-large">
-                    Everything in Servantium revolves around an Engagement—a living object that evolves
+                    Everything in Servantium revolves around the Engagement: a living record that evolves
                     from first conversation through delivery and into organizational memory.
                 </p>
             </div>
@@ -2371,7 +2922,7 @@
                     <h4>Explore</h4>
                     <ul>
                         <li><a href="platform.html">Platform</a></li>
-                        <li><a href="#concept">How It Works</a></li>
+                        <li><a href="#faq">FAQ</a></li>
                         <li><a href="#problem">The Problem</a></li>
                     </ul>
                 </div>
@@ -2431,50 +2982,6 @@
             });
         });
 
-        // Email Copy to Clipboard
-        function copyEmail(event) {
-            const email = 'hello@servantium.com';
-            const chip = event ? event.currentTarget : document.getElementById('email-chip');
-            const text = chip.querySelector('.email-chip-text');
-            const icon = chip.querySelector('.email-chip-icon');
-
-            navigator.clipboard.writeText(email).then(function() {
-                // Update to copied state
-                chip.classList.add('copied');
-                text.textContent = 'Copied!';
-                icon.innerHTML = '<polyline points="20 6 9 17 4 12"></polyline>';
-
-                // Reset after 2 seconds
-                setTimeout(function() {
-                    chip.classList.remove('copied');
-                    text.textContent = email;
-                    icon.innerHTML = '<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>';
-                }, 2000);
-            }).catch(function(err) {
-                // Fallback: open mailto
-                window.location.href = 'mailto:' + email;
-            });
-        }
-
-        // Footer Email Copy
-        function copyFooterEmail(btn) {
-            const email = 'hello@servantium.com';
-            const text = btn.querySelector('.footer-email-chip-text');
-            const icon = btn.querySelector('.footer-email-chip-icon');
-            navigator.clipboard.writeText(email).then(function() {
-                btn.classList.add('copied');
-                text.textContent = 'Copied!';
-                icon.innerHTML = '<polyline points="20 6 9 17 4 12"></polyline>';
-                setTimeout(function() {
-                    btn.classList.remove('copied');
-                    text.textContent = email;
-                    icon.innerHTML = '<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>';
-                }, 2000);
-            }).catch(function() {
-                window.location.href = 'mailto:' + email;
-            });
-        }
-
         // Contact Form Submission
         const contactForm = document.getElementById('contact-form');
         const formStatus = document.getElementById('form-status');
@@ -2527,32 +3034,203 @@
             }
         });
 
-        // Mobile Menu Toggle
-        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
-        const mobileMenu = document.getElementById('mobile-menu');
+        // ── Hero Mockup: Interactive Page Switching ──
+        (function() {
+            var mockup = document.getElementById('hero-mockup');
+            if (!mockup) return;
 
-        function closeMobileMenu() {
-            mobileMenu.classList.remove('active');
-            mobileMenu.setAttribute('aria-hidden', 'true');
-            mobileMenuToggle.classList.remove('active');
-            mobileMenuToggle.setAttribute('aria-expanded', 'false');
-            document.body.style.overflow = '';
-        }
+            var navItems = mockup.querySelectorAll('.mockup-nav-item[data-page]');
+            var pages = mockup.querySelectorAll('.mockup-page[data-page]');
+            var dots = mockup.querySelectorAll('.mockup-auto-dot[data-page]');
+            var urlEl = document.getElementById('mockup-url');
+            var pageNames = {
+                dashboard: 'app.servantium.com',
+                engagement: 'app.servantium.com/engagements/kvwn-salesforce',
+                resources: 'app.servantium.com/resources',
+                notes: 'app.servantium.com/engagements/kvwn-salesforce/notes',
+                documents: 'app.servantium.com/engagements/kvwn-salesforce/documents',
+                learning: 'app.servantium.com/intelligence'
+            };
+            var pageOrder = ['notes', 'engagement', 'documents', 'resources', 'dashboard', 'learning'];
+            var currentIndex = 0;
+            var cycleTimer = null;
+            var pauseTimer = null;
+            var resViewTimer = null;
+            var engHighlightTimer = null;
+            var docScrollTimer = null;
+            var learnTimers = [];
+            var noteTypeTimers = [];
+            var CYCLE_MS = 12000;
+            var PAUSE_MS = 20000;
 
-        mobileMenuToggle.addEventListener('click', function() {
-            const isActive = mobileMenu.classList.toggle('active');
-            this.classList.toggle('active');
-            this.setAttribute('aria-expanded', isActive);
-            mobileMenu.setAttribute('aria-hidden', !isActive);
-            document.body.style.overflow = isActive ? 'hidden' : '';
-        });
+            function switchTo(pageName) {
+                navItems.forEach(function(n) { n.classList.toggle('active', n.dataset.page === pageName); });
+                pages.forEach(function(p) { p.classList.toggle('active', p.dataset.page === pageName); });
+                dots.forEach(function(d) { d.classList.toggle('active', d.dataset.page === pageName); });
+                if (urlEl) urlEl.textContent = pageNames[pageName] || 'app.servantium.com';
+                currentIndex = pageOrder.indexOf(pageName);
 
-        // Close mobile menu on escape key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
-                closeMobileMenu();
+                // Notes page: typewriter animation
+                var noteChunks = mockup.querySelectorAll('#note-typewriter .note-chunk');
+                var noteCursor = document.getElementById('note-cursor');
+                var noteInsight = document.getElementById('note-insight');
+                if (noteTypeTimers) { noteTypeTimers.forEach(clearTimeout); noteTypeTimers = []; }
+                if (pageName === 'notes') {
+                    // First hide all chunks immediately
+                    noteChunks.forEach(function(c) { c.classList.add('typing'); });
+                    if (noteCursor) noteCursor.style.display = 'inline-block';
+                    if (noteInsight) { noteInsight.classList.remove('note-visible'); noteInsight.classList.add('note-hidden'); }
+                    // Small delay to ensure DOM is ready before starting animation
+                    noteTypeTimers.push(setTimeout(function() {
+                        noteChunks.forEach(function(c, i) {
+                            noteTypeTimers.push(setTimeout(function() { c.classList.remove('typing'); }, i * 350));
+                        });
+                        // Hide cursor and show insight bar after all chunks
+                        noteTypeTimers.push(setTimeout(function() {
+                            if (noteCursor) noteCursor.style.display = 'none';
+                            if (noteInsight) { noteInsight.classList.remove('note-hidden'); noteInsight.classList.add('note-visible'); }
+                        }, noteChunks.length * 350 + 300));
+                    }, 100));
+                } else {
+                    noteChunks.forEach(function(c) { c.classList.add('typing'); });
+                    if (noteCursor) noteCursor.style.display = 'none';
+                    if (noteInsight) { noteInsight.classList.remove('note-visible'); noteInsight.classList.add('note-hidden'); }
+                }
+
+                // Resources page: switch from Month to Week view mid-display
+                if (resViewTimer) { clearTimeout(resViewTimer); resViewTimer = null; }
+                var resPage = mockup.querySelector('.mockup-page[data-page="resources"]');
+                var monthView = resPage.querySelector('.res-month-view');
+                var weekView = resPage.querySelector('.res-week-view');
+                var toggleBtns = resPage.querySelectorAll('.mock-res-toggle span');
+                if (pageName === 'resources') {
+                    // Start on month view
+                    monthView.style.display = '';
+                    weekView.style.display = 'none';
+                    toggleBtns.forEach(function(b) { b.classList.toggle('active', b.textContent === 'Month'); });
+                    // Switch to week view after 3.5s
+                    resViewTimer = setTimeout(function() {
+                        monthView.style.display = 'none';
+                        weekView.style.display = '';
+                        toggleBtns.forEach(function(b) { b.classList.toggle('active', b.textContent === 'Week'); });
+                    }, 3500);
+                } else {
+                    monthView.style.display = '';
+                    weekView.style.display = 'none';
+                    toggleBtns.forEach(function(b) { b.classList.toggle('active', b.textContent === 'Month'); });
+                }
+
+                // Engagement page: highlight Implementation group after 2s
+                if (engHighlightTimer) { clearTimeout(engHighlightTimer); engHighlightTimer = null; }
+                var estGroups = mockup.querySelectorAll('.est-group');
+                estGroups.forEach(function(g) { g.classList.remove('est-group-highlight'); });
+                if (pageName === 'engagement' && estGroups.length >= 2) {
+                    engHighlightTimer = setTimeout(function() {
+                        estGroups[1].classList.add('est-group-highlight');
+                        setTimeout(function() { estGroups[1].classList.remove('est-group-highlight'); }, 1500);
+                    }, 2000);
+                }
+
+                // Documents page: scroll SOW preview after 1.5s
+                if (docScrollTimer) { clearTimeout(docScrollTimer); docScrollTimer = null; }
+                var docPreview = mockup.querySelector('.mockup-page[data-page="documents"] .mock-doc-preview');
+                if (docPreview) {
+                    docPreview.scrollTop = 0;
+                    if (pageName === 'documents') {
+                        docPreview.classList.add('doc-scrolling');
+                        docScrollTimer = setTimeout(function() {
+                            docPreview.scrollTop = docPreview.scrollHeight;
+                        }, 1500);
+                    } else {
+                        docPreview.classList.remove('doc-scrolling');
+                    }
+                }
+
+                // Learning page: stagger card appearance
+                if (learnTimers.length) { learnTimers.forEach(clearTimeout); learnTimers = []; }
+                var learnCards = mockup.querySelectorAll('.mockup-page[data-page="learning"] .mock-learn-card');
+                var learnFeed = mockup.querySelector('.mockup-page[data-page="learning"] .mock-learn-feed');
+                if (pageName === 'learning') {
+                    learnCards.forEach(function(c) { c.classList.add('learn-hidden'); c.classList.remove('learn-visible'); });
+                    if (learnFeed) { learnFeed.classList.add('learn-hidden'); learnFeed.classList.remove('learn-visible'); }
+                    learnCards.forEach(function(c, i) {
+                        learnTimers.push(setTimeout(function() {
+                            c.classList.remove('learn-hidden');
+                            c.classList.add('learn-visible');
+                        }, 1000 + i * 600));
+                    });
+                    if (learnFeed) {
+                        learnTimers.push(setTimeout(function() {
+                            learnFeed.classList.remove('learn-hidden');
+                            learnFeed.classList.add('learn-visible');
+                        }, 1000 + learnCards.length * 600));
+                    }
+                } else {
+                    learnCards.forEach(function(c) { c.classList.remove('learn-hidden', 'learn-visible'); });
+                    if (learnFeed) learnFeed.classList.remove('learn-hidden', 'learn-visible');
+                }
             }
-        });
+
+            function cycleNext() {
+                currentIndex = (currentIndex + 1) % pageOrder.length;
+                switchTo(pageOrder[currentIndex]);
+            }
+
+            function startCycle() {
+                stopCycle();
+                cycleTimer = setInterval(cycleNext, CYCLE_MS);
+            }
+
+            function stopCycle() {
+                if (cycleTimer) { clearInterval(cycleTimer); cycleTimer = null; }
+            }
+
+            function pauseAndResume() {
+                stopCycle();
+                if (pauseTimer) clearTimeout(pauseTimer);
+                pauseTimer = setTimeout(startCycle, PAUSE_MS);
+            }
+
+            // Nav item clicks
+            navItems.forEach(function(item) {
+                item.addEventListener('click', function() {
+                    switchTo(item.dataset.page);
+                    pauseAndResume();
+                });
+            });
+
+            // Dot clicks
+            dots.forEach(function(dot) {
+                dot.addEventListener('click', function() {
+                    switchTo(dot.dataset.page);
+                    pauseAndResume();
+                });
+            });
+
+            // Initialize first page (notes) and start auto-cycle
+            switchTo('notes');
+            startCycle();
+        })();
+
+        // ── Hero Rotating Words — 3D revolving door ──
+        (function() {
+            document.querySelectorAll('.hero-rotating').forEach(function(container) {
+                var words = container.querySelectorAll('.hero-rotating-word');
+                if (words.length < 2) return;
+                var idx = 0;
+                setInterval(function() {
+                    var current = words[idx];
+                    current.classList.remove('active');
+                    current.classList.add('exit');
+                    idx = (idx + 1) % words.length;
+                    var next = words[idx];
+                    next.classList.remove('exit');
+                    next.classList.add('active');
+                    // Clean exit class after transition
+                    setTimeout(function() { current.classList.remove('exit'); }, 700);
+                }, 3500);
+            });
+        })();
 
         // Lifecycle panel data
         const lifecycleData = [
@@ -2722,136 +3400,67 @@
             });
         });
 
-        // CANVAS PARTICLE NETWORK ANIMATION
+        // HERO MOCKUP — Interactive Page Switching
         (function() {
-            const canvas = document.getElementById('hero-canvas');
-            if (!canvas) return;
-            const ctx = canvas.getContext('2d');
-            let particles = [];
-            const CONNECTION_DIST = 150;
-            let animId;
+            var mockup = document.getElementById('hero-mockup');
+            if (!mockup) return;
 
-            function resize() {
-                canvas.width = canvas.offsetWidth || window.innerWidth;
-                canvas.height = canvas.offsetHeight || window.innerHeight;
+            var navItems = mockup.querySelectorAll('.mockup-nav-item[data-page]');
+            var pages = mockup.querySelectorAll('.mockup-page[data-page]');
+            var dots = mockup.querySelectorAll('.mockup-auto-dot[data-page]');
+            var urlEl = document.getElementById('mockup-url');
+            var pageNames = { dashboard: 'app.servantium.com', engagement: 'app.servantium.com/engagements/kvwn-salesforce', resources: 'app.servantium.com/resources', notes: 'app.servantium.com/engagements/kvwn-salesforce/notes' };
+            var pageOrder = ['dashboard', 'engagement', 'resources', 'notes'];
+            var currentIdx = 0;
+            var autoTimer = null;
+            var userPaused = false;
+            var resumeTimer = null;
+
+            function switchTo(pageName) {
+                navItems.forEach(function(n) { n.classList.toggle('active', n.getAttribute('data-page') === pageName); });
+                pages.forEach(function(p) { p.classList.toggle('active', p.getAttribute('data-page') === pageName); });
+                dots.forEach(function(d) { d.classList.toggle('active', d.getAttribute('data-page') === pageName); });
+                if (urlEl && pageNames[pageName]) urlEl.textContent = pageNames[pageName];
+                currentIdx = pageOrder.indexOf(pageName);
             }
 
-            function isDark() {
-                return document.body.classList.contains('theme-dark');
+            function autoAdvance() {
+                currentIdx = (currentIdx + 1) % pageOrder.length;
+                switchTo(pageOrder[currentIdx]);
             }
 
-            function init() {
-                particles = [];
-                const count = window.innerWidth < 768 ? 40 : 70;
-                for (let i = 0; i < count; i++) {
-                    particles.push({
-                        x: Math.random() * canvas.width,
-                        y: Math.random() * canvas.height,
-                        vx: (Math.random() - 0.5) * 0.4,
-                        vy: (Math.random() - 0.5) * 0.4,
-                        r: Math.random() * 2 + 1,
-                        o: Math.random() * 0.5 + 0.2
-                    });
-                }
+            function startAuto() {
+                stopAuto();
+                autoTimer = setInterval(autoAdvance, 4000);
             }
 
-            function animate() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                const dark = isDark();
-                const baseOpacity = dark ? 1.2 : 1;
+            function stopAuto() {
+                if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
+            }
 
-                particles.forEach(p => {
-                    p.x += p.vx;
-                    p.y += p.vy;
-                    if (p.x < 0) p.x = canvas.width;
-                    if (p.x > canvas.width) p.x = 0;
-                    if (p.y < 0) p.y = canvas.height;
-                    if (p.y > canvas.height) p.y = 0;
+            function onUserInteract(pageName) {
+                userPaused = true;
+                stopAuto();
+                if (resumeTimer) clearTimeout(resumeTimer);
+                switchTo(pageName);
+                resumeTimer = setTimeout(function() { userPaused = false; startAuto(); }, 12000);
+            }
 
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                    ctx.fillStyle = 'rgba(0, 194, 109, ' + (p.o * baseOpacity) + ')';
-                    ctx.fill();
+            navItems.forEach(function(item) {
+                item.addEventListener('click', function() {
+                    var pg = this.getAttribute('data-page');
+                    if (pg) onUserInteract(pg);
                 });
-
-                for (let i = 0; i < particles.length; i++) {
-                    for (let j = i + 1; j < particles.length; j++) {
-                        const dx = particles[i].x - particles[j].x;
-                        const dy = particles[i].y - particles[j].y;
-                        const dist = Math.sqrt(dx * dx + dy * dy);
-                        if (dist < CONNECTION_DIST) {
-                            const opacity = (1 - dist / CONNECTION_DIST) * 0.15 * baseOpacity;
-                            ctx.beginPath();
-                            ctx.moveTo(particles[i].x, particles[i].y);
-                            ctx.lineTo(particles[j].x, particles[j].y);
-                            ctx.strokeStyle = 'rgba(0, 194, 109, ' + opacity + ')';
-                            ctx.lineWidth = 0.5;
-                            ctx.stroke();
-                        }
-                    }
-                }
-
-                animId = requestAnimationFrame(animate);
-            }
-
-            resize();
-            init();
-            animate();
-
-            window.addEventListener('resize', function() {
-                resize();
-                init();
             });
-        })();
 
-        // A/B VARIANT SWITCHER
-        (function() {
-            const params = new URLSearchParams(window.location.search);
+            dots.forEach(function(dot) {
+                dot.addEventListener('click', function() {
+                    var pg = this.getAttribute('data-page');
+                    if (pg) onUserInteract(pg);
+                });
+            });
 
-            // Theme variant
-            if (params.get('theme') === 'dark') {
-                document.body.classList.add('theme-dark');
-            }
-
-            // Hero variant
-            if (params.get('hero') === 'video') {
-                const video = document.getElementById('hero-video');
-                if (video) video.classList.add('active');
-            }
-
-            // Build floating switcher panel
-            var switcher = document.createElement('div');
-            switcher.className = 'ab-switcher';
-            switcher.innerHTML = '<div class="ab-switcher-title">A/B Variants</div>' +
-                '<div class="ab-switcher-row"><label>Theme:</label>' +
-                '<button id="ab-light" class="' + (params.get('theme') !== 'dark' ? 'active' : '') + '">Light</button>' +
-                '<button id="ab-dark" class="' + (params.get('theme') === 'dark' ? 'active' : '') + '">Dark</button></div>' +
-                '<div class="ab-switcher-row"><label>Hero:</label>' +
-                '<button id="ab-css" class="' + (params.get('hero') !== 'video' ? 'active' : '') + '">CSS</button>' +
-                '<button id="ab-video" class="' + (params.get('hero') === 'video' ? 'active' : '') + '">Video</button></div>';
-            document.body.appendChild(switcher);
-
-            function setVariant(theme, hero) {
-                var url = new URL(window.location);
-                if (theme === 'dark') url.searchParams.set('theme', 'dark');
-                else url.searchParams.delete('theme');
-                if (hero === 'video') url.searchParams.set('hero', 'video');
-                else url.searchParams.delete('hero');
-                window.location.href = url.toString();
-            }
-
-            document.getElementById('ab-light').onclick = function() {
-                setVariant('light', params.get('hero'));
-            };
-            document.getElementById('ab-dark').onclick = function() {
-                setVariant('dark', params.get('hero'));
-            };
-            document.getElementById('ab-css').onclick = function() {
-                setVariant(params.get('theme'), 'css');
-            };
-            document.getElementById('ab-video').onclick = function() {
-                setVariant(params.get('theme'), 'video');
-            };
+            startAuto();
         })();
 
     </script>
@@ -2895,7 +3504,7 @@
         <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px;">
             <p style="margin: 0; flex: 1; min-width: 280px; font-size: 14px; line-height: 1.5; color: #d1d5db;">
                 We use cookies to analyze site traffic and improve your experience. By clicking "Accept All", you consent to our use of analytics cookies.
-                <a href="/privacy" style="color: #00C26D; text-decoration: underline;">Privacy Policy</a>
+                <a href="privacy.html" style="color: #00C26D; text-decoration: underline;">Privacy Policy</a>
             </p>
             <div style="display: flex; gap: 12px; flex-shrink: 0;">
                 <button onclick="declineCookies()" style="padding: 10px 20px; background: transparent; border: 1px solid #9ca3af; color: #ffffff; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.2s;">Decline All</button>
@@ -2903,34 +3512,8 @@
             </div>
         </div>
     </div>
-    <script>
-    (function() {
-        var consent = localStorage.getItem('servantium_cookie_consent');
-        if (!consent) {
-            document.getElementById('cookie-consent').style.display = 'block';
-            document.body.style.paddingBottom = '80px';
-        }
-    })();
-    function acceptCookies() {
-        localStorage.setItem('servantium_cookie_consent', 'accepted');
-        document.getElementById('cookie-consent').style.display = 'none';
-        document.body.style.paddingBottom = '';
-        // Load GA4 after acceptance
-        var script = document.createElement('script');
-        script.async = true;
-        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-6EFX4FNH6H';
-        document.head.appendChild(script);
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        window.gtag = gtag;
-        gtag('js', new Date());
-        gtag('config', 'G-6EFX4FNH6H');
-    }
-    function declineCookies() {
-        localStorage.setItem('servantium_cookie_consent', 'declined');
-        document.getElementById('cookie-consent').style.display = 'none';
-        document.body.style.paddingBottom = '';
-    }
-    </script>
+    <script src="js/nav.js"></script>
+    <script src="js/footer.js"></script>
+    <script src="js/cookie-consent.js"></script>
 </body>
 </html>
