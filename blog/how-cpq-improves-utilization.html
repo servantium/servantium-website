@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Test Environment Detection & Analytics -->
+    <script>
+    (function() {
+        var isTestEnv = window.location.hostname === 'test.servantium.com';
+
+        // Block indexing on test environment
+        if (isTestEnv) {
+            var noindex = document.createElement('meta');
+            noindex.name = 'robots';
+            noindex.content = 'noindex, nofollow';
+            document.head.appendChild(noindex);
+        }
+
+        // Only load analytics on production AND with consent
+        var consent = localStorage.getItem('servantium_cookie_consent');
+        if (consent === 'accepted' && !isTestEnv) {
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-6EFX4FNH6H';
+            document.head.appendChild(script);
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            window.gtag = gtag;
+            gtag('js', new Date());
+            gtag('config', 'G-6EFX4FNH6H');
+        }
+
+        // Show test environment banner
+        if (isTestEnv) {
+            document.addEventListener('DOMContentLoaded', function() {
+                var banner = document.createElement('div');
+                banner.style.cssText = 'position:fixed;top:0;left:0;right:0;background:#ff6b35;color:#fff;text-align:center;padding:8px;font-size:14px;font-weight:600;z-index:99999;';
+                banner.textContent = 'TEST ENVIRONMENT — Changes here do not affect production';
+                document.body.prepend(banner);
+                document.body.style.paddingTop = '40px';
+                var nav = document.querySelector('nav');
+                if (nav) nav.style.top = '40px';
+            });
+        }
+    })();
+    </script>
+
+    <title>How Professional Services CPQ Improves Utilization — Servantium Blog</title>
+    <meta name="description" content="When you scope and price engagements with resource visibility, you stop overbooking your best people and underusing your bench. Here's how CPQ fixes the utilization problem.">
+    <meta name="author" content="Christopher Veale">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://servantium.com/blog/how-cpq-improves-utilization">
+    <meta property="og:site_name" content="Servantium">
+    <meta property="og:title" content="How Professional Services CPQ Improves Utilization">
+    <meta property="og:description" content="When you scope and price engagements with resource visibility, you stop overbooking your best people and underusing your bench.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=1200&h=630&fit=crop">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Team meeting discussing professional services operations">
+    <meta property="article:published_time" content="2026-03-07">
+    <meta property="article:author" content="https://servantium.com/blog/authors/christopher-veale">
+    <meta property="article:section" content="Operations">
+    <meta property="article:tag" content="CPQ">
+    <meta property="article:tag" content="Utilization">
+    <meta property="article:tag" content="Professional Services">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://servantium.com/blog/how-cpq-improves-utilization">
+
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "How Professional Services CPQ Improves Utilization",
+        "description": "When you scope and price engagements with resource visibility, you stop overbooking your best people and underusing your bench. Here's how CPQ fixes the utilization problem.",
+        "image": "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=1200&h=630&fit=crop",
+        "datePublished": "2026-03-07",
+        "dateModified": "2026-03-07",
+        "author": {
+            "@type": "Person",
+            "name": "Christopher Veale"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "@id": "https://servantium.com/#organization",
+            "name": "Servantium",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://servantium.com/logo.png"
+            }
+        },
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://servantium.com/blog/how-cpq-improves-utilization"
+        }
+    }
+    </script>
+
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="../favicon-192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/nav.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <style>
+        :root {
+            --color-servantium-green: #00C26D;
+            --color-green-hover: #00A95E;
+            --color-deep-forest: #023E25;
+            --color-soft-mint: #E8FBF1;
+            --color-ink: #0D0D0D;
+            --color-ink-light: #3d3d3d;
+            --color-ink-muted: #6b6b6b;
+            --color-white: #FFFFFF;
+            --color-mist-grey: #F5F6F7;
+            --color-cloud-grey: #E1E3E6;
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-body: 'Source Sans 3', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+.article-header { padding: 8rem 0 3rem; background: var(--color-white); }
+        .article-header .container { max-width: 900px; }
+        .article-breadcrumb { margin-bottom: 1.5rem; font-size: 0.9rem; }
+        .article-breadcrumb a { color: var(--color-servantium-green); text-decoration: none; }
+        .article-breadcrumb a:hover { text-decoration: underline; }
+        .article-breadcrumb span { color: var(--color-ink-muted); }
+        .article-category { display: inline-block; color: var(--color-servantium-green); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.8rem; margin-bottom: 1rem; }
+        .article-title { font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3rem); line-height: 1.2; margin-bottom: 1.5rem; color: var(--color-ink); }
+        .article-excerpt { font-size: 1.25rem; color: var(--color-ink-light); line-height: 1.7; margin-bottom: 2rem; }
+        .article-meta { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
+        .article-author { display: flex; align-items: center; gap: 0.75rem; }
+        .author-avatar { width: 48px; height: 48px; border-radius: 50%; background: var(--color-servantium-green); display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; font-size: 1rem; }
+        .author-info { display: flex; flex-direction: column; }
+        .author-name { font-weight: 600; color: var(--color-ink); }
+        .author-role { font-size: 0.85rem; color: var(--color-ink-muted); }
+        .article-date, .article-reading-time { color: var(--color-ink-muted); font-size: 0.9rem; }
+
+        .article-hero-image { max-width: 900px; margin: 0 auto; padding: 0 2.5rem; }
+        .article-hero-image img { width: 100%; border-radius: 16px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); }
+
+        .article-content { max-width: 850px; margin: 0 auto; padding: 4rem 2.5rem 6rem; }
+        .article-content h2 { font-family: var(--font-display); font-size: 1.75rem; margin: 3rem 0 1.25rem; color: var(--color-ink); }
+        .article-content h3 { font-family: var(--font-display); font-size: 1.35rem; margin: 2.5rem 0 1rem; color: var(--color-ink); }
+        .article-content p { margin-bottom: 1.5rem; font-size: 1.1rem; line-height: 1.8; color: var(--color-ink-light); }
+        .article-content ul, .article-content ol { margin: 1.5rem 0; padding-left: 1.5rem; }
+        .article-content li { margin-bottom: 0.75rem; font-size: 1.1rem; line-height: 1.7; color: var(--color-ink-light); }
+        .article-content blockquote { margin: 2rem 0; padding: 1.5rem 2rem; background: var(--color-soft-mint); border-left: 4px solid var(--color-servantium-green); border-radius: 0 8px 8px 0; }
+        .article-content blockquote p { margin-bottom: 0; font-style: italic; color: var(--color-ink); }
+        .article-content strong { color: var(--color-ink); font-weight: 600; }
+        .article-content a { color: var(--color-servantium-green); text-decoration: underline; }
+        .article-content a:hover { color: var(--color-green-hover); }
+
+        .article-cta { margin: 4rem 0; padding: 2.5rem; background: var(--color-deep-forest); border-radius: 16px; text-align: center; }
+        .article-cta h3 { font-family: var(--font-display); color: var(--color-white); margin-bottom: 0.75rem; }
+        .article-cta p { color: rgba(255, 255, 255, 0.8); margin-bottom: 1.5rem; }
+        .article-cta
+.article-
+.article-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .article-tag { display: inline-block; padding: 0.4rem 0.8rem; background: var(--color-mist-grey); border-radius: 20px; font-size: 0.85rem; color: var(--color-ink-muted); text-decoration: none; transition: all 0.2s; }
+        .article-tag:hover { background: var(--color-soft-mint); color: var(--color-servantium-green); }
+
+        /* Floating Share Sidebar */
+        .share-sidebar {
+            position: fixed;
+            left: calc(50% - 500px);
+            top: 200px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            z-index: 50;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .share-sidebar.faded {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .share-sidebar-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .share-sidebar-btn.linkedin {
+            background: #0A66C2;
+            color: white;
+        }
+
+        .share-sidebar-btn.linkedin:hover {
+            background: #004182;
+            transform: scale(1.1);
+        }
+
+        .share-sidebar-btn.twitter {
+            background: #000000;
+            color: white;
+        }
+
+        .share-sidebar-btn.twitter:hover {
+            background: #333333;
+            transform: scale(1.1);
+        }
+
+        .share-sidebar-btn.copy {
+            background: var(--color-mist-grey);
+            color: var(--color-ink);
+            border: 1px solid var(--color-cloud-grey);
+        }
+
+        .share-sidebar-btn.copy:hover {
+            background: var(--color-cloud-grey);
+            transform: scale(1.1);
+        }
+
+        .share-sidebar-btn.copy.copied {
+            background: var(--color-servantium-green);
+            color: white;
+            border-color: var(--color-servantium-green);
+        }
+
+        .share-sidebar-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        @media (max-width: 1200px) {
+            .share-sidebar {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links,
+.article-meta { flex-direction: column; align-items: flex-start; gap: 1rem; }
+}
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <a href="../index.html" class="logo">
+                <img src="../logo.png" alt="Servantium" class="logo-image">
+            </a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../platform.html">Platform</a></li>
+                <li><a href="../about.html">About</a></li>
+                <li><a href="../blog.html" class="active">Blog</a></li>
+            </ul>
+            <div class="nav-buttons">
+                <button class="btn btn-secondary btn-nav" data-cal-link="christopher-veale/servantium-introduction?duration=15" data-cal-namespace="servantium-introduction" data-cal-config='{"layout":"month_view"}'>Book a Demo</button>
+                <a href="https://app.servantium.com/" class="btn btn-primary btn-nav">Log In</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="article-header">
+        <div class="container">
+            <div class="article-breadcrumb">
+                <a href="../blog.html">Blog</a>
+                <span>/</span>
+                <span>Operations</span>
+            </div>
+            <span class="article-category">Operations</span>
+            <h1 class="article-title">How Professional Services CPQ Improves Utilization</h1>
+            <p class="article-excerpt">
+                When you scope and price engagements with resource visibility, you stop overbooking your best people and underusing your bench. CPQ is the missing link in the utilization puzzle.
+            </p>
+            <div class="article-meta">
+                <a href="authors/christopher-veale.html" class="article-author" style="text-decoration: none; color: inherit;">
+                    <img src="../christopher-veale.png" alt="Christopher Veale" class="author-avatar" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover;">
+                    <div class="author-info">
+                        <span class="author-name">Christopher Veale</span>
+                        <span class="author-role">CEO, Servantium</span>
+                    </div>
+                </a>
+                <span class="article-date">March 7, 2026</span>
+                <span class="article-reading-time">6 min read</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Floating Share Sidebar -->
+    <div class="share-sidebar" id="share-sidebar">
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fservantium.com%2Fblog%2Fhow-cpq-improves-utilization" target="_blank" rel="noopener noreferrer" class="share-sidebar-btn linkedin" aria-label="Share on LinkedIn">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+        <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fservantium.com%2Fblog%2Fhow-cpq-improves-utilization&text=How%20Professional%20Services%20CPQ%20Improves%20Utilization%20%E2%80%94%20great%20read%20from%20%40Servantium" target="_blank" rel="noopener noreferrer" class="share-sidebar-btn twitter" aria-label="Share on X">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <button class="share-sidebar-btn copy" onclick="copySidebarLink(this)" aria-label="Copy link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+        </button>
+    </div>
+
+    <div class="article-hero-image">
+        <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=1200&h=600&fit=crop" alt="Professional services team in a meeting" loading="lazy">
+    </div>
+
+    <article class="article-content">
+        <p>
+            A partner at an IT services firm told me something last year that stuck with me. He said, "We have two problems. Our best people are at 140% utilization and burning out. Our mid-level people are at 55% and bored. And somehow we're still not hitting our margin targets."
+        </p>
+        <p>
+            I asked him how they decided who worked on what. He laughed. "Whoever the partner grabs first."
+        </p>
+        <p>
+            That's not resource management. That's a grab bag. And it's how most firms operate — not because they're lazy, but because by the time a deal closes and needs to be staffed, there's no structured information about what the engagement actually requires. The partner sold it in a vacuum, disconnected from who's available, what skills are needed, and what the bench looks like.
+        </p>
+        <p>
+            This is a CPQ problem disguised as a utilization problem.
+        </p>
+
+        <h2>The Utilization Problem Starts Before the Deal Closes</h2>
+        <p>
+            Most firms treat utilization as a delivery-side metric. Something you measure in your PSA. Something the resource manager worries about. Something that shows up in monthly reports as a number everyone wishes was higher.
+        </p>
+        <p>
+            But here's what nobody says in those monthly meetings: utilization problems are baked in at the point of sale. By the time the deal hits your PSA and you start trying to staff it, the damage is already done. The scope was written without checking who's available. The timeline was set without considering current commitments. The roles were specified based on the partner's favorites, not the bench.
+        </p>
+        <p>
+            <strong>You can't fix a utilization problem in delivery if you created it in sales.</strong>
+        </p>
+
+        <h2>How Blind Selling Creates Utilization Chaos</h2>
+        <p>
+            Let me walk through what happens in a typical firm without CPQ. A partner wins a deal. Exciting. The deal needs a senior architect, two developers, and a project manager, starting in three weeks. The partner wrote the proposal assuming those roles would be available. They didn't check.
+        </p>
+
+        <h3>Scenario 1: The stars aren't available</h3>
+        <p>
+            The senior architect the partner had in mind is already committed to two other projects. Now you've got three choices, all bad: pull them off another engagement (annoying that client), delay the new project's start (annoying the new client), or put someone less experienced in the role (risking quality). None of these were necessary. If the partner had visibility into resource availability when scoping the deal, they could have adjusted the timeline or proposed a different team structure.
+        </p>
+
+        <h3>Scenario 2: The bench stays empty</h3>
+        <p>
+            Meanwhile, you've got three consultants on the bench who have the right skills for this engagement. But the partner didn't know about them — or didn't think of them — because there's no connection between the sales process and resource availability. Those bench consultants stay idle. Their cost keeps running. Your utilization number stays flat.
+        </p>
+
+        <h3>Scenario 3: The scope doesn't match the capacity</h3>
+        <p>
+            The deal requires 800 hours of work over three months. But the team that's actually available can only deliver 600 hours in that window. Nobody caught this during scoping because nobody checked. So the project starts overstaffed on paper and understaffed in reality. Overruns follow. Margin evaporates.
+        </p>
+
+        <blockquote>
+            <p>"Utilization isn't just about tracking who's busy. It's about making sure you sell work that matches who's available to do it."</p>
+        </blockquote>
+
+        <h2>What CPQ Changes</h2>
+        <p>
+            When your scoping and pricing process has resource visibility built in, several things change at once.
+        </p>
+
+        <h3>You sell to capacity, not fantasy</h3>
+        <p>
+            If the partner building a proposal can see who's available in the next quarter — by role, by skill, by practice area — they can scope engagements that match reality. Instead of promising a dream team that doesn't exist, they propose a real team. Instead of guessing at timelines, they work with actual availability. The deal closes with a staffing plan that's already feasible.
+        </p>
+
+        <h3>The bench gets used</h3>
+        <p>
+            This is the big one. Most firms have people sitting idle not because there's no work, but because the partners selling work don't have visibility into the bench. CPQ fixes this by surfacing available resources during the scoping process. A partner building a proposal sees: "You've got two mid-level consultants available starting next month. If you structure the engagement to use them, you can start sooner and reduce your blended rate."
+        </p>
+        <p>
+            Suddenly the bench isn't a cost center — it's a selling advantage.
+        </p>
+
+        <h3>Your best people stop getting crushed</h3>
+        <p>
+            Without resource visibility in the sales process, every partner defaults to the same three or four trusted senior people. Those people end up at 130-140% utilization — working evenings, skipping vacations, inching toward burnout. Meanwhile, other qualified people are underutilized because they're not top-of-mind.
+        </p>
+        <p>
+            When CPQ shows the partner that Sarah is already at 120% for the next two months but James — equally qualified — is at 60%, the decision changes. Not because the partner doesn't want Sarah. Because they can see, in real-time, that Sarah isn't available.
+        </p>
+
+        <h2>Unpopular Opinion</h2>
+        <p>
+            <strong>Your utilization target is probably wrong.</strong> Most firms target 75-80% utilization across the board. That's a blunt instrument. Your senior architects should probably be at 60-65% because they need time for pre-sales, mentoring, and technical leadership. Your mid-level delivery consultants should be at 85-90%. Your junior team members need built-in learning time.
+        </p>
+        <p>
+            A single utilization target creates perverse incentives. Senior people get overloaded with billable work and stop investing in the firm. Junior people get thrown onto projects before they're ready because someone needs to hit a number. CPQ helps here because when you scope engagements with role-based resource requirements, you naturally create differentiated utilization patterns. You're not just filling hours — you're matching the right level of resource to the right work.
+        </p>
+
+        <h2>The Feedback Loop That Makes It Compound</h2>
+        <p>
+            Here's where it gets interesting. When CPQ tracks what was proposed — the roles, hours, skills, and timeline — and PSA tracks what actually happened, you get a feedback loop. Over time, you can see patterns:
+        </p>
+        <ul>
+            <li>Engagements of type X consistently need 30% more senior hours than we scope</li>
+            <li>Client Y's projects always run two weeks longer than estimated</li>
+            <li>Our analytics practice has 40% more capacity than we're selling into</li>
+            <li>We keep selling work that requires cloud architects, but we only have two and they're booked solid for six months</li>
+        </ul>
+        <p>
+            Each of these patterns is a utilization lever. The first two help you scope more accurately. The third tells you where to focus your sales effort. The fourth is a hiring signal — or a signal to partner with a subcontractor.
+        </p>
+        <p>
+            Without CPQ, none of these patterns are visible. You're making resource decisions based on instinct and fire drills. With CPQ, you're making them based on data that gets richer with every engagement.
+        </p>
+
+        <h2>The Math on Utilization Improvement</h2>
+        <p>
+            Let me put some numbers to this. Say you're a 100-person firm billing an average of $175/hour. At 70% utilization, you're generating about $24.5M in billable revenue. If CPQ helps you move utilization from 70% to 75% — a modest five-point improvement — that's an additional $1.75M in revenue without adding a single person.
+        </p>
+        <p>
+            Five points sounds small. But it's the difference between your bench costing you money and your bench earning money. It's the difference between your senior people burning out and your mid-level people stepping up. It's the difference between selling what you can deliver and selling what you wish you could deliver.
+        </p>
+
+        <div class="article-cta">
+            <h3>Scope smarter, staff better</h3>
+            <p>Servantium connects your scoping and pricing process to resource availability — so every deal you sell is a deal you can actually deliver.</p>
+            <button class="btn btn-primary" data-cal-link="christopher-veale/servantium-introduction?duration=15" data-cal-namespace="servantium-introduction" data-cal-config='{"layout":"month_view"}'>Schedule a Demo</button>
+        </div>
+
+        <h2>Bottom Line</h2>
+        <p>
+            Here's something you can do tomorrow: look at your current pipeline — the deals being scoped or proposed right now — and for each one, check whether the team required is actually available. Not "probably available" or "we'll figure it out." Actually available, confirmed, not already committed to something else.
+        </p>
+        <p>
+            If you can't answer that question for even one deal in your pipeline, you've found the gap. Your sales process is making promises your delivery organization may not be able to keep. And every time that happens, utilization suffers — either because you overbook someone who's already full, or because you ignore someone who's sitting on the bench waiting for work that never gets scoped for them. CPQ is how you close that gap. Not by tracking utilization better, but by selling work that your team can actually deliver.
+        </p>
+
+    </article>
+
+    <!-- Related Posts -->
+    <section class="related-posts">
+        <div class="container" style="max-width: 900px;">
+            <h2 style="font-family: var(--font-display); font-size: 1.5rem; margin-bottom: 2rem;">Related Articles</h2>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;">
+                <a href="professional-services-cpq-vs-psa.html" style="display: block; background: var(--color-mist-grey); border-radius: 12px; overflow: hidden; text-decoration: none; color: inherit; transition: transform 0.2s, box-shadow 0.2s;">
+                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=200&fit=crop" loading="lazy" alt="Professional Services CPQ vs. PSA" style="width: 100%; height: 140px; object-fit: cover;">
+                    <div style="padding: 1.25rem;">
+                        <span style="color: var(--color-servantium-green); font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">Technology</span>
+                        <h3 style="font-family: var(--font-display); font-size: 1rem; margin-top: 0.5rem; line-height: 1.3;">Professional Services CPQ vs. PSA: What's the Difference?</h3>
+                    </div>
+                </a>
+                <a href="the-utilization-crisis-2025.html" style="display: block; background: var(--color-mist-grey); border-radius: 12px; overflow: hidden; text-decoration: none; color: inherit; transition: transform 0.2s, box-shadow 0.2s;">
+                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=200&fit=crop" loading="lazy" alt="The Utilization Crisis" style="width: 100%; height: 140px; object-fit: cover;">
+                    <div style="padding: 1.25rem;">
+                        <span style="color: var(--color-servantium-green); font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">Operations</span>
+                        <h3 style="font-family: var(--font-display); font-size: 1rem; margin-top: 0.5rem; line-height: 1.3;">The Utilization Crisis: Why Professional Services Margins Are Collapsing</h3>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="../index.html" class="logo">
+                        <img src="../logo.png" alt="Servantium" class="logo-image footer-logo">
+                    </a>
+                    <p>The operating system for professional services.</p>
+                    <div class="footer-social">
+                        <span class="footer-social-label">Follow us on</span>
+                        <a href="https://linkedin.com/company/servantium" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Follow Servantium on LinkedIn">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Explore</h4>
+                    <ul>
+                        <li><a href="../platform.html">Platform</a></li>
+                        <li><a href="../about.html">About</a></li>
+                        <li><a href="../blog.html">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="../about.html">About</a></li>
+                        <li><a href="../blog.html">Blog</a></li>
+                        <li><a href="../index.html#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="../privacy.html">Privacy</a></li>
+                        <li><a href="../terms.html">Terms</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-bottom-left">
+                    <span>&copy; 2026 Servantium Inc.</span>
+                    <span class="footer-divider">&middot;</span>
+                    <button class="footer-email-chip" onclick="copyFooterEmail(this)">
+                        <span class="footer-email-chip-text">hello@servantium.com</span>
+                        <svg class="footer-email-chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="footer-bottom-right">
+                    <span>Founded by <a href="https://linkedin.com/in/christopher-veale">Christopher Veale</a> & <a href="https://linkedin.com/in/maxwell-friel-2bb02b30">Maxwell Friel</a></span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cal.com Embed Script -->
+    <script type="text/javascript">
+        (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+        Cal("init", "servantium-introduction", {origin:"https://app.cal.com"});
+        Cal.ns["servantium-introduction"]("ui", {
+            "cssVarsPerTheme": {
+                "light": {"cal-brand":"#00C26D"},
+                "dark": {"cal-brand":"#00C26D"}
+            },
+            "hideEventTypeDetails": false,
+            "layout": "month_view"
+        });
+    </script>
+
+    <!-- Cookie Consent Banner -->
+    <div id="cookie-consent" style="display: none; position: fixed; bottom: 0; left: 0; right: 0; background: #1a1a2e; padding: 16px 24px; z-index: 10000; box-shadow: 0 -4px 20px rgba(0,0,0,0.3);">
+        <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px;">
+            <p style="margin: 0; flex: 1; min-width: 280px; font-size: 14px; line-height: 1.5; color: #d1d5db;">
+                We use cookies to analyze site traffic and improve your experience. By clicking "Accept All", you consent to our use of analytics cookies.
+                <a href="../privacy.html" style="color: #00C26D; text-decoration: underline;">Privacy Policy</a>
+            </p>
+            <div style="display: flex; gap: 12px; flex-shrink: 0;">
+                <button onclick="declineCookies()" style="padding: 10px 20px; background: transparent; border: 1px solid #9ca3af; color: #ffffff; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.2s;">Decline All</button>
+                <button onclick="acceptCookies()" style="padding: 10px 20px; background: #00C26D; border: none; color: #ffffff; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.2s;">Accept All</button>
+            </div>
+        </div>
+    </div>
+    <script src="../js/nav.js"></script>
+    <script src="../js/footer.js"></script>
+    <script src="../js/cookie-consent.js"></script>
+</body>
+</html>

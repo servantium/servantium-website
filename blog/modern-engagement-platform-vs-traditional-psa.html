@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Test Environment Detection & Analytics -->
+    <script>
+    (function() {
+        var isTestEnv = window.location.hostname === 'test.servantium.com';
+
+        // Block indexing on test environment
+        if (isTestEnv) {
+            var noindex = document.createElement('meta');
+            noindex.name = 'robots';
+            noindex.content = 'noindex, nofollow';
+            document.head.appendChild(noindex);
+        }
+
+        // Only load analytics on production AND with consent
+        var consent = localStorage.getItem('servantium_cookie_consent');
+        if (consent === 'accepted' && !isTestEnv) {
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-6EFX4FNH6H';
+            document.head.appendChild(script);
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            window.gtag = gtag;
+            gtag('js', new Date());
+            gtag('config', 'G-6EFX4FNH6H');
+        }
+
+        // Show test environment banner
+        if (isTestEnv) {
+            document.addEventListener('DOMContentLoaded', function() {
+                var banner = document.createElement('div');
+                banner.style.cssText = 'position:fixed;top:0;left:0;right:0;background:#ff6b35;color:#fff;text-align:center;padding:8px;font-size:14px;font-weight:600;z-index:99999;';
+                banner.textContent = 'TEST ENVIRONMENT — Changes here do not affect production';
+                document.body.prepend(banner);
+                document.body.style.paddingTop = '40px';
+                var nav = document.querySelector('nav');
+                if (nav) nav.style.top = '40px';
+            });
+        }
+    })();
+    </script>
+
+    <title>Why a Modern Engagement Platform Outperforms Traditional PSA Tools — Servantium Blog</title>
+    <meta name="description" content="PSA tools track time after the deal. Engagement platforms start at scoping. The gap between them costs services firms real money on every single engagement.">
+    <meta name="author" content="Christopher Veale">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://servantium.com/blog/modern-engagement-platform-vs-traditional-psa">
+    <meta property="og:site_name" content="Servantium">
+    <meta property="og:title" content="Why a Modern Engagement Platform Outperforms Traditional PSA Tools">
+    <meta property="og:description" content="PSA tools track time after the deal. Engagement platforms start at scoping. The gap between them costs services firms real money on every single engagement.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&h=630&fit=crop">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Dashboard analytics showing engagement platform metrics">
+    <meta property="article:published_time" content="2026-01-21">
+    <meta property="article:author" content="https://servantium.com/blog/authors/christopher-veale">
+    <meta property="article:section" content="Technology">
+    <meta property="article:tag" content="PSA">
+    <meta property="article:tag" content="Engagement Platform">
+    <meta property="article:tag" content="Professional Services">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://servantium.com/blog/modern-engagement-platform-vs-traditional-psa">
+
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Why a Modern Engagement Platform Outperforms Traditional PSA Tools",
+        "description": "PSA tools track time after the deal. Engagement platforms start at scoping. The gap between them costs services firms real money on every single engagement.",
+        "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&h=630&fit=crop",
+        "datePublished": "2026-01-21",
+        "dateModified": "2026-01-21",
+        "author": {
+            "@type": "Person",
+            "name": "Christopher Veale"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "@id": "https://servantium.com/#organization",
+            "name": "Servantium",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://servantium.com/logo.png"
+            }
+        },
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://servantium.com/blog/modern-engagement-platform-vs-traditional-psa"
+        }
+    }
+    </script>
+
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="../favicon-192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/nav.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <style>
+        :root {
+            --color-servantium-green: #00C26D;
+            --color-green-hover: #00A95E;
+            --color-deep-forest: #023E25;
+            --color-soft-mint: #E8FBF1;
+            --color-ink: #0D0D0D;
+            --color-ink-light: #3d3d3d;
+            --color-ink-muted: #6b6b6b;
+            --color-white: #FFFFFF;
+            --color-mist-grey: #F5F6F7;
+            --color-cloud-grey: #E1E3E6;
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-body: 'Source Sans 3', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+.article-header { padding: 8rem 0 3rem; background: var(--color-white); }
+        .article-header .container { max-width: 900px; }
+        .article-breadcrumb { margin-bottom: 1.5rem; font-size: 0.9rem; }
+        .article-breadcrumb a { color: var(--color-servantium-green); text-decoration: none; }
+        .article-breadcrumb a:hover { text-decoration: underline; }
+        .article-breadcrumb span { color: var(--color-ink-muted); }
+        .article-category { display: inline-block; color: var(--color-servantium-green); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.8rem; margin-bottom: 1rem; }
+        .article-title { font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3rem); line-height: 1.2; margin-bottom: 1.5rem; color: var(--color-ink); }
+        .article-excerpt { font-size: 1.25rem; color: var(--color-ink-light); line-height: 1.7; margin-bottom: 2rem; }
+        .article-meta { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
+        .article-author { display: flex; align-items: center; gap: 0.75rem; }
+        .author-avatar { width: 48px; height: 48px; border-radius: 50%; background: var(--color-servantium-green); display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; font-size: 1rem; }
+        .author-info { display: flex; flex-direction: column; }
+        .author-name { font-weight: 600; color: var(--color-ink); }
+        .author-role { font-size: 0.85rem; color: var(--color-ink-muted); }
+        .article-date, .article-reading-time { color: var(--color-ink-muted); font-size: 0.9rem; }
+
+        .article-hero-image { max-width: 900px; margin: 0 auto; padding: 0 2.5rem; }
+        .article-hero-image img { width: 100%; border-radius: 16px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); }
+
+        .article-content { max-width: 850px; margin: 0 auto; padding: 4rem 2.5rem 6rem; }
+        .article-content h2 { font-family: var(--font-display); font-size: 1.75rem; margin: 3rem 0 1.25rem; color: var(--color-ink); }
+        .article-content h3 { font-family: var(--font-display); font-size: 1.35rem; margin: 2.5rem 0 1rem; color: var(--color-ink); }
+        .article-content p { margin-bottom: 1.5rem; font-size: 1.1rem; line-height: 1.8; color: var(--color-ink-light); }
+        .article-content ul, .article-content ol { margin: 1.5rem 0; padding-left: 1.5rem; }
+        .article-content li { margin-bottom: 0.75rem; font-size: 1.1rem; line-height: 1.7; color: var(--color-ink-light); }
+        .article-content blockquote { margin: 2rem 0; padding: 1.5rem 2rem; background: var(--color-soft-mint); border-left: 4px solid var(--color-servantium-green); border-radius: 0 8px 8px 0; }
+        .article-content blockquote p { margin-bottom: 0; font-style: italic; color: var(--color-ink); }
+        .article-content strong { color: var(--color-ink); font-weight: 600; }
+        .article-content a { color: var(--color-servantium-green); text-decoration: underline; }
+        .article-content a:hover { color: var(--color-green-hover); }
+
+        .article-cta { margin: 4rem 0; padding: 2.5rem; background: var(--color-deep-forest); border-radius: 16px; text-align: center; }
+        .article-cta h3 { font-family: var(--font-display); color: var(--color-white); margin-bottom: 0.75rem; }
+        .article-cta p { color: rgba(255, 255, 255, 0.8); margin-bottom: 1.5rem; }
+        .article-cta
+.article-
+.article-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .article-tag { display: inline-block; padding: 0.4rem 0.8rem; background: var(--color-mist-grey); border-radius: 20px; font-size: 0.85rem; color: var(--color-ink-muted); text-decoration: none; transition: all 0.2s; }
+        .article-tag:hover { background: var(--color-soft-mint); color: var(--color-servantium-green); }
+
+        /* Floating Share Sidebar */
+        .share-sidebar {
+            position: fixed;
+            left: calc(50% - 500px);
+            top: 200px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            z-index: 50;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .share-sidebar.faded {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .share-sidebar-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .share-sidebar-btn.linkedin {
+            background: #0A66C2;
+            color: white;
+        }
+
+        .share-sidebar-btn.linkedin:hover {
+            background: #004182;
+            transform: scale(1.1);
+        }
+
+        .share-sidebar-btn.twitter {
+            background: #000000;
+            color: white;
+        }
+
+        .share-sidebar-btn.twitter:hover {
+            background: #333333;
+            transform: scale(1.1);
+        }
+
+        .share-sidebar-btn.copy {
+            background: var(--color-mist-grey);
+            color: var(--color-ink);
+            border: 1px solid var(--color-cloud-grey);
+        }
+
+        .share-sidebar-btn.copy:hover {
+            background: var(--color-cloud-grey);
+            transform: scale(1.1);
+        }
+
+        .share-sidebar-btn.copy.copied {
+            background: var(--color-servantium-green);
+            color: white;
+            border-color: var(--color-servantium-green);
+        }
+
+        .share-sidebar-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        @media (max-width: 1200px) {
+            .share-sidebar {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links,
+.article-meta { flex-direction: column; align-items: flex-start; gap: 1rem; }
+}
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <a href="../index.html" class="logo">
+                <img src="../logo.png" alt="Servantium" class="logo-image">
+            </a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../platform.html">Platform</a></li>
+                <li><a href="../about.html">About</a></li>
+                <li><a href="../blog.html" class="active">Blog</a></li>
+            </ul>
+            <div class="nav-buttons">
+                <button class="btn btn-secondary btn-nav" data-cal-link="christopher-veale/servantium-introduction?duration=15" data-cal-namespace="servantium-introduction" data-cal-config='{"layout":"month_view"}'>Book a Demo</button>
+                <a href="https://app.servantium.com/" class="btn btn-primary btn-nav">Log In</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="article-header">
+        <div class="container">
+            <div class="article-breadcrumb">
+                <a href="../blog.html">Blog</a>
+                <span>/</span>
+                <span>Technology</span>
+            </div>
+            <span class="article-category">Technology</span>
+            <h1 class="article-title">Why a Modern Engagement Platform Outperforms Traditional PSA Tools</h1>
+            <p class="article-excerpt">
+                PSA tools track time after the deal. Engagement platforms start at scoping. The gap between them costs services firms real money on every single engagement.
+            </p>
+            <div class="article-meta">
+                <a href="authors/christopher-veale.html" class="article-author" style="text-decoration: none; color: inherit;">
+                    <img src="../christopher-veale.png" alt="Christopher Veale" class="author-avatar" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover;">
+                    <div class="author-info">
+                        <span class="author-name">Christopher Veale</span>
+                        <span class="author-role">CEO, Servantium</span>
+                    </div>
+                </a>
+                <span class="article-date">January 21, 2026</span>
+                <span class="article-reading-time">7 min read</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Floating Share Sidebar -->
+    <div class="share-sidebar" id="share-sidebar">
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fservantium.com%2Fblog%2Fmodern-engagement-platform-vs-traditional-psa" target="_blank" rel="noopener noreferrer" class="share-sidebar-btn linkedin" aria-label="Share on LinkedIn">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+        <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fservantium.com%2Fblog%2Fmodern-engagement-platform-vs-traditional-psa&text=Why%20a%20Modern%20Engagement%20Platform%20Outperforms%20Traditional%20PSA%20%E2%80%94%20great%20read%20from%20%40Servantium" target="_blank" rel="noopener noreferrer" class="share-sidebar-btn twitter" aria-label="Share on X">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <button class="share-sidebar-btn copy" onclick="copySidebarLink(this)" aria-label="Copy link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+        </button>
+    </div>
+
+    <div class="article-hero-image">
+        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&h=600&fit=crop" alt="Analytics dashboard showing platform metrics" loading="lazy">
+    </div>
+
+    <article class="article-content">
+        <p>
+            A few months ago, I was on a call with the COO of a 150-person consulting firm. They'd just finished a painful PSA implementation. Nine months, six figures, and a lot of organizational trauma. She said something that stuck with me: "We spent all that time and money, and we still can't tell you whether our estimates are any good."
+        </p>
+        <p>
+            She wasn't being dramatic. The PSA they bought does exactly what PSAs do: it tracks time, manages resources, handles billing. It does those things fine. The problem is that those things start after the deal is already signed. By the time the PSA has data, the estimate is locked, the price is set, and the scope is committed.
+        </p>
+        <p>
+            <strong>The most expensive decisions in any engagement happen before the PSA even knows the engagement exists.</strong>
+        </p>
+
+        <h2>Where PSA Tools Actually Start</h2>
+        <p>
+            Let's be honest about what a PSA tool does. The name says it all. Professional Services Automation. It automates operational tasks: timesheets, resource allocation, invoicing, project tracking. Important work. Real value.
+        </p>
+        <p>
+            But here's the timeline of a typical engagement:
+        </p>
+        <ol>
+            <li>Client conversation happens (PSA: absent)</li>
+            <li>Scope gets defined (PSA: absent)</li>
+            <li>Estimate gets built (PSA: absent)</li>
+            <li>Price gets set (PSA: absent)</li>
+            <li>Proposal goes out (PSA: absent)</li>
+            <li>Client signs (PSA: absent)</li>
+            <li>Project gets set up (PSA: arrives)</li>
+            <li>Time gets tracked (PSA: working)</li>
+            <li>Resources get managed (PSA: working)</li>
+            <li>Invoice goes out (PSA: working)</li>
+            <li>Engagement ends (PSA: done)</li>
+            <li>Learning feeds next engagement (PSA: absent again)</li>
+        </ol>
+        <p>
+            Your PSA covers steps 7-11. That's five out of twelve. And arguably, the five that matter least for profitability.
+        </p>
+
+        <h2>The Pre-Deal Black Box</h2>
+        <p>
+            I call steps 1-6 the "pre-deal black box" because in most firms, nobody has visibility into what's happening there. Scoping lives in Word docs. Estimation lives in spreadsheets. Pricing lives in partner brain trust. Proposals live in PowerPoint.
+        </p>
+        <p>
+            None of this data connects to anything. It's not searchable, it's not analyzable, and it doesn't inform future deals. Every new engagement, you're starting from scratch.
+        </p>
+        <p>
+            This is where an engagement platform differs from a PSA. An engagement platform starts at step 1, at the scoping conversation, and creates a connected data trail all the way through delivery and beyond.
+        </p>
+
+        <h3>What That Means in Practice</h3>
+        <p>
+            When scope is defined in a system (not a Word doc), it can be reused. You built a scope for a data migration last quarter? Great. Pull it forward, adjust the complexity drivers, and you've saved three hours of scoping work. More importantly, the new scope inherits the lessons from the last one.
+        </p>
+        <p>
+            When estimates are built on structured service definitions (not blank spreadsheets), they carry historical baselines. Your cloud infrastructure assessments typically take 320 hours? That's your starting point, not a guess.
+        </p>
+        <p>
+            When pricing connects to scope and effort with visible margin calculations, partners can make informed decisions instead of gut calls. And when a deal closes, the delivery team inherits all that context instead of starting from a forwarded email.
+        </p>
+
+        <h2>The Real Cost of the Gap</h2>
+        <p>
+            I want to put numbers on this, because "the gap costs money" is vague and easy to ignore.
+        </p>
+        <p>
+            Take a firm doing $20M in revenue. Industry average estimation variance for services firms is 20-25%. That means on a typical engagement, the actual hours come in 20-25% above or below the estimate. The overruns eat margin. The underestimates mean you quoted too high and lost some deals you should've won.
+        </p>
+        <p>
+            If you could cut that variance in half, from 22% to 11%, you'd save roughly $400K-$600K in margin erosion annually. That's not a hypothetical. That's the math on actual engagement economics.
+        </p>
+        <p>
+            A PSA can't cut that variance because it doesn't touch the estimation process. It can tell you after the fact that an engagement went over budget. Useful, but late. An engagement platform cuts it by giving estimators data-informed starting points and by closing the loop between delivery outcomes and future estimates.
+        </p>
+
+        <blockquote>
+            <p>"A PSA is a rearview mirror. An engagement platform is a windshield. Both are useful. Only one shows you what's coming."</p>
+        </blockquote>
+
+        <h2>Unpopular Opinion: PSA Implementations Fail Because PSAs Aren't Enough</h2>
+        <p>
+            Here's something the PSA vendors won't tell you: their implementation failure rates are brutal. I've seen estimates ranging from 30-50% of PSA implementations either failing outright or delivering far less value than expected.
+        </p>
+        <p>
+            The standard explanation is change management. People resist the tool, they don't fill in timesheets, adoption stalls. That's part of it. But I think the bigger issue is that firms buy a PSA expecting it to solve their engagement management problem, and it can't. It was never designed to.
+        </p>
+        <p>
+            So the firm spends nine months implementing the PSA, and at the end they have better time tracking and resource management. Good. But they still can't answer the questions that actually drive profitability: Are our estimates accurate? Is our pricing competitive? Where do we lose margin? What types of engagements are most profitable?
+        </p>
+        <p>
+            The PSA isn't the problem. The expectation that it would solve engagement management is the problem.
+        </p>
+
+        <h2>What an Engagement Platform Does Differently</h2>
+        <p>
+            I should be clear about what I mean by "engagement platform" so this doesn't sound like I'm just rebranding "PSA" with a cooler name.
+        </p>
+        <p>
+            An engagement platform has three properties that a PSA doesn't:
+        </p>
+
+        <h3>1. It Starts Before the Deal</h3>
+        <p>
+            A service catalog with structured definitions. Scoping tools that capture complexity drivers. Estimation models that use historical data. Pricing logic with margin guardrails. Proposal generation that pulls from all of the above.
+        </p>
+        <p>
+            This isn't a CRM bolt-on. It's a purpose-built system for turning client conversations into well-scoped, well-priced, well-documented engagements.
+        </p>
+
+        <h3>2. It Creates a Connected Data Trail</h3>
+        <p>
+            The scope that gets defined in discovery flows into the estimate. The estimate flows into the price. The price flows into the proposal. When the client signs, the engagement activates with all that context intact. No re-entry. No copy-paste. No context lost in translation.
+        </p>
+        <p>
+            This connected trail means you can trace any delivery issue back to the scoping decision that caused it. Did the project go over budget? Was it a scoping miss, an estimation error, or a pricing miscalculation? With a PSA alone, you'll never know.
+        </p>
+
+        <h3>3. It Closes the Learning Loop</h3>
+        <p>
+            When an engagement completes, the actual delivery data feeds back into the system. Hours, margin, scope changes, issues encountered. The next time someone scopes a similar engagement, they're building on top of real data, not starting from memory.
+        </p>
+        <p>
+            This is the compounding effect. Every engagement makes the next one a little more accurate. Over time, the firm's collective intelligence grows regardless of who stays or leaves.
+        </p>
+
+        <h2>Case Study Lite: PSA Plus Engagement Platform</h2>
+        <p>
+            A systems integration firm I've been talking to did something smart. Instead of ripping out their PSA (which was working fine for time tracking and billing), they added an engagement platform layer on top. The PSA kept doing what it does. The engagement platform handled everything upstream.
+        </p>
+        <p>
+            After two quarters, they measured the impact:
+        </p>
+        <ul>
+            <li><strong>Time to produce a scope and estimate dropped 40%.</strong> They weren't starting from blank spreadsheets anymore.</li>
+            <li><strong>Estimation variance dropped from 28% to 16%.</strong> Estimates were informed by historical delivery data.</li>
+            <li><strong>Proposal win rate went up 15%.</strong> Proposals were more consistent and professional.</li>
+            <li><strong>New consultant ramp time dropped significantly.</strong> The system taught them the firm's patterns.</li>
+        </ul>
+        <p>
+            None of this came from replacing the PSA. It came from covering the stages the PSA was never built to handle.
+        </p>
+
+        <div class="article-cta">
+            <h3>Cover the whole engagement</h3>
+            <p>See how Servantium works alongside your existing tools to handle the stages your PSA doesn't reach.</p>
+            <button class="btn btn-primary" data-cal-link="christopher-veale/servantium-introduction?duration=15" data-cal-namespace="servantium-introduction" data-cal-config='{"layout":"month_view"}'>Schedule a Demo</button>
+        </div>
+
+        <h2>When a PSA Is Enough</h2>
+        <p>
+            I'd be a hack if I didn't acknowledge when a PSA is genuinely sufficient. If your firm primarily does staff augmentation, placing people on client sites at agreed rates, a PSA handles most of what you need. Time tracking, billing, resource management. The scoping and estimation complexity is minimal.
+        </p>
+        <p>
+            But if you do project-based or outcome-based work (fixed-price engagements, defined scopes, complex proposals), the pre-deal stages are where your profitability is made or lost. A PSA will tell you how the project went. An engagement platform will help you set it up to succeed in the first place.
+        </p>
+
+        <h2>Bottom Line</h2>
+        <p>
+            Pull up your last five proposals. Count how many tools and documents were involved in creating them. Word docs, spreadsheets, emails, CRM entries, rate cards, past proposals you copied from. If the answer is more than three, you've got a pre-deal problem that no PSA will solve.
+        </p>
+        <p>
+            Your PSA isn't broken. It's just not designed for the part of the engagement lifecycle where the money is made. The firms figuring this out are adding engagement platforms to cover the gap, and they're seeing the results in estimation accuracy, pricing consistency, and deal margins. The ones still asking their PSA to be something it isn't will keep wondering why the implementation didn't move the needle.
+        </p>
+
+    </article>
+
+    <!-- Related Posts -->
+    <section class="related-posts">
+        <div class="container" style="max-width: 900px;">
+            <h2 style="font-family: var(--font-display); font-size: 1.5rem; margin-bottom: 2rem;">Related Articles</h2>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;">
+                <a href="the-ultimate-guide-to-engagement-management.html" style="display: block; background: var(--color-mist-grey); border-radius: 12px; overflow: hidden; text-decoration: none; color: inherit; transition: transform 0.2s, box-shadow 0.2s;">
+                    <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=200&fit=crop" loading="lazy" alt="Engagement management guide" style="width: 100%; height: 140px; object-fit: cover;">
+                    <div style="padding: 1.25rem;">
+                        <span style="color: var(--color-servantium-green); font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">Operations</span>
+                        <h3 style="font-family: var(--font-display); font-size: 1rem; margin-top: 0.5rem; line-height: 1.3;">The Ultimate Guide to Engagement Management</h3>
+                    </div>
+                </a>
+                <a href="the-real-ai-opportunity-institutional-memory.html" style="display: block; background: var(--color-mist-grey); border-radius: 12px; overflow: hidden; text-decoration: none; color: inherit; transition: transform 0.2s, box-shadow 0.2s;">
+                    <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=400&h=200&fit=crop" loading="lazy" alt="The Real AI Opportunity" style="width: 100%; height: 140px; object-fit: cover;">
+                    <div style="padding: 1.25rem;">
+                        <span style="color: var(--color-servantium-green); font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">Technology</span>
+                        <h3 style="font-family: var(--font-display); font-size: 1rem; margin-top: 0.5rem; line-height: 1.3;">The Real AI Opportunity: Building Institutional Memory</h3>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="../index.html" class="logo">
+                        <img src="../logo.png" alt="Servantium" class="logo-image footer-logo">
+                    </a>
+                    <p>The operating system for professional services.</p>
+                    <div class="footer-social">
+                        <span class="footer-social-label">Follow us on</span>
+                        <a href="https://linkedin.com/company/servantium" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Follow Servantium on LinkedIn">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Explore</h4>
+                    <ul>
+                        <li><a href="../platform.html">Platform</a></li>
+                        <li><a href="../about.html">About</a></li>
+                        <li><a href="../blog.html">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="../about.html">About</a></li>
+                        <li><a href="../blog.html">Blog</a></li>
+                        <li><a href="../index.html#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="../privacy.html">Privacy</a></li>
+                        <li><a href="../terms.html">Terms</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-bottom-left">
+                    <span>&copy; 2026 Servantium Inc.</span>
+                    <span class="footer-divider">&middot;</span>
+                    <button class="footer-email-chip" onclick="copyFooterEmail(this)">
+                        <span class="footer-email-chip-text">hello@servantium.com</span>
+                        <svg class="footer-email-chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="footer-bottom-right">
+                    <span>Founded by <a href="https://linkedin.com/in/christopher-veale">Christopher Veale</a> & <a href="https://linkedin.com/in/maxwell-friel-2bb02b30">Maxwell Friel</a></span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cal.com Embed Script -->
+    <script type="text/javascript">
+        (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+        Cal("init", "servantium-introduction", {origin:"https://app.cal.com"});
+        Cal.ns["servantium-introduction"]("ui", {
+            "cssVarsPerTheme": {
+                "light": {"cal-brand":"#00C26D"},
+                "dark": {"cal-brand":"#00C26D"}
+            },
+            "hideEventTypeDetails": false,
+            "layout": "month_view"
+        });
+    </script>
+
+    <!-- Cookie Consent Banner -->
+    <div id="cookie-consent" style="display: none; position: fixed; bottom: 0; left: 0; right: 0; background: #1a1a2e; padding: 16px 24px; z-index: 10000; box-shadow: 0 -4px 20px rgba(0,0,0,0.3);">
+        <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px;">
+            <p style="margin: 0; flex: 1; min-width: 280px; font-size: 14px; line-height: 1.5; color: #d1d5db;">
+                We use cookies to analyze site traffic and improve your experience. By clicking "Accept All", you consent to our use of analytics cookies.
+                <a href="../privacy.html" style="color: #00C26D; text-decoration: underline;">Privacy Policy</a>
+            </p>
+            <div style="display: flex; gap: 12px; flex-shrink: 0;">
+                <button onclick="declineCookies()" style="padding: 10px 20px; background: transparent; border: 1px solid #9ca3af; color: #ffffff; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.2s;">Decline All</button>
+                <button onclick="acceptCookies()" style="padding: 10px 20px; background: #00C26D; border: none; color: #ffffff; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.2s;">Accept All</button>
+            </div>
+        </div>
+    </div>
+    <script src="../js/nav.js"></script>
+    <script src="../js/footer.js"></script>
+    <script src="../js/cookie-consent.js"></script>
+</body>
+</html>

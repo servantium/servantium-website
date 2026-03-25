@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Test Environment Detection & Analytics -->
+    <script>
+    (function() {
+        var isTestEnv = window.location.hostname === 'test.servantium.com';
+
+        // Block indexing on test environment
+        if (isTestEnv) {
+            var noindex = document.createElement('meta');
+            noindex.name = 'robots';
+            noindex.content = 'noindex, nofollow';
+            document.head.appendChild(noindex);
+        }
+
+        // Only load analytics on production AND with consent
+        var consent = localStorage.getItem('servantium_cookie_consent');
+        if (consent === 'accepted' && !isTestEnv) {
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-6EFX4FNH6H';
+            document.head.appendChild(script);
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            window.gtag = gtag;
+            gtag('js', new Date());
+            gtag('config', 'G-6EFX4FNH6H');
+        }
+
+        // Show test environment banner
+        if (isTestEnv) {
+            document.addEventListener('DOMContentLoaded', function() {
+                var banner = document.createElement('div');
+                banner.style.cssText = 'position:fixed;top:0;left:0;right:0;background:#ff6b35;color:#fff;text-align:center;padding:8px;font-size:14px;font-weight:600;z-index:99999;';
+                banner.textContent = 'TEST ENVIRONMENT — Changes here do not affect production';
+                document.body.prepend(banner);
+                document.body.style.paddingTop = '40px';
+                var nav = document.querySelector('nav');
+                if (nav) nav.style.top = '40px';
+            });
+        }
+    })();
+    </script>
+
+    <title>Maximize Efficiency: Integrating Servantium with Your Existing CRM — Servantium Blog</title>
+    <meta name="description" content="The technical reality of CRM integration — what data flows where, common pitfalls, and why most integration projects are overscoped.">
+    <meta name="author" content="Maxwell Friel">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://servantium.com/blog/integrating-servantium-with-your-crm">
+    <meta property="og:site_name" content="Servantium">
+    <meta property="og:title" content="Maximize Efficiency: Integrating Servantium with Your Existing CRM">
+    <meta property="og:description" content="The technical reality of CRM integration — what data flows where, common pitfalls, and why most integration projects are overscoped.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&h=630&fit=crop">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Technology infrastructure and system integration">
+    <meta property="article:published_time" content="2026-01-17">
+    <meta property="article:author" content="https://servantium.com/blog/authors/maxwell-friel">
+    <meta property="article:section" content="Technology">
+    <meta property="article:tag" content="Integration">
+    <meta property="article:tag" content="CRM">
+    <meta property="article:tag" content="Technology">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://servantium.com/blog/integrating-servantium-with-your-crm">
+
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Maximize Efficiency: Integrating Servantium with Your Existing CRM",
+        "description": "The technical reality of CRM integration — what data flows where, common pitfalls, and why most integration projects are overscoped.",
+        "image": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&h=630&fit=crop",
+        "datePublished": "2026-01-17",
+        "dateModified": "2026-01-17",
+        "author": {
+            "@type": "Person",
+            "name": "Maxwell Friel"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "@id": "https://servantium.com/#organization",
+            "name": "Servantium",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://servantium.com/logo.png"
+            }
+        },
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://servantium.com/blog/integrating-servantium-with-your-crm"
+        }
+    }
+    </script>
+
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="../favicon-192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/nav.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <style>
+        :root {
+            --color-servantium-green: #00C26D;
+            --color-green-hover: #00A95E;
+            --color-deep-forest: #023E25;
+            --color-soft-mint: #E8FBF1;
+            --color-ink: #0D0D0D;
+            --color-ink-light: #3d3d3d;
+            --color-ink-muted: #6b6b6b;
+            --color-white: #FFFFFF;
+            --color-mist-grey: #F5F6F7;
+            --color-cloud-grey: #E1E3E6;
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-body: 'Source Sans 3', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+.article-header { padding: 8rem 0 3rem; background: var(--color-white); }
+        .article-header .container { max-width: 900px; }
+        .article-breadcrumb { margin-bottom: 1.5rem; font-size: 0.9rem; }
+        .article-breadcrumb a { color: var(--color-servantium-green); text-decoration: none; }
+        .article-breadcrumb a:hover { text-decoration: underline; }
+        .article-breadcrumb span { color: var(--color-ink-muted); }
+        .article-category { display: inline-block; color: var(--color-servantium-green); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.8rem; margin-bottom: 1rem; }
+        .article-title { font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3rem); line-height: 1.2; margin-bottom: 1.5rem; color: var(--color-ink); }
+        .article-excerpt { font-size: 1.25rem; color: var(--color-ink-light); line-height: 1.7; margin-bottom: 2rem; }
+        .article-meta { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
+        .article-author { display: flex; align-items: center; gap: 0.75rem; }
+        .author-avatar { width: 48px; height: 48px; border-radius: 50%; background: var(--color-servantium-green); display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; font-size: 1rem; }
+        .author-info { display: flex; flex-direction: column; }
+        .author-name { font-weight: 600; color: var(--color-ink); }
+        .author-role { font-size: 0.85rem; color: var(--color-ink-muted); }
+        .article-date, .article-reading-time { color: var(--color-ink-muted); font-size: 0.9rem; }
+
+        .article-hero-image { max-width: 900px; margin: 0 auto; padding: 0 2.5rem; }
+        .article-hero-image img { width: 100%; border-radius: 16px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); }
+
+        .article-content { max-width: 850px; margin: 0 auto; padding: 4rem 2.5rem 6rem; }
+        .article-content h2 { font-family: var(--font-display); font-size: 1.75rem; margin: 3rem 0 1.25rem; color: var(--color-ink); }
+        .article-content h3 { font-family: var(--font-display); font-size: 1.35rem; margin: 2.5rem 0 1rem; color: var(--color-ink); }
+        .article-content p { margin-bottom: 1.5rem; font-size: 1.1rem; line-height: 1.8; color: var(--color-ink-light); }
+        .article-content ul, .article-content ol { margin: 1.5rem 0; padding-left: 1.5rem; }
+        .article-content li { margin-bottom: 0.75rem; font-size: 1.1rem; line-height: 1.7; color: var(--color-ink-light); }
+        .article-content blockquote { margin: 2rem 0; padding: 1.5rem 2rem; background: var(--color-soft-mint); border-left: 4px solid var(--color-servantium-green); border-radius: 0 8px 8px 0; }
+        .article-content blockquote p { margin-bottom: 0; font-style: italic; color: var(--color-ink); }
+        .article-content strong { color: var(--color-ink); font-weight: 600; }
+        .article-content a { color: var(--color-servantium-green); text-decoration: underline; }
+        .article-content a:hover { color: var(--color-green-hover); }
+
+        .article-cta { margin: 4rem 0; padding: 2.5rem; background: var(--color-deep-forest); border-radius: 16px; text-align: center; }
+        .article-cta h3 { font-family: var(--font-display); color: var(--color-white); margin-bottom: 0.75rem; }
+        .article-cta p { color: rgba(255, 255, 255, 0.8); margin-bottom: 1.5rem; }
+        .article-cta
+.article-
+.article-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .article-tag { display: inline-block; padding: 0.4rem 0.8rem; background: var(--color-mist-grey); border-radius: 20px; font-size: 0.85rem; color: var(--color-ink-muted); text-decoration: none; transition: all 0.2s; }
+        .article-tag:hover { background: var(--color-soft-mint); color: var(--color-servantium-green); }
+
+        /* Floating Share Sidebar */
+        .share-sidebar {
+            position: fixed;
+            left: calc(50% - 500px);
+            top: 200px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            z-index: 50;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .share-sidebar.faded {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .share-sidebar-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .share-sidebar-btn.linkedin {
+            background: #0A66C2;
+            color: white;
+        }
+
+        .share-sidebar-btn.linkedin:hover {
+            background: #004182;
+            transform: scale(1.1);
+        }
+
+        .share-sidebar-btn.twitter {
+            background: #000000;
+            color: white;
+        }
+
+        .share-sidebar-btn.twitter:hover {
+            background: #333333;
+            transform: scale(1.1);
+        }
+
+        .share-sidebar-btn.copy {
+            background: var(--color-mist-grey);
+            color: var(--color-ink);
+            border: 1px solid var(--color-cloud-grey);
+        }
+
+        .share-sidebar-btn.copy:hover {
+            background: var(--color-cloud-grey);
+            transform: scale(1.1);
+        }
+
+        .share-sidebar-btn.copy.copied {
+            background: var(--color-servantium-green);
+            color: white;
+            border-color: var(--color-servantium-green);
+        }
+
+        .share-sidebar-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        @media (max-width: 1200px) {
+            .share-sidebar {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links,
+.article-meta { flex-direction: column; align-items: flex-start; gap: 1rem; }
+}
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <a href="../index.html" class="logo">
+                <img src="../logo.png" alt="Servantium" class="logo-image">
+            </a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../platform.html">Platform</a></li>
+                <li><a href="../about.html">About</a></li>
+                <li><a href="../blog.html" class="active">Blog</a></li>
+            </ul>
+            <div class="nav-buttons">
+                <button class="btn btn-secondary btn-nav" data-cal-link="christopher-veale/servantium-introduction?duration=15" data-cal-namespace="servantium-introduction" data-cal-config='{"layout":"month_view"}'>Book a Demo</button>
+                <a href="https://app.servantium.com/" class="btn btn-primary btn-nav">Log In</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="article-header">
+        <div class="container">
+            <div class="article-breadcrumb">
+                <a href="../blog.html">Blog</a>
+                <span>/</span>
+                <span>Technology</span>
+            </div>
+            <span class="article-category">Technology</span>
+            <h1 class="article-title">Maximize Efficiency: Integrating Servantium with Your Existing CRM</h1>
+            <p class="article-excerpt">
+                The technical reality of CRM integration — what data flows where, common pitfalls, and why most integration projects are overscoped.
+            </p>
+            <div class="article-meta">
+                <a href="authors/maxwell-friel.html" class="article-author" style="text-decoration: none; color: inherit;">
+                    <img src="../maxwell-friel.png" alt="Maxwell Friel" class="author-avatar" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover;">
+                    <div class="author-info">
+                        <span class="author-name">Maxwell Friel</span>
+                        <span class="author-role">CTO, Servantium</span>
+                    </div>
+                </a>
+                <span class="article-date">January 17, 2026</span>
+                <span class="article-reading-time">7 min read</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Floating Share Sidebar -->
+    <div class="share-sidebar" id="share-sidebar">
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fservantium.com%2Fblog%2Fintegrating-servantium-with-your-crm" target="_blank" rel="noopener noreferrer" class="share-sidebar-btn linkedin" aria-label="Share on LinkedIn">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+        <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fservantium.com%2Fblog%2Fintegrating-servantium-with-your-crm&text=Integrating%20Servantium%20with%20Your%20Existing%20CRM%20%E2%80%94%20great%20read%20from%20%40Servantium" target="_blank" rel="noopener noreferrer" class="share-sidebar-btn twitter" aria-label="Share on X">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <button class="share-sidebar-btn copy" onclick="copySidebarLink(this)" aria-label="Copy link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+        </button>
+    </div>
+
+    <div class="article-hero-image">
+        <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&h=600&fit=crop" alt="Technology infrastructure and data integration" loading="lazy">
+    </div>
+
+    <article class="article-content">
+        <p>
+            I've built integrations between more systems than I'd like to admit. And I'll tell you the pattern: someone walks into a meeting, draws two boxes on a whiteboard, connects them with an arrow, and says "we just need these to talk to each other." Six months later, you're debugging edge cases in data transformation logic at 2am on a Thursday.
+        </p>
+        <p>
+            CRM integration is one of the first questions we get from services firms evaluating Servantium. It's a fair question — your CRM is where deals live, where client relationships are tracked, where the sales pipeline gets managed. Of course you want your engagement management platform connected to it.
+        </p>
+        <p>
+            But most firms approach this wrong. They overscope it. They try to sync everything. And they end up with a fragile integration that creates more problems than it solves.
+        </p>
+        <p>
+            Let me walk you through how we think about this — and more importantly, where most teams get burned.
+        </p>
+
+        <h2>What Actually Needs to Flow</h2>
+        <p>
+            The first mistake is treating integration as a data mirroring exercise. "Let's sync everything between our CRM and our CPQ." No. Stop. That way lies madness.
+        </p>
+        <p>
+            Here's what actually matters in a CRM-to-engagement-platform integration:
+        </p>
+
+        <h3>CRM to Servantium (the easy direction)</h3>
+        <ul>
+            <li><strong>Opportunity data.</strong> When a deal reaches a certain stage in your CRM, the relevant details — client name, contact info, deal size estimate, key dates — should flow into Servantium to start the engagement scoping process. This is a trigger, not a sync.</li>
+            <li><strong>Account context.</strong> Basic client information that helps inform pricing and scoping. Industry, company size, any existing relationship history. You don't need the full CRM record — just enough context to make smart decisions.</li>
+        </ul>
+
+        <h3>Servantium to CRM (the tricky direction)</h3>
+        <ul>
+            <li><strong>Proposal status.</strong> When a proposal is generated, sent, or accepted, the CRM should know about it. This keeps your sales pipeline accurate without requiring salespeople to update two systems.</li>
+            <li><strong>Deal value updates.</strong> If the actual scoped price differs from the initial CRM estimate (it almost always does), the CRM should reflect reality. This is critical for accurate pipeline reporting and forecasting.</li>
+            <li><strong>Win/loss data.</strong> When an engagement is won or lost, that status needs to flow back. Ideally with the reason, so your sales ops team can actually learn something from the data.</li>
+        </ul>
+        <p>
+            That's it. Five data points. Not fifty. Not five hundred. Five.
+        </p>
+
+        <h2>The Overscoping Trap</h2>
+        <p>
+            Here's what typically happens when a firm decides to integrate their CRM with a new system:
+        </p>
+        <p>
+            Week one, someone creates a requirements document. It starts with those five data points I mentioned. Reasonable.
+        </p>
+        <p>
+            Week two, stakeholders weigh in. Sales wants activity logging. Marketing wants campaign attribution. Finance wants invoice data flowing back. The delivery team wants resource assignments visible in the CRM. Suddenly that five-point integration is a sixty-point integration.
+        </p>
+        <p>
+            Week six, someone realizes that half the CRM fields are populated inconsistently and the data mapping is going to be a nightmare. A data cleanup project gets proposed. Now you're doing two projects.
+        </p>
+        <p>
+            Month four, the integration is "almost done" but there are edge cases everywhere. What happens when a deal gets reopened? What about merged accounts? What if someone updates the CRM record manually after the sync?
+        </p>
+        <p>
+            This isn't hypothetical. I've watched this exact sequence play out at three different organizations.
+        </p>
+
+        <blockquote>
+            <p>"The best integration is the smallest one that solves the actual problem. Everything else is an invitation for complexity to eat your roadmap."</p>
+        </blockquote>
+
+        <h2>The Architecture That Actually Works</h2>
+        <p>
+            After building (and rebuilding) enough integrations, I've landed on a few principles that hold up:
+        </p>
+
+        <h3>Events, not syncs</h3>
+        <p>
+            Don't try to keep two databases in sync. It's a fool's errand. Instead, use event-driven architecture: when something meaningful happens in System A, fire an event that System B can consume. The CRM creates an opportunity? That's an event. Servantium generates a proposal? That's an event. Each system processes the events it cares about and ignores the rest.
+        </p>
+        <p>
+            This is fundamentally different from polling-based sync, where you're constantly asking "did anything change?" Event-driven means you only process actual changes. Less load, fewer conflicts, easier debugging.
+        </p>
+
+        <h3>One source of truth per data type</h3>
+        <p>
+            This is where most integrations go wrong. They let the same data be edited in both systems. Then they have to figure out which one wins. Don't do this.
+        </p>
+        <p>
+            The CRM owns relationship data: contacts, accounts, pipeline stages. Servantium owns engagement data: scope, pricing, resource allocation, delivery. Neither system should be the authoritative source for the other's domain. Data flows in one direction per field — always.
+        </p>
+
+        <h3>Idempotent operations</h3>
+        <p>
+            This is a technical point, but it matters enormously in practice. Every integration operation should be safely repeatable. If an event gets processed twice — and it will, eventually — the result should be the same as processing it once. This sounds obvious. It's not. Most integration bugs I've debugged come down to operations that aren't idempotent.
+        </p>
+
+        <h2>Unpopular Opinion</h2>
+        <p>
+            Most CRM integrations shouldn't be automated at all. Not initially, anyway.
+        </p>
+        <p>
+            I know — that sounds backwards coming from a CTO. But hear me out. Before you automate a data flow, you need to understand the data flow. And most firms don't. They think they know how data moves between sales and delivery, but when you actually trace it, there are dozens of informal processes, manual overrides, and workarounds that nobody documented.
+        </p>
+        <p>
+            Start with a manual process. Have someone copy the five key data points between systems for a month. Track the exceptions. Note the edge cases. Understand the actual workflow before you automate it.
+        </p>
+        <p>
+            The firms that skip this step end up automating a broken process, which just makes it break faster.
+        </p>
+
+        <h2>Common Pitfalls (and How to Avoid Them)</h2>
+
+        <h3>The duplicate record problem</h3>
+        <p>
+            CRM data is messy. The same company might exist as "Acme Corp," "Acme Corporation," "ACME Corp.," and "Acme" in your CRM. If your integration creates records based on CRM data without deduplication logic, you'll end up with duplicate clients in Servantium. The fix: match on a stable identifier (like a CRM record ID), not on names or domains.
+        </p>
+
+        <h3>The field mapping nightmare</h3>
+        <p>
+            Your CRM has a "Deal Stage" field with twelve possible values, four of which haven't been used since 2019. Your engagement platform has five engagement statuses. Mapping between them isn't a technical problem — it's a business logic problem. Get the mapping agreed upon by actual users before you write a single line of integration code.
+        </p>
+
+        <h3>The permission gap</h3>
+        <p>
+            Just because data is in the CRM doesn't mean everyone should see it in the engagement platform, and vice versa. Pricing data, margin information, resource costs — these might be visible to different audiences in each system. Your integration needs to respect the permission models of both systems. This is often overlooked until someone sees something they shouldn't.
+        </p>
+
+        <h3>The "it works on my machine" problem</h3>
+        <p>
+            Integration environments are different from production. API rate limits, data volumes, network latency, authentication token expiration — all of these behave differently at scale. Test with production-like data volumes. Not three records. Three thousand.
+        </p>
+
+        <div class="article-cta">
+            <h3>Connect your systems cleanly</h3>
+            <p>Servantium's integration architecture is designed for event-driven, single-source-of-truth connections to your existing CRM.</p>
+            <button class="btn btn-primary" data-cal-link="christopher-veale/servantium-introduction?duration=15" data-cal-namespace="servantium-introduction" data-cal-config='{"layout":"month_view"}'>Schedule a Demo</button>
+        </div>
+
+        <h2>The Right Sequence</h2>
+        <p>
+            If I were advising a firm on CRM integration with Servantium (or any engagement platform), here's the sequence I'd recommend:
+        </p>
+        <ol>
+            <li><strong>Week 1-2: Define the five data points.</strong> What actually needs to flow? In which direction? What triggers the flow? Get agreement from sales, delivery, and ops. No more than five fields in each direction to start.</li>
+            <li><strong>Week 3-4: Manual process.</strong> Run the integration manually. Have someone move data between systems by hand. Document every exception, every edge case, every "wait, what happens when..."</li>
+            <li><strong>Week 5-8: Build the core integration.</strong> Automate those five data points. Event-driven. Idempotent. With error handling and logging. Test with real data volumes.</li>
+            <li><strong>Month 3+: Expand cautiously.</strong> Add data points one at a time, only when there's a clear business case. Resist the urge to sync everything. Every additional field is additional maintenance.</li>
+        </ol>
+        <p>
+            This approach is boring. It doesn't make for a good demo. But it produces integrations that actually work six months later, which is more than I can say for most "big bang" integration projects I've seen.
+        </p>
+
+        <h2>A Note on Middleware</h2>
+        <p>
+            You'll hear people suggest using Zapier, Make, or similar no-code platforms for CRM integration. For simple, low-volume use cases, they're fine. But be aware of the trade-offs: you're adding a third system to monitor, you're subject to their rate limits and reliability, and debugging issues means navigating three systems instead of two. For production workloads with real data volumes, purpose-built integrations almost always perform better and cost less over time.
+        </p>
+
+        <h2>Bottom Line</h2>
+        <p>
+            Here's what you can do tomorrow: draw two columns on a piece of paper. Label one "CRM" and the other "Engagement Platform." Write down every piece of data that you think needs to flow between them. Then cross out everything that isn't critical for someone to do their job. I'd bet you end up with five items or fewer. Start there. Build that. Get it right. Then — and only then — consider adding more.
+        </p>
+
+    </article>
+
+    <!-- Related Posts -->
+    <section class="related-posts">
+        <div class="container" style="max-width: 900px;">
+            <h2 style="font-family: var(--font-display); font-size: 1.5rem; margin-bottom: 2rem;">Related Articles</h2>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;">
+                <a href="the-real-ai-opportunity-institutional-memory.html" style="display: block; background: var(--color-mist-grey); border-radius: 12px; overflow: hidden; text-decoration: none; color: inherit; transition: transform 0.2s, box-shadow 0.2s;">
+                    <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=400&h=200&fit=crop" loading="lazy" alt="The Real AI Opportunity" style="width: 100%; height: 140px; object-fit: cover;">
+                    <div style="padding: 1.25rem;">
+                        <span style="color: var(--color-servantium-green); font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">Technology</span>
+                        <h3 style="font-family: var(--font-display); font-size: 1rem; margin-top: 0.5rem; line-height: 1.3;">The Real AI Opportunity: Building Institutional Memory</h3>
+                    </div>
+                </a>
+                <a href="ai-wont-save-services-structure-will.html" style="display: block; background: var(--color-mist-grey); border-radius: 12px; overflow: hidden; text-decoration: none; color: inherit; transition: transform 0.2s, box-shadow 0.2s;">
+                    <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&h=200&fit=crop" loading="lazy" alt="AI Won't Save Services" style="width: 100%; height: 140px; object-fit: cover;">
+                    <div style="padding: 1.25rem;">
+                        <span style="color: var(--color-servantium-green); font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">Technology</span>
+                        <h3 style="font-family: var(--font-display); font-size: 1rem; margin-top: 0.5rem; line-height: 1.3;">AI Won't Save Professional Services. Structure Will.</h3>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="../index.html" class="logo">
+                        <img src="../logo.png" alt="Servantium" class="logo-image footer-logo">
+                    </a>
+                    <p>The operating system for professional services.</p>
+                    <div class="footer-social">
+                        <span class="footer-social-label">Follow us on</span>
+                        <a href="https://linkedin.com/company/servantium" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Follow Servantium on LinkedIn">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Explore</h4>
+                    <ul>
+                        <li><a href="../platform.html">Platform</a></li>
+                        <li><a href="../about.html">About</a></li>
+                        <li><a href="../blog.html">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="../about.html">About</a></li>
+                        <li><a href="../blog.html">Blog</a></li>
+                        <li><a href="../index.html#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="../privacy.html">Privacy</a></li>
+                        <li><a href="../terms.html">Terms</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-bottom-left">
+                    <span>&copy; 2026 Servantium Inc.</span>
+                    <span class="footer-divider">&middot;</span>
+                    <button class="footer-email-chip" onclick="copyFooterEmail(this)">
+                        <span class="footer-email-chip-text">hello@servantium.com</span>
+                        <svg class="footer-email-chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="footer-bottom-right">
+                    <span>Founded by <a href="https://linkedin.com/in/christopher-veale">Christopher Veale</a> & <a href="https://linkedin.com/in/maxwell-friel-2bb02b30">Maxwell Friel</a></span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cal.com Embed Script -->
+    <script type="text/javascript">
+        (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+        Cal("init", "servantium-introduction", {origin:"https://app.cal.com"});
+        Cal.ns["servantium-introduction"]("ui", {
+            "cssVarsPerTheme": {
+                "light": {"cal-brand":"#00C26D"},
+                "dark": {"cal-brand":"#00C26D"}
+            },
+            "hideEventTypeDetails": false,
+            "layout": "month_view"
+        });
+    </script>
+
+    <!-- Cookie Consent Banner -->
+    <div id="cookie-consent" style="display: none; position: fixed; bottom: 0; left: 0; right: 0; background: #1a1a2e; padding: 16px 24px; z-index: 10000; box-shadow: 0 -4px 20px rgba(0,0,0,0.3);">
+        <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px;">
+            <p style="margin: 0; flex: 1; min-width: 280px; font-size: 14px; line-height: 1.5; color: #d1d5db;">
+                We use cookies to analyze site traffic and improve your experience. By clicking "Accept All", you consent to our use of analytics cookies.
+                <a href="../privacy.html" style="color: #00C26D; text-decoration: underline;">Privacy Policy</a>
+            </p>
+            <div style="display: flex; gap: 12px; flex-shrink: 0;">
+                <button onclick="declineCookies()" style="padding: 10px 20px; background: transparent; border: 1px solid #9ca3af; color: #ffffff; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.2s;">Decline All</button>
+                <button onclick="acceptCookies()" style="padding: 10px 20px; background: #00C26D; border: none; color: #ffffff; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.2s;">Accept All</button>
+            </div>
+        </div>
+    </div>
+    <script src="../js/nav.js"></script>
+    <script src="../js/footer.js"></script>
+    <script src="../js/cookie-consent.js"></script>
+</body>
+</html>

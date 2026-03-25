@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Test Environment Detection & Analytics -->
+    <script>
+    (function() {
+        var isTestEnv = window.location.hostname === 'test.servantium.com';
+
+        // Block indexing on test environment
+        if (isTestEnv) {
+            var noindex = document.createElement('meta');
+            noindex.name = 'robots';
+            noindex.content = 'noindex, nofollow';
+            document.head.appendChild(noindex);
+        }
+
+        // Only load analytics on production AND with consent
+        var consent = localStorage.getItem('servantium_cookie_consent');
+        if (consent === 'accepted' && !isTestEnv) {
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-6EFX4FNH6H';
+            document.head.appendChild(script);
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            window.gtag = gtag;
+            gtag('js', new Date());
+            gtag('config', 'G-6EFX4FNH6H');
+        }
+
+        // Show test environment banner
+        if (isTestEnv) {
+            document.addEventListener('DOMContentLoaded', function() {
+                var banner = document.createElement('div');
+                banner.style.cssText = 'position:fixed;top:0;left:0;right:0;background:#ff6b35;color:#fff;text-align:center;padding:8px;font-size:14px;font-weight:600;z-index:99999;';
+                banner.textContent = 'TEST ENVIRONMENT — Changes here do not affect production';
+                document.body.prepend(banner);
+                document.body.style.paddingTop = '40px';
+                var nav = document.querySelector('nav');
+                if (nav) nav.style.top = '40px';
+            });
+        }
+    })();
+    </script>
+
+    <title>The Data Problem No One Talks About in Professional Services — Servantium Blog</title>
+    <meta name="description" content="Professional services firms generate massive amounts of operational data but store almost none of it in a structured way. The opportunity cost is enormous and growing.">
+    <meta name="author" content="Maxwell Friel">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://servantium.com/blog/the-data-problem-in-professional-services">
+    <meta property="og:site_name" content="Servantium">
+    <meta property="og:title" content="The Data Problem No One Talks About in Professional Services">
+    <meta property="og:description" content="Services firms generate massive amounts of operational data but store almost none of it in a structured way. The opportunity cost is enormous.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=630&fit=crop">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Analytics dashboard with charts and data visualizations">
+    <meta property="article:published_time" content="2026-03-17">
+    <meta property="article:author" content="https://servantium.com/blog/authors/maxwell-friel">
+    <meta property="article:section" content="Strategy">
+    <meta property="article:tag" content="Data Strategy">
+    <meta property="article:tag" content="Professional Services">
+    <meta property="article:tag" content="Operations">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://servantium.com/blog/the-data-problem-in-professional-services">
+
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "The Data Problem No One Talks About in Professional Services",
+        "description": "Professional services firms generate massive amounts of operational data but store almost none of it in a structured way. The opportunity cost is enormous and growing.",
+        "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=630&fit=crop",
+        "datePublished": "2026-03-17",
+        "dateModified": "2026-03-17",
+        "author": {
+            "@type": "Person",
+            "name": "Maxwell Friel"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "@id": "https://servantium.com/#organization",
+            "name": "Servantium",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://servantium.com/logo.png"
+            }
+        },
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://servantium.com/blog/the-data-problem-in-professional-services"
+        }
+    }
+    </script>
+
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="../favicon-192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/nav.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <style>
+        :root {
+            --color-servantium-green: #00C26D;
+            --color-green-hover: #00A95E;
+            --color-deep-forest: #023E25;
+            --color-soft-mint: #E8FBF1;
+            --color-ink: #0D0D0D;
+            --color-ink-light: #3d3d3d;
+            --color-ink-muted: #6b6b6b;
+            --color-white: #FFFFFF;
+            --color-mist-grey: #F5F6F7;
+            --color-cloud-grey: #E1E3E6;
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-body: 'Source Sans 3', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+.article-header { padding: 8rem 0 3rem; background: var(--color-white); }
+        .article-header .container { max-width: 900px; }
+        .article-breadcrumb { margin-bottom: 1.5rem; font-size: 0.9rem; }
+        .article-breadcrumb a { color: var(--color-servantium-green); text-decoration: none; }
+        .article-breadcrumb a:hover { text-decoration: underline; }
+        .article-breadcrumb span { color: var(--color-ink-muted); }
+        .article-category { display: inline-block; color: var(--color-servantium-green); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.8rem; margin-bottom: 1rem; }
+        .article-title { font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3rem); line-height: 1.2; margin-bottom: 1.5rem; color: var(--color-ink); }
+        .article-excerpt { font-size: 1.25rem; color: var(--color-ink-light); line-height: 1.7; margin-bottom: 2rem; }
+        .article-meta { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
+        .article-author { display: flex; align-items: center; gap: 0.75rem; }
+        .author-avatar { width: 48px; height: 48px; border-radius: 50%; background: var(--color-servantium-green); display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; font-size: 1rem; }
+        .author-info { display: flex; flex-direction: column; }
+        .author-name { font-weight: 600; color: var(--color-ink); }
+        .author-role { font-size: 0.85rem; color: var(--color-ink-muted); }
+        .article-date, .article-reading-time { color: var(--color-ink-muted); font-size: 0.9rem; }
+
+        .article-hero-image { max-width: 900px; margin: 0 auto; padding: 0 2.5rem; }
+        .article-hero-image img { width: 100%; border-radius: 16px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); }
+
+        .article-content { max-width: 850px; margin: 0 auto; padding: 4rem 2.5rem 6rem; }
+        .article-content h2 { font-family: var(--font-display); font-size: 1.75rem; margin: 3rem 0 1.25rem; color: var(--color-ink); }
+        .article-content h3 { font-family: var(--font-display); font-size: 1.35rem; margin: 2.5rem 0 1rem; color: var(--color-ink); }
+        .article-content p { margin-bottom: 1.5rem; font-size: 1.1rem; line-height: 1.8; color: var(--color-ink-light); }
+        .article-content ul, .article-content ol { margin: 1.5rem 0; padding-left: 1.5rem; }
+        .article-content li { margin-bottom: 0.75rem; font-size: 1.1rem; line-height: 1.7; color: var(--color-ink-light); }
+        .article-content blockquote { margin: 2rem 0; padding: 1.5rem 2rem; background: var(--color-soft-mint); border-left: 4px solid var(--color-servantium-green); border-radius: 0 8px 8px 0; }
+        .article-content blockquote p { margin-bottom: 0; font-style: italic; color: var(--color-ink); }
+        .article-content strong { color: var(--color-ink); font-weight: 600; }
+        .article-content a { color: var(--color-servantium-green); text-decoration: underline; }
+        .article-content a:hover { color: var(--color-green-hover); }
+
+        .article-cta { margin: 4rem 0; padding: 2.5rem; background: var(--color-deep-forest); border-radius: 16px; text-align: center; }
+        .article-cta h3 { font-family: var(--font-display); color: var(--color-white); margin-bottom: 0.75rem; }
+        .article-cta p { color: rgba(255, 255, 255, 0.8); margin-bottom: 1.5rem; }
+        .article-cta
+.article-
+.article-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .article-tag { display: inline-block; padding: 0.4rem 0.8rem; background: var(--color-mist-grey); border-radius: 20px; font-size: 0.85rem; color: var(--color-ink-muted); text-decoration: none; transition: all 0.2s; }
+        .article-tag:hover { background: var(--color-soft-mint); color: var(--color-servantium-green); }
+
+        /* Floating Share Sidebar */
+        .share-sidebar {
+            position: fixed;
+            left: calc(50% - 500px);
+            top: 200px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            z-index: 50;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .share-sidebar.faded {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .share-sidebar-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .share-sidebar-btn.linkedin {
+            background: #0A66C2;
+            color: white;
+        }
+
+        .share-sidebar-btn.linkedin:hover {
+            background: #004182;
+            transform: scale(1.1);
+        }
+
+        .share-sidebar-btn.twitter {
+            background: #000000;
+            color: white;
+        }
+
+        .share-sidebar-btn.twitter:hover {
+            background: #333333;
+            transform: scale(1.1);
+        }
+
+        .share-sidebar-btn.copy {
+            background: var(--color-mist-grey);
+            color: var(--color-ink);
+            border: 1px solid var(--color-cloud-grey);
+        }
+
+        .share-sidebar-btn.copy:hover {
+            background: var(--color-cloud-grey);
+            transform: scale(1.1);
+        }
+
+        .share-sidebar-btn.copy.copied {
+            background: var(--color-servantium-green);
+            color: white;
+            border-color: var(--color-servantium-green);
+        }
+
+        .share-sidebar-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        @media (max-width: 1200px) {
+            .share-sidebar {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links,
+.article-meta { flex-direction: column; align-items: flex-start; gap: 1rem; }
+}
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <a href="../index.html" class="logo">
+                <img src="../logo.png" alt="Servantium" class="logo-image">
+            </a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../platform.html">Platform</a></li>
+                <li><a href="../about.html">About</a></li>
+                <li><a href="../blog.html" class="active">Blog</a></li>
+            </ul>
+            <div class="nav-buttons">
+                <button class="btn btn-secondary btn-nav" data-cal-link="christopher-veale/servantium-introduction?duration=15" data-cal-namespace="servantium-introduction" data-cal-config='{"layout":"month_view"}'>Book a Demo</button>
+                <a href="https://app.servantium.com/" class="btn btn-primary btn-nav">Log In</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="article-header">
+        <div class="container">
+            <div class="article-breadcrumb">
+                <a href="../blog.html">Blog</a>
+                <span>/</span>
+                <span>Strategy</span>
+            </div>
+            <span class="article-category">Strategy</span>
+            <h1 class="article-title">The Data Problem No One Talks About in Professional Services</h1>
+            <p class="article-excerpt">
+                Your firm has delivered hundreds of engagements. Thousands of estimates. Tens of thousands of hours logged. And almost none of that operational data exists in a format you can actually use.
+            </p>
+            <div class="article-meta">
+                <a href="authors/maxwell-friel.html" class="article-author" style="text-decoration: none; color: inherit;">
+                    <img src="../maxwell-friel.png" alt="Maxwell Friel" class="author-avatar" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover;">
+                    <div class="author-info">
+                        <span class="author-name">Maxwell Friel</span>
+                        <span class="author-role">CTO, Servantium</span>
+                    </div>
+                </a>
+                <span class="article-date">March 17, 2026</span>
+                <span class="article-reading-time">6 min read</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Floating Share Sidebar -->
+    <div class="share-sidebar" id="share-sidebar">
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fservantium.com%2Fblog%2Fthe-data-problem-in-professional-services" target="_blank" rel="noopener noreferrer" class="share-sidebar-btn linkedin" aria-label="Share on LinkedIn">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+        <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fservantium.com%2Fblog%2Fthe-data-problem-in-professional-services&text=The%20Data%20Problem%20No%20One%20Talks%20About%20in%20Professional%20Services%20%E2%80%94%20great%20read%20from%20%40Servantium" target="_blank" rel="noopener noreferrer" class="share-sidebar-btn twitter" aria-label="Share on X">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <button class="share-sidebar-btn copy" onclick="copySidebarLink(this)" aria-label="Copy link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+        </button>
+    </div>
+
+    <div class="article-hero-image">
+        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=600&fit=crop" alt="Analytics dashboard with charts and data visualizations" loading="lazy">
+    </div>
+
+    <article class="article-content">
+        <p>
+            Professional services firms sit on a goldmine of operational data. Almost none of them use it.
+        </p>
+        <p>
+            I did an audit of a 200-person consulting firm last year. They'd been in business for 11 years. Over 800 engagements delivered. They had a PSA tool, a CRM, a time tracking system, and a shared drive with proposal templates.
+        </p>
+        <p>
+            I asked a simple question: for any given service type, can you tell me the average variance between estimated and actual hours?
+        </p>
+        <p>
+            It took them three weeks to produce an answer. And it was wrong. The estimates lived in Word documents. The actuals lived in the PSA. Nobody had ever connected the two in a structured way. Eleven years of operational data, and they couldn't answer the most basic question about their own performance.
+        </p>
+        <p>
+            They're not unusual. They're normal.
+        </p>
+
+        <h2>The Data That Doesn't Exist</h2>
+        <p>
+            Here's what a typical services firm generates operationally and where that data actually ends up:
+        </p>
+        <ul>
+            <li><strong>Estimates:</strong> Word docs, Excel files, email attachments. Unstructured. Unsearchable. Often saved on personal drives.</li>
+            <li><strong>Proposals and SOWs:</strong> Same. PDFs floating in email threads and shared folders.</li>
+            <li><strong>Time data:</strong> Usually captured in a PSA or time tracking tool. This is the one data type most firms actually have. But it's often inaccurate because people batch-enter on Fridays from memory.</li>
+            <li><strong>Engagement outcomes:</strong> Almost never captured formally. Did the project come in on budget? Was the client happy? What went wrong? This lives in people's heads or, occasionally, in a post-mortem document that nobody reads again.</li>
+            <li><strong>Pricing decisions:</strong> Why did we price this deal at $X? What was the rationale? What discount did we give and why? Gone. Lost in email threads between the partner and the CFO.</li>
+            <li><strong>Staffing decisions:</strong> Why did we put these people on this engagement? How did that work out? Did the skill match hold? Nobody knows. Nobody tracked it.</li>
+        </ul>
+        <p>
+            This is staggering when you think about it. A firm that bills $30M a year makes thousands of operational decisions annually, and the data from those decisions evaporates. Every estimate is built from scratch because there's no structured history to build from. Every staffing decision is based on who the manager remembers being available, not on a queryable record of past performance.
+        </p>
+
+        <h2>The Opportunity Cost</h2>
+        <p>
+            Let me put numbers to this. If your firm's estimates are off by an average of 20% (which is conservative for most services firms), and you deliver $30M in revenue, you're eating roughly $6M in variance. Some of that is overruns you absorb. Some of it is padding you added because you don't trust your own estimates, which means you're pricing yourself out of deals.
+        </p>
+        <p>
+            Now, imagine you could cut that variance to 10% by having structured historical data on similar engagements. That's $3M in recovered margin or competitiveness. Per year. Every year.
+        </p>
+        <p>
+            That's the opportunity cost of not having structured operational data. It's not theoretical. It's dollars that leak out of your business because you're estimating blind.
+        </p>
+
+        <blockquote>
+            <p>"Every services firm has the data to become dramatically better at estimation. They just don't have it in a format that's usable."</p>
+        </blockquote>
+
+        <h2>Why This Keeps Happening</h2>
+        <p>
+            It's not that services firms are stupid. It's that the tools they use weren't designed to capture this data.
+        </p>
+
+        <h3>PSA tools are activity trackers, not learning systems</h3>
+        <p>
+            Your PSA knows that someone logged 8 hours on Tuesday against project code 4217. It doesn't know that the original estimate for that phase was 40 hours and they've already burned 65. It doesn't connect the estimate to the actual. It tracks what happened, not what was supposed to happen.
+        </p>
+
+        <h3>CRMs track relationships, not operational performance</h3>
+        <p>
+            Salesforce knows you closed a $200K deal with Acme Corp. It has no idea whether you delivered that deal profitably, whether the scope changed three times, or whether the client is a repeat buyer because you're great or because they're locked in.
+        </p>
+
+        <h3>Spreadsheets don't compound</h3>
+        <p>
+            The partner who keeps a personal spreadsheet of past engagements has a data asset. But it's locked to one person. It's not connected to the firm's systems. When she leaves, it leaves. When someone else needs it, they don't even know it exists.
+        </p>
+
+        <h2>Unpopular Opinion</h2>
+        <p>
+            <strong>Your PSA tool is the single biggest source of data loss in your firm.</strong>
+        </p>
+        <p>
+            I know that sounds backwards. The PSA is supposed to be where your data lives. But because it only captures a narrow slice of operational reality (time entries and project status), it creates the illusion that you have data when you don't. Leadership looks at PSA dashboards and thinks they understand their operations. They don't. They understand one dimension of it.
+        </p>
+        <p>
+            The PSA tells you utilization is 72%. It doesn't tell you whether that utilization is on profitable work. It doesn't tell you whether the engagements driving that number are on track or in trouble. It doesn't tell you whether the team is producing quality outcomes or just burning hours.
+        </p>
+        <p>
+            Utilization without context is a vanity metric. And your PSA probably doesn't have the context.
+        </p>
+
+        <h2>What Structured Operational Data Looks Like</h2>
+        <p>
+            Let me describe what I think the target state should be. For every engagement your firm delivers, you should be able to query:
+        </p>
+        <ul>
+            <li>What was the original estimate, broken down by phase and role?</li>
+            <li>What was actually delivered, in the same structure?</li>
+            <li>Where did variance occur, and what drove it?</li>
+            <li>What was the margin outcome?</li>
+            <li>What client characteristics correlated with the outcome?</li>
+            <li>Who was on the team and how did the staffing decisions play out?</li>
+            <li>What scope changes happened and what was their impact?</li>
+        </ul>
+        <p>
+            If you can answer these questions across 50, 100, 500 engagements, you have something incredibly powerful. You have a dataset that tells you, with statistical backing, what types of work you're good at, what types you struggle with, where your estimates are reliable, and where they're not.
+        </p>
+        <p>
+            That's not business intelligence. That's institutional memory. And it's what separates firms that get better over time from firms that keep making the same mistakes.
+        </p>
+
+        <h2>The AI Angle (Honest Version)</h2>
+        <p>
+            Everyone wants to talk about AI in professional services. Here's the honest truth: AI without structured data is just a chatbot that hallucinates about your business.
+        </p>
+        <p>
+            AI is great at finding patterns in data. But it needs data. Not Word documents and email threads. Structured, queryable, connected data. If you haven't solved the data problem, don't bother buying AI tools. You're building a mansion on a swamp.
+        </p>
+        <p>
+            Solve the data problem first. Capture estimates in structured formats. Connect them to actuals. Record outcomes. Build the dataset. Then AI becomes genuinely useful because it has something real to work with.
+        </p>
+
+        <div class="article-cta">
+            <h3>Start capturing the data that matters</h3>
+            <p>Servantium captures structured operational data from day one: estimates, actuals, variances, and outcomes, all connected.</p>
+            <button class="btn btn-primary" data-cal-link="christopher-veale/servantium-introduction?duration=15" data-cal-namespace="servantium-introduction" data-cal-config='{"layout":"month_view"}'>Schedule a Demo</button>
+        </div>
+
+        <h2>Bottom Line</h2>
+        <p>
+            Tomorrow, try to answer this question: <strong>what is your firm's average margin variance on fixed-price engagements in the last 12 months?</strong> If it takes more than five minutes to answer, or if the answer requires pulling data from three different systems and a spreadsheet, you have a data problem. Most firms do.
+        </p>
+        <p>
+            The fix isn't more tools. It's a data model that captures the full lifecycle of an engagement — from estimate to delivery to outcome — in a single connected structure. Everything else is just activity logging dressed up as analytics.
+        </p>
+
+    </article>
+
+    <!-- Related Posts -->
+    <section class="related-posts">
+        <div class="container" style="max-width: 900px;">
+            <h2 style="font-family: var(--font-display); font-size: 1.5rem; margin-bottom: 2rem;">Related Articles</h2>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;">
+                <a href="the-end-of-tribal-knowledge.html" style="display: block; background: var(--color-mist-grey); border-radius: 12px; overflow: hidden; text-decoration: none; color: inherit; transition: transform 0.2s, box-shadow 0.2s;">
+                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=400&h=200&fit=crop" loading="lazy" alt="The End of Tribal Knowledge" style="width: 100%; height: 140px; object-fit: cover;">
+                    <div style="padding: 1.25rem;">
+                        <span style="color: var(--color-servantium-green); font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">Strategy</span>
+                        <h3 style="font-family: var(--font-display); font-size: 1rem; margin-top: 0.5rem; line-height: 1.3;">The End of Tribal Knowledge: Why 2026 Is Different</h3>
+                    </div>
+                </a>
+                <a href="the-architecture-of-a-learning-platform.html" style="display: block; background: var(--color-mist-grey); border-radius: 12px; overflow: hidden; text-decoration: none; color: inherit; transition: transform 0.2s, box-shadow 0.2s;">
+                    <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=200&fit=crop" loading="lazy" alt="The Architecture of a Learning Platform" style="width: 100%; height: 140px; object-fit: cover;">
+                    <div style="padding: 1.25rem;">
+                        <span style="color: var(--color-servantium-green); font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">Technology</span>
+                        <h3 style="font-family: var(--font-display); font-size: 1rem; margin-top: 0.5rem; line-height: 1.3;">The Architecture of a Learning Platform</h3>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="../index.html" class="logo">
+                        <img src="../logo.png" alt="Servantium" class="logo-image footer-logo">
+                    </a>
+                    <p>The operating system for professional services.</p>
+                    <div class="footer-social">
+                        <span class="footer-social-label">Follow us on</span>
+                        <a href="https://linkedin.com/company/servantium" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Follow Servantium on LinkedIn">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Explore</h4>
+                    <ul>
+                        <li><a href="../platform.html">Platform</a></li>
+                        <li><a href="../about.html">About</a></li>
+                        <li><a href="../blog.html">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="../about.html">About</a></li>
+                        <li><a href="../blog.html">Blog</a></li>
+                        <li><a href="../index.html#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="../privacy.html">Privacy</a></li>
+                        <li><a href="../terms.html">Terms</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-bottom-left">
+                    <span>&copy; 2026 Servantium Inc.</span>
+                    <span class="footer-divider">&middot;</span>
+                    <button class="footer-email-chip" onclick="copyFooterEmail(this)">
+                        <span class="footer-email-chip-text">hello@servantium.com</span>
+                        <svg class="footer-email-chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="footer-bottom-right">
+                    <span>Founded by <a href="https://linkedin.com/in/christopher-veale">Christopher Veale</a> & <a href="https://linkedin.com/in/maxwell-friel-2bb02b30">Maxwell Friel</a></span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cal.com Embed Script -->
+    <script type="text/javascript">
+        (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+        Cal("init", "servantium-introduction", {origin:"https://app.cal.com"});
+        Cal.ns["servantium-introduction"]("ui", {
+            "cssVarsPerTheme": {
+                "light": {"cal-brand":"#00C26D"},
+                "dark": {"cal-brand":"#00C26D"}
+            },
+            "hideEventTypeDetails": false,
+            "layout": "month_view"
+        });
+    </script>
+
+    <!-- Cookie Consent Banner -->
+    <div id="cookie-consent" style="display: none; position: fixed; bottom: 0; left: 0; right: 0; background: #1a1a2e; padding: 16px 24px; z-index: 10000; box-shadow: 0 -4px 20px rgba(0,0,0,0.3);">
+        <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px;">
+            <p style="margin: 0; flex: 1; min-width: 280px; font-size: 14px; line-height: 1.5; color: #d1d5db;">
+                We use cookies to analyze site traffic and improve your experience. By clicking "Accept All", you consent to our use of analytics cookies.
+                <a href="../privacy.html" style="color: #00C26D; text-decoration: underline;">Privacy Policy</a>
+            </p>
+            <div style="display: flex; gap: 12px; flex-shrink: 0;">
+                <button onclick="declineCookies()" style="padding: 10px 20px; background: transparent; border: 1px solid #9ca3af; color: #ffffff; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.2s;">Decline All</button>
+                <button onclick="acceptCookies()" style="padding: 10px 20px; background: #00C26D; border: none; color: #ffffff; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.2s;">Accept All</button>
+            </div>
+        </div>
+    </div>
+    <script src="../js/nav.js"></script>
+    <script src="../js/footer.js"></script>
+    <script src="../js/cookie-consent.js"></script>
+</body>
+</html>

@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Test Environment Detection & Analytics -->
+    <script>
+    (function() {
+        var isTestEnv = window.location.hostname === 'test.servantium.com';
+
+        // Block indexing on test environment
+        if (isTestEnv) {
+            var noindex = document.createElement('meta');
+            noindex.name = 'robots';
+            noindex.content = 'noindex, nofollow';
+            document.head.appendChild(noindex);
+        }
+
+        // Only load analytics on production AND with consent
+        var consent = localStorage.getItem('servantium_cookie_consent');
+        if (consent === 'accepted' && !isTestEnv) {
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-6EFX4FNH6H';
+            document.head.appendChild(script);
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            window.gtag = gtag;
+            gtag('js', new Date());
+            gtag('config', 'G-6EFX4FNH6H');
+        }
+
+        // Show test environment banner
+        if (isTestEnv) {
+            document.addEventListener('DOMContentLoaded', function() {
+                var banner = document.createElement('div');
+                banner.style.cssText = 'position:fixed;top:0;left:0;right:0;background:#ff6b35;color:#fff;text-align:center;padding:8px;font-size:14px;font-weight:600;z-index:99999;';
+                banner.textContent = 'TEST ENVIRONMENT — Changes here do not affect production';
+                document.body.prepend(banner);
+                document.body.style.paddingTop = '40px';
+                var nav = document.querySelector('nav');
+                if (nav) nav.style.top = '40px';
+            });
+        }
+    })();
+    </script>
+
+    <title>Choosing the Right SaaS Platform for Your Service Business in 2026 — Servantium Blog</title>
+    <meta name="description" content="Forget feature checklists. The SaaS platform that works for your service business is the one that matches how your firm actually operates — not how vendors think you should.">
+    <meta name="author" content="Christopher Veale">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://servantium.com/blog/choosing-saas-platform-service-business-2026">
+    <meta property="og:site_name" content="Servantium">
+    <meta property="og:title" content="Choosing the Right SaaS Platform for Your Service Business in 2026">
+    <meta property="og:description" content="Forget feature checklists. The SaaS platform that works for your service business is the one that matches how your firm actually operates.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=1200&h=630&fit=crop">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Team evaluating software platforms on screens">
+    <meta property="article:published_time" content="2026-02-11">
+    <meta property="article:author" content="https://servantium.com/blog/authors/christopher-veale">
+    <meta property="article:section" content="Strategy">
+    <meta property="article:tag" content="SaaS">
+    <meta property="article:tag" content="Professional Services">
+    <meta property="article:tag" content="Software Evaluation">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://servantium.com/blog/choosing-saas-platform-service-business-2026">
+
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Choosing the Right SaaS Platform for Your Service Business in 2026",
+        "description": "Forget feature checklists. The SaaS platform that works for your service business is the one that matches how your firm actually operates — not how vendors think you should.",
+        "image": "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=1200&h=630&fit=crop",
+        "datePublished": "2026-02-11",
+        "dateModified": "2026-02-11",
+        "author": {
+            "@type": "Person",
+            "name": "Christopher Veale"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "@id": "https://servantium.com/#organization",
+            "name": "Servantium",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://servantium.com/logo.png"
+            }
+        },
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://servantium.com/blog/choosing-saas-platform-service-business-2026"
+        }
+    }
+    </script>
+
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="../favicon-192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/nav.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <style>
+        :root {
+            --color-servantium-green: #00C26D;
+            --color-green-hover: #00A95E;
+            --color-deep-forest: #023E25;
+            --color-soft-mint: #E8FBF1;
+            --color-ink: #0D0D0D;
+            --color-ink-light: #3d3d3d;
+            --color-ink-muted: #6b6b6b;
+            --color-white: #FFFFFF;
+            --color-mist-grey: #F5F6F7;
+            --color-cloud-grey: #E1E3E6;
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-body: 'Source Sans 3', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+.article-header { padding: 8rem 0 3rem; background: var(--color-white); }
+        .article-header .container { max-width: 900px; }
+        .article-breadcrumb { margin-bottom: 1.5rem; font-size: 0.9rem; }
+        .article-breadcrumb a { color: var(--color-servantium-green); text-decoration: none; }
+        .article-breadcrumb a:hover { text-decoration: underline; }
+        .article-breadcrumb span { color: var(--color-ink-muted); }
+        .article-category { display: inline-block; color: var(--color-servantium-green); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.8rem; margin-bottom: 1rem; }
+        .article-title { font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3rem); line-height: 1.2; margin-bottom: 1.5rem; color: var(--color-ink); }
+        .article-excerpt { font-size: 1.25rem; color: var(--color-ink-light); line-height: 1.7; margin-bottom: 2rem; }
+        .article-meta { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
+        .article-author { display: flex; align-items: center; gap: 0.75rem; }
+        .author-avatar { width: 48px; height: 48px; border-radius: 50%; background: var(--color-servantium-green); display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; font-size: 1rem; }
+        .author-info { display: flex; flex-direction: column; }
+        .author-name { font-weight: 600; color: var(--color-ink); }
+        .author-role { font-size: 0.85rem; color: var(--color-ink-muted); }
+        .article-date, .article-reading-time { color: var(--color-ink-muted); font-size: 0.9rem; }
+
+        .article-hero-image { max-width: 900px; margin: 0 auto; padding: 0 2.5rem; }
+        .article-hero-image img { width: 100%; border-radius: 16px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); }
+
+        .article-content { max-width: 850px; margin: 0 auto; padding: 4rem 2.5rem 6rem; }
+        .article-content h2 { font-family: var(--font-display); font-size: 1.75rem; margin: 3rem 0 1.25rem; color: var(--color-ink); }
+        .article-content h3 { font-family: var(--font-display); font-size: 1.35rem; margin: 2.5rem 0 1rem; color: var(--color-ink); }
+        .article-content p { margin-bottom: 1.5rem; font-size: 1.1rem; line-height: 1.8; color: var(--color-ink-light); }
+        .article-content ul, .article-content ol { margin: 1.5rem 0; padding-left: 1.5rem; }
+        .article-content li { margin-bottom: 0.75rem; font-size: 1.1rem; line-height: 1.7; color: var(--color-ink-light); }
+        .article-content blockquote { margin: 2rem 0; padding: 1.5rem 2rem; background: var(--color-soft-mint); border-left: 4px solid var(--color-servantium-green); border-radius: 0 8px 8px 0; }
+        .article-content blockquote p { margin-bottom: 0; font-style: italic; color: var(--color-ink); }
+        .article-content strong { color: var(--color-ink); font-weight: 600; }
+        .article-content a { color: var(--color-servantium-green); text-decoration: underline; }
+        .article-content a:hover { color: var(--color-green-hover); }
+
+        .article-cta { margin: 4rem 0; padding: 2.5rem; background: var(--color-deep-forest); border-radius: 16px; text-align: center; }
+        .article-cta h3 { font-family: var(--font-display); color: var(--color-white); margin-bottom: 0.75rem; }
+        .article-cta p { color: rgba(255, 255, 255, 0.8); margin-bottom: 1.5rem; }
+        .article-cta
+.article-
+.article-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .article-tag { display: inline-block; padding: 0.4rem 0.8rem; background: var(--color-mist-grey); border-radius: 20px; font-size: 0.85rem; color: var(--color-ink-muted); text-decoration: none; transition: all 0.2s; }
+        .article-tag:hover { background: var(--color-soft-mint); color: var(--color-servantium-green); }
+
+        /* Floating Share Sidebar */
+        .share-sidebar {
+            position: fixed;
+            left: calc(50% - 500px);
+            top: 200px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            z-index: 50;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .share-sidebar.faded {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .share-sidebar-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .share-sidebar-btn.linkedin {
+            background: #0A66C2;
+            color: white;
+        }
+
+        .share-sidebar-btn.linkedin:hover {
+            background: #004182;
+            transform: scale(1.1);
+        }
+
+        .share-sidebar-btn.twitter {
+            background: #000000;
+            color: white;
+        }
+
+        .share-sidebar-btn.twitter:hover {
+            background: #333333;
+            transform: scale(1.1);
+        }
+
+        .share-sidebar-btn.copy {
+            background: var(--color-mist-grey);
+            color: var(--color-ink);
+            border: 1px solid var(--color-cloud-grey);
+        }
+
+        .share-sidebar-btn.copy:hover {
+            background: var(--color-cloud-grey);
+            transform: scale(1.1);
+        }
+
+        .share-sidebar-btn.copy.copied {
+            background: var(--color-servantium-green);
+            color: white;
+            border-color: var(--color-servantium-green);
+        }
+
+        .share-sidebar-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        @media (max-width: 1200px) {
+            .share-sidebar {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links,
+.article-meta { flex-direction: column; align-items: flex-start; gap: 1rem; }
+}
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <a href="../index.html" class="logo">
+                <img src="../logo.png" alt="Servantium" class="logo-image">
+            </a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../platform.html">Platform</a></li>
+                <li><a href="../about.html">About</a></li>
+                <li><a href="../blog.html" class="active">Blog</a></li>
+            </ul>
+            <div class="nav-buttons">
+                <button class="btn btn-secondary btn-nav" data-cal-link="christopher-veale/servantium-introduction?duration=15" data-cal-namespace="servantium-introduction" data-cal-config='{"layout":"month_view"}'>Book a Demo</button>
+                <a href="https://app.servantium.com/" class="btn btn-primary btn-nav">Log In</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="article-header">
+        <div class="container">
+            <div class="article-breadcrumb">
+                <a href="../blog.html">Blog</a>
+                <span>/</span>
+                <span>Strategy</span>
+            </div>
+            <span class="article-category">Strategy</span>
+            <h1 class="article-title">Choosing the Right SaaS Platform for Your Service Business in 2026</h1>
+            <p class="article-excerpt">
+                Forget feature checklists. The SaaS platform that works for your service business is the one that matches how your firm actually operates — not how vendors think you should.
+            </p>
+            <div class="article-meta">
+                <a href="authors/christopher-veale.html" class="article-author" style="text-decoration: none; color: inherit;">
+                    <img src="../christopher-veale.png" alt="Christopher Veale" class="author-avatar" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover;">
+                    <div class="author-info">
+                        <span class="author-name">Christopher Veale</span>
+                        <span class="author-role">CEO, Servantium</span>
+                    </div>
+                </a>
+                <span class="article-date">February 11, 2026</span>
+                <span class="article-reading-time">6 min read</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Floating Share Sidebar -->
+    <div class="share-sidebar" id="share-sidebar">
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fservantium.com%2Fblog%2Fchoosing-saas-platform-service-business-2026" target="_blank" rel="noopener noreferrer" class="share-sidebar-btn linkedin" aria-label="Share on LinkedIn">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+        <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fservantium.com%2Fblog%2Fchoosing-saas-platform-service-business-2026&text=Choosing%20the%20Right%20SaaS%20Platform%20for%20Your%20Service%20Business%20in%202026%20%E2%80%94%20great%20read%20from%20%40Servantium" target="_blank" rel="noopener noreferrer" class="share-sidebar-btn twitter" aria-label="Share on X">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <button class="share-sidebar-btn copy" onclick="copySidebarLink(this)" aria-label="Copy link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+        </button>
+    </div>
+
+    <div class="article-hero-image">
+        <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=1200&h=600&fit=crop" alt="Team evaluating software platforms" loading="lazy">
+    </div>
+
+    <article class="article-content">
+        <p>
+            A COO I advised last year told me her firm had spent five months evaluating PSA platforms. Forty people, 200-row feature comparison spreadsheet, fourteen vendor demos, two proof-of-concept trials. They picked the platform with the most checkmarks.
+        </p>
+        <p>
+            Six months after go-live, nobody was using it. The consultants hated it. The finance team built workarounds in Excel. The partners went back to quoting deals in Word docs.
+        </p>
+        <p>
+            I've seen this play out more times than I can count. The problem is never the software. It's how firms choose software.
+        </p>
+
+        <h2>The Feature Checklist Trap</h2>
+        <p>
+            Here's how most service businesses buy software: they assemble a committee, crowdsource a requirements list, and start comparing features. Resource management? Check. Time tracking? Check. Invoicing? Check. AI-powered something-or-other? Check.
+        </p>
+        <p>
+            This feels rigorous. It isn't.
+        </p>
+        <p>
+            Feature checklists tell you what a platform <em>can</em> do. They tell you nothing about whether it matches how your firm actually works. And that mismatch is where implementations go to die.
+        </p>
+        <p>
+            A platform might have resource management, but if it assumes you staff projects in neat two-week sprints and your engagements are messy six-month advisory relationships, that feature is useless to you. Worse than useless. It forces your people to work around it.
+        </p>
+
+        <h2>What Actually Matters</h2>
+        <p>
+            After years of watching service firms buy (and abandon) software, I've boiled it down to five questions that actually predict success. None of them appear on vendor comparison sheets.
+        </p>
+
+        <h3>1. Does it match your selling motion?</h3>
+        <p>
+            Some firms sell fixed-price projects. Others sell time-and-materials. Many sell a mix. Some scope engagements in detail before pricing; others price first and figure out scope later. Some have formal proposal processes; others close deals on a handshake.
+        </p>
+        <p>
+            Your platform needs to support your actual selling motion, not an idealized version of it. If your platform forces a rigid scope-then-price workflow and your partners prefer to ballpark a number and work backward to scope, adoption will be a fight you lose.
+        </p>
+
+        <h3>2. Does it fit your team's tolerance for process?</h3>
+        <p>
+            This is the one everyone ignores. Some firms are process-heavy. They want approval chains, stage gates, and mandatory fields. Others are allergic to structure. Their best people will quit before they fill out a ten-field form on every deal.
+        </p>
+        <p>
+            Neither approach is wrong. But buying a heavy-process tool for a light-process culture (or vice versa) is a guaranteed disaster.
+        </p>
+
+        <h3>3. Can it handle your pricing complexity?</h3>
+        <p>
+            Professional services pricing is weird. You've got blended rates, role-based rates, client-specific discounts, volume tiers, fixed fees on some components and T&M on others, currency conversions, and margin floors that change by practice area. Half the time there's a special arrangement that only one partner knows about.
+        </p>
+        <p>
+            Most platforms handle simple pricing fine. The question is whether they break when you throw real-world complexity at them.
+        </p>
+
+        <h3>4. What happens to data over time?</h3>
+        <p>
+            This is the question that separates good from great. A platform that tracks your engagements is a database. A platform that learns from your engagements, showing you which project types run over, which clients are profitable, which estimating patterns work, is a business advantage.
+        </p>
+        <p>
+            Ask vendors: what happens to the data after year one? Year three? Does the platform get smarter? Or does it just get fuller?
+        </p>
+
+        <h3>5. What's the real cost of switching?</h3>
+        <p>
+            Not the subscription price. The actual cost. Implementation consulting. Data migration. Training time. Productivity loss during the transition. The three months where your team is worse at their jobs because they're learning a new system.
+        </p>
+        <p>
+            I've seen firms spend $50K on a platform and $200K on the chaos of implementing it. The subscription was the cheapest part.
+        </p>
+
+        <blockquote>
+            <p>"The best platform for your firm is the one your team will actually use next Tuesday. Not the one with the most impressive demo."</p>
+        </blockquote>
+
+        <h2>Unpopular Opinion</h2>
+        <p>
+            <strong>You don't need an evaluation committee.</strong> Committees build feature checklists because that's what committees do. They seek consensus, which means they pick the safest, blandest option. The platform that offends nobody and excites nobody.
+        </p>
+        <p>
+            Instead, have the person who'll own the platform day-to-day spend a week using each option with real data. Not a sandbox demo. Real client names, real engagement types, real pricing scenarios. You'll learn more in five days of actual use than in five months of committee deliberation.
+        </p>
+
+        <h2>The Hidden Costs Nobody Talks About</h2>
+        <p>
+            Every platform has costs that don't show up on the pricing page:
+        </p>
+        <ul>
+            <li><strong>Configuration debt:</strong> The customizations you make during implementation that become impossible to maintain when the vendor ships updates</li>
+            <li><strong>Integration tax:</strong> The ongoing cost of keeping your platform connected to your CRM, accounting system, and whatever else you've bolted together</li>
+            <li><strong>Adoption friction:</strong> The productivity you lose when people work around the system instead of in it</li>
+            <li><strong>Reporting gaps:</strong> The Excel workbooks your finance team maintains because the platform's reports don't quite match how you think about the business</li>
+        </ul>
+        <p>
+            These hidden costs often exceed the subscription by 2-3x. And they compound. Year one it's a minor annoyance. Year three it's a reason to rip the whole thing out and start over.
+        </p>
+
+        <h2>A Better Evaluation Framework</h2>
+        <p>
+            If I were evaluating a platform for a service business today, here's my actual checklist:
+        </p>
+        <ol>
+            <li><strong>Run a real deal through it.</strong> Not a demo scenario. A real engagement you recently sold. Can you configure it, price it, and generate a proposal that looks like something you'd actually send?</li>
+            <li><strong>Have your worst adopter try it.</strong> Not your most tech-savvy person. The partner who still prints emails. If they can use it, everyone can.</li>
+            <li><strong>Ask about failures.</strong> Every vendor has implementation failures. The honest ones will tell you why. The patterns in those failures reveal whether the platform fits firms like yours.</li>
+            <li><strong>Check the integration story.</strong> Not "we integrate with everything via API." What's the actual experience of connecting to QuickBooks, Salesforce, or whatever you use? Is it a native connection or a middleware nightmare?</li>
+            <li><strong>Look at the roadmap honestly.</strong> If the features you need are "coming in Q3," assume they're coming in Q1 of next year. Or never. Buy based on what exists today.</li>
+        </ol>
+
+        <div class="article-cta">
+            <h3>See how Servantium works with real data</h3>
+            <p>Skip the slide deck. We'll configure your actual services and pricing in a live demo so you can see if it fits how your firm operates.</p>
+            <button class="btn btn-primary" data-cal-link="christopher-veale/servantium-introduction?duration=15" data-cal-namespace="servantium-introduction" data-cal-config='{"layout":"month_view"}'>Schedule a Demo</button>
+        </div>
+
+        <h2>Bottom Line</h2>
+        <p>
+            Tomorrow, take your most recent engagement. A real one, with all its weird pricing quirks and scope edge cases. Try to build it in whatever platform you're evaluating. If it takes more than thirty minutes, or if the output doesn't look like something you'd send to a client, you have your answer.
+        </p>
+        <p>
+            The right platform doesn't require you to change how you work. It makes how you already work faster, more consistent, and harder to screw up. Everything else is a vendor's fantasy of how professional services should operate.
+        </p>
+
+    </article>
+
+    <!-- Related Posts -->
+    <section class="related-posts">
+        <div class="container" style="max-width: 900px;">
+            <h2 style="font-family: var(--font-display); font-size: 1.5rem; margin-bottom: 2rem;">Related Articles</h2>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;">
+                <a href="the-end-of-tribal-knowledge.html" style="display: block; background: var(--color-mist-grey); border-radius: 12px; overflow: hidden; text-decoration: none; color: inherit; transition: transform 0.2s, box-shadow 0.2s;">
+                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=400&h=200&fit=crop" loading="lazy" alt="The End of Tribal Knowledge" style="width: 100%; height: 140px; object-fit: cover;">
+                    <div style="padding: 1.25rem;">
+                        <span style="color: var(--color-servantium-green); font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">Strategy</span>
+                        <h3 style="font-family: var(--font-display); font-size: 1rem; margin-top: 0.5rem; line-height: 1.3;">The End of Tribal Knowledge: Why 2026 Is Different</h3>
+                    </div>
+                </a>
+                <a href="why-services-businesses-need-cpq.html" style="display: block; background: var(--color-mist-grey); border-radius: 12px; overflow: hidden; text-decoration: none; color: inherit; transition: transform 0.2s, box-shadow 0.2s;">
+                    <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=400&h=200&fit=crop" loading="lazy" alt="Why Services Businesses Need CPQ" style="width: 100%; height: 140px; object-fit: cover;">
+                    <div style="padding: 1.25rem;">
+                        <span style="color: var(--color-servantium-green); font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">Strategy</span>
+                        <h3 style="font-family: var(--font-display); font-size: 1rem; margin-top: 0.5rem; line-height: 1.3;">Why Services Businesses Need CPQ</h3>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="../index.html" class="logo">
+                        <img src="../logo.png" alt="Servantium" class="logo-image footer-logo">
+                    </a>
+                    <p>The operating system for professional services.</p>
+                    <div class="footer-social">
+                        <span class="footer-social-label">Follow us on</span>
+                        <a href="https://linkedin.com/company/servantium" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Follow Servantium on LinkedIn">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Explore</h4>
+                    <ul>
+                        <li><a href="../platform.html">Platform</a></li>
+                        <li><a href="../about.html">About</a></li>
+                        <li><a href="../blog.html">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="../about.html">About</a></li>
+                        <li><a href="../blog.html">Blog</a></li>
+                        <li><a href="../index.html#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="../privacy.html">Privacy</a></li>
+                        <li><a href="../terms.html">Terms</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-bottom-left">
+                    <span>&copy; 2026 Servantium Inc.</span>
+                    <span class="footer-divider">&middot;</span>
+                    <button class="footer-email-chip" onclick="copyFooterEmail(this)">
+                        <span class="footer-email-chip-text">hello@servantium.com</span>
+                        <svg class="footer-email-chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="footer-bottom-right">
+                    <span>Founded by <a href="https://linkedin.com/in/christopher-veale">Christopher Veale</a> & <a href="https://linkedin.com/in/maxwell-friel-2bb02b30">Maxwell Friel</a></span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cal.com Embed Script -->
+    <script type="text/javascript">
+        (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+        Cal("init", "servantium-introduction", {origin:"https://app.cal.com"});
+        Cal.ns["servantium-introduction"]("ui", {
+            "cssVarsPerTheme": {
+                "light": {"cal-brand":"#00C26D"},
+                "dark": {"cal-brand":"#00C26D"}
+            },
+            "hideEventTypeDetails": false,
+            "layout": "month_view"
+        });
+    </script>
+
+    <!-- Cookie Consent Banner -->
+    <div id="cookie-consent" style="display: none; position: fixed; bottom: 0; left: 0; right: 0; background: #1a1a2e; padding: 16px 24px; z-index: 10000; box-shadow: 0 -4px 20px rgba(0,0,0,0.3);">
+        <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px;">
+            <p style="margin: 0; flex: 1; min-width: 280px; font-size: 14px; line-height: 1.5; color: #d1d5db;">
+                We use cookies to analyze site traffic and improve your experience. By clicking "Accept All", you consent to our use of analytics cookies.
+                <a href="../privacy.html" style="color: #00C26D; text-decoration: underline;">Privacy Policy</a>
+            </p>
+            <div style="display: flex; gap: 12px; flex-shrink: 0;">
+                <button onclick="declineCookies()" style="padding: 10px 20px; background: transparent; border: 1px solid #9ca3af; color: #ffffff; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.2s;">Decline All</button>
+                <button onclick="acceptCookies()" style="padding: 10px 20px; background: #00C26D; border: none; color: #ffffff; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.2s;">Accept All</button>
+            </div>
+        </div>
+    </div>
+    <script src="../js/nav.js"></script>
+    <script src="../js/footer.js"></script>
+    <script src="../js/cookie-consent.js"></script>
+</body>
+</html>

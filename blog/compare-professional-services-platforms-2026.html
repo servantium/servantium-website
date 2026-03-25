@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Test Environment Detection & Analytics -->
+    <script>
+    (function() {
+        var isTestEnv = window.location.hostname === 'test.servantium.com';
+
+        // Block indexing on test environment
+        if (isTestEnv) {
+            var noindex = document.createElement('meta');
+            noindex.name = 'robots';
+            noindex.content = 'noindex, nofollow';
+            document.head.appendChild(noindex);
+        }
+
+        // Only load analytics on production AND with consent
+        var consent = localStorage.getItem('servantium_cookie_consent');
+        if (consent === 'accepted' && !isTestEnv) {
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-6EFX4FNH6H';
+            document.head.appendChild(script);
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            window.gtag = gtag;
+            gtag('js', new Date());
+            gtag('config', 'G-6EFX4FNH6H');
+        }
+
+        // Show test environment banner
+        if (isTestEnv) {
+            document.addEventListener('DOMContentLoaded', function() {
+                var banner = document.createElement('div');
+                banner.style.cssText = 'position:fixed;top:0;left:0;right:0;background:#ff6b35;color:#fff;text-align:center;padding:8px;font-size:14px;font-weight:600;z-index:99999;';
+                banner.textContent = 'TEST ENVIRONMENT — Changes here do not affect production';
+                document.body.prepend(banner);
+                document.body.style.paddingTop = '40px';
+                var nav = document.querySelector('nav');
+                if (nav) nav.style.top = '40px';
+            });
+        }
+    })();
+    </script>
+
+    <title>Compare Top Professional Services Automation Platforms of 2026 — Servantium Blog</title>
+    <meta name="description" content="An honest comparison of the PSA and engagement management landscape in 2026 — Certinia, Kantata, Rocketlane, and newer entrants. Where each excels and where they fall short.">
+    <meta name="author" content="Christopher Veale">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://servantium.com/blog/compare-professional-services-platforms-2026">
+    <meta property="og:site_name" content="Servantium">
+    <meta property="og:title" content="Compare Top Professional Services Automation Platforms of 2026">
+    <meta property="og:description" content="An honest comparison of the PSA and engagement management landscape — Certinia, Kantata, Rocketlane, and newer entrants. Where each excels and where they fall short.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=630&fit=crop">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Data analytics dashboard comparing platform metrics">
+    <meta property="article:published_time" content="2026-02-04">
+    <meta property="article:author" content="https://servantium.com/blog/authors/christopher-veale">
+    <meta property="article:section" content="Strategy">
+    <meta property="article:tag" content="PSA">
+    <meta property="article:tag" content="Platform Comparison">
+    <meta property="article:tag" content="Professional Services">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://servantium.com/blog/compare-professional-services-platforms-2026">
+
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Compare Top Professional Services Automation Platforms of 2026",
+        "description": "An honest comparison of the PSA and engagement management landscape in 2026 — Certinia, Kantata, Rocketlane, and newer entrants. Where each excels and where they fall short.",
+        "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=630&fit=crop",
+        "datePublished": "2026-02-04",
+        "dateModified": "2026-02-04",
+        "author": {
+            "@type": "Person",
+            "name": "Christopher Veale"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "@id": "https://servantium.com/#organization",
+            "name": "Servantium",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://servantium.com/logo.png"
+            }
+        },
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://servantium.com/blog/compare-professional-services-platforms-2026"
+        }
+    }
+    </script>
+
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="../favicon-192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/nav.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <style>
+        :root {
+            --color-servantium-green: #00C26D;
+            --color-green-hover: #00A95E;
+            --color-deep-forest: #023E25;
+            --color-soft-mint: #E8FBF1;
+            --color-ink: #0D0D0D;
+            --color-ink-light: #3d3d3d;
+            --color-ink-muted: #6b6b6b;
+            --color-white: #FFFFFF;
+            --color-mist-grey: #F5F6F7;
+            --color-cloud-grey: #E1E3E6;
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-body: 'Source Sans 3', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+.article-header { padding: 8rem 0 3rem; background: var(--color-white); }
+        .article-header .container { max-width: 900px; }
+        .article-breadcrumb { margin-bottom: 1.5rem; font-size: 0.9rem; }
+        .article-breadcrumb a { color: var(--color-servantium-green); text-decoration: none; }
+        .article-breadcrumb a:hover { text-decoration: underline; }
+        .article-breadcrumb span { color: var(--color-ink-muted); }
+        .article-category { display: inline-block; color: var(--color-servantium-green); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.8rem; margin-bottom: 1rem; }
+        .article-title { font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3rem); line-height: 1.2; margin-bottom: 1.5rem; color: var(--color-ink); }
+        .article-excerpt { font-size: 1.25rem; color: var(--color-ink-light); line-height: 1.7; margin-bottom: 2rem; }
+        .article-meta { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
+        .article-author { display: flex; align-items: center; gap: 0.75rem; }
+        .author-avatar { width: 48px; height: 48px; border-radius: 50%; background: var(--color-servantium-green); display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; font-size: 1rem; }
+        .author-info { display: flex; flex-direction: column; }
+        .author-name { font-weight: 600; color: var(--color-ink); }
+        .author-role { font-size: 0.85rem; color: var(--color-ink-muted); }
+        .article-date, .article-reading-time { color: var(--color-ink-muted); font-size: 0.9rem; }
+
+        .article-hero-image { max-width: 900px; margin: 0 auto; padding: 0 2.5rem; }
+        .article-hero-image img { width: 100%; border-radius: 16px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); }
+
+        .article-content { max-width: 850px; margin: 0 auto; padding: 4rem 2.5rem 6rem; }
+        .article-content h2 { font-family: var(--font-display); font-size: 1.75rem; margin: 3rem 0 1.25rem; color: var(--color-ink); }
+        .article-content h3 { font-family: var(--font-display); font-size: 1.35rem; margin: 2.5rem 0 1rem; color: var(--color-ink); }
+        .article-content p { margin-bottom: 1.5rem; font-size: 1.1rem; line-height: 1.8; color: var(--color-ink-light); }
+        .article-content ul, .article-content ol { margin: 1.5rem 0; padding-left: 1.5rem; }
+        .article-content li { margin-bottom: 0.75rem; font-size: 1.1rem; line-height: 1.7; color: var(--color-ink-light); }
+        .article-content blockquote { margin: 2rem 0; padding: 1.5rem 2rem; background: var(--color-soft-mint); border-left: 4px solid var(--color-servantium-green); border-radius: 0 8px 8px 0; }
+        .article-content blockquote p { margin-bottom: 0; font-style: italic; color: var(--color-ink); }
+        .article-content strong { color: var(--color-ink); font-weight: 600; }
+        .article-content a { color: var(--color-servantium-green); text-decoration: underline; }
+        .article-content a:hover { color: var(--color-green-hover); }
+
+        .article-cta { margin: 4rem 0; padding: 2.5rem; background: var(--color-deep-forest); border-radius: 16px; text-align: center; }
+        .article-cta h3 { font-family: var(--font-display); color: var(--color-white); margin-bottom: 0.75rem; }
+        .article-cta p { color: rgba(255, 255, 255, 0.8); margin-bottom: 1.5rem; }
+        .article-cta
+.article-
+.article-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .article-tag { display: inline-block; padding: 0.4rem 0.8rem; background: var(--color-mist-grey); border-radius: 20px; font-size: 0.85rem; color: var(--color-ink-muted); text-decoration: none; transition: all 0.2s; }
+        .article-tag:hover { background: var(--color-soft-mint); color: var(--color-servantium-green); }
+
+        /* Floating Share Sidebar */
+        .share-sidebar {
+            position: fixed;
+            left: calc(50% - 500px);
+            top: 200px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            z-index: 50;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .share-sidebar.faded {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .share-sidebar-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .share-sidebar-btn.linkedin {
+            background: #0A66C2;
+            color: white;
+        }
+
+        .share-sidebar-btn.linkedin:hover {
+            background: #004182;
+            transform: scale(1.1);
+        }
+
+        .share-sidebar-btn.twitter {
+            background: #000000;
+            color: white;
+        }
+
+        .share-sidebar-btn.twitter:hover {
+            background: #333333;
+            transform: scale(1.1);
+        }
+
+        .share-sidebar-btn.copy {
+            background: var(--color-mist-grey);
+            color: var(--color-ink);
+            border: 1px solid var(--color-cloud-grey);
+        }
+
+        .share-sidebar-btn.copy:hover {
+            background: var(--color-cloud-grey);
+            transform: scale(1.1);
+        }
+
+        .share-sidebar-btn.copy.copied {
+            background: var(--color-servantium-green);
+            color: white;
+            border-color: var(--color-servantium-green);
+        }
+
+        .share-sidebar-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        @media (max-width: 1200px) {
+            .share-sidebar {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links,
+.article-meta { flex-direction: column; align-items: flex-start; gap: 1rem; }
+}
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <a href="../index.html" class="logo">
+                <img src="../logo.png" alt="Servantium" class="logo-image">
+            </a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../platform.html">Platform</a></li>
+                <li><a href="../about.html">About</a></li>
+                <li><a href="../blog.html" class="active">Blog</a></li>
+            </ul>
+            <div class="nav-buttons">
+                <button class="btn btn-secondary btn-nav" data-cal-link="christopher-veale/servantium-introduction?duration=15" data-cal-namespace="servantium-introduction" data-cal-config='{"layout":"month_view"}'>Book a Demo</button>
+                <a href="https://app.servantium.com/" class="btn btn-primary btn-nav">Log In</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="article-header">
+        <div class="container">
+            <div class="article-breadcrumb">
+                <a href="../blog.html">Blog</a>
+                <span>/</span>
+                <span>Strategy</span>
+            </div>
+            <span class="article-category">Strategy</span>
+            <h1 class="article-title">Compare Top Professional Services Automation Platforms of 2026</h1>
+            <p class="article-excerpt">
+                An honest comparison of the PSA and engagement management landscape — Certinia, Kantata, Rocketlane, and newer entrants. Where each excels and where they fall short.
+            </p>
+            <div class="article-meta">
+                <a href="authors/christopher-veale.html" class="article-author" style="text-decoration: none; color: inherit;">
+                    <img src="../christopher-veale.png" alt="Christopher Veale" class="author-avatar" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover;">
+                    <div class="author-info">
+                        <span class="author-name">Christopher Veale</span>
+                        <span class="author-role">CEO, Servantium</span>
+                    </div>
+                </a>
+                <span class="article-date">February 4, 2026</span>
+                <span class="article-reading-time">10 min read</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Floating Share Sidebar -->
+    <div class="share-sidebar" id="share-sidebar">
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fservantium.com%2Fblog%2Fcompare-professional-services-platforms-2026" target="_blank" rel="noopener noreferrer" class="share-sidebar-btn linkedin" aria-label="Share on LinkedIn">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+        <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fservantium.com%2Fblog%2Fcompare-professional-services-platforms-2026&text=Compare%20Top%20Professional%20Services%20Platforms%20of%202026%20%E2%80%94%20great%20read%20from%20%40Servantium" target="_blank" rel="noopener noreferrer" class="share-sidebar-btn twitter" aria-label="Share on X">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <button class="share-sidebar-btn copy" onclick="copySidebarLink(this)" aria-label="Copy link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+        </button>
+    </div>
+
+    <div class="article-hero-image">
+        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=600&fit=crop" alt="Data analytics dashboard for platform comparison" loading="lazy">
+    </div>
+
+    <article class="article-content">
+        <p>
+            I spent two weeks last month helping a 90-person consulting firm evaluate PSA platforms. By day three, the CFO looked at me and said, "Every vendor demo makes it look like they do everything. How am I supposed to tell them apart?"
+        </p>
+        <p>
+            Fair question. The professional services software market has gotten crowded and confusing. Legacy PSA vendors are bolting on new features. Newer players are carving out niches. Everyone claims to be AI-powered. And the category boundaries between PSA, CPQ, project management, and engagement management are blurring.
+        </p>
+        <p>
+            So let me try to be useful here. I'm going to walk through the major players, say what they're genuinely good at, and be honest about where they fall short. Full disclosure: I run Servantium, so I obviously have a horse in this race. I'll get to our position at the end, and I'll try to be just as blunt about our limitations as everyone else's.
+        </p>
+
+        <h2>Certinia (formerly FinancialForce)</h2>
+        <p>
+            <strong>Best for:</strong> Large enterprises already deep in the Salesforce ecosystem.
+        </p>
+        <p>
+            Certinia is the 800-pound gorilla in professional services automation. Built natively on Salesforce, it's the default choice for big firms that want their PSA data to live alongside their CRM data. And for that use case, it's genuinely strong. The Salesforce integration is seamless because it's not really an integration — it's the same platform.
+        </p>
+        <p>
+            <strong>Where it shines:</strong> Resource management at scale. If you have 500+ consultants and need to match skills to engagements across geographies, Certinia handles this well. Financial management and revenue recognition are also solid — they understand the accounting complexity of services businesses.
+        </p>
+        <p>
+            <strong>Where it struggles:</strong> Everything upstream of the signed deal. Certinia's scoping and estimation capabilities are thin. You can create projects and track time beautifully, but the process of getting from "client conversation" to "signed SOW" is largely left to spreadsheets and manual processes. Also, implementation is brutal. I've seen Certinia rollouts take 6-12 months and cost as much as the first year's license. For firms under 200 people, the overhead often outweighs the benefit.
+        </p>
+        <p>
+            <strong>Hidden cost:</strong> You need Salesforce. If you're not already a Salesforce shop, you're now buying two platforms. That's a significant additional cost — and a significant additional complexity burden on your team.
+        </p>
+
+        <h2>Kantata (formerly Mavenlink + Kimble)</h2>
+        <p>
+            <strong>Best for:</strong> Mid-market services firms (100-1000 people) that want a dedicated PSA without the Salesforce dependency.
+        </p>
+        <p>
+            Kantata is the result of merging Mavenlink and Kimble, which means it inherited two different product architectures and two different customer bases. To their credit, they've been working hard to unify the platform, and the resource management and project delivery capabilities are mature.
+        </p>
+        <p>
+            <strong>Where it shines:</strong> Resource planning and forecasting. The ability to model capacity across teams and predict utilization is probably the best in the market for mid-size firms. Their analytics are also genuinely useful — you can get real visibility into project health and margin performance.
+        </p>
+        <p>
+            <strong>Where it struggles:</strong> Same pre-deal gap as Certinia, though perhaps less acute. Kantata added some scoping and estimation features, but they feel bolted on rather than core to the product. The merger also created some UX inconsistency — different parts of the platform feel like they were designed by different teams (because they were). And the pricing can creep up quickly when you add modules.
+        </p>
+        <p>
+            <strong>Hidden cost:</strong> The Mavenlink/Kimble merger means some customers are still on legacy architectures. Ask very specifically which version you're getting and what the migration path looks like.
+        </p>
+
+        <h2>Rocketlane</h2>
+        <p>
+            <strong>Best for:</strong> Customer onboarding and implementation teams, especially in SaaS companies.
+        </p>
+        <p>
+            Rocketlane is interesting because they're not trying to be a traditional PSA. They've focused specifically on customer-facing project delivery — the post-sale onboarding and implementation experience. And in that niche, they're excellent.
+        </p>
+        <p>
+            <strong>Where it shines:</strong> Client-facing collaboration. The customer portal, project templates, and status communication tools are first-rate. If your primary concern is making the client experience during delivery feel polished and professional, Rocketlane does this better than the traditional PSAs. Their templating system is also strong — if you deliver similar engagements repeatedly, the ability to spin up a well-structured project quickly is a real time-saver.
+        </p>
+        <p>
+            <strong>Where it struggles:</strong> It's not really a PSA. No resource management across the organization. Limited financial reporting. No utilization tracking. If you need to run a services business — not just run projects — Rocketlane alone won't cut it. It's a delivery tool, not a business management tool.
+        </p>
+        <p>
+            <strong>Hidden cost:</strong> You'll likely need it alongside a PSA or PM tool, which means managing two systems and figuring out where data lives.
+        </p>
+
+        <h2>Scoro</h2>
+        <p>
+            <strong>Best for:</strong> Smaller agencies and professional services firms (10-100 people) that want an all-in-one solution.
+        </p>
+        <p>
+            Scoro takes the "all-in-one" approach — CRM, project management, billing, reporting, and resource planning in a single platform. For smaller firms that can't afford (or don't want to manage) a multi-tool stack, this is appealing.
+        </p>
+        <p>
+            <strong>Where it shines:</strong> Breadth of functionality for the price. You get a lot of capability in one purchase. The quoting and proposal features are decent for a platform that also handles project management and billing. Good for firms that want a single system rather than stitching together five tools.
+        </p>
+        <p>
+            <strong>Where it struggles:</strong> Jack of all trades, master of none. The project management isn't as deep as dedicated PM tools. The CRM isn't as capable as Salesforce or HubSpot. The resource management doesn't hold up at scale. You trade depth for breadth, and that trade-off gets painful as you grow past 50-75 people.
+        </p>
+
+        <h2>BigTime</h2>
+        <p>
+            <strong>Best for:</strong> Accounting firms and professional services firms that prioritize time tracking and billing above everything else.
+        </p>
+        <p>
+            BigTime has been around forever, and they know their core user: the firm that needs bulletproof time tracking, expense management, and invoicing. If you're an accounting or engineering firm where billable hours are the fundamental unit of business, BigTime does the basics extremely well.
+        </p>
+        <p>
+            <strong>Where it shines:</strong> Time and billing. Full stop. The timesheet interface is clean, the billing flexibility is strong (T&M, fixed-fee, retainer, hybrid), and the QuickBooks/Sage integrations are mature.
+        </p>
+        <p>
+            <strong>Where it struggles:</strong> Almost everything else. Project management is basic. Resource planning is limited. Reporting is functional but not insightful. There's no scoping, estimation, or proposal functionality worth mentioning. If your needs go beyond "track time and send invoices," BigTime will leave you reaching for additional tools.
+        </p>
+
+        <blockquote>
+            <p>"The best platform for your firm isn't the one with the most features. It's the one that covers the stages where you're currently bleeding margin."</p>
+        </blockquote>
+
+        <h2>The Emerging Category: Engagement Platforms</h2>
+        <p>
+            Here's where I need to show my hand. The platforms above all share a common trait: they're strongest in the post-deal stages of the engagement lifecycle. Time tracking, resource management, project delivery, billing. Some do it better than others, but that's where they live.
+        </p>
+        <p>
+            What's emerging is a new category — engagement platforms — that focus on the pre-deal stages: scoping, estimation, pricing, and proposal generation. The thesis (which is obviously ours, so take it with appropriate salt) is that the pre-deal stages are where margin is determined, and covering them is at least as important as tracking time after the deal closes.
+        </p>
+        <p>
+            <strong>Servantium</strong> sits in this emerging category. We're building an engagement management platform that starts at scoping and works forward. Service catalog, structured estimation, pricing logic, proposal generation, and — critically — a learning loop that feeds delivery outcomes back into future estimates.
+        </p>
+        <p>
+            <strong>Where we shine (honestly):</strong> The pre-deal workflow. If your biggest pain is inconsistent scoping, unreliable estimates, variable pricing, and the copy-paste proposal process, that's specifically what we've built to solve. The service catalog and estimation engine are purpose-built for services businesses, not adapted from a product CPQ.
+        </p>
+        <p>
+            <strong>Where we're honest about limitations:</strong> We're new. We don't have the resource management depth of Certinia or Kantata. We're not trying to replace your time tracking tool or your project management platform. We're designed to work alongside your existing delivery tools, not replace them. If you need an all-in-one solution today, we're not it. If you need to fix the upstream stages that your PSA doesn't touch, that's our wheelhouse.
+        </p>
+
+        <h2>Unpopular Opinion: Most Firms Don't Need a PSA</h2>
+        <p>
+            I know this is provocative coming from someone in the space, but I believe it. Most firms under 100 people don't need a full PSA. They need a good PM tool (Asana, Monday, Linear — pick one), a time tracker (Harvest, Toggl — pick one), and something that handles the pre-deal stages where they're actually losing money.
+        </p>
+        <p>
+            The PSA pitch is "one platform for everything." The reality is "one platform that's mediocre at twelve things and great at three." For a 50-person firm, the implementation cost, learning curve, and ongoing management burden of a PSA often exceed the value it delivers. You'd be better served by three focused tools that each do their job well.
+        </p>
+        <p>
+            The PSA really starts to justify itself around 150-200 people, when the complexity of resource management across a large team makes a purpose-built tool essential. Below that threshold, I'd argue you should invest in solving your biggest specific pain point rather than buying a platform that promises to solve everything.
+        </p>
+
+        <h2>How to Actually Evaluate</h2>
+        <p>
+            If you're in the middle of evaluating platforms, here's the framework I'd use. Forget the feature checklists. Instead, ask yourself these questions:
+        </p>
+
+        <h3>1. Where are you losing money?</h3>
+        <p>
+            Is it bad estimates? Inconsistent pricing? Resource allocation mismatches? Billing delays? Time tracking compliance? The answer points you to the category of tool you need. Don't buy a PSA when your problem is estimation. Don't buy an engagement platform when your problem is resource utilization.
+        </p>
+
+        <h3>2. What's your actual size?</h3>
+        <p>
+            Be honest. The platform that's right for a 500-person firm is wrong for a 40-person firm. Enterprise tools at mid-market firms create organizational trauma. Mid-market tools at enterprise scale create operational limits. Size fit matters more than feature count.
+        </p>
+
+        <h3>3. What are you already using that works?</h3>
+        <p>
+            Don't rip and replace tools that your team actually likes and uses. If your time tracking works, keep it. If your PM tool is embedded in your workflow, don't fight that. Look for platforms that integrate with what you have, not ones that demand you abandon it.
+        </p>
+
+        <h3>4. What will your team actually adopt?</h3>
+        <p>
+            The most feature-rich platform is worthless if nobody uses it. Evaluate UX seriously. Bring your actual users — not just leadership — into the evaluation. The tool that the PM, the estimator, and the consultant will actually use every day is better than the tool that impresses the exec team in a demo.
+        </p>
+
+        <h2>The Honest Summary</h2>
+        <p>
+            Here's my attempt at a genuinely honest summary:
+        </p>
+        <ul>
+            <li><strong>Certinia:</strong> Best for large Salesforce shops. Expensive and complex, but powerful at scale.</li>
+            <li><strong>Kantata:</strong> Best mid-market PSA. Strong resource management. Still sorting out the merger.</li>
+            <li><strong>Rocketlane:</strong> Best client-facing delivery experience. Not a PSA — pair it with something else.</li>
+            <li><strong>Scoro:</strong> Best all-in-one for small firms. You trade depth for breadth.</li>
+            <li><strong>BigTime:</strong> Best time and billing for traditional professional services. Limited beyond that.</li>
+            <li><strong>Servantium:</strong> Best pre-deal workflow (scoping, estimation, pricing). New, focused, doesn't try to be everything.</li>
+        </ul>
+
+        <div class="article-cta">
+            <h3>See where Servantium fits</h3>
+            <p>If your biggest pain is in scoping, estimation, and pricing — the stages your PSA doesn't cover — we should talk.</p>
+            <button class="btn btn-primary" data-cal-link="christopher-veale/servantium-introduction?duration=15" data-cal-namespace="servantium-introduction" data-cal-config='{"layout":"month_view"}'>Schedule a Demo</button>
+        </div>
+
+        <h2>Bottom Line</h2>
+        <p>
+            Before your next vendor demo, do this: list your top three operational pain points. Not "we need better tools" — specific pain points. "Our estimates are off by 25% on average." "Two partners price the same engagement 30% apart." "Delivery teams spend two weeks re-discovering scope after every deal close."
+        </p>
+        <p>
+            Then evaluate platforms against those specific pain points. Ignore every feature that doesn't address one of your top three. The right platform isn't the one that does the most. It's the one that fixes what's actually hurting you. Everything else is shelfware.
+        </p>
+
+    </article>
+
+    <!-- Related Posts -->
+    <section class="related-posts">
+        <div class="container" style="max-width: 900px;">
+            <h2 style="font-family: var(--font-display); font-size: 1.5rem; margin-bottom: 2rem;">Related Articles</h2>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;">
+                <a href="modern-engagement-platform-vs-traditional-psa.html" style="display: block; background: var(--color-mist-grey); border-radius: 12px; overflow: hidden; text-decoration: none; color: inherit; transition: transform 0.2s, box-shadow 0.2s;">
+                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=200&fit=crop" loading="lazy" alt="Engagement platform vs PSA" style="width: 100%; height: 140px; object-fit: cover;">
+                    <div style="padding: 1.25rem;">
+                        <span style="color: var(--color-servantium-green); font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">Technology</span>
+                        <h3 style="font-family: var(--font-display); font-size: 1rem; margin-top: 0.5rem; line-height: 1.3;">Why a Modern Engagement Platform Outperforms Traditional PSA Tools</h3>
+                    </div>
+                </a>
+                <a href="why-services-businesses-need-cpq.html" style="display: block; background: var(--color-mist-grey); border-radius: 12px; overflow: hidden; text-decoration: none; color: inherit; transition: transform 0.2s, box-shadow 0.2s;">
+                    <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=400&h=200&fit=crop" loading="lazy" alt="Why Services Businesses Need CPQ" style="width: 100%; height: 140px; object-fit: cover;">
+                    <div style="padding: 1.25rem;">
+                        <span style="color: var(--color-servantium-green); font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">Strategy</span>
+                        <h3 style="font-family: var(--font-display); font-size: 1rem; margin-top: 0.5rem; line-height: 1.3;">Why Services Businesses Need CPQ</h3>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="../index.html" class="logo">
+                        <img src="../logo.png" alt="Servantium" class="logo-image footer-logo">
+                    </a>
+                    <p>The operating system for professional services.</p>
+                    <div class="footer-social">
+                        <span class="footer-social-label">Follow us on</span>
+                        <a href="https://linkedin.com/company/servantium" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Follow Servantium on LinkedIn">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Explore</h4>
+                    <ul>
+                        <li><a href="../platform.html">Platform</a></li>
+                        <li><a href="../about.html">About</a></li>
+                        <li><a href="../blog.html">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="../about.html">About</a></li>
+                        <li><a href="../blog.html">Blog</a></li>
+                        <li><a href="../index.html#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="../privacy.html">Privacy</a></li>
+                        <li><a href="../terms.html">Terms</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-bottom-left">
+                    <span>&copy; 2026 Servantium Inc.</span>
+                    <span class="footer-divider">&middot;</span>
+                    <button class="footer-email-chip" onclick="copyFooterEmail(this)">
+                        <span class="footer-email-chip-text">hello@servantium.com</span>
+                        <svg class="footer-email-chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="footer-bottom-right">
+                    <span>Founded by <a href="https://linkedin.com/in/christopher-veale">Christopher Veale</a> & <a href="https://linkedin.com/in/maxwell-friel-2bb02b30">Maxwell Friel</a></span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cal.com Embed Script -->
+    <script type="text/javascript">
+        (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+        Cal("init", "servantium-introduction", {origin:"https://app.cal.com"});
+        Cal.ns["servantium-introduction"]("ui", {
+            "cssVarsPerTheme": {
+                "light": {"cal-brand":"#00C26D"},
+                "dark": {"cal-brand":"#00C26D"}
+            },
+            "hideEventTypeDetails": false,
+            "layout": "month_view"
+        });
+    </script>
+
+    <!-- Cookie Consent Banner -->
+    <div id="cookie-consent" style="display: none; position: fixed; bottom: 0; left: 0; right: 0; background: #1a1a2e; padding: 16px 24px; z-index: 10000; box-shadow: 0 -4px 20px rgba(0,0,0,0.3);">
+        <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px;">
+            <p style="margin: 0; flex: 1; min-width: 280px; font-size: 14px; line-height: 1.5; color: #d1d5db;">
+                We use cookies to analyze site traffic and improve your experience. By clicking "Accept All", you consent to our use of analytics cookies.
+                <a href="../privacy.html" style="color: #00C26D; text-decoration: underline;">Privacy Policy</a>
+            </p>
+            <div style="display: flex; gap: 12px; flex-shrink: 0;">
+                <button onclick="declineCookies()" style="padding: 10px 20px; background: transparent; border: 1px solid #9ca3af; color: #ffffff; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.2s;">Decline All</button>
+                <button onclick="acceptCookies()" style="padding: 10px 20px; background: #00C26D; border: none; color: #ffffff; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.2s;">Accept All</button>
+            </div>
+        </div>
+    </div>
+    <script src="../js/nav.js"></script>
+    <script src="../js/footer.js"></script>
+    <script src="../js/cookie-consent.js"></script>
+</body>
+</html>
