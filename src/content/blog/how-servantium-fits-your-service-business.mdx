@@ -1,0 +1,103 @@
+---
+title: "How Servantium Fits Into Your Service Business: Features & Benefits"
+description: "An honest walkthrough of what Servantium does, where it fits in your stack, and what it doesn't do yet. No marketing fluff, just architecture and trade-offs from the CTO."
+date: "2026-02-15"
+author: "maxwell-friel"
+category: "Product"
+image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1200&h=630&fit=crop"
+imageAlt: "Team working together on technology platform"
+readingTime: "7 min read"
+---
+
+Here's what Servantium actually does. No marketing speak. No "seamless end-to-end platform" nonsense. I'm going to tell you what we build, what we don't, and where you'll still need other tools. Because I've sat through enough vendor pitches to know that nobody trusts the ones who claim they do everything.
+
+We don't do everything. But the things we do, we've thought about more carefully than you'd expect.
+
+## What Servantium Actually Is
+
+Servantium is an engagement management platform for professional services firms. Not a PSA with a new label. Not a CRM with project features bolted on. We built it around a specific conviction: **the engagement is the fundamental unit of a services business**, and every system should be organized around it.
+
+That sounds simple. It's not. Most platforms are built around projects, or contacts, or timesheets. When you try to answer a question like "what's the full margin picture on the Anderson engagement, including the change orders and the resource substitutions we made in month three?" those platforms fall apart. You're querying three systems, exporting to Excel, and hoping the data aligns.
+
+We built the data model so that question has a one-click answer.
+
+## The Core Architecture
+
+Here's what we've built, layer by layer.
+
+### The Service Catalog
+
+This is where your firm's knowledge lives in structured form. Not marketing copy. Operational definitions. Each service in the catalog has defined components, effort drivers, complexity modifiers, and pricing logic.
+
+When someone builds a proposal, they're pulling from the catalog. That means they're building on what the firm knows, not starting from scratch. A junior associate can assemble a credible proposal because the catalog encodes the thinking that used to live only in senior heads.
+
+We made the catalog composable. Services can be nested, combined, and modified. A "Digital Transformation Assessment" might include a "Process Mapping" component that itself includes "Stakeholder Interviews" and "Current State Documentation." Change the number of stakeholders, and the effort ripples through every dependent component.
+
+### The CPQ Engine
+
+Configure. Price. Quote. Three words that sound simple and turn out to be extraordinarily hard to get right for services businesses.
+
+Manufacturing CPQ is well-understood. You've got a bill of materials, standard configurations, known costs. Services CPQ is different. The "bill of materials" is people's time. The configurations are infinite. The costs depend on who you assign and when.
+
+Our CPQ engine handles variable rate structures, blended rates, discount logic, margin floors, and approval workflows. It connects directly to the service catalog, so pricing is always grounded in the firm's actual service definitions. Change the scope, the price updates. Change the team composition, the margin recalculates.
+
+### Resource Intelligence
+
+I hate the term "resource management." People aren't resources. But the problem it describes is real: you need to match the right people to the right engagements, considering skills, availability, cost, and client history.
+
+We model people as multi-dimensional entities. Skills, certifications, domain experience, rate tiers, utilization targets. When you're staffing an engagement, you can see not just who's available but who's the best fit, and what the margin impact is of choosing one person over another.
+
+### The Feedback Loop
+
+This is the part I'm most proud of, because almost nobody else does it. When an engagement wraps up, the actual delivery data (hours spent, timeline variance, margin outcome) feeds back into the system. Next time someone scopes a similar engagement, they're seeing real data, not last year's assumptions.
+
+It's not magic. It's just closing the loop that every other platform leaves open. Estimate, deliver, measure, adjust. Sounds obvious. Almost nobody does it.
+
+## Where Servantium Fits in Your Stack
+
+Let me be direct about what we replace and what we don't.
+
+**We replace:** Estimation spreadsheets, pricing calculators, proposal builders, rate card management, service catalogs (if you even have one), and the manual process of tracking engagement profitability.
+
+**We work alongside:** Your CRM (we don't manage your pipeline; we take over when it's time to scope and price the deal), your accounting system (we produce the commercial data, not the invoices), and your HRIS (we model skills and availability for engagement staffing, not payroll).
+
+**We don't replace:** Your CRM, your accounting software, your project management tool for day-to-day task tracking, or your communication tools.
+
+## What We Don't Do (Yet)
+
+I'd rather you hear this from me than discover it during implementation.
+- **Invoicing.** We produce the data your accounting system needs, but we don't generate invoices. That's a deliberate choice. Accounting systems do this well, and we don't want to be a mediocre accounting tool.
+- **Day-to-day project management.** We track engagement health at the commercial level. We don't manage sprints, tasks, or daily standups. Use whatever works for your teams.
+- **Pipeline management.** We're not a CRM. We pick up where your CRM leaves off, when it's time to turn an opportunity into a scoped, priced engagement.
+- **Time tracking.** We use time data for margin analysis, but we're not a timesheet system. We integrate with the ones you already have.
+
+Some of these are on our roadmap. Some we'll never build because other tools do them well and integration is the right answer.
+
+## Unpopular Opinion
+
+**Most services firms don't need an all-in-one platform.** I know. Strange thing for a platform vendor to say. But I've watched firms buy monolithic systems and end up using 15% of the features while fighting the other 85%. The features they need work badly because they're subsidizing features they don't.
+
+We'd rather be the best engagement management platform that integrates cleanly with your existing stack than a mediocre everything-platform that replaces it all poorly.
+
+## Who This Works Best For
+
+I'll be honest about our sweet spot. Right now, Servantium works best for:
+- **Consulting firms** (management, IT, strategy) with 20-500 people
+- **IT services companies** that sell project-based and managed services
+- **Digital agencies** that have grown past the point where a partner can hold every deal in their head
+
+If you're a solo consultant, we're probably overkill. If you're a 10,000-person firm, we're probably not ready for your compliance requirements yet. We're building toward both ends, but today, that mid-market is where we deliver the most value.
+
+## The Integration Question
+
+Every platform vendor says "we integrate with everything." Let me tell you what we actually integrate with and how.
+
+We have an API-first architecture. Every feature in the UI is backed by an API endpoint. If you can call a REST API, you can integrate with us. We're building pre-built connectors for the most common CRM and accounting platforms, but the API means you're never locked in to our connector roadmap.
+
+The data model is designed to be the system of record for engagement-level commercial data. Your CRM owns the relationship and pipeline data. Your accounting system owns the financial ledger. We own the space in between: the scoping, pricing, staffing, and margin tracking that turns an opportunity into a profitable engagement.
+
+## Bottom Line
+
+If you're currently pricing engagements in spreadsheets, managing service definitions in people's heads, and finding out about margin problems after the engagement is over, that's the gap we fill. We're not trying to replace your whole stack. We're trying to fill the hole in the middle of it.
+
+Go look at your last ten proposals. Ask yourself: did each one benefit from the firm's accumulated knowledge, or did each one start from scratch? If the answer is "mostly from scratch," that's the problem we solve.

@@ -1,0 +1,920 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SEO from '@/components/SEO.astro';
+
+const jsonLd = {
+  "@type": "WebPage",
+  "name": "Platform — Professional Services CPQ & Engagement Management",
+  "description": "Explore Servantium's professional services platform. See the full capability set — from engagement scoping and AI-powered estimation to resource planning, Salesforce integration, and institutional memory.",
+  "url": "https://servantium.com/platform",
+  "isPartOf": {
+    "@id": "https://servantium.com/#website"
+  },
+  "about": {
+    "@id": "https://servantium.com/#software"
+  },
+  "publisher": {
+    "@id": "https://servantium.com/#organization"
+  }
+};
+---
+
+<BaseLayout activePage="platform">
+  <SEO
+    slot="head"
+    title="Platform — Professional Services CPQ & Engagement Management | Servantium"
+    description="Explore Servantium's professional services platform. See the full capability set — from engagement scoping and AI-powered estimation to resource planning, Salesforce integration, and institutional memory."
+    ogType="website"
+    jsonLd={jsonLd}
+  />
+
+  <!-- Section 1: Hero -->
+  <section class="platform-hero">
+    <div class="container">
+      <span class="section-label">The Platform That Remembers</span>
+      <h1>Every engagement makes your firm smarter.</h1>
+      <p class="platform-hero-desc">Most platforms record what happened. Servantium learns from it. Scope, price, staff, and deliver &mdash; with a system that compounds your knowledge into a permanent advantage.</p>
+      <div class="hero-buttons">
+        <button class="btn btn-primary btn-large" data-cal-link="christopher-veale/servantium-introduction?duration=15" data-cal-namespace="servantium-introduction" data-cal-config='{"layout":"month_view"}'>Book a Demo</button>
+        <button class="btn btn-secondary btn-large" onclick="openContactModal()">Contact Us</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 2: Four Pillars -->
+
+  <!-- Pillar 1: Scope -->
+  <section class="pillar-section tinted" id="scope">
+    <div class="pillar-grid">
+      <div class="pillar-text reveal">
+        <h3 class="pillar-title accent-green">Scope with confidence</h3>
+        <p class="pillar-desc">AI-assisted discovery that captures context, not just notes. Your service catalog provides the building blocks for every engagement.</p>
+        <ul class="pillar-bullets green">
+          <li>Engagement workspace</li>
+          <li>AI note parsing</li>
+          <li>Service catalog library</li>
+          <li>Similar engagement matching</li>
+        </ul>
+      </div>
+      <div class="pillar-visual reveal">
+        <div class="mini-illus">
+          <div class="mock-eng-card">
+            <div class="mock-eng-header">
+              <div class="mock-eng-dot"></div>
+              <div class="mock-eng-title">KVWN &mdash; Initial Discovery</div>
+            </div>
+            <div class="mock-eng-keywords">
+              <span class="mock-eng-kw">Salesforce CRM</span>
+              <span class="mock-eng-kw">60 users</span>
+              <span class="mock-eng-kw">Q3 2026</span>
+            </div>
+            <div class="mock-eng-insight">
+              3 similar engagements found &mdash; avg. 14 weeks, 92% estimate accuracy
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pillar 2: Price -->
+  <section class="pillar-section" id="price">
+    <div class="pillar-grid reversed">
+      <div class="pillar-text reveal">
+        <h3 class="pillar-title accent-blue">Price with precision</h3>
+        <p class="pillar-desc">Build estimates informed by every project you've ever delivered. Grouped line items, role-based pricing, automatic margin calculations.</p>
+        <ul class="pillar-bullets blue">
+          <li>Grouped estimate builder</li>
+          <li>Role &amp; rate management</li>
+          <li>Margin analysis</li>
+          <li>One-click proposal generation</li>
+        </ul>
+      </div>
+      <div class="pillar-visual reveal">
+        <div class="mini-illus">
+          <div class="mock-est">
+            <div class="mock-est-header">
+              <span>Item Type</span>
+              <span>Item Name</span>
+              <span>Qty</span>
+              <span>Cost</span>
+              <span>Markup</span>
+              <span>Total</span>
+            </div>
+            <div class="mock-est-group">
+              <span>Discovery &amp; Requirements</span>
+              <span>$24,000</span>
+              <span>35%</span>
+              <span>$32,400</span>
+            </div>
+            <div class="mock-est-row">
+              <span><span class="mock-est-badge">Resource</span></span>
+              <span>Sr. Business Analyst</span>
+              <span>120h</span>
+              <span>$12,000</span>
+              <span>35%</span>
+              <span>$16,200</span>
+            </div>
+            <div class="mock-est-row">
+              <span><span class="mock-est-badge">Resource</span></span>
+              <span>Solutions Architect</span>
+              <span>80h</span>
+              <span>$12,000</span>
+              <span>35%</span>
+              <span>$16,200</span>
+            </div>
+            <div class="mock-est-total">$167,450</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pillar 3: Staff -->
+  <section class="pillar-section tinted" id="staff">
+    <div class="pillar-grid">
+      <div class="pillar-text reveal">
+        <h3 class="pillar-title accent-teal">Staff with clarity</h3>
+        <p class="pillar-desc">See who's available, who's overloaded, and who's perfect for the job &mdash; across every active engagement.</p>
+        <ul class="pillar-bullets teal">
+          <li>Cross-engagement visibility</li>
+          <li>Utilization tracking</li>
+          <li>Skill-based matching</li>
+          <li>Capacity forecasting</li>
+        </ul>
+      </div>
+      <div class="pillar-visual reveal">
+        <div class="mini-illus">
+          <div class="mock-res">
+            <div class="mock-res-project">KVWN &mdash; Salesforce CRM</div>
+            <div class="mock-res-header">
+              <span>Resource</span>
+              <span>Apr</span>
+              <span>May</span>
+              <span>Jun</span>
+              <span>Jul</span>
+            </div>
+            <div class="mock-res-row">
+              <span><span class="mock-res-name">R. Burgundy</span><br><span class="mock-res-role">Lead</span></span>
+              <span><span class="mock-res-cell normal">72%</span></span>
+              <span><span class="mock-res-cell heavy">88%</span></span>
+              <span><span class="mock-res-cell normal">65%</span></span>
+              <span><span class="mock-res-cell normal">40%</span></span>
+            </div>
+            <div class="mock-res-row">
+              <span><span class="mock-res-name">B. Fantana</span><br><span class="mock-res-role">Architect</span></span>
+              <span><span class="mock-res-cell normal">60%</span></span>
+              <span><span class="mock-res-cell normal">75%</span></span>
+              <span><span class="mock-res-cell heavy">90%</span></span>
+              <span><span class="mock-res-cell over">105%</span></span>
+            </div>
+            <div class="mock-res-row">
+              <span><span class="mock-res-name">B. Tamland</span><br><span class="mock-res-role">Developer</span></span>
+              <span><span class="mock-res-cell normal">50%</span></span>
+              <span><span class="mock-res-cell normal">70%</span></span>
+              <span><span class="mock-res-cell heavy">85%</span></span>
+              <span><span class="mock-res-cell normal">75%</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pillar 4: Learn -->
+  <section class="pillar-section" id="learn">
+    <div class="pillar-grid reversed">
+      <div class="pillar-text reveal">
+        <h3 class="pillar-title accent-amber">Learn from everything</h3>
+        <p class="pillar-desc">This is what competitors can't copy. Every delivered engagement feeds back into how you scope, price, and staff the next one.</p>
+        <ul class="pillar-bullets amber">
+          <li>Delivery variance analysis</li>
+          <li>Estimate accuracy tracking</li>
+          <li>Pattern detection</li>
+          <li>Continuous improvement engine</li>
+        </ul>
+      </div>
+      <div class="pillar-visual reveal">
+        <div class="mini-illus">
+          <div class="mock-learn">
+            <div class="mock-learn-title">KVWN &mdash; Post-Delivery Analysis</div>
+            <div class="mock-learn-metrics">
+              <span class="mock-learn-pill green">94% estimate accuracy</span>
+              <span class="mock-learn-pill green">8% under budget</span>
+              <span class="mock-learn-pill blue">17 weeks actual vs planned</span>
+            </div>
+            <div class="mock-learn-patterns">
+              <div class="mock-learn-patterns-title">Patterns Detected</div>
+              <div class="mock-learn-patterns-text">Discovery phases for CRM implementations consistently run 15% under estimate when led by senior analysts. Recommend adjusting catalog effort drivers.</div>
+            </div>
+            <div class="mock-learn-footer">Feeding insights into <span>Service Catalog</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3: Integrations -->
+  <section class="integrations" id="integrations">
+    <div class="container">
+      <div class="integrations-header reveal">
+        <span class="section-label">Integrations</span>
+        <h2>Built to connect.</h2>
+        <p class="text-large">REST API and MCP Server &mdash; connect anything. Need something we haven't built yet? We build integrations on demand as our ecosystem grows.</p>
+      </div>
+
+      <!-- Desktop: Hub and Spoke Constellation -->
+      <div class="constellation reveal">
+        <!-- Hub -->
+        <div class="constellation-hub">
+          <img src="/logo.png" alt="Servantium">
+        </div>
+        <!-- Dotted lines (SVG) -->
+        <svg class="constellation-lines" viewBox="0 0 460 460" fill="none">
+          <line x1="230" y1="230" x2="230" y2="45" stroke="#E1E3E6" stroke-width="1" stroke-dasharray="4 4"/>
+          <line x1="230" y1="230" x2="385" y2="90" stroke="#E1E3E6" stroke-width="1" stroke-dasharray="4 4"/>
+          <line x1="230" y1="230" x2="430" y2="220" stroke="#E1E3E6" stroke-width="1" stroke-dasharray="4 4"/>
+          <line x1="230" y1="230" x2="385" y2="370" stroke="#E1E3E6" stroke-width="1" stroke-dasharray="4 4"/>
+          <line x1="230" y1="230" x2="230" y2="415" stroke="#E1E3E6" stroke-width="1" stroke-dasharray="4 4"/>
+          <line x1="230" y1="230" x2="75" y2="370" stroke="#E1E3E6" stroke-width="1" stroke-dasharray="4 4"/>
+          <line x1="230" y1="230" x2="30" y2="220" stroke="#E1E3E6" stroke-width="1" stroke-dasharray="4 4"/>
+          <line x1="230" y1="230" x2="75" y2="90" stroke="#E1E3E6" stroke-width="1" stroke-dasharray="4 4"/>
+        </svg>
+        <!-- Nodes -->
+        <div class="constellation-node">
+          <div class="constellation-icon" style="background:#EBF5FF;color:#00A1E0;">sf</div>
+          <span class="constellation-name">Salesforce</span>
+          <span class="constellation-badge live">Live</span>
+        </div>
+        <div class="constellation-node">
+          <div class="constellation-icon" style="background:#FFF0EB;color:#FF7A59;">H</div>
+          <span class="constellation-name">HubSpot</span>
+          <span class="constellation-badge soon">Coming Soon</span>
+        </div>
+        <div class="constellation-node">
+          <div class="constellation-icon" style="background:#E8F5E3;color:#2CA01C;">QB</div>
+          <span class="constellation-name">QuickBooks</span>
+          <span class="constellation-badge soon">Coming Soon</span>
+        </div>
+        <div class="constellation-node">
+          <div class="constellation-icon" style="background:#E8F0FF;color:#0052CC;">J</div>
+          <span class="constellation-name">Jira</span>
+          <span class="constellation-badge soon">Coming Soon</span>
+        </div>
+        <div class="constellation-node">
+          <div class="constellation-icon" style="background:#F3E8F9;color:#4A154B;">#</div>
+          <span class="constellation-name">Slack</span>
+          <span class="constellation-badge soon">Coming Soon</span>
+        </div>
+        <div class="constellation-node">
+          <div class="constellation-icon" style="background:#EDEEF8;color:#6264A7;">T</div>
+          <span class="constellation-name">Teams</span>
+          <span class="constellation-badge soon">Coming Soon</span>
+        </div>
+        <div class="constellation-node">
+          <div class="constellation-icon" style="background:#FFF0E8;color:#FF4A00;">Z</div>
+          <span class="constellation-name">Zapier</span>
+          <span class="constellation-badge soon">Coming Soon</span>
+        </div>
+        <div class="constellation-node">
+          <div class="constellation-icon" style="background:#E8FBF1;color:#00C26D;">CSV</div>
+          <span class="constellation-name">CSV Import</span>
+          <span class="constellation-badge live">Live</span>
+        </div>
+      </div>
+
+      <!-- Mobile: 2x4 Grid -->
+      <div class="constellation-mobile reveal">
+        <div class="constellation-mobile-card">
+          <div class="constellation-icon" style="background:#EBF5FF;color:#00A1E0;">sf</div>
+          <div class="constellation-mobile-info">
+            <span class="constellation-name">Salesforce</span>
+            <span class="constellation-badge live">Live</span>
+          </div>
+        </div>
+        <div class="constellation-mobile-card">
+          <div class="constellation-icon" style="background:#E8FBF1;color:#00C26D;">CSV</div>
+          <div class="constellation-mobile-info">
+            <span class="constellation-name">CSV Import</span>
+            <span class="constellation-badge live">Live</span>
+          </div>
+        </div>
+        <div class="constellation-mobile-card">
+          <div class="constellation-icon" style="background:#FFF0EB;color:#FF7A59;">H</div>
+          <div class="constellation-mobile-info">
+            <span class="constellation-name">HubSpot</span>
+            <span class="constellation-badge soon">Coming Soon</span>
+          </div>
+        </div>
+        <div class="constellation-mobile-card">
+          <div class="constellation-icon" style="background:#E8F5E3;color:#2CA01C;">QB</div>
+          <div class="constellation-mobile-info">
+            <span class="constellation-name">QuickBooks</span>
+            <span class="constellation-badge soon">Coming Soon</span>
+          </div>
+        </div>
+        <div class="constellation-mobile-card">
+          <div class="constellation-icon" style="background:#E8F0FF;color:#0052CC;">J</div>
+          <div class="constellation-mobile-info">
+            <span class="constellation-name">Jira</span>
+            <span class="constellation-badge soon">Coming Soon</span>
+          </div>
+        </div>
+        <div class="constellation-mobile-card">
+          <div class="constellation-icon" style="background:#F3E8F9;color:#4A154B;">#</div>
+          <div class="constellation-mobile-info">
+            <span class="constellation-name">Slack</span>
+            <span class="constellation-badge soon">Coming Soon</span>
+          </div>
+        </div>
+        <div class="constellation-mobile-card">
+          <div class="constellation-icon" style="background:#EDEEF8;color:#6264A7;">T</div>
+          <div class="constellation-mobile-info">
+            <span class="constellation-name">Teams</span>
+            <span class="constellation-badge soon">Coming Soon</span>
+          </div>
+        </div>
+        <div class="constellation-mobile-card">
+          <div class="constellation-icon" style="background:#FFF0E8;color:#FF4A00;">Z</div>
+          <div class="constellation-mobile-info">
+            <span class="constellation-name">Zapier</span>
+            <span class="constellation-badge soon">Coming Soon</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="integration-request reveal">
+        <a href="/#contact">Request an integration &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4: Feature Matrix -->
+  <section class="features-section" id="features">
+    <div class="container">
+      <div class="features-header reveal">
+        <span class="section-label">Features</span>
+        <h2>Everything you need.</h2>
+      </div>
+
+      <div class="reveal">
+        <div class="feature-tabs" role="tablist">
+          <button class="feature-tab active" role="tab" aria-selected="true" data-tab="core">Core Platform</button>
+          <button class="feature-tab" role="tab" aria-selected="false" data-tab="collab">Collaboration</button>
+          <button class="feature-tab" role="tab" aria-selected="false" data-tab="resources">Resources</button>
+          <button class="feature-tab" role="tab" aria-selected="false" data-tab="intelligence">Intelligence</button>
+          <button class="feature-tab" role="tab" aria-selected="false" data-tab="integrations-tab">Integrations</button>
+          <button class="feature-tab" role="tab" aria-selected="false" data-tab="security">Security</button>
+        </div>
+
+        <!-- Core Platform -->
+        <div class="feature-panel active" id="panel-core" role="tabpanel">
+          <div class="feature-item"><span class="feature-item-dot"></span><span class="feature-item-name">Engagement workspace</span><span class="feature-item-badge live">Live</span></div>
+          <div class="feature-item"><span class="feature-item-dot"></span><span class="feature-item-name">Service catalog</span><span class="feature-item-badge live">Live</span></div>
+          <div class="feature-item"><span class="feature-item-dot"></span><span class="feature-item-name">Grouped estimate builder</span><span class="feature-item-badge live">Live</span></div>
+          <div class="feature-item"><span class="feature-item-dot"></span><span class="feature-item-name">Role &amp; rate management</span><span class="feature-item-badge live">Live</span></div>
+          <div class="feature-item"><span class="feature-item-dot"></span><span class="feature-item-name">Proposal generation</span><span class="feature-item-badge live">Live</span></div>
+          <div class="feature-item"><span class="feature-item-dot"></span><span class="feature-item-name">Document templates</span><span class="feature-item-badge roadmap">Roadmap</span></div>
+          <div class="feature-item"><span class="feature-item-dot"></span><span class="feature-item-name">Client management</span><span class="feature-item-badge live">Live</span></div>
+          <div class="feature-item"><span class="feature-item-dot"></span><span class="feature-item-name">Multi-currency support</span><span class="feature-item-badge roadmap">Roadmap</span></div>
+          <div class="feature-item"><span class="feature-item-dot"></span><span class="feature-item-name">Custom fields</span><span class="feature-item-badge live">Live</span></div>
+        </div>
+
+        <!-- Collaboration -->
+        <div class="feature-panel" id="panel-collab" role="tabpanel">
+          <div class="feature-item"><span class="feature-item-dot"></span><span class="feature-item-name">Team workspaces</span><span class="feature-item-badge live">Live</span></div>
+          <div class="feature-item"><span class="feature-item-dot"></span><span class="feature-item-name">Real-time editing</span><span class="feature-item-badge roadmap">Roadmap</span></div>
+          <div class="feature-item"><span class="feature-item-dot"></span><span class="feature-item-name">Comment threads</span><span class="feature-item-badge live">Live</span></div>
+          <div class="feature-item"><span class="feature-item-dot"></span><span class="feature-item-name">Activity feed</span><span class="feature-item-badge live">Live</span></div>
+          <div class="feature-item"><span class="feature-item-dot"></span><span class="feature-item-name">Email notifications</span><span class="feature-item-badge live">Live</span></div>
+          <div class="feature-item"><span class="feature-item-dot"></span><span class="feature-item-name">Shared dashboards</span><span class="feature-item-badge roadmap">Roadmap</span></div>
+        </div>
+
+        <!-- Resources -->
+        <div class="feature-panel" id="panel-resources" role="tabpanel">
+          <div class="feature-item"><span class="feature-item-dot"></span><span class="feature-item-name">Resource planning grid</span><span class="feature-item-badge live">Live</span></div>
+          <div class="feature-item"><span class="feature-item-dot"></span><span class="feature-item-name">Utilization tracking</span><span class="feature-item-badge live">Live</span></div>
+          <div class="feature-item"><span class="feature-item-dot"></span><span class="feature-item-name">Skill-based matching</span><span class="feature-item-badge roadmap">Roadmap</span></div>
+          <div class="feature-item"><span class="feature-item-dot"></span><span class="feature-item-name">Capacity forecasting</span><span class="feature-item-badge roadmap">Roadmap</span></div>
+          <div class="feature-item"><span class="feature-item-dot"></span><span class="feature-item-name">Cross-engagement view</span><span class="feature-item-badge live">Live</span></div>
+          <div class="feature-item"><span class="feature-item-dot"></span><span class="feature-item-name">Time tracking</span><span class="feature-item-badge roadmap">Roadmap</span></div>
+        </div>
+
+        <!-- Intelligence -->
+        <div class="feature-panel" id="panel-intelligence" role="tabpanel">
+          <div class="feature-item"><span class="feature-item-dot"></span><span class="feature-item-name">AI note parsing</span><span class="feature-item-badge live">Live</span></div>
+          <div class="feature-item"><span class="feature-item-dot"></span><span class="feature-item-name">Similar engagement matching</span><span class="feature-item-badge live">Live</span></div>
+          <div class="feature-item"><span class="feature-item-dot"></span><span class="feature-item-name">Estimate accuracy tracking</span><span class="feature-item-badge live">Live</span></div>
+          <div class="feature-item"><span class="feature-item-dot"></span><span class="feature-item-name">Pattern detection</span><span class="feature-item-badge live">Live</span></div>
+          <div class="feature-item"><span class="feature-item-dot"></span><span class="feature-item-name">Delivery variance analysis</span><span class="feature-item-badge live">Live</span></div>
+          <div class="feature-item"><span class="feature-item-dot"></span><span class="feature-item-name">Margin optimization</span><span class="feature-item-badge roadmap">Roadmap</span></div>
+        </div>
+
+        <!-- Integrations -->
+        <div class="feature-panel" id="panel-integrations-tab" role="tabpanel">
+          <div class="feature-item"><span class="feature-item-dot"></span><span class="feature-item-name">Salesforce CRM</span><span class="feature-item-badge live">Live</span></div>
+          <div class="feature-item"><span class="feature-item-dot"></span><span class="feature-item-name">REST API</span><span class="feature-item-badge live">Live</span></div>
+          <div class="feature-item"><span class="feature-item-dot"></span><span class="feature-item-name">CSV import/export</span><span class="feature-item-badge live">Live</span></div>
+          <div class="feature-item"><span class="feature-item-dot"></span><span class="feature-item-name">MCP Server</span><span class="feature-item-badge roadmap">Roadmap</span></div>
+          <div class="feature-item"><span class="feature-item-dot"></span><span class="feature-item-name">HubSpot</span><span class="feature-item-badge roadmap">Roadmap</span></div>
+          <div class="feature-item"><span class="feature-item-dot"></span><span class="feature-item-name">Zapier</span><span class="feature-item-badge roadmap">Roadmap</span></div>
+        </div>
+
+        <!-- Security -->
+        <div class="feature-panel" id="panel-security" role="tabpanel">
+          <div class="feature-item"><span class="feature-item-dot"></span><span class="feature-item-name">SSO / SAML</span><span class="feature-item-badge live">Live</span></div>
+          <div class="feature-item"><span class="feature-item-dot"></span><span class="feature-item-name">Role-based access</span><span class="feature-item-badge live">Live</span></div>
+          <div class="feature-item"><span class="feature-item-dot"></span><span class="feature-item-name">Audit logging</span><span class="feature-item-badge live">Live</span></div>
+          <div class="feature-item"><span class="feature-item-dot"></span><span class="feature-item-name">Data encryption</span><span class="feature-item-badge live">Live</span></div>
+          <div class="feature-item"><span class="feature-item-dot"></span><span class="feature-item-name">SOC 2 compliance</span><span class="feature-item-badge live">Live</span></div>
+          <div class="feature-item"><span class="feature-item-dot"></span><span class="feature-item-name">GDPR compliance</span><span class="feature-item-badge live">Live</span></div>
+        </div>
+      </div>
+
+      <!-- Comparison Bar -->
+      <div class="comparison-bar reveal">
+        <div class="comparison-stats">
+          <div class="comparison-stat">
+            <div class="comparison-stat-label">Proposal Speed</div>
+            <div class="comparison-stat-before">Days</div>
+            <div class="comparison-stat-arrow">&darr;</div>
+            <div class="comparison-stat-after">Minutes</div>
+          </div>
+          <div class="comparison-stat">
+            <div class="comparison-stat-label">Knowledge</div>
+            <div class="comparison-stat-before">Tribal</div>
+            <div class="comparison-stat-arrow">&darr;</div>
+            <div class="comparison-stat-after">Encoded</div>
+          </div>
+          <div class="comparison-stat">
+            <div class="comparison-stat-label">Estimate Accuracy</div>
+            <div class="comparison-stat-before">&plusmn;30%</div>
+            <div class="comparison-stat-arrow">&darr;</div>
+            <div class="comparison-stat-after">&plusmn;5%</div>
+          </div>
+          <div class="comparison-stat">
+            <div class="comparison-stat-label">Resource Visibility</div>
+            <div class="comparison-stat-before">Spreadsheets</div>
+            <div class="comparison-stat-arrow">&darr;</div>
+            <div class="comparison-stat-after">Real-time</div>
+          </div>
+          <div class="comparison-stat">
+            <div class="comparison-stat-label">System of Record</div>
+            <div class="comparison-stat-before">Scattered</div>
+            <div class="comparison-stat-arrow">&darr;</div>
+            <div class="comparison-stat-after">Unified</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 5: Final CTA -->
+  <section class="platform-cta">
+    <div class="container">
+      <h2>See it in action.</h2>
+      <p>15 minutes. No slides. Just the platform, live.</p>
+      <div class="platform-cta-buttons">
+        <button class="btn btn-primary btn-large" data-cal-link="christopher-veale/servantium-introduction?duration=15" data-cal-namespace="servantium-introduction" data-cal-config='{"layout":"month_view"}'>Book a Demo</button>
+        <button class="btn btn-secondary btn-large" onclick="openContactModal()">Contact Us</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Modal -->
+  <div class="contact-modal-overlay" id="contact-modal" aria-hidden="true">
+    <div class="contact-modal">
+      <button class="contact-modal-close" aria-label="Close" onclick="closeContactModal()">&times;</button>
+      <h2>Get in touch</h2>
+      <p style="color:var(--color-ink-muted, #6B7280);margin-bottom:1.5rem;font-size:0.95rem;">Tell us about your firm and we'll reach out within 24 hours.</p>
+      <form class="contact-modal-form" id="contact-modal-form">
+        <input type="text" name="name" placeholder="Your name" required>
+        <input type="email" name="email" placeholder="Work email" required>
+        <textarea name="message" placeholder="Tell us about your firm and what you're looking for..." rows="4"></textarea>
+        <button type="submit" class="btn btn-primary" id="contact-modal-submit">Send Message</button>
+        <div class="contact-modal-status" id="contact-modal-status" style="display:none;"></div>
+      </form>
+      <div class="contact-modal-success" id="contact-modal-success" style="display:none;">
+        <div class="contact-modal-check">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        </div>
+        <h3>Message Sent</h3>
+        <p>Thanks for reaching out! We'll be in touch within 24 hours.</p>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  :root {
+    --green-500: #00C26D;
+    --green-600: #00A95E;
+    --green-700: #009657;
+    --green-800: #037A47;
+    --green-900: #045F37;
+    --green-950: #023E25;
+    --green-100: #C8F5DE;
+    --green-50: #E8FBF1;
+    --green-25: #F3FCF8;
+    --coral: #FF5C70;
+    --slate-blue: #4C82A7;
+    --amber: #FFB02E;
+    --deep-teal: #26A899;
+    --slate: #64748B;
+    --neutral-25: #FFFFFF;
+    --neutral-100: #F5F6F7;
+    --neutral-300: #E1E3E6;
+    --neutral-700: #64748B;
+    --neutral-900: #0D0D0D;
+  }
+
+  .section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--green-600);
+    margin-bottom: 1.25rem;
+  }
+  .section-label::before {
+    content: '';
+    display: inline-block;
+    width: 32px;
+    height: 2px;
+    background: var(--green-500);
+  }
+
+  /* Hero */
+  .platform-hero {
+    padding: 9rem 0 5rem;
+    background: linear-gradient(180deg, var(--neutral-25) 0%, var(--green-25) 100%);
+    text-align: center;
+  }
+  .platform-hero h1 {
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    margin-bottom: 1.25rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .platform-hero-desc {
+    max-width: 660px;
+    margin: 0 auto 2.5rem;
+    font-size: 1.15rem;
+    line-height: 1.7;
+  }
+  .hero-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  /* Four Pillars */
+  .pillar-section {
+    padding: 4rem 0;
+    background: var(--neutral-25);
+  }
+  .pillar-section.tinted {
+    background: #F9FDFB;
+  }
+  .pillar-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+  .pillar-grid.reversed .pillar-text { order: 2; }
+  .pillar-grid.reversed .pillar-visual { order: 1; }
+
+  .pillar-title {
+    font-family: var(--font-heading, 'Playfair Display', serif);
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    padding-left: 12px;
+    line-height: 1.3;
+  }
+  .pillar-title.accent-green { border-left: 4px solid var(--green-500); }
+  .pillar-title.accent-blue { border-left: 4px solid var(--slate-blue); }
+  .pillar-title.accent-teal { border-left: 4px solid var(--deep-teal); }
+  .pillar-title.accent-amber { border-left: 4px solid var(--amber); }
+
+  .pillar-desc {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: var(--neutral-700);
+    margin-bottom: 1.5rem;
+  }
+  .pillar-bullets {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .pillar-bullets li {
+    padding: 0.4rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+    font-size: 0.95rem;
+    color: var(--neutral-700);
+    line-height: 1.5;
+  }
+  .pillar-bullets li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.65rem;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+  }
+  .pillar-bullets.green li::before { background: var(--green-500); }
+  .pillar-bullets.blue li::before { background: var(--slate-blue); }
+  .pillar-bullets.teal li::before { background: var(--deep-teal); }
+  .pillar-bullets.amber li::before { background: var(--amber); }
+
+  /* Mini Illustrations */
+  .mini-illus {
+    max-width: 480px;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+    overflow: hidden;
+    background: white;
+    border: 1px solid var(--neutral-300);
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 10px;
+    color: var(--neutral-900);
+    margin: 0 auto;
+  }
+
+  /* Pillar 1: Engagement Card */
+  .mock-eng-card { padding: 16px; }
+  .mock-eng-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+  .mock-eng-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green-500); }
+  .mock-eng-title { font-weight: 600; font-size: 11px; letter-spacing: 0.02em; }
+  .mock-eng-keywords { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+  .mock-eng-kw { padding: 3px 8px; border-radius: 4px; background: rgba(0,194,109,0.08); color: var(--green-700); font-size: 9px; font-weight: 600; }
+  .mock-eng-insight { background: var(--neutral-100); border-radius: 6px; padding: 8px 10px; font-size: 9px; color: var(--slate); border-left: 3px solid var(--green-500); }
+
+  /* Pillar 2: Estimate Table */
+  .mock-est { font-size: 9px; }
+  .mock-est-header { display: grid; grid-template-columns: 1fr 1.2fr 0.5fr 0.6fr 0.6fr 0.7fr; padding: 8px 12px; background: var(--neutral-100); font-weight: 600; font-size: 8px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--slate); border-bottom: 1px solid var(--neutral-300); }
+  .mock-est-group { display: grid; grid-template-columns: 1fr 0.6fr 0.6fr 0.7fr; padding: 7px 12px; background: rgba(76,130,167,0.06); font-weight: 600; font-size: 9px; color: var(--slate-blue); border-bottom: 1px solid var(--neutral-300); }
+  .mock-est-row { display: grid; grid-template-columns: 1fr 1.2fr 0.5fr 0.6fr 0.6fr 0.7fr; padding: 6px 12px; border-bottom: 1px solid rgba(0,0,0,0.04); align-items: center; }
+  .mock-est-badge { display: inline-block; padding: 1px 6px; border-radius: 3px; font-size: 8px; font-weight: 600; background: rgba(76,130,167,0.1); color: var(--slate-blue); }
+  .mock-est-total { display: flex; justify-content: flex-end; padding: 10px 12px; font-weight: 700; font-size: 12px; color: var(--slate-blue); background: rgba(76,130,167,0.04); border-top: 2px solid var(--slate-blue); }
+
+  /* Pillar 3: Resource Grid */
+  .mock-res { font-size: 9px; }
+  .mock-res-project { padding: 8px 12px; background: rgba(38,168,153,0.06); font-weight: 600; font-size: 10px; color: var(--deep-teal); border-bottom: 1px solid var(--neutral-300); }
+  .mock-res-header { display: grid; grid-template-columns: 1.4fr repeat(4, 1fr); padding: 6px 12px; background: var(--neutral-100); font-weight: 600; font-size: 8px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--slate); border-bottom: 1px solid var(--neutral-300); }
+  .mock-res-row { display: grid; grid-template-columns: 1.4fr repeat(4, 1fr); padding: 5px 12px; border-bottom: 1px solid rgba(0,0,0,0.04); align-items: center; }
+  .mock-res-name { font-weight: 600; font-size: 9px; }
+  .mock-res-role { font-size: 8px; color: var(--slate); }
+  .mock-res-cell { display: inline-block; width: 90%; height: 18px; border-radius: 3px; text-align: center; line-height: 18px; font-size: 8px; font-weight: 600; color: white; }
+  .mock-res-cell.normal { background: var(--deep-teal); }
+  .mock-res-cell.heavy { background: var(--amber); }
+  .mock-res-cell.over { background: var(--coral); }
+
+  /* Pillar 4: Learning Card */
+  .mock-learn { padding: 16px; }
+  .mock-learn-title { font-weight: 600; font-size: 11px; margin-bottom: 12px; color: var(--neutral-900); }
+  .mock-learn-metrics { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .mock-learn-pill { padding: 4px 10px; border-radius: 20px; font-size: 9px; font-weight: 600; }
+  .mock-learn-pill.green { background: rgba(0,194,109,0.1); color: var(--green-700); }
+  .mock-learn-pill.blue { background: rgba(76,130,167,0.1); color: var(--slate-blue); }
+  .mock-learn-patterns { background: var(--neutral-100); border-radius: 6px; padding: 10px 12px; margin-bottom: 12px; }
+  .mock-learn-patterns-title { font-weight: 600; font-size: 9px; color: var(--amber); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .mock-learn-patterns-text { font-size: 9px; color: var(--slate); line-height: 1.5; }
+  .mock-learn-footer { font-size: 8px; color: var(--slate); text-align: right; padding-top: 8px; border-top: 1px dashed var(--neutral-300); }
+  .mock-learn-footer span { color: var(--amber); font-weight: 600; }
+
+  /* Integrations */
+  .integrations { padding: 4rem 0; background: var(--neutral-100); }
+  .integrations-header { text-align: center; max-width: 600px; margin: 0 auto 3rem; }
+  .integrations-header h2 { margin-bottom: 0.75rem; }
+  .integrations-header .section-label::before { margin: 0; }
+
+  .constellation { position: relative; width: 460px; height: 460px; margin: 0 auto 2rem; }
+  .constellation-hub { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 72px; height: 72px; border-radius: 50%; border: 2px solid var(--green-500); background: white; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 24px rgba(0,194,109,0.15); z-index: 2; }
+  .constellation-hub img { height: 22px; width: auto; }
+  .constellation-node { position: absolute; display: flex; flex-direction: column; align-items: center; gap: 6px; z-index: 2; }
+  .constellation-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; font-family: 'Source Sans 3', sans-serif; }
+  .constellation-name { font-size: 10px; font-weight: 600; color: var(--neutral-900); white-space: nowrap; }
+  .constellation-badge { font-size: 8px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 2px 6px; border-radius: 20px; }
+  .constellation-badge.live { background: rgba(0,194,109,0.1); color: var(--green-600); }
+  .constellation-badge.soon { background: rgba(255,176,46,0.12); color: #b87a00; }
+
+  .constellation-node:nth-child(2) { top: 0; left: 50%; transform: translateX(-50%); }
+  .constellation-node:nth-child(3) { top: 10%; right: 5%; }
+  .constellation-node:nth-child(4) { top: 40%; right: -4%; }
+  .constellation-node:nth-child(5) { bottom: 10%; right: 5%; }
+  .constellation-node:nth-child(6) { bottom: 0; left: 50%; transform: translateX(-50%); }
+  .constellation-node:nth-child(7) { bottom: 10%; left: 5%; }
+  .constellation-node:nth-child(8) { top: 40%; left: -4%; }
+  .constellation-node:nth-child(9) { top: 10%; left: 5%; }
+
+  .constellation-lines { position: absolute; inset: 0; z-index: 1; }
+
+  .integration-request { text-align: center; margin-top: 1.5rem; }
+  .integration-request a { color: var(--green-600); font-weight: 600; font-size: 0.95rem; text-decoration: none; transition: color 0.2s; }
+  .integration-request a:hover { color: var(--green-700); }
+
+  .constellation-mobile { display: none; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .constellation-mobile-card { display: flex; align-items: center; gap: 10px; padding: 12px 14px; background: white; border: 1px solid var(--neutral-300); border-radius: 10px; }
+  .constellation-mobile-card .constellation-icon { width: 40px; height: 40px; border-radius: 10px; font-size: 12px; flex-shrink: 0; }
+  .constellation-mobile-info { flex: 1; }
+  .constellation-mobile-info .constellation-name { display: block; font-size: 11px; margin-bottom: 2px; }
+
+  /* Feature Matrix */
+  .features-section { padding: 4rem 0; background: var(--neutral-25); }
+  .features-header { text-align: center; max-width: 640px; margin: 0 auto 2.5rem; }
+  .features-header h2 { margin-bottom: 0.75rem; }
+
+  .feature-tabs { display: flex; gap: 0; border-bottom: 2px solid var(--neutral-300); margin-bottom: 2rem; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .feature-tabs::-webkit-scrollbar { display: none; }
+  .feature-tab { padding: 0.75rem 1.25rem; font-size: 0.9rem; font-weight: 600; color: var(--slate); background: none; border: none; border-bottom: 2px solid transparent; margin-bottom: -2px; cursor: pointer; white-space: nowrap; transition: all 0.2s; font-family: inherit; }
+  .feature-tab:hover { color: var(--neutral-900); }
+  .feature-tab.active { color: var(--green-600); border-bottom-color: var(--green-500); }
+
+  .feature-panel { display: none; }
+  .feature-panel.active { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem 1.5rem; }
+
+  .feature-item { display: flex; align-items: center; gap: 0.6rem; padding: 0.6rem 0; }
+  .feature-item-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green-500); flex-shrink: 0; }
+  .feature-item-name { font-size: 0.9rem; font-weight: 500; color: var(--neutral-900); flex: 1; }
+  .feature-item-badge { font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 0.15rem 0.5rem; border-radius: 50px; white-space: nowrap; flex-shrink: 0; }
+  .feature-item-badge.live { background: rgba(0,194,109,0.1); color: var(--green-600); }
+  .feature-item-badge.roadmap { background: rgba(255,176,46,0.15); color: #b87a00; }
+
+  /* Comparison Bar */
+  .comparison-bar { background: var(--green-950); border-radius: 16px; padding: 2.5rem; margin-top: 3rem; }
+  .comparison-stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; }
+  .comparison-stat { text-align: center; }
+  .comparison-stat-label { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--green-100); margin-bottom: 0.75rem; }
+  .comparison-stat-before { font-size: 0.85rem; color: rgba(255,255,255,0.45); margin-bottom: 0.25rem; text-decoration: line-through; text-decoration-color: rgba(255,92,112,0.5); }
+  .comparison-stat-arrow { color: var(--green-500); font-size: 0.9rem; margin-bottom: 0.25rem; }
+  .comparison-stat-after { font-size: 0.95rem; font-weight: 600; color: white; line-height: 1.3; }
+
+  /* CTA */
+  .platform-cta { padding: 4rem 0; background: var(--green-950); text-align: center; }
+  .platform-cta h2 { color: white; margin-bottom: 1rem; }
+  .platform-cta > .container > p { font-size: 1.1rem; color: rgba(255,255,255,0.7); margin-bottom: 2rem; max-width: 500px; margin-left: auto; margin-right: auto; }
+  .platform-cta-buttons { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+  .platform-cta .btn-secondary { border-color: rgba(255,255,255,0.2); color: white; }
+  .platform-cta .btn-secondary:hover { border-color: var(--green-500); background: rgba(0, 194, 109, 0.1); }
+
+  /* Contact Modal */
+  .contact-modal-overlay { position: fixed; inset: 0; z-index: 10000; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+  .contact-modal-overlay.open { opacity: 1; pointer-events: auto; }
+  .contact-modal { background: white; border-radius: 16px; padding: 2.5rem; width: 90%; max-width: 480px; position: relative; transform: translateY(20px) scale(0.97); transition: transform 0.3s ease; box-shadow: 0 25px 60px rgba(0,0,0,0.15); }
+  .contact-modal-overlay.open .contact-modal { transform: translateY(0) scale(1); }
+  .contact-modal-close { position: absolute; top: 16px; right: 20px; background: none; border: none; font-size: 1.5rem; color: #999; cursor: pointer; line-height: 1; }
+  .contact-modal-close:hover { color: #333; }
+  .contact-modal h2 { font-family: var(--font-heading, 'Playfair Display', serif); font-size: 1.5rem; margin-bottom: 0.25rem; }
+  .contact-modal-form input, .contact-modal-form textarea { display: block; width: 100%; padding: 0.75rem 1rem; border: 1px solid #E1E3E6; border-radius: 8px; font-family: inherit; font-size: 0.95rem; margin-bottom: 0.75rem; transition: border-color 0.2s; }
+  .contact-modal-form input:focus, .contact-modal-form textarea:focus { outline: none; border-color: #00C26D; }
+  .contact-modal-form .btn { width: 100%; justify-content: center; padding: 0.85rem; font-size: 1rem; }
+  .contact-modal-status { font-size: 0.85rem; margin-top: 0.75rem; padding: 0.5rem; border-radius: 6px; text-align: center; }
+  .contact-modal-status.error { background: rgba(255,92,112,0.1); color: #cc3344; }
+  .contact-modal-success { text-align: center; padding: 2rem 0; }
+  .contact-modal-check { width: 56px; height: 56px; border-radius: 50%; background: rgba(0,194,109,0.1); color: #00C26D; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; }
+  .contact-modal-check svg { width: 28px; height: 28px; stroke: #00C26D; }
+  .contact-modal-success h3 { font-family: var(--font-heading, 'Playfair Display', serif); margin-bottom: 0.5rem; }
+  .contact-modal-success p { color: #6B7280; }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .comparison-stats { grid-template-columns: repeat(3, 1fr); }
+    .feature-panel.active { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 768px) {
+    .platform-hero { padding: 7rem 0 3.5rem; }
+    .pillar-section { padding: 3rem 0; }
+    .pillar-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .pillar-grid.reversed .pillar-text { order: 1; }
+    .pillar-grid.reversed .pillar-visual { order: 0; }
+    .mini-illus { max-width: 100%; }
+    .constellation { display: none; }
+    .constellation-mobile { display: grid; }
+    .features-section, .integrations, .platform-cta { padding: 3rem 0; }
+    .feature-panel.active { grid-template-columns: 1fr; }
+    .comparison-bar { padding: 1.5rem; border-radius: 12px; }
+    .comparison-stats { grid-template-columns: 1fr 1fr; }
+    .comparison-stat:last-child { grid-column: 1 / -1; }
+    .platform-cta-buttons, .hero-buttons { flex-direction: column; align-items: center; }
+    .feature-tabs { gap: 0; }
+  }
+</style>
+
+<script is:inline>
+  // Contact Modal
+  function openContactModal() {
+    var modal = document.getElementById('contact-modal');
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeContactModal() {
+    var modal = document.getElementById('contact-modal');
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    var form = document.getElementById('contact-modal-form');
+    var success = document.getElementById('contact-modal-success');
+    if (form) form.style.display = '';
+    if (success) success.style.display = 'none';
+  }
+  document.getElementById('contact-modal').addEventListener('click', function(e) {
+    if (e.target === this) closeContactModal();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeContactModal();
+  });
+  document.getElementById('contact-modal-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    var btn = document.getElementById('contact-modal-submit');
+    var statusEl = document.getElementById('contact-modal-status');
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+    if (statusEl) { statusEl.className = 'contact-modal-status'; statusEl.style.display = 'none'; }
+
+    var formData = {
+      name: this.querySelector('[name="name"]').value,
+      email: this.querySelector('[name="email"]').value,
+      message: this.querySelector('[name="message"]').value
+    };
+
+    try {
+      var response = await fetch('https://contact.servantium.com/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
+      if (response.ok) {
+        this.style.display = 'none';
+        document.getElementById('contact-modal-success').style.display = 'block';
+        this.reset();
+        setTimeout(closeContactModal, 4000);
+      } else {
+        throw new Error('Form submission failed');
+      }
+    } catch(err) {
+      if (statusEl) {
+        statusEl.className = 'contact-modal-status error';
+        statusEl.textContent = 'Something went wrong. Please email us directly at hello@servantium.com';
+        statusEl.style.display = 'block';
+      }
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Send Message';
+    }
+  });
+
+  // Feature Tabs
+  (function() {
+    var tabs = document.querySelectorAll('.feature-tab');
+    tabs.forEach(function(tab) {
+      tab.addEventListener('click', function() {
+        tabs.forEach(function(t) {
+          t.classList.remove('active');
+          t.setAttribute('aria-selected', 'false');
+        });
+        tab.classList.add('active');
+        tab.setAttribute('aria-selected', 'true');
+        var panels = document.querySelectorAll('.feature-panel');
+        panels.forEach(function(p) { p.classList.remove('active'); });
+        var target = document.getElementById('panel-' + tab.getAttribute('data-tab'));
+        if (target) target.classList.add('active');
+      });
+    });
+  })();
+
+  // Scroll reveal
+  (function() {
+    var reveals = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window && window.innerHeight > 0) {
+      reveals.forEach(function(el) { el.classList.add('hidden'); });
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.remove('hidden');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.05 });
+      reveals.forEach(function(el) { observer.observe(el); });
+      setTimeout(function() {
+        reveals.forEach(function(el) { el.classList.remove('hidden'); });
+      }, 1000);
+    }
+  })();
+</script>

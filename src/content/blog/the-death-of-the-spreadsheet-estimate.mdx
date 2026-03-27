@@ -1,0 +1,95 @@
+---
+title: "The Death of the Spreadsheet Estimate"
+description: "Why spreadsheet-based estimation is technically bankrupt. No version control, formula rot, zero institutional memory, and no learning loop. There's a better way."
+date: "2026-02-22"
+author: "maxwell-friel"
+category: "Technology"
+image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&h=630&fit=crop"
+imageAlt: "Financial data and charts on a laptop screen"
+readingTime: "6 min read"
+---
+
+A delivery lead at a mid-size consultancy sent me a spreadsheet last month. Forty-seven tabs. The first tab referenced cells on tab 23, which referenced a named range that pointed to a hidden sheet someone had password-protected in 2019. The person who built it had left the company two years ago. Nobody understood how it worked. Everyone used it anyway.
+
+They were pricing million-dollar engagements with it.
+
+**This is not an edge case. This is the industry standard.**
+
+## The Seven Sins of Spreadsheet Estimation
+
+I'm not anti-spreadsheet. Spreadsheets are incredible tools for ad hoc analysis, quick modeling, and one-off calculations. But estimation — repeated, high-stakes, institutional — is none of those things. Here's why spreadsheets fail at it.
+
+### 1. Zero Institutional Memory
+
+Your spreadsheet doesn't know that the last three "Data Migration" engagements ran 25% over estimate. It doesn't know that projects for clients in healthcare consistently need an extra compliance phase. It doesn't know anything, because it's a grid of numbers. No context, no history, no feedback loop.
+
+Every estimate starts from zero. The person building it might have twenty years of experience, or they might have two. The spreadsheet doesn't care. It gives them the same blank grid either way. All the knowledge your firm has accumulated about what engagements actually cost? None of it lives in the tool you use to price them.
+
+### 2. No Learning Loop
+
+This is the killer. Your spreadsheet produces an estimate. The engagement runs. The actual numbers come in, different from the estimate. Always. What happens to that delta?
+
+Nothing. Absolutely nothing.
+
+The estimate lives in one file. The actuals live in the time tracking system. The two never meet. The next time someone estimates a similar engagement, they're working from the same assumptions that were wrong last time. Your firm gets no smarter. Every proposal is an independent guess.
+
+### 3. No Composability
+
+Want to add a "Change Management" module to your existing "ERP Implementation" estimate? In a spreadsheet, you're copying tabs, adjusting formulas, hoping the rates carry over correctly, and manually recalculating the total. In a system with composable services, you drag a component in and the price updates.
+
+Spreadsheets treat every estimate as a standalone artifact. There's no concept of reusable building blocks. No shared service definitions. Every estimate is its own island, which means every estimate starts from scratch instead of building on what the firm already knows.
+
+### 4. No Governance
+
+Who approved this discount? When did the team agree to that rate? Who overrode the margin floor? A spreadsheet can't tell you. There's no approval workflow. No role-based access. No audit trail. The same file that a junior associate uses to build an estimate can be modified by anyone with the link.
+
+One firm lost $200K on a deal because someone accidentally deleted the row that calculated the infrastructure costs. They submitted the proposal without it. Nobody noticed until delivery started.
+
+### 5. No Version Control
+
+"Q4_Estimate_v3_FINAL_revised_MF_ACTUALLY_FINAL.xlsx." Everyone laughs, but nobody's laughing when two partners submit different versions to the same client. It happens more often than anyone admits.
+
+Google Sheets has revision history, sure. But it tracks cell changes, not intent. It can't tell you why someone changed the blended rate from $185 to $210, or whether that change was a correction or a mistake. There's no commit message. No audit trail of reasoning.
+
+### 6. Formula Rot
+
+Every complex spreadsheet decays over time. Someone copies a row and breaks a relative reference. Someone overwrites a formula with a hardcoded number because "it wasn't calculating right." Someone adds a column that shifts every downstream reference by one.
+
+Formula rot is insidious because it's invisible. The spreadsheet still produces numbers. They're just wrong numbers. And nobody knows they're wrong until a project comes in 40% over estimate and someone finally traces it back to a broken VLOOKUP that's been lying for eight months.
+
+### 7. Single Point of Failure
+
+Your estimation spreadsheet was built by one person. Maybe two. They understood the logic, the hidden assumptions, the weird conditional formatting that means "this number is a guess, not a calculation." When they leave, and they will leave, all of that context goes with them.
+
+You're left with a spreadsheet that works, technically, but that nobody fully understands. And nobody wants to rebuild it because the current one "mostly works." So you keep using a tool you don't understand for decisions worth millions.
+
+## Unpopular Opinion
+
+**Your estimation spreadsheet isn't a tool. It's technical debt masquerading as a process.** Every time you use it, you're accumulating more debt — more hardcoded assumptions, more broken references, more knowledge that lives only in someone's head. And like all technical debt, it compounds. The longer you carry it, the more painful the migration.
+
+> "We've always done it this way" is the most expensive sentence in professional services.
+
+## What Replaces It
+
+The replacement isn't another spreadsheet. It's not even a better spreadsheet. It's a fundamentally different approach to estimation.
+
+An estimation system should have:
+- **Structured service definitions** — not rows in a spreadsheet, but entities with defined components, effort drivers, and pricing logic
+- **Version history with context** — who changed what, when, and why, at the proposal level
+- **Governance and approvals** — margin floors enforced by the system, discount approvals tracked, role-based access
+- **Feedback from delivery** — actual outcomes flowing back to calibrate future estimates
+- **Composability** — reusable service blocks that snap together and recalculate automatically
+
+This isn't science fiction. This is what manufacturing figured out twenty years ago with CPQ tools. Services businesses are just late to the party.
+
+## The Migration Fear
+
+I know what you're thinking. "We can't just stop using our spreadsheet. Everything depends on it." That fear is valid. And it's also the same fear that keeps companies running Windows XP in 2026. The longer you wait, the harder the migration gets. The assumptions get more deeply buried. The formulas get more tangled. The people who understand it get closer to leaving.
+
+The migration doesn't have to be all at once. Start with one service line. Build its definitions in a structured system. Run estimates in both tools for a quarter. Compare the outputs. Once you see structured estimation producing better, faster, more consistent results — and it will — the spreadsheet dies on its own.
+
+## Bottom Line
+
+Open your estimation spreadsheet right now. Find the most complex formula in it. Now ask yourself: if the person who wrote that formula left tomorrow, could anyone else explain what it does and verify it's correct?
+
+If the answer is no, you don't have an estimation process. You have a liability.

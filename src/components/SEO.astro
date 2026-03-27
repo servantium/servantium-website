@@ -1,0 +1,70 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  ogType?: string;
+  ogImage?: string;
+  ogImageAlt?: string;
+  article?: {
+    publishedTime: string;
+    modifiedTime?: string;
+    author: string;
+    section?: string;
+    tags?: string[];
+  };
+  jsonLd?: object | object[];
+}
+
+const {
+  title,
+  description,
+  canonical,
+  ogType = 'website',
+  ogImage = 'https://servantium.com/og-image.png',
+  ogImageAlt = 'Servantium - The Operating System for Professional Services',
+  article,
+  jsonLd,
+} = Astro.props;
+
+const canonicalUrl = canonical || new URL(Astro.url.pathname, Astro.site).toString();
+const fullTitle = title.includes('Servantium') ? title : `${title} — Servantium`;
+---
+
+<!-- Primary Meta -->
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<meta name="author" content="Servantium Inc." />
+
+<!-- Open Graph / Social -->
+<meta property="og:type" content={ogType} />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:site_name" content="Servantium" />
+<meta name="title" property="og:title" content={fullTitle} />
+<meta name="description" property="og:description" content={description} />
+<meta name="image" property="og:image" content={ogImage} />
+<meta property="og:image:secure_url" content={ogImage} />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={ogImageAlt} />
+
+{article && (
+  <>
+    <meta property="article:published_time" content={article.publishedTime} />
+    {article.modifiedTime && <meta property="article:modified_time" content={article.modifiedTime} />}
+    <meta property="article:author" content={article.author} />
+    {article.section && <meta property="article:section" content={article.section} />}
+    {article.tags?.map(tag => <meta property="article:tag" content={tag} />)}
+  </>
+)}
+
+<!-- Canonical -->
+<link rel="canonical" href={canonicalUrl} />
+
+<!-- Schema.org Structured Data -->
+{jsonLd && (
+  Array.isArray(jsonLd)
+    ? <script type="application/ld+json" set:html={JSON.stringify({ "@context": "https://schema.org", "@graph": jsonLd })} />
+    : <script type="application/ld+json" set:html={JSON.stringify({ "@context": "https://schema.org", ...jsonLd })} />
+)}

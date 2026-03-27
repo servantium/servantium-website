@@ -1,0 +1,158 @@
+---
+import { Image } from 'astro:assets';
+import logoSrc from '/public/logo.png';
+const currentYear = new Date().getFullYear();
+---
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="logo">
+          <Image src={logoSrc} alt="Servantium" class="logo-image footer-logo" width={160} height={40} />
+        </a>
+        <p>The operating system for professional services.</p>
+        <div class="footer-social">
+          <span class="footer-social-label">Follow us on</span>
+          <a href="https://linkedin.com/company/servantium" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Follow Servantium on LinkedIn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-column">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="/platform">Platform</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/blog/">Blog</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/about">About</a></li>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="/privacy">Privacy</a></li>
+          <li><a href="/terms">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-bottom-left">
+        <span>&copy; {currentYear} Servantium Inc.</span>
+        <span class="footer-divider">&middot;</span>
+        <button class="footer-email-chip" id="footer-email-chip" aria-label="Copy email address hello@servantium.com to clipboard">
+          <span class="footer-email-chip-text">hello@servantium.com</span>
+          <svg class="footer-email-chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="footer-bottom-right">
+        <span>Founded by <a href="https://linkedin.com/in/christopher-veale">Christopher Veale</a> & <a href="https://linkedin.com/in/maxwell-friel-2bb02b30">Maxwell Friel</a></span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  footer {
+    background: var(--color-ink, #0D0D0D);
+    color: var(--color-white, #FFFFFF);
+    padding: var(--space-xl, 4rem) 0 var(--space-md, 1.5rem);
+  }
+  footer .container {
+    max-width: var(--max-width, 1140px);
+    margin: 0 auto;
+    padding: 0 var(--space-lg, 2.5rem);
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: var(--space-xl, 4rem);
+    margin-bottom: var(--space-lg, 2.5rem);
+  }
+  .footer-brand { max-width: 280px; }
+  .footer-brand .logo { margin-bottom: var(--space-sm, 1rem); }
+  .footer-brand p { font-size: 0.9rem; opacity: 0.6; color: var(--color-white, #FFFFFF); line-height: 1.6; margin-bottom: var(--space-sm, 1rem); }
+  .footer-logo { filter: brightness(0) invert(1); height: 40px; width: auto; }
+  .footer-social { display: flex; align-items: center; gap: 0.5rem; margin-top: var(--space-sm, 1rem); }
+  .footer-social-label { font-size: 0.85rem; opacity: 0.7; }
+  .social-link {
+    display: flex; align-items: center; justify-content: center;
+    width: 32px; height: 32px; border-radius: 6px;
+    background: rgba(255, 255, 255, 0.1); color: var(--color-white, #FFFFFF);
+    transition: all 0.2s ease; text-decoration: none;
+  }
+  .social-link:hover { background: var(--color-servantium-green, #00C26D); transform: translateY(-1px); }
+  .footer-column h4 {
+    font-family: var(--font-body, 'Source Sans 3', sans-serif); font-size: 0.75rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    margin-bottom: var(--space-sm, 1rem); opacity: 0.6; color: var(--color-white, #FFFFFF);
+  }
+  .footer-column ul { list-style: none; padding: 0; margin: 0; }
+  .footer-column li { margin-bottom: 0.35rem; }
+  .footer-column a { color: var(--color-white, #FFFFFF); opacity: 0.7; text-decoration: none; font-size: 0.9rem; transition: opacity 0.2s; }
+  .footer-column a:hover { opacity: 1; }
+  .footer-bottom {
+    padding-top: var(--space-md, 1.5rem); border-top: 1px solid rgba(255,255,255,0.1);
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.85rem; opacity: 0.7;
+  }
+  .footer-bottom-left { display: flex; align-items: center; gap: 0.5rem; }
+  .footer-divider { opacity: 0.5; }
+  .footer-bottom a { color: var(--color-white, #FFFFFF); text-decoration: none; transition: opacity 0.2s; }
+  .footer-bottom a:hover { opacity: 1; text-decoration: underline; }
+  .footer-email-chip {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.5rem 1rem; background: transparent;
+    border: 1.5px solid var(--color-servantium-green, #00C26D);
+    border-radius: 50px; cursor: pointer;
+    transition: all 0.2s ease; font-family: inherit; font-size: 0.85rem;
+  }
+  .footer-email-chip:hover { background: rgba(0, 194, 109, 0.15); }
+  .footer-email-chip-text { color: var(--color-servantium-green, #00C26D); font-weight: 500; }
+  .footer-email-chip-icon { width: 14px; height: 14px; color: var(--color-servantium-green, #00C26D); flex-shrink: 0; }
+  .footer-email-chip.copied { background: var(--color-servantium-green, #00C26D); border-color: var(--color-servantium-green, #00C26D); }
+  .footer-email-chip.copied .footer-email-chip-text,
+  .footer-email-chip.copied .footer-email-chip-icon { color: white; }
+
+  @media (max-width: 768px) {
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: var(--space-lg, 2.5rem); }
+    .footer-bottom { flex-direction: column; gap: var(--space-sm, 1rem); text-align: center; }
+    .footer-bottom-left { flex-direction: column; gap: 0.25rem; }
+    .footer-divider { display: none; }
+  }
+</style>
+
+<script>
+  const chip = document.getElementById('footer-email-chip');
+  chip?.addEventListener('click', function() {
+    const email = 'hello@servantium.com';
+    const text = this.querySelector('.footer-email-chip-text');
+    const icon = this.querySelector('.footer-email-chip-icon');
+    const btn = this;
+
+    navigator.clipboard.writeText(email).then(function() {
+      btn.classList.add('copied');
+      if (text) text.textContent = 'Copied!';
+      if (icon) icon.innerHTML = '<polyline points="20 6 9 17 4 12"></polyline>';
+      setTimeout(function() {
+        btn.classList.remove('copied');
+        if (text) text.textContent = email;
+        if (icon) icon.innerHTML = '<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>';
+      }, 2000);
+    }).catch(function() {
+      window.location.href = 'mailto:' + email;
+    });
+  });
+</script>

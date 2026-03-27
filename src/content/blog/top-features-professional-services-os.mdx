@@ -1,0 +1,80 @@
+---
+title: "Top Features to Look for in a Professional Services Operating System"
+description: "Not a feature checklist. The architectural patterns that separate real professional services platforms from dressed-up spreadsheets. A CTO's guide to what actually matters."
+date: "2026-02-08"
+author: "maxwell-friel"
+category: "Technology"
+image: "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=1200&h=630&fit=crop"
+imageAlt: "Technology architecture and system design"
+readingTime: "6 min read"
+---
+
+After evaluating dozens of platforms over the past decade, I can tell you the dirty secret of vendor selection: feature checklists are worthless. I watched a 200-person consulting firm score five platforms using a spreadsheet with 347 features. Every vendor scored above 90%. They picked the one with the best demo.
+
+Eighteen months later, they ripped it out. The platform did everything on paper and nothing in practice. It could check every box because the boxes were wrong.
+
+**Feature lists are a trap. Architecture is what matters.**
+
+## The Checklist Problem
+
+When you evaluate platforms by feature count, you're asking the wrong question. "Does it do time tracking?" tells you nothing. Does it track time in a way that feeds back into your estimation models? Does the data model connect billable hours to margin outcomes at the engagement level? Can you slice utilization by role, practice, and client segment without a BI tool bolted on top?
+
+Those are architecture questions. And they're the ones that actually determine whether a platform works or collects dust.
+
+I've watched firms buy platforms that had every feature they asked for, then spend two years building workarounds because the features didn't connect. Time tracking over here. Pricing over there. Resource management in a third silo. Each feature works in isolation. None of them talk to each other in a way that produces insight.
+
+## What Actually Matters: Five Architectural Patterns
+
+Forget the feature list. Here's what I look for when evaluating whether a platform is real or dressed-up middleware.
+
+### 1. The Engagement as First-Class Entity
+
+Most PSA tools are built around projects. That sounds reasonable until you realize a project is a delivery construct, not a business construct. The engagement is where pricing, scoping, staffing, delivery, and margin all converge.
+
+If the data model doesn't treat the engagement as the central object — with relationships radiating out to services, resources, timelines, and commercial terms — you're going to spend your life stitching together reports from separate systems. I've built those integrations. They're brittle, expensive, and they break every time someone changes a field name.
+
+### 2. A Composable Service Catalog
+
+Not a dropdown list. Not a PDF rate card. A structured, composable catalog where services have defined components, effort drivers, dependencies, and pricing logic baked in.
+
+Here's the test: can a new hire build a reasonable proposal for a standard engagement without calling three senior partners? If the answer is no, your "service catalog" is just a list. A real catalog encodes enough institutional knowledge that people can build on what the firm already knows, not reinvent it every time.
+
+### 3. Closed-Loop Feedback
+
+This is the one almost everybody misses. Does the platform feed delivery data back into the estimation engine? When an engagement runs 30% over estimate, does that signal propagate back to change how similar engagements get scoped in the future?
+
+Without closed-loop feedback, your platform is just a recording device. It captures what happened. It doesn't learn. Every estimate starts from the same assumptions regardless of what reality looked like last time. That's not a platform. That's an expensive notebook.
+
+### 4. Multi-Dimensional Resource Modeling
+
+"We need a senior consultant for 3 weeks" is not a resource model. What skills? What certifications? What client history? What's their current utilization? What's the margin impact of assigning them versus someone else?
+
+Real resource modeling requires the platform to understand people as multi-dimensional entities, not interchangeable slots. If your platform can't answer "who's available, qualified, and profitable for this engagement?" in a single query, you don't have resource management. You have a calendar with names on it.
+
+### 5. Commercial Logic That Lives in the System
+
+Rate cards in Excel. Discount approval over email. Margin calculations in someone's head. I've seen this at firms doing $50M in revenue.
+
+Commercial logic — pricing rules, discount thresholds, margin floors, approval workflows — needs to live in the platform, not in tribal knowledge. When it does, you get consistency across proposals, visibility into margin before you sign the deal, and an audit trail that doesn't depend on someone's inbox.
+
+## Unpopular Opinion
+
+**The number of features a platform has is inversely correlated with how well it works.** I've seen it over and over. The platforms with 400 features are the ones where nothing connects. They grew by acquisition or by bolting on modules, and the result is a Frankenstein system where data lives in fourteen different schemas.
+
+The best platforms do fewer things — but those things share a coherent data model. Every feature has access to the same engagement context. Every input shows up everywhere it matters. That's not a feature advantage. It's an architecture advantage.
+
+## The Hidden Cost of Getting It Wrong
+
+When you pick the wrong platform, the cost isn't just the license fee. It's the two years of implementation. The custom integrations that nobody wants to maintain. The workarounds that become permanent. The reporting layer you have to build on top because the platform's reports don't reflect how your business actually works.
+
+I've watched firms spend more on customizing a platform than the platform itself cost. That's not a technology problem. That's an architecture mismatch.
+
+The right question isn't "does this platform have the features I need?" It's "does this platform's data model match how my business actually operates?"
+
+## Bottom Line
+
+Next time you're evaluating platforms, throw away the feature checklist. Instead, ask these five questions:
+
+1. 2. 3. 4. 5.
+
+If the answer to any of those is "sort of, with a workaround," keep looking. Workarounds are where platforms go to die.

@@ -1,0 +1,55 @@
+---
+title: Resource Planning
+description: Assign team members to engagements and track capacity across your organization.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Overview
+
+Resource Planning gives you visibility into **who is working where, when, and for how long**. It surfaces overallocation before it becomes a problem and helps you staff new engagements based on actual availability.
+
+## Views
+
+### Month View
+
+The default view shows resource allocation by month across all active engagements. Each cell shows planned hours with color coding:
+
+| Color | Meaning |
+|-------|---------|
+| **Green** | Normal utilization (within capacity) |
+| **Amber** | Approaching capacity (80%+) |
+| **Red** | Overallocated (exceeds available hours) |
+
+### Week View
+
+Drill into a specific week to see day-by-day allocation. Useful for sprint planning and short-term staffing decisions.
+
+### Day View
+
+Granular daily view for managing immediate workload.
+
+## Assigning resources
+
+Resources are assigned from the **Resource Plans** tab within an engagement. Assignments link directly to the roles and hours in your quote:
+
+- The **Lead Consultant** from your quote's Discovery group becomes a resource assignment
+- Hours planned in the quote flow into the resource plan
+- Changes to the quote automatically update resource needs
+
+<Aside type="note">
+Resource assignments are distinct from quote line items. A single quote line item ("Solution Architect — 120 hours") may be split across multiple people or time periods in the resource plan.
+</Aside>
+
+## Capacity management
+
+Servantium tracks each resource's **total available hours** per period and compares against their planned assignments across all engagements. This gives you:
+
+- **Utilization rate** — Hours assigned vs. hours available
+- **Overallocation alerts** — When someone is booked beyond capacity
+- **Bench visibility** — Who has unallocated time for new work
+
+## What's next?
+
+- **[Engagements](/guides/engagements)** — Creating and managing the engagements that drive resource needs
+- **[Documents & Proposals](/guides/documents)** — Generate deliverables from your scoped work

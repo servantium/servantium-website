@@ -1,0 +1,110 @@
+name: Generate Release Notes
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [main, develop]
+
+jobs:
+  release-notes:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get PR diff
+        id: diff
+        run: |
+          # Get the diff of the merged PR
+          DIFF=$(gh pr diff ${{ github.event.pull_request.number }} --repo ${{ github.repository }} || echo "Could not fetch diff")
+          # Truncate if too large (Claude has context limits)
+          DIFF_TRUNCATED=$(echo "$DIFF" | head -c 50000)
+          echo "diff<<EODIFF" >> $GITHUB_OUTPUT
+          echo "$DIFF_TRUNCATED" >> $GITHUB_OUTPUT
+          echo "EODIFF" >> $GITHUB_OUTPUT
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate release notes with Claude
+        id: generate
+        run: |
+          # Prepare the prompt for Claude
+          PR_TITLE="${{ github.event.pull_request.title }}"
+          PR_BODY="${{ github.event.pull_request.body }}"
+          PR_NUMBER="${{ github.event.pull_request.number }}"
+          MERGED_AT="${{ github.event.pull_request.merged_at }}"
+          DATE=$(echo "$MERGED_AT" | cut -d'T' -f1)
+
+          cat > /tmp/prompt.json << 'PROMPT_END'
+          {
+            "model": "claude-sonnet-4-20250514",
+            "max_tokens": 4096,
+            "messages": [
+              {
+                "role": "user",
+                "content": "You are a release notes writer for Servantium, a CPQ and engagement management platform for professional services. Your job is to analyze code changes and write customer-facing release notes.\n\nPR #PR_NUMBER: PR_TITLE\n\nPR Description:\nPR_BODY\n\nCode diff (truncated):\nDIFF_CONTENT\n\n---\n\nWrite release notes in MDX format for the Servantium help site. Focus on what changed FROM THE CUSTOMER'S PERSPECTIVE - what they gain, what changed, what they need to know.\n\nOutput ONLY the MDX content (no code fences), starting with frontmatter:\n\n---\ntitle: \"vX.Y.Z — Short descriptive title\"\ndescription: \"One sentence summary of changes\"\nbadge:\n  text: Internal|Feature|Fix|Improvement\n  variant: note|success|caution|danger\n---\n\nimport { Aside } from '@astrojs/starlight/components';\n\n## What changed\n\n[Customer-facing description of changes]\n\n## Why this matters\n\n[Bullet points of impact]\n\n## What's next\n\n[Brief roadmap items if relevant]\n\nRules:\n- Write for customers, not developers\n- Be concise - 200 words max\n- If changes are purely internal (CI/CD, refactoring, dependencies), use badge variant 'note' and keep it brief\n- If it's a new feature, use 'success'\n- If it's a fix, use 'caution'\n- Version should be based on the significance: patch for fixes, minor for features"
+              }
+            ]
+          }
+          PROMPT_END
+
+          # Substitute variables into the prompt
+          DIFF_ESCAPED=$(echo '${{ steps.diff.outputs.diff }}' | python3 -c "import sys,json; print(json.dumps(sys.stdin.read())[1:-1])" 2>/dev/null || echo "diff unavailable")
+          PR_BODY_ESCAPED=$(echo "$PR_BODY" | python3 -c "import sys,json; print(json.dumps(sys.stdin.read())[1:-1])" 2>/dev/null || echo "")
+
+          sed -i "s|PR_NUMBER|$PR_NUMBER|g" /tmp/prompt.json
+          sed -i "s|PR_TITLE|$PR_TITLE|g" /tmp/prompt.json
+          sed -i "s|PR_BODY|$PR_BODY_ESCAPED|g" /tmp/prompt.json
+          sed -i "s|DIFF_CONTENT|$DIFF_ESCAPED|g" /tmp/prompt.json
+
+          # Call Claude API
+          RESPONSE=$(curl -s https://api.anthropic.com/v1/messages \
+            -H "Content-Type: application/json" \
+            -H "x-api-key: $ANTHROPIC_API_KEY" \
+            -H "anthropic-version: 2023-06-01" \
+            -d @/tmp/prompt.json)
+
+          # Extract the text content
+          MDX_CONTENT=$(echo "$RESPONSE" | python3 -c "
+          import sys, json
+          data = json.load(sys.stdin)
+          if 'content' in data and len(data['content']) > 0:
+              print(data['content'][0]['text'])
+          else:
+              print('Error: ' + json.dumps(data.get('error', 'Unknown error')))
+              sys.exit(1)
+          ")
+
+          # Generate filename
+          SLUG=$(echo "$PR_TITLE" | tr '[:upper:]' '[:lower:]' | tr ' ' '-' | tr -cd '[:alnum:]-' | head -c 50)
+          FILENAME="${DATE}-${SLUG}.mdx"
+
+          echo "filename=$FILENAME" >> $GITHUB_OUTPUT
+          echo "$MDX_CONTENT" > /tmp/release-note.mdx
+
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+
+      - name: Commit release note
+        run: |
+          FILENAME="${{ steps.generate.outputs.filename }}"
+          DEST="src/content/docs/help/release-notes/$FILENAME"
+
+          cp /tmp/release-note.mdx "$DEST"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add "$DEST"
+          git commit -m "docs: auto-generate release notes for PR #${{ github.event.pull_request.number }}
+
+          Co-Authored-By: Claude Sonnet <noreply@anthropic.com>"
+          git push
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,138 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SEO from '@/components/SEO.astro';
+---
+
+<BaseLayout>
+  <SEO
+    slot="head"
+    title="Privacy Policy"
+    description="Servantium Privacy Policy. Learn how we collect, use, and protect your information."
+    ogType="website"
+  />
+
+  <header class="legal-header">
+    <div class="container">
+      <h1>Privacy Policy</h1>
+      <p>Last updated: January 2026</p>
+    </div>
+  </header>
+
+  <div class="legal-content">
+    <div class="container">
+      <h2>Overview</h2>
+      <p>At Servantium, we take your privacy seriously. This policy describes how we collect, use, and protect your personal information when you use our services.</p>
+
+      <h2>Information We Collect</h2>
+      <p>We collect information you provide directly to us, such as:</p>
+      <ul>
+        <li>Contact information (name, email address, company)</li>
+        <li>Account credentials</li>
+        <li>Communications you send to us</li>
+        <li>Information about how you use our services</li>
+      </ul>
+
+      <h2>How We Use Your Information</h2>
+      <p>We use the information we collect to:</p>
+      <ul>
+        <li>Provide, maintain, and improve our services</li>
+        <li>Communicate with you about products, services, and events</li>
+        <li>Respond to your comments and questions</li>
+        <li>Protect against fraud and abuse</li>
+      </ul>
+
+      <h2>Your Rights Under GDPR</h2>
+      <p>If you are located in the European Economic Area (EEA), you have certain rights regarding your personal data under the General Data Protection Regulation (GDPR):</p>
+      <ul>
+        <li><strong>Right to Access:</strong> You can request a copy of the personal data we hold about you.</li>
+        <li><strong>Right to Rectification:</strong> You can request that we correct any inaccurate or incomplete personal data.</li>
+        <li><strong>Right to Erasure:</strong> You can request that we delete your personal data. We will comply with such requests unless we have a legitimate legal basis to retain the data.</li>
+        <li><strong>Right to Restrict Processing:</strong> You can request that we limit how we use your personal data.</li>
+        <li><strong>Right to Data Portability:</strong> You can request a copy of your data in a structured, machine-readable format.</li>
+        <li><strong>Right to Object:</strong> You can object to our processing of your personal data for certain purposes.</li>
+      </ul>
+      <p>To exercise any of these rights, please contact us at <a href="mailto:hello@servantium.com">hello@servantium.com</a>. We will respond to your request within 30 days.</p>
+
+      <h2>Data Retention</h2>
+      <p>We retain your personal data only for as long as necessary to fulfill the purposes for which it was collected, or as required by law. When data is no longer needed, we securely delete or anonymize it.</p>
+
+      <h2>Contact Us</h2>
+      <p>If you have questions about this Privacy Policy or wish to exercise your data rights, please contact us at <a href="mailto:hello@servantium.com">hello@servantium.com</a></p>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  :root {
+    --color-servantium-green: #00C26D;
+    --color-green-hover: #00A95E;
+    --color-ink: #0D0D0D;
+    --color-ink-light: #3d3d3d;
+    --color-ink-muted: #6b6b6b;
+    --color-white: #FFFFFF;
+    --color-mist-grey: #F5F6F7;
+    --color-cloud-grey: #E1E3E6;
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body: 'Source Sans 3', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  .legal-header {
+    padding: 6rem 0 3rem;
+    background: var(--color-mist-grey);
+  }
+
+  .legal-header h1 {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .legal-header p {
+    color: var(--color-ink-muted);
+  }
+
+  .legal-content {
+    padding: 3rem 0 6rem;
+  }
+
+  .legal-content h2 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    margin: 2.5rem 0 1rem;
+  }
+
+  .legal-content p {
+    margin-bottom: 1rem;
+    color: var(--color-ink-light);
+  }
+
+  .legal-content ul {
+    margin: 1rem 0 1rem 1.5rem;
+    color: var(--color-ink-light);
+  }
+
+  .legal-content li {
+    margin-bottom: 0.5rem;
+  }
+
+  .legal-content a {
+    color: var(--color-servantium-green);
+  }
+
+  .placeholder-notice {
+    background: var(--color-mist-grey);
+    padding: 2rem;
+    border-radius: 12px;
+    text-align: center;
+    margin: 2rem 0;
+  }
+
+  .placeholder-notice p {
+    color: var(--color-ink-muted);
+    margin-bottom: 1rem;
+  }
+
+  .placeholder-notice a {
+    color: var(--color-servantium-green);
+  }
+</style>

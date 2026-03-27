@@ -1,0 +1,93 @@
+---
+title: "Resource Planning That Actually Works"
+description: "Why most resource planning fails in professional services. The tools were designed for project managers, not services firms. Here's what cross-engagement visibility actually looks like."
+date: "2026-03-11"
+author: "maxwell-friel"
+category: "Operations"
+image: "https://images.unsplash.com/photo-1542744094-3a31f272c490?w=1200&h=630&fit=crop"
+imageAlt: "Planning and organization representing resource management"
+readingTime: "6 min read"
+---
+
+The average services firm has 23% of its bench completely invisible to sales. Not hidden on purpose. Just buried in spreadsheets, PSA tools, and the delivery director's memory. That number comes from a pattern we see constantly: firms where the people selling work and the people staffing work are operating from completely different versions of reality.
+
+I watched this play out at a mid-size consulting firm over six painful months. Every Monday morning, the delivery director opened a spreadsheet with 47 tabs. One tab per active engagement. She'd spend two hours cross-referencing who was on what, who was rolling off, and who was supposed to start something new next week.
+
+They had a PSA tool. It cost them six figures a year. Nobody used it for resource planning because, and I'm quoting here, "it doesn't understand how we actually work."
+
+She wasn't wrong.
+
+## The Tool Problem
+
+Most resource planning tools come from two worlds, and neither of them is professional services.
+
+**The project management world** gives you Gantt charts and task assignments. Great if you're building a bridge. Useless if you're running a consulting practice where the same person is 40% on one engagement, 30% on another, and supposed to be doing BD the rest of the time. Gantt charts assume sequential tasks with clear dependencies. Services work is concurrent, overlapping, and constantly shifting.
+
+**The HR world** gives you headcount planning and capacity models. These work at the annual planning level but fall apart at the weekly execution level. Knowing you need 12 senior consultants this quarter tells you nothing about whether Sarah can start the Acme engagement on March 15th or whether she's still stuck on the DataCorp overrun.
+
+Neither world models the fundamental unit of professional services: the engagement. And because they don't model engagements, they can't give you cross-engagement visibility. They can tell you about one project at a time. They can't tell you what happens across your portfolio.
+
+## What Cross-Engagement Visibility Actually Means
+
+Let me get specific. Here's what a resource planner in a services firm actually needs to see:
+- **Current allocation by person.** Not just "assigned to Project X" but the actual percentage, by week, accounting for the fact that engagements rarely align to neat boundaries.
+- **Pipeline demand.** What's been sold but not yet started? What's in the pipeline that's likely to close? What resources will those need?
+- **Rolloff forecast.** When are people becoming available? Not the planned date (which is always wrong) but a realistic estimate based on how the engagement is actually tracking.
+- **Skill matching.** Not just "we need a developer" but "we need someone who's done Salesforce integrations and ideally has financial services experience."
+- **Conflict detection.** Show me where I've over-allocated someone before it becomes a crisis next Tuesday.
+
+None of this is exotic. Every delivery leader I've ever talked to needs exactly this. And yet almost every tool on the market makes it absurdly hard to get.
+
+## Why It's Hard Technically
+
+The reason most tools fail at this isn't laziness. It's a data model problem.
+
+Resource planning in services requires modeling time as a shared, depletable resource across multiple concurrent commitments. That sounds obvious, but think about what it means for your data model. You need:
+- A person entity with a weekly capacity (not always 40 hours, by the way)
+- Multiple engagement entities, each with resource requirements by role and time period
+- Assignment entities that link people to engagements with specific allocations over specific date ranges
+- A calculation engine that sums allocations across engagements and flags conflicts in real-time
+
+Most PSA tools model projects and tasks. They bolt resource management on as an afterthought. The assignment is typically per-project, not per-time-period. So you can say "Sarah is on Project X" but you can't easily say "Sarah is 60% on Project X for weeks 12-16, then 30% for weeks 17-20 as she transitions to Project Y."
+
+That time-phased allocation is the whole game. Without it, you're guessing.
+
+> "The difference between resource planning that works and resource planning that doesn't is whether the system models time-phased allocation or just static assignments."
+
+## The Pipeline Connection
+
+Here's where it gets interesting. Resource planning can't live in isolation. It has to connect to your sales pipeline.
+
+When a deal is in the pipeline at 70% probability, you need to start tentatively reserving resources. Not firm commitments, but soft holds that show up in the capacity view. If three deals close in the same week and they all need your two senior architects, you need to see that conflict before it happens, not after.
+
+This means your CPQ system and your resource planning system can't be separate tools with a brittle integration. They need to share a data model. The estimate needs to specify not just "we need 3 senior consultants" but "we need people with these skills, starting approximately this date, for approximately this duration." And that information needs to flow into the capacity view in real time.
+
+Most firms I've seen handle this with a weekly meeting where the sales lead and the delivery lead compare notes. It's better than nothing. But it means resource conflicts don't get detected until the meeting, and by then it's often too late.
+
+## Unpopular Opinion
+
+**Utilization targets are making your resource planning worse, not better.**
+
+Every services firm I've worked with tracks utilization. Most target 75-85% billable. And most resource planners are incentivized to hit those numbers. So what happens? They pack people to 80% across two or three engagements, leaving zero buffer. When one engagement overruns (and one always overruns), the whole house of cards collapses.
+
+Good resource planning acknowledges uncertainty. It builds in buffers not because people are lazy but because services work is inherently variable. An engagement estimated at 12 weeks might take 14. A consultant planned at 40% might need to go to 60% during a crunch. If your resource plan has no slack, every variance becomes a crisis.
+
+The better metric isn't utilization. It's **effective utilization**: the percentage of allocated time that actually produces value. A consultant at 85% utilization who spends 20% of their time context-switching between too many engagements has an effective utilization closer to 60%. A consultant at 70% utilization focused on two engagements probably delivers more actual value.
+
+## What Good Looks Like
+
+Here's what I think resource planning should feel like in a well-built system:
+
+You open it and see your team's capacity laid out by week. Color-coded: green means available, amber means tentatively held for pipeline deals, red means fully committed. You can drill into any person and see exactly what they're working on, when they're rolling off, and what's coming next.
+
+When a new deal closes, you drag it onto the timeline and the system immediately shows you where the conflicts are. It suggests alternative staffing based on skills and availability. It warns you if the start date is unrealistic given current commitments.
+
+When an engagement is tracking behind schedule, the forecast updates automatically. The rolloff dates shift. Downstream engagements that were depending on those resources get flagged. You see the ripple effect before it hits.
+
+None of this requires a weekly meeting. The data is live. The visibility is continuous. The conflicts surface themselves.
+
+## Bottom Line
+
+Tomorrow morning, answer this one question: **how many of your people are over-allocated right now?** Not according to the plan. According to reality. If you can't answer that without opening three tools and a spreadsheet, your resource planning system isn't working. It's just creating the illusion of planning.
+
+The fix isn't a better spreadsheet. It's a data model that treats time-phased allocation as a first-class concept and connects it to your pipeline, your engagements, and your delivery forecasts. Everything else is window dressing.

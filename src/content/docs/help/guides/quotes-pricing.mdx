@@ -1,0 +1,64 @@
+---
+title: Quotes & Pricing
+description: Build structured, margin-aware quotes with groups, line items, and automatic calculations.
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+
+## Building a quote
+
+Navigate to the **Quotes** tab within any engagement to start pricing.
+
+### Adding groups
+
+Groups organize your quote into logical sections. Common patterns:
+
+- **By phase:** Discovery, Implementation, Training & Rollout
+- **By workstream:** Technical, Change Management, Project Management
+- **By deliverable:** Platform Setup, Data Migration, Custom Development
+
+<Steps>
+
+1. Click **Add Group** in the quote toolbar.
+2. Name the group (e.g., "Discovery & Requirements").
+3. Add line items within the group.
+
+</Steps>
+
+### Line item types
+
+| Type | Description | Example |
+|------|-------------|---------|
+| **Resource** | A person/role with hours, rate, and markup | "Lead Consultant — 40 hours @ $250" |
+| **Material** | A tangible cost (licenses, hardware, etc.) | "Training Materials — $3,500" |
+| **Fixed Fee** | A flat amount not tied to hours | "Project Management Fee — $10,000" |
+
+### Markup and margin
+
+Each line item and group can have its own **markup percentage**. Servantium calculates:
+
+- **Cost** — Your actual cost (hours × rate, or material cost)
+- **Markup** — Applied percentage on top of cost
+- **Total** — What the client pays
+
+The **estimate total bar** at the bottom shows aggregate cost, average markup, and total estimate across all groups.
+
+<Aside type="tip">
+Set default markup percentages per engagement type. A standard implementation might default to 40% while a strategic advisory engagement defaults to 60%.
+</Aside>
+
+## Quote templates
+
+For recurring engagement types, save a quote as a **template**. Templates encode:
+
+- Standard group structure
+- Default line items and roles
+- Typical quantities and rates
+- Target markup percentages
+
+When you create a new engagement from a template, the quote pre-populates — you adjust rather than build from scratch.
+
+## What's next?
+
+- **[Documents & Proposals](/guides/documents)** — Generate SOWs from your quotes
+- **[Resource Planning](/guides/resource-planning)** — Staff the engagement based on your scoped work

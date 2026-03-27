@@ -1,0 +1,104 @@
+---
+title: "From Call Notes to Contracts: Automating the Services Pipeline"
+description: "The technical pipeline from unstructured call notes to parsed entities to structured estimates to generated SOWs. Where AI fits in professional services automation, and where it doesn't."
+date: "2026-03-14"
+author: "maxwell-friel"
+category: "Technology"
+image: "https://images.unsplash.com/photo-1517842645767-c639042777db?w=1200&h=630&fit=crop"
+imageAlt: "Notebook with handwritten meeting notes and pen on desk"
+readingTime: "6 min read"
+---
+
+A partner at a 30-person consulting firm showed me her process last fall. Discovery call wraps up, she's got scribbled notes from 45 minutes of conversation. She pulls up three old SOWs from similar engagements. Manually copies sections. Adjusts scope descriptions. Recalculates pricing in a spreadsheet. Pastes everything into a Word document.
+
+Four hours. For a $90K engagement. And she told me this was fast, because she'd done this type of deal before.
+
+The new partner down the hall? Same type of deal would take him two days. He didn't have the old SOWs in his head. He didn't know which sections to reuse. He was starting from scratch.
+
+This is a pipeline problem, and it's solvable. Not with magic. With plumbing.
+
+## The Pipeline Nobody Draws on a Whiteboard
+
+Every services firm has the same pipeline, even if they've never formalized it:
+
+1. **Unstructured input.** Call notes, emails, RFP documents, meeting transcripts.
+2. **Entity extraction.** What does the client actually need? What services? What timeline? What constraints?
+3. **Structured estimate.** Scope broken into phases, roles assigned, hours estimated, pricing calculated.
+4. **Document generation.** SOW, proposal deck, or formal quote that goes to the client.
+
+Steps 1 through 4 happen in every deal. The question is whether they happen in a system or in someone's head. When they happen in someone's head, you get inconsistency, you get speed bottlenecks, and you get knowledge that walks out the door.
+
+## Step 1: The Messy Reality of Call Notes
+
+Let's be honest about what call notes look like. They're not clean requirements documents. They're fragments. Abbreviations. Half-sentences. Context that only makes sense if you were on the call.
+
+A typical discovery call note might read: "Need SF integration — currently on legacy CRM (custom built??) — 3 offices, ~200 users — want reporting dashboard — timeline: Q3 — budget 'flexible' (probably means tight)."
+
+That's real. That's what the pipeline has to work with. Any system that requires perfectly structured input has already failed, because the input is never perfectly structured at this stage.
+
+This is where AI is genuinely useful. Large language models are remarkably good at extracting structured entities from messy text. Feed the notes above to a well-prompted model and it can identify: service type (Salesforce integration), current state (legacy custom CRM), scale (3 locations, 200 users), desired capabilities (reporting dashboard), timeline (Q3 2026), budget signal (constrained).
+
+But here's the crucial part: **extraction is not estimation**. The model can tell you what the client wants. It cannot tell you what it should cost or how long it will take. That requires domain knowledge and historical data.
+
+## Step 2: From Entities to Estimate
+
+Once you have structured entities, you need to map them to your service catalog. This is the step most people skip, and it's the step that matters most.
+
+A good service catalog isn't a marketing brochure. It's a structured definition of what your firm delivers, broken into components with known effort ranges, role requirements, and complexity drivers. When someone says "Salesforce integration," the catalog knows that means: discovery (senior consultant, 20-40 hours depending on complexity), design (architect + senior, 40-80 hours), build (2 developers, 120-240 hours), testing (QA lead + developers, 40-80 hours), deployment and hypercare (mixed team, 40-60 hours).
+
+The entity extraction step identified "Salesforce integration" and "legacy custom CRM." The service catalog mapping step says: that's a high-complexity integration because custom CRMs have unpredictable data models. Weight the effort estimates toward the upper end. Flag data extraction as a risk area.
+
+This is where your historical data becomes gold. If you've done 15 Salesforce integrations and you know that custom CRM sources add an average of 35% to the extraction phase, that's not a guess anymore. That's institutional knowledge encoded in your system.
+
+## Step 3: The Estimate as a Data Object
+
+Most firms treat estimates as documents. They're Word files or spreadsheets that get emailed around. This is a mistake.
+
+An estimate should be a structured data object in your system. It should have fields, not free text. Phases with hour ranges. Roles with rates. Assumptions that are explicitly stated and linked to specific scope items. Risk factors that are tagged, not buried in paragraphs.
+
+Why does this matter? Because a structured estimate can be compared to actuals later. A Word document can't. If you want your system to learn, and you should, the estimate needs to be in a format the system can decompose and compare.
+
+It also makes the next step dramatically easier.
+
+## Step 4: Document Generation
+
+This is the part everyone gets excited about, and ironically it's the least interesting part technically. Once you have a structured estimate, generating a SOW or proposal is template population. Insert scope descriptions. Insert pricing table. Insert timeline. Insert assumptions and exclusions.
+
+AI can help polish the language, adjust tone for different clients, and generate executive summaries. But the heavy lifting was already done in steps 2 and 3. The document is just the output format.
+
+The firms that struggle with document generation are struggling because they don't have structured estimates. They're trying to generate documents from scratch, and that's a much harder problem.
+
+> "The fastest way to generate a proposal isn't better templates. It's a better estimate. Fix the data model and the document writes itself."
+
+## Where AI Fits (and Where It Doesn't)
+
+I'm going to be blunt because I'm tired of the hype. Here's a scorecard:
+
+- **Entity extraction from call notes.** AI is great at this. Use it.
+- **Mapping entities to service catalog items.** AI is decent here if the catalog is well-structured. It needs guardrails.
+- **Estimating effort and pricing.** AI is terrible at this without historical data. Don't let it guess. Use your actual data.
+- **Identifying risk factors.** AI is good at pattern matching. It can flag things like "custom CRM usually means data quality issues."
+- **Generating document prose.** AI is fine at this. Template population plus language polish.
+- **Making the final call on whether to bid.** AI should not be doing this. That's a business judgment call that belongs to a human.
+
+The pattern here is simple: AI is good at translating between unstructured and structured data. It's good at pattern matching across large datasets. It's bad at judgment calls and unreliable at numeric estimation without ground truth.
+
+## Unpopular Opinion
+
+**The bottleneck in your proposal process isn't speed. It's consistency.**
+
+Most firms obsess about how fast they can get a proposal out the door. Speed matters, sure. But I've seen firms that can turn a proposal in 24 hours where the same service is priced 40% differently depending on which partner runs the deal. Speed without consistency is just faster chaos.
+
+When you have a structured pipeline, consistency comes free. Everyone is pulling from the same service catalog. The same historical data informs every estimate. The same risk factors get flagged regardless of who's building the deal. Speed is a byproduct.
+
+## The Hidden Cost of Manual Pipelines
+
+Here's what nobody calculates. The partner who spent four hours on that proposal? Her billable rate is $350/hour. That's $1,400 of partner time to produce a proposal. If she does 60 proposals a year, that's $84,000 in partner time spent on proposal assembly. Not on client relationships. Not on strategy. On copying scope descriptions between Word documents.
+
+Now multiply that across every partner and senior consultant who touches proposals. For a firm with ten partners, you're easily looking at $500K-$800K in annual opportunity cost. And that's before you count the deals that didn't happen because the proposal took too long or the estimate was off.
+
+## Bottom Line
+
+Tomorrow, time your next proposal from discovery call to sent document. Write down every step: note-taking, scope definition, pricing, document assembly, review, revision, send. Then ask yourself: which of those steps requires human judgment, and which is mechanical translation from one format to another?
+
+The mechanical steps are automatable. Today. Not with science fiction, but with structured data and well-placed AI. The judgment steps should stay with your people. The goal isn't to remove humans from the pipeline. It's to stop making them do work a system should handle so they can focus on the parts that actually need their brain.

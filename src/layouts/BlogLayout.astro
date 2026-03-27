@@ -1,0 +1,168 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import SEO from '@/components/SEO.astro';
+import { authors } from '@/data/authors';
+
+interface Props {
+  title: string;
+  description: string;
+  date: string;
+  author: string;
+  authorRole?: string;
+  category: string;
+  image?: string;
+  imageAlt?: string;
+  readingTime?: string;
+}
+
+const { title, description, date, author, authorRole, category, image, imageAlt, readingTime } = Astro.props;
+const authorData = authors[author] || { name: author, role: authorRole || '', image: '', linkedin: '' };
+const formattedDate = new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+
+<BaseLayout activePage="blog">
+  <SEO
+    slot="head"
+    title={`${title} — Servantium Blog`}
+    description={description}
+    ogType="article"
+    ogImage={image}
+    ogImageAlt={imageAlt}
+    article={{
+      publishedTime: date,
+      author: authorData.name,
+      section: category,
+    }}
+    jsonLd={{
+      "@type": "Article",
+      "headline": title,
+      "description": description,
+      "image": image,
+      "datePublished": date,
+      "author": { "@type": "Person", "name": authorData.name },
+      "publisher": {
+        "@type": "Organization",
+        "@id": "https://servantium.com/#organization",
+        "name": "Servantium",
+        "logo": { "@type": "ImageObject", "url": "https://servantium.com/logo.png" }
+      }
+    }}
+  />
+
+  <header class="article-header">
+    <div class="container">
+      <div class="article-breadcrumb">
+        <a href="/blog/">Blog</a>
+        <span>&rsaquo;</span>
+        <span>{category}</span>
+      </div>
+      <span class="article-category">{category}</span>
+      <h1 class="article-title">{title}</h1>
+      <p class="article-excerpt">{description}</p>
+      <div class="article-meta">
+        <div class="article-author">
+          {authorData.image && <img src={authorData.image} alt={authorData.name} class="author-avatar" />}
+          <div class="author-info">
+            <span class="author-name">{authorData.name}</span>
+            <span class="author-role">{authorData.role}</span>
+          </div>
+        </div>
+        <span class="article-date">{formattedDate}</span>
+        {readingTime && <span class="article-reading-time">{readingTime}</span>}
+      </div>
+    </div>
+  </header>
+
+  {image && (
+    <div class="article-hero-image">
+      <div class="container">
+        <img src={image} alt={imageAlt || title} />
+      </div>
+    </div>
+  )}
+
+  <article class="article-content">
+    <div class="container">
+      <slot />
+
+      <div class="article-cta">
+        <h3>Ready to encode your services?</h3>
+        <p>See how Servantium brings CPQ discipline to professional services.</p>
+        <button class="btn btn-primary" data-cal-link="christopher-veale/servantium-introduction?duration=15" data-cal-namespace="servantium-introduction" data-cal-config='{"layout":"month_view"}'>Schedule a Demo</button>
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .article-header {
+    padding: 8rem 0 3rem;
+    background: linear-gradient(180deg, var(--color-soft-mint) 0%, var(--color-white) 100%);
+  }
+  .article-header .container { max-width: 1140px; }
+  .article-breadcrumb {
+    display: flex; align-items: center; gap: 0.5rem;
+    margin-bottom: 2rem; font-size: 0.9rem;
+  }
+  .article-breadcrumb a { color: var(--color-servantium-green); text-decoration: none; }
+  .article-breadcrumb a:hover { text-decoration: underline; }
+  .article-breadcrumb span { color: var(--color-ink-muted); }
+  .article-category {
+    display: inline-block; color: var(--color-servantium-green);
+    font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em;
+    font-size: 0.8rem; margin-bottom: 1rem;
+  }
+  .article-title {
+    font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3rem);
+    line-height: 1.2; margin-bottom: 1.5rem;
+  }
+  .article-excerpt { font-size: 1.25rem; color: var(--color-ink-light); line-height: 1.7; margin-bottom: 2rem; }
+  .article-meta { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
+  .article-author { display: flex; align-items: center; gap: 0.75rem; }
+  .author-avatar { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; }
+  .author-info { display: flex; flex-direction: column; }
+  .author-name { font-weight: 600; font-size: 0.95rem; }
+  .author-role { font-size: 0.85rem; color: var(--color-ink-muted); }
+  .article-date, .article-reading-time { font-size: 0.9rem; color: var(--color-ink-muted); }
+
+  .article-hero-image { margin-bottom: 3rem; }
+  .article-hero-image .container { max-width: 1080px; }
+  .article-hero-image img { width: 100%; height: 400px; object-fit: cover; border-radius: 12px; }
+
+  .article-content { padding: 0 0 var(--space-3xl); font-size: 1.125rem; line-height: 1.8; color: var(--color-ink-light); }
+  .article-content .container { max-width: 1080px; }
+  .article-content :global(h2) { margin: 2.5rem 0 1rem; font-size: 1.75rem; font-family: var(--font-display); line-height: 1.3; color: var(--color-ink); }
+  .article-content :global(h3) { margin: 2rem 0 0.75rem; font-size: 1.35rem; font-family: var(--font-display); line-height: 1.4; color: var(--color-ink); }
+  .article-content :global(p) { margin-bottom: 1.25rem; }
+  .article-content :global(a) { color: var(--color-servantium-green); text-decoration: underline; text-underline-offset: 2px; }
+  .article-content :global(a:hover) { color: #00A95E; }
+  .article-content :global(strong) { color: var(--color-ink); font-weight: 600; }
+  .article-content :global(ul), .article-content :global(ol) { margin: 1rem 0 1.5rem 1.5rem; }
+  .article-content :global(li) { margin-bottom: 0.5rem; color: var(--color-ink-light); font-size: 1.125rem; }
+  .article-content :global(code) {
+    background: var(--color-mist-grey, #F5F6F7); padding: 0.15em 0.4em;
+    border-radius: 4px; font-size: 0.9em;
+  }
+  .article-content :global(pre) {
+    background: var(--color-mist-grey, #F5F6F7); padding: 1.25rem 1.5rem;
+    border-radius: 8px; overflow-x: auto; margin: 1.5rem 0;
+    font-size: 0.9rem; line-height: 1.6;
+  }
+  .article-content :global(pre code) { background: none; padding: 0; border-radius: 0; font-size: inherit; }
+  .article-content :global(img) {
+    max-width: 100%; height: auto; border-radius: 8px; margin: 1.5rem 0;
+  }
+  .article-content :global(blockquote) {
+    border-left: 3px solid var(--color-servantium-green);
+    padding: 1rem 1.5rem; margin: 2rem 0;
+    background: var(--color-mint-tint); border-radius: 0 8px 8px 0;
+  }
+  .article-content :global(blockquote p) { font-style: italic; color: var(--color-ink); margin-bottom: 0; }
+
+  .article-cta {
+    background: var(--color-soft-mint); padding: 2.5rem; border-radius: 12px;
+    text-align: center; margin: 3rem 0;
+  }
+  .article-cta h3 { margin-bottom: 0.5rem; }
+  .article-cta p { margin-bottom: 1.5rem; }
+</style>

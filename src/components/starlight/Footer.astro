@@ -1,0 +1,67 @@
+---
+import EditLink from 'virtual:starlight/components/EditLink';
+import LastUpdated from 'virtual:starlight/components/LastUpdated';
+import Pagination from 'virtual:starlight/components/Pagination';
+import Footer from '../Footer.astro';
+import CookieConsent from '../CookieConsent.astro';
+---
+
+<footer class="sl-flex">
+  <div class="meta sl-flex">
+    <EditLink />
+    <LastUpdated />
+  </div>
+  <Pagination />
+</footer>
+
+<!-- Site footer - will be relocated to body to escape Starlight layout -->
+<div id="sl-site-footer" style="display:none;">
+  <Footer />
+</div>
+
+<!-- Analytics + Cookie Consent (same as main site) -->
+<CookieConsent />
+
+<script is:inline>
+  // Move footer to body root so it sits outside the Starlight sidebar/content layout
+  (function() {
+    function moveFooter() {
+      var f = document.getElementById('sl-site-footer');
+      if (f && f.parentElement !== document.body) {
+        document.body.appendChild(f);
+        f.style.display = 'block';
+      }
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', moveFooter);
+    } else {
+      moveFooter();
+    }
+  })();
+</script>
+
+<style>
+  footer {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .meta {
+    gap: 0.75rem 3rem;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 3rem;
+    font-size: var(--sl-text-sm);
+    color: var(--sl-color-gray-3);
+  }
+  .meta > :global(p:only-child) {
+    margin-inline-start: auto;
+  }
+</style>
+
+<style is:global>
+  #sl-site-footer {
+    width: 100%;
+    position: relative;
+    z-index: 20;
+  }
+</style>

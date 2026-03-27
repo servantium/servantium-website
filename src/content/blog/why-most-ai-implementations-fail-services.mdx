@@ -1,0 +1,108 @@
+---
+title: "Why Most AI Implementations in Services Firms Fail"
+description: "The dirty secret of AI in professional services: firms buy AI tools with no structured data to feed them. Garbage in, garbage out. The fix starts with data architecture, not AI procurement."
+date: "2026-03-05"
+author: "maxwell-friel"
+category: "Technology"
+image: "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=1200&h=630&fit=crop"
+imageAlt: "AI and machine learning technology concept"
+readingTime: "6 min read"
+---
+
+I sat in on a board meeting last year where a managing partner proudly announced they'd signed a six-figure contract with an AI vendor. The tool would "analyze past engagements and predict future project outcomes." The board was excited. I asked one question: "Where does the training data come from?"
+
+Silence.
+
+Their engagement data lived in three places: a PSA tool that tracked hours (but not scope or outcomes), a CRM that tracked deals (but not delivery), and spreadsheets that tracked estimates (but not actuals). Nothing was connected. Nothing was structured. The AI vendor's tool needed a unified engagement dataset to work. What it got was three disconnected puddles of partial data.
+
+Six months later, they quietly shelved the tool. Wrote off the investment. Blamed the vendor.
+
+**It wasn't the vendor's fault. They sold a car to someone with no roads.**
+
+## The Data Problem Nobody Talks About
+
+Here's what I keep seeing: professional services firms get excited about AI, go shopping for AI tools, implement AI tools, and then discover that AI can't do anything useful with the data they have. Or don't have.
+
+The problem isn't the AI. The models are genuinely capable. The problem is that services firms have some of the worst operational data hygiene in any industry. And I say this with love — I've spent my career in this world.
+
+Think about what a typical services firm captures in structured data:
+- **Hours billed.** That's time data. It tells you nothing about whether the engagement was well-scoped.
+- **Revenue.** That's financial data. It tells you nothing about whether the pricing was right for the effort involved.
+- **Client name and project name.** That's label data. It tells you nothing about what was actually delivered.
+
+Now think about what a useful AI model needs to make predictions about future engagements:
+- What services were scoped, in what configuration, with what complexity drivers?
+- What was the estimated effort versus the actual effort, broken down by service component?
+- What team composition was used, and how did that affect the margin and timeline?
+- What went wrong, what went right, and was the root cause scope, staffing, or execution?
+
+The gap between what firms capture and what AI needs is enormous. And no amount of machine learning can bridge it. You can't extract signal from data that was never recorded.
+
+## The Three Failure Patterns
+
+I've seen AI implementations in services firms fail in three distinct ways. All three trace back to data architecture.
+
+### Pattern 1: The Document Summarizer
+
+The firm buys an AI tool that ingests their documents — proposals, SOWs, project plans, retrospectives — and lets people ask questions. "What did we estimate for the last Salesforce implementation?" The tool dutifully surfaces relevant snippets from documents.
+
+The problem: documents are unstructured. The estimate in Proposal A used a different format than the estimate in Proposal B. The SOW for Client X includes scope items that were later removed via change order, but the AI doesn't know that. The retrospective for Project Y says "we underestimated the data migration effort" — but the AI can't connect that insight to the estimation model for future data migrations.
+
+Document-based AI is good for finding things. It's terrible for learning things.
+
+### Pattern 2: The Dashboard Hallucinator
+
+The firm connects an AI tool to their PSA and financial systems and asks it to produce insights. "Which practice areas are most profitable?" "Which clients are at risk?"
+
+The tool produces impressive-looking dashboards. But the underlying data is garbage. Profitability calculations are wrong because the time tracking system captures billable hours but not the unbilled effort that went into winning the deal, onboarding the team, and managing the client relationship. Client "risk" is measured by revenue drop-off, which can't distinguish between a happy client whose project ended and an unhappy client who's about to leave.
+
+The dashboards look authoritative. The numbers behind them are meaningless. People make decisions based on them anyway. That's worse than having no AI at all.
+
+### Pattern 3: The Prediction Engine with No Feedback
+
+The firm builds or buys a model that predicts engagement outcomes — estimated margin, probability of overrun, likelihood of scope creep. The model trains on historical data. It produces predictions. Those predictions are... mediocre.
+
+But here's the real failure: there's no feedback loop. The model makes a prediction. The engagement runs. The actual outcome happens. And nobody feeds the actual outcome back into the model. So it never improves. It's frozen at whatever accuracy it had when it was trained, which — given the quality of the training data — wasn't great to begin with.
+
+A prediction engine without a feedback loop is a Magic 8-Ball with better marketing.
+
+## Unpopular Opinion
+
+**Your firm doesn't have an AI problem. It has a data architecture problem.** And buying AI tools before fixing your data architecture is like hiring a personal trainer before building a gym. The trainer is great. They just have nothing to work with.
+
+I know this is inconvenient. "Fix your data architecture" isn't as exciting as "deploy AI." It doesn't make for a good board presentation. It doesn't generate LinkedIn posts. But it's the truth, and every CTO who's tried to deploy AI in a services firm and been honest about it will tell you the same thing.
+
+> "AI doesn't fail because the models are bad. It fails because the data is absent."
+
+## What Good Data Architecture Looks Like
+
+If you want AI to be useful in your services firm — and it can be, genuinely — you need structured operational data. Here's the minimum viable dataset:
+- **Service definitions** — structured descriptions of what you deliver, not marketing copy. Components, effort drivers, complexity modifiers.
+- **Engagement context** — client industry, deal size, team composition, timeline, scope details. All connected to a single engagement entity.
+- **Estimate vs. actual** — for every engagement, what was estimated and what actually happened. Broken down by service component, not just in aggregate.
+- **Variance classification** — when estimates were wrong, why. Was it scope creep? Bad estimation? Resource mismatch? Client delay? This is the signal the models actually need.
+- **Outcome data** — margin, client satisfaction, team satisfaction, follow-on work. The measures of success that tell you what "good" looks like.
+
+Most firms have maybe 20% of this. They have hours and revenue. They're missing scope structure, variance classification, and outcome data. And that missing 80% is exactly what AI needs to produce useful predictions.
+
+## The Right Sequence
+
+Here's the order of operations that actually works:
+
+1. 2. 3. 4.
+
+Notice what's not in this sequence: buying an AI tool. The AI comes last, after the data architecture is in place. And by that point, you might find that simple analytics — averages, trends, variance reports — give you 80% of the value you expected from AI. The remaining 20% is where machine learning earns its keep: surfacing non-obvious patterns across hundreds of engagements that no human would spot.
+
+## The Hidden Cost of Skipping Steps
+
+I've talked to firms that spent $200K+ on AI tools that produced nothing useful. The money isn't even the worst part. The worst part is the organizational cynicism. After a failed AI implementation, everyone — from the board to the delivery team — becomes an AI skeptic. "We tried AI. It didn't work." That attitude makes it harder to do the right thing later, even when the foundation is in place.
+
+Failed AI projects don't just waste money. They poison the well for future attempts.
+
+## Bottom Line
+
+Before your next board meeting about AI, do this: pull up your last twenty completed engagements. For each one, try to answer these four questions using only data in your systems (no asking people, no checking emails):
+
+1. 2. 3. 4.
+
+If you can answer all four for most engagements, you're ready for AI. If you can't, you need data architecture first. That's not a failure. That's a starting point.

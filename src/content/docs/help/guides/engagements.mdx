@@ -1,0 +1,59 @@
+---
+title: Engagements
+description: Create, manage, and track engagements from first conversation through delivery.
+---
+
+import { Steps, Aside, Tabs, TabItem } from '@astrojs/starlight/components';
+
+## Creating an engagement
+
+<Steps>
+
+1. Click **Create Engagement** in the top navigation bar.
+2. Enter the **client name** — select from existing contacts or create a new one.
+3. Give the engagement a **descriptive title** (e.g., "Acme Corp — Salesforce CRM Implementation").
+4. Set the **engagement type** and **expected timeline**.
+5. Click **Create** to open the engagement workspace.
+
+</Steps>
+
+## The engagement workspace
+
+Each engagement has tabs for different aspects of the project:
+
+| Tab | Purpose |
+|-----|---------|
+| **Info** | Client details, engagement metadata, key dates |
+| **Similars** | Past engagements that match this one — for reference pricing and scope |
+| **Notes** | Meeting notes, client conversations, AI-extracted context |
+| **Quotes** | Structured pricing with groups, line items, and markup |
+| **Documents** | Generated SOWs, proposals, and other deliverables |
+| **Resource Plans** | Team assignments and capacity allocation |
+
+## Using Similar Engagements
+
+When you create a new engagement, Servantium searches your history for similar past work using **semantic matching**. This surfaces:
+
+- How you priced similar engagements
+- What resources were assigned
+- Where estimates were accurate (or not)
+- Delivery lessons from comparable projects
+
+<Aside type="tip">
+Similar engagements are one of Servantium's most powerful features. The more engagements you complete, the smarter your future estimates become.
+</Aside>
+
+## Engagement statuses
+
+| Status | Meaning |
+|--------|---------|
+| **Draft** | Work in progress, not yet sent to client |
+| **Active** | Won and in delivery |
+| **On Hold** | Paused, will resume |
+| **Completed** | Delivered and closed out |
+| **Lost** | Did not win the engagement |
+
+## What's next?
+
+- **[Quotes & Pricing](/guides/quotes-pricing)** — Build structured pricing for your engagements
+- **[Notes & AI](/guides/notes-ai)** — Capture context and let AI surface insights
