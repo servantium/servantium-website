@@ -32,12 +32,12 @@ const { activePage } = Astro.props;
 
   <slot name="head" />
 </head>
-<body>
+<body class="site-body">
   <a href="#main-content" class="skip-link">Skip to content</a>
 
   <Nav activePage={activePage} />
 
-  <main id="main-content" tabindex="-1">
+  <main id="main-content" class="site-main" tabindex="-1">
     <slot />
   </main>
 

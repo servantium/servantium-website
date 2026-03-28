@@ -81,6 +81,18 @@
 html {
     scroll-behavior: smooth;
     font-size: 18px;
+    height: 100%;
+}
+
+/* Full-height layout: push footer to bottom on short pages */
+.site-body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.site-main {
+    flex: 1;
 }
 
 body {
