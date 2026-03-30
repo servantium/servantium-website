@@ -1,9 +1,16 @@
 import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
 import starlight from '@astrojs/starlight';
+import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
+  // ── Vite plugins ──
+  vite: {
+    plugins: [tailwindcss()],
+  },
+
   integrations: [
+    // Starlight stays for now — removed in Phase 3 (Grove migration)
     starlight({
       title: 'Servantium',
       logo: {
@@ -99,7 +106,7 @@ export default defineConfig({
 
   site: 'https://servantium.com',
 
-  // ── Security: Content Security Policy headers ──
+  // ── Security ──
   security: {
     checkOrigin: true,
   },

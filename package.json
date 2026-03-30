@@ -9,7 +9,14 @@
   },
   "dependencies": {
     "@astrojs/mdx": "^5.0.0",
+    "@astrojs/rss": "^4.0.18",
     "@astrojs/starlight": "^0.38.0",
-    "astro": "^6.1.0"
+    "@fontsource/playfair-display": "^5.2.8",
+    "@fontsource/source-sans-3": "^5.2.9",
+    "@iconify-json/lucide": "^1.2.100",
+    "@tailwindcss/vite": "4.2.2",
+    "astro": "^6.1.0",
+    "astro-icon": "^1.1.5",
+    "tailwindcss": "4.2.2"
   }
 }
