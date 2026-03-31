@@ -1,12 +1,29 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
-import { docsLoader } from '@astrojs/starlight/loaders';
-import { docsSchema } from '@astrojs/starlight/schema';
 
-// ── Starlight docs (stays until Phase 3 Grove migration) ──
+// ── Help docs (Grove — replaces Starlight) ──
 const docs = defineCollection({
-  loader: docsLoader(),
-  schema: docsSchema(),
+  loader: glob({ pattern: '**/*.mdx', base: './src/content/docs/help' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string().optional(),
+    badge: z.object({
+      text: z.string(),
+      variant: z.enum(['note', 'success', 'caution', 'danger']).default('note'),
+    }).optional(),
+    hero: z.object({
+      tagline: z.string().optional(),
+      actions: z.array(z.object({
+        text: z.string(),
+        link: z.string(),
+        icon: z.string().optional(),
+        variant: z.string().optional(),
+      })).optional(),
+    }).optional(),
+    date: z.string().optional(),
+    version: z.string().optional(),
+    repo: z.string().optional(),
+  }),
 });
 
 // ── Authors ──
