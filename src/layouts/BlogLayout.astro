@@ -1,7 +1,11 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import SEO from '@/components/SEO.astro';
+import ShareSidebar from '@/theme/blog/ShareSidebar.astro';
+import RelatedPosts from '@/theme/blog/RelatedPosts.astro';
+import PageReveal from '@/theme/components/PageReveal.astro';
 import { authors } from '@/data/authors';
+import { getCollection } from 'astro:content';
 
 interface Props {
   title: string;
@@ -13,11 +17,30 @@ interface Props {
   image?: string;
   imageAlt?: string;
   readingTime?: string;
+  tags?: string[];
 }
 
-const { title, description, date, author, authorRole, category, image, imageAlt, readingTime } = Astro.props;
-const authorData = authors[author] || { name: author, role: authorRole || '', image: '', linkedin: '' };
+const { title, description, date, author, authorRole, category, image, imageAlt, readingTime, tags = [] } = Astro.props;
+const authorData = authors[author] || { name: author, role: authorRole || '', image: '', linkedin: '', bio: '' };
 const formattedDate = new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+// Build canonical URL for share sidebar
+const canonicalUrl = new URL(Astro.url.pathname, 'https://servantium.com').toString();
+
+// Get related posts: same category, excluding current, max 3
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const relatedPosts = allPosts
+  .filter(p => p.data.category === category && p.data.title !== title)
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+  .slice(0, 3)
+  .map(p => ({
+    title: p.data.title,
+    description: p.data.description,
+    slug: p.id,
+    category: p.data.category,
+    image: p.data.image,
+    date: p.data.date,
+  }));
 ---
 
 <BaseLayout activePage="blog">
@@ -49,120 +72,359 @@ const formattedDate = new Date(date).toLocaleDateString('en-US', { year: 'numeri
     }}
   />
 
-  <header class="article-header">
-    <div class="container">
-      <div class="article-breadcrumb">
-        <a href="/blog/">Blog</a>
-        <span>&rsaquo;</span>
-        <span>{category}</span>
-      </div>
-      <span class="article-category">{category}</span>
-      <h1 class="article-title">{title}</h1>
-      <p class="article-excerpt">{description}</p>
-      <div class="article-meta">
-        <div class="article-author">
-          {authorData.image && <img src={authorData.image} alt={authorData.name} class="author-avatar" />}
-          <div class="author-info">
-            <span class="author-name">{authorData.name}</span>
-            <span class="author-role">{authorData.role}</span>
+  {/* ── Share Sidebar (desktop: fixed left, mobile: bottom bar) ── */}
+  <ShareSidebar url={canonicalUrl} title={title} />
+
+  {/* ── Hero Section ── */}
+  <PageReveal>
+    <header class="relative bg-gradient-to-b from-[var(--color-soft-mint)] via-[var(--color-mint-tint)] to-white pt-28 pb-8 md:pt-36 md:pb-10">
+      {/* Subtle radial glow */}
+      <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-10%,rgba(0,194,109,0.06),transparent)]" aria-hidden="true"></div>
+
+      <div class="relative mx-auto max-w-3xl px-6">
+        {/* Breadcrumb */}
+        <nav
+          data-reveal="1"
+          class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)] mb-6"
+          aria-label="Breadcrumb"
+        >
+          <a href="/" class="hover:text-[var(--color-green)] transition-colors">Home</a>
+          <span class="opacity-40" aria-hidden="true">&rsaquo;</span>
+          <a href="/blog/" class="hover:text-[var(--color-green)] transition-colors">Blog</a>
+          <span class="opacity-40" aria-hidden="true">&rsaquo;</span>
+          <a href={`/blog/category/${category.toLowerCase().replace(/\s+/g, '-')}`} class="hover:text-[var(--color-green)] transition-colors">{category}</a>
+        </nav>
+
+        {/* Category Badge */}
+        <span
+          data-reveal="1"
+          class="inline-block rounded-full bg-[var(--color-green)]/10 px-3.5 py-1
+                 text-xs font-semibold uppercase tracking-wider text-[var(--color-green)] mb-5"
+        >
+          {category}
+        </span>
+
+        {/* Title */}
+        <h1
+          data-reveal-title
+          data-reveal="1"
+          class="font-[family-name:var(--font-display)] text-3xl md:text-4xl lg:text-[2.75rem] font-medium
+                 text-[var(--color-ink)] leading-[1.15] tracking-[-0.02em] mb-5"
+        >
+          {title}
+        </h1>
+
+        {/* Excerpt */}
+        <p
+          data-reveal="2"
+          class="text-lg md:text-xl text-[var(--color-ink-muted)] leading-relaxed mb-8"
+        >
+          {description}
+        </p>
+
+        {/* Author Row */}
+        <div data-reveal="3" class="flex items-center gap-4 flex-wrap">
+          {/* Author Avatar + Info */}
+          <div class="flex items-center gap-3">
+            {authorData.image && (
+              <img
+                src={authorData.image}
+                alt={authorData.name}
+                class="w-10 h-10 rounded-full object-cover ring-2 ring-white shadow-sm"
+              />
+            )}
+            <div class="flex flex-col">
+              <a
+                href={`/blog/authors/${author}`}
+                class="text-sm font-semibold text-[var(--color-ink)] hover:text-[var(--color-green)] transition-colors no-underline"
+              >
+                {authorData.name}
+              </a>
+              {authorData.role && (
+                <span class="text-xs text-[var(--color-ink-muted)]">{authorData.role}</span>
+              )}
+            </div>
+          </div>
+
+          {/* Separator + Date + Reading Time */}
+          <div class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]">
+            <span class="hidden sm:inline opacity-30 text-lg" aria-hidden="true">&middot;</span>
+            <time datetime={date}>{formattedDate}</time>
+            {readingTime && (
+              <>
+                <span class="opacity-30" aria-hidden="true">&middot;</span>
+                <span>{readingTime}</span>
+              </>
+            )}
           </div>
         </div>
-        <span class="article-date">{formattedDate}</span>
-        {readingTime && <span class="article-reading-time">{readingTime}</span>}
       </div>
-    </div>
-  </header>
+    </header>
+  </PageReveal>
 
+  {/* ── Hero Image ── */}
   {image && (
-    <div class="article-hero-image">
-      <div class="container">
-        <img src={image} alt={imageAlt || title} />
+    <div class="mx-auto max-w-4xl px-6 -mt-2 mb-10 md:mb-14">
+      <div class="relative overflow-hidden rounded-2xl shadow-lg">
+        <img
+          src={image}
+          alt={imageAlt || title}
+          class="w-full h-auto max-h-[480px] object-cover"
+          loading="eager"
+        />
+        <div class="absolute inset-0 rounded-2xl ring-1 ring-inset ring-black/5 pointer-events-none" aria-hidden="true"></div>
       </div>
     </div>
   )}
 
-  <article class="article-content">
-    <div class="container">
+  {/* ── Article Content ── */}
+  <article class="article-content pb-12 md:pb-16">
+    <div class="mx-auto max-w-[720px] px-6">
       <slot />
-
-      <div class="article-cta">
-        <h3>Ready to encode your services?</h3>
-        <p>See how Servantium brings CPQ discipline to professional services.</p>
-        <button class="btn btn-primary" data-cal-link="christopher-veale/servantium-introduction?duration=15" data-cal-namespace="servantium-introduction" data-cal-config='{"layout":"month_view"}'>Schedule a Demo</button>
-      </div>
     </div>
   </article>
+
+  {/* ── CTA Section ── */}
+  <section class="mx-auto max-w-[720px] px-6 pb-12 md:pb-16">
+    <div class="rounded-2xl bg-gradient-to-br from-[var(--color-soft-mint)] to-[var(--color-mint-tint)] p-8 md:p-10 text-center border border-[var(--color-pale-green)]">
+      <h3 class="font-[family-name:var(--font-display)] text-2xl md:text-[1.75rem] text-[var(--color-ink)] mb-3 leading-snug">
+        Ready to encode your services?
+      </h3>
+      <p class="text-[var(--color-ink-muted)] mb-6 max-w-md mx-auto leading-relaxed">
+        See how Servantium brings CPQ discipline to professional services.
+      </p>
+      <button
+        class="btn btn-primary btn-large"
+        data-cal-link="christopher-veale/servantium-introduction?duration=15"
+        data-cal-namespace="servantium-introduction"
+        data-cal-config='{"layout":"month_view"}'
+      >
+        Schedule a Demo
+      </button>
+    </div>
+  </section>
+
+  {/* ── Related Posts ── */}
+  <section class="mx-auto max-w-[var(--content-width)] px-6 pb-16 md:pb-24">
+    <RelatedPosts posts={relatedPosts} />
+  </section>
+
+  {/* ── Mobile share bar spacer ── */}
+  <div class="h-16 md:hidden" aria-hidden="true"></div>
 </BaseLayout>
 
 <style>
-  .article-header {
-    padding: 8rem 0 3rem;
-    background: linear-gradient(180deg, var(--color-soft-mint) 0%, var(--color-white) 100%);
+  /* ── Article Prose Typography ── */
+  .article-content {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: var(--color-ink-light);
   }
-  .article-header .container { max-width: 1140px; }
-  .article-breadcrumb {
-    display: flex; align-items: center; gap: 0.5rem;
-    margin-bottom: 2rem; font-size: 0.9rem;
-  }
-  .article-breadcrumb a { color: var(--color-servantium-green); text-decoration: none; }
-  .article-breadcrumb a:hover { text-decoration: underline; }
-  .article-breadcrumb span { color: var(--color-ink-muted); }
-  .article-category {
-    display: inline-block; color: var(--color-servantium-green);
-    font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em;
-    font-size: 0.8rem; margin-bottom: 1rem;
-  }
-  .article-title {
-    font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3rem);
-    line-height: 1.2; margin-bottom: 1.5rem;
-  }
-  .article-excerpt { font-size: 1.25rem; color: var(--color-ink-light); line-height: 1.7; margin-bottom: 2rem; }
-  .article-meta { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
-  .article-author { display: flex; align-items: center; gap: 0.75rem; }
-  .author-avatar { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; }
-  .author-info { display: flex; flex-direction: column; }
-  .author-name { font-weight: 600; font-size: 0.95rem; }
-  .author-role { font-size: 0.85rem; color: var(--color-ink-muted); }
-  .article-date, .article-reading-time { font-size: 0.9rem; color: var(--color-ink-muted); }
 
-  .article-hero-image { margin-bottom: 3rem; }
-  .article-hero-image .container { max-width: 1080px; }
-  .article-hero-image img { width: 100%; height: 400px; object-fit: cover; border-radius: 12px; }
+  /* Headings */
+  .article-content :global(h2) {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 500;
+    line-height: 1.3;
+    color: var(--color-ink);
+    margin: 3rem 0 1rem;
+    letter-spacing: -0.01em;
+  }
+  .article-content :global(h3) {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--color-ink);
+    margin: 2.5rem 0 0.75rem;
+  }
+  .article-content :global(h4) {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--color-ink);
+    margin: 2rem 0 0.5rem;
+  }
 
-  .article-content { padding: 0 0 var(--space-3xl); font-size: 1.125rem; line-height: 1.8; color: var(--color-ink-light); }
-  .article-content .container { max-width: 1080px; }
-  .article-content :global(h2) { margin: 2.5rem 0 1rem; font-size: 1.75rem; font-family: var(--font-display); line-height: 1.3; color: var(--color-ink); }
-  .article-content :global(h3) { margin: 2rem 0 0.75rem; font-size: 1.35rem; font-family: var(--font-display); line-height: 1.4; color: var(--color-ink); }
-  .article-content :global(p) { margin-bottom: 1.25rem; }
-  .article-content :global(a) { color: var(--color-servantium-green); text-decoration: underline; text-underline-offset: 2px; }
-  .article-content :global(a:hover) { color: #00A95E; }
-  .article-content :global(strong) { color: var(--color-ink); font-weight: 600; }
-  .article-content :global(ul), .article-content :global(ol) { margin: 1rem 0 1.5rem 1.5rem; }
-  .article-content :global(li) { margin-bottom: 0.5rem; color: var(--color-ink-light); font-size: 1.125rem; }
+  /* Paragraphs */
+  .article-content :global(p) {
+    margin-bottom: 1.35rem;
+  }
+
+  /* Links */
+  .article-content :global(a) {
+    color: var(--color-green);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    transition: color 0.15s ease;
+  }
+  .article-content :global(a:hover) {
+    color: var(--color-green-hover);
+  }
+
+  /* Strong */
+  .article-content :global(strong) {
+    color: var(--color-ink);
+    font-weight: 600;
+  }
+
+  /* Lists */
+  .article-content :global(ul),
+  .article-content :global(ol) {
+    margin: 1rem 0 1.5rem 1.25rem;
+  }
+  .article-content :global(li) {
+    margin-bottom: 0.6rem;
+    color: var(--color-ink-light);
+    font-size: 1.125rem;
+    line-height: 1.75;
+  }
+  .article-content :global(li::marker) {
+    color: var(--color-green);
+  }
+
+  /* Inline Code */
   .article-content :global(code) {
-    background: var(--color-mist-grey, #F5F6F7); padding: 0.15em 0.4em;
-    border-radius: 4px; font-size: 0.9em;
+    background: var(--color-mist-grey);
+    padding: 0.15em 0.4em;
+    border-radius: 5px;
+    font-size: 0.875em;
+    font-family: 'SF Mono', 'Fira Code', 'Fira Mono', Menlo, Consolas, monospace;
   }
-  .article-content :global(pre) {
-    background: var(--color-mist-grey, #F5F6F7); padding: 1.25rem 1.5rem;
-    border-radius: 8px; overflow-x: auto; margin: 1.5rem 0;
-    font-size: 0.9rem; line-height: 1.6;
-  }
-  .article-content :global(pre code) { background: none; padding: 0; border-radius: 0; font-size: inherit; }
-  .article-content :global(img) {
-    max-width: 100%; height: auto; border-radius: 8px; margin: 1.5rem 0;
-  }
-  .article-content :global(blockquote) {
-    border-left: 3px solid var(--color-servantium-green);
-    padding: 1rem 1.5rem; margin: 2rem 0;
-    background: var(--color-mint-tint); border-radius: 0 8px 8px 0;
-  }
-  .article-content :global(blockquote p) { font-style: italic; color: var(--color-ink); margin-bottom: 0; }
 
-  .article-cta {
-    background: var(--color-soft-mint); padding: 2.5rem; border-radius: 12px;
-    text-align: center; margin: 3rem 0;
+  /* Code Blocks */
+  .article-content :global(pre) {
+    background: var(--color-mist-grey);
+    padding: 1.25rem 1.5rem;
+    border-radius: 12px;
+    overflow-x: auto;
+    margin: 1.75rem 0;
+    font-size: 0.875rem;
+    line-height: 1.7;
+    border: 1px solid var(--color-cloud-grey);
   }
-  .article-cta h3 { margin-bottom: 0.5rem; }
-  .article-cta p { margin-bottom: 1.5rem; }
+  .article-content :global(pre code) {
+    background: none;
+    padding: 0;
+    border-radius: 0;
+    font-size: inherit;
+  }
+
+  /* Images */
+  .article-content :global(img) {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    margin: 2rem 0;
+    box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.08);
+  }
+
+  /* Figure / Caption support */
+  .article-content :global(figure) {
+    margin: 2rem 0;
+  }
+  .article-content :global(figure img) {
+    margin: 0 0 0.75rem;
+  }
+  .article-content :global(figcaption) {
+    font-size: 0.875rem;
+    color: var(--color-ink-muted);
+    text-align: center;
+    font-style: italic;
+  }
+
+  /* Blockquotes */
+  .article-content :global(blockquote) {
+    border-left: 3px solid var(--color-green);
+    padding: 1.25rem 1.5rem;
+    margin: 2rem 0;
+    background: var(--color-mint-tint);
+    border-radius: 0 12px 12px 0;
+  }
+  .article-content :global(blockquote p) {
+    font-style: italic;
+    color: var(--color-ink);
+    margin-bottom: 0;
+    font-size: 1.05rem;
+  }
+  .article-content :global(blockquote p:not(:last-child)) {
+    margin-bottom: 0.75rem;
+  }
+
+  /* Horizontal Rule */
+  .article-content :global(hr) {
+    border: none;
+    border-top: 1px solid var(--color-cloud-grey);
+    margin: 2.5rem 0;
+  }
+
+  /* Tables */
+  .article-content :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+  }
+  .article-content :global(th) {
+    text-align: left;
+    font-weight: 600;
+    color: var(--color-ink);
+    padding: 0.75rem 1rem;
+    border-bottom: 2px solid var(--color-cloud-grey);
+    font-size: 0.875rem;
+  }
+  .article-content :global(td) {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--color-cloud-grey);
+    color: var(--color-ink-light);
+  }
+  .article-content :global(tr:last-child td) {
+    border-bottom: none;
+  }
+
+  /* First paragraph styling (drop-cap feel with bolder text) */
+  .article-content :global(> p:first-of-type) {
+    font-size: 1.2rem;
+    color: var(--color-ink);
+    line-height: 1.75;
+  }
 </style>
+
+<script>
+  // Reading progress bar
+  function initArticleProgress() {
+    let bar = document.querySelector<HTMLElement>('.article-progress-bar');
+    if (!bar) {
+      bar = document.createElement('div');
+      bar.className = 'article-progress-bar';
+      bar.style.cssText = `
+        position: fixed; top: 0; left: 0; height: 3px; z-index: 200;
+        background: var(--color-green); width: 0%;
+        transition: width 50ms linear; pointer-events: none;
+      `;
+      document.body.appendChild(bar);
+    }
+
+    const article = document.querySelector('.article-content');
+    if (!article) return;
+
+    function updateProgress() {
+      const rect = article!.getBoundingClientRect();
+      const totalHeight = rect.height;
+      const scrolled = Math.max(0, -rect.top);
+      const progress = Math.min(100, (scrolled / (totalHeight - window.innerHeight)) * 100);
+      bar!.style.width = `${progress}%`;
+    }
+
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    updateProgress();
+  }
+
+  document.addEventListener('astro:page-load', initArticleProgress);
+  if (!document.querySelector('[name="astro-view-transitions"]')) {
+    initArticleProgress();
+  }
+</script>

@@ -14,22 +14,18 @@ const { prev = null, next = null } = Astro.props;
 if (!prev && !next) return;
 ---
 
-<nav aria-label="Pagination" class="mt-12 grid gap-4 grid-cols-1 sm:grid-cols-2">
+<nav aria-label="Pagination" class="mt-16 grid grid-cols-1 gap-4 sm:grid-cols-2">
   {prev ? (
     <a
       href={`/help/${prev.slug}/`}
-      class:list={[
-        'group flex items-center gap-3 rounded-xl border border-cloud-grey p-4 transition-all hover:border-green hover:-translate-y-0.5 hover:shadow-md',
-        !next && 'sm:col-span-1',
-      ]}
+      class="group flex flex-col rounded-lg border border-cloud-grey p-4 transition-all duration-150 hover:-translate-y-0.5 hover:border-green hover:shadow-md"
     >
-      <svg class="size-5 shrink-0 text-ink-muted transition-colors group-hover:text-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="15 18 9 12 15 6"></polyline>
-      </svg>
-      <div class="min-w-0">
-        <div class="text-xs font-medium text-ink-muted">Previous</div>
-        <div class="truncate text-sm font-semibold text-ink group-hover:text-green transition-colors">{prev.label}</div>
-      </div>
+      <span class="mb-1 text-xs font-medium text-slate-400">
+        &larr; Previous
+      </span>
+      <span class="text-sm font-semibold text-ink transition-colors duration-150 group-hover:text-green">
+        {prev.label}
+      </span>
     </a>
   ) : (
     <div></div>
@@ -38,18 +34,14 @@ if (!prev && !next) return;
   {next ? (
     <a
       href={`/help/${next.slug}/`}
-      class:list={[
-        'group flex items-center justify-end gap-3 rounded-xl border border-cloud-grey p-4 text-right transition-all hover:border-green hover:-translate-y-0.5 hover:shadow-md',
-        !prev && 'sm:col-start-2',
-      ]}
+      class="group flex flex-col items-end rounded-lg border border-cloud-grey p-4 text-right transition-all duration-150 hover:-translate-y-0.5 hover:border-green hover:shadow-md"
     >
-      <div class="min-w-0">
-        <div class="text-xs font-medium text-ink-muted">Next</div>
-        <div class="truncate text-sm font-semibold text-ink group-hover:text-green transition-colors">{next.label}</div>
-      </div>
-      <svg class="size-5 shrink-0 text-ink-muted transition-colors group-hover:text-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="9 18 15 12 9 6"></polyline>
-      </svg>
+      <span class="mb-1 text-xs font-medium text-slate-400">
+        Next &rarr;
+      </span>
+      <span class="text-sm font-semibold text-ink transition-colors duration-150 group-hover:text-green">
+        {next.label}
+      </span>
     </a>
   ) : (
     <div></div>

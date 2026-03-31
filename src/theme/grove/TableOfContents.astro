@@ -12,28 +12,30 @@ interface Props {
 const { headings } = Astro.props;
 ---
 
-<nav aria-label="On this page" class="grove-toc">
-  <h2 class="mb-3 text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-ink-muted">
-    On this page
-  </h2>
-  <ul class="space-y-1 text-sm" role="list">
-    {headings.map((heading) => (
-      <li>
-        <a
-          href={`#${heading.slug}`}
-          class:list={[
-            'grove-toc-link block py-1 leading-snug transition-colors text-ink-muted hover:text-ink',
-            heading.depth === 3 && 'pl-3',
-          ]}
-          data-toc-link
-          data-toc-slug={heading.slug}
-        >
-          {heading.text}
-        </a>
-      </li>
-    ))}
-  </ul>
-</nav>
+{headings.length > 0 && (
+  <nav aria-label="On this page">
+    <h2 class="mb-4 text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-slate-400">
+      On this page
+    </h2>
+    <ul class="space-y-1 border-l border-slate-100" role="list">
+      {headings.map((heading) => (
+        <li>
+          <a
+            href={`#${heading.slug}`}
+            class:list={[
+              'grove-toc-link -ml-px block border-l-2 border-transparent py-1 text-sm leading-snug transition-colors duration-100',
+              heading.depth === 3 ? 'pl-6 text-slate-400 hover:text-slate-600 hover:border-slate-300' : 'pl-3 text-slate-500 hover:text-slate-700 hover:border-slate-300',
+            ]}
+            data-toc-link
+            data-toc-slug={heading.slug}
+          >
+            {heading.text}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+)}
 
 <script>
   document.addEventListener('astro:page-load', () => {
@@ -47,22 +49,31 @@ const { headings } = Astro.props;
 
     if (headingElements.length === 0) return;
 
-    let activeSlug = slugs[0];
+    let activeSlug = '';
 
     function setActive(slug: string) {
       if (slug === activeSlug) return;
       activeSlug = slug;
       tocLinks.forEach((link) => {
         const isCurrent = link.dataset.tocSlug === slug;
-        link.classList.toggle('text-green', isCurrent);
-        link.classList.toggle('font-medium', isCurrent);
-        link.classList.toggle('text-ink-muted', !isCurrent);
+        if (isCurrent) {
+          link.classList.add('!border-green', '!text-green', 'font-medium');
+          link.classList.remove('border-transparent', 'text-slate-500', 'text-slate-400');
+        } else {
+          link.classList.remove('!border-green', '!text-green', 'font-medium');
+          link.classList.add('border-transparent');
+          // Restore the correct muted color based on depth
+          if (link.classList.contains('pl-6')) {
+            link.classList.add('text-slate-400');
+          } else {
+            link.classList.add('text-slate-500');
+          }
+        }
       });
     }
 
     const observer = new IntersectionObserver(
       (entries) => {
-        // Find the topmost visible heading
         const visible = entries
           .filter((e) => e.isIntersecting)
           .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
@@ -72,23 +83,28 @@ const { headings } = Astro.props;
         }
       },
       {
-        rootMargin: '-80px 0px -60% 0px',
+        rootMargin: '-80px 0px -65% 0px',
         threshold: 0,
       }
     );
 
     headingElements.forEach((el) => observer.observe(el));
 
+    // Set initial active state
+    if (slugs.length > 0) {
+      setActive(slugs[0]);
+    }
+
     // Smooth scroll on click
     tocLinks.forEach((link) => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
-        const target = document.getElementById(link.dataset.tocSlug!);
+        const slug = link.dataset.tocSlug!;
+        const target = document.getElementById(slug);
         if (target) {
           target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          // Update URL hash without jumping
-          history.pushState(null, '', `#${link.dataset.tocSlug}`);
-          setActive(link.dataset.tocSlug!);
+          history.pushState(null, '', `#${slug}`);
+          setActive(slug);
         }
       });
     });

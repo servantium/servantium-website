@@ -1,10 +1,9 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import SEO from '@/components/SEO.astro';
-import BlogCard from '@/theme/blog/BlogCard.astro';
-import BlogFilters from '@/theme/blog/BlogFilters.astro';
 import PageReveal from '@/theme/components/PageReveal.astro';
 import { getCollection } from 'astro:content';
+import { authors } from '@/data/authors';
 
 const allPosts = await getCollection('blog', ({ data }) => !data.draft);
 const posts = allPosts.sort(
@@ -12,7 +11,6 @@ const posts = allPosts.sort(
 );
 
 const categories = [...new Set(posts.map(p => p.data.category))].sort();
-const allTags = [...new Set(posts.flatMap(p => p.data.tags || []))].sort();
 ---
 
 <BaseLayout activePage="blog">
@@ -23,48 +21,188 @@ const allTags = [...new Set(posts.flatMap(p => p.data.tags || []))].sort();
     ogType="website"
   />
 
-  <!-- Blog Hero -->
+  {/* ── Hero Section ── */}
   <PageReveal>
-    <section class="bg-gradient-to-b from-[var(--color-soft-mint)] to-white pt-32 pb-12 md:pt-36 md:pb-16">
-      <div class="mx-auto max-w-[var(--content-width)] px-6 text-center">
-        <h1 data-reveal="1" class="font-[family-name:var(--font-display)] text-4xl md:text-5xl font-medium text-[var(--color-ink)] mb-4">
-          Blog
+    <section class="relative overflow-hidden bg-gradient-to-b from-[var(--color-soft-mint)] via-[var(--color-mint-tint)] to-white pt-32 pb-16 md:pt-40 md:pb-20">
+      {/* Decorative radial glow */}
+      <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-10%,rgba(0,194,109,0.08),transparent)]" aria-hidden="true"></div>
+
+      <div class="relative mx-auto max-w-[var(--content-width)] px-6 text-center">
+        <h1
+          data-reveal-title
+          data-reveal="1"
+          class="font-[family-name:var(--font-display)] text-4xl md:text-5xl lg:text-[3.25rem] font-medium text-[var(--color-ink)] mb-5 leading-[1.15] tracking-[-0.02em]"
+        >
+          Insights for Services Leaders
         </h1>
-        <p data-reveal="2" class="text-lg text-[var(--color-ink-muted)] max-w-2xl mx-auto leading-relaxed">
-          Insights on professional services, engagement management, and building the operational infrastructure services businesses deserve.
+        <p
+          data-reveal="2"
+          class="text-lg md:text-xl text-[var(--color-ink-muted)] max-w-2xl mx-auto leading-relaxed"
+        >
+          Strategy, operations, and the infrastructure modern services businesses deserve.
         </p>
       </div>
     </section>
   </PageReveal>
 
-  <!-- Filters + Grid -->
-  <section class="py-12 md:py-16">
+  {/* ── Filters + Grid ── */}
+  <section class="py-10 md:py-14">
     <div class="mx-auto max-w-[var(--content-width)] px-6">
-      <BlogFilters categories={categories} tags={allTags} />
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-10" id="blog-grid">
-        {posts.map((post) => (
-          <BlogCard
-            title={post.data.title}
-            description={post.data.description}
-            date={post.data.date}
-            author={post.data.author}
-            category={post.data.category}
-            image={post.data.image}
-            imageAlt={post.data.imageAlt}
-            slug={post.id}
-            readingTime={post.data.readingTime}
-            tags={post.data.tags}
-          />
+      {/* ── Category Filter Pills ── */}
+      <div
+        class="blog-filters flex gap-2.5 overflow-x-auto pb-3 mb-10 scrollbar-none
+               [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        role="tablist"
+        aria-label="Filter by category"
+      >
+        <button
+          type="button"
+          class="filter-cat is-active whitespace-nowrap rounded-full px-5 py-2 text-sm font-semibold
+                 transition-all duration-200 ease-[var(--ease-out)]
+                 bg-[var(--color-green)] text-white shadow-[0_2px_8px_rgba(0,194,109,0.25)]"
+          data-category="all"
+          role="tab"
+          aria-selected="true"
+        >
+          All
+        </button>
+
+        {categories.map((cat) => (
+          <button
+            type="button"
+            class="filter-cat whitespace-nowrap rounded-full px-5 py-2 text-sm font-semibold
+                   transition-all duration-200 ease-[var(--ease-out)]
+                   bg-white border border-[var(--color-cloud-grey)] text-[var(--color-ink-muted)]
+                   hover:border-[var(--color-green)] hover:text-[var(--color-green)]"
+            data-category={cat}
+            role="tab"
+            aria-selected="false"
+          >
+            {cat}
+          </button>
         ))}
+      </div>
+
+      {/* ── Post Count ── */}
+      <p class="text-sm text-[var(--color-ink-muted)] mb-6" id="blog-post-count">
+        {posts.length} {posts.length === 1 ? 'article' : 'articles'}
+      </p>
+
+      {/* ── Card Grid ── */}
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7" id="blog-grid">
+        {posts.map((post, i) => {
+          const authorData = authors[post.data.author];
+          const formattedDate = new Date(post.data.date).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+          });
+
+          return (
+            <a
+              href={`/blog/${post.id}`}
+              class="blog-card group relative flex flex-col rounded-2xl border border-[var(--color-cloud-grey)]
+                     bg-white overflow-hidden no-underline text-inherit
+                     transition-[transform,box-shadow] duration-300 ease-[var(--ease-bounce)]
+                     hover:-translate-y-1.5 hover:shadow-[0_12px_40px_-12px_rgba(0,0,0,0.12)]"
+              data-category={post.data.category}
+              data-tags={(post.data.tags || []).join(',')}
+              data-animate
+              style={`--stagger: ${Math.min(i, 8) * 80}ms`}
+            >
+              {/* Card Image */}
+              {post.data.image && (
+                <div class="relative overflow-hidden aspect-[16/9]">
+                  <img
+                    src={post.data.image}
+                    alt={post.data.imageAlt || post.data.title}
+                    loading="lazy"
+                    decoding="async"
+                    class="w-full h-full object-cover transition-transform duration-600 ease-[var(--ease-out)]
+                           group-hover:scale-105"
+                  />
+                  {/* Gradient overlay at bottom of image */}
+                  <div class="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-black/10 to-transparent pointer-events-none" aria-hidden="true"></div>
+                </div>
+              )}
+
+              {/* Card Content */}
+              <div class="flex flex-col flex-1 p-5 sm:p-6 gap-3">
+                {/* Category Badge */}
+                <span
+                  class="inline-block self-start rounded-full bg-[var(--color-green)]/10 px-3 py-0.5
+                         text-[0.6875rem] font-semibold uppercase tracking-wider text-[var(--color-green)]"
+                >
+                  {post.data.category}
+                </span>
+
+                {/* Title */}
+                <h3
+                  class="font-[family-name:var(--font-display)] text-lg sm:text-xl leading-snug
+                         text-[var(--color-ink)] line-clamp-2 m-0 tracking-[-0.01em]"
+                >
+                  {post.data.title}
+                </h3>
+
+                {/* Description */}
+                <p class="text-sm text-[var(--color-ink-muted)] leading-relaxed line-clamp-3 m-0 flex-1">
+                  {post.data.description}
+                </p>
+
+                {/* Author + Date Footer */}
+                <div class="flex items-center gap-3 pt-4 mt-auto border-t border-[var(--color-cloud-grey)]/60">
+                  {authorData?.image && (
+                    <img
+                      src={authorData.image}
+                      alt={authorData.name}
+                      class="w-8 h-8 rounded-full object-cover ring-2 ring-white"
+                      loading="lazy"
+                    />
+                  )}
+                  <div class="flex flex-col min-w-0">
+                    <span class="text-xs font-medium text-[var(--color-ink-light)] truncate">
+                      {authorData?.name || post.data.author}
+                    </span>
+                    <div class="flex items-center gap-1.5 text-[0.6875rem] text-[var(--color-ink-muted)]">
+                      <time datetime={post.data.date}>{formattedDate}</time>
+                      {post.data.readingTime && (
+                        <>
+                          <span class="opacity-40" aria-hidden="true">&middot;</span>
+                          <span>{post.data.readingTime}</span>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+          );
+        })}
+      </div>
+
+      {/* ── Empty State ── */}
+      <div id="blog-empty" class="hidden py-20 text-center">
+        <p class="text-lg text-[var(--color-ink-muted)]">No articles match this filter.</p>
+        <button
+          type="button"
+          id="blog-clear-filter"
+          class="mt-4 text-sm font-semibold text-[var(--color-green)] hover:underline"
+        >
+          Show all articles
+        </button>
       </div>
     </div>
   </section>
 
-  <!-- RSS Link -->
-  <section class="pb-16 text-center">
-    <a href="/rss.xml" class="inline-flex items-center gap-2 text-sm text-[var(--color-ink-muted)] hover:text-[var(--color-green)] transition-colors">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  {/* ── RSS Footer ── */}
+  <section class="pb-20 text-center">
+    <a
+      href="/rss.xml"
+      class="inline-flex items-center gap-2.5 text-sm font-medium text-[var(--color-ink-muted)]
+             hover:text-[var(--color-green)] transition-colors duration-200"
+    >
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="M4 11a9 9 0 0 1 9 9"></path>
         <path d="M4 4a16 16 0 0 1 16 16"></path>
         <circle cx="5" cy="19" r="1"></circle>
@@ -73,3 +211,187 @@ const allTags = [...new Set(posts.flatMap(p => p.data.tags || []))].sort();
     </a>
   </section>
 </BaseLayout>
+
+<style>
+  /* ── Scroll-triggered card entrance ── */
+  [data-animate] {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-spring);
+    transition-delay: var(--stagger, 0ms);
+  }
+  [data-animate].is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── Filter transition for cards ── */
+  .blog-card {
+    transition: transform 0.3s var(--ease-bounce),
+                box-shadow 0.3s var(--ease-out),
+                opacity 0.25s ease;
+  }
+  .blog-card.is-hiding {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+
+  /* ── Active filter pill ── */
+  .filter-cat.is-active {
+    background: var(--color-green) !important;
+    color: white !important;
+    border-color: var(--color-green) !important;
+    box-shadow: 0 2px 8px rgba(0, 194, 109, 0.25);
+  }
+
+  /* ── Duration utility Tailwind doesn't have by default ── */
+  .duration-600 {
+    transition-duration: 600ms;
+  }
+</style>
+
+<script>
+  function initBlogListing() {
+    const grid = document.getElementById('blog-grid');
+    const cards = grid?.querySelectorAll<HTMLElement>('.blog-card');
+    const catButtons = document.querySelectorAll<HTMLButtonElement>('.filter-cat');
+    const emptyState = document.getElementById('blog-empty');
+    const clearBtn = document.getElementById('blog-clear-filter');
+    const postCount = document.getElementById('blog-post-count');
+
+    if (!grid || !cards) return;
+
+    let currentCategory = 'all';
+
+    // ── Scroll-triggered reveal ──
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            (entry.target as HTMLElement).classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
+    );
+
+    function observeCards() {
+      cards.forEach((card) => {
+        if (card.style.display !== 'none') {
+          observer.observe(card);
+        }
+      });
+    }
+
+    // Initial observation
+    observeCards();
+
+    // ── Category filtering with FLIP animation ──
+    function filterCards(category: string) {
+      currentCategory = category;
+
+      // Update URL
+      const url = new URL(window.location.href);
+      if (category === 'all') {
+        url.searchParams.delete('category');
+      } else {
+        url.searchParams.set('category', category);
+      }
+      history.replaceState(null, '', url.toString());
+
+      // Update button styles
+      catButtons.forEach((btn) => {
+        const isActive = btn.dataset.category === category;
+        btn.classList.toggle('is-active', isActive);
+        btn.setAttribute('aria-selected', String(isActive));
+
+        if (isActive) {
+          btn.className = btn.className
+            .replace(/bg-white\s*/g, '')
+            .replace(/border\s+border-\[var\(--color-cloud-grey\)\]/g, '')
+            .replace(/text-\[var\(--color-ink-muted\)\]/g, '')
+            .replace(/hover:border-\[var\(--color-green\)\]/g, '')
+            .replace(/hover:text-\[var\(--color-green\)\]/g, '');
+        }
+      });
+
+      // Capture positions for FLIP
+      const rects = new Map<HTMLElement, DOMRect>();
+      cards.forEach((card) => rects.set(card, card.getBoundingClientRect()));
+
+      // Apply filter
+      let visibleCount = 0;
+      cards.forEach((card) => {
+        const cardCat = card.dataset.category || '';
+        const matches = category === 'all' || cardCat === category;
+        card.style.display = matches ? '' : 'none';
+        if (matches) visibleCount++;
+      });
+
+      // Update count
+      if (postCount) {
+        postCount.textContent = `${visibleCount} ${visibleCount === 1 ? 'article' : 'articles'}`;
+      }
+
+      // Show/hide empty state
+      if (emptyState) {
+        emptyState.classList.toggle('hidden', visibleCount > 0);
+      }
+      grid.classList.toggle('hidden', visibleCount === 0);
+
+      // FLIP animation for visible cards
+      cards.forEach((card) => {
+        if (card.style.display === 'none') return;
+        const first = rects.get(card);
+        if (!first) return;
+        const last = card.getBoundingClientRect();
+        const dx = first.left - last.left;
+        const dy = first.top - last.top;
+        if (Math.abs(dx) < 1 && Math.abs(dy) < 1) return;
+
+        card.animate(
+          [
+            { transform: `translate(${dx}px, ${dy}px)` },
+            { transform: 'translate(0, 0)' },
+          ],
+          { duration: 350, easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)' }
+        );
+      });
+
+      // Re-trigger entrance for newly-visible cards
+      cards.forEach((card) => {
+        if (card.style.display !== 'none' && !card.classList.contains('is-visible')) {
+          card.classList.remove('is-visible');
+          // Reset stagger for re-entrance
+          requestAnimationFrame(() => {
+            observer.observe(card);
+          });
+        }
+      });
+    }
+
+    // ── Event listeners ──
+    catButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        filterCards(btn.dataset.category || 'all');
+      });
+    });
+
+    clearBtn?.addEventListener('click', () => {
+      filterCards('all');
+    });
+
+    // ── Apply initial filter from URL ──
+    const params = new URLSearchParams(window.location.search);
+    const initialCat = params.get('category') || 'all';
+    if (initialCat !== 'all') {
+      filterCards(initialCat);
+    }
+  }
+
+  document.addEventListener('astro:page-load', initBlogListing);
+  if (!document.querySelector('[name="astro-view-transitions"]')) {
+    initBlogListing();
+  }
+</script>
