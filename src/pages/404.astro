@@ -98,26 +98,7 @@ import SEO from '@/components/SEO.astro';
 </BaseLayout>
 
 <style>
-  :root {
-    --color-servantium-green: #00C26D;
-    --color-green-hover: #00A95E;
-    --color-fresh-green: #00E67D;
-    --color-deep-forest: #023E25;
-    --color-soft-mint: #E8FBF1;
-    --color-ink: #0D0D0D;
-    --color-ink-light: #3d3d3d;
-    --color-ink-muted: #6b6b6b;
-    --color-white: #FFFFFF;
-    --color-mist-grey: #F5F6F7;
-    --color-cloud-grey: #E1E3E6;
-    --color-slate: #64748B;
-    --color-amber: #FFB02E;
-    --color-coral: #FF5C70;
-    --color-slate-blue: #4C82A7;
-    --color-deep-teal: #26A899;
-    --font-display: 'Playfair Display', Georgia, serif;
-    --font-body: 'Source Sans 3', -apple-system, BlinkMacSystemFont, sans-serif;
-  }
+  /* Variables inherited from global.css / verdant.css — no duplication needed */
 
   .container {
     flex: 1;
@@ -125,9 +106,10 @@ import SEO from '@/components/SEO.astro';
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 2rem;
+    padding: 6rem 2rem 2rem;  /* top padding for fixed nav */
     text-align: center;
     position: relative;
+    min-height: 60vh;
   }
 
   .game-arena {
