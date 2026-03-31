@@ -61,7 +61,10 @@
   --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);           /* spring-like overshoot */
   --ease-bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275); /* card lift with overshoot */
 
-  /* ── Layout ── */
+}
+
+/* ── Layout variables (outside @theme to avoid Tailwind collision) ── */
+:root {
   --max-width: 1320px;
   --content-width: 1140px;
 }

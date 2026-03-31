@@ -46,10 +46,14 @@
     --space-3xl: 8rem;
 }
 
-* {
+/* Reset moved to @layer to avoid overriding Tailwind utilities.
+   Tailwind's preflight handles box-sizing and margin resets. */
+@layer base {
+  * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+  }
 }
 
 /* Skip to content link for accessibility */
