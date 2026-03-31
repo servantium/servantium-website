@@ -44,14 +44,17 @@
   --font-display: 'Playfair Display', Georgia, serif;
   --font-body: 'Source Sans 3', -apple-system, BlinkMacSystemFont, sans-serif;
 
-  /* ── Spacing Scale ── */
-  --spacing-xs: 0.5rem;
-  --spacing-sm: 1rem;
-  --spacing-md: 1.5rem;
-  --spacing-lg: 2.5rem;
-  --spacing-xl: 4rem;
-  --spacing-2xl: 6rem;
-  --spacing-3xl: 8rem;
+  /* ── Verdant Spacing Scale ──
+     Namespaced to avoid colliding with Tailwind's built-in spacing.
+     Use as: gap-[var(--v-space-lg)], p-[var(--v-space-xl)], etc.
+     Tailwind's default spacing (p-4, gap-8, max-w-2xl) stays untouched. */
+  --v-space-xs: 0.5rem;
+  --v-space-sm: 1rem;
+  --v-space-md: 1.5rem;
+  --v-space-lg: 2.5rem;
+  --v-space-xl: 4rem;
+  --v-space-2xl: 6rem;
+  --v-space-3xl: 8rem;
 
   /* ── Animation Easing (Foxi Pro-inspired) ── */
   --ease-out: cubic-bezier(0.25, 0.46, 0.45, 0.94);      /* snappy settle */
