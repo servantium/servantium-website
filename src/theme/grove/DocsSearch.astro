@@ -1,0 +1,125 @@
+---
+/**
+ * DocsSearch — Pagefind search UI for Grove documentation.
+ * Lazy-loads Pagefind JS on first interaction (click or Cmd+K).
+ * Styled with Verdant tokens.
+ */
+---
+
+<div class="docs-search-wrapper relative">
+  <button
+    id="docs-search-trigger"
+    type="button"
+    class="flex items-center gap-2 w-full max-w-md px-4 py-2.5 rounded-lg border border-[var(--color-cloud-grey)] bg-white text-[var(--color-ink-muted)] text-sm transition-all duration-200 hover:border-[var(--color-green)] hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-green)] focus:ring-offset-2"
+    aria-label="Search documentation"
+  >
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="flex-shrink-0 opacity-50">
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.3-4.3"></path>
+    </svg>
+    <span class="flex-1 text-left">Search docs...</span>
+    <kbd class="hidden sm:inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-[var(--color-mist-grey)] text-xs font-mono text-[var(--color-ink-muted)]">
+      <span class="text-xs">⌘</span>K
+    </kbd>
+  </button>
+
+  <div id="docs-search-container" class="hidden fixed inset-0 z-[10000] bg-black/50 backdrop-blur-sm flex items-start justify-center pt-[15vh]">
+    <div class="w-full max-w-2xl mx-4 bg-white rounded-xl shadow-2xl overflow-hidden" id="docs-search-modal">
+      <div id="docs-search-pagefind"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const trigger = document.getElementById('docs-search-trigger');
+    const container = document.getElementById('docs-search-container');
+    const modal = document.getElementById('docs-search-modal');
+    const pagefindEl = document.getElementById('docs-search-pagefind');
+    let pagefindLoaded = false;
+
+    async function openSearch() {
+      if (!container || !pagefindEl) return;
+      container.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+
+      if (!pagefindLoaded) {
+        try {
+          // @ts-ignore — Pagefind generates this at build time
+          const pagefind = await import('/pagefind/pagefind-ui.js');
+          new pagefind.PagefindUI({
+            element: pagefindEl,
+            showSubResults: true,
+            showImages: false,
+            resetStyles: true,
+          });
+          pagefindLoaded = true;
+        } catch (e) {
+          pagefindEl.innerHTML = '<p class="p-6 text-center text-[var(--color-ink-muted)]">Search index not available. Try after a full build.</p>';
+        }
+      }
+
+      // Focus the search input
+      setTimeout(() => {
+        const input = pagefindEl.querySelector('input');
+        if (input) input.focus();
+      }, 100);
+    }
+
+    function closeSearch() {
+      if (!container) return;
+      container.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    trigger?.addEventListener('click', openSearch);
+
+    // Close on backdrop click
+    container?.addEventListener('click', (e) => {
+      if (e.target === container) closeSearch();
+    });
+
+    // Close on Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && container && !container.classList.contains('hidden')) {
+        closeSearch();
+      }
+      // Cmd+K / Ctrl+K to open
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        if (container?.classList.contains('hidden')) {
+          openSearch();
+        } else {
+          closeSearch();
+        }
+      }
+    });
+  });
+</script>
+
+<style is:global>
+  /* Pagefind UI overrides for Verdant */
+  .pagefind-ui__search-input {
+    font-family: var(--font-body) !important;
+    border-color: var(--color-cloud-grey) !important;
+    border-radius: 0.5rem !important;
+    padding: 0.75rem 1rem !important;
+    font-size: 1rem !important;
+  }
+  .pagefind-ui__search-input:focus {
+    border-color: var(--color-green) !important;
+    box-shadow: 0 0 0 3px rgba(0, 194, 109, 0.15) !important;
+    outline: none !important;
+  }
+  .pagefind-ui__result-link {
+    color: var(--color-green) !important;
+    font-weight: 500 !important;
+  }
+  .pagefind-ui__result-link:hover {
+    color: var(--color-green-hover) !important;
+  }
+  .pagefind-ui__message {
+    font-family: var(--font-body) !important;
+    color: var(--color-ink-muted) !important;
+  }
+</style>

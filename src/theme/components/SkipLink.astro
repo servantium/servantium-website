@@ -1,0 +1,16 @@
+---
+/**
+ * SkipLink — Accessibility skip navigation
+ *
+ * "Skip to main content" link. Visually hidden (sr-only) until focused,
+ * then appears as a green pill at top-center of viewport.
+ * Links to #main-content. z-index above everything.
+ */
+---
+
+<a
+  href="#main-content"
+  class="sr-only focus:not-sr-only fixed top-4 left-1/2 z-[100000] -translate-x-1/2 rounded-full bg-green px-6 py-3 text-sm font-semibold text-white shadow-lg outline-2 outline-offset-2 outline-deep-forest transition-all focus:outline"
+>
+  Skip to main content
+</a>

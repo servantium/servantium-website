@@ -1,0 +1,45 @@
+---
+/**
+ * FAQ — StarFunnel-inspired accordion
+ *
+ * Progressive enhancement with <details>/<summary>.
+ * Smooth height animation via CSS grid trick (grid-template-rows: 0fr -> 1fr).
+ * Green plus/minus icon that rotates on open.
+ * Tailwind utility classes + verdant.css tokens.
+ */
+
+interface Props {
+  items: Array<{ question: string; answer: string }>;
+}
+
+const { items } = Astro.props;
+---
+
+<div class="flex flex-col divide-y divide-cloud-grey">
+  {items.map((item) => (
+    <details class="group" >
+      <summary
+        class="flex cursor-pointer items-center justify-between gap-4 py-5 text-lg font-medium text-ink transition-colors hover:text-green list-none [&::-webkit-details-marker]:hidden"
+      >
+        <span class="font-body">{item.question}</span>
+        <span
+          class="relative flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2 border-green text-green transition-transform duration-300 ease-[var(--ease-spring)] group-open:rotate-45"
+          aria-hidden="true"
+        >
+          {/* Plus icon — the rotation turns it into a close/minus */}
+          <svg class="h-3.5 w-3.5" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="7" y1="1" x2="7" y2="13" />
+            <line x1="1" y1="7" x2="13" y2="7" />
+          </svg>
+        </span>
+      </summary>
+
+      {/* CSS grid trick for smooth open/close height animation */}
+      <div class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-[var(--ease-out)] group-open:grid-rows-[1fr]">
+        <div class="overflow-hidden">
+          <p class="pb-5 text-ink-muted leading-relaxed">{item.answer}</p>
+        </div>
+      </div>
+    </details>
+  ))}
+</div>

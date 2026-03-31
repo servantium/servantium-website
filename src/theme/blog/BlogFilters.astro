@@ -1,0 +1,207 @@
+---
+interface Props {
+  categories: string[];
+  tags: string[];
+  activeCategory?: string;
+  activeTags?: string[];
+}
+
+const {
+  categories,
+  tags,
+  activeCategory = 'all',
+  activeTags = [],
+} = Astro.props;
+---
+
+<div class="blog-filters flex flex-col gap-4 mb-8">
+  {/* ── Category pills ── */}
+  <div
+    class="flex gap-2 overflow-x-auto pb-2 scrollbar-none
+           [-ms-overflow-style:none] [scrollbar-width:none]
+           [&::-webkit-scrollbar]:hidden"
+    role="tablist"
+    aria-label="Filter by category"
+  >
+    <button
+      type="button"
+      class:list={[
+        'filter-cat whitespace-nowrap rounded-full px-4 py-1.5 text-sm font-semibold transition-colors duration-200',
+        activeCategory === 'all'
+          ? 'bg-green text-white'
+          : 'border border-cloud-grey text-ink-muted hover:border-green hover:text-green',
+      ]}
+      data-category="all"
+      role="tab"
+      aria-selected={activeCategory === 'all' ? 'true' : 'false'}
+    >
+      All
+    </button>
+
+    {categories.map((cat) => (
+      <button
+        type="button"
+        class:list={[
+          'filter-cat whitespace-nowrap rounded-full px-4 py-1.5 text-sm font-semibold transition-colors duration-200',
+          activeCategory === cat
+            ? 'bg-green text-white'
+            : 'border border-cloud-grey text-ink-muted hover:border-green hover:text-green',
+        ]}
+        data-category={cat}
+        role="tab"
+        aria-selected={activeCategory === cat ? 'true' : 'false'}
+      >
+        {cat}
+      </button>
+    ))}
+  </div>
+
+  {/* ── Tag chips ── */}
+  {tags.length > 0 && (
+    <div class="flex flex-wrap gap-2" role="group" aria-label="Filter by tag">
+      {tags.map((tag) => (
+        <button
+          type="button"
+          class:list={[
+            'filter-tag rounded-full px-3 py-1 text-xs font-medium transition-colors duration-200',
+            activeTags.includes(tag)
+              ? 'bg-green/15 text-green border border-green/30'
+              : 'bg-mist-grey text-ink-muted hover:bg-green/10 hover:text-green',
+          ]}
+          data-tag={tag}
+        >
+          {tag}
+        </button>
+      ))}
+    </div>
+  )}
+</div>
+
+<script>
+  function initBlogFilters() {
+    const params = new URLSearchParams(window.location.search);
+    let currentCategory = params.get('category') || 'all';
+    let currentTags = params.getAll('tag');
+
+    const catButtons = document.querySelectorAll<HTMLButtonElement>('.filter-cat');
+    const tagButtons = document.querySelectorAll<HTMLButtonElement>('.filter-tag');
+    const cards = document.querySelectorAll<HTMLElement>('.blog-card');
+
+    function updateUI() {
+      // Update category button styles
+      catButtons.forEach((btn) => {
+        const cat = btn.dataset.category!;
+        const active = cat === currentCategory;
+        btn.setAttribute('aria-selected', String(active));
+        btn.className = btn.className
+          .replace(/bg-green text-white|border border-cloud-grey text-ink-muted hover:border-green hover:text-green/g, '')
+          .trim();
+        btn.classList.add(
+          ...(active
+            ? ['bg-green', 'text-white']
+            : ['border', 'border-cloud-grey', 'text-ink-muted', 'hover:border-green', 'hover:text-green'])
+        );
+      });
+
+      // Update tag button styles
+      tagButtons.forEach((btn) => {
+        const tag = btn.dataset.tag!;
+        const active = currentTags.includes(tag);
+        btn.className = btn.className
+          .replace(/bg-green\/15 text-green border border-green\/30|bg-mist-grey text-ink-muted hover:bg-green\/10 hover:text-green/g, '')
+          .trim();
+        btn.classList.add(
+          ...(active
+            ? ['bg-green/15', 'text-green', 'border', 'border-green/30']
+            : ['bg-mist-grey', 'text-ink-muted', 'hover:bg-green/10', 'hover:text-green'])
+        );
+      });
+    }
+
+    function filterCards() {
+      // FLIP: capture first positions
+      const firstRects = new Map<HTMLElement, DOMRect>();
+      cards.forEach((card) => {
+        firstRects.set(card, card.getBoundingClientRect());
+      });
+
+      // Apply visibility
+      cards.forEach((card) => {
+        const cardCat = card.dataset.category || '';
+        const cardTags = (card.dataset.tags || '').split(',').filter(Boolean);
+
+        const matchesCat = currentCategory === 'all' || cardCat === currentCategory;
+        const matchesTags = currentTags.length === 0 || currentTags.some((t) => cardTags.includes(t));
+
+        if (matchesCat && matchesTags) {
+          card.style.display = '';
+          card.style.opacity = '1';
+        } else {
+          card.style.display = 'none';
+          card.style.opacity = '0';
+        }
+      });
+
+      // FLIP: capture last positions and animate
+      cards.forEach((card) => {
+        if (card.style.display === 'none') return;
+        const first = firstRects.get(card);
+        if (!first) return;
+        const last = card.getBoundingClientRect();
+        const dx = first.left - last.left;
+        const dy = first.top - last.top;
+        if (dx === 0 && dy === 0) return;
+
+        card.animate(
+          [
+            { transform: `translate(${dx}px, ${dy}px)` },
+            { transform: 'translate(0, 0)' },
+          ],
+          { duration: 300, easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)' }
+        );
+      });
+
+      updateUI();
+    }
+
+    function pushState() {
+      const url = new URL(window.location.href);
+      url.searchParams.delete('category');
+      url.searchParams.delete('tag');
+      if (currentCategory !== 'all') url.searchParams.set('category', currentCategory);
+      currentTags.forEach((t) => url.searchParams.append('tag', t));
+      history.replaceState(null, '', url.toString());
+    }
+
+    catButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        currentCategory = btn.dataset.category!;
+        pushState();
+        filterCards();
+      });
+    });
+
+    tagButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const tag = btn.dataset.tag!;
+        if (currentTags.includes(tag)) {
+          currentTags = currentTags.filter((t) => t !== tag);
+        } else {
+          currentTags.push(tag);
+        }
+        pushState();
+        filterCards();
+      });
+    });
+
+    // Apply initial filter from URL
+    filterCards();
+  }
+
+  // Support Astro View Transitions
+  document.addEventListener('astro:page-load', initBlogFilters);
+  // Fallback for initial load without View Transitions
+  if (!document.querySelector('[name="astro-view-transitions"]')) {
+    initBlogFilters();
+  }
+</script>

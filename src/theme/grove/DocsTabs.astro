@@ -1,0 +1,95 @@
+---
+interface Props {
+  tabs: string[];
+}
+
+const { tabs } = Astro.props;
+const id = `grove-tabs-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<div class="grove-tabs my-6" data-grove-tabs id={id}>
+  <div class="flex border-b border-cloud-grey" role="tablist" aria-label="Content tabs">
+    {tabs.map((label, i) => (
+      <button
+        role="tab"
+        aria-selected={i === 0 ? 'true' : 'false'}
+        aria-controls={`${id}-panel-${i}`}
+        id={`${id}-tab-${i}`}
+        tabindex={i === 0 ? 0 : -1}
+        class:list={[
+          'grove-tab-btn px-4 py-2.5 text-sm font-medium transition-colors -mb-px border-b-2',
+          i === 0
+            ? 'border-green text-green'
+            : 'border-transparent text-ink-muted hover:text-ink hover:border-cloud-grey',
+        ]}
+        data-tab-index={i}
+      >
+        {label}
+      </button>
+    ))}
+  </div>
+  {tabs.map((_, i) => (
+    <div
+      role="tabpanel"
+      id={`${id}-panel-${i}`}
+      aria-labelledby={`${id}-tab-${i}`}
+      class:list={['grove-tab-panel pt-4', i !== 0 && 'hidden']}
+      tabindex={0}
+      data-panel-index={i}
+    >
+      <slot name={`tab-${i}`} />
+    </div>
+  ))}
+</div>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    document.querySelectorAll<HTMLElement>('[data-grove-tabs]').forEach((container) => {
+      const tabs = container.querySelectorAll<HTMLButtonElement>('[role="tab"]');
+      const panels = container.querySelectorAll<HTMLElement>('[role="tabpanel"]');
+
+      function activate(index: number) {
+        tabs.forEach((tab, i) => {
+          const isActive = i === index;
+          tab.setAttribute('aria-selected', String(isActive));
+          tab.tabIndex = isActive ? 0 : -1;
+          tab.classList.toggle('border-green', isActive);
+          tab.classList.toggle('text-green', isActive);
+          tab.classList.toggle('border-transparent', !isActive);
+          tab.classList.toggle('text-ink-muted', !isActive);
+        });
+        panels.forEach((panel, i) => {
+          panel.classList.toggle('hidden', i !== index);
+        });
+      }
+
+      tabs.forEach((tab) => {
+        tab.addEventListener('click', () => {
+          activate(Number(tab.dataset.tabIndex));
+        });
+
+        // Arrow key navigation
+        tab.addEventListener('keydown', (e) => {
+          const current = Number(tab.dataset.tabIndex);
+          let next = current;
+
+          if (e.key === 'ArrowRight') {
+            next = (current + 1) % tabs.length;
+          } else if (e.key === 'ArrowLeft') {
+            next = (current - 1 + tabs.length) % tabs.length;
+          } else if (e.key === 'Home') {
+            next = 0;
+          } else if (e.key === 'End') {
+            next = tabs.length - 1;
+          } else {
+            return;
+          }
+
+          e.preventDefault();
+          activate(next);
+          tabs[next].focus();
+        });
+      });
+    });
+  });
+</script>

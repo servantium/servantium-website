@@ -1,0 +1,80 @@
+---
+interface RelatedPost {
+  title: string;
+  description: string;
+  slug: string;
+  category: string;
+  image?: string;
+  date: string;
+}
+
+interface Props {
+  posts: RelatedPost[];
+}
+
+const { posts } = Astro.props;
+---
+
+{posts.length > 0 && (
+  <section class="mt-16 pt-12 border-t border-cloud-grey">
+    <h2
+      class="font-[family-name:var(--font-display)] text-2xl md:text-3xl text-ink mb-8"
+    >
+      Related Posts
+    </h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {posts.slice(0, 3).map((post) => {
+        const formattedDate = new Date(post.date).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        });
+
+        return (
+          <a
+            href={`/blog/${post.slug}`}
+            class="group block no-underline text-inherit rounded-xl border border-cloud-grey
+                   overflow-hidden transition-[transform,box-shadow] duration-300
+                   ease-[var(--ease-bounce)] hover:-translate-y-1 hover:shadow-lg"
+          >
+            {post.image && (
+              <div class="overflow-hidden h-44">
+                <img
+                  src={post.image}
+                  alt={post.title}
+                  loading="lazy"
+                  class="w-full h-full object-cover transition-transform duration-500
+                         ease-[var(--ease-out)] group-hover:scale-[1.04]"
+                />
+              </div>
+            )}
+
+            <div class="p-4 flex flex-col gap-2">
+              <span
+                class="inline-block self-start rounded-full bg-green/10 px-2.5 py-0.5
+                       text-[0.6875rem] font-semibold uppercase tracking-wider text-green"
+              >
+                {post.category}
+              </span>
+
+              <h3
+                class="font-[family-name:var(--font-display)] text-base leading-snug
+                       text-ink line-clamp-2 m-0"
+              >
+                {post.title}
+              </h3>
+
+              <time
+                datetime={post.date}
+                class="text-xs text-ink-muted"
+              >
+                {formattedDate}
+              </time>
+            </div>
+          </a>
+        );
+      })}
+    </div>
+  </section>
+)}

@@ -1,0 +1,76 @@
+---
+/**
+ * VideoEmbed — Responsive video embed component
+ *
+ * Supports YouTube (auto-converts watch URLs to embed), Loom, and native video.
+ * Responsive container with configurable aspect ratio.
+ * Lazy loading, rounded corners, subtle shadow.
+ */
+
+interface Props {
+  src: string;
+  title: string;
+  aspectRatio?: '16/9' | '4/3';
+}
+
+const { src, title, aspectRatio = '16/9' } = Astro.props;
+
+// Determine embed type and normalize URL
+function getEmbedUrl(url: string): { type: 'iframe' | 'video'; embedUrl: string } {
+  // YouTube: convert watch URL to embed
+  const ytMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]+)/);
+  if (ytMatch) {
+    return { type: 'iframe', embedUrl: `https://www.youtube.com/embed/${ytMatch[1]}` };
+  }
+
+  // YouTube embed URL (already correct)
+  if (url.includes('youtube.com/embed/')) {
+    return { type: 'iframe', embedUrl: url };
+  }
+
+  // Loom
+  if (url.includes('loom.com')) {
+    const loomMatch = url.match(/loom\.com\/(?:share|embed)\/([\w-]+)/);
+    if (loomMatch) {
+      return { type: 'iframe', embedUrl: `https://www.loom.com/embed/${loomMatch[1]}` };
+    }
+    return { type: 'iframe', embedUrl: url };
+  }
+
+  // Native video (mp4, webm, etc.)
+  if (/\.(mp4|webm|ogg)$/i.test(url)) {
+    return { type: 'video', embedUrl: url };
+  }
+
+  // Default: treat as iframe
+  return { type: 'iframe', embedUrl: url };
+}
+
+const { type, embedUrl } = getEmbedUrl(src);
+---
+
+<div
+  class="relative w-full overflow-hidden rounded-xl shadow-md"
+  style={`aspect-ratio: ${aspectRatio};`}
+>
+  {type === 'iframe' ? (
+    <iframe
+      src={embedUrl}
+      title={title}
+      loading="lazy"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+      class="absolute inset-0 h-full w-full border-0"
+    />
+  ) : (
+    <video
+      src={embedUrl}
+      title={title}
+      controls
+      preload="metadata"
+      class="absolute inset-0 h-full w-full object-cover"
+    >
+      <track kind="captions" />
+    </video>
+  )}
+</div>

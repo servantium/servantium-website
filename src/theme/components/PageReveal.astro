@@ -1,0 +1,92 @@
+---
+/**
+ * PageReveal — Foxi Pro-inspired page entry choreography
+ *
+ * Wraps hero/above-fold content. Children use data attributes to animate in:
+ *   data-reveal="1" through data-reveal="5"  — fade-up sequence (150ms stagger)
+ *   data-reveal-title                        — clip-path wipe animation
+ *
+ * Pure CSS keyframes + animation-delay. No JS for above-fold.
+ * Re-triggers on Astro View Transition navigation.
+ * Respects prefers-reduced-motion.
+ */
+---
+
+<div class="page-reveal page-reveal--active">
+  <slot />
+</div>
+
+<style>
+  /* ── Base: hide children before animation ── */
+  .page-reveal--active :global([data-reveal]) {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: revealFadeUp 0.6s var(--ease-spring, cubic-bezier(0.16, 1, 0.3, 1)) forwards;
+  }
+
+  /* ── Stagger delays (150ms apart) ── */
+  .page-reveal--active :global([data-reveal="1"]) { animation-delay: 0ms; }
+  .page-reveal--active :global([data-reveal="2"]) { animation-delay: 150ms; }
+  .page-reveal--active :global([data-reveal="3"]) { animation-delay: 300ms; }
+  .page-reveal--active :global([data-reveal="4"]) { animation-delay: 450ms; }
+  .page-reveal--active :global([data-reveal="5"]) { animation-delay: 600ms; }
+
+  /* ── Title clip-path wipe ── */
+  .page-reveal--active :global([data-reveal-title]) {
+    opacity: 1;
+    transform: none;
+    clip-path: inset(0 0 100% 0);
+    animation: revealClipWipe 0.8s var(--ease-spring, cubic-bezier(0.16, 1, 0.3, 1)) forwards;
+  }
+
+  /* Titles also respect stagger if they have data-reveal */
+  .page-reveal--active :global([data-reveal-title][data-reveal="1"]) { animation-delay: 0ms; }
+  .page-reveal--active :global([data-reveal-title][data-reveal="2"]) { animation-delay: 150ms; }
+  .page-reveal--active :global([data-reveal-title][data-reveal="3"]) { animation-delay: 300ms; }
+
+  /* ── Keyframes ── */
+  @keyframes revealFadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes revealClipWipe {
+    from {
+      clip-path: inset(0 0 100% 0);
+    }
+    to {
+      clip-path: inset(0);
+    }
+  }
+
+  /* ── Reduced motion: skip animation, show content immediately ── */
+  @media (prefers-reduced-motion: reduce) {
+    .page-reveal--active :global([data-reveal]),
+    .page-reveal--active :global([data-reveal-title]) {
+      opacity: 1;
+      transform: none;
+      clip-path: none;
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  // Re-trigger animations on Astro View Transition navigation
+  document.addEventListener('astro:page-load', () => {
+    const wrapper = document.querySelector('.page-reveal');
+    if (!wrapper) return;
+
+    // Remove and re-add the active class to restart CSS animations
+    wrapper.classList.remove('page-reveal--active');
+    // Force reflow so the browser registers the removal
+    void wrapper.offsetWidth;
+    wrapper.classList.add('page-reveal--active');
+  });
+</script>

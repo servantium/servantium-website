@@ -1,0 +1,121 @@
+---
+/**
+ * MetricCard — Animated stat card
+ *
+ * Large display number with label, optional source citation, optional color accent.
+ * Hover: subtle lift. Numeric values get an animated count-up via
+ * IntersectionObserver + requestAnimationFrame.
+ */
+
+interface Props {
+  value: string;
+  label: string;
+  source?: string;
+  color?: string;
+}
+
+const { value, label, source, color } = Astro.props;
+
+// Determine if value is purely numeric (for count-up animation)
+const numericMatch = value.match(/^([\d,.]+)(%|x|\+|k|m|M|K)?$/);
+const isNumeric = !!numericMatch;
+const numericTarget = isNumeric ? numericMatch![1].replace(/,/g, '') : null;
+const numericSuffix = isNumeric ? (numericMatch![2] || '') : '';
+---
+
+<div
+  class="group flex flex-col items-start rounded-2xl bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
+  style={color ? `border-top: 3px solid ${color};` : `border-top: 3px solid var(--color-green);`}
+>
+  <span
+    class="metric-value font-display text-5xl font-medium leading-none tracking-tight"
+    style={color ? `color: ${color};` : 'color: var(--color-green);'}
+    data-metric-target={isNumeric ? numericTarget : undefined}
+    data-metric-suffix={isNumeric ? numericSuffix : undefined}
+  >
+    {isNumeric ? '0' + numericSuffix : value}
+  </span>
+
+  <span class="mt-3 text-base font-medium text-ink">
+    {label}
+  </span>
+
+  {source && (
+    <span class="mt-1.5 text-xs text-ink-muted">
+      {source}
+    </span>
+  )}
+</div>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    document.querySelectorAll('[data-metric-target]').forEach((el) => {
+      const htmlEl = el as HTMLElement;
+      const target = parseFloat(htmlEl.dataset.metricTarget || '0');
+      const suffix = htmlEl.dataset.metricSuffix || '';
+      const isDecimal = htmlEl.dataset.metricTarget?.includes('.') || false;
+      const decimalPlaces = isDecimal
+        ? (htmlEl.dataset.metricTarget?.split('.')[1]?.length || 0)
+        : 0;
+
+      if (prefersReducedMotion) {
+        // Show final value immediately
+        htmlEl.textContent = formatNumber(target, decimalPlaces) + suffix;
+        return;
+      }
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              animateCountUp(htmlEl, target, suffix, decimalPlaces);
+              observer.unobserve(htmlEl);
+            }
+          });
+        },
+        { threshold: 0.3 }
+      );
+
+      observer.observe(htmlEl);
+    });
+
+    function animateCountUp(
+      el: HTMLElement,
+      target: number,
+      suffix: string,
+      decimalPlaces: number
+    ) {
+      const duration = 1200; // ms
+      const startTime = performance.now();
+
+      function update(currentTime: number) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+
+        // Ease-out curve for natural deceleration
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const currentValue = eased * target;
+
+        el.textContent = formatNumber(currentValue, decimalPlaces) + suffix;
+
+        if (progress < 1) {
+          requestAnimationFrame(update);
+        } else {
+          el.textContent = formatNumber(target, decimalPlaces) + suffix;
+        }
+      }
+
+      requestAnimationFrame(update);
+    }
+
+    function formatNumber(num: number, decimalPlaces: number): string {
+      if (decimalPlaces > 0) {
+        return num.toFixed(decimalPlaces);
+      }
+      // Add commas for thousands
+      return Math.round(num).toLocaleString('en-US');
+    }
+  });
+</script>

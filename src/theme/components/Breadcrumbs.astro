@@ -1,0 +1,66 @@
+---
+/**
+ * Breadcrumbs — Site-wide breadcrumbs with JSON-LD schema
+ *
+ * Progressive: renders a semantic <nav> with aria-label="Breadcrumb".
+ * Last item is the current page (no link, muted color).
+ * Auto-generates BreadcrumbList JSON-LD for SEO.
+ * Tailwind utility classes only.
+ */
+
+interface Props {
+  items: Array<{ label: string; href?: string }>;
+}
+
+const { items } = Astro.props;
+
+// Build JSON-LD BreadcrumbList
+const siteUrl = 'https://servantium.com';
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: items.map((item, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    name: item.label,
+    ...(item.href ? { item: item.href.startsWith('http') ? item.href : `${siteUrl}${item.href}` } : {}),
+  })),
+};
+---
+
+<nav aria-label="Breadcrumb" class="py-3">
+  <ol class="flex flex-wrap items-center gap-1.5 text-sm font-body">
+    {items.map((item, index) => (
+      <li class="flex items-center gap-1.5">
+        {index > 0 && (
+          <svg
+            class="h-3.5 w-3.5 shrink-0 text-ink-muted/50"
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M6 3l5 5-5 5" />
+          </svg>
+        )}
+        {item.href && index < items.length - 1 ? (
+          <a
+            href={item.href}
+            class="text-ink-muted transition-colors hover:text-green"
+          >
+            {item.label}
+          </a>
+        ) : (
+          <span class="text-ink-muted/60" aria-current={index === items.length - 1 ? 'page' : undefined}>
+            {item.label}
+          </span>
+        )}
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />

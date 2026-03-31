@@ -1,0 +1,116 @@
+---
+interface Props {
+  currentPage: number;
+  totalPages: number;
+  baseUrl: string;
+}
+
+const { currentPage, totalPages, baseUrl } = Astro.props;
+
+const isFirst = currentPage === 1;
+const isLast = currentPage === totalPages;
+
+function pageUrl(page: number): string {
+  if (page === 1) return baseUrl;
+  return `${baseUrl}/${page}`;
+}
+
+// Build page number array with ellipsis
+function getPageNumbers(): (number | '...')[] {
+  if (totalPages <= 7) {
+    return Array.from({ length: totalPages }, (_, i) => i + 1);
+  }
+  const pages: (number | '...')[] = [1];
+  if (currentPage > 3) pages.push('...');
+  const start = Math.max(2, currentPage - 1);
+  const end = Math.min(totalPages - 1, currentPage + 1);
+  for (let i = start; i <= end; i++) pages.push(i);
+  if (currentPage < totalPages - 2) pages.push('...');
+  pages.push(totalPages);
+  return pages;
+}
+
+const pageNumbers = getPageNumbers();
+---
+
+{totalPages > 1 && (
+  <nav
+    class="flex items-center justify-center gap-1.5 mt-12 pt-8 border-t border-cloud-grey"
+    aria-label="Blog pagination"
+  >
+    {/* Previous */}
+    {isFirst ? (
+      <span
+        class="inline-flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium
+               text-ink-muted/40 cursor-not-allowed select-none"
+        aria-disabled="true"
+      >
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+        </svg>
+        Prev
+      </span>
+    ) : (
+      <a
+        href={pageUrl(currentPage - 1)}
+        class="inline-flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium
+               text-ink-muted hover:text-green hover:bg-green/5 transition-colors duration-200"
+        rel="prev"
+      >
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+        </svg>
+        Prev
+      </a>
+    )}
+
+    {/* Page numbers */}
+    {pageNumbers.map((page) =>
+      page === '...' ? (
+        <span class="px-2 py-2 text-sm text-ink-muted select-none">&hellip;</span>
+      ) : page === currentPage ? (
+        <span
+          class="inline-flex items-center justify-center w-9 h-9 rounded-lg text-sm font-semibold
+                 bg-green text-white"
+          aria-current="page"
+        >
+          {page}
+        </span>
+      ) : (
+        <a
+          href={pageUrl(page)}
+          class="inline-flex items-center justify-center w-9 h-9 rounded-lg text-sm font-medium
+                 text-ink-muted hover:text-green hover:bg-green/5 transition-colors duration-200"
+        >
+          {page}
+        </a>
+      )
+    )}
+
+    {/* Next */}
+    {isLast ? (
+      <span
+        class="inline-flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium
+               text-ink-muted/40 cursor-not-allowed select-none"
+        aria-disabled="true"
+      >
+        Next
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+        </svg>
+      </span>
+    ) : (
+      <a
+        href={pageUrl(currentPage + 1)}
+        class="inline-flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium
+               text-ink-muted hover:text-green hover:bg-green/5 transition-colors duration-200"
+        rel="next"
+      >
+        Next
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+        </svg>
+      </a>
+    )}
+  </nav>
+)}

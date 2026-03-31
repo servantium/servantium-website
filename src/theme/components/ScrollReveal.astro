@@ -1,0 +1,130 @@
+---
+/**
+ * ScrollReveal — Galaxy-inspired scroll animations
+ *
+ * Wraps below-fold content. Children use data attributes:
+ *   data-animate="fade-up|fade-in|slide-left|slide-right|scale-in"
+ *   data-delay="0|100|200|300"        — stagger within groups
+ *   data-threshold="0.2"              — trigger point (default 20% visible)
+ *
+ * Uses IntersectionObserver. GPU-hinted with will-change (removed after animation).
+ * Respects prefers-reduced-motion.
+ * Script wrapped in astro:page-load for View Transition support.
+ */
+---
+
+<div class="scroll-reveal">
+  <slot />
+</div>
+
+<style>
+  /* ── Hidden state for all animated children ── */
+  .scroll-reveal :global([data-animate]) {
+    opacity: 0;
+    will-change: opacity, transform;
+  }
+
+  .scroll-reveal :global([data-animate="fade-up"]) {
+    transform: translateY(30px);
+  }
+
+  .scroll-reveal :global([data-animate="fade-in"]) {
+    transform: none;
+  }
+
+  .scroll-reveal :global([data-animate="slide-left"]) {
+    transform: translateX(-40px);
+  }
+
+  .scroll-reveal :global([data-animate="slide-right"]) {
+    transform: translateX(40px);
+  }
+
+  .scroll-reveal :global([data-animate="scale-in"]) {
+    transform: scale(0.92);
+  }
+
+  /* ── Visible state (applied by IntersectionObserver) ── */
+  .scroll-reveal :global([data-animate].is-visible) {
+    opacity: 1;
+    transform: translateY(0) translateX(0) scale(1);
+    transition:
+      opacity 0.7s var(--ease-out, cubic-bezier(0.25, 0.46, 0.45, 0.94)),
+      transform 0.7s var(--ease-spring, cubic-bezier(0.16, 1, 0.3, 1));
+  }
+
+  /* ── Stagger delays ── */
+  .scroll-reveal :global([data-delay="100"]) { transition-delay: 100ms; }
+  .scroll-reveal :global([data-delay="200"]) { transition-delay: 200ms; }
+  .scroll-reveal :global([data-delay="300"]) { transition-delay: 300ms; }
+
+  /* ── Reduced motion: show everything immediately ── */
+  @media (prefers-reduced-motion: reduce) {
+    .scroll-reveal :global([data-animate]) {
+      opacity: 1;
+      transform: none;
+      will-change: auto;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (prefersReducedMotion) {
+      // Show everything immediately
+      document.querySelectorAll('[data-animate]').forEach((el) => {
+        el.classList.add('is-visible');
+      });
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const el = entry.target as HTMLElement;
+            el.classList.add('is-visible');
+            observer.unobserve(el);
+
+            // Remove will-change after animation completes to free GPU memory
+            const delay = parseInt(el.dataset.delay || '0', 10);
+            setTimeout(() => {
+              el.style.willChange = 'auto';
+            }, 700 + delay + 50); // animation duration + delay + buffer
+          }
+        });
+      },
+      { threshold: 0.2 } // default; per-element override below
+    );
+
+    document.querySelectorAll('[data-animate]').forEach((el) => {
+      const htmlEl = el as HTMLElement;
+      const customThreshold = parseFloat(htmlEl.dataset.threshold || '0.2');
+
+      // If custom threshold differs from default, create a dedicated observer
+      if (customThreshold !== 0.2) {
+        const customObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                htmlEl.classList.add('is-visible');
+                customObserver.unobserve(htmlEl);
+                const delay = parseInt(htmlEl.dataset.delay || '0', 10);
+                setTimeout(() => {
+                  htmlEl.style.willChange = 'auto';
+                }, 700 + delay + 50);
+              }
+            });
+          },
+          { threshold: customThreshold }
+        );
+        customObserver.observe(htmlEl);
+      } else {
+        observer.observe(htmlEl);
+      }
+    });
+  });
+</script>
