@@ -1,485 +1,229 @@
 # Servantium Website - Claude Context
 
-> This file helps Claude understand the project across sessions. Keep it updated.
+> Astro 6 marketing site with Verdant design system and Grove documentation framework.
 
 ## Project Overview
 
-**Servantium** is a CPQ (Configure-Price-Quote) and engagement management platform for professional services businesses. This is the static marketing website at `servantium.com`. The app lives at `app.servantium.com` (separate repo).
+**Servantium** is a CPQ and engagement management platform for professional services. This repo is the marketing website at `servantium.com`. The app lives at `app.servantium.com` (separate repo).
 
-## Tech Stack
+### Tech Stack
 
-- **Pure static HTML** - No build tools, frameworks, or preprocessors
-- **Inline CSS** - All styles in `<style>` tags within HTML files
-- **Vanilla JS** - Minimal JavaScript for mobile menu and interactions
-- **Google Fonts** - Playfair Display (headings) + Source Sans 3 (body)
-- **Cal.com** - Embedded booking system for demos
-- **Cloudflare Pages** - Static site hosting with global CDN
+- **Astro 6** - Static site generator with MDX content collections
+- **Tailwind CSS v4** - Utility-first CSS via `@tailwindcss/vite` plugin
+- **Verdant** - Custom design system (tokens in `src/theme/verdant.css`)
+- **Grove** - Custom docs framework replacing Starlight (in `src/theme/grove/`)
+- **React 18** - Used only for Cal.com booking embed
+- **Fontsource** - Self-hosted Playfair Display + Source Sans 3
+- **Pagefind** - Client-side search (generated at build time)
+- **Cloudflare Pages** - Hosting with global CDN
+- **GitHub Actions** - CI/CD (`build.yml`, `release-notes.yml`)
 
-## File Structure & Paths
+## File Structure
 
-**Base path:** `/Users/christopherveale/Projects/Servantium/website`
+```
+src/
+  theme/
+    verdant.css           # Design tokens (@theme block for Tailwind v4)
+    components/           # Shared UI: Breadcrumbs, FAQ, MetricCard, PageReveal, ScrollReveal, SkipLink, VideoEmbed
+    blog/                 # Blog UI: BlogCard, BlogFilters, BlogPagination, BlogSearch, BlogTOC, BubbleGrid, FeaturedPost, RelatedPosts, ShareSidebar
+    grove/                # Docs framework: DocsLayout, DocsSidebar, DocsSearch, DocsAside, DocsPagination, DocsSteps, DocsTabs, TableOfContents, ReleaseTimeline, components.ts
+  components/             # Site-wide: Nav, Footer, CookieConsent, SEO, TestEnvBanner, HeroMockup, CalBooker
+  layouts/
+    BaseLayout.astro      # Standard pages (imports verdant.css + global.css + fonts)
+    BlogLayout.astro      # Blog post layout
+  pages/                  # Astro file-based routing
+    index.astro           # Homepage
+    about.astro           # About page
+    platform.astro        # Platform page
+    blog/                 # Blog listing, [slug], authors/[slug], category/[slug]
+    help/                 # Docs: index, [...slug], release-notes/index
+    privacy.astro, terms.astro, 404.astro
+    rss.xml.ts            # RSS feed
+  content/                # MDX/MD content collections
+    blog/                 # ~30 blog posts (MDX)
+    authors/              # Author profiles (MD)
+    docs/help/            # Help docs, guides, release notes, support (MDX)
+    customers/            # Future (empty, .gitkeep)
+    integrations/         # Future (empty, .gitkeep)
+    press/                # Future (empty, .gitkeep)
+  content.config.ts       # Collection schemas (docs, authors, blog, customers, integrations, press)
+  data/
+    docs-nav.ts           # Grove sidebar navigation config
+    authors.ts            # Author data
+    metrics.ts            # Homepage metrics
+    strings.ts            # UI strings
+  styles/
+    global.css            # Base styles, buttons, typography, skip-link
+    home.css              # Homepage-specific styles
+  assets/
+    logo.png              # Logo (processed by Astro)
+public/                   # Static assets (copied as-is to dist/)
+  *.png                   # Favicons, OG image, author photos, logo
+  llms.txt                # AI search visibility
+  robots.txt              # Crawler rules
+  _headers                # Cloudflare security headers
+  _redirects              # Cloudflare redirects
+  js/asteroids.js         # Easter egg game
+```
 
-| File | Purpose | Key Sections/Lines |
-|------|---------|-------------------|
-| `index.html` | Homepage | CSS: ~100-1600, Hero: ~2400, Problem: ~2560, Packages: ~2900, FAQ: ~3040 |
-| `about.html` | About page | Founders, values, company story |
-| `blog.html` | Blog listing | Blog grid layout |
-| `blog/why-services-businesses-need-cpq.html` | Blog article | First CPQ article |
-| `blog/authors/christopher-veale.html` | Author page | CEO bio + articles |
-| `blog/authors/maxwell-friel.html` | Author page | CTO bio + articles |
-| `404.html` | Error page | ASCII astronaut animation |
-| `privacy.html` | Privacy policy | Placeholder |
-| `terms.html` | Terms of service | Placeholder |
-| `sitemap.xml` | SEO sitemap | Update when adding pages |
-| `robots.txt` | Crawler rules | |
-| `CLAUDE.md` | This context file | Keep updated |
+## Design System: Verdant
 
-**Assets:**
-- `logo.png` - Main logo
-- `favicon-32.png`, `favicon-192.png`, `favicon-512.png` - Favicons
-- `apple-touch-icon.png` - iOS icon
-
-## Design System
+All tokens are in `src/theme/verdant.css` as Tailwind v4 `@theme` values.
 
 ### Colors
 
-| Name | Hex | Usage |
-|------|-----|-------|
-| Primary Green | `#00C26D` | CTAs, brand color, highlights |
-| Green Hover | `#00A95E` | Interactive states |
-| Dark Forest | `#023E25` | Deep backgrounds |
-| Light Mint | `#E8FBF1` | Soft backgrounds |
-| Mint Tint | `#F3FCF8` | Subtle backgrounds |
-| Ink (Dark) | `#0D0D0D` | Body text |
-| Mist Grey | `#F5F6F7` | Light backgrounds |
-| Cloud Grey | `#E1E3E6` | Borders |
+| Token | Hex | Usage |
+|-------|-----|-------|
+| `green` | `#00C26D` | Primary brand, CTAs |
+| `green-hover` | `#00A95E` | Interactive hover states |
+| `deep-forest` | `#023E25` | Deep backgrounds |
+| `soft-mint` | `#E8FBF1` | Light tinted backgrounds |
+| `mint-tint` | `#F3FCF8` | Subtle backgrounds |
+| `ink` | `#0D0D0D` | Body text |
+| `ink-light` | `#3d3d3d` | Secondary text |
+| `ink-muted` | `#6b6b6b` | Tertiary text |
+| `mist-grey` | `#F5F6F7` | Light backgrounds |
+| `cloud-grey` | `#E1E3E6` | Borders |
 
-**Accent colors** (used sparingly): Coral `#FF5C70`, Slate Blue `#4C82A7`, Amber `#FFB02E`, Deep Teal `#26A899`
+**Accents:** coral `#FF5C70`, slate-blue `#4C82A7`, amber `#FFB02E`, deep-teal `#26A899`
+
+**Semantic:** success = green, warning = amber, danger = coral, info = slate-blue
 
 ### Typography
 
-- **Headings:** Playfair Display (serif) - weights 400, 500, 600
-- **Body:** Source Sans 3 (sans-serif) - weights 400, 500, 600
-- **h1:** `clamp(2.5rem, 5vw, 3.5rem)` fluid
-- **h2:** `clamp(2rem, 4vw, 2.75rem)` fluid
-- **Body:** `1.125rem` with `1.7` line-height
+- **Display:** `font-display` = Playfair Display (serif) - headings
+- **Body:** `font-body` = Source Sans 3 (sans-serif) - everything else
+- h1: `clamp(2.5rem, 5vw, 3.5rem)`, h2: `clamp(2rem, 4vw, 2.75rem)`
 
-### Spacing Scale (CSS Variables)
+### Spacing (namespaced as `--v-space-*`)
 
-```css
---space-xs: 0.5rem;
---space-sm: 1rem;
---space-md: 1.5rem;
---space-lg: 2.5rem;
---space-xl: 4rem;
---space-2xl: 6rem;
---space-3xl: 8rem;
+`xs: 0.5rem`, `sm: 1rem`, `md: 1.5rem`, `lg: 2.5rem`, `xl: 4rem`, `2xl: 6rem`, `3xl: 8rem`
+
+### Animation Easing
+
+- `--ease-out`: snappy settle
+- `--ease-spring`: spring-like overshoot
+- `--ease-bounce`: card lift with overshoot
+
+## Grove Documentation Framework
+
+Custom replacement for Starlight. Components in `src/theme/grove/`.
+
+| Feature | Component | Status |
+|---------|-----------|--------|
+| Layout | `DocsLayout.astro` | Full 3-column: sidebar, content, TOC |
+| Sidebar | `DocsSidebar.astro` | Collapsible sections, autogenerate from dirs |
+| Search | `DocsSearch.astro` | Pagefind with Cmd+K shortcut |
+| TOC | `TableOfContents.astro` | Scroll-spy with IntersectionObserver |
+| Aside/Callouts | `DocsAside.astro` | tip, note, caution, danger variants |
+| Steps | `DocsSteps.astro` | Numbered steps with green circles + connecting line |
+| Tabs | `DocsTabs.astro` | Tab switcher with ARIA roles |
+| Pagination | `DocsPagination.astro` | Prev/next navigation |
+| Release Timeline | `ReleaseTimeline.astro` | Vertical timeline for release notes |
+| Component Exports | `components.ts` | Re-exports Aside, Steps, Tabs for MDX import |
+
+Sidebar nav config: `src/data/docs-nav.ts`
+
+## Content Collections
+
+Defined in `src/content.config.ts`. All use Astro's `glob` loader.
+
+### Blog (`src/content/blog/*.mdx`)
+
+Required frontmatter: `title`, `description`, `date`, `author`, `category`
+Optional: `image`, `imageAlt`, `readingTime`, `tags`, `draft`
+
+### Docs (`src/content/docs/help/**/*.mdx`)
+
+Required: `title`
+Optional: `description`, `badge`, `hero`, `date`, `version`, `repo`, `featured`, `featuredIcon`, `featuredLabel`
+
+### Authors (`src/content/authors/*.md`)
+
+Required: `name`, `role`, `avatar`
+Optional: `linkedin`, `twitter`, `bio`
+
+### Future Collections (schemas defined, content empty)
+
+- **customers** - Case studies with metrics and quotes
+- **integrations** - Third-party integration cards with status
+- **press** - Press mentions and articles
+
+## Build & Deploy
+
+```bash
+npm install          # Install dependencies
+npm run dev          # Dev server (localhost:4321)
+npm run build        # Production build to dist/
+npm run preview      # Preview production build locally
 ```
 
-### Component Patterns
+### Environments
 
-**Buttons:**
-- Primary: Green bg, white text, shadow, rounded
-- Secondary: Transparent, border, hover turns green
-- All have `transition: all 0.25s ease`
+| Environment | Domain | Branch |
+|-------------|--------|--------|
+| Production | servantium.com | `main` |
+| Test | test.servantium.com | `develop` |
 
-**Cards:**
-- Rounded corners (12-16px)
-- Subtle shadow `0 2px 8px rgba(0,0,0,0.04)`
-- Hover elevation effect
+Test environment auto-injects noindex meta, disables analytics, shows orange banner.
 
-**Navigation:**
-- Fixed position with backdrop blur
-- 95% white background opacity
-- Hides at 768px, hamburger menu appears
+### GitHub Actions
 
-### Breakpoints
+- `build.yml` - Build verification on push
+- `release-notes.yml` - Auto-generates release note MDX from GitHub releases
 
-- **Mobile:** `max-width: 768px`
-- **Tablet:** `max-width: 1024px`
-- **Container:** `max-width: 1140px`
+### Branch Strategy
 
-## Page Sections (Homepage)
+- `main` - Production (auto-deploys to servantium.com)
+- `develop` - Pre-production testing (auto-deploys to test.servantium.com)
+- `feature/*` - Feature branches (merge to develop)
 
-1. **Hero** - Main headline, subhead, CTA
-2. **Problem** (`#problem`) - Why services businesses struggle
-3. **How It Works** (`#concept`) - Expandable steps
-4. **Platform** (`#platform`) - Service architecture
-5. **Outcomes** - Value propositions
-6. **FAQ** (`#faq`) - 7 Q&A items
-7. **Packages** (`#packages`) - Pricing tiers
-8. **Contact CTA** - Book demo / email
-9. **Footer** - 4-column layout
+## Common Tasks
 
-## SEO Setup
+### Add a blog post
 
-- Canonical URLs to `https://servantium.com`
-- Open Graph + Twitter Card meta tags
-- JSON-LD structured data:
-  - Organization (company info)
-  - SoftwareApplication (product)
-  - WebSite
-  - FAQPage
-  - Article (blog posts)
-- XML sitemap at `/sitemap.xml`
+1. Create `src/content/blog/your-slug.mdx`
+2. Add frontmatter: title, description, date, author, category
+3. Write content in MDX (can import Grove components)
+4. Images: use Unsplash URLs with `?w=1200&h=630&fit=crop` for OG compatibility
 
-## Integrations
+### Add a help doc
 
-### Cal.com (Demo Booking)
-- Namespace: `servantium-introduction`
-- Duration: 15 minutes
-- Layout: month_view
-- Brand color: `#00C26D`
+1. Create `src/content/docs/help/guides/your-doc.mdx` (or appropriate subdirectory)
+2. Add frontmatter: title, description
+3. Add to sidebar in `src/data/docs-nav.ts` (or use autogenerate for release-notes)
+4. Use Grove components in MDX: `import { Aside, Steps, Tabs } from '@/theme/grove/components';`
 
-```html
-<button data-cal-link="servantium-introduction"
-        data-cal-namespace="servantium-introduction"
-        data-cal-config='{"layout":"month_view"}'>
-  Book a Demo
-</button>
-```
+### Add a release note
 
-### External Links
-- App: `https://app.servantium.com/`
-- LinkedIn profiles for founders
+Auto-generated by `release-notes.yml` GitHub Action from GitHub releases. Or manually:
+1. Create `src/content/docs/help/release-notes/YYYY-MM-DD-slug.mdx`
+2. Add frontmatter: title, description, date, version (optional)
+3. Release notes auto-list via `autogenerate: 'release-notes'` in docs-nav
+
+### Add a new page
+
+1. Create `src/pages/your-page.astro`
+2. Use `BaseLayout` and pass `activePage` prop for nav highlighting
+3. Import `SEO` component for meta tags
+4. Use Verdant tokens and Tailwind utilities for styling
 
 ## Company Info
 
 - **Email:** hello@servantium.com
 - **Address:** 1111B S Governors Ave STE 48074, Dover, DE 19904
 - **Founders:** Christopher Veale (CEO), Maxwell Friel (CTO)
+- **Cal.com namespace:** `servantium-introduction` (15-min demo booking)
 
-## Style Guidelines
+## Key Architecture Decisions
 
-1. **Keep it minimal** - No unnecessary complexity
-2. **Consistent spacing** - Use CSS variables
-3. **Mobile-first responsive** - Test at 768px breakpoint
-4. **Semantic HTML** - nav, header, main, section, footer
-5. **Accessible** - ARIA labels, keyboard navigation, contrast
-6. **No frameworks** - Pure HTML/CSS/JS
-
-## Common Tasks
-
-### Adding a new page
-1. Copy structure from existing page (about.html is cleanest)
-2. Update `<title>`, meta description, canonical URL
-3. Add to sitemap.xml
-4. Ensure consistent nav/footer
-
-### Updating styles
-- Edit inline `<style>` in each HTML file
-- Consider that changes may need to propagate to multiple files
-
-### Blog posts
-- Create in `/blog/` directory
-- Use Article schema JSON-LD
-- Add to sitemap.xml
-- Link from blog.html listing
+- **Self-hosted fonts** via Fontsource (no Google Fonts external requests)
+- **Verdant spacing uses `--v-space-*`** prefix to avoid Tailwind collision
+- **Two CSS entry points**: `verdant.css` (Tailwind @theme tokens) + `global.css` (base styles with legacy `--color-servantium-green` var)
+- **Grove replaces Starlight** for full design control over docs
+- **Pagefind** for search (no server-side search needed)
+- **React only for Cal.com** embed - everything else is Astro components
 
 ---
 
-## Shared Components (Keep in Sync!)
-
-**CRITICAL:** These components appear in multiple files. When updating, sync ALL files.
-
-### Files with shared components
-
-| File | Nav | Footer | Cookie Banner |
-|------|-----|--------|---------------|
-| index.html | ✓ | ✓ | ✓ |
-| about.html | ✓ | ✓ | ✓ |
-| blog.html | ✓ | ✓ | ✓ |
-| 404.html | ✓ | Simplified | ✓ |
-| blog/why-services-businesses-need-cpq.html | ✓ | ✓ | ✓ |
-| blog/the-end-of-tribal-knowledge.html | ✓ | ✓ | ✓ |
-| blog/ai-wont-save-services-structure-will.html | ✓ | ✓ | ✓ |
-| blog/the-utilization-crisis-2025.html | ✓ | ✓ | ✓ |
-| blog/the-real-ai-opportunity-institutional-memory.html | ✓ | ✓ | ✓ |
-| blog/authors/christopher-veale.html | ✓ | ✓ | ✓ |
-| blog/authors/maxwell-friel.html | ✓ | ✓ | ✓ |
-
-### Footer Structure (current)
-
-```html
-<footer>
-    <div class="container">
-        <div class="footer-grid">
-            <!-- 4 columns: Brand, Explore, Company, Legal -->
-        </div>
-        <div class="footer-bottom">
-            <div class="footer-bottom-left">
-                <span>© 2026 Servantium Inc.</span>
-                <span class="footer-divider">·</span>
-                <button class="footer-email-btn" onclick="copyEmail(event)">...</button>
-            </div>
-            <div class="footer-bottom-right">
-                <span>Founded by <a href="...">Christopher Veale</a> & <a href="...">Maxwell Friel</a></span>
-            </div>
-        </div>
-    </div>
-</footer>
-```
-
-### Footer CSS required
-```css
-.footer-email-btn { background: none; border: none; color: var(--color-white); cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem; font-size: inherit; font-family: inherit; padding: 0; opacity: 0.7; transition: opacity 0.2s; }
-.footer-email-btn:hover { opacity: 1; }
-.footer-email-icon { opacity: 0.7; transition: opacity 0.2s; }
-.footer-email-btn:hover .footer-email-icon { opacity: 1; }
-```
-
-### Footer JS required (copyEmail function)
-```javascript
-function copyEmail(event) {
-    const email = 'hello@servantium.com';
-    const btn = event.currentTarget;
-    const text = btn.querySelector('.footer-email-text');
-    const icon = btn.querySelector('.footer-email-icon');
-    navigator.clipboard.writeText(email).then(function() {
-        btn.classList.add('copied');
-        text.textContent = 'Copied!';
-        icon.innerHTML = '<polyline points="20 6 9 17 4 12"></polyline>';
-        setTimeout(function() {
-            btn.classList.remove('copied');
-            text.textContent = email;
-            icon.innerHTML = '<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>';
-        }, 2000);
-    });
-}
-```
-
-### Navigation links (relative paths vary by depth)
-- Root pages: `index.html`, `about.html`, `blog.html`
-- Blog posts: `../index.html`, `../about.html`, `../blog.html`
-- Author pages: `../../index.html`, `../../about.html`, `../../blog.html`
-
-### Social links in footer
-- LinkedIn company: `https://linkedin.com/company/servantium`
-- Format: "Follow us on" + icon button
-
-### 404 page footer (simplified)
-The 404 page has a minimal footer: `Lost? <a href="mailto:...">Contact us</a> | Privacy | Terms`
-
-## Current Work: Pricing/Feature Table
-
-**Status:** Implemented (2026-01-28) - Review needed
-
-### Tier Names
-- **Individual** - Personal account (single user)
-- **Teams** - Shared workspace (multi-user, one org)
-- **Enterprise** - Dedicated tenant (dedicated environment, potentially multiple orgs)
-
-### Terminology
-- Use **"Service Catalog"** (not "AI Line Item Library") - classic, clear naming
-
-### Implementation Notes
-- Table located at `#packages` section in index.html (~line 2900)
-- CSS for table at ~line 1438 (`.feature-table-*` classes)
-- Roadmap badge: amber/gold pill style
-- Categories: Core CPQ, Collaboration, PSA, Organization, Integrations, Security & Compliance, Support
-- Mobile responsive with horizontal scroll
-
----
-
-## Known Issues / TODOs
-
-### Pending
-- [ ] Terms page is placeholder (lawyer will handle)
-- [ ] LinkedIn feed widget on blog page (Elfsight) — decide after analytics data
-- [ ] Set up LinkedIn company page and add URL to footer
-
-### Content Backlog (Post-Launch SEO)
-- [ ] Blog: "Professional Services CPQ vs. PSA: What's the Difference?"
-- [ ] Blog: "How Professional Services CPQ Improves Utilization"
-- [ ] Blog: "Consulting Firm CPQ: Pricing Engagements for Margin"
-- [ ] Landing page: "Professional Services CPQ Solutions"
-
-### Completed (Session 2026-01-29)
-- [x] og-image.png resized to 1200x630 (optimal social preview size)
-- [x] Blog author avatars: now use photos with links to author pages
-- [x] Removed Twitter Cards (no Twitter account)
-- [x] Mobile game controls: iOS arcade-style with fixed joystick and auto-fire
-- [x] SEO optimization: Titles, H1s, H2s, metas with "Professional Services CPQ"
-- [x] Open Graph meta tags: Added width/height/alt/site_name
-- [x] llms.txt rewritten: OS framing, "What It's Not" section
-- [x] Footer redesign: less tall, better balanced, "Follow us on" format
-- [x] Footer email: copy-to-clipboard button (not mailto link)
-- [x] Floating share sidebar on blog posts (LinkedIn, X, copy link)
-- [x] Footer navigation synced across all 11 pages
-- [x] Added shared components documentation to CLAUDE.md
-
----
-
-## SEO Strategy: Professional Services CPQ Dominance
-
-**Goal:** Become #1 landing place for "Professional Services CPQ" and "Professional Services PSA" searches.
-
-### Primary Keywords (Optimized 2026-01-29)
-- Professional Services CPQ
-- CPQ for services / Services CPQ
-- Professional Services PSA
-- Engagement management platform
-- Consulting CPQ
-
-### Page Title Strategy
-| Page | Title |
-|------|-------|
-| Homepage | Professional Services CPQ & Engagement Management Platform \| Servantium |
-| Blog | Professional Services CPQ & PSA Blog \| Servantium Insights |
-| About | About Servantium — The Founders & Our Mission |
-
-### H1/H2 Optimization (Homepage)
-- H1: "The operating system for professional services."
-- H2s include: "Why Professional Services Firms Struggle", "Engagement Management for Professional Services", "Professional Services CPQ & PSA Pricing", "Professional Services CPQ & Engagement Management FAQ"
-
-### Content Cluster Opportunities (Future)
-1. New blog post: "Professional Services CPQ vs. PSA: What's the Difference?"
-2. New blog post: "How Professional Services CPQ Improves Utilization"
-3. New blog post: "Consulting Firm CPQ: Pricing Engagements for Margin"
-4. Dedicated landing page: "Professional Services CPQ Solutions"
-
----
-
-## Open Graph & Social Sharing
-
-### Current Implementation
-All pages have complete OG meta tags including:
-- `og:image:width` and `og:image:height` (required for iOS/iMessage)
-- `og:image:alt` for accessibility
-- `og:site_name` for brand consistency
-- `og:image:secure_url` for HTTPS
-
-### Image Specifications
-- **og-image.png**: 1200x630px (optimal for all social platforms)
-- Blog posts use Unsplash images with `?w=1200&h=630&fit=crop`
-- Author pages use profile photos at 400x400px
-
----
-
-## Launch Day Checklist (2026-01-30)
-
-### Cloudflare Pages
-- [ ] Add `servantium.com` as production custom domain (pointing to `main` branch)
-- [ ] Verify SSL certificate is active
-- [ ] Test all pages load correctly on production domain
-- [ ] Confirm test.servantium.com is assigned to `develop` branch
-
-### Search Engines
-- [ ] **Google Search Console:** Add property, verify via DNS TXT record, submit sitemap
-- [ ] **Bing Webmaster Tools:** Add site, verify, submit sitemap (covers Yahoo, DuckDuckGo)
-
-### Social Media
-- [ ] Create LinkedIn company page for Servantium
-- [ ] Add LinkedIn URL to website footer
-
-### Post-Launch
-- [ ] Request indexing for key pages in Search Console
-- [ ] Monitor GA4 for initial traffic
-- [ ] Check Core Web Vitals in Search Console (after a few days)
-
----
-
-## Completed Setup
-
-### Analytics ✅
-- GA4 Property ID: `G-6EFX4FNH6H`
-- Cookie consent banner on all pages
-- Analytics only loads after user accepts cookies
-- Automatically disabled on test.servantium.com
-
-### Cloudflare Pages ✅
-- GitHub repo connected
-- Test environment (test.servantium.com) configured for `develop` branch
-- Branch control: All non-production branches
-
----
-
-## Hosting & Deployment
-
-**Platform:** Cloudflare Pages
-
-Cloudflare Pages provides:
-- Global CDN for fast page loads
-- Automatic SSL certificates
-- Git-based deployments
-- Preview URLs for branches/PRs
-
-### Environment Setup
-
-| Environment | Domain | Branch | Purpose |
-|-------------|--------|--------|---------|
-| Production | servantium.com | `main` | Live public site |
-| Test | test.servantium.com | `develop` | Pre-production testing |
-
-### Deployment Workflow
-
-1. **Development:** Make changes locally, commit to `develop` branch
-2. **Test:** Push to `develop` → auto-deploys to test.servantium.com
-3. **Review:** Verify changes at test.servantium.com
-4. **Production:** Merge `develop` → `main` → auto-deploys to servantium.com
-
-### Test Environment Protection
-
-All HTML files include a script that detects `test.servantium.com` and:
-- Injects `<meta name="robots" content="noindex, nofollow">` to block search indexing
-- Disables GA4 analytics entirely
-- Shows an orange "TEST ENVIRONMENT" banner at the top of the page
-
-This ensures test content never appears in search results or pollutes analytics data.
-
-### Cloudflare Pages Setup
-
-**To set up the pipeline:**
-
-1. **Production Project:**
-   - Go to Cloudflare Dashboard → Pages → Create a project
-   - Connect GitHub repo
-   - Set production branch to `main`
-   - Add custom domain: servantium.com
-   - Build settings: None (static HTML)
-
-2. **Test Project (separate project):**
-   - Create another Pages project OR use preview deployments
-   - Option A: Separate project with `develop` branch as production
-   - Option B: Use Cloudflare's branch preview URLs (auto-generated)
-   - Add custom domain: test.servantium.com
-
-### Cloudflare Branch Settings
-
-**Current setup uses single project with branch deployments:**
-- Production branch: `main` → servantium.com
-- Preview branches: All non-production (includes `develop`) → test.servantium.com
-
-**Branch control:** Set to "All non-production branches" - no include/exclude rules needed since `develop` is automatically included.
-
----
-
-## Easter Egg: Asteroids Game
-
-Hidden game in the hero section of the homepage. Activated by double-clicking/tapping the sun (orbital core).
-
-### Controls
-- **Desktop:** Arrow keys to move, Space to shoot, Escape to exit
-- **Mobile:** Virtual joystick (left) for movement, fire button (right) with auto-fire
-
-### Touch Controls Implementation
-- Fixed joystick at bottom-left (iOS arcade style)
-- Fixed fire button at bottom-right with "FIRE" label
-- Thrust indicator shows when thrusting
-- Auto-fire while holding fire button (150ms interval)
-
----
-
-## AI Search Visibility (llms.txt)
-
-The llms.txt file has been rewritten with:
-1. **OS framing** - Explicitly states Servantium is not a traditional PSA or CPQ
-2. **"What It's Not" section** - Prevents misclassification by LLMs
-3. **Institutional Memory Engine** - Named as a distinct system, not just a feature
-4. **Engagement-centric model** - Emphasized as core differentiator
-5. **Grounded learning language** - Concrete descriptions of what "learning" means (engagement data, delivery outcomes, margin performance)
-6. **Qualified target audience** - Initially focused on consulting, IT services, and agencies
-
----
-
-*Last updated: 2026-01-29*
+*Last updated: 2026-04-01*
