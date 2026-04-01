@@ -959,7 +959,7 @@ const jsonLd = {
     }
 
     // Pillar 1: appear 3 seconds after page load
-    setTimeout(function() { reveal(pillar1); }, 3000);
+    setTimeout(function() { reveal(pillar1); }, 800);
 
     // Pillar 2: appear 1.5s after first scroll event
     var scrollHandled = false;
@@ -967,7 +967,7 @@ const jsonLd = {
       if (scrollHandled) return;
       scrollHandled = true;
       window.removeEventListener('scroll', onFirstScroll);
-      setTimeout(function() { reveal(pillar2); }, 1500);
+      setTimeout(function() { reveal(pillar2); }, 400);
     }
     window.addEventListener('scroll', onFirstScroll, { passive: true });
 
@@ -977,7 +977,7 @@ const jsonLd = {
         if (entry.isIntersecting) {
           var el = entry.target;
           io.unobserve(el);
-          setTimeout(function() { reveal(el); }, 1500);
+          setTimeout(function() { reveal(el); }, 400);
         }
       });
     }, { threshold: 0.15 });

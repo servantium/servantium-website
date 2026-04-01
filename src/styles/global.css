@@ -56,6 +56,13 @@
   }
 }
 
+/* Remove default underlines — links styled contextually */
+@layer base {
+  a {
+    text-decoration: none;
+  }
+}
+
 /* Skip to content link for accessibility */
 .skip-link {
     position: fixed;
