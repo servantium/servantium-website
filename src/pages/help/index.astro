@@ -17,68 +17,9 @@ const releaseNotes = allDocs
 <DocsLayout
   title="Help Center"
   description="Help docs, guides, and release notes for Servantium."
-  headings={[
-    { depth: 2, slug: 'getting-started', text: 'Getting Started' },
-    { depth: 2, slug: 'whats-new', text: "What's New in Servantium" },
-    { depth: 2, slug: 'latest-updates', text: 'Latest Updates' },
-  ]}
+  headings={[]}
   currentSlug="getting-started"
 >
-  <!-- ═══════════════════════════════════════════════════
-       SECTION 1: Quick Links — horizontal icon row
-       ═══════════════════════════════════════════════════ -->
-  <div class="not-prose mb-10">
-    <div class="flex flex-wrap gap-x-6 gap-y-4">
-      <!-- Documentation -->
-      <a href="/help/quick-start/" class="group flex flex-col items-center gap-2 text-center no-underline">
-        <span class="flex size-10 items-center justify-center rounded-full bg-[#00C26D]/15 transition-colors group-hover:bg-[#00C26D]/25">
-          <svg class="size-5 text-[#00C26D]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/><path d="M8 7h6"/><path d="M8 11h8"/></svg>
-        </span>
-        <span class="text-xs font-semibold text-[var(--color-ink-muted)] group-hover:text-[var(--color-ink)] transition-colors">Documentation</span>
-      </a>
-
-      <!-- Guides -->
-      <a href="/help/guides/engagements/" class="group flex flex-col items-center gap-2 text-center no-underline">
-        <span class="flex size-10 items-center justify-center rounded-full bg-[#4C82A7]/15 transition-colors group-hover:bg-[#4C82A7]/25">
-          <svg class="size-5 text-[#4C82A7]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
-        </span>
-        <span class="text-xs font-semibold text-[var(--color-ink-muted)] group-hover:text-[var(--color-ink)] transition-colors">Guides</span>
-      </a>
-
-      <!-- AI & Intelligence -->
-      <a href="/help/guides/ai-features/" class="group flex flex-col items-center gap-2 text-center no-underline">
-        <span class="flex size-10 items-center justify-center rounded-full bg-[#8B5CF6]/15 transition-colors group-hover:bg-[#8B5CF6]/25">
-          <svg class="size-5 text-[#8B5CF6]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.2H22l-6 4.8 2.4 7.2L12 16.4 5.6 21.2 8 14 2 9.2h7.6z"/><circle cx="12" cy="12" r="3"/></svg>
-        </span>
-        <span class="text-xs font-semibold text-[var(--color-ink-muted)] group-hover:text-[var(--color-ink)] transition-colors">AI & Intelligence</span>
-      </a>
-
-      <!-- Release Notes -->
-      <a href="/help/release-notes/" class="group flex flex-col items-center gap-2 text-center no-underline">
-        <span class="flex size-10 items-center justify-center rounded-full bg-[#FFB02E]/15 transition-colors group-hover:bg-[#FFB02E]/25">
-          <svg class="size-5 text-[#d49500]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-        </span>
-        <span class="text-xs font-semibold text-[var(--color-ink-muted)] group-hover:text-[var(--color-ink)] transition-colors">Release Notes</span>
-      </a>
-
-      <!-- Blog -->
-      <a href="/blog/" class="group flex flex-col items-center gap-2 text-center no-underline">
-        <span class="flex size-10 items-center justify-center rounded-full bg-[#26A899]/15 transition-colors group-hover:bg-[#26A899]/25">
-          <svg class="size-5 text-[#26A899]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
-        </span>
-        <span class="text-xs font-semibold text-[var(--color-ink-muted)] group-hover:text-[var(--color-ink)] transition-colors">Blog</span>
-      </a>
-
-      <!-- FAQ -->
-      <a href="/help/support/faq/" class="group flex flex-col items-center gap-2 text-center no-underline">
-        <span class="flex size-10 items-center justify-center rounded-full bg-[#FF5C70]/15 transition-colors group-hover:bg-[#FF5C70]/25">
-          <svg class="size-5 text-[#FF5C70]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-        </span>
-        <span class="text-xs font-semibold text-[var(--color-ink-muted)] group-hover:text-[var(--color-ink)] transition-colors">FAQ</span>
-      </a>
-    </div>
-  </div>
-
   <!-- ═══════════════════════════════════════════════════
        SECTION 2: Hero title + subtitle
        ═══════════════════════════════════════════════════ -->
@@ -97,10 +38,11 @@ const releaseNotes = allDocs
   <div class="not-prose grid grid-cols-1 sm:grid-cols-3 gap-5 mb-16">
 
     <!-- Card 1 — Read the docs (green) -->
-    <a href="/help/quick-start/" class="hero-card group relative overflow-hidden rounded-2xl p-6 pb-28 no-underline" style="background: linear-gradient(145deg, #00C26D 0%, #023E25 100%);">
-      <h3 class="text-lg font-bold text-white mb-2">Read the docs</h3>
-      <p class="text-sm text-white/80 leading-relaxed mb-4">Learn how to get Servantium set up and start managing engagements.</p>
-      <span class="inline-flex items-center gap-1.5 rounded-full bg-white/20 px-3.5 py-1.5 text-xs font-semibold text-white backdrop-blur-sm transition-all group-hover:bg-white/30">
+    <a href="/help/quick-start/" class="hero-card group relative overflow-hidden rounded-2xl p-6 pb-28 no-underline" style="background: linear-gradient(145deg, #00A95E 0%, #023E25 100%);">
+      <svg class="size-10 mb-3" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/><path d="M8 7h6"/><path d="M8 11h8"/></svg>
+      <h3 style="color: #ffffff; font-weight: 700;" class="text-lg mb-2">Read the docs</h3>
+      <p style="color: rgba(255,255,255,0.9); text-shadow: 0 1px 3px rgba(0,0,0,0.3);" class="text-sm leading-relaxed mb-4">Learn how to get Servantium set up and start managing engagements.</p>
+      <span class="inline-flex items-center gap-1.5 rounded-full border border-white/40 px-3.5 py-1.5 text-xs font-semibold backdrop-blur-sm transition-all group-hover:bg-white/20" style="color: #ffffff;">
         Start learning
         <svg class="size-3.5 transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
       </span>
@@ -113,10 +55,11 @@ const releaseNotes = allDocs
     </a>
 
     <!-- Card 2 — Explore AI features (slate-blue) -->
-    <a href="/help/guides/ai-features/" class="hero-card group relative overflow-hidden rounded-2xl p-6 pb-28 no-underline" style="background: linear-gradient(145deg, #4C82A7 0%, #2d5a7b 100%);">
-      <h3 class="text-lg font-bold text-white mb-2">Explore AI features</h3>
-      <p class="text-sm text-white/80 leading-relaxed mb-4">Discover how AI powers similar matching, quote generation, and institutional memory.</p>
-      <span class="inline-flex items-center gap-1.5 rounded-full bg-white/20 px-3.5 py-1.5 text-xs font-semibold text-white backdrop-blur-sm transition-all group-hover:bg-white/30">
+    <a href="/help/guides/ai-features/" class="hero-card group relative overflow-hidden rounded-2xl p-6 pb-28 no-underline" style="background: linear-gradient(145deg, #4C82A7 0%, #1d3f5c 100%);">
+      <svg class="size-10 mb-3" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.09 6.26L20.18 9l-5 3.64L16.82 19 12 15.77 7.18 19l1.64-6.36-5-3.64 6.09-.74z"/><circle cx="12" cy="12" r="3"/><path d="M12 8v1"/><path d="M12 15v1"/><path d="M8.5 10.5l.7.7"/><path d="M14.8 13.8l.7.7"/></svg>
+      <h3 style="color: #ffffff; font-weight: 700;" class="text-lg mb-2">Explore AI features</h3>
+      <p style="color: rgba(255,255,255,0.9); text-shadow: 0 1px 3px rgba(0,0,0,0.3);" class="text-sm leading-relaxed mb-4">Discover how AI powers similar matching, quote generation, and institutional memory.</p>
+      <span class="inline-flex items-center gap-1.5 rounded-full border border-white/40 px-3.5 py-1.5 text-xs font-semibold backdrop-blur-sm transition-all group-hover:bg-white/20" style="color: #ffffff;">
         Explore AI
         <svg class="size-3.5 transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
       </span>
@@ -129,10 +72,11 @@ const releaseNotes = allDocs
     </a>
 
     <!-- Card 3 — Screencasts (amber) -->
-    <div class="hero-card relative overflow-hidden rounded-2xl p-6 pb-28" style="background: linear-gradient(145deg, #FFB02E 0%, #e09000 100%);">
-      <h3 class="text-lg font-bold text-white mb-2">Watch the screencasts</h3>
-      <p class="text-sm text-white/80 leading-relaxed mb-4">Learn more about Servantium directly from the team.</p>
-      <span class="inline-flex items-center gap-1.5 rounded-full bg-white/20 px-3.5 py-1.5 text-xs font-semibold text-white/70 backdrop-blur-sm cursor-default">
+    <div class="hero-card relative overflow-hidden rounded-2xl p-6 pb-28" style="background: linear-gradient(145deg, #e09a00 0%, #8B6100 100%);">
+      <svg class="size-10 mb-3" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><polygon points="10 8 16 12 10 16 10 8"/><line x1="2" y1="20" x2="22" y2="20"/></svg>
+      <h3 style="color: #ffffff; font-weight: 700;" class="text-lg mb-2">Watch the screencasts</h3>
+      <p style="color: rgba(255,255,255,0.9); text-shadow: 0 1px 3px rgba(0,0,0,0.3);" class="text-sm leading-relaxed mb-4">Learn more about Servantium directly from the team.</p>
+      <span class="inline-flex items-center gap-1.5 rounded-full border border-white/40 px-3.5 py-1.5 text-xs font-semibold backdrop-blur-sm cursor-default" style="color: rgba(255,255,255,0.7);">
         Coming soon
       </span>
       <!-- Decorative shapes -->

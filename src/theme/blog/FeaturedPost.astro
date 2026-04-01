@@ -68,7 +68,8 @@ const formattedDate = new Date(date).toLocaleDateString('en-US', {
         {title}
       </h2>
 
-      <p class="text-sm sm:text-base text-white/80 leading-relaxed line-clamp-2 m-0 max-w-2xl">
+      <p class="text-sm sm:text-base leading-relaxed line-clamp-2 m-0 max-w-2xl"
+         style="color: #ffffff; text-shadow: 0 1px 4px rgba(0,0,0,0.5);">
         {description}
       </p>
 
@@ -82,14 +83,14 @@ const formattedDate = new Date(date).toLocaleDateString('en-US', {
             loading="eager"
           />
         )}
-        <div class="flex items-center gap-2 text-sm text-white/70">
-          <span class="font-medium text-white/90">{authorData?.name || author}</span>
-          <span class="opacity-50" aria-hidden="true">&middot;</span>
-          <time datetime={date}>{formattedDate}</time>
+        <div class="flex items-center gap-2 text-sm" style="color: #ffffff; text-shadow: 0 1px 4px rgba(0,0,0,0.5);">
+          <span class="font-medium" style="color: #ffffff;">{authorData?.name || author}</span>
+          <span style="opacity: 0.5; color: #ffffff;" aria-hidden="true">&middot;</span>
+          <time datetime={date} style="color: #ffffff;">{formattedDate}</time>
           {readingTime && (
             <>
-              <span class="opacity-50" aria-hidden="true">&middot;</span>
-              <span>{readingTime}</span>
+              <span style="opacity: 0.5; color: #ffffff;" aria-hidden="true">&middot;</span>
+              <span style="color: #ffffff;">{readingTime}</span>
             </>
           )}
         </div>
