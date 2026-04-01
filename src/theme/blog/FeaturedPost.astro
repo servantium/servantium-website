@@ -42,9 +42,10 @@ const formattedDate = new Date(date).toLocaleDateString('en-US', {
       <div class="absolute inset-0 bg-gradient-to-br from-[var(--color-forest)] to-[var(--color-deep-forest)]" />
     )}
 
-    {/* Dark gradient overlay — stronger for text contrast */}
+    {/* Dark gradient overlay — very strong for guaranteed text contrast */}
     <div
-      class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/10 pointer-events-none"
+      class="absolute inset-0 pointer-events-none"
+      style="background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.7) 40%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0.1) 100%);"
       aria-hidden="true"
     />
 
@@ -61,7 +62,8 @@ const formattedDate = new Date(date).toLocaleDateString('en-US', {
     <div class="absolute inset-x-0 bottom-0 p-5 sm:p-7 md:p-9 flex flex-col gap-3">
       <h2
         class="font-[family-name:var(--font-display)] text-2xl sm:text-3xl md:text-4xl font-medium
-               text-white leading-[1.15] tracking-[-0.02em] m-0 drop-shadow-sm"
+               leading-[1.15] tracking-[-0.02em] m-0"
+        style="color: #ffffff; text-shadow: 0 2px 8px rgba(0,0,0,0.5);"
       >
         {title}
       </h2>
