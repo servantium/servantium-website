@@ -63,7 +63,7 @@ const bubblePostsData = bubblePosts.map(p => ({
   </section>
 
   {/* -- Search + Filters + Featured — right below hero, no gap -- */}
-  <section class="pt-6 pb-4">
+  <section class="py-2 md:py-3">
     <div class="mx-auto max-w-[var(--content-width)] px-6">
       {/* -- Search Bar -- */}
       <div class="mb-4">
@@ -72,7 +72,7 @@ const bubblePostsData = bubblePosts.map(p => ({
 
       {/* -- Category Filter Pills -- */}
       <div
-        class="blog-filters flex gap-2.5 overflow-x-auto pb-3 mb-6 scrollbar-none
+        class="blog-filters flex gap-2.5 overflow-x-auto pb-3 scrollbar-none
                [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         role="tablist"
         aria-label="Filter by category"
@@ -108,7 +108,7 @@ const bubblePostsData = bubblePosts.map(p => ({
   </section>
 
   {/* -- Featured Section -- */}
-  <section class="pb-6">
+  <section class="pb-2">
     <div class="mx-auto max-w-[var(--content-width)] px-6">
 
       {/* -- Featured Post (latest) -- */}
@@ -169,6 +169,8 @@ const bubblePostsData = bubblePosts.map(p => ({
                      hover:-translate-y-1.5 hover:shadow-[0_12px_40px_-12px_rgba(0,0,0,0.12)]"
               data-category={post.data.category}
               data-tags={(post.data.tags || []).join(',')}
+              data-date={post.data.date}
+              data-title={post.data.title}
               data-animate
               style={`--stagger: ${Math.min(i, 8) * 80}ms`}
             >
@@ -465,6 +467,28 @@ const bubblePostsData = bubblePosts.map(p => ({
     clearBtn?.addEventListener('click', () => {
       filterCards('all');
     });
+
+    // -- Sort dropdown --
+    const sortSelect = document.getElementById('blog-sort') as HTMLSelectElement | null;
+    if (sortSelect) {
+      sortSelect.addEventListener('change', function() {
+        const grid = document.getElementById('blog-grid');
+        if (!grid) return;
+        const cards = Array.from(grid.children) as HTMLElement[];
+        cards.sort((a, b) => {
+          const dateA = a.getAttribute('data-date') || '';
+          const dateB = b.getAttribute('data-date') || '';
+          const titleA = a.getAttribute('data-title') || '';
+          const titleB = b.getAttribute('data-title') || '';
+          switch (sortSelect.value) {
+            case 'oldest': return dateA.localeCompare(dateB);
+            case 'title': return titleA.localeCompare(titleB);
+            default: return dateB.localeCompare(dateA); // newest
+          }
+        });
+        cards.forEach(card => grid.appendChild(card));
+      });
+    }
 
     // -- Apply initial filter from URL --
     const params = new URLSearchParams(window.location.search);

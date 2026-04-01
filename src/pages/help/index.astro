@@ -9,28 +9,16 @@ const allDocs = await getCollection('docs');
 const featuredDocs = allDocs
   .filter((doc) => doc.data.featured === true);
 
-// Gradient palette for What's New cards
-const gradientPalette = [
-  'linear-gradient(135deg, #00C26D, #023E25)',       // green
-  'linear-gradient(135deg, #4C82A7, #1d3f5c)',       // blue
-  'linear-gradient(135deg, #26A899, #0f4f47)',       // teal
-  'linear-gradient(135deg, #e09a00, #8B6100)',       // amber
-  'linear-gradient(135deg, #FF5C70, #a8293a)',       // coral
-  'linear-gradient(135deg, #6366F1, #3730A3)',       // slate-blue
-  'linear-gradient(135deg, #059669, #064E3B)',       // forest
-  'linear-gradient(135deg, #10B981, #047857)',       // emerald
-];
-
 // Hardcoded defaults for What's New cards (used to fill remaining slots if < 8 featured)
 const defaultWhatsNew = [
-  { href: '/help/guides/engagements/', label: 'Engagement Workspace', version: 'v1.0' },
-  { href: '/help/guides/quotes-pricing/', label: 'AI Quote Generation', version: 'v1.0' },
-  { href: '/help/guides/ai-features/', label: 'Similar Matching', version: 'v1.0' },
-  { href: '/help/guides/resource-planning/', label: 'Resource Planning', version: 'v1.0' },
-  { href: '/help/guides/documents/', label: 'Document Generation', version: 'v1.0' },
-  { href: '/help/guides/notes-ai/', label: 'Note Intelligence', version: 'v1.0' },
-  { href: '/help/guides/quotes-pricing/', label: 'Service Catalog', version: 'v1.0' },
-  { href: '/help/guides/ai-features/', label: 'Institutional Memory', version: 'v1.0' },
+  { href: '/help/guides/engagements/', label: 'Engagement Workspace', version: 'v1.0', date: 'March 2026' },
+  { href: '/help/guides/quotes-pricing/', label: 'AI Quote Generation', version: 'v1.0', date: 'March 2026' },
+  { href: '/help/guides/ai-features/', label: 'Similar Matching', version: 'v1.0', date: 'March 2026' },
+  { href: '/help/guides/resource-planning/', label: 'Resource Planning', version: 'v1.0', date: 'March 2026' },
+  { href: '/help/guides/documents/', label: 'Document Generation', version: 'v1.0', date: 'March 2026' },
+  { href: '/help/guides/notes-ai/', label: 'Note Intelligence', version: 'v1.0', date: 'March 2026' },
+  { href: '/help/guides/quotes-pricing/', label: 'Service Catalog', version: 'v1.0', date: 'March 2026' },
+  { href: '/help/guides/ai-features/', label: 'Institutional Memory', version: 'v1.0', date: 'March 2026' },
 ];
 
 // Build the What's New items: featured docs first, then fill with defaults
@@ -38,6 +26,7 @@ const featuredItems = featuredDocs.map((doc) => ({
   href: `/help/${doc.id}/`,
   label: doc.data.featuredLabel || doc.data.title,
   version: 'v1.0',
+  date: doc.data.date ? new Date(doc.data.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long' }) : 'March 2026',
   fromDoc: true,
 }));
 
@@ -68,7 +57,7 @@ const releaseNotes = allDocs
     <h2 id="getting-started" class="font-display text-[1.75rem] font-semibold leading-tight tracking-tight text-[var(--color-ink)] sm:text-[2rem] mb-2 scroll-mt-24">
       Getting started with Servantium
     </h2>
-    <p class="text-[15px] leading-relaxed text-[var(--color-ink-muted)] max-w-xl">
+    <p class="text-[15px] leading-relaxed text-[var(--color-ink-muted)] max-w-xl mb-4">
       Learn Servantium the way that best matches your learning style.
     </p>
   </div>
@@ -76,7 +65,7 @@ const releaseNotes = allDocs
   <!-- ═══════════════════════════════════════════════════
        SECTION 3: Three colorful hero cards (Tailwind v2 docs style)
        ═══════════════════════════════════════════════════ -->
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 not-prose mt-2 mb-2">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 not-prose mt-1 mb-1">
 
     <!-- Card 1 — Read the docs (green) -->
     <section class="flex min-h-[280px]">
@@ -221,19 +210,48 @@ const releaseNotes = allDocs
   <!-- ═══════════════════════════════════════════════════
        SECTION 4: "What's new in Servantium" feature cards
        ═══════════════════════════════════════════════════ -->
-  <div class="not-prose mb-6">
-    <h2 id="whats-new" class="font-display text-[1.35rem] font-semibold leading-tight tracking-tight text-[var(--color-ink)] mb-4 scroll-mt-24">
+  <div class="not-prose mt-4 mb-3">
+    <h2 id="whats-new" class="font-display text-[1.35rem] font-semibold leading-tight tracking-tight text-[var(--color-ink)] mb-3 scroll-mt-24">
       What's new in Servantium
     </h2>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 
-      {whatsNewItems.map((item, i) => (
-        <a href={item.href} class="group rounded-xl p-4 no-underline [text-decoration:none] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg" style={`background: ${gradientPalette[i % gradientPalette.length]};`}>
-          <span class="block text-sm font-bold text-white [text-decoration:none]">{item.label}</span>
-          <span class="block text-xs mt-1" style="color: rgba(255,255,255,0.7);">{item.version}</span>
-        </a>
-      ))}
+      {whatsNewItems.map((item, i) => {
+        const cardStyles = [
+          { bg: '#E8FBF1', color: '#166534', iconColor: '#22c55e' },
+          { bg: '#E8F4FD', color: '#1e3a5f', iconColor: '#4C82A7' },
+          { bg: '#F0FDFA', color: '#134e4a', iconColor: '#14b8a6' },
+          { bg: '#FFF8E8', color: '#92400e', iconColor: '#f59e0b' },
+          { bg: '#FFF0F1', color: '#9f1239', iconColor: '#f43f5e' },
+          { bg: '#EDE9FE', color: '#5b21b6', iconColor: '#8b5cf6' },
+          { bg: '#F0FDF4', color: '#14532d', iconColor: '#22c55e' },
+          { bg: '#F1F5F9', color: '#334155', iconColor: '#64748b' },
+        ];
+        const icons = [
+          `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>`,
+          `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>`,
+          `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>`,
+          `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`,
+          `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>`,
+          `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/><line x1="9" y1="9" x2="21" y2="7"/><path d="M12 2a7 7 0 0 1 0 14" opacity="0"/><path d="M9 21V5l-5 2"/><circle cx="9" cy="18" r="0"/></svg>`,
+          `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>`,
+          `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>`,
+        ];
+        const style = cardStyles[i % cardStyles.length];
+        const icon = icons[i % icons.length];
+        // Use lightbulb for index 5 (Note Intelligence)
+        const lightbulbIcon = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/></svg>`;
+        const finalIcon = i === 5 ? lightbulbIcon : icon;
+
+        return (
+          <a href={item.href} class="group rounded-xl p-4 no-underline [text-decoration:none] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg" style={`background: ${style.bg};`}>
+            <span class="block mb-2 [text-decoration:none]" style={`color: ${style.iconColor};`} set:html={finalIcon} />
+            <span class="block text-sm font-bold [text-decoration:none]" style={`color: ${style.color};`}>{item.label}</span>
+            <span class="block text-xs mt-1 [text-decoration:none]" style={`color: ${style.color}; opacity: 0.6;`}>{item.version} &middot; {item.date || 'March 2026'}</span>
+          </a>
+        );
+      })}
 
     </div>
   </div>
@@ -241,8 +259,8 @@ const releaseNotes = allDocs
   <!-- ═══════════════════════════════════════════════════
        SECTION 5: Latest Updates timeline
        ═══════════════════════════════════════════════════ -->
-  <div class="not-prose">
-    <div class="flex items-center justify-between mb-4">
+  <div class="not-prose mt-4 mb-3">
+    <div class="flex items-center justify-between mb-3">
       <h2 id="latest-updates" class="font-display text-[1.35rem] font-semibold leading-tight tracking-tight text-[var(--color-ink)] scroll-mt-24">
         Latest Updates
       </h2>
@@ -266,7 +284,7 @@ const releaseNotes = allDocs
             const dotColor = entry.data.repo === 'servantium-website' ? '#4C82A7' : 'var(--color-green)';
 
             return (
-              <div class="relative">
+              <div class="relative timeline-entry" data-animate="fade-up" data-delay={String(i * 150)} style="opacity:0; transform:translateY(20px);">
                 <!-- Timeline dot (green=servantium, blue=website) -->
                 <div class="absolute -left-8 top-1 flex items-center justify-center">
                   <div class="size-3.5 rounded-full border-2 border-white" style={`background-color: ${i === 0 ? dotColor : (entry.data.repo === 'servantium-website' ? 'rgba(76,130,167,0.4)' : 'var(--color-pale-green)')};`} aria-hidden="true"></div>
@@ -277,16 +295,16 @@ const releaseNotes = allDocs
                   {dateStr && (
                     <time class="text-xs font-medium text-[var(--color-ink-muted)] mb-1 block">{dateStr}</time>
                   )}
-                  <a href={`/help/${entry.id}/`} class="group no-underline [text-decoration:none]">
-                    <h3 class="text-[15px] font-semibold text-[var(--color-ink)] group-hover:text-[var(--color-green)] transition-colors mb-1 no-underline [text-decoration:none]">
+                  <a href={`/help/${entry.id}/`} class="group no-underline [text-decoration:none]" style="text-decoration:none;">
+                    <h3 class="text-[15px] font-semibold text-[var(--color-ink)] group-hover:text-[var(--color-green)] transition-colors mb-1 no-underline [text-decoration:none]" style="text-decoration:none;">
                       {entry.data.title}
                     </h3>
                     {entry.data.description && (
-                      <p class="text-sm text-[var(--color-ink-muted)] line-clamp-2 mb-1.5 no-underline [text-decoration:none]">
+                      <p class="text-sm text-[var(--color-ink-muted)] line-clamp-2 mb-1.5 no-underline [text-decoration:none]" style="text-decoration:none;">
                         {entry.data.description}
                       </p>
                     )}
-                    <span class="text-xs font-medium text-[var(--color-green)] no-underline [text-decoration:none]">
+                    <span class="text-xs font-medium text-[var(--color-green)] no-underline [text-decoration:none]" style="text-decoration:none;">
                       Read more &rarr;
                     </span>
                   </a>
@@ -298,5 +316,40 @@ const releaseNotes = allDocs
       </div>
     )}
   </div>
+
+  <!-- Timeline scroll unfurl animation -->
+  <script>
+    function initTimelineAnimation() {
+      const entries = document.querySelectorAll('[data-animate="fade-up"]');
+      if (!entries.length) return;
+
+      const observer = new IntersectionObserver(
+        (items) => {
+          items.forEach((item) => {
+            if (item.isIntersecting) {
+              const el = item.target as HTMLElement;
+              const delay = parseInt(el.dataset.delay || '0', 10);
+              setTimeout(() => {
+                el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                el.style.opacity = '1';
+                el.style.transform = 'translateY(0)';
+              }, delay);
+              observer.unobserve(el);
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: '0px 0px -30px 0px' }
+      );
+
+      entries.forEach((entry) => observer.observe(entry));
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initTimelineAnimation);
+    } else {
+      initTimelineAnimation();
+    }
+    document.addEventListener('astro:page-load', initTimelineAnimation);
+  </script>
 
 </DocsLayout>

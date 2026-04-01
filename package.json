@@ -12,8 +12,6 @@
     "@astrojs/react": "^5.0.2",
     "@astrojs/rss": "^4.0.18",
     "@astrojs/sitemap": "^3.7.2",
-    "@calcom/atoms": "^2.3.8",
-    "@calcom/embed-react": "^1.5.3",
     "@fontsource/playfair-display": "^5.2.8",
     "@fontsource/source-sans-3": "^5.2.9",
     "@iconify-json/lucide": "^1.2.100",
