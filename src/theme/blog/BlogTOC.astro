@@ -1,0 +1,124 @@
+---
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  headings: Heading[];
+}
+
+const { headings } = Astro.props;
+
+// Only show h2 and h3 headings in the TOC
+const tocHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
+---
+
+{tocHeadings.length > 0 && (
+  <nav class="blog-toc hidden xl:block" aria-label="Table of contents">
+    <div class="sticky top-28">
+      <p class="text-[0.6875rem] font-semibold uppercase tracking-widest text-[var(--color-ink-muted)] mb-4">
+        Contents
+      </p>
+      <ul class="space-y-1.5 list-none m-0 p-0">
+        {tocHeadings.map((heading) => (
+          <li class={heading.depth === 3 ? 'pl-4' : ''}>
+            <a
+              href={`#${heading.slug}`}
+              class={`toc-link block text-sm leading-snug py-1 no-underline transition-colors duration-150
+                      border-l-2 pl-3
+                      ${heading.depth === 3
+                        ? 'text-[var(--color-ink-muted)]/70 border-transparent hover:text-[var(--color-ink-light)] hover:border-[var(--color-cloud-grey)]'
+                        : 'text-[var(--color-ink-muted)] border-transparent hover:text-[var(--color-ink)] hover:border-[var(--color-cloud-grey)]'
+                      }`}
+              data-toc-slug={heading.slug}
+            >
+              {heading.text}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </nav>
+)}
+
+<script is:inline>
+  document.addEventListener('astro:page-load', () => {
+    const tocLinks = document.querySelectorAll('.toc-link');
+    if (!tocLinks.length) return;
+
+    const headingEls = [];
+    tocLinks.forEach(link => {
+      const slug = link.getAttribute('data-toc-slug');
+      if (slug) {
+        const el = document.getElementById(slug);
+        if (el) headingEls.push({ el, link });
+      }
+    });
+
+    if (!headingEls.length) return;
+
+    let currentActive = null;
+
+    function setActive(link) {
+      if (currentActive === link) return;
+      // Remove active from all
+      tocLinks.forEach(l => {
+        l.classList.remove('!text-[var(--color-green)]', '!border-[var(--color-green)]', 'font-medium');
+      });
+      // Set active
+      if (link) {
+        link.classList.add('!text-[var(--color-green)]', '!border-[var(--color-green)]', 'font-medium');
+      }
+      currentActive = link;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        // Find the first heading that is intersecting or the last one that was above viewport
+        let active = null;
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            const match = headingEls.find(h => h.el === entry.target);
+            if (match) {
+              active = match.link;
+              break;
+            }
+          }
+        }
+
+        if (active) {
+          setActive(active);
+        } else {
+          // Fallback: find the last heading above the viewport
+          let lastAbove = null;
+          for (const { el, link } of headingEls) {
+            const rect = el.getBoundingClientRect();
+            if (rect.top < 120) {
+              lastAbove = link;
+            }
+          }
+          if (lastAbove) setActive(lastAbove);
+        }
+      },
+      { rootMargin: '-80px 0px -70% 0px', threshold: 0 }
+    );
+
+    headingEls.forEach(({ el }) => observer.observe(el));
+
+    // Smooth scroll on click
+    tocLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const slug = link.getAttribute('data-toc-slug');
+        const target = slug ? document.getElementById(slug) : null;
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          // Update URL hash without jumping
+          history.pushState(null, '', `#${slug}`);
+        }
+      });
+    });
+  });
+</script>

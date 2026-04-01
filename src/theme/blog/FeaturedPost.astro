@@ -1,0 +1,97 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  date: string;
+  author: string;
+  authorData: { name: string; role: string; image: string; linkedin: string; bio: string };
+  category: string;
+  image?: string;
+  imageAlt?: string;
+  slug: string;
+  readingTime?: string;
+}
+
+const { title, description, date, author, authorData, category, image, imageAlt, slug, readingTime } = Astro.props;
+
+const formattedDate = new Date(date).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+});
+---
+
+<a
+  href={`/blog/${slug}`}
+  class="featured-post group relative block w-full overflow-hidden rounded-2xl no-underline text-inherit
+         transition-[transform,box-shadow] duration-300 ease-[var(--ease-bounce)]
+         hover:-translate-y-1 hover:shadow-[0_16px_48px_-12px_rgba(0,0,0,0.18)]"
+>
+  {/* Image container — 60% height */}
+  <div class="relative w-full" style="aspect-ratio: 16/7;">
+    {image ? (
+      <img
+        src={image}
+        alt={imageAlt || title}
+        loading="eager"
+        decoding="async"
+        class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-[var(--ease-out)]
+               group-hover:scale-[1.03]"
+      />
+    ) : (
+      <div class="absolute inset-0 bg-gradient-to-br from-[var(--color-forest)] to-[var(--color-deep-forest)]" />
+    )}
+
+    {/* Dark gradient overlay at bottom */}
+    <div
+      class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent pointer-events-none"
+      aria-hidden="true"
+    />
+
+    {/* Category badge — top-left */}
+    <span
+      class="absolute top-4 left-4 sm:top-5 sm:left-5 inline-block rounded-full bg-white/20 backdrop-blur-sm
+             px-3.5 py-1 text-[0.6875rem] font-semibold uppercase tracking-wider text-white
+             border border-white/15"
+    >
+      {category}
+    </span>
+
+    {/* Overlaid text — bottom */}
+    <div class="absolute inset-x-0 bottom-0 p-5 sm:p-7 md:p-9 flex flex-col gap-3">
+      <h2
+        class="font-[family-name:var(--font-display)] text-2xl sm:text-3xl md:text-4xl font-medium
+               text-white leading-[1.15] tracking-[-0.02em] m-0 drop-shadow-sm"
+      >
+        {title}
+      </h2>
+
+      <p class="text-sm sm:text-base text-white/80 leading-relaxed line-clamp-2 m-0 max-w-2xl">
+        {description}
+      </p>
+
+      {/* Author + date */}
+      <div class="flex items-center gap-3 mt-1">
+        {authorData?.image && (
+          <img
+            src={authorData.image}
+            alt={authorData.name}
+            class="w-8 h-8 rounded-full object-cover ring-2 ring-white/30"
+            loading="eager"
+          />
+        )}
+        <div class="flex items-center gap-2 text-sm text-white/70">
+          <span class="font-medium text-white/90">{authorData?.name || author}</span>
+          <span class="opacity-50" aria-hidden="true">&middot;</span>
+          <time datetime={date}>{formattedDate}</time>
+          {readingTime && (
+            <>
+              <span class="opacity-50" aria-hidden="true">&middot;</span>
+              <span>{readingTime}</span>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
+</a>

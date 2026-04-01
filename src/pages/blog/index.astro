@@ -2,6 +2,9 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import SEO from '@/components/SEO.astro';
 import PageReveal from '@/theme/components/PageReveal.astro';
+import FeaturedPost from '@/theme/blog/FeaturedPost.astro';
+import BubbleGrid from '@/theme/blog/BubbleGrid.astro';
+import BlogSearch from '@/theme/blog/BlogSearch.astro';
 import { getCollection } from 'astro:content';
 import { authors } from '@/data/authors';
 
@@ -11,6 +14,26 @@ const posts = allPosts.sort(
 );
 
 const categories = [...new Set(posts.map(p => p.data.category))].sort();
+
+// Split posts for featured section
+const featuredPost = posts[0];
+const bubblePosts = posts.slice(1, 3);
+const gridPosts = posts.slice(3);
+
+// Prepare featured post data
+const featuredAuthorData = authors[featuredPost.data.author];
+const bubblePostsData = bubblePosts.map(p => ({
+  title: p.data.title,
+  description: p.data.description,
+  date: p.data.date,
+  author: p.data.author,
+  authorData: authors[p.data.author],
+  category: p.data.category,
+  image: p.data.image,
+  imageAlt: p.data.imageAlt,
+  slug: p.id,
+  readingTime: p.data.readingTime,
+}));
 ---
 
 <BaseLayout activePage="blog">
@@ -21,7 +44,7 @@ const categories = [...new Set(posts.map(p => p.data.category))].sort();
     ogType="website"
   />
 
-  {/* ── Hero Section ── */}
+  {/* -- Hero Section -- */}
   <PageReveal>
     <section class="relative overflow-hidden bg-gradient-to-b from-[var(--color-soft-mint)] via-[var(--color-mint-tint)] to-white pt-32 pb-16 md:pt-40 md:pb-20">
       {/* Decorative radial glow */}
@@ -45,11 +68,14 @@ const categories = [...new Set(posts.map(p => p.data.category))].sort();
     </section>
   </PageReveal>
 
-  {/* ── Filters + Grid ── */}
+  {/* -- Featured Section -- */}
   <section class="py-10 md:py-14">
     <div class="mx-auto max-w-[var(--content-width)] px-6">
 
-      {/* ── Category Filter Pills ── */}
+      {/* -- Search Bar -- */}
+      <BlogSearch />
+
+      {/* -- Category Filter Pills -- */}
       <div
         class="blog-filters flex gap-2.5 overflow-x-auto pb-3 mb-10 scrollbar-none
                [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
@@ -84,14 +110,35 @@ const categories = [...new Set(posts.map(p => p.data.category))].sort();
         ))}
       </div>
 
-      {/* ── Post Count ── */}
+      {/* -- Featured Post (latest) -- */}
+      <div class="featured-section mb-6" data-featured-category={featuredPost.data.category}>
+        <FeaturedPost
+          title={featuredPost.data.title}
+          description={featuredPost.data.description}
+          date={featuredPost.data.date}
+          author={featuredPost.data.author}
+          authorData={featuredAuthorData}
+          category={featuredPost.data.category}
+          image={featuredPost.data.image}
+          imageAlt={featuredPost.data.imageAlt}
+          slug={featuredPost.id}
+          readingTime={featuredPost.data.readingTime}
+        />
+      </div>
+
+      {/* -- Bubble Grid (posts 2-3) -- */}
+      <div class="bubble-section mb-12" data-bubble-categories={bubblePosts.map(p => p.data.category).join(',')}>
+        <BubbleGrid posts={bubblePostsData} />
+      </div>
+
+      {/* -- Post Count -- */}
       <p class="text-sm text-[var(--color-ink-muted)] mb-6" id="blog-post-count">
         {posts.length} {posts.length === 1 ? 'article' : 'articles'}
       </p>
 
-      {/* ── Card Grid ── */}
+      {/* -- Card Grid (remaining posts) -- */}
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7" id="blog-grid">
-        {posts.map((post, i) => {
+        {gridPosts.map((post, i) => {
           const authorData = authors[post.data.author];
           const formattedDate = new Date(post.data.date).toLocaleDateString('en-US', {
             year: 'numeric',
@@ -181,7 +228,7 @@ const categories = [...new Set(posts.map(p => p.data.category))].sort();
         })}
       </div>
 
-      {/* ── Empty State ── */}
+      {/* -- Empty State -- */}
       <div id="blog-empty" class="hidden py-20 text-center">
         <p class="text-lg text-[var(--color-ink-muted)]">No articles match this filter.</p>
         <button
@@ -195,7 +242,7 @@ const categories = [...new Set(posts.map(p => p.data.category))].sort();
     </div>
   </section>
 
-  {/* ── RSS Footer ── */}
+  {/* -- RSS Footer -- */}
   <section class="pb-20 text-center">
     <a
       href="/rss.xml"
@@ -213,7 +260,7 @@ const categories = [...new Set(posts.map(p => p.data.category))].sort();
 </BaseLayout>
 
 <style>
-  /* ── Scroll-triggered card entrance ── */
+  /* -- Scroll-triggered card entrance -- */
   [data-animate] {
     opacity: 0;
     transform: translateY(24px);
@@ -225,7 +272,7 @@ const categories = [...new Set(posts.map(p => p.data.category))].sort();
     transform: translateY(0);
   }
 
-  /* ── Filter transition for cards ── */
+  /* -- Filter transition for cards -- */
   .blog-card {
     transition: transform 0.3s var(--ease-bounce),
                 box-shadow 0.3s var(--ease-out),
@@ -236,7 +283,7 @@ const categories = [...new Set(posts.map(p => p.data.category))].sort();
     transform: scale(0.96);
   }
 
-  /* ── Active filter pill ── */
+  /* -- Active filter pill -- */
   .filter-cat.is-active {
     background: var(--color-green) !important;
     color: white !important;
@@ -244,7 +291,7 @@ const categories = [...new Set(posts.map(p => p.data.category))].sort();
     box-shadow: 0 2px 8px rgba(0, 194, 109, 0.25);
   }
 
-  /* ── Duration utility Tailwind doesn't have by default ── */
+  /* -- Duration utility Tailwind doesn't have by default -- */
   .duration-600 {
     transition-duration: 600ms;
   }
@@ -259,11 +306,15 @@ const categories = [...new Set(posts.map(p => p.data.category))].sort();
     const clearBtn = document.getElementById('blog-clear-filter');
     const postCount = document.getElementById('blog-post-count');
 
+    // Featured section elements
+    const featuredSection = document.querySelector<HTMLElement>('.featured-section');
+    const bubbleSection = document.querySelector<HTMLElement>('.bubble-section');
+
     if (!grid || !cards) return;
 
     let currentCategory = 'all';
 
-    // ── Scroll-triggered reveal ──
+    // -- Scroll-triggered reveal --
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -287,7 +338,7 @@ const categories = [...new Set(posts.map(p => p.data.category))].sort();
     // Initial observation
     observeCards();
 
-    // ── Category filtering with FLIP animation ──
+    // -- Category filtering with FLIP animation --
     function filterCards(category: string) {
       currentCategory = category;
 
@@ -316,6 +367,17 @@ const categories = [...new Set(posts.map(p => p.data.category))].sort();
         }
       });
 
+      // Show/hide featured section based on category
+      if (featuredSection) {
+        const featuredCat = featuredSection.dataset.featuredCategory;
+        featuredSection.style.display = (category === 'all' || featuredCat === category) ? '' : 'none';
+      }
+      if (bubbleSection) {
+        const bubbleCats = (bubbleSection.dataset.bubbleCategories || '').split(',');
+        const anyMatch = category === 'all' || bubbleCats.includes(category);
+        bubbleSection.style.display = anyMatch ? '' : 'none';
+      }
+
       // Capture positions for FLIP
       const rects = new Map<HTMLElement, DOMRect>();
       cards.forEach((card) => rects.set(card, card.getBoundingClientRect()));
@@ -329,16 +391,24 @@ const categories = [...new Set(posts.map(p => p.data.category))].sort();
         if (matches) visibleCount++;
       });
 
+      // Count featured/bubble posts too
+      let totalVisible = visibleCount;
+      if (featuredSection && featuredSection.style.display !== 'none') totalVisible++;
+      if (bubbleSection && bubbleSection.style.display !== 'none') {
+        const bubbleCats = (bubbleSection.dataset.bubbleCategories || '').split(',');
+        totalVisible += bubbleCats.filter(c => category === 'all' || c === category).length;
+      }
+
       // Update count
       if (postCount) {
-        postCount.textContent = `${visibleCount} ${visibleCount === 1 ? 'article' : 'articles'}`;
+        postCount.textContent = `${totalVisible} ${totalVisible === 1 ? 'article' : 'articles'}`;
       }
 
       // Show/hide empty state
       if (emptyState) {
-        emptyState.classList.toggle('hidden', visibleCount > 0);
+        emptyState.classList.toggle('hidden', totalVisible > 0);
       }
-      grid.classList.toggle('hidden', visibleCount === 0);
+      grid.classList.toggle('hidden', visibleCount === 0 && totalVisible > 0 ? false : visibleCount === 0);
 
       // FLIP animation for visible cards
       cards.forEach((card) => {
@@ -371,7 +441,7 @@ const categories = [...new Set(posts.map(p => p.data.category))].sort();
       });
     }
 
-    // ── Event listeners ──
+    // -- Event listeners --
     catButtons.forEach((btn) => {
       btn.addEventListener('click', () => {
         filterCards(btn.dataset.category || 'all');
@@ -382,7 +452,7 @@ const categories = [...new Set(posts.map(p => p.data.category))].sort();
       filterCards('all');
     });
 
-    // ── Apply initial filter from URL ──
+    // -- Apply initial filter from URL --
     const params = new URLSearchParams(window.location.search);
     const initialCat = params.get('category') || 'all';
     if (initialCat !== 'all') {

@@ -3,9 +3,16 @@ import BaseLayout from './BaseLayout.astro';
 import SEO from '@/components/SEO.astro';
 import ShareSidebar from '@/theme/blog/ShareSidebar.astro';
 import RelatedPosts from '@/theme/blog/RelatedPosts.astro';
+import BlogTOC from '@/theme/blog/BlogTOC.astro';
 import PageReveal from '@/theme/components/PageReveal.astro';
 import { authors } from '@/data/authors';
 import { getCollection } from 'astro:content';
+
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
 
 interface Props {
   title: string;
@@ -18,9 +25,10 @@ interface Props {
   imageAlt?: string;
   readingTime?: string;
   tags?: string[];
+  headings?: Heading[];
 }
 
-const { title, description, date, author, authorRole, category, image, imageAlt, readingTime, tags = [] } = Astro.props;
+const { title, description, date, author, authorRole, category, image, imageAlt, readingTime, tags = [], headings = [] } = Astro.props;
 const authorData = authors[author] || { name: author, role: authorRole || '', image: '', linkedin: '', bio: '' };
 const formattedDate = new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
@@ -72,16 +80,16 @@ const relatedPosts = allPosts
     }}
   />
 
-  {/* ── Share Sidebar (desktop: fixed left, mobile: bottom bar) ── */}
+  {/* -- Share Sidebar (desktop: fixed left, mobile: bottom bar) -- */}
   <ShareSidebar url={canonicalUrl} title={title} />
 
-  {/* ── Hero Section ── */}
+  {/* -- Hero Section -- */}
   <PageReveal>
     <header class="relative bg-gradient-to-b from-[var(--color-soft-mint)] via-[var(--color-mint-tint)] to-white pt-28 pb-8 md:pt-36 md:pb-10">
       {/* Subtle radial glow */}
       <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-10%,rgba(0,194,109,0.06),transparent)]" aria-hidden="true"></div>
 
-      <div class="relative mx-auto max-w-3xl px-6">
+      <div class="relative mx-auto max-w-4xl px-6">
         {/* Breadcrumb */}
         <nav
           data-reveal="1"
@@ -162,7 +170,7 @@ const relatedPosts = allPosts
     </header>
   </PageReveal>
 
-  {/* ── Hero Image ── */}
+  {/* -- Hero Image -- */}
   {image && (
     <div class="mx-auto max-w-4xl px-6 -mt-2 mb-10 md:mb-14">
       <div class="relative overflow-hidden rounded-2xl shadow-lg">
@@ -177,15 +185,21 @@ const relatedPosts = allPosts
     </div>
   )}
 
-  {/* ── Article Content ── */}
-  <article class="article-content pb-12 md:pb-16">
-    <div class="mx-auto max-w-[720px] px-6">
-      <slot />
-    </div>
-  </article>
+  {/* -- Article + TOC Layout -- */}
+  <div class="mx-auto max-w-4xl px-6">
+    <div class="blog-layout-grid relative">
+      {/* -- Article Content -- */}
+      <article class="article-content pb-12 md:pb-16 min-w-0">
+        <slot />
+      </article>
 
-  {/* ── CTA Section ── */}
-  <section class="mx-auto max-w-[720px] px-6 pb-12 md:pb-16">
+      {/* -- TOC Sidebar (xl+ only) -- */}
+      <BlogTOC headings={headings} />
+    </div>
+  </div>
+
+  {/* -- CTA Section -- */}
+  <section class="mx-auto max-w-4xl px-6 pb-12 md:pb-16">
     <div class="rounded-2xl bg-gradient-to-br from-[var(--color-soft-mint)] to-[var(--color-mint-tint)] p-8 md:p-10 text-center border border-[var(--color-pale-green)]">
       <h3 class="font-[family-name:var(--font-display)] text-2xl md:text-[1.75rem] text-[var(--color-ink)] mb-3 leading-snug">
         Ready to encode your services?
@@ -204,24 +218,44 @@ const relatedPosts = allPosts
     </div>
   </section>
 
-  {/* ── Related Posts ── */}
+  {/* -- Related Posts -- */}
   <section class="mx-auto max-w-[var(--content-width)] px-6 pb-16 md:pb-24">
     <RelatedPosts posts={relatedPosts} />
   </section>
 
-  {/* ── Mobile share bar spacer ── */}
+  {/* -- Mobile share bar spacer -- */}
   <div class="h-16 md:hidden" aria-hidden="true"></div>
 </BaseLayout>
 
 <style>
-  /* ── Article Prose Typography ── */
+  /* -- Blog layout grid: article + TOC sidebar -- */
+  .blog-layout-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  @media (min-width: 1280px) {
+    .blog-layout-grid {
+      grid-template-columns: 1fr 200px;
+      gap: 3rem;
+    }
+  }
+
+  /* -- Article Prose Typography -- */
   .article-content {
     font-size: 1.125rem;
     line-height: 1.8;
     color: var(--color-ink-light);
   }
 
-  /* Headings */
+  /* Headings with anchor link support */
+  .article-content :global(h2),
+  .article-content :global(h3) {
+    position: relative;
+    scroll-margin-top: 5rem;
+  }
+
   .article-content :global(h2) {
     font-family: var(--font-display);
     font-size: 1.75rem;
@@ -248,20 +282,43 @@ const relatedPosts = allPosts
     margin: 2rem 0 0.5rem;
   }
 
+  /* Heading anchor link icon */
+  .article-content :global(h2 .heading-anchor),
+  .article-content :global(h3 .heading-anchor) {
+    opacity: 0;
+    position: absolute;
+    left: -1.5em;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-ink-muted);
+    text-decoration: none;
+    font-size: 0.75em;
+    transition: opacity 0.15s ease;
+  }
+  .article-content :global(h2:hover .heading-anchor),
+  .article-content :global(h3:hover .heading-anchor) {
+    opacity: 0.5;
+  }
+  .article-content :global(h2 .heading-anchor:hover),
+  .article-content :global(h3 .heading-anchor:hover) {
+    opacity: 1;
+    color: var(--color-green);
+  }
+
   /* Paragraphs */
   .article-content :global(p) {
     margin-bottom: 1.35rem;
   }
 
   /* Links */
-  .article-content :global(a) {
+  .article-content :global(a:not(.heading-anchor)) {
     color: var(--color-green);
     text-decoration: underline;
     text-underline-offset: 3px;
     text-decoration-thickness: 1px;
     transition: color 0.15s ease;
   }
-  .article-content :global(a:hover) {
+  .article-content :global(a:not(.heading-anchor):hover) {
     color: var(--color-green-hover);
   }
 
@@ -394,8 +451,8 @@ const relatedPosts = allPosts
 </style>
 
 <script>
-  // Reading progress bar
-  function initArticleProgress() {
+  function initArticleFeatures() {
+    // -- Reading progress bar --
     let bar = document.querySelector<HTMLElement>('.article-progress-bar');
     if (!bar) {
       bar = document.createElement('div');
@@ -421,10 +478,28 @@ const relatedPosts = allPosts
 
     window.addEventListener('scroll', updateProgress, { passive: true });
     updateProgress();
+
+    // -- Add anchor links to headings --
+    const headings = article.querySelectorAll('h2[id], h3[id]');
+    headings.forEach((heading) => {
+      const id = heading.getAttribute('id');
+      if (!id) return;
+
+      // Check if anchor already exists
+      if (heading.querySelector('.heading-anchor')) return;
+
+      const anchor = document.createElement('a');
+      anchor.href = `#${id}`;
+      anchor.className = 'heading-anchor';
+      anchor.setAttribute('aria-label', `Link to ${heading.textContent}`);
+      anchor.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>`;
+      heading.style.position = 'relative';
+      heading.insertBefore(anchor, heading.firstChild);
+    });
   }
 
-  document.addEventListener('astro:page-load', initArticleProgress);
+  document.addEventListener('astro:page-load', initArticleFeatures);
   if (!document.querySelector('[name="astro-view-transitions"]')) {
-    initArticleProgress();
+    initArticleFeatures();
   }
 </script>

@@ -1,0 +1,96 @@
+---
+interface BubblePost {
+  title: string;
+  description: string;
+  date: string;
+  author: string;
+  authorData: { name: string; role: string; image: string; linkedin: string; bio: string };
+  category: string;
+  image?: string;
+  imageAlt?: string;
+  slug: string;
+  readingTime?: string;
+}
+
+interface Props {
+  posts: BubblePost[];
+}
+
+const { posts } = Astro.props;
+---
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
+  {posts.map((post) => {
+    const formattedDate = new Date(post.date).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    });
+
+    return (
+      <a
+        href={`/blog/${post.slug}`}
+        class="bubble-card group flex flex-col sm:flex-row overflow-hidden rounded-xl border border-[var(--color-cloud-grey)]
+               bg-white no-underline text-inherit
+               transition-[transform,box-shadow] duration-300 ease-[var(--ease-bounce)]
+               hover:-translate-y-1 hover:shadow-[0_12px_40px_-12px_rgba(0,0,0,0.12)]"
+      >
+        {/* Image — 40% width on sm+ */}
+        {post.image && (
+          <div class="relative overflow-hidden sm:w-[40%] shrink-0 aspect-[16/9] sm:aspect-auto">
+            <img
+              src={post.image}
+              alt={post.imageAlt || post.title}
+              loading="lazy"
+              decoding="async"
+              class="w-full h-full object-cover transition-transform duration-500 ease-[var(--ease-out)]
+                     group-hover:scale-105"
+            />
+          </div>
+        )}
+
+        {/* Content — 60% */}
+        <div class="flex flex-col justify-center gap-2.5 p-4 sm:p-5 flex-1 min-w-0">
+          {/* Category badge */}
+          <span
+            class="inline-block self-start rounded-full bg-[var(--color-green)]/10 px-3 py-0.5
+                   text-[0.6875rem] font-semibold uppercase tracking-wider text-[var(--color-green)]"
+          >
+            {post.category}
+          </span>
+
+          {/* Title */}
+          <h3
+            class="font-[family-name:var(--font-display)] text-base sm:text-lg leading-snug
+                   text-[var(--color-ink)] line-clamp-2 m-0 tracking-[-0.01em]"
+          >
+            {post.title}
+          </h3>
+
+          {/* Author + date */}
+          <div class="flex items-center gap-2 text-xs text-[var(--color-ink-muted)] mt-auto">
+            {post.authorData?.image && (
+              <img
+                src={post.authorData.image}
+                alt={post.authorData.name}
+                class="w-6 h-6 rounded-full object-cover ring-1 ring-white"
+                loading="lazy"
+              />
+            )}
+            <span class="font-medium text-[var(--color-ink-light)]">
+              {post.authorData?.name || post.author}
+            </span>
+            <span class="opacity-40" aria-hidden="true">&middot;</span>
+            <time datetime={post.date}>{formattedDate}</time>
+            {post.readingTime && (
+              <>
+                <span class="opacity-40" aria-hidden="true">&middot;</span>
+                <span>{post.readingTime}</span>
+              </>
+            )}
+          </div>
+        </div>
+      </a>
+    );
+  })}
+</div>
