@@ -33,59 +33,147 @@ const releaseNotes = allDocs
   </div>
 
   <!-- ═══════════════════════════════════════════════════
-       SECTION 3: Three colorful hero cards
+       SECTION 3: Three colorful hero cards (Tailwind v2 docs style)
        ═══════════════════════════════════════════════════ -->
-  <div class="not-prose grid grid-cols-1 sm:grid-cols-3 gap-5 mb-16">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 xl:gap-8 not-prose mb-16">
 
     <!-- Card 1 — Read the docs (green) -->
-    <a href="/help/quick-start/" class="hero-card group relative overflow-hidden rounded-2xl p-6 pb-28 no-underline" style="background: linear-gradient(145deg, #00A95E 0%, #023E25 100%);">
-      <svg class="size-10 mb-3" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/><path d="M8 7h6"/><path d="M8 11h8"/></svg>
-      <h3 style="color: #ffffff; font-weight: 700;" class="text-lg mb-2">Read the docs</h3>
-      <p style="color: rgba(255,255,255,0.9); text-shadow: 0 1px 3px rgba(0,0,0,0.3);" class="text-sm leading-relaxed mb-4">Learn how to get Servantium set up and start managing engagements.</p>
-      <span class="inline-flex items-center gap-1.5 rounded-full border border-white/40 px-3.5 py-1.5 text-xs font-semibold backdrop-blur-sm transition-all group-hover:bg-white/20" style="color: #ffffff;">
-        Start learning
-        <svg class="size-3.5 transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-      </span>
-      <!-- Decorative shapes -->
-      <div class="absolute bottom-0 left-0 right-0 h-24 overflow-hidden" aria-hidden="true">
-        <div class="absolute -bottom-4 -left-4 size-28 rounded-full bg-white/[0.06]"></div>
-        <div class="absolute -bottom-8 left-16 size-36 rounded-full bg-white/[0.04]"></div>
-        <div class="absolute -bottom-2 right-4 size-20 rounded-full bg-white/[0.08]"></div>
+    <section class="flex">
+      <div class="w-full relative text-white overflow-hidden rounded-3xl flex shadow-lg">
+        <div class="w-full flex md:flex-col bg-gradient-to-br from-[#00A95E] to-[#023E25]">
+          <div class="sm:max-w-sm sm:flex-none md:w-auto md:flex-auto flex flex-col items-start relative z-10 p-6 xl:p-8">
+            <h2 class="text-xl font-semibold mb-2" style="color:#fff; text-shadow: 0 1px 3px rgba(0,0,0,0.3);">Read the docs</h2>
+            <p class="font-medium mb-4 text-sm" style="color: rgba(255,255,255,0.85); text-shadow: 0 1px 2px rgba(0,0,0,0.2);">Learn how to get Servantium set up and start managing engagements.</p>
+            <a class="mt-auto bg-white/20 hover:bg-white/30 transition-colors duration-200 rounded-xl font-semibold py-2 px-4 inline-flex text-sm no-underline" style="color:#fff;" href="/help/quick-start/">Start learning</a>
+          </div>
+          <div class="relative md:pl-6 xl:pl-8 hidden sm:block" aria-hidden="true">
+            <!-- SVG: Abstract docs viewer -->
+            <svg viewBox="0 0 352 232" class="w-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Sidebar -->
+              <rect x="24" y="24" width="80" height="184" rx="8" fill="rgba(255,255,255,0.1)" />
+              <!-- Sidebar nav items -->
+              <rect x="36" y="44" width="56" height="8" rx="4" fill="rgba(255,255,255,0.2)" />
+              <rect x="36" y="62" width="48" height="8" rx="4" fill="rgba(255,255,255,0.15)" />
+              <rect x="36" y="80" width="52" height="8" rx="4" fill="rgba(255,255,255,0.15)" />
+              <rect x="36" y="98" width="44" height="8" rx="4" fill="rgba(255,255,255,0.12)" />
+              <rect x="36" y="116" width="56" height="8" rx="4" fill="rgba(255,255,255,0.12)" />
+              <rect x="36" y="134" width="40" height="8" rx="4" fill="rgba(255,255,255,0.1)" />
+              <rect x="36" y="152" width="50" height="8" rx="4" fill="rgba(255,255,255,0.1)" />
+              <!-- Active indicator -->
+              <rect x="32" y="42" width="3" height="12" rx="1.5" fill="rgba(255,255,255,0.5)" />
+              <!-- Content area -->
+              <rect x="120" y="24" width="208" height="184" rx="8" fill="rgba(255,255,255,0.07)" />
+              <!-- Content title -->
+              <rect x="140" y="44" width="120" height="12" rx="4" fill="rgba(255,255,255,0.25)" />
+              <!-- Content lines -->
+              <rect x="140" y="72" width="168" height="6" rx="3" fill="rgba(255,255,255,0.15)" />
+              <rect x="140" y="86" width="152" height="6" rx="3" fill="rgba(255,255,255,0.12)" />
+              <rect x="140" y="100" width="160" height="6" rx="3" fill="rgba(255,255,255,0.12)" />
+              <!-- Bullet points -->
+              <circle cx="148" cy="125" r="3" fill="rgba(255,255,255,0.2)" />
+              <rect x="158" y="122" width="120" height="6" rx="3" fill="rgba(255,255,255,0.12)" />
+              <circle cx="148" cy="141" r="3" fill="rgba(255,255,255,0.2)" />
+              <rect x="158" y="138" width="108" height="6" rx="3" fill="rgba(255,255,255,0.12)" />
+              <circle cx="148" cy="157" r="3" fill="rgba(255,255,255,0.2)" />
+              <rect x="158" y="154" width="132" height="6" rx="3" fill="rgba(255,255,255,0.12)" />
+              <!-- Code block -->
+              <rect x="140" y="174" width="168" height="24" rx="6" fill="rgba(255,255,255,0.1)" />
+              <rect x="152" y="183" width="80" height="6" rx="3" fill="rgba(255,255,255,0.2)" />
+            </svg>
+          </div>
+        </div>
+        <div class="absolute bottom-0 left-0 right-0 h-20 hidden sm:block" style="background: linear-gradient(to top, #023E25, transparent);" aria-hidden="true"></div>
       </div>
-    </a>
+    </section>
 
-    <!-- Card 2 — Explore AI features (slate-blue) -->
-    <a href="/help/guides/ai-features/" class="hero-card group relative overflow-hidden rounded-2xl p-6 pb-28 no-underline" style="background: linear-gradient(145deg, #4C82A7 0%, #1d3f5c 100%);">
-      <svg class="size-10 mb-3" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.09 6.26L20.18 9l-5 3.64L16.82 19 12 15.77 7.18 19l1.64-6.36-5-3.64 6.09-.74z"/><circle cx="12" cy="12" r="3"/><path d="M12 8v1"/><path d="M12 15v1"/><path d="M8.5 10.5l.7.7"/><path d="M14.8 13.8l.7.7"/></svg>
-      <h3 style="color: #ffffff; font-weight: 700;" class="text-lg mb-2">Explore AI features</h3>
-      <p style="color: rgba(255,255,255,0.9); text-shadow: 0 1px 3px rgba(0,0,0,0.3);" class="text-sm leading-relaxed mb-4">Discover how AI powers similar matching, quote generation, and institutional memory.</p>
-      <span class="inline-flex items-center gap-1.5 rounded-full border border-white/40 px-3.5 py-1.5 text-xs font-semibold backdrop-blur-sm transition-all group-hover:bg-white/20" style="color: #ffffff;">
-        Explore AI
-        <svg class="size-3.5 transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-      </span>
-      <!-- Decorative shapes -->
-      <div class="absolute bottom-0 left-0 right-0 h-24 overflow-hidden" aria-hidden="true">
-        <div class="absolute -bottom-6 -right-6 size-32 rounded-full bg-white/[0.06]"></div>
-        <div class="absolute -bottom-4 left-8 size-24 rounded-full bg-white/[0.05]"></div>
-        <div class="absolute bottom-2 left-1/2 size-16 rounded-full bg-white/[0.08]"></div>
+    <!-- Card 2 — Explore AI features (blue) -->
+    <section class="flex">
+      <div class="w-full relative text-white overflow-hidden rounded-3xl flex shadow-lg">
+        <div class="w-full flex md:flex-col bg-gradient-to-br from-[#4C82A7] to-[#1d3f5c]">
+          <div class="sm:max-w-sm sm:flex-none md:w-auto md:flex-auto flex flex-col items-start relative z-10 p-6 xl:p-8">
+            <h2 class="text-xl font-semibold mb-2" style="color:#fff; text-shadow: 0 1px 3px rgba(0,0,0,0.3);">Explore AI features</h2>
+            <p class="font-medium mb-4 text-sm" style="color: rgba(255,255,255,0.85); text-shadow: 0 1px 2px rgba(0,0,0,0.2);">Discover how AI powers similar matching, quote generation, and institutional memory.</p>
+            <a class="mt-auto bg-white/20 hover:bg-white/30 transition-colors duration-200 rounded-xl font-semibold py-2 px-4 inline-flex text-sm no-underline" style="color:#fff;" href="/help/guides/ai-features/">Explore AI</a>
+          </div>
+          <div class="relative md:pl-6 xl:pl-8 hidden sm:block" aria-hidden="true">
+            <!-- SVG: Abstract brain/network -->
+            <svg viewBox="0 0 352 232" class="w-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Network nodes -->
+              <circle cx="176" cy="100" r="20" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" />
+              <circle cx="100" cy="60" r="14" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" />
+              <circle cx="260" cy="56" r="14" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" />
+              <circle cx="80" cy="140" r="12" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.18)" stroke-width="1.5" />
+              <circle cx="276" cy="136" r="12" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.18)" stroke-width="1.5" />
+              <circle cx="140" cy="176" r="10" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" />
+              <circle cx="220" cy="180" r="10" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" />
+              <circle cx="56" cy="96" r="8" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.12)" stroke-width="1" />
+              <circle cx="304" cy="92" r="8" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.12)" stroke-width="1" />
+              <!-- Connection lines -->
+              <line x1="176" y1="100" x2="100" y2="60" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" />
+              <line x1="176" y1="100" x2="260" y2="56" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" />
+              <line x1="176" y1="100" x2="80" y2="140" stroke="rgba(255,255,255,0.12)" stroke-width="1" />
+              <line x1="176" y1="100" x2="276" y2="136" stroke="rgba(255,255,255,0.12)" stroke-width="1" />
+              <line x1="176" y1="100" x2="140" y2="176" stroke="rgba(255,255,255,0.1)" stroke-width="1" />
+              <line x1="176" y1="100" x2="220" y2="180" stroke="rgba(255,255,255,0.1)" stroke-width="1" />
+              <line x1="100" y1="60" x2="56" y2="96" stroke="rgba(255,255,255,0.1)" stroke-width="1" />
+              <line x1="260" y1="56" x2="304" y2="92" stroke="rgba(255,255,255,0.1)" stroke-width="1" />
+              <line x1="80" y1="140" x2="140" y2="176" stroke="rgba(255,255,255,0.08)" stroke-width="1" />
+              <line x1="276" y1="136" x2="220" y2="180" stroke="rgba(255,255,255,0.08)" stroke-width="1" />
+              <line x1="100" y1="60" x2="80" y2="140" stroke="rgba(255,255,255,0.08)" stroke-width="1" />
+              <line x1="260" y1="56" x2="276" y2="136" stroke="rgba(255,255,255,0.08)" stroke-width="1" />
+              <!-- Sparkle shapes -->
+              <path d="M176 80 L178 88 L186 90 L178 92 L176 100 L174 92 L166 90 L174 88 Z" fill="rgba(255,255,255,0.3)" />
+              <path d="M120 40 L121 44 L125 45 L121 46 L120 50 L119 46 L115 45 L119 44 Z" fill="rgba(255,255,255,0.2)" />
+              <path d="M240 170 L241 174 L245 175 L241 176 L240 180 L239 176 L235 175 L239 174 Z" fill="rgba(255,255,255,0.2)" />
+              <!-- Center dot highlight -->
+              <circle cx="176" cy="100" r="5" fill="rgba(255,255,255,0.3)" />
+            </svg>
+          </div>
+        </div>
+        <div class="absolute bottom-0 left-0 right-0 h-20 hidden sm:block" style="background: linear-gradient(to top, #1d3f5c, transparent);" aria-hidden="true"></div>
       </div>
-    </a>
+    </section>
 
-    <!-- Card 3 — Screencasts (amber) -->
-    <div class="hero-card relative overflow-hidden rounded-2xl p-6 pb-28" style="background: linear-gradient(145deg, #e09a00 0%, #8B6100 100%);">
-      <svg class="size-10 mb-3" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><polygon points="10 8 16 12 10 16 10 8"/><line x1="2" y1="20" x2="22" y2="20"/></svg>
-      <h3 style="color: #ffffff; font-weight: 700;" class="text-lg mb-2">Watch the screencasts</h3>
-      <p style="color: rgba(255,255,255,0.9); text-shadow: 0 1px 3px rgba(0,0,0,0.3);" class="text-sm leading-relaxed mb-4">Learn more about Servantium directly from the team.</p>
-      <span class="inline-flex items-center gap-1.5 rounded-full border border-white/40 px-3.5 py-1.5 text-xs font-semibold backdrop-blur-sm cursor-default" style="color: rgba(255,255,255,0.7);">
-        Coming soon
-      </span>
-      <!-- Decorative shapes -->
-      <div class="absolute bottom-0 left-0 right-0 h-24 overflow-hidden" aria-hidden="true">
-        <div class="absolute -bottom-6 left-1/3 size-32 rounded-full bg-white/[0.08]"></div>
-        <div class="absolute -bottom-4 -right-4 size-28 rounded-full bg-white/[0.05]"></div>
-        <div class="absolute bottom-0 left-4 size-20 rounded-full bg-white/[0.06]"></div>
+    <!-- Card 3 — Watch the screencasts (amber) -->
+    <section class="flex">
+      <div class="w-full relative text-white overflow-hidden rounded-3xl flex shadow-lg">
+        <div class="w-full flex md:flex-col bg-gradient-to-br from-[#e09a00] to-[#8B6100]">
+          <div class="sm:max-w-sm sm:flex-none md:w-auto md:flex-auto flex flex-col items-start relative z-10 p-6 xl:p-8">
+            <h2 class="text-xl font-semibold mb-2" style="color:#fff; text-shadow: 0 1px 3px rgba(0,0,0,0.3);">Watch the screencasts</h2>
+            <p class="font-medium mb-4 text-sm" style="color: rgba(255,255,255,0.85); text-shadow: 0 1px 2px rgba(0,0,0,0.2);">Learn more about Servantium directly from the team.</p>
+            <span class="mt-auto bg-white/20 rounded-xl font-semibold py-2 px-4 inline-flex text-sm opacity-50 cursor-default" style="color:#fff;">Coming soon</span>
+          </div>
+          <div class="relative md:pl-6 xl:pl-8 hidden sm:block" aria-hidden="true">
+            <!-- SVG: Abstract video player -->
+            <svg viewBox="0 0 352 232" class="w-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Main video player -->
+              <rect x="40" y="24" width="272" height="160" rx="12" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" />
+              <!-- Play button -->
+              <circle cx="176" cy="94" r="28" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" />
+              <polygon points="168,80 168,108 192,94" fill="rgba(255,255,255,0.3)" />
+              <!-- Progress bar background -->
+              <rect x="56" y="168" width="240" height="6" rx="3" fill="rgba(255,255,255,0.1)" />
+              <!-- Progress bar fill -->
+              <rect x="56" y="168" width="96" height="6" rx="3" fill="rgba(255,255,255,0.25)" />
+              <!-- Progress dot -->
+              <circle cx="152" cy="171" r="5" fill="rgba(255,255,255,0.35)" />
+              <!-- Thumbnail strip -->
+              <rect x="40" y="196" width="60" height="36" rx="6" fill="rgba(255,255,255,0.1)" />
+              <rect x="40" y="196" width="60" height="36" rx="6" stroke="rgba(255,255,255,0.2)" stroke-width="1" />
+              <!-- Thumbnail play icon -->
+              <polygon points="65,208 65,222 77,215" fill="rgba(255,255,255,0.2)" />
+              <rect x="110" y="196" width="60" height="36" rx="6" fill="rgba(255,255,255,0.08)" />
+              <polygon points="135,208 135,222 147,215" fill="rgba(255,255,255,0.15)" />
+              <rect x="180" y="196" width="60" height="36" rx="6" fill="rgba(255,255,255,0.08)" />
+              <polygon points="205,208 205,222 217,215" fill="rgba(255,255,255,0.15)" />
+              <rect x="250" y="196" width="60" height="36" rx="6" fill="rgba(255,255,255,0.06)" />
+              <polygon points="275,208 275,222 287,215" fill="rgba(255,255,255,0.12)" />
+            </svg>
+          </div>
+        </div>
+        <div class="absolute bottom-0 left-0 right-0 h-20 hidden sm:block" style="background: linear-gradient(to top, #8B6100, transparent);" aria-hidden="true"></div>
       </div>
-    </div>
+    </section>
 
   </div>
 
