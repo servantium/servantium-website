@@ -106,25 +106,25 @@ const jsonLd = [
           </p>
         </div>
         <div class="problem-stats">
-          <div class="stat-card">
+          <div class="stat-card" data-animate="fade-up" data-delay="0">
             <div class="stat-number">68.9%</div>
             <div class="stat-label">Billable Utilization</div>
             <div class="stat-description">Below the 75% threshold needed for healthy margins</div>
             <div class="stat-source"><a href="https://spiresearch.com/2025/03/18/the-truth-about-billable-utilization/" target="_blank">SPI Research 2025</a></div>
           </div>
-          <div class="stat-card">
+          <div class="stat-card" data-animate="fade-up" data-delay="150">
             <div class="stat-number">1 in 4</div>
             <div class="stat-label">Projects Delivered Late</div>
             <div class="stat-description">On-time delivery has fallen to 73.4%, the lowest in five years</div>
             <div class="stat-source"><a href="https://spiresearch.com/2025/02/12/the-18th-annual-professional-services-maturity-benchmark-report-is-out-now/" target="_blank">SPI Research 2025</a></div>
           </div>
-          <div class="stat-card">
+          <div class="stat-card" data-animate="fade-up" data-delay="300">
             <div class="stat-number">20%</div>
             <div class="stat-label">Hit Profit Margin Targets</div>
             <div class="stat-description">Only 1 in 5 firms consistently achieve their project profit goals</div>
             <div class="stat-source"><a href="https://spiresearch.com/2025/02/12/the-18th-annual-professional-services-maturity-benchmark-report-is-out-now/" target="_blank">SPI Research 2025</a></div>
           </div>
-          <div class="stat-card">
+          <div class="stat-card" data-animate="fade-up" data-delay="450">
             <div class="stat-number">-4.6%</div>
             <div class="stat-label">Revenue Growth Decline</div>
             <div class="stat-description">Year-over-year revenue growth has turned negative</div>
@@ -135,7 +135,7 @@ const jsonLd = [
     </div>
   </section>
 
-  <section class="core-concept" id="concept">
+  <section class="core-concept" id="concept" data-animate="fade-up">
     <div class="container">
       <div class="concept-header">
         <h2>Engagement Management for Professional Services</h2>
@@ -510,3 +510,42 @@ const jsonLd = [
   if (steps.length > 0) (steps[0] as HTMLElement).click();
 </script>
 <script is:inline src="/js/hero-mockup.js"></script>
+
+<!-- Scroll-triggered animations for homepage -->
+<script is:inline>
+  document.addEventListener('astro:page-load', function() {
+    var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var elements = document.querySelectorAll('[data-animate]');
+
+    if (prefersReduced) {
+      elements.forEach(function(el) {
+        el.style.opacity = '1';
+        el.style.transform = 'none';
+      });
+      return;
+    }
+
+    // Set initial hidden state
+    elements.forEach(function(el) {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(24px)';
+      el.style.transition = 'opacity 0.6s cubic-bezier(0.25,0.46,0.45,0.94), transform 0.6s cubic-bezier(0.16,1,0.3,1)';
+    });
+
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          var el = entry.target;
+          var delay = parseInt(el.getAttribute('data-delay') || '0');
+          setTimeout(function() {
+            el.style.opacity = '1';
+            el.style.transform = 'none';
+          }, delay);
+          observer.unobserve(el);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    elements.forEach(function(el) { observer.observe(el); });
+  });
+</script>
