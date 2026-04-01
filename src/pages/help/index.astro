@@ -32,47 +32,43 @@ const latestDate = latestRelease?.data.date
     Everything you need to get started with Servantium. Browse the documentation, watch tutorials, or check out what's new.
   </p>
 
-  <!-- Quick Links -->
+  <!-- Quick Links — colorful cards like Tailwind docs -->
   <h2 id="quick-links" class="sr-only">Quick Links</h2>
-  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
-    <a href="/help/quick-start/" class="group flex items-start gap-4 rounded-xl border border-[var(--color-cloud-grey)] p-5 transition-all duration-200 hover:border-[var(--color-green)] hover:shadow-md hover:-translate-y-0.5" style="transition-timing-function: var(--ease-out)">
-      <div class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-[var(--color-soft-mint)] text-[var(--color-green)]">
-        <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
-      </div>
-      <div>
-        <h3 class="text-sm font-semibold text-[var(--color-ink)] group-hover:text-[var(--color-green)] transition-colors">Documentation</h3>
-        <p class="mt-0.5 text-xs text-slate-500">Browse the complete guide</p>
-      </div>
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12 not-prose">
+    <!-- Documentation — Green -->
+    <a href="/help/quick-start/" class="group relative overflow-hidden rounded-xl p-6 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg bg-gradient-to-br from-[var(--color-green)] to-[var(--color-forest)] text-white no-underline" style="transition-timing-function: var(--ease-out)">
+      <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-8 translate-x-8" aria-hidden="true"></div>
+      <svg class="size-8 mb-3 opacity-90" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+      <h3 class="text-base font-bold text-white mb-1">Documentation</h3>
+      <p class="text-sm text-white/80 mb-3">Browse the complete guide to get started with Servantium.</p>
+      <span class="text-xs font-semibold text-white/90 group-hover:text-white transition-colors">Get started &rarr;</span>
     </a>
 
-    <a href="#" class="group flex items-start gap-4 rounded-xl border border-[var(--color-cloud-grey)] p-5 transition-all duration-200 hover:border-slate-300 hover:shadow-sm opacity-75">
-      <div class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-slate-50 text-slate-400">
-        <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
-      </div>
-      <div>
-        <h3 class="text-sm font-semibold text-slate-600">Video Tutorials</h3>
-        <p class="mt-0.5 text-xs text-slate-400">Coming soon</p>
-      </div>
+    <!-- Video Tutorials — Slate Blue -->
+    <div class="group relative overflow-hidden rounded-xl p-6 bg-gradient-to-br from-[var(--color-slate-blue)] to-[#3a6d8c] text-white opacity-80">
+      <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-8 translate-x-8" aria-hidden="true"></div>
+      <svg class="size-8 mb-3 opacity-90" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+      <h3 class="text-base font-bold text-white mb-1">Video Tutorials</h3>
+      <p class="text-sm text-white/70 mb-3">Watch screencasts to learn Servantium visually.</p>
+      <span class="inline-flex items-center gap-1.5 text-xs font-semibold bg-white/20 rounded-full px-2.5 py-0.5 text-white/90">Coming soon</span>
+    </div>
+
+    <!-- Release Notes — Amber -->
+    <a href="/help/release-notes/" class="group relative overflow-hidden rounded-xl p-6 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg bg-gradient-to-br from-[var(--color-amber)] to-[#e09a00] text-white no-underline" style="transition-timing-function: var(--ease-out)">
+      <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-8 translate-x-8" aria-hidden="true"></div>
+      <svg class="size-8 mb-3 opacity-90" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      <h3 class="text-base font-bold text-white mb-1">Release Notes</h3>
+      <p class="text-sm text-white/80 mb-3">See what's new, improved, and fixed in each release.</p>
+      <span class="text-xs font-semibold text-white/90 group-hover:text-white transition-colors">View changelog &rarr;</span>
     </a>
 
-    <a href="/help/release-notes/" class="group flex items-start gap-4 rounded-xl border border-[var(--color-cloud-grey)] p-5 transition-all duration-200 hover:border-[var(--color-green)] hover:shadow-md hover:-translate-y-0.5" style="transition-timing-function: var(--ease-out)">
-      <div class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-[var(--color-soft-mint)] text-[var(--color-green)]">
-        <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-      </div>
-      <div>
-        <h3 class="text-sm font-semibold text-[var(--color-ink)] group-hover:text-[var(--color-green)] transition-colors">Release Notes</h3>
-        <p class="mt-0.5 text-xs text-slate-500">See what's new</p>
-      </div>
-    </a>
-
-    <a href="/blog/" class="group flex items-start gap-4 rounded-xl border border-[var(--color-cloud-grey)] p-5 transition-all duration-200 hover:border-[var(--color-green)] hover:shadow-md hover:-translate-y-0.5" style="transition-timing-function: var(--ease-out)">
-      <div class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-[var(--color-soft-mint)] text-[var(--color-green)]">
-        <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
-      </div>
-      <div>
-        <h3 class="text-sm font-semibold text-[var(--color-ink)] group-hover:text-[var(--color-green)] transition-colors">Blog & Insights</h3>
-        <p class="mt-0.5 text-xs text-slate-500">Latest articles</p>
-      </div>
+    <!-- Blog — Deep Teal -->
+    <a href="/blog/" class="group relative overflow-hidden rounded-xl p-6 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg bg-gradient-to-br from-[var(--color-deep-teal)] to-[#1d8a7c] text-white no-underline" style="transition-timing-function: var(--ease-out)">
+      <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-8 translate-x-8" aria-hidden="true"></div>
+      <svg class="size-8 mb-3 opacity-90" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+      <h3 class="text-base font-bold text-white mb-1">Blog & Insights</h3>
+      <p class="text-sm text-white/80 mb-3">Strategy, operations, and services infrastructure articles.</p>
+      <span class="text-xs font-semibold text-white/90 group-hover:text-white transition-colors">Read articles &rarr;</span>
     </a>
   </div>
 

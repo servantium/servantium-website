@@ -179,10 +179,10 @@ const tocHeadings = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
         </article>
       </main>
 
-      <!-- Table of Contents (xl screens only) -->
+      <!-- Table of Contents (xl screens only, compact) -->
       {tocHeadings.length > 0 && (
-        <aside class="hidden xl:block w-[200px] shrink-0">
-          <div class="sticky top-[72px] h-[calc(100vh-72px)] overflow-y-auto overscroll-contain py-10 pr-4">
+        <aside class="hidden xl:block w-[180px] shrink-0 pl-4">
+          <div class="sticky top-[80px] max-h-[calc(100vh-100px)] overflow-y-auto overscroll-contain py-8">
             <TableOfContents headings={tocHeadings} />
           </div>
         </aside>

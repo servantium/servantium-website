@@ -131,10 +131,23 @@ const bubblePostsData = bubblePosts.map(p => ({
         <BubbleGrid posts={bubblePostsData} />
       </div>
 
-      {/* -- Post Count -- */}
-      <p class="text-sm text-[var(--color-ink-muted)] mb-6" id="blog-post-count">
-        {posts.length} {posts.length === 1 ? 'article' : 'articles'}
-      </p>
+      {/* -- Post Count + Sort -- */}
+      <div class="flex items-center justify-between mb-6">
+        <p class="text-sm text-[var(--color-ink-muted)]" id="blog-post-count">
+          {posts.length} {posts.length === 1 ? 'article' : 'articles'}
+        </p>
+        <div class="flex items-center gap-2">
+          <label for="blog-sort" class="text-xs text-[var(--color-ink-muted)]">Sort by:</label>
+          <select
+            id="blog-sort"
+            class="text-xs bg-white border border-[var(--color-cloud-grey)] rounded-lg px-2.5 py-1.5 text-[var(--color-ink-light)] focus:border-[var(--color-green)] focus:ring-1 focus:ring-[var(--color-green)] focus:outline-none cursor-pointer"
+          >
+            <option value="newest">Newest first</option>
+            <option value="oldest">Oldest first</option>
+            <option value="title">Title A-Z</option>
+          </select>
+        </div>
+      </div>
 
       {/* -- Card Grid (remaining posts) -- */}
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7" id="blog-grid">
