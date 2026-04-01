@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+
 interface BubblePost {
   title: string;
   description: string;
@@ -38,11 +40,12 @@ const { posts } = Astro.props;
         {/* Image — 40% width on sm+ */}
         {post.image && (
           <div class="relative overflow-hidden sm:w-[40%] shrink-0 aspect-[16/9] sm:aspect-auto">
-            <img
+            <Image
               src={post.image}
               alt={post.imageAlt || post.title}
+              width={640}
+              height={360}
               loading="lazy"
-              decoding="async"
               class="w-full h-full object-cover transition-transform duration-500 ease-[var(--ease-out)]
                      group-hover:scale-105"
             />

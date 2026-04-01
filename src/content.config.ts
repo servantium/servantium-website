@@ -49,7 +49,10 @@ const blog = defineCollection({
     title: z.string(),
     description: z.string(),
     date: z.string(),
-    author: z.string(), // Will become reference('authors') after author MDX files are created
+    // TODO: Change to reference('authors') when ready to refactor all blog components
+    // (BlogCard, FeaturedPost, BubbleGrid, blog listing, author pages, category pages, RSS feed).
+    // Author IDs (christopher-veale, maxwell-friel) already match entries in src/content/authors/.
+    author: z.string(),
     authorRole: z.string().optional(),
     category: z.string(),
     image: z.string().optional(),

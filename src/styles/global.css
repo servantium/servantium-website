@@ -1,49 +1,22 @@
 /* ===========================
    Global Styles — Servantium
-   Design tokens + base styles
+   Base styles + legacy aliases
+   Design tokens live in verdant.css (@theme block)
    =========================== */
 
 :root {
-    /* Servantium Official Colors */
-    --color-servantium-green: #00C26D;
-    --color-green-hover: #00A95E;
-    --color-deep-forest: #023E25;
-    --color-forest: #045F37;
-    --color-emerald: #037A47;
-    --color-fresh-green: #36D993;
-    --color-jade: #6FE7B0;
-    --color-light-jade: #A1EEC8;
-    --color-pale-green: #C8F5DE;
-    --color-soft-mint: #E8FBF1;
-    --color-mint-tint: #F3FCF8;
+    /* Legacy alias: maps old name to Verdant token */
+    --color-servantium-green: var(--color-green);
 
-    /* Accent Colors */
-    --color-coral: #FF5C70;
-    --color-slate-blue: #4C82A7;
-    --color-amber: #FFB02E;
-    --color-deep-teal: #26A899;
-    --color-slate: #64748B;
-
-    /* Neutrals */
-    --color-ink: #0D0D0D;
-    --color-ink-light: #3d3d3d;
-    --color-ink-muted: #6b6b6b;
-    --color-white: #FFFFFF;
-    --color-mist-grey: #F5F6F7;
-    --color-cloud-grey: #E1E3E6;
-
-    /* Typography */
-    --font-display: 'Playfair Display', Georgia, serif;
-    --font-body: 'Source Sans 3', -apple-system, BlinkMacSystemFont, sans-serif;
-
-    /* Spacing */
-    --space-xs: 0.5rem;
-    --space-sm: 1rem;
-    --space-md: 1.5rem;
-    --space-lg: 2.5rem;
-    --space-xl: 4rem;
-    --space-2xl: 6rem;
-    --space-3xl: 8rem;
+    /* Spacing aliases: map unprefixed names to Verdant --v-space-* tokens.
+       Used by home.css, Nav, Footer, and other non-Tailwind styles. */
+    --space-xs: var(--v-space-xs);
+    --space-sm: var(--v-space-sm);
+    --space-md: var(--v-space-md);
+    --space-lg: var(--v-space-lg);
+    --space-xl: var(--v-space-xl);
+    --space-2xl: var(--v-space-2xl);
+    --space-3xl: var(--v-space-3xl);
 }
 
 /* Reset moved to @layer to avoid overriding Tailwind utilities.

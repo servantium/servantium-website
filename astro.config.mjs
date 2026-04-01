@@ -29,6 +29,13 @@ export default defineConfig({
 
   site: 'https://servantium.com',
 
+  // ── Remote image optimization (Unsplash blog thumbnails) ──
+  image: {
+    remotePatterns: [
+      { protocol: 'https', hostname: 'images.unsplash.com' },
+    ],
+  },
+
   // ── Security ──
   security: {
     checkOrigin: true,
