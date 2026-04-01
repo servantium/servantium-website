@@ -3,6 +3,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import SEO from '@/components/SEO.astro';
 import '@/styles/home.css';
 import HeroMockup from '@/components/HeroMockup.astro';
+import CalBooker from '@/components/CalBooker.tsx';
 
 const jsonLd = [
   {
@@ -310,7 +311,9 @@ const jsonLd = [
             <h3>Schedule a Demo</h3>
             <p>Book an intro call to see Servantium in action</p>
           </div>
-          <div class="cal-embed-container" id="cal-inline-embed" style="min-height: 400px; max-height: 500px; overflow: auto;"></div>
+          <div class="cal-embed-container">
+            <CalBooker client:visible calLink="christopher-veale/servantium-introduction" />
+          </div>
         </div>
         <div class="cta-column" style="border-radius: 8px; padding: 1rem;">
           <div class="cta-column-header">
@@ -461,12 +464,7 @@ const jsonLd = [
     });
   });
 
-  // Cal.com inline embed for contact section
-  (window as any).Cal?.ns?.["servantium-introduction"]?.("inline", {
-    elementOrSelector: "#cal-inline-embed",
-    calLink: "christopher-veale/servantium-introduction",
-    config: {"layout":"month_view","useSlotsViewOnSmallScreen":"true","theme":"light"},
-  });
+  // Cal.com inline embed now handled by React CalBooker atom (client:visible)
 
   // Lifecycle interactive
   const steps = document.querySelectorAll('.lifecycle-step');
