@@ -9,25 +9,35 @@ const allDocs = await getCollection('docs');
 const featuredDocs = allDocs
   .filter((doc) => doc.data.featured === true);
 
+// Gradient palette for What's New cards
+const gradientPalette = [
+  'linear-gradient(135deg, #00C26D, #023E25)',       // green
+  'linear-gradient(135deg, #4C82A7, #1d3f5c)',       // blue
+  'linear-gradient(135deg, #26A899, #0f4f47)',       // teal
+  'linear-gradient(135deg, #e09a00, #8B6100)',       // amber
+  'linear-gradient(135deg, #FF5C70, #a8293a)',       // coral
+  'linear-gradient(135deg, #6366F1, #3730A3)',       // slate-blue
+  'linear-gradient(135deg, #059669, #064E3B)',       // forest
+  'linear-gradient(135deg, #10B981, #047857)',       // emerald
+];
+
 // Hardcoded defaults for What's New cards (used to fill remaining slots if < 8 featured)
 const defaultWhatsNew = [
-  { href: '/help/guides/engagements/', label: 'Engagement Workspace', icon: 'grid', color: 'var(--color-green)', bgColor: 'var(--color-mint-tint)' },
-  { href: '/help/guides/quotes-pricing/', label: 'AI Quote Generation', icon: 'sparkle', color: '#8B5CF6', bgColor: 'rgba(139,92,246,0.1)' },
-  { href: '/help/guides/ai-features/', label: 'Similar Matching', icon: 'search', color: '#4C82A7', bgColor: 'rgba(76,130,167,0.1)' },
-  { href: '/help/guides/resource-planning/', label: 'Resource Planning', icon: 'calendar', color: '#d49500', bgColor: 'rgba(255,176,46,0.1)' },
-  { href: '/help/guides/documents/', label: 'Document Generation', icon: 'doc', color: '#26A899', bgColor: 'rgba(38,168,153,0.1)' },
-  { href: '/help/guides/notes-ai/', label: 'Note Intelligence', icon: 'bulb', color: '#8B5CF6', bgColor: 'rgba(139,92,246,0.1)' },
-  { href: '/help/guides/quotes-pricing/', label: 'Service Catalog', icon: 'book', color: '#FF5C70', bgColor: 'rgba(255,92,112,0.1)' },
-  { href: '/help/guides/ai-features/', label: 'Institutional Memory', icon: 'database', color: 'var(--color-green)', bgColor: 'var(--color-mint-tint)' },
+  { href: '/help/guides/engagements/', label: 'Engagement Workspace', version: 'v1.0' },
+  { href: '/help/guides/quotes-pricing/', label: 'AI Quote Generation', version: 'v1.0' },
+  { href: '/help/guides/ai-features/', label: 'Similar Matching', version: 'v1.0' },
+  { href: '/help/guides/resource-planning/', label: 'Resource Planning', version: 'v1.0' },
+  { href: '/help/guides/documents/', label: 'Document Generation', version: 'v1.0' },
+  { href: '/help/guides/notes-ai/', label: 'Note Intelligence', version: 'v1.0' },
+  { href: '/help/guides/quotes-pricing/', label: 'Service Catalog', version: 'v1.0' },
+  { href: '/help/guides/ai-features/', label: 'Institutional Memory', version: 'v1.0' },
 ];
 
 // Build the What's New items: featured docs first, then fill with defaults
 const featuredItems = featuredDocs.map((doc) => ({
   href: `/help/${doc.id}/`,
   label: doc.data.featuredLabel || doc.data.title,
-  icon: doc.data.featuredIcon || null,
-  color: 'var(--color-green)',
-  bgColor: 'var(--color-mint-tint)',
+  version: 'v1.0',
   fromDoc: true,
 }));
 
@@ -66,7 +76,7 @@ const releaseNotes = allDocs
   <!-- ═══════════════════════════════════════════════════
        SECTION 3: Three colorful hero cards (Tailwind v2 docs style)
        ═══════════════════════════════════════════════════ -->
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 xl:gap-8 not-prose mb-8">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 not-prose mt-2 mb-2">
 
     <!-- Card 1 — Read the docs (green) -->
     <section class="flex min-h-[280px]">
@@ -211,26 +221,17 @@ const releaseNotes = allDocs
   <!-- ═══════════════════════════════════════════════════
        SECTION 4: "What's new in Servantium" feature cards
        ═══════════════════════════════════════════════════ -->
-  <div class="not-prose mb-8">
+  <div class="not-prose mb-6">
     <h2 id="whats-new" class="font-display text-[1.35rem] font-semibold leading-tight tracking-tight text-[var(--color-ink)] mb-4 scroll-mt-24">
       What's new in Servantium
     </h2>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 
-      {whatsNewItems.map((item) => (
-        <a href={item.href} class="feature-card group flex items-start gap-3 rounded-xl border border-[var(--color-cloud-grey)] p-4 no-underline transition-all duration-200 hover:border-[var(--color-green)] hover:shadow-sm [text-decoration:none]">
-          <span class="flex size-9 shrink-0 items-center justify-center rounded-lg" style={`background: ${item.bgColor};`}>
-            <svg class="size-[18px]" style={`color: ${item.color};`} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
-            </svg>
-          </span>
-          <div class="min-w-0">
-            <div class="flex items-center gap-2 mb-0.5">
-              <span class="text-sm font-semibold text-[var(--color-ink)] group-hover:text-[var(--color-green)] transition-colors no-underline [text-decoration:none]">{item.label}</span>
-            </div>
-            <span class="inline-flex items-center rounded-full bg-[var(--color-soft-mint)] px-2 py-0.5 text-[10px] font-semibold text-[var(--color-green)]">v1.0+</span>
-          </div>
+      {whatsNewItems.map((item, i) => (
+        <a href={item.href} class="group rounded-xl p-4 no-underline [text-decoration:none] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg" style={`background: ${gradientPalette[i % gradientPalette.length]};`}>
+          <span class="block text-sm font-bold text-white [text-decoration:none]">{item.label}</span>
+          <span class="block text-xs mt-1" style="color: rgba(255,255,255,0.7);">{item.version}</span>
         </a>
       ))}
 
@@ -241,7 +242,7 @@ const releaseNotes = allDocs
        SECTION 5: Latest Updates timeline
        ═══════════════════════════════════════════════════ -->
   <div class="not-prose">
-    <div class="flex items-center justify-between mb-6">
+    <div class="flex items-center justify-between mb-4">
       <h2 id="latest-updates" class="font-display text-[1.35rem] font-semibold leading-tight tracking-tight text-[var(--color-ink)] scroll-mt-24">
         Latest Updates
       </h2>

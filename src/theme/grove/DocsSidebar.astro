@@ -103,7 +103,7 @@ function getAutogenerateEntries(directory: string) {
               return (
                 <li>
                   <a
-                    href={`/help/${item.slug}/`}
+                    href={item.slug === '' ? '/help/' : `/help/${item.slug}/`}
                     class:list={[
                       'block rounded-r-md border-l-2 py-1.5 pl-4 pr-2 text-sm leading-snug transition-colors duration-100',
                       active

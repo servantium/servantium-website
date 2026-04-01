@@ -22,7 +22,7 @@ export const docsNav: DocsNavSection[] = [
   {
     label: 'Getting Started',
     items: [
-      { label: 'Welcome', slug: 'getting-started' },
+      { label: 'Home', slug: '' },
       { label: 'Quick Start', slug: 'quick-start' },
       { label: 'Key Concepts', slug: 'key-concepts' },
     ],

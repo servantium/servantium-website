@@ -1,6 +1,18 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import SEO from '@/components/SEO.astro';
+
+const sections = [
+  { id: 'acceptance-of-terms', title: '1. Acceptance of Terms' },
+  { id: 'description-of-service', title: '2. Description of Service' },
+  { id: 'user-responsibilities', title: '3. User Responsibilities' },
+  { id: 'subscription-billing', title: '4. Subscription & Billing' },
+  { id: 'intellectual-property', title: '5. Intellectual Property' },
+  { id: 'termination', title: '6. Termination' },
+  { id: 'modifications-to-terms', title: '7. Modifications to Terms' },
+  { id: 'limitation-of-liability', title: '8. Limitation of Liability' },
+  { id: 'contact', title: '9. Contact' },
+];
 ---
 
 <BaseLayout>
@@ -11,127 +23,214 @@ import SEO from '@/components/SEO.astro';
     ogType="website"
   />
 
-  <header class="legal-header">
-    <div class="container">
-      <h1>Terms of Service</h1>
-      <p>Last updated: March 2026</p>
+  <!-- Hero header -->
+  <header class="legal-hero">
+    <div class="legal-hero-inner">
+      <h1 class="legal-hero-title">Terms of Service</h1>
+      <div class="legal-hero-meta">
+        <span>Last updated: March 2026</span>
+        <span class="legal-meta-dot">&middot;</span>
+        <span>Version 1.0</span>
+      </div>
     </div>
   </header>
 
-  <div class="legal-content">
-    <div class="container">
-      <div class="placeholder-notice">
-        <p>These Terms of Service are currently under legal review and will be updated prior to general availability.</p>
-        <p>For questions, please contact us at <a href="mailto:hello@servantium.com">hello@servantium.com</a></p>
+  <div class="legal-body">
+    <div class="legal-container">
+      <!-- Table of Contents -->
+      <nav class="legal-toc" aria-label="Table of contents">
+        <h2 class="legal-toc-heading">Contents</h2>
+        <ol class="legal-toc-list">
+          {sections.map((s) => (
+            <li><a href={`#${s.id}`}>{s.title}</a></li>
+          ))}
+        </ol>
+      </nav>
+
+      <!-- Content -->
+      <div class="legal-prose">
+        <div class="legal-notice">
+          <p>These Terms of Service are currently under legal review and will be updated prior to general availability.</p>
+          <p>For questions, please contact us at <a href="mailto:hello@servantium.com">hello@servantium.com</a></p>
+        </div>
+
+        <h2 id="acceptance-of-terms">1. Acceptance of Terms</h2>
+        <p>By accessing or using Servantium's services, you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our services.</p>
+
+        <h2 id="description-of-service">2. Description of Service</h2>
+        <p>Servantium provides a software platform for professional services businesses to manage their engagements, pricing, proposals, and delivery operations. The platform includes tools for configure-price-quote (CPQ), resource management, collaboration, and engagement intelligence.</p>
+
+        <h2 id="user-responsibilities">3. User Responsibilities</h2>
+        <p>As a user of our services, you agree to:</p>
+        <ul>
+          <li>Provide accurate and complete information</li>
+          <li>Maintain the security of your account credentials</li>
+          <li>Use the services in compliance with applicable laws</li>
+          <li>Not interfere with the operation of our services</li>
+        </ul>
+
+        <h2 id="subscription-billing">4. Subscription & Billing</h2>
+        <p>Access to Servantium is provided on a subscription basis. Subscription tiers, pricing, and included features are described on our website and may be updated from time to time. Payment terms, billing cycles, and applicable taxes will be outlined in your subscription agreement.</p>
+
+        <h2 id="intellectual-property">5. Intellectual Property</h2>
+        <p>All content, features, and functionality of our services are owned by Servantium Inc. and are protected by intellectual property laws. Your data remains your own — Servantium does not claim ownership of any content you upload or create within the platform.</p>
+
+        <h2 id="termination">6. Termination</h2>
+        <p>Either party may terminate the subscription in accordance with the terms of the applicable agreement. Upon termination, your access to the platform will be revoked. You may request an export of your data within 30 days of termination.</p>
+
+        <h2 id="modifications-to-terms">7. Modifications to Terms</h2>
+        <p>Servantium reserves the right to modify these Terms of Service at any time. Material changes will be communicated via email or through the platform with reasonable advance notice. Continued use of the service after changes take effect constitutes acceptance of the revised terms.</p>
+
+        <h2 id="limitation-of-liability">8. Limitation of Liability</h2>
+        <p>Servantium shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use of our services.</p>
+
+        <h2 id="contact">9. Contact</h2>
+        <p>Questions about these Terms of Service should be directed to <a href="mailto:hello@servantium.com">hello@servantium.com</a></p>
       </div>
 
-      <h2>1. Acceptance of Terms</h2>
-      <p>By accessing or using Servantium's services, you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our services.</p>
-
-      <h2>2. Description of Service</h2>
-      <p>Servantium provides a software platform for professional services businesses to manage their engagements, pricing, proposals, and delivery operations. The platform includes tools for configure-price-quote (CPQ), resource management, collaboration, and engagement intelligence.</p>
-
-      <h2>3. User Responsibilities</h2>
-      <p>As a user of our services, you agree to:</p>
-      <ul>
-        <li>Provide accurate and complete information</li>
-        <li>Maintain the security of your account credentials</li>
-        <li>Use the services in compliance with applicable laws</li>
-        <li>Not interfere with the operation of our services</li>
-      </ul>
-
-      <h2>4. Subscription & Billing</h2>
-      <p>Access to Servantium is provided on a subscription basis. Subscription tiers, pricing, and included features are described on our website and may be updated from time to time. Payment terms, billing cycles, and applicable taxes will be outlined in your subscription agreement.</p>
-
-      <h2>5. Intellectual Property</h2>
-      <p>All content, features, and functionality of our services are owned by Servantium Inc. and are protected by intellectual property laws. Your data remains your own — Servantium does not claim ownership of any content you upload or create within the platform.</p>
-
-      <h2>6. Termination</h2>
-      <p>Either party may terminate the subscription in accordance with the terms of the applicable agreement. Upon termination, your access to the platform will be revoked. You may request an export of your data within 30 days of termination.</p>
-
-      <h2>7. Modifications to Terms</h2>
-      <p>Servantium reserves the right to modify these Terms of Service at any time. Material changes will be communicated via email or through the platform with reasonable advance notice. Continued use of the service after changes take effect constitutes acceptance of the revised terms.</p>
-
-      <h2>8. Limitation of Liability</h2>
-      <p>Servantium shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use of our services.</p>
-
-      <h2>9. Contact</h2>
-      <p>Questions about these Terms of Service should be directed to <a href="mailto:hello@servantium.com">hello@servantium.com</a></p>
+      <!-- Footer meta -->
+      <div class="legal-footer-meta">
+        <p>Last updated: March 2026</p>
+        <p>Version: 1.0</p>
+      </div>
     </div>
   </div>
 </BaseLayout>
 
 <style>
-  :root {
-    --color-servantium-green: #00C26D;
-    --color-green-hover: #00A95E;
-    --color-ink: #0D0D0D;
-    --color-ink-light: #3d3d3d;
-    --color-ink-muted: #6b6b6b;
-    --color-white: #FFFFFF;
-    --color-mist-grey: #F5F6F7;
-    --color-cloud-grey: #E1E3E6;
-    --font-display: 'Playfair Display', Georgia, serif;
-    --font-body: 'Source Sans 3', -apple-system, BlinkMacSystemFont, sans-serif;
+  .legal-hero {
+    padding: 7rem 0 3rem;
+    background: var(--color-mist-grey, #F5F6F7);
+    border-bottom: 1px solid var(--color-cloud-grey, #E1E3E6);
+  }
+  .legal-hero-inner {
+    max-width: 48rem;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+  .legal-hero-title {
+    font-family: var(--font-display, 'Playfair Display', Georgia, serif);
+    font-size: 2.75rem;
+    font-weight: 600;
+    color: var(--color-ink, #0D0D0D);
+    margin: 0 0 0.75rem;
+    line-height: 1.15;
+  }
+  .legal-hero-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--color-ink-muted, #6b6b6b);
+  }
+  .legal-meta-dot {
+    opacity: 0.5;
   }
 
-  .legal-header {
-    padding: 6rem 0 3rem;
-    background: var(--color-mist-grey);
-  }
-
-  .legal-header h1 {
-    font-family: var(--font-display);
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .legal-header p {
-    color: var(--color-ink-muted);
-  }
-
-  .legal-content {
+  .legal-body {
     padding: 3rem 0 6rem;
   }
-
-  .legal-content h2 {
-    font-family: var(--font-display);
-    font-size: 1.5rem;
-    margin: 2.5rem 0 1rem;
+  .legal-container {
+    max-width: 48rem;
+    margin: 0 auto;
+    padding: 0 1.5rem;
   }
 
-  .legal-content p {
-    margin-bottom: 1rem;
-    color: var(--color-ink-light);
+  /* Table of Contents */
+  .legal-toc {
+    background: var(--color-mist-grey, #F5F6F7);
+    border: 1px solid var(--color-cloud-grey, #E1E3E6);
+    border-radius: 12px;
+    padding: 1.5rem 2rem;
+    margin-bottom: 2.5rem;
+  }
+  .legal-toc-heading {
+    font-family: var(--font-body, 'Source Sans 3', sans-serif);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-ink-muted, #6b6b6b);
+    margin: 0 0 0.75rem;
+  }
+  .legal-toc-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    counter-reset: toc-counter;
+  }
+  .legal-toc-list li {
+    margin-bottom: 0.4rem;
+  }
+  .legal-toc-list a {
+    color: var(--color-ink-light, #3d3d3d);
+    text-decoration: none;
+    font-size: 0.9375rem;
+    transition: color 0.15s;
+  }
+  .legal-toc-list a:hover {
+    color: var(--color-servantium-green, #00C26D);
   }
 
-  .legal-content ul {
-    margin: 1rem 0 1rem 1.5rem;
-    color: var(--color-ink-light);
-  }
-
-  .legal-content li {
-    margin-bottom: 0.5rem;
-  }
-
-  .legal-content a {
-    color: var(--color-servantium-green);
-  }
-
-  .placeholder-notice {
-    background: var(--color-mist-grey);
-    padding: 2rem;
+  /* Notice box */
+  .legal-notice {
+    background: var(--color-mist-grey, #F5F6F7);
+    padding: 1.5rem 2rem;
     border-radius: 12px;
     text-align: center;
-    margin: 2rem 0;
+    margin: 0 0 2rem;
+    border: 1px solid var(--color-cloud-grey, #E1E3E6);
+  }
+  .legal-notice p {
+    color: var(--color-ink-muted, #6b6b6b);
+    margin-bottom: 0.75rem;
+    font-size: 0.9375rem;
+  }
+  .legal-notice p:last-child {
+    margin-bottom: 0;
   }
 
-  .placeholder-notice p {
-    color: var(--color-ink-muted);
+  /* Prose content */
+  .legal-prose h2 {
+    font-family: var(--font-display, 'Playfair Display', Georgia, serif);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-ink, #0D0D0D);
+    margin: 2.5rem 0 1rem;
+    scroll-margin-top: 6rem;
+  }
+  .legal-prose p {
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    color: var(--color-ink-light, #3d3d3d);
     margin-bottom: 1rem;
   }
+  .legal-prose ul {
+    margin: 1rem 0 1.25rem 1.5rem;
+    color: var(--color-ink-light, #3d3d3d);
+  }
+  .legal-prose li {
+    margin-bottom: 0.5rem;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+  }
+  .legal-prose a {
+    color: var(--color-servantium-green, #00C26D);
+    text-decoration: none;
+  }
+  .legal-prose a:hover {
+    text-decoration: underline;
+  }
 
-  .placeholder-notice a {
-    color: var(--color-servantium-green);
+  /* Footer meta */
+  .legal-footer-meta {
+    margin-top: 4rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-cloud-grey, #E1E3E6);
+  }
+  .legal-footer-meta p {
+    font-size: 0.8125rem;
+    color: var(--color-ink-muted, #6b6b6b);
+    margin: 0 0 0.25rem;
   }
 </style>
