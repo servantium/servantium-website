@@ -1583,8 +1583,6 @@
             color: var(--color-ink);
             display: flex;
             flex-direction: column;
-            max-height: 580px;
-            overflow: hidden;
         }
 
         .cta-column-header {
@@ -1607,8 +1605,7 @@
         .cal-embed-container {
             width: 100%;
             min-height: 380px;
-            max-height: 450px;
-            overflow: hidden;
+            overflow: auto;
         }
 
         @media (max-width: 900px) {

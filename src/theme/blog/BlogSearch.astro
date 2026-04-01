@@ -36,10 +36,11 @@
 </div>
 
 <script is:inline>
-  document.addEventListener('astro:page-load', () => {
+  function initBlogSearch() {
     const trigger = document.getElementById('blog-search-trigger');
     const container = document.getElementById('blog-search-container');
     const pagefindEl = document.getElementById('blog-search-pagefind');
+    if (!trigger || !container || !pagefindEl) return;
     let pagefindLoaded = false;
 
     async function openSearch() {
@@ -96,7 +97,13 @@
         }
       }
     });
-  });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initBlogSearch);
+  } else {
+    initBlogSearch();
+  }
+  document.addEventListener('astro:page-load', initBlogSearch);
 </script>
 
 <style is:global>

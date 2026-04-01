@@ -98,7 +98,7 @@ const jsonLd = [
   <section class="problem" id="problem">
     <div class="container">
       <div class="problem-content">
-        <div class="problem-header">
+        <div class="problem-header" data-animate="fade-up">
           <h2>The Problem</h2>
           <p>
             Services businesses are fundamentally disadvantaged because their offerings are
@@ -513,9 +513,10 @@ const jsonLd = [
 
 <!-- Scroll-triggered animations for homepage -->
 <script is:inline>
-  document.addEventListener('astro:page-load', function() {
+  function initScrollAnimations() {
     var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var elements = document.querySelectorAll('[data-animate]');
+    if (elements.length === 0) return;
 
     if (prefersReduced) {
       elements.forEach(function(el) {
@@ -547,5 +548,12 @@ const jsonLd = [
     }, { threshold: 0.15 });
 
     elements.forEach(function(el) { observer.observe(el); });
-  });
+  }
+  // Fire on both DOMContentLoaded (dev) and astro:page-load (production with View Transitions)
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initScrollAnimations);
+  } else {
+    initScrollAnimations();
+  }
+  document.addEventListener('astro:page-load', initScrollAnimations);
 </script>
