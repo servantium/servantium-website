@@ -3,44 +3,103 @@ title: Documents & Proposals
 description: Generate Statements of Work and proposals directly from your engagement data.
 ---
 
+import { Aside, Steps } from '@/theme/grove/components';
+
+Servantium generates client-ready documents from your engagement data. Scope, pricing, deliverables, and team information flow directly from your quotes and engagement details into professional PDFs -- no copy-pasting between tools.
+
 ## Generating a document
 
-Servantium creates documents from your engagement's structured data — scope, pricing, deliverables, and timeline all flow from the quote.
+<Steps>
 
-1. Navigate to the **Documents** tab within your engagement.
-2. Click **Generate SOW** (or choose another document type).
-3. Review the generated preview — it includes project overview, deliverables, timeline, and total investment.
-4. Edit any section directly in the preview.
-5. Export as **PDF** or share a link.
+1. Open an engagement and navigate to the **Quotes** tab. Select the quote you want to generate a document from.
 
-## What's in a generated SOW?
+2. Click the **Generate Document** button (pen icon) in the quote toolbar.
 
-| Section | Content source |
-|---------|---------------|
-| **Project Overview** | Engagement description and client details |
-| **Deliverables & Timeline** | Quote groups mapped to phases with durations |
-| **Investment Summary** | Quote totals broken down by phase |
-| **Team & Resources** | Assigned resources from the resource plan |
-| **Terms & Assumptions** | Configurable per engagement type |
+3. A dialog appears showing available **document templates**. These are the templates configured for your organization (and optionally filtered by organization type). Select the template you want to use.
 
-> **Tip:** Documents are **living**. When you update the quote or resource plan, regenerate the SOW to reflect the latest scope. No manual copy-paste required.
+4. Servantium merges your engagement data with the template using Adobe Document Generation Services. The merge data includes:
+   - **Quote** -- All sections, line items, costs, markups, and totals
+   - **Engagement** -- Name, account, contact, template fields, and custom data
+   - **Organization** -- Company name, address, and other org details
+   - **Profile** -- The current user's information
+
+5. The generated PDF is stored in Firebase Storage and added to the engagement's **Documents** tab.
+
+</Steps>
+
+<Aside type="tip">
+Documents are generated from a specific quote. If your engagement has multiple quotes (e.g., different options or phases), generate a separate document for each.
+</Aside>
+
+## Viewing documents
+
+Navigate to the **Documents** tab within an engagement to see all generated documents. Click any document to open it in the built-in PDF viewer.
+
+Each document record stores:
+
+| Field | Description |
+|-------|-------------|
+| **Name** | The document filename (derived from the quote name) |
+| **Location** | The storage path in Firebase Storage |
+| **Last Modified** | When the document was generated |
 
 ## Document templates
 
-Customize the structure and language of your generated documents with templates. Control:
+Document templates define the structure and formatting of your generated output. They are managed in **Settings > Document Templates**.
 
-- Section order and headings
-- Standard terms and conditions
-- Branding and formatting
-- Which data fields appear in each section
+### Creating a document template
 
-## Export options
+<Steps>
 
-- **PDF** — Polished, client-ready document
-- **Shareable link** — View-only link for client review
-- **DOCX** — Editable Word document (coming soon)
+1. Go to **Settings** and navigate to the **Document Templates** tab.
+
+2. Click **Create** to add a new template.
+
+3. Enter a **title** for the template (e.g., "Standard SOW," "Executive Proposal").
+
+4. Upload the **template file**. This is a DOCX file with merge fields that correspond to your engagement data structure. Adobe Document Generation Services processes these merge fields during generation.
+
+</Steps>
+
+### Template merge fields
+
+Templates can reference any data from the merge payload:
+
+| Data source | Example fields |
+|-------------|----------------|
+| `quote.sections` | Section names, line items, quantities, costs, totals |
+| `quote.total` | Grand total for the quote |
+| `quote.cost` | Total internal cost |
+| `quote.markup` | Total markup amount |
+| `engagement.name` | Engagement name |
+| `engagement.data.*` | Any custom template field values |
+| `org.name` | Organization name |
+| `org.address` | Organization address |
+| `profile.email` | Current user's email |
+
+<Aside type="note">
+Document templates use Adobe Document Generation merge tag syntax. Refer to Adobe's documentation for advanced formatting options like tables, conditionals, and loops within your template DOCX files.
+</Aside>
+
+## What's in a typical SOW?
+
+A well-structured Statement of Work template typically includes:
+
+| Section | Content source |
+|---------|---------------|
+| **Project Overview** | Engagement name, description, and client details |
+| **Scope & Deliverables** | Quote sections mapped to delivery phases |
+| **Timeline** | Derived from engagement dates and resource plan |
+| **Investment Summary** | Quote totals broken down by section |
+| **Team** | Resource assignments from the resource plan |
+| **Terms & Assumptions** | Standard language from the template |
+
+## Regenerating documents
+
+Documents are snapshots -- they capture the state of your data at generation time. If you update your quote or engagement details, generate a new document to reflect the changes. Previous versions remain in the Documents tab for reference.
 
 ## What's next?
 
-- **[Quotes & Pricing](/help/guides/quotes-pricing)** — The data that feeds your documents
-- **[Notes & AI](/help/guides/notes-ai)** — Capture context that enriches your proposals
+- **[Quotes & Pricing](/help/guides/quotes-pricing)** -- The data that feeds your documents
+- **[Notes & AI](/help/guides/notes-ai)** -- Capture context that enriches your proposals
+- **[Settings & Administration](/help/guides/settings)** -- Manage document templates

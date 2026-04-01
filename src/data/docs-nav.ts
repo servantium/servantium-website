@@ -30,11 +30,25 @@ export const docsNav: DocsNavSection[] = [
   {
     label: 'Using Servantium',
     items: [
+      { label: 'Dashboard & Navigation', slug: 'guides/dashboard' },
       { label: 'Engagements', slug: 'guides/engagements' },
       { label: 'Quotes & Pricing', slug: 'guides/quotes-pricing' },
       { label: 'Resource Planning', slug: 'guides/resource-planning' },
       { label: 'Documents & Proposals', slug: 'guides/documents' },
       { label: 'Notes & AI', slug: 'guides/notes-ai' },
+      { label: 'Contacts & Accounts', slug: 'guides/contacts-accounts' },
+    ],
+  },
+  {
+    label: 'Intelligence',
+    items: [
+      { label: 'AI & Intelligence', slug: 'guides/ai-features' },
+    ],
+  },
+  {
+    label: 'Administration',
+    items: [
+      { label: 'Settings & Administration', slug: 'guides/settings' },
     ],
   },
   {

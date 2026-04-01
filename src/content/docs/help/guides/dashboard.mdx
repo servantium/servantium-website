@@ -1,0 +1,120 @@
+---
+title: Dashboard & Navigation
+description: Understand the Servantium dashboard, navigation structure, and how to find your way around.
+---
+
+import { Aside, Steps } from '@/theme/grove/components';
+
+The dashboard is your home screen in Servantium. It gives you a snapshot of your organization's engagement pipeline, recent activity, and quick access to the things that need your attention.
+
+## Dashboard overview
+
+The dashboard is divided into two main areas: **stat cards** at the top and **activity panels** below.
+
+### Stat cards
+
+Four summary cards appear across the top of the dashboard:
+
+| Card | What it shows |
+|------|---------------|
+| **Active Engagements** | Count of all engagements in your organization |
+| **Proposals** | Count of all quotes across engagements |
+| **Pipeline Value** | Sum of all quote totals (displayed as currency) |
+| **Due This Week** | Engagements with upcoming deadlines |
+
+### Active Engagements table
+
+The main panel shows a table of your active engagements with:
+
+| Column | Description |
+|--------|-------------|
+| **Engagement** | Engagement name (bold) |
+| **Client** | Linked account name (resolved from the account reference) |
+| **Status** | Color-coded status chip (Draft, Active, On Hold, etc.) |
+| **Last Modified** | Relative timestamp (e.g., "3 days ago," "Just now") |
+| **Value** | Sum of all quote totals for the engagement (currency formatted) |
+
+Click any row to navigate directly to that engagement's workspace.
+
+At the bottom of the table, a **"View all engagements"** link takes you to the full Engagements screen.
+
+### Activity sidebar
+
+On larger screens, a sidebar appears to the right of the engagement table with two activity feeds:
+
+**Recent Notes** -- The most recent notes across all engagements, sorted by date. Each entry shows a preview of the note text and when it was created. Click a note to navigate to its parent engagement with the Notes tab open.
+
+**Last Modified Engagements** -- Engagements sorted by last modification time. Provides a quick view of where work is happening across your organization.
+
+<Aside type="tip">
+On smaller screens, the activity feeds stack below the engagement table instead of appearing in a sidebar.
+</Aside>
+
+## Navigation structure
+
+Servantium uses a sidebar navigation on desktop and a bottom tab bar on mobile.
+
+### Desktop navigation
+
+The left sidebar contains five main sections:
+
+| Icon | Label | Screen index | Description |
+|------|-------|-------------|-------------|
+| Home | **Dashboard** | 0 | Overview and activity feeds |
+| Briefcase | **Engagements** | 1 | All engagements list and workspace |
+| Groups | **Clients** | 2 | Accounts and contacts |
+| Person | **Resources** | 3 | Resource management and capacity |
+| Gear | **Settings** | 6 | Organization configuration |
+
+The sidebar can be **collapsed** (icon-only, 72px wide) or **expanded** (icons with labels, 250px wide) by clicking the arrow button at the top.
+
+### Mobile navigation
+
+On screens narrower than 600px, the sidebar is replaced by a **bottom navigation bar** with the same five sections. A **floating action button** (+) in the bottom-right corner provides quick access to create a new engagement.
+
+### Top bar
+
+The top app bar contains:
+
+- **Servantium logo** (left) -- Always visible
+- **Create Engagement** button -- Quick action to start a new engagement (hidden on very small screens; use the floating action button instead)
+- **Help/Training** button -- Access the onboarding tutorial and help resources
+- **Profile menu** -- Account settings, organization switcher, and sign out
+
+## Quick actions
+
+### Creating an engagement
+
+The fastest path to create an engagement:
+
+<Steps>
+
+1. Click **Create Engagement** in the top bar (desktop) or the **+** floating action button (mobile).
+
+2. If engagement templates are configured, select a type. Otherwise, a blank engagement is created immediately.
+
+3. You are navigated to the Engagements screen with the new engagement open.
+
+</Steps>
+
+### Switching organizations
+
+If you belong to multiple organizations, use the **Profile menu** to switch between them. All data (engagements, accounts, resources, settings) is scoped to the current organization.
+
+## Responsive design
+
+Servantium adapts its layout based on screen width:
+
+| Width | Layout |
+|-------|--------|
+| **> 960px** | Dashboard with side-by-side table and activity feeds |
+| **600-960px** | Dashboard with stacked table and activity feeds |
+| **< 600px** | Mobile layout with bottom navigation and floating action button |
+
+The engagement workspace, quote editor, and resource planning grid all have their own responsive breakpoints to provide the best experience on any device.
+
+## What's next?
+
+- **[Engagements](/help/guides/engagements)** -- Dive into the engagement workspace
+- **[Quick Start](/help/quick-start)** -- Get up and running in under 10 minutes
+- **[Settings & Administration](/help/guides/settings)** -- Configure your organization

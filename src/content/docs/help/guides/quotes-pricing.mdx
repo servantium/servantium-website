@@ -5,60 +5,173 @@ description: Build structured, margin-aware quotes with groups, line items, and 
 
 import { Aside, Steps } from '@/theme/grove/components';
 
-## Building a quote
+Quotes are the financial backbone of an engagement. Each quote is a structured pricing breakdown with sections (groups), line items, and automatic margin calculations. An engagement can have multiple quotes -- for example, different options or phases.
 
-Navigate to the **Quotes** tab within any engagement to start pricing.
-
-### Adding groups
-
-Groups organize your quote into logical sections. Common patterns:
-
-- **By phase:** Discovery, Implementation, Training & Rollout
-- **By workstream:** Technical, Change Management, Project Management
-- **By deliverable:** Platform Setup, Data Migration, Custom Development
+## Creating a quote
 
 <Steps>
 
-1. Click **Add Group** in the quote toolbar.
-2. Name the group (e.g., "Discovery & Requirements").
-3. Add line items within the group.
+1. Open an engagement and navigate to the **Quotes** tab.
+
+2. Click **Create** to add a new quote.
+
+3. Enter a **title** for the quote (e.g., "Phase 1 -- Discovery & Implementation").
+
+4. Optionally select a **quote template** to pre-populate the quote with a standard structure. Templates are managed in Settings.
+
+5. Click **Create** to open the quote editor.
 
 </Steps>
 
-### Line item types
+## The quote editor
 
-| Type | Description | Example |
-|------|-------------|---------|
-| **Resource** | A person/role with hours, rate, and markup | "Lead Consultant — 40 hours @ $250" |
-| **Material** | A tangible cost (licenses, hardware, etc.) | "Training Materials — $3,500" |
-| **Fixed Fee** | A flat amount not tied to hours | "Project Management Fee — $10,000" |
+The quote editor has two layouts: a full spreadsheet-style view on desktop and a card-based view on mobile. Both show the same data.
 
-### Markup and margin
+### Quote sections (groups)
 
-Each line item and group can have its own **markup percentage**. Servantium calculates:
+Sections organize your quote into logical phases or workstreams. Each section has:
 
-- **Cost** — Your actual cost (hours × rate, or material cost)
-- **Markup** — Applied percentage on top of cost
-- **Total** — What the client pays
+- **Name** -- A descriptive label (e.g., "Discovery & Requirements")
+- **Line items** -- The individual resources or materials within the section
+- **Section totals** -- Automatically calculated cost, markup, and total for all items in the section
 
-The **estimate total bar** at the bottom shows aggregate cost, average markup, and total estimate across all groups.
+To add a section, click **Add Section** in the quote toolbar.
 
 <Aside type="tip">
-Set default markup percentages per engagement type. A standard implementation might default to 40% while a strategic advisory engagement defaults to 60%.
+Organize sections by delivery phase for clearest client communication. Common patterns: Discovery, Design, Implementation, Testing, Training, Go-Live Support.
 </Aside>
+
+### Line items
+
+Each line item within a section represents a specific cost. Line items have:
+
+| Field | Description |
+|-------|-------------|
+| **Name** | The item name (e.g., "Lead Consultant," "Software License") |
+| **Type** | Either **Resource** (a person/role) or **Material** (a tangible cost) |
+| **Quantity** | Number of units (hours for resources, count for materials) |
+| **Cost** | Per-unit cost (your internal rate) |
+| **Markup** | Percentage markup applied to cost |
+| **Discount** | Any discount applied to the item (see Discounts below) |
+| **Total** | Automatically calculated: (quantity x cost x (1 + markup)) - discount |
+
+### Adding line items
+
+<Steps>
+
+1. Click the **add** button within a section.
+
+2. Start typing the item name. Servantium's **autocomplete** searches your organization's Service Catalog (master item list) and suggests matching items with their default cost and markup values.
+
+3. Select a suggestion to pre-fill cost and markup, or enter values manually.
+
+4. Set the **quantity** (hours, units, etc.).
+
+5. Adjust **markup** if the default doesn't apply to this engagement.
+
+</Steps>
+
+<Aside type="tip">
+The autocomplete draws from your Service Catalog -- a master list of items that grows automatically as you create quotes. Every new item or updated cost in an active quote feeds back into the catalog through the Learning Catalog system.
+</Aside>
+
+## Margin calculations
+
+Servantium calculates margins at three levels:
+
+| Level | Calculation |
+|-------|-------------|
+| **Line item** | `total = quantity x cost x (1 + markup%) - discount` |
+| **Section** | Sum of all line item costs, markups, and totals within the section |
+| **Quote** | Aggregate across all sections: total cost, total markup, and grand total |
+
+The **estimate total bar** at the bottom of the quote editor shows:
+
+- **Total Cost** -- Your aggregate internal cost
+- **Total Markup** -- The dollar amount of markup across all items
+- **Grand Total** -- What the client pays
+
+Quote totals are recalculated automatically by a backend trigger whenever any quote field changes, ensuring accuracy across sections.
+
+## Discount system
+
+Servantium supports **quantity-based tiered discounts** that are applied automatically during quote total calculation.
+
+Discounts are configured in **Settings > Discounts** with:
+
+| Field | Description |
+|-------|-------------|
+| **Min** | Minimum quantity threshold for the discount to apply |
+| **Max** | Maximum quantity threshold |
+| **Discount** | The discount percentage or amount |
+| **Item** | Optionally restrict the discount to a specific item |
+
+When a line item's quantity falls within a discount tier's range, the discount is applied automatically to the item total.
 
 ## Quote templates
 
-For recurring engagement types, save a quote as a **template**. Templates encode:
+Quote templates save a standard quote structure that can be reused. Templates encode:
 
-- Standard group structure
-- Default line items and roles
-- Typical quantities and rates
-- Target markup percentages
+- Section names and ordering
+- Default line items within each section
+- Default costs and markup percentages
+- Formulas that evaluate dynamically against engagement data (e.g., `len(items) * 5`)
 
-When you create a new engagement from a template, the quote pre-populates — you adjust rather than build from scratch.
+### Creating a template
+
+Templates can be created in two ways:
+
+1. **From Settings** -- Go to **Settings > Quote Templates** and create one manually.
+2. **From an existing quote** -- Save any quote as a template to capture its current structure.
+
+### Using a template
+
+When creating a new quote, select a template from the **Template** dropdown. The template's sections and items are hydrated into the new quote. A backend trigger evaluates any formulas in the template against the engagement's data to calculate dynamic values.
+
+## AI-assisted quote generation
+
+Servantium can generate a complete quote using AI, based on your engagement's notes and similar past engagements.
+
+<Steps>
+
+1. Ensure the engagement has **notes** and/or a **template** assigned.
+
+2. Open a quote within the engagement.
+
+3. Click the **AI generate** button (sparkle icon) in the quote toolbar.
+
+4. Servantium's backend AI reads the engagement's notes, finds similar historical engagements, and consults the Service Catalog to build a detailed quote with appropriate sections, items, quantities, and pricing.
+
+5. Review the generated quote and adjust as needed.
+
+</Steps>
+
+The AI generation considers:
+
+- **Engagement notes** -- Context from client conversations
+- **Similar engagements** -- Pricing and scope from past comparable work
+- **Service Catalog** -- Your organization's standard items with current costs and markups
+
+<Aside type="caution">
+AI-generated quotes are a starting point. Always review the output for accuracy before sharing with clients. The AI improves over time as more engagements are completed and the Service Catalog grows.
+</Aside>
+
+## The Service Catalog (items)
+
+The Service Catalog is a master list of all resources and materials your organization uses in quotes. It lives in **Settings > Items** and contains:
+
+| Field | Description |
+|-------|-------------|
+| **Name** | Item name (e.g., "Senior Consultant") |
+| **Type** | Resource or Material |
+| **Cost** | Standard per-unit cost |
+| **Markup** | Default markup percentage |
+| **Status** | Active or inactive |
+
+The catalog is a **learning system**. When you create or modify items in quotes, a backend trigger automatically updates the catalog with new items or refreshed costs and markups. Over time, the catalog becomes a comprehensive, up-to-date reflection of your organization's pricing.
 
 ## What's next?
 
-- **[Documents & Proposals](/guides/documents)** — Generate SOWs from your quotes
-- **[Resource Planning](/guides/resource-planning)** — Staff the engagement based on your scoped work
+- **[Documents & Proposals](/help/guides/documents)** -- Generate SOWs from your quotes
+- **[Resource Planning](/help/guides/resource-planning)** -- Staff the engagement based on your scoped work
+- **[AI & Intelligence](/help/guides/ai-features)** -- How AI powers quote generation and pricing

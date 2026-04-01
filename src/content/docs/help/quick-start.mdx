@@ -21,33 +21,39 @@ import { Aside, Steps } from '@/theme/grove/components';
 
 <Steps>
 
-1. Click **Create Engagement** in the top bar.
+1. Click **Create Engagement** in the top bar (or the **+** button on mobile).
 
-2. Enter the **client name** and **engagement title** (e.g., "Acme Corp — CRM Implementation").
+2. If your organization has engagement templates configured, select a type. Otherwise, a blank engagement is created.
 
-3. Add basic details: expected timeline, engagement type, and any notes from your initial conversations.
+3. Update the **engagement name** on the Info tab (e.g., "Acme Corp -- CRM Implementation").
 
-4. Navigate to the **Quotes** tab to start building your pricing.
+4. Link an **account** (client company) and **contact**. You can create both inline if they don't exist yet.
+
+5. Add **notes** from your initial conversations. These notes power AI features later -- the more context, the better.
 
 </Steps>
 
 <Aside type="tip">
-Start with your most common engagement type. Once you've built one end-to-end, you'll have a template for future work.
+Start with your most common engagement type. Once you have built one end-to-end, you will have a pattern for future work.
 </Aside>
 
 ## Build a quote
 
-In the Quotes tab of your engagement:
+Navigate to the **Quotes** tab within your engagement:
 
 <Steps>
 
-1. Click **Add Group** to create a pricing section (e.g., "Discovery & Requirements").
+1. Click **Create** to add a new quote and give it a title.
 
-2. Add **line items** within each group — resources (people), materials, or fixed fees.
+2. Click **Add Section** to create a pricing group (e.g., "Discovery & Requirements").
 
-3. Set **quantities, costs, and markup** for each item. Servantium calculates totals automatically.
+3. Add **line items** within each section. Start typing the item name -- Servantium suggests items from your Service Catalog with default costs and markups.
 
-4. Review the **estimate total bar** at the bottom for a summary of cost, markup, and total.
+4. Set **quantities, costs, and markup** for each item. Totals calculate automatically.
+
+5. Review the **estimate total bar** at the bottom for a summary of cost, markup, and total.
+
+6. Or skip manual entry and click the **AI generate** button (sparkle icon) to have AI build the quote from your notes and similar past engagements.
 
 </Steps>
 
@@ -57,22 +63,27 @@ Once your quote is complete:
 
 <Steps>
 
-1. Navigate to the **Documents** tab.
+1. With your quote selected, click the **Generate Document** button (pen icon).
 
-2. Click **Generate SOW** to create a Statement of Work from your scoped engagement.
+2. Select a **document template** from the dialog.
 
-3. Review the generated document — it pulls scope, pricing, and deliverables directly from your quote.
+3. Servantium merges your engagement data, quote details, and organization information into a professional PDF.
 
-4. Export as PDF or share a link with your client.
+4. The generated document appears in the engagement's **Documents** tab. Click to view it in the built-in PDF viewer.
 
 </Steps>
 
 <Aside type="note">
-Proposals are living documents. When you update your quote, regenerating the SOW reflects the latest scope and pricing automatically.
+Documents are snapshots. When you update your quote, generate a new document to reflect the latest scope and pricing.
 </Aside>
 
 ## What's next?
 
-- **[Key Concepts](/key-concepts)** — Understand the engagement lifecycle and how Servantium's pieces fit together.
-- **[Quotes & Pricing](/guides/quotes-pricing)** — Deep dive into building accurate, margin-aware quotes.
-- **[Resource Planning](/guides/resource-planning)** — Assign people and track capacity across engagements.
+- **[Key Concepts](/help/key-concepts)** -- Understand the engagement lifecycle and how Servantium's pieces fit together.
+- **[Engagements](/help/guides/engagements)** -- Full guide to the engagement workspace and all its tabs.
+- **[Quotes & Pricing](/help/guides/quotes-pricing)** -- Deep dive into building accurate, margin-aware quotes.
+- **[Resource Planning](/help/guides/resource-planning)** -- Assign people and track capacity across engagements.
+- **[Notes & AI](/help/guides/notes-ai)** -- Capture context and let AI surface insights.
+- **[Dashboard & Navigation](/help/guides/dashboard)** -- Navigate the app and understand the dashboard.
+- **[AI & Intelligence](/help/guides/ai-features)** -- Overview of all AI capabilities.
+- **[Settings & Administration](/help/guides/settings)** -- Configure templates, catalog, tags, and more.

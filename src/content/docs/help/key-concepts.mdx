@@ -1,76 +1,121 @@
 ---
 title: Key Concepts
-description: Understand the core building blocks of Servantium — engagements, quotes, resources, and the lifecycle that connects them.
+description: Understand the core building blocks of Servantium -- engagements, quotes, resources, and the lifecycle that connects them.
 ---
 
 import { Aside } from '@/theme/grove/components';
 
-## The Engagement
+## The engagement
 
 The **engagement** is the core unit of work in Servantium. It represents every client project from the first conversation through delivery and close-out.
 
 An engagement captures:
-- **Client and stakeholder information**
-- **Scope and deliverables** (via quotes)
-- **Resource assignments and capacity**
-- **Notes and context** from every interaction
-- **Documents** generated from your scoped work
-- **Learning data** — what actually happened vs. what you estimated
+
+- **Client and stakeholder information** -- via linked accounts and contacts
+- **Scope and deliverables** -- via quotes with sections and line items
+- **Resource assignments and capacity** -- via resource plans
+- **Notes and context** -- from every client interaction
+- **Documents** -- generated from your scoped work
+- **Custom data** -- via configurable template fields
+- **Learning data** -- what actually happened vs. what you estimated
 
 <Aside type="tip">
 Think of an engagement as a living record that gets richer over time. It starts as a lead and evolves into your organization's memory of that project.
 </Aside>
 
-## The Engagement Lifecycle
+## The engagement lifecycle
 
 Every engagement flows through six phases:
 
 | Phase | What happens |
 |-------|-------------|
-| **Discovery** | Understand client needs, capture context |
-| **Estimation** | Build structured scope and pricing |
-| **Proposal** | Generate deliverables from your estimate |
-| **Activation** | Win the deal, assign the team |
-| **Delivery** | Execute with real-time visibility |
-| **Learning** | Capture outcomes, feed back into future estimates |
+| **Discovery** | Understand client needs, capture context in notes |
+| **Estimation** | Build structured scope and pricing in quotes |
+| **Proposal** | Generate documents from your estimate |
+| **Activation** | Win the deal, assign the team via resource plans |
+| **Delivery** | Execute with real-time visibility into resources and capacity |
+| **Learning** | Capture outcomes; feed back into future estimates via the Service Catalog |
 
-The key insight: **learning feeds back into discovery**. Each completed engagement makes your next estimate more accurate.
+The key insight: **learning feeds back into discovery**. Each completed engagement makes your next estimate more accurate through better similar matching, a richer Service Catalog, and stronger AI-generated quotes.
 
 ## Quotes
 
 A **quote** is a structured pricing breakdown within an engagement. Quotes are built from:
 
-- **Groups** — Sections like "Discovery & Requirements" or "Implementation"
-- **Line items** — Resources (people), materials, or fixed fees within each group
-- **Markup** — Applied per item or per group to reach your target margin
+- **Sections** -- Logical groupings like "Discovery & Requirements" or "Implementation"
+- **Line items** -- Individual resources (people/roles) or materials within each section
+- **Markup** -- Applied per item to reach your target margin
+- **Discounts** -- Quantity-based tiers applied automatically
 
-Quotes calculate **cost, markup percentage, and total estimate** automatically.
+Quotes calculate **cost, markup, discount, and total** automatically at the item, section, and quote level. See the [Quotes & Pricing guide](/help/guides/quotes-pricing) for full details.
 
 ## Resources
 
-**Resources** are your team members. Each resource has:
-- A **role** (Lead Consultant, Solution Architect, Developer, etc.)
-- A **cost rate** (your internal cost)
-- **Availability** across time periods (month, week, day)
+**Resources** are your team members and contractors. Each resource has:
 
-Resource planning shows you who's allocated where, highlights overallocation, and helps you staff engagements before they start.
+- A **name** and organizational **tags**
+- **Resource plans** -- assignments across engagements with hour allocations per time period
+- **Capacity records** -- available hours, target utilization, and projected utilization
+
+Resource planning operates at three intervals -- daily, weekly, or monthly -- configured at the organization level and overridable per plan. See the [Resource Planning guide](/help/guides/resource-planning) for full details.
+
+## Accounts and contacts
+
+**Accounts** represent client companies. **Contacts** represent people at those companies. Contacts belong to accounts, creating a simple CRM structure that links to engagements. See the [Contacts & Accounts guide](/help/guides/contacts-accounts) for full details.
 
 ## Documents
 
-Servantium generates **Statements of Work (SOWs)** and other documents directly from your engagement data. Scope, deliverables, timeline, and pricing flow from the quote — no copy-pasting between tools.
+Servantium generates **PDFs** directly from your engagement data using document templates. Scope, deliverables, timeline, and pricing flow from the quote into professional documents -- no copy-pasting between tools. See the [Documents guide](/help/guides/documents) for full details.
 
-## Notes & AI
+## Notes and AI
 
-**Notes** capture context from every client interaction. Servantium uses AI to:
-- Extract key entities (people, technologies, timelines, budgets)
-- Surface patterns across engagements
-- Improve estimate accuracy over time
+**Notes** capture context from every client interaction. They are the raw input that powers Servantium's intelligence layer:
 
-<Aside type="caution">
-AI in Servantium assists — it doesn't decide. Human judgment stays in control. Every AI suggestion can be reviewed and overridden.
+- **Vector embeddings** generated from notes enable semantic matching of similar engagements
+- **AI context extraction** turns unstructured notes into structured template field values
+- **AI quote generation** uses notes alongside similar engagements and the Service Catalog to build complete quotes
+
+See the [Notes & AI guide](/help/guides/notes-ai) for details on notes, and the [AI & Intelligence guide](/help/guides/ai-features) for the full AI overview.
+
+## The institutional memory engine
+
+All of these concepts connect through the **institutional memory engine** -- the system that makes your organization smarter with every engagement:
+
+1. **Notes** feed vector embeddings
+2. **Embeddings** power similar engagement matching
+3. **Similar engagements** inform AI quote generation
+4. **Quotes** feed the Learning Catalog with up-to-date costs and items
+5. **The catalog** improves future quotes and AI generation
+6. **Completed engagements** strengthen the cycle
+
+<Aside type="note">
+The institutional memory engine runs automatically. You do not need to configure or train it. Just use Servantium -- capture notes, build quotes, complete engagements -- and the system improves on its own.
 </Aside>
+
+## Templates
+
+Servantium uses three types of templates:
+
+| Template type | Purpose | Managed in |
+|---------------|---------|------------|
+| **Engagement templates** | Define custom fields for engagement types | Settings > Engagement Templates |
+| **Quote templates** | Pre-populate quotes with standard structure and items | Settings > Quote Templates |
+| **Document templates** | Define the format and merge fields for generated PDFs | Settings > Document Templates |
+
+See the [Settings guide](/help/guides/settings) for details on managing templates.
+
+## Tags
+
+**Tags** provide cross-cutting categorization for engagements, resources, accounts, and other objects. Tags are organized into color-coded categories managed in Settings. See the [Settings guide](/help/guides/settings) for details.
 
 ## What's next?
 
-- **[Engagements guide](/guides/engagements)** — Creating and managing engagements in detail
-- **[Quotes & Pricing](/guides/quotes-pricing)** — Building accurate, margin-aware quotes
+- **[Engagements](/help/guides/engagements)** -- Creating and managing engagements in detail
+- **[Quotes & Pricing](/help/guides/quotes-pricing)** -- Building accurate, margin-aware quotes
+- **[Resource Planning](/help/guides/resource-planning)** -- Assigning team members and tracking capacity
+- **[Documents & Proposals](/help/guides/documents)** -- Generating client-ready deliverables
+- **[Notes & AI](/help/guides/notes-ai)** -- Capturing context and AI-powered insights
+- **[Contacts & Accounts](/help/guides/contacts-accounts)** -- Managing client relationships
+- **[Dashboard & Navigation](/help/guides/dashboard)** -- Finding your way around the app
+- **[AI & Intelligence](/help/guides/ai-features)** -- All AI capabilities in one place
+- **[Settings & Administration](/help/guides/settings)** -- Configuring your organization

@@ -3,57 +3,122 @@ title: Engagements
 description: Create, manage, and track engagements from first conversation through delivery.
 ---
 
-import { Aside, Steps, Tabs } from '@/theme/grove/components';
+import { Aside, Steps } from '@/theme/grove/components';
+
+The **engagement** is the central unit of work in Servantium. Every client project lives inside an engagement, from the initial lead through delivery and close-out. Engagements hold your notes, quotes, documents, and resource plans in one place.
 
 ## Creating an engagement
 
 <Steps>
 
-1. Click **Create Engagement** in the top navigation bar.
-2. Enter the **client name** — select from existing contacts or create a new one.
-3. Give the engagement a **descriptive title** (e.g., "Acme Corp — Salesforce CRM Implementation").
-4. Set the **engagement type** and **expected timeline**.
-5. Click **Create** to open the engagement workspace.
+1. Click **Create Engagement** in the top navigation bar (or tap the **+** button on mobile).
+
+2. If your organization has **engagement templates** configured, a dialog appears asking you to select a type. Choose the template that best fits this project, or select **Start from Scratch** to create a blank engagement.
+
+3. The engagement is created with a default name of "New Engagement." Click into the **Info** tab to update the name, link an account and contact, and fill in any template-specific fields.
+
+4. Add **notes** from your discovery conversations. These notes power the AI features that help with similar matching and quote generation later.
 
 </Steps>
 
+<Aside type="tip">
+Start by adding notes before you build a quote. Servantium uses your notes to find similar past engagements and to generate AI-assisted quotes. The more context you provide, the better the results.
+</Aside>
+
 ## The engagement workspace
 
-Each engagement has tabs for different aspects of the project:
+When you open an engagement, you see a tabbed workspace. Tabs appear dynamically based on what data exists for the engagement.
 
-| Tab | Purpose |
-|-----|---------|
-| **Info** | Client details, engagement metadata, key dates |
-| **Similars** | Past engagements that match this one — for reference pricing and scope |
-| **Notes** | Meeting notes, client conversations, AI-extracted context |
-| **Quotes** | Structured pricing with groups, line items, and markup |
-| **Documents** | Generated SOWs, proposals, and other deliverables |
-| **Resource Plans** | Team assignments and capacity allocation |
+### Info tab
 
-## Using Similar Engagements
+The Info tab is always visible. It contains:
 
-When you create a new engagement, Servantium searches your history for similar past work using **semantic matching**. This surfaces:
+- **Name** -- The engagement's display name, visible in the dashboard and engagement list.
+- **Account** -- The client company. Select from existing accounts or create a new one inline.
+- **Contact** -- The primary contact at the client. Contacts belong to accounts, so select an account first.
+- **Type** -- The engagement template (if one was selected at creation). Changing the template updates the custom fields displayed below.
+- **AI Context Extraction** -- When a template is selected and notes exist, click the AI icon next to the Type dropdown to have AI read your notes and auto-fill the template fields.
+- **Custom fields** -- Template-driven fields that vary by engagement type. These can include text fields, chip selectors (single or multi-select), sliders, nested templates, and image selectors.
 
-- How you priced similar engagements
-- What resources were assigned
-- Where estimates were accurate (or not)
-- Delivery lessons from comparable projects
+### Similars tab
 
-<Aside type="tip">
-Similar engagements are one of Servantium's most powerful features. The more engagements you complete, the smarter your future estimates become.
-</Aside>
+The Similars tab appears once you have notes on the engagement. It shows past engagements that are semantically similar to the current one, found through vector search on note embeddings.
+
+Each similar engagement displays as a summary card with the engagement name, account, and key details. Use these to:
+
+- Reference how you priced comparable work
+- See what resources were assigned to similar projects
+- Learn from delivery outcomes on past engagements
+
+### Notes tab
+
+The Notes tab shows all notes attached to the engagement, sorted by date. Notes are the raw context from every client interaction. See the [Notes & AI guide](/help/guides/notes-ai) for full details.
+
+### Quotes tab
+
+The Quotes tab lists all quotes for this engagement. Click a quote to open the full quote editor. See the [Quotes & Pricing guide](/help/guides/quotes-pricing) for full details.
+
+### Documents tab
+
+The Documents tab lists all generated documents (PDFs). Click a document to view it in the built-in PDF viewer. See the [Documents guide](/help/guides/documents) for full details.
+
+### Resource Plans tab
+
+The Resource Plans tab shows staffing plans linked to this engagement. See the [Resource Planning guide](/help/guides/resource-planning) for full details.
 
 ## Engagement statuses
 
+Engagement status is tracked in the `data` field and displayed as a status chip throughout the app.
+
 | Status | Meaning |
 |--------|---------|
-| **Draft** | Work in progress, not yet sent to client |
+| **Draft** | Work in progress, not yet presented to client |
 | **Active** | Won and in delivery |
-| **On Hold** | Paused, will resume |
+| **On Hold** | Paused, will resume later |
 | **Completed** | Delivered and closed out |
 | **Lost** | Did not win the engagement |
 
+## Engagement templates
+
+Templates define the structure of an engagement type. They are managed in **Settings > Engagement Templates** and include:
+
+- **Name** -- A descriptive label (e.g., "Salesforce Implementation," "Staff Augmentation").
+- **Custom fields** -- A configurable set of fields that capture type-specific data. Field types include:
+  - **Text** -- Free-form text with configurable line count
+  - **Chip selector** -- Single or multi-select from predefined options
+  - **Slider** -- Numeric value within a min/max range
+  - **Nested template** -- Embeds another template's fields
+  - **Image selector** -- Choose from predefined image options
+
+Templates can also be generated or modified using AI. Provide natural language instructions describing the engagement type, and Servantium generates the field configuration.
+
+<Aside type="tip">
+When you select a template on an existing engagement, the custom fields appear immediately. You can switch templates at any time -- the engagement's data map stores all field values.
+</Aside>
+
+## Tags and organization
+
+Engagements support **tags** for cross-cutting categorization. Tags are organized into color-coded categories (managed in Settings) and can be applied to engagements, resources, quotes, and other objects.
+
+Use tags to filter and group engagements in the main engagement list -- for example, by industry, service line, or priority level.
+
+## The engagement list
+
+The main Engagements screen (accessible from the sidebar) shows a sortable, filterable table of all engagements in your organization. Columns include:
+
+| Column | Description |
+|--------|-------------|
+| **Engagement** | Name of the engagement |
+| **Client** | Linked account name |
+| **Status** | Current status chip |
+| **Last Modified** | Relative timestamp (e.g., "3 days ago") |
+| **Value** | Sum of all quote totals for this engagement |
+
+Click any row to open the engagement workspace.
+
 ## What's next?
 
-- **[Quotes & Pricing](/guides/quotes-pricing)** — Build structured pricing for your engagements
-- **[Notes & AI](/guides/notes-ai)** — Capture context and let AI surface insights
+- **[Quotes & Pricing](/help/guides/quotes-pricing)** -- Build structured pricing for your engagements
+- **[Notes & AI](/help/guides/notes-ai)** -- Capture context and let AI surface insights
+- **[Contacts & Accounts](/help/guides/contacts-accounts)** -- Manage client relationships
+- **[AI & Intelligence](/help/guides/ai-features)** -- Understand how AI powers the engagement lifecycle

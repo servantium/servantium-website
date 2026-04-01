@@ -3,49 +3,117 @@ title: Notes & AI
 description: Capture engagement context and let AI surface insights across your organization.
 ---
 
-import { Aside } from '@/theme/grove/components';
+import { Aside, Steps } from '@/theme/grove/components';
 
-## Engagement notes
+Notes are the connective tissue of Servantium. They capture the raw context from every client interaction and feed the AI systems that power similar engagement matching, quote generation, and the institutional memory engine.
 
-Notes capture the context from every client interaction — discovery calls, requirements sessions, stakeholder meetings, technical discussions. Each note is attached to an engagement and timestamped.
+## Creating notes
 
-### What makes notes powerful
+Notes are attached to engagements. Each note captures a single interaction or observation.
 
-Unlike meeting notes in a shared drive, Servantium notes are **structured and connected**:
+<Steps>
 
-- Attached to a specific engagement (not floating in a folder)
-- AI-analyzed for key entities (people, technologies, timelines, budgets)
-- Searchable across your organization
-- Used to match similar engagements and improve future estimates
+1. Open an engagement and navigate to the **Notes** tab.
 
-## AI capabilities
+2. Click **Create** to add a new note.
 
-Servantium uses AI to augment your team's expertise — not replace it.
+3. Enter the note text in the **Note** field. This is a free-form text area with up to 20 lines of visible space.
 
-### Entity extraction
+4. Optionally use the **speech-to-text** button (microphone icon) to dictate your note. Servantium uses the device's speech recognition to transcribe your voice in real time. Click the microphone to start, speak, and click again to stop. The transcribed text is appended to any existing content in the note field.
 
-As you write notes, AI identifies and highlights:
-- **People and roles** — Decision makers, stakeholders, technical contacts
-- **Technologies** — Systems, platforms, and tools mentioned
-- **Timelines and dates** — Deadlines, milestones, go-live targets
-- **Budget signals** — Budget ranges, approval processes, fiscal year constraints
+5. The **date** is set automatically to the current time.
 
-### Engagement intelligence
+6. Click **Create** to save the note.
 
-After delivery, AI analyzes the complete engagement record:
-- **Estimate accuracy** — How close was your quote to actual cost?
-- **Timeline variance** — Did delivery match planned duration?
-- **Pattern detection** — What factors predict project success or risk?
+</Steps>
 
-<Aside type="caution">
-AI insights are suggestions, not decisions. Every AI-generated recommendation includes the data it's based on so you can evaluate its reasoning. Human judgment stays in control.
+<Aside type="tip">
+Capture notes as soon as possible after a client conversation. The details you record -- technologies mentioned, budget signals, timeline constraints, decision-maker preferences -- become the fuel for Servantium's AI features.
 </Aside>
 
-### Semantic search
+## Managing notes
 
-Search across all engagement notes using natural language. Find relevant past work by describing what you're looking for, not by remembering exact keywords.
+The Notes tab displays all notes for an engagement as a chronological list. Each note card shows:
+
+- A preview of the note text (truncated to 20 characters for the display name)
+- The note date
+- Pin status
+
+### Pinning notes
+
+Important notes can be **pinned** to keep them visible at the top of the list. Pinned notes surface key context without scrolling through the full history.
+
+## Speech-to-text transcription
+
+Servantium includes built-in speech-to-text for hands-free note capture. This is especially useful for:
+
+- Recording observations during or immediately after a call
+- Capturing context while on the go (mobile app)
+- Quickly getting rough notes down that you can refine later
+
+The speech recognition:
+
+- Initializes automatically when the note form loads
+- Appends transcribed text to existing content (does not overwrite)
+- Updates in real time as you speak
+- Works on any device with microphone access (requires browser/OS permission)
+
+## How notes power AI
+
+Notes are far more than a record-keeping tool. They are the primary input for Servantium's intelligence layer.
+
+### Note embeddings
+
+When notes are saved, a backend trigger aggregates all notes for the engagement and generates a **vector embedding** -- a mathematical representation of the engagement's context. This embedding is stored on the engagement document and used for similarity search.
+
+The process:
+
+1. All notes for the engagement are collected and concatenated
+2. The combined text is sent to Google's Gemini Embedding model
+3. The resulting vector is stored as `notesEmbedding` on the engagement
+4. Firestore Vector Search indexes the embedding for fast similarity queries
+
+### AI context extraction
+
+When an engagement has both notes and a template assigned, you can click the **AI** button (sparkle icon) on the Info tab to have AI read your notes and automatically fill in the template fields.
+
+The AI:
+
+1. Reads the engagement template's field definitions (text fields, chip selectors, sliders, etc.)
+2. Reads all notes for the engagement
+3. Uses Gemini to extract relevant information from the notes and map it to template fields
+4. Returns structured JSON that populates the engagement's custom data fields
+
+This turns unstructured conversation notes into structured, queryable engagement data.
+
+<Aside type="caution">
+AI context extraction is a suggestion, not a commitment. Always review the auto-filled values. The AI uses your notes as its source, so the quality of extraction depends on the detail in your notes.
+</Aside>
+
+### Feeding similar engagement matching
+
+The note embeddings enable the **Similars** tab on engagements. When you view an engagement's Similars tab, Servantium calls a Cloud Function that performs a vector similarity search across all engagement embeddings in your organization. The most semantically similar engagements are returned, regardless of naming conventions or keyword overlap.
+
+This means an engagement about a "Salesforce CRM rollout" can match against a past "Customer Relationship Platform implementation" because the underlying context is similar -- even if the exact words differ.
+
+### Feeding AI quote generation
+
+When you trigger AI quote generation, the system reads the engagement's notes alongside data from similar engagements to build an accurate, context-aware quote. Notes provide the "what does the client actually need" context that makes AI-generated quotes meaningful.
+
+## The institutional memory engine
+
+Notes are the foundation of Servantium's institutional memory. The cycle works like this:
+
+1. **Capture** -- Team members record notes during and after client interactions
+2. **Embed** -- Backend triggers generate vector embeddings from the notes
+3. **Match** -- New engagements find similar past work through vector search
+4. **Generate** -- AI uses notes + similar engagements + the Service Catalog to build quotes
+5. **Learn** -- Completed engagements feed back into the system, making future matches and estimates more accurate
+
+Each completed engagement makes the next estimate better. Notes are the input that starts this cycle.
 
 ## What's next?
 
-- **[Key Concepts](/key-concepts)** — How notes fit into the engagement lifecycle
-- **[Engagements](/guides/engagements)** — Creating and managing the engagements that notes belong to
+- **[AI & Intelligence](/help/guides/ai-features)** -- Full overview of all AI capabilities
+- **[Engagements](/help/guides/engagements)** -- Creating the engagements that notes belong to
+- **[Quotes & Pricing](/help/guides/quotes-pricing)** -- How notes feed into AI quote generation
