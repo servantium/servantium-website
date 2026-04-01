@@ -23,6 +23,9 @@ const docs = defineCollection({
     date: z.string().optional(),
     version: z.string().optional(),
     repo: z.string().optional(),
+    featured: z.boolean().default(false),
+    featuredIcon: z.string().optional(),
+    featuredLabel: z.string().optional(),
   }),
 });
 

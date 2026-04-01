@@ -60,9 +60,7 @@ export default function CalBooker({ calLink = "christopher-veale/servantium-intr
       ref={containerRef}
       style={{
         width: '100%',
-        height: '100%',
-        minHeight: '420px',
-        overflow: 'scroll',
+        height: 'auto',
       }}
     />
   );

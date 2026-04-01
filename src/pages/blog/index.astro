@@ -44,40 +44,35 @@ const bubblePostsData = bubblePosts.map(p => ({
     ogType="website"
   />
 
-  {/* -- Hero Section -- */}
-  <PageReveal>
-    <section class="relative overflow-hidden bg-gradient-to-b from-[var(--color-soft-mint)] via-[var(--color-mint-tint)] to-white pt-28 pb-8 md:pt-36 md:pb-10">
-      {/* Decorative radial glow */}
-      <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-10%,rgba(0,194,109,0.08),transparent)]" aria-hidden="true"></div>
+  {/* -- Hero Section — Servantium green background -- */}
+  <section class="relative overflow-hidden pt-24 pb-10 md:pt-28 md:pb-12" style="background: linear-gradient(135deg, var(--color-green) 0%, var(--color-forest) 100%);">
+    <div class="relative mx-auto max-w-[var(--content-width)] px-6 text-center">
+      <h1
+        class="font-[family-name:var(--font-display)] text-4xl md:text-5xl lg:text-[3.25rem] font-medium mb-4 leading-[1.15] tracking-[-0.02em]"
+        style="color: #ffffff; text-shadow: 0 2px 8px rgba(0,0,0,0.15);"
+      >
+        Insights for Services Leaders
+      </h1>
+      <p
+        class="text-lg md:text-xl max-w-2xl mx-auto leading-relaxed"
+        style="color: rgba(255,255,255,0.9);"
+      >
+        Strategy, operations, and the infrastructure modern services businesses deserve.
+      </p>
+    </div>
+  </section>
 
-      <div class="relative mx-auto max-w-[var(--content-width)] px-6 text-center">
-        <h1
-          data-reveal-title
-          data-reveal="1"
-          class="font-[family-name:var(--font-display)] text-4xl md:text-5xl lg:text-[3.25rem] font-medium text-[var(--color-ink)] mb-5 leading-[1.15] tracking-[-0.02em]"
-        >
-          Insights for Services Leaders
-        </h1>
-        <p
-          data-reveal="2"
-          class="text-lg md:text-xl text-[var(--color-ink-muted)] max-w-2xl mx-auto leading-relaxed"
-        >
-          Strategy, operations, and the infrastructure modern services businesses deserve.
-        </p>
-      </div>
-    </section>
-  </PageReveal>
-
-  {/* -- Featured Section -- */}
-  <section class="py-6 md:py-8">
+  {/* -- Search + Filters + Featured — right below hero, no gap -- */}
+  <section class="pt-6 pb-4">
     <div class="mx-auto max-w-[var(--content-width)] px-6">
-
       {/* -- Search Bar -- */}
-      <BlogSearch />
+      <div class="mb-4">
+        <BlogSearch />
+      </div>
 
       {/* -- Category Filter Pills -- */}
       <div
-        class="blog-filters flex gap-2.5 overflow-x-auto pb-3 mb-10 scrollbar-none
+        class="blog-filters flex gap-2.5 overflow-x-auto pb-3 mb-6 scrollbar-none
                [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         role="tablist"
         aria-label="Filter by category"
@@ -109,6 +104,12 @@ const bubblePostsData = bubblePosts.map(p => ({
           </button>
         ))}
       </div>
+    </div>
+  </section>
+
+  {/* -- Featured Section -- */}
+  <section class="pb-6">
+    <div class="mx-auto max-w-[var(--content-width)] px-6">
 
       {/* -- Featured Post (latest) -- */}
       <div class="featured-section mb-6" data-featured-category={featuredPost.data.category}>
@@ -473,8 +474,11 @@ const bubblePostsData = bubblePosts.map(p => ({
     }
   }
 
-  document.addEventListener('astro:page-load', initBlogListing);
-  if (!document.querySelector('[name="astro-view-transitions"]')) {
+  // Fire on both DOMContentLoaded (dev) and astro:page-load (prod with View Transitions)
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initBlogListing);
+  } else {
     initBlogListing();
   }
+  document.addEventListener('astro:page-load', initBlogListing);
 </script>

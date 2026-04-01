@@ -2,8 +2,39 @@
 import DocsLayout from '@/theme/grove/DocsLayout.astro';
 import { getCollection } from 'astro:content';
 
-// Get release notes for "Latest Updates" timeline
+// Get all docs
 const allDocs = await getCollection('docs');
+
+// Get featured docs for "What's New" section
+const featuredDocs = allDocs
+  .filter((doc) => doc.data.featured === true);
+
+// Hardcoded defaults for What's New cards (used to fill remaining slots if < 8 featured)
+const defaultWhatsNew = [
+  { href: '/help/guides/engagements/', label: 'Engagement Workspace', icon: 'grid', color: 'var(--color-green)', bgColor: 'var(--color-mint-tint)' },
+  { href: '/help/guides/quotes-pricing/', label: 'AI Quote Generation', icon: 'sparkle', color: '#8B5CF6', bgColor: 'rgba(139,92,246,0.1)' },
+  { href: '/help/guides/ai-features/', label: 'Similar Matching', icon: 'search', color: '#4C82A7', bgColor: 'rgba(76,130,167,0.1)' },
+  { href: '/help/guides/resource-planning/', label: 'Resource Planning', icon: 'calendar', color: '#d49500', bgColor: 'rgba(255,176,46,0.1)' },
+  { href: '/help/guides/documents/', label: 'Document Generation', icon: 'doc', color: '#26A899', bgColor: 'rgba(38,168,153,0.1)' },
+  { href: '/help/guides/notes-ai/', label: 'Note Intelligence', icon: 'bulb', color: '#8B5CF6', bgColor: 'rgba(139,92,246,0.1)' },
+  { href: '/help/guides/quotes-pricing/', label: 'Service Catalog', icon: 'book', color: '#FF5C70', bgColor: 'rgba(255,92,112,0.1)' },
+  { href: '/help/guides/ai-features/', label: 'Institutional Memory', icon: 'database', color: 'var(--color-green)', bgColor: 'var(--color-mint-tint)' },
+];
+
+// Build the What's New items: featured docs first, then fill with defaults
+const featuredItems = featuredDocs.map((doc) => ({
+  href: `/help/${doc.id}/`,
+  label: doc.data.featuredLabel || doc.data.title,
+  icon: doc.data.featuredIcon || null,
+  color: 'var(--color-green)',
+  bgColor: 'var(--color-mint-tint)',
+  fromDoc: true,
+}));
+
+const remainingSlots = Math.max(0, 8 - featuredItems.length);
+const whatsNewItems = [...featuredItems, ...defaultWhatsNew.slice(0, remainingSlots)];
+
+// Get release notes for "Latest Updates" timeline
 const releaseNotes = allDocs
   .filter((doc) => doc.id.startsWith('release-notes/'))
   .sort((a, b) => {
@@ -23,7 +54,7 @@ const releaseNotes = allDocs
   <!-- ═══════════════════════════════════════════════════
        SECTION 2: Hero title + subtitle
        ═══════════════════════════════════════════════════ -->
-  <div class="not-prose mb-10">
+  <div class="not-prose mb-4">
     <h2 id="getting-started" class="font-display text-[1.75rem] font-semibold leading-tight tracking-tight text-[var(--color-ink)] sm:text-[2rem] mb-2 scroll-mt-24">
       Getting started with Servantium
     </h2>
@@ -35,10 +66,10 @@ const releaseNotes = allDocs
   <!-- ═══════════════════════════════════════════════════
        SECTION 3: Three colorful hero cards (Tailwind v2 docs style)
        ═══════════════════════════════════════════════════ -->
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 xl:gap-8 not-prose mb-16">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 xl:gap-8 not-prose mb-8">
 
     <!-- Card 1 — Read the docs (green) -->
-    <section class="flex">
+    <section class="flex min-h-[280px]">
       <div class="w-full relative text-white overflow-hidden rounded-3xl flex shadow-lg">
         <div class="w-full flex md:flex-col bg-gradient-to-br from-[#00A95E] to-[#023E25]">
           <div class="sm:max-w-sm sm:flex-none md:w-auto md:flex-auto flex flex-col items-start relative z-10 p-6 xl:p-8">
@@ -87,7 +118,7 @@ const releaseNotes = allDocs
     </section>
 
     <!-- Card 2 — Explore AI features (blue) -->
-    <section class="flex">
+    <section class="flex min-h-[280px]">
       <div class="w-full relative text-white overflow-hidden rounded-3xl flex shadow-lg">
         <div class="w-full flex md:flex-col bg-gradient-to-br from-[#4C82A7] to-[#1d3f5c]">
           <div class="sm:max-w-sm sm:flex-none md:w-auto md:flex-auto flex flex-col items-start relative z-10 p-6 xl:p-8">
@@ -135,7 +166,7 @@ const releaseNotes = allDocs
     </section>
 
     <!-- Card 3 — Watch the screencasts (amber) -->
-    <section class="flex">
+    <section class="flex min-h-[280px]">
       <div class="w-full relative text-white overflow-hidden rounded-3xl flex shadow-lg">
         <div class="w-full flex md:flex-col bg-gradient-to-br from-[#e09a00] to-[#8B6100]">
           <div class="sm:max-w-sm sm:flex-none md:w-auto md:flex-auto flex flex-col items-start relative z-10 p-6 xl:p-8">
@@ -180,116 +211,28 @@ const releaseNotes = allDocs
   <!-- ═══════════════════════════════════════════════════
        SECTION 4: "What's new in Servantium" feature cards
        ═══════════════════════════════════════════════════ -->
-  <div class="not-prose mb-16">
-    <h2 id="whats-new" class="font-display text-[1.35rem] font-semibold leading-tight tracking-tight text-[var(--color-ink)] mb-6 scroll-mt-24">
+  <div class="not-prose mb-8">
+    <h2 id="whats-new" class="font-display text-[1.35rem] font-semibold leading-tight tracking-tight text-[var(--color-ink)] mb-4 scroll-mt-24">
       What's new in Servantium
     </h2>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 
-      <!-- 1. Engagement Workspace -->
-      <a href="/help/guides/engagements/" class="feature-card group flex items-start gap-3 rounded-xl border border-[var(--color-cloud-grey)] p-4 no-underline transition-all duration-200 hover:border-[var(--color-green)] hover:shadow-sm">
-        <span class="flex size-9 shrink-0 items-center justify-center rounded-lg bg-[var(--color-mint-tint)]">
-          <svg class="size-[18px] text-[var(--color-green)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-        </span>
-        <div class="min-w-0">
-          <div class="flex items-center gap-2 mb-0.5">
-            <span class="text-sm font-semibold text-[var(--color-ink)] group-hover:text-[var(--color-green)] transition-colors">Engagement Workspace</span>
+      {whatsNewItems.map((item) => (
+        <a href={item.href} class="feature-card group flex items-start gap-3 rounded-xl border border-[var(--color-cloud-grey)] p-4 no-underline transition-all duration-200 hover:border-[var(--color-green)] hover:shadow-sm [text-decoration:none]">
+          <span class="flex size-9 shrink-0 items-center justify-center rounded-lg" style={`background: ${item.bgColor};`}>
+            <svg class="size-[18px]" style={`color: ${item.color};`} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+            </svg>
+          </span>
+          <div class="min-w-0">
+            <div class="flex items-center gap-2 mb-0.5">
+              <span class="text-sm font-semibold text-[var(--color-ink)] group-hover:text-[var(--color-green)] transition-colors no-underline [text-decoration:none]">{item.label}</span>
+            </div>
+            <span class="inline-flex items-center rounded-full bg-[var(--color-soft-mint)] px-2 py-0.5 text-[10px] font-semibold text-[var(--color-green)]">v1.0+</span>
           </div>
-          <span class="inline-flex items-center rounded-full bg-[var(--color-soft-mint)] px-2 py-0.5 text-[10px] font-semibold text-[var(--color-green)]">v1.0+</span>
-        </div>
-      </a>
-
-      <!-- 2. AI Quote Generation -->
-      <a href="/help/guides/quotes-pricing/" class="feature-card group flex items-start gap-3 rounded-xl border border-[var(--color-cloud-grey)] p-4 no-underline transition-all duration-200 hover:border-[var(--color-green)] hover:shadow-sm">
-        <span class="flex size-9 shrink-0 items-center justify-center rounded-lg bg-[#8B5CF6]/10">
-          <svg class="size-[18px] text-[#8B5CF6]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.5 4.5H18l-3.6 2.7 1.4 4.3L12 12l-3.8 2.5 1.4-4.3L6 7.5h4.5z"/><path d="M5 19l2-2"/><path d="M19 19l-2-2"/><path d="M12 21v-3"/></svg>
-        </span>
-        <div class="min-w-0">
-          <div class="flex items-center gap-2 mb-0.5">
-            <span class="text-sm font-semibold text-[var(--color-ink)] group-hover:text-[var(--color-green)] transition-colors">AI Quote Generation</span>
-          </div>
-          <span class="inline-flex items-center rounded-full bg-[var(--color-soft-mint)] px-2 py-0.5 text-[10px] font-semibold text-[var(--color-green)]">v1.0+</span>
-        </div>
-      </a>
-
-      <!-- 3. Similar Matching -->
-      <a href="/help/guides/ai-features/" class="feature-card group flex items-start gap-3 rounded-xl border border-[var(--color-cloud-grey)] p-4 no-underline transition-all duration-200 hover:border-[var(--color-green)] hover:shadow-sm">
-        <span class="flex size-9 shrink-0 items-center justify-center rounded-lg bg-[#4C82A7]/10">
-          <svg class="size-[18px] text-[#4C82A7]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><path d="M8 11h6"/><path d="M11 8v6"/></svg>
-        </span>
-        <div class="min-w-0">
-          <div class="flex items-center gap-2 mb-0.5">
-            <span class="text-sm font-semibold text-[var(--color-ink)] group-hover:text-[var(--color-green)] transition-colors">Similar Matching</span>
-          </div>
-          <span class="inline-flex items-center rounded-full bg-[var(--color-soft-mint)] px-2 py-0.5 text-[10px] font-semibold text-[var(--color-green)]">v1.0+</span>
-        </div>
-      </a>
-
-      <!-- 4. Resource Planning -->
-      <a href="/help/guides/resource-planning/" class="feature-card group flex items-start gap-3 rounded-xl border border-[var(--color-cloud-grey)] p-4 no-underline transition-all duration-200 hover:border-[var(--color-green)] hover:shadow-sm">
-        <span class="flex size-9 shrink-0 items-center justify-center rounded-lg bg-[#FFB02E]/10">
-          <svg class="size-[18px] text-[#d49500]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><rect x="7" y="14" width="3" height="3" rx="0.5"/><rect x="14" y="14" width="3" height="3" rx="0.5"/></svg>
-        </span>
-        <div class="min-w-0">
-          <div class="flex items-center gap-2 mb-0.5">
-            <span class="text-sm font-semibold text-[var(--color-ink)] group-hover:text-[var(--color-green)] transition-colors">Resource Planning</span>
-          </div>
-          <span class="inline-flex items-center rounded-full bg-[var(--color-soft-mint)] px-2 py-0.5 text-[10px] font-semibold text-[var(--color-green)]">v1.0+</span>
-        </div>
-      </a>
-
-      <!-- 5. Document Generation -->
-      <a href="/help/guides/documents/" class="feature-card group flex items-start gap-3 rounded-xl border border-[var(--color-cloud-grey)] p-4 no-underline transition-all duration-200 hover:border-[var(--color-green)] hover:shadow-sm">
-        <span class="flex size-9 shrink-0 items-center justify-center rounded-lg bg-[#26A899]/10">
-          <svg class="size-[18px] text-[#26A899]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-        </span>
-        <div class="min-w-0">
-          <div class="flex items-center gap-2 mb-0.5">
-            <span class="text-sm font-semibold text-[var(--color-ink)] group-hover:text-[var(--color-green)] transition-colors">Document Generation</span>
-          </div>
-          <span class="inline-flex items-center rounded-full bg-[var(--color-soft-mint)] px-2 py-0.5 text-[10px] font-semibold text-[var(--color-green)]">v1.0+</span>
-        </div>
-      </a>
-
-      <!-- 6. Note Intelligence -->
-      <a href="/help/guides/notes-ai/" class="feature-card group flex items-start gap-3 rounded-xl border border-[var(--color-cloud-grey)] p-4 no-underline transition-all duration-200 hover:border-[var(--color-green)] hover:shadow-sm">
-        <span class="flex size-9 shrink-0 items-center justify-center rounded-lg bg-[#8B5CF6]/10">
-          <svg class="size-[18px] text-[#8B5CF6]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a8 8 0 0 0-8 8c0 3.4 2.1 6.3 5 7.4V20a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-2.6c2.9-1.1 5-4 5-7.4a8 8 0 0 0-8-8z"/><line x1="9" y1="22" x2="15" y2="22"/><line x1="10" y1="2" x2="10" y2="5"/><line x1="14" y1="2" x2="14" y2="5"/></svg>
-        </span>
-        <div class="min-w-0">
-          <div class="flex items-center gap-2 mb-0.5">
-            <span class="text-sm font-semibold text-[var(--color-ink)] group-hover:text-[var(--color-green)] transition-colors">Note Intelligence</span>
-          </div>
-          <span class="inline-flex items-center rounded-full bg-[var(--color-soft-mint)] px-2 py-0.5 text-[10px] font-semibold text-[var(--color-green)]">v1.0+</span>
-        </div>
-      </a>
-
-      <!-- 7. Service Catalog -->
-      <a href="/help/guides/quotes-pricing/" class="feature-card group flex items-start gap-3 rounded-xl border border-[var(--color-cloud-grey)] p-4 no-underline transition-all duration-200 hover:border-[var(--color-green)] hover:shadow-sm">
-        <span class="flex size-9 shrink-0 items-center justify-center rounded-lg bg-[#FF5C70]/10">
-          <svg class="size-[18px] text-[#FF5C70]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><path d="M8 7h8"/><path d="M8 11h6"/></svg>
-        </span>
-        <div class="min-w-0">
-          <div class="flex items-center gap-2 mb-0.5">
-            <span class="text-sm font-semibold text-[var(--color-ink)] group-hover:text-[var(--color-green)] transition-colors">Service Catalog</span>
-          </div>
-          <span class="inline-flex items-center rounded-full bg-[var(--color-soft-mint)] px-2 py-0.5 text-[10px] font-semibold text-[var(--color-green)]">v1.0+</span>
-        </div>
-      </a>
-
-      <!-- 8. Institutional Memory -->
-      <a href="/help/guides/ai-features/" class="feature-card group flex items-start gap-3 rounded-xl border border-[var(--color-cloud-grey)] p-4 no-underline transition-all duration-200 hover:border-[var(--color-green)] hover:shadow-sm">
-        <span class="flex size-9 shrink-0 items-center justify-center rounded-lg bg-[var(--color-mint-tint)]">
-          <svg class="size-[18px] text-[var(--color-green)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
-        </span>
-        <div class="min-w-0">
-          <div class="flex items-center gap-2 mb-0.5">
-            <span class="text-sm font-semibold text-[var(--color-ink)] group-hover:text-[var(--color-green)] transition-colors">Institutional Memory</span>
-          </div>
-          <span class="inline-flex items-center rounded-full bg-[var(--color-soft-mint)] px-2 py-0.5 text-[10px] font-semibold text-[var(--color-green)]">v1.0+</span>
-        </div>
-      </a>
+        </a>
+      ))}
 
     </div>
   </div>
@@ -302,7 +245,7 @@ const releaseNotes = allDocs
       <h2 id="latest-updates" class="font-display text-[1.35rem] font-semibold leading-tight tracking-tight text-[var(--color-ink)] scroll-mt-24">
         Latest Updates
       </h2>
-      <a href="/help/release-notes/" class="text-sm font-medium text-[var(--color-green)] no-underline hover:underline transition-colors">
+      <a href="/help/release-notes/" class="text-sm font-medium text-[var(--color-green)] no-underline [text-decoration:none] hover:underline transition-colors">
         View all updates &rarr;
       </a>
     </div>
@@ -319,17 +262,13 @@ const releaseNotes = allDocs
             const dateStr = entry.data.date
               ? new Date(entry.data.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
               : '';
+            const dotColor = entry.data.repo === 'servantium-website' ? '#4C82A7' : 'var(--color-green)';
 
             return (
               <div class="relative">
-                <!-- Timeline dot -->
-                <div class:list={[
-                  'absolute -left-8 top-1 flex items-center justify-center',
-                ]}>
-                  <div class:list={[
-                    'size-3.5 rounded-full border-2 border-white',
-                    i === 0 ? 'bg-[var(--color-green)]' : 'bg-[var(--color-pale-green)]'
-                  ]} aria-hidden="true"></div>
+                <!-- Timeline dot (green=servantium, blue=website) -->
+                <div class="absolute -left-8 top-1 flex items-center justify-center">
+                  <div class="size-3.5 rounded-full border-2 border-white" style={`background-color: ${i === 0 ? dotColor : (entry.data.repo === 'servantium-website' ? 'rgba(76,130,167,0.4)' : 'var(--color-pale-green)')};`} aria-hidden="true"></div>
                 </div>
 
                 <!-- Entry content -->
@@ -337,16 +276,16 @@ const releaseNotes = allDocs
                   {dateStr && (
                     <time class="text-xs font-medium text-[var(--color-ink-muted)] mb-1 block">{dateStr}</time>
                   )}
-                  <a href={`/help/${entry.id}/`} class="group no-underline">
-                    <h3 class="text-[15px] font-semibold text-[var(--color-ink)] group-hover:text-[var(--color-green)] transition-colors mb-1">
+                  <a href={`/help/${entry.id}/`} class="group no-underline [text-decoration:none]">
+                    <h3 class="text-[15px] font-semibold text-[var(--color-ink)] group-hover:text-[var(--color-green)] transition-colors mb-1 no-underline [text-decoration:none]">
                       {entry.data.title}
                     </h3>
                     {entry.data.description && (
-                      <p class="text-sm text-[var(--color-ink-muted)] line-clamp-2 mb-1.5">
+                      <p class="text-sm text-[var(--color-ink-muted)] line-clamp-2 mb-1.5 no-underline [text-decoration:none]">
                         {entry.data.description}
                       </p>
                     )}
-                    <span class="text-xs font-medium text-[var(--color-green)]">
+                    <span class="text-xs font-medium text-[var(--color-green)] no-underline [text-decoration:none]">
                       Read more &rarr;
                     </span>
                   </a>
