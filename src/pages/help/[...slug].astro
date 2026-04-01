@@ -18,9 +18,10 @@ export async function getStaticPaths() {
     }
   }
 
-  return docs.map((doc) => {
-    const slug = doc.id === 'index' ? undefined : doc.id;
-    const currentSlug = doc.id === 'index' ? 'getting-started' : doc.id;
+  // Filter out index — handled by /help/index.astro
+  return docs.filter((doc) => doc.id !== 'index').map((doc) => {
+    const slug = doc.id;
+    const currentSlug = doc.id;
 
     // Find prev/next in the flat nav order
     const currentIndex = flatNavSlugs.findIndex((item) => item.slug === currentSlug);

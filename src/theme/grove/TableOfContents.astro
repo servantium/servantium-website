@@ -14,16 +14,16 @@ const { headings } = Astro.props;
 
 {headings.length > 0 && (
   <nav aria-label="On this page">
-    <h2 class="mb-4 text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-slate-400">
-      On this page
+    <h2 class="mb-3 text-[10px] font-semibold uppercase tracking-[0.1em] text-slate-400">
+      Contents
     </h2>
-    <ul class="space-y-1 border-l border-slate-100" role="list">
+    <ul class="space-y-0.5 border-l border-slate-100" role="list">
       {headings.map((heading) => (
         <li>
           <a
             href={`#${heading.slug}`}
             class:list={[
-              'grove-toc-link -ml-px block border-l-2 border-transparent py-1 text-sm leading-snug transition-colors duration-100',
+              'grove-toc-link -ml-px block border-l-2 border-transparent py-0.5 text-xs leading-snug transition-colors duration-100',
               heading.depth === 3 ? 'pl-6 text-slate-400 hover:text-slate-600 hover:border-slate-300' : 'pl-3 text-slate-500 hover:text-slate-700 hover:border-slate-300',
             ]}
             data-toc-link

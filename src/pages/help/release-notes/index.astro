@@ -1,0 +1,36 @@
+---
+import DocsLayout from '@/theme/grove/DocsLayout.astro';
+import ReleaseTimeline from '@/theme/grove/ReleaseTimeline.astro';
+import { getCollection } from 'astro:content';
+
+// Get all release note entries
+const allDocs = await getCollection('docs');
+const releaseNotes = allDocs
+  .filter((doc) => doc.id.startsWith('release-notes/'))
+  .sort((a, b) => {
+    const dateA = a.data.date ? new Date(a.data.date).getTime() : 0;
+    const dateB = b.data.date ? new Date(b.data.date).getTime() : 0;
+    return dateB - dateA; // newest first
+  })
+  .map((doc) => ({
+    id: doc.id,
+    title: doc.data.title,
+    description: doc.data.description,
+    date: doc.data.date,
+    version: doc.data.version,
+    badge: doc.data.badge,
+  }));
+---
+
+<DocsLayout
+  title="Release Notes"
+  description="What's new, improved, and fixed in Servantium."
+  headings={[]}
+  currentSlug="release-notes"
+>
+  <p class="text-slate-500 mb-8">
+    A timeline of everything we've shipped. New features, improvements, and fixes.
+  </p>
+
+  <ReleaseTimeline entries={releaseNotes} />
+</DocsLayout>
