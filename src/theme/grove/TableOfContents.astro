@@ -14,17 +14,19 @@ const { headings } = Astro.props;
 
 {headings.length > 0 && (
   <nav aria-label="On this page">
-    <h2 class="mb-3 text-[10px] font-semibold uppercase tracking-[0.1em] text-slate-400">
-      Contents
+    <h2 class="mb-4 text-xs font-semibold uppercase tracking-wide text-slate-900">
+      On this page
     </h2>
-    <ul class="space-y-0.5 border-l border-slate-100" role="list">
+    <ul class="space-y-2 text-sm" role="list">
       {headings.map((heading) => (
         <li>
           <a
             href={`#${heading.slug}`}
             class:list={[
-              'grove-toc-link -ml-px block border-l-2 border-transparent py-0.5 text-xs leading-snug transition-colors duration-100',
-              heading.depth === 3 ? 'pl-6 text-slate-400 hover:text-slate-600 hover:border-slate-300' : 'pl-3 text-slate-500 hover:text-slate-700 hover:border-slate-300',
+              'grove-toc-link block transition-colors duration-100',
+              heading.depth === 3
+                ? 'pl-4 text-slate-400 hover:text-slate-600'
+                : 'text-slate-500 hover:text-slate-800',
             ]}
             data-toc-link
             data-toc-slug={heading.slug}
@@ -57,13 +59,11 @@ const { headings } = Astro.props;
       tocLinks.forEach((link) => {
         const isCurrent = link.dataset.tocSlug === slug;
         if (isCurrent) {
-          link.classList.add('!border-green', '!text-green', 'font-medium');
-          link.classList.remove('border-transparent', 'text-slate-500', 'text-slate-400');
+          link.classList.add('!text-[var(--color-green)]', 'font-medium');
+          link.classList.remove('text-slate-500', 'text-slate-400');
         } else {
-          link.classList.remove('!border-green', '!text-green', 'font-medium');
-          link.classList.add('border-transparent');
-          // Restore the correct muted color based on depth
-          if (link.classList.contains('pl-6')) {
+          link.classList.remove('!text-[var(--color-green)]', 'font-medium');
+          if (link.classList.contains('pl-4')) {
             link.classList.add('text-slate-400');
           } else {
             link.classList.add('text-slate-500');
