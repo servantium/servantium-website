@@ -22,52 +22,39 @@ const {
 } = Astro.props;
 
 const panels = [
-  { number: '01', bg: 'linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%)', accent: '#00C26D', astronaut: 'searching' as const },
-  { number: '02', bg: 'linear-gradient(135deg, #ffffff 0%, #eff6ff 100%)', accent: '#4C82A7', astronaut: 'floating' as const },
-  { number: '03', bg: 'linear-gradient(135deg, #ffffff 0%, #fffbeb 100%)', accent: '#FFB02E', astronaut: 'waving' as const },
-  { number: '04', bg: 'linear-gradient(135deg, #ffffff 0%, #f0fdfa 100%)', accent: '#26A899', astronaut: 'peeking' as const },
-  { number: '05', bg: 'linear-gradient(135deg, #ffffff 0%, #faf5ff 100%)', accent: '#8B5CF6', astronaut: 'floating' as const },
+  { number: '01', bg: 'linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%)', accent: '#00C26D', astronaut: 'detective' as const },
+  { number: '02', bg: 'linear-gradient(135deg, #ffffff 0%, #eff6ff 100%)', accent: '#4C82A7', astronaut: 'professor' as const },
+  { number: '03', bg: 'linear-gradient(135deg, #ffffff 0%, #fffbeb 100%)', accent: '#FFB02E', astronaut: 'captain' as const },
+  { number: '04', bg: 'linear-gradient(135deg, #ffffff 0%, #f0fdfa 100%)', accent: '#26A899', astronaut: 'chef' as const },
+  { number: '05', bg: 'linear-gradient(135deg, #ffffff 0%, #faf5ff 100%)', accent: '#8B5CF6', astronaut: 'cowboy' as const },
 ];
 ---
 
 <!-- Filmstrip: Horizontal scroll driven by vertical scroll -->
-<section class="filmstrip-section" style="min-height: 400vh;" aria-label={title}>
+<section class="filmstrip-section" style="min-height: 300vh;" aria-label={title}>
 
-  <!-- Section title — outside sticky so it scrolls away -->
-  <div class="text-center mb-8 pt-16 px-4">
-    <h2 class="text-3xl md:text-4xl font-medium" style="font-family: var(--font-display); color: var(--color-ink);">
-      {title}
-    </h2>
-    {subtitle && (
-      <p class="text-lg mt-3 max-w-2xl mx-auto" style="color: var(--color-ink-muted);">
-        {subtitle}
-      </p>
-    )}
-  </div>
-
-  <!-- Sticky viewport -->
+  <!-- Sticky viewport (title is inside so it's always visible) -->
   <div class="filmstrip-viewport sticky top-0 h-screen overflow-hidden">
 
-    <!-- Green thread SVG -->
-    <svg class="filmstrip-thread absolute left-0 w-full pointer-events-none z-10" style="top: 50%; height: 3px; transform: translateY(-50%);" preserveAspectRatio="none" viewBox="0 0 1000 3">
-      <line x1="0" y1="1.5" x2="1000" y2="1.5" stroke="#E8FBF1" stroke-width="3"/>
-      <line id="thread-progress" x1="0" y1="1.5" x2="0" y2="1.5" stroke="#00C26D" stroke-width="3" stroke-linecap="round"/>
-    </svg>
-
-    <!-- Progress dots -->
-    <div class="filmstrip-dots absolute left-0 w-full flex justify-between px-[10%] z-20 pointer-events-none" style="top: 50%; transform: translateY(-50%);">
-      {stops.map((_, i) => (
-        <div class="filmstrip-dot w-3 h-3 rounded-full transition-all duration-300" style="background: #E1E3E6;" />
-      ))}
+    <!-- Section title — inside sticky viewport at top -->
+    <div class="filmstrip-header text-center px-4">
+      <h2 class="text-3xl md:text-4xl font-medium" style="font-family: var(--font-display); color: var(--color-ink);">
+        {title}
+      </h2>
+      {subtitle && (
+        <p class="text-lg mt-3 max-w-2xl mx-auto" style="color: var(--color-ink-muted);">
+          {subtitle}
+        </p>
+      )}
     </div>
 
     <!-- Panels track -->
-    <div class="filmstrip-track flex h-full" style="width: 500vw;" id="filmstrip-track">
+    <div class="filmstrip-track flex" style="width: 500vw;" id="filmstrip-track">
       {stops.map((stop, i) => {
         const panel = panels[i] || panels[0];
         return (
           <div
-            class="filmstrip-panel w-screen h-full flex items-center relative"
+            class="filmstrip-panel w-screen flex items-center relative"
             data-panel={i}
             style={`background: ${panel.bg};`}
           >
@@ -351,14 +338,28 @@ const panels = [
               </div>
             </div>
 
-            <!-- Astronaut in bottom-right -->
+            <!-- Astronaut in bottom-right (64px) -->
             <div class="absolute bottom-8 right-8 opacity-30">
-              <Astronaut size="sm" variant={panel.astronaut} />
+              <Astronaut size="md" variant={panel.astronaut} />
             </div>
           </div>
         );
       })}
     </div>
+
+    <!-- Green thread SVG — positioned at bottom of viewport as horizontal progress bar -->
+    <svg class="filmstrip-thread absolute left-0 w-full pointer-events-none z-10" style="bottom: 120px; height: 3px;" preserveAspectRatio="none" viewBox="0 0 1000 3">
+      <line x1="0" y1="1.5" x2="1000" y2="1.5" stroke="#E8FBF1" stroke-width="3"/>
+      <line id="thread-progress" x1="0" y1="1.5" x2="0" y2="1.5" stroke="#00C26D" stroke-width="3" stroke-linecap="round"/>
+    </svg>
+
+    <!-- Progress dots — positioned at bottom aligned with thread -->
+    <div class="filmstrip-dots absolute left-0 w-full flex justify-between px-[10%] z-20 pointer-events-none" style="bottom: 114px;">
+      {stops.map((_, i) => (
+        <div class="filmstrip-dot w-3 h-3 rounded-full transition-all duration-300" style="background: #E1E3E6;" />
+      ))}
+    </div>
+
   </div>
 
   <!-- Mobile: Stacked cards (hidden on desktop, shown via CSS) -->
@@ -403,6 +404,23 @@ const panels = [
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
+  }
+
+  .filmstrip-header {
+    flex-shrink: 0;
+    padding-top: 1.5rem;
+    padding-bottom: 1rem;
+  }
+
+  .filmstrip-track {
+    flex: 1;
+    min-height: 0;
+    align-items: center;
+  }
+
+  .filmstrip-panel {
+    height: 100%;
   }
 
   .filmstrip-mobile {

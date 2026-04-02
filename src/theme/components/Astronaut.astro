@@ -1,7 +1,7 @@
 ---
 interface Props {
   size?: 'sm' | 'md' | 'lg';
-  variant?: 'floating' | 'peeking' | 'waving' | 'searching';
+  variant?: 'floating' | 'peeking' | 'waving' | 'searching' | 'cowboy' | 'detective' | 'chef' | 'captain' | 'professor';
   animate?: boolean;
   class?: string;
 }
@@ -122,6 +122,167 @@ const px = sizes[size];
       <path d="M33 35 Q37 30 43 32" stroke="white" stroke-width="1.5" fill="none" opacity="0.5"/>
     </svg>
   )}
+
+  {variant === 'cowboy' && (
+    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Helmet -->
+      <circle cx="50" cy="40" r="25" fill="white" stroke="#0D0D0D" stroke-width="2"/>
+      <!-- Visor -->
+      <ellipse cx="50" cy="42" rx="15" ry="12" fill="#00C26D" opacity="0.8"/>
+      <!-- Body -->
+      <rect x="35" y="60" width="30" height="25" rx="8" fill="white" stroke="#0D0D0D" stroke-width="2"/>
+      <!-- Backpack -->
+      <rect x="60" y="62" width="12" height="20" rx="3" fill="white" stroke="#0D0D0D" stroke-width="2"/>
+      <!-- Left arm -->
+      <rect x="20" y="65" width="18" height="8" rx="4" fill="white" stroke="#0D0D0D" stroke-width="2"/>
+      <!-- Right arm -->
+      <rect x="62" y="70" width="18" height="8" rx="4" fill="white" stroke="#0D0D0D" stroke-width="2"/>
+      <!-- Antenna -->
+      <line x1="50" y1="15" x2="50" y2="8" stroke="#6b6b6b" stroke-width="1.5" fill="none"/>
+      <circle cx="50" cy="6" r="3" fill="#00C26D"/>
+      <!-- Helmet reflection -->
+      <path d="M38 35 Q42 30 48 32" stroke="white" stroke-width="1.5" fill="none" opacity="0.5"/>
+      <!-- Cowboy hat brim -->
+      <ellipse cx="50" cy="18" rx="30" ry="6" fill="#8B6914" stroke="#6B4F10" stroke-width="1.5"/>
+      <!-- Hat crown -->
+      <path d="M35 18 Q42 2 50 5 Q58 2 65 18" fill="#A0781C" stroke="#8B6914" stroke-width="1.5"/>
+      <!-- Lasso in right hand -->
+      <circle class="cowboy-lasso" cx="78" cy="65" r="8" fill="none" stroke="#C4A35A" stroke-width="2"/>
+    </svg>
+  )}
+
+  {variant === 'detective' && (
+    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Helmet -->
+      <circle cx="50" cy="40" r="25" fill="white" stroke="#0D0D0D" stroke-width="2"/>
+      <!-- Visor -->
+      <ellipse cx="50" cy="42" rx="15" ry="12" fill="#00C26D" opacity="0.8"/>
+      <!-- Body -->
+      <rect x="35" y="60" width="30" height="25" rx="8" fill="white" stroke="#0D0D0D" stroke-width="2"/>
+      <!-- Backpack -->
+      <rect x="60" y="62" width="12" height="20" rx="3" fill="white" stroke="#0D0D0D" stroke-width="2"/>
+      <!-- Left arm -->
+      <rect x="20" y="65" width="18" height="8" rx="4" fill="white" stroke="#0D0D0D" stroke-width="2"/>
+      <!-- Right arm -->
+      <rect x="62" y="70" width="18" height="8" rx="4" fill="white" stroke="#0D0D0D" stroke-width="2"/>
+      <!-- Antenna -->
+      <line x1="50" y1="15" x2="50" y2="8" stroke="#6b6b6b" stroke-width="1.5" fill="none"/>
+      <circle cx="50" cy="6" r="3" fill="#00C26D"/>
+      <!-- Helmet reflection -->
+      <path d="M38 35 Q42 30 48 32" stroke="white" stroke-width="1.5" fill="none" opacity="0.5"/>
+      <!-- Deerstalker cap -->
+      <path d="M30 25 Q40 15 50 18 Q60 15 70 25" fill="#5C4033" stroke="#3D2B1F" stroke-width="1.5"/>
+      <path d="M32 25 L28 30 M68 25 L72 30" stroke="#5C4033" stroke-width="2" stroke-linecap="round"/>
+      <!-- Big magnifying glass -->
+      <g class="detective-glass">
+        <circle cx="25" cy="55" r="12" fill="none" stroke="#C0C0C0" stroke-width="2.5"/>
+        <line x1="33" y1="63" x2="42" y2="72" stroke="#C0C0C0" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="25" cy="55" r="12" fill="rgba(173,216,230,0.2)"/>
+      </g>
+    </svg>
+  )}
+
+  {variant === 'chef' && (
+    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Helmet -->
+      <circle cx="50" cy="40" r="25" fill="white" stroke="#0D0D0D" stroke-width="2"/>
+      <!-- Visor -->
+      <ellipse cx="50" cy="42" rx="15" ry="12" fill="#00C26D" opacity="0.8"/>
+      <!-- Body -->
+      <rect x="35" y="60" width="30" height="25" rx="8" fill="white" stroke="#0D0D0D" stroke-width="2"/>
+      <!-- Backpack -->
+      <rect x="60" y="62" width="12" height="20" rx="3" fill="white" stroke="#0D0D0D" stroke-width="2"/>
+      <!-- Left arm -->
+      <rect x="20" y="65" width="18" height="8" rx="4" fill="white" stroke="#0D0D0D" stroke-width="2"/>
+      <!-- Right arm -->
+      <rect x="62" y="70" width="18" height="8" rx="4" fill="white" stroke="#0D0D0D" stroke-width="2"/>
+      <!-- Antenna -->
+      <line x1="50" y1="15" x2="50" y2="8" stroke="#6b6b6b" stroke-width="1.5" fill="none"/>
+      <circle cx="50" cy="6" r="3" fill="#00C26D"/>
+      <!-- Helmet reflection -->
+      <path d="M38 35 Q42 30 48 32" stroke="white" stroke-width="1.5" fill="none" opacity="0.5"/>
+      <!-- Chef hat -->
+      <ellipse cx="50" cy="22" rx="18" ry="6" fill="white" stroke="#E1E3E6" stroke-width="1"/>
+      <rect x="36" y="8" width="28" height="16" rx="8" fill="white" stroke="#E1E3E6" stroke-width="1"/>
+      <circle cx="42" cy="6" r="6" fill="white" stroke="#E1E3E6" stroke-width="1"/>
+      <circle cx="50" cy="4" r="6" fill="white" stroke="#E1E3E6" stroke-width="1"/>
+      <circle cx="58" cy="6" r="6" fill="white" stroke="#E1E3E6" stroke-width="1"/>
+      <!-- Spatula -->
+      <g class="chef-spatula">
+        <line x1="72" y1="60" x2="72" y2="80" stroke="#8B6914" stroke-width="2.5" stroke-linecap="round"/>
+        <rect x="68" y="54" width="8" height="8" rx="1" fill="#C0C0C0" stroke="#A0A0A0" stroke-width="1"/>
+      </g>
+    </svg>
+  )}
+
+  {variant === 'captain' && (
+    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Helmet -->
+      <circle cx="50" cy="40" r="25" fill="white" stroke="#0D0D0D" stroke-width="2"/>
+      <!-- Visor -->
+      <ellipse cx="50" cy="42" rx="15" ry="12" fill="#00C26D" opacity="0.8"/>
+      <!-- Body -->
+      <rect x="35" y="60" width="30" height="25" rx="8" fill="white" stroke="#0D0D0D" stroke-width="2"/>
+      <!-- Backpack -->
+      <rect x="60" y="62" width="12" height="20" rx="3" fill="white" stroke="#0D0D0D" stroke-width="2"/>
+      <!-- Left arm -->
+      <rect x="20" y="65" width="18" height="8" rx="4" fill="white" stroke="#0D0D0D" stroke-width="2"/>
+      <!-- Right arm -->
+      <rect x="62" y="70" width="18" height="8" rx="4" fill="white" stroke="#0D0D0D" stroke-width="2"/>
+      <!-- Antenna -->
+      <line x1="50" y1="15" x2="50" y2="8" stroke="#6b6b6b" stroke-width="1.5" fill="none"/>
+      <circle cx="50" cy="6" r="3" fill="#00C26D"/>
+      <!-- Helmet reflection -->
+      <path d="M38 35 Q42 30 48 32" stroke="white" stroke-width="1.5" fill="none" opacity="0.5"/>
+      <!-- Captain cap -->
+      <ellipse cx="50" cy="22" rx="22" ry="5" fill="#1a1a3e" stroke="#0D0D2B" stroke-width="1"/>
+      <path d="M32 22 Q35 12 50 10 Q65 12 68 22" fill="#1a1a3e" stroke="#0D0D2B" stroke-width="1"/>
+      <!-- Cap badge -->
+      <circle cx="50" cy="20" r="4" fill="#FFD700" stroke="#DAA520" stroke-width="0.5"/>
+      <!-- Telescope -->
+      <g class="captain-telescope">
+        <rect x="65" y="58" width="20" height="6" rx="3" fill="#8B6914" stroke="#6B4F10" stroke-width="1"/>
+        <rect x="82" y="57" width="6" height="8" rx="2" fill="#A0781C"/>
+      </g>
+    </svg>
+  )}
+
+  {variant === 'professor' && (
+    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Helmet -->
+      <circle cx="50" cy="40" r="25" fill="white" stroke="#0D0D0D" stroke-width="2"/>
+      <!-- Visor -->
+      <ellipse cx="50" cy="42" rx="15" ry="12" fill="#00C26D" opacity="0.8"/>
+      <!-- Body -->
+      <rect x="35" y="60" width="30" height="25" rx="8" fill="white" stroke="#0D0D0D" stroke-width="2"/>
+      <!-- Backpack -->
+      <rect x="60" y="62" width="12" height="20" rx="3" fill="white" stroke="#0D0D0D" stroke-width="2"/>
+      <!-- Left arm -->
+      <rect x="20" y="65" width="18" height="8" rx="4" fill="white" stroke="#0D0D0D" stroke-width="2"/>
+      <!-- Right arm -->
+      <rect x="62" y="70" width="18" height="8" rx="4" fill="white" stroke="#0D0D0D" stroke-width="2"/>
+      <!-- Antenna -->
+      <line x1="50" y1="15" x2="50" y2="8" stroke="#6b6b6b" stroke-width="1.5" fill="none"/>
+      <circle cx="50" cy="6" r="3" fill="#00C26D"/>
+      <!-- Helmet reflection -->
+      <path d="M38 35 Q42 30 48 32" stroke="white" stroke-width="1.5" fill="none" opacity="0.5"/>
+      <!-- Mortarboard -->
+      <polygon points="30,20 50,12 70,20 50,28" fill="#1a1a3e" stroke="#0D0D2B" stroke-width="1"/>
+      <rect x="46" y="14" width="8" height="8" fill="#1a1a3e"/>
+      <!-- Tassel -->
+      <line x1="62" y1="20" x2="72" y2="28" stroke="#FFD700" stroke-width="1.5"/>
+      <circle cx="72" cy="29" r="2" fill="#FFD700"/>
+      <!-- Glasses on visor -->
+      <circle cx="43" cy="42" r="4" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+      <circle cx="57" cy="42" r="4" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+      <line x1="47" y1="42" x2="53" y2="42" stroke="rgba(255,255,255,0.4)" stroke-width="0.8"/>
+      <!-- Book -->
+      <g class="professor-book">
+        <rect x="20" y="62" width="14" height="10" rx="1" fill="#4C82A7" stroke="#3a6a8c" stroke-width="1"/>
+        <line x1="27" y1="62" x2="27" y2="72" stroke="white" stroke-width="0.5"/>
+      </g>
+    </svg>
+  )}
 </div>
 
 <style>
@@ -147,6 +308,43 @@ const px = sizes[size];
   .astronaut-animated.astronaut-searching {
     animation: astronautSearch 3.5s ease-in-out infinite;
   }
+  .astronaut-animated.astronaut-cowboy {
+    animation: astronautFloat 4s ease-in-out infinite;
+  }
+  .astronaut-animated.astronaut-detective {
+    animation: astronautFloat 4s ease-in-out infinite;
+  }
+  .astronaut-animated.astronaut-chef {
+    animation: astronautFloat 4s ease-in-out infinite;
+  }
+  .astronaut-animated.astronaut-captain {
+    animation: astronautFloat 4s ease-in-out infinite;
+  }
+  .astronaut-animated.astronaut-professor {
+    animation: astronautFloat 4s ease-in-out infinite;
+  }
+
+  /* Costume-specific idle animations */
+  .astronaut-animated.astronaut-cowboy .cowboy-lasso {
+    transform-origin: 78px 65px;
+    animation: lassoSpin 3s ease-in-out infinite;
+  }
+  .astronaut-animated.astronaut-detective .detective-glass {
+    transform-origin: 25px 55px;
+    animation: glassWobble 2.5s ease-in-out infinite;
+  }
+  .astronaut-animated.astronaut-chef .chef-spatula {
+    transform-origin: 72px 72px;
+    animation: spatulaFlip 3s ease-in-out infinite;
+  }
+  .astronaut-animated.astronaut-captain .captain-telescope {
+    transform-origin: 65px 61px;
+    animation: telescopeExtend 4s ease-in-out infinite;
+  }
+  .astronaut-animated.astronaut-professor .professor-book {
+    transform-origin: 27px 67px;
+    animation: bookTurn 3.5s ease-in-out infinite;
+  }
 
   @keyframes astronautFloat {
     0%, 100% { transform: translateY(0) rotate(-3deg); }
@@ -166,8 +364,50 @@ const px = sizes[size];
     50% { transform: translateX(4px); }
   }
 
+  /* Cowboy lasso spin */
+  @keyframes lassoSpin {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(15deg); }
+    75% { transform: rotate(-15deg); }
+  }
+
+  /* Detective magnifying glass wobble */
+  @keyframes glassWobble {
+    0%, 100% { transform: rotate(0deg); }
+    30% { transform: rotate(5deg); }
+    60% { transform: rotate(-5deg); }
+  }
+
+  /* Chef spatula flip */
+  @keyframes spatulaFlip {
+    0%, 100% { transform: rotate(0deg); }
+    20% { transform: rotate(-10deg); }
+    40% { transform: rotate(10deg); }
+    60% { transform: rotate(0deg); }
+  }
+
+  /* Captain telescope extend/retract */
+  @keyframes telescopeExtend {
+    0%, 100% { transform: scaleX(1); }
+    50% { transform: scaleX(1.15); }
+  }
+
+  /* Professor book page turn */
+  @keyframes bookTurn {
+    0%, 100% { transform: rotate(0deg); }
+    30% { transform: rotate(-3deg) translateY(-1px); }
+    70% { transform: rotate(3deg) translateY(-1px); }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .astronaut-animated {
+      animation: none !important;
+    }
+    .astronaut-animated .cowboy-lasso,
+    .astronaut-animated .detective-glass,
+    .astronaut-animated .chef-spatula,
+    .astronaut-animated .captain-telescope,
+    .astronaut-animated .professor-book {
       animation: none !important;
     }
   }

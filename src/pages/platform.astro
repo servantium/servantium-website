@@ -2,6 +2,7 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import SEO from '@/components/SEO.astro';
 import IntegrationWall from '@/theme/widgets/IntegrationWall.astro';
+import Astronaut from '@/theme/components/Astronaut.astro';
 
 const integrations = [
   { name: 'Salesforce', abbrev: 'SF', color: '#00A1E0', tier: 'live' as const },
@@ -57,224 +58,369 @@ const jsonLd = {
     </div>
   </section>
 
-  <!-- Section 2: Four Pillars -->
+  <!-- Section 2: Narrative Scroll -->
+  <section class="narrative-section relative" style="min-height: 300vh;" id="narrative">
+    <div class="mx-auto max-w-6xl px-6">
+      <div class="flex gap-12">
 
-  <!-- Pillar 1: Scope -->
-  <section class="pillar-section tinted" id="scope" data-pillar="1" style="opacity:0; transform:translateY(30px);">
-    <div class="pillar-narrative">
-      <div class="narrative-today">
-        <span class="narrative-label">Sound familiar?</span>
-        <p>Your senior consultant just landed a new client. She's spending the afternoon digging through Slack, email, and old proposals to piece together how you've handled similar work.</p>
-      </div>
-      <div class="narrative-arrow">&rarr;</div>
-      <div class="narrative-servantium">
-        <span class="narrative-label">There's a better way</span>
-        <p>She opens Similar Engagements and finds 4 comparable projects in seconds. Pricing, delivery outcomes, lessons learned — all there.</p>
-      </div>
-    </div>
-    <div class="pillar-grid">
-      <div class="pillar-text reveal">
-        <h3 class="pillar-title accent-green">Scope with confidence</h3>
-        <p class="pillar-desc">Discovery that captures context, not just notes. Your service catalog gives you the building blocks for every engagement.</p>
-        <ul class="pillar-bullets green">
-          <li>Engagement workspace</li>
-          <li>AI note parsing</li>
-          <li>Service catalog library</li>
-          <li>Similar engagement matching</li>
-        </ul>
-        <a class="pillar-guide-link" href="#features" data-tab="scope">Explore features &darr;</a>
-      </div>
-      <div class="pillar-visual reveal">
-        <div class="mini-illus">
-          <div class="mock-eng-card">
-            <div class="mock-eng-header">
-              <div class="mock-eng-dot"></div>
-              <div class="mock-eng-title">KVWN, Initial Discovery</div>
+        <!-- LEFT: Sticky text column (desktop) -->
+        <div class="w-[40%] hidden lg:block">
+          <div class="sticky top-24" style="height: calc(100vh - 8rem);">
+            <!-- Progress dots -->
+            <div class="absolute left-0 top-1/2 -translate-y-1/2 flex flex-col gap-6">
+              <div class="narrative-dot w-2.5 h-2.5 rounded-full bg-[var(--color-green)] shadow-[0_0_8px_rgba(0,194,109,0.5)]" data-dot="0"></div>
+              <div class="narrative-dot w-2.5 h-2.5 rounded-full bg-[var(--color-cloud-grey)]" data-dot="1"></div>
+              <div class="narrative-dot w-2.5 h-2.5 rounded-full bg-[var(--color-cloud-grey)]" data-dot="2"></div>
+              <div class="narrative-dot w-2.5 h-2.5 rounded-full bg-[var(--color-cloud-grey)]" data-dot="3"></div>
             </div>
-            <div class="mock-eng-keywords">
-              <span class="mock-eng-kw">Salesforce CRM</span>
-              <span class="mock-eng-kw">60 users</span>
-              <span class="mock-eng-kw">Q3 2026</span>
+
+            <!-- Astronaut -->
+            <div class="absolute right-0 bottom-8 narrative-astronaut" data-astro-stage="0">
+              <div class="astro-variant" data-astro-variant="0"><Astronaut size="md" variant="searching" /></div>
+              <div class="astro-variant hidden" data-astro-variant="1"><Astronaut size="md" variant="floating" /></div>
+              <div class="astro-variant hidden" data-astro-variant="2"><Astronaut size="md" variant="waving" /></div>
+              <div class="astro-variant hidden" data-astro-variant="3"><Astronaut size="md" variant="peeking" /></div>
             </div>
-            <div class="mock-eng-insight">
-              3 similar engagements found. Avg. 14 weeks, 92% estimate accuracy.
+
+            <!-- Text panels (only one visible at a time) -->
+            <div class="pl-8 flex flex-col justify-center h-full">
+              <!-- STAGE 0: Scope -->
+              <div class="narrative-text" data-stage="0">
+                <p class="text-[var(--color-ink-muted)] leading-relaxed mb-4 text-base italic">
+                  Your consultant just landed a new client. She's spending the afternoon digging through Slack, email, and old proposals to piece together how you've handled similar work.
+                </p>
+                <h3 class="text-2xl md:text-3xl font-medium mb-3" style="font-family: var(--font-display); color: var(--color-ink); border-left: 3px solid var(--color-green); padding-left: 12px;">
+                  Scope with confidence
+                </h3>
+                <p class="text-[var(--color-ink-light)] leading-relaxed mb-4">
+                  She opens Similar Engagements and finds 4 comparable projects in seconds. Pricing, delivery outcomes, lessons learned — all there.
+                </p>
+                <div class="grid grid-cols-2 gap-2 mb-4">
+                  <span class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]">
+                    <svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    Engagement workspace
+                  </span>
+                  <span class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]">
+                    <svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    AI note parsing
+                  </span>
+                  <span class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]">
+                    <svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    Similar matching
+                  </span>
+                  <span class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]">
+                    <svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    Service catalog
+                  </span>
+                </div>
+                <a href="#features" data-tab="scope" class="narrative-link text-sm font-semibold text-[var(--color-green)] no-underline hover:text-[var(--color-green-hover)]">
+                  Explore features ↓
+                </a>
+              </div>
+
+              <!-- STAGE 1: Price (initially hidden) -->
+              <div class="narrative-text hidden" data-stage="1">
+                <p class="text-[var(--color-ink-muted)] leading-relaxed mb-4 text-base italic">
+                  Building a quote means opening three spreadsheets, guessing at margins, and hoping someone remembers what the last one actually cost to deliver.
+                </p>
+                <h3 class="text-2xl md:text-3xl font-medium mb-3" style="font-family: var(--font-display); color: var(--color-ink); border-left: 3px solid #4C82A7; padding-left: 12px;">
+                  Price with precision
+                </h3>
+                <p class="text-[var(--color-ink-light)] leading-relaxed mb-4">
+                  The quote builder pulls from your learning catalog. Real costs from real projects. AI generates a complete structure from your notes and history.
+                </p>
+                <div class="grid grid-cols-2 gap-2 mb-4">
+                  <span class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#4C82A7] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Grouped estimate builder</span>
+                  <span class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#4C82A7] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Margin analysis</span>
+                  <span class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#4C82A7] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>AI generation</span>
+                  <span class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#4C82A7] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Learning catalog</span>
+                </div>
+                <a href="#features" data-tab="price" class="narrative-link text-sm font-semibold text-[#4C82A7] no-underline hover:opacity-80">Explore features ↓</a>
+              </div>
+
+              <!-- STAGE 2: Staff (initially hidden) -->
+              <div class="narrative-text hidden" data-stage="2">
+                <p class="text-[var(--color-ink-muted)] leading-relaxed mb-4 text-base italic">
+                  You just won a big implementation. Now you're trying to figure out who's available without double-booking your best people across five active projects.
+                </p>
+                <h3 class="text-2xl md:text-3xl font-medium mb-3" style="font-family: var(--font-display); color: var(--color-ink); border-left: 3px solid #26A899; padding-left: 12px;">
+                  Staff with clarity
+                </h3>
+                <p class="text-[var(--color-ink-light)] leading-relaxed mb-4">
+                  The resource planner shows real-time capacity across every engagement. Assign the right people based on skills, availability, and track record.
+                </p>
+                <div class="grid grid-cols-2 gap-2 mb-4">
+                  <span class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#26A899] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Resource plans</span>
+                  <span class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#26A899] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Utilization tracking</span>
+                  <span class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#26A899] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Capacity forecasting</span>
+                  <span class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#26A899] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Skill matching</span>
+                </div>
+                <a href="#features" data-tab="staff" class="narrative-link text-sm font-semibold text-[#26A899] no-underline hover:opacity-80">Explore features ↓</a>
+              </div>
+
+              <!-- STAGE 3: Learn (initially hidden) -->
+              <div class="narrative-text hidden" data-stage="3">
+                <p class="text-[var(--color-ink-muted)] leading-relaxed mb-4 text-base italic">
+                  Your firm completes 200 engagements a year, but each one starts from scratch. When someone leaves, everything they know walks out with them.
+                </p>
+                <h3 class="text-2xl md:text-3xl font-medium mb-3" style="font-family: var(--font-display); color: var(--color-ink); border-left: 3px solid #8B5CF6; padding-left: 12px;">
+                  Learn and improve
+                </h3>
+                <p class="text-[var(--color-ink-light)] leading-relaxed mb-4">
+                  Every engagement feeds the institutional memory. Notes become embeddings. Quotes become catalog items. Outcomes become benchmarks. Your firm compounds knowledge automatically.
+                </p>
+                <div class="grid grid-cols-2 gap-2 mb-4">
+                  <span class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#8B5CF6] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Institutional memory</span>
+                  <span class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#8B5CF6] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Note embeddings</span>
+                  <span class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#8B5CF6] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Learning catalog</span>
+                  <span class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#8B5CF6] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Vector search</span>
+                </div>
+                <a href="#features" data-tab="learn" class="narrative-link text-sm font-semibold text-[#8B5CF6] no-underline hover:opacity-80">Explore features ↓</a>
+              </div>
             </div>
           </div>
+        </div>
+
+        <!-- RIGHT: Scrolling mockup column -->
+        <div class="w-full lg:w-[60%]">
+
+          <!-- Mockup 0: Scope -->
+          <div class="narrative-mockup min-h-[75vh] flex items-center" data-mockup="0">
+            <!-- Mobile-only text card -->
+            <div class="narrative-mobile-card lg:hidden mb-6">
+              <div class="flex items-center gap-3 mb-3">
+                <div class="w-2.5 h-2.5 rounded-full bg-[var(--color-green)] shadow-[0_0_8px_rgba(0,194,109,0.5)]"></div>
+                <span class="text-xs font-semibold uppercase tracking-wider text-[var(--color-ink-muted)]">Stage 1</span>
+              </div>
+              <p class="text-[var(--color-ink-muted)] leading-relaxed mb-3 text-sm italic">
+                Your consultant just landed a new client. She's spending the afternoon digging through Slack, email, and old proposals to piece together how you've handled similar work.
+              </p>
+              <h3 class="text-xl font-medium mb-2" style="font-family: var(--font-display); color: var(--color-ink); border-left: 3px solid var(--color-green); padding-left: 10px;">
+                Scope with confidence
+              </h3>
+              <p class="text-[var(--color-ink-light)] leading-relaxed mb-3 text-sm">
+                She opens Similar Engagements and finds 4 comparable projects in seconds. Pricing, delivery outcomes, lessons learned — all there.
+              </p>
+              <div class="grid grid-cols-2 gap-1.5 mb-3">
+                <span class="flex items-center gap-1.5 text-xs text-[var(--color-ink-muted)]"><svg class="w-3.5 h-3.5 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Engagement workspace</span>
+                <span class="flex items-center gap-1.5 text-xs text-[var(--color-ink-muted)]"><svg class="w-3.5 h-3.5 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>AI note parsing</span>
+                <span class="flex items-center gap-1.5 text-xs text-[var(--color-ink-muted)]"><svg class="w-3.5 h-3.5 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Similar matching</span>
+                <span class="flex items-center gap-1.5 text-xs text-[var(--color-ink-muted)]"><svg class="w-3.5 h-3.5 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Service catalog</span>
+              </div>
+            </div>
+            <!-- Mockup -->
+            <div class="mini-illus w-full">
+              <div class="mock-eng-card">
+                <div class="mock-eng-header">
+                  <div class="mock-eng-dot"></div>
+                  <div class="mock-eng-title">KVWN, Initial Discovery</div>
+                </div>
+                <div class="mock-eng-keywords">
+                  <span class="mock-eng-kw">Salesforce CRM</span>
+                  <span class="mock-eng-kw">60 users</span>
+                  <span class="mock-eng-kw">Q3 2026</span>
+                </div>
+                <div class="mock-eng-insight">
+                  3 similar engagements found. Avg. 14 weeks, 92% estimate accuracy.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mockup 1: Price -->
+          <div class="narrative-mockup min-h-[75vh] flex items-center" data-mockup="1">
+            <div class="narrative-mobile-card lg:hidden mb-6">
+              <div class="flex items-center gap-3 mb-3">
+                <div class="w-2.5 h-2.5 rounded-full bg-[#4C82A7] shadow-[0_0_8px_rgba(76,130,167,0.5)]"></div>
+                <span class="text-xs font-semibold uppercase tracking-wider text-[var(--color-ink-muted)]">Stage 2</span>
+              </div>
+              <p class="text-[var(--color-ink-muted)] leading-relaxed mb-3 text-sm italic">
+                Building a quote means opening three spreadsheets, guessing at margins, and hoping someone remembers what the last one actually cost to deliver.
+              </p>
+              <h3 class="text-xl font-medium mb-2" style="font-family: var(--font-display); color: var(--color-ink); border-left: 3px solid #4C82A7; padding-left: 10px;">
+                Price with precision
+              </h3>
+              <p class="text-[var(--color-ink-light)] leading-relaxed mb-3 text-sm">
+                The quote builder pulls from your learning catalog. Real costs from real projects. AI generates a complete structure from your notes and history.
+              </p>
+              <div class="grid grid-cols-2 gap-1.5 mb-3">
+                <span class="flex items-center gap-1.5 text-xs text-[var(--color-ink-muted)]"><svg class="w-3.5 h-3.5 text-[#4C82A7] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Grouped estimate builder</span>
+                <span class="flex items-center gap-1.5 text-xs text-[var(--color-ink-muted)]"><svg class="w-3.5 h-3.5 text-[#4C82A7] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Margin analysis</span>
+                <span class="flex items-center gap-1.5 text-xs text-[var(--color-ink-muted)]"><svg class="w-3.5 h-3.5 text-[#4C82A7] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>AI generation</span>
+                <span class="flex items-center gap-1.5 text-xs text-[var(--color-ink-muted)]"><svg class="w-3.5 h-3.5 text-[#4C82A7] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Learning catalog</span>
+              </div>
+            </div>
+            <div class="mini-illus w-full">
+              <div class="mock-est">
+                <div class="mock-est-header">
+                  <span>Item Type</span>
+                  <span>Item Name</span>
+                  <span>Qty</span>
+                  <span>Cost</span>
+                  <span>Markup</span>
+                  <span>Total</span>
+                </div>
+                <div class="mock-est-group">
+                  <span>Discovery &amp; Requirements</span>
+                  <span>$24,000</span>
+                  <span>35%</span>
+                  <span>$32,400</span>
+                </div>
+                <div class="mock-est-row">
+                  <span><span class="mock-est-badge">Resource</span></span>
+                  <span>Sr. Business Analyst</span>
+                  <span>120h</span>
+                  <span>$12,000</span>
+                  <span>35%</span>
+                  <span>$16,200</span>
+                </div>
+                <div class="mock-est-row">
+                  <span><span class="mock-est-badge">Resource</span></span>
+                  <span>Solutions Architect</span>
+                  <span>80h</span>
+                  <span>$12,000</span>
+                  <span>35%</span>
+                  <span>$16,200</span>
+                </div>
+                <div class="mock-est-total">$167,450</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mockup 2: Staff -->
+          <div class="narrative-mockup min-h-[75vh] flex items-center" data-mockup="2">
+            <div class="narrative-mobile-card lg:hidden mb-6">
+              <div class="flex items-center gap-3 mb-3">
+                <div class="w-2.5 h-2.5 rounded-full bg-[#26A899] shadow-[0_0_8px_rgba(38,168,153,0.5)]"></div>
+                <span class="text-xs font-semibold uppercase tracking-wider text-[var(--color-ink-muted)]">Stage 3</span>
+              </div>
+              <p class="text-[var(--color-ink-muted)] leading-relaxed mb-3 text-sm italic">
+                You just won a big implementation. Now you're trying to figure out who's available without double-booking your best people across five active projects.
+              </p>
+              <h3 class="text-xl font-medium mb-2" style="font-family: var(--font-display); color: var(--color-ink); border-left: 3px solid #26A899; padding-left: 10px;">
+                Staff with clarity
+              </h3>
+              <p class="text-[var(--color-ink-light)] leading-relaxed mb-3 text-sm">
+                The resource planner shows real-time capacity across every engagement. Assign the right people based on skills, availability, and track record.
+              </p>
+              <div class="grid grid-cols-2 gap-1.5 mb-3">
+                <span class="flex items-center gap-1.5 text-xs text-[var(--color-ink-muted)]"><svg class="w-3.5 h-3.5 text-[#26A899] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Resource plans</span>
+                <span class="flex items-center gap-1.5 text-xs text-[var(--color-ink-muted)]"><svg class="w-3.5 h-3.5 text-[#26A899] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Utilization tracking</span>
+                <span class="flex items-center gap-1.5 text-xs text-[var(--color-ink-muted)]"><svg class="w-3.5 h-3.5 text-[#26A899] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Capacity forecasting</span>
+                <span class="flex items-center gap-1.5 text-xs text-[var(--color-ink-muted)]"><svg class="w-3.5 h-3.5 text-[#26A899] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Skill matching</span>
+              </div>
+            </div>
+            <div class="mini-illus w-full">
+              <div class="mock-res">
+                <div class="mock-res-project">KVWN, Salesforce CRM</div>
+                <div class="mock-res-header">
+                  <span>Resource</span>
+                  <span>Apr</span>
+                  <span>May</span>
+                  <span>Jun</span>
+                  <span>Jul</span>
+                </div>
+                <div class="mock-res-row">
+                  <span><span class="mock-res-name">R. Burgundy</span><br><span class="mock-res-role">Lead</span></span>
+                  <span><span class="mock-res-cell normal">72%</span></span>
+                  <span><span class="mock-res-cell heavy">88%</span></span>
+                  <span><span class="mock-res-cell normal">65%</span></span>
+                  <span><span class="mock-res-cell normal">40%</span></span>
+                </div>
+                <div class="mock-res-row">
+                  <span><span class="mock-res-name">B. Fantana</span><br><span class="mock-res-role">Architect</span></span>
+                  <span><span class="mock-res-cell normal">60%</span></span>
+                  <span><span class="mock-res-cell normal">75%</span></span>
+                  <span><span class="mock-res-cell heavy">90%</span></span>
+                  <span><span class="mock-res-cell over">105%</span></span>
+                </div>
+                <div class="mock-res-row">
+                  <span><span class="mock-res-name">B. Tamland</span><br><span class="mock-res-role">Developer</span></span>
+                  <span><span class="mock-res-cell normal">50%</span></span>
+                  <span><span class="mock-res-cell normal">70%</span></span>
+                  <span><span class="mock-res-cell heavy">85%</span></span>
+                  <span><span class="mock-res-cell normal">75%</span></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mockup 3: Learn -->
+          <div class="narrative-mockup min-h-[75vh] flex items-center" data-mockup="3">
+            <div class="narrative-mobile-card lg:hidden mb-6">
+              <div class="flex items-center gap-3 mb-3">
+                <div class="w-2.5 h-2.5 rounded-full bg-[#8B5CF6] shadow-[0_0_8px_rgba(139,92,246,0.5)]"></div>
+                <span class="text-xs font-semibold uppercase tracking-wider text-[var(--color-ink-muted)]">Stage 4</span>
+              </div>
+              <p class="text-[var(--color-ink-muted)] leading-relaxed mb-3 text-sm italic">
+                Your firm completes 200 engagements a year, but each one starts from scratch. When someone leaves, everything they know walks out with them.
+              </p>
+              <h3 class="text-xl font-medium mb-2" style="font-family: var(--font-display); color: var(--color-ink); border-left: 3px solid #8B5CF6; padding-left: 10px;">
+                Learn and improve
+              </h3>
+              <p class="text-[var(--color-ink-light)] leading-relaxed mb-3 text-sm">
+                Every engagement feeds the institutional memory. Notes become embeddings. Quotes become catalog items. Outcomes become benchmarks. Your firm compounds knowledge automatically.
+              </p>
+              <div class="grid grid-cols-2 gap-1.5 mb-3">
+                <span class="flex items-center gap-1.5 text-xs text-[var(--color-ink-muted)]"><svg class="w-3.5 h-3.5 text-[#8B5CF6] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Institutional memory</span>
+                <span class="flex items-center gap-1.5 text-xs text-[var(--color-ink-muted)]"><svg class="w-3.5 h-3.5 text-[#8B5CF6] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Note embeddings</span>
+                <span class="flex items-center gap-1.5 text-xs text-[var(--color-ink-muted)]"><svg class="w-3.5 h-3.5 text-[#8B5CF6] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Learning catalog</span>
+                <span class="flex items-center gap-1.5 text-xs text-[var(--color-ink-muted)]"><svg class="w-3.5 h-3.5 text-[#8B5CF6] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Vector search</span>
+              </div>
+            </div>
+            <div class="mini-illus w-full">
+              <div class="mock-learn">
+                <div class="mock-learn-title">KVWN, Post-Delivery Analysis</div>
+                <div class="mock-learn-metrics">
+                  <span class="mock-learn-pill green">94% estimate accuracy</span>
+                  <span class="mock-learn-pill green">8% under budget</span>
+                  <span class="mock-learn-pill blue">17 weeks actual vs planned</span>
+                </div>
+                <div class="mock-learn-patterns">
+                  <div class="mock-learn-patterns-title">Patterns Detected</div>
+                  <div class="mock-learn-patterns-text">Discovery phases for CRM implementations consistently run 15% under estimate when led by senior analysts. Recommend adjusting catalog effort drivers.</div>
+                </div>
+                <div class="mock-learn-footer">Feeding insights into <span>Service Catalog</span></div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Pillar 2: Price -->
-  <section class="pillar-section" id="price" data-pillar="2" style="opacity:0; transform:translateY(30px);">
-    <div class="pillar-narrative">
-      <div class="narrative-today">
-        <span class="narrative-label">Sound familiar?</span>
-        <p>Building a quote means opening three spreadsheets, guessing at margins, and hoping someone remembers what the last one actually cost to deliver.</p>
-      </div>
-      <div class="narrative-arrow">&rarr;</div>
-      <div class="narrative-servantium">
-        <span class="narrative-label">There's a better way</span>
-        <p>The quote builder pulls from your learning catalog. Real costs from real projects. AI generates a complete structure from your notes and history.</p>
-      </div>
-    </div>
-    <div class="pillar-grid reversed">
-      <div class="pillar-text reveal">
-        <h3 class="pillar-title accent-blue">Price with precision</h3>
-        <p class="pillar-desc">Build estimates informed by every project you have ever delivered. Grouped line items, role-based pricing, automatic margin calculations.</p>
-        <ul class="pillar-bullets blue">
-          <li>Grouped estimate builder</li>
-          <li>Role &amp; rate management</li>
-          <li>Margin analysis</li>
-          <li>One-click proposal generation</li>
-        </ul>
-        <a class="pillar-guide-link" href="#features" data-tab="price">Explore features &darr;</a>
-      </div>
-      <div class="pillar-visual reveal">
-        <div class="mini-illus">
-          <div class="mock-est">
-            <div class="mock-est-header">
-              <span>Item Type</span>
-              <span>Item Name</span>
-              <span>Qty</span>
-              <span>Cost</span>
-              <span>Markup</span>
-              <span>Total</span>
-            </div>
-            <div class="mock-est-group">
-              <span>Discovery &amp; Requirements</span>
-              <span>$24,000</span>
-              <span>35%</span>
-              <span>$32,400</span>
-            </div>
-            <div class="mock-est-row">
-              <span><span class="mock-est-badge">Resource</span></span>
-              <span>Sr. Business Analyst</span>
-              <span>120h</span>
-              <span>$12,000</span>
-              <span>35%</span>
-              <span>$16,200</span>
-            </div>
-            <div class="mock-est-row">
-              <span><span class="mock-est-badge">Resource</span></span>
-              <span>Solutions Architect</span>
-              <span>80h</span>
-              <span>$12,000</span>
-              <span>35%</span>
-              <span>$16,200</span>
-            </div>
-            <div class="mock-est-total">$167,450</div>
-          </div>
+  <!-- Compact pillar jump cards -->
+  <section class="py-8">
+    <div class="mx-auto max-w-4xl px-6 grid grid-cols-2 md:grid-cols-4 gap-4">
+      <a href="#features" data-tab="scope" class="compact-card p-4 rounded-xl border border-[var(--color-cloud-grey)] text-center no-underline hover:border-[var(--color-green)] hover:shadow-md transition-all">
+        <div class="text-2xl mb-2">
+          <svg class="inline-block w-6 h-6 text-[var(--color-green)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Pillar 3: Staff -->
-  <section class="pillar-section tinted" id="staff" data-pillar="3" style="opacity:0; transform:translateY(30px);">
-    <div class="pillar-narrative">
-      <div class="narrative-today">
-        <span class="narrative-label">Sound familiar?</span>
-        <p>You just won a big implementation. Now you're trying to figure out who's available without accidentally double-booking your best people across five active projects.</p>
-      </div>
-      <div class="narrative-arrow">&rarr;</div>
-      <div class="narrative-servantium">
-        <span class="narrative-label">There's a better way</span>
-        <p>The resource planner shows real-time capacity across every engagement. Assign the right people based on skills, availability, and track record.</p>
-      </div>
-    </div>
-    <div class="pillar-grid">
-      <div class="pillar-text reveal">
-        <h3 class="pillar-title accent-teal">Staff with clarity</h3>
-        <p class="pillar-desc">See who is available, who is overloaded, and who is perfect for the job. Across every active engagement.</p>
-        <ul class="pillar-bullets teal">
-          <li>Cross-engagement visibility</li>
-          <li>Utilization tracking</li>
-          <li>Skill-based matching</li>
-          <li>Capacity forecasting</li>
-        </ul>
-        <a class="pillar-guide-link" href="#features" data-tab="staff">Explore features &darr;</a>
-      </div>
-      <div class="pillar-visual reveal">
-        <div class="mini-illus">
-          <div class="mock-res">
-            <div class="mock-res-project">KVWN, Salesforce CRM</div>
-            <div class="mock-res-header">
-              <span>Resource</span>
-              <span>Apr</span>
-              <span>May</span>
-              <span>Jun</span>
-              <span>Jul</span>
-            </div>
-            <div class="mock-res-row">
-              <span><span class="mock-res-name">R. Burgundy</span><br><span class="mock-res-role">Lead</span></span>
-              <span><span class="mock-res-cell normal">72%</span></span>
-              <span><span class="mock-res-cell heavy">88%</span></span>
-              <span><span class="mock-res-cell normal">65%</span></span>
-              <span><span class="mock-res-cell normal">40%</span></span>
-            </div>
-            <div class="mock-res-row">
-              <span><span class="mock-res-name">B. Fantana</span><br><span class="mock-res-role">Architect</span></span>
-              <span><span class="mock-res-cell normal">60%</span></span>
-              <span><span class="mock-res-cell normal">75%</span></span>
-              <span><span class="mock-res-cell heavy">90%</span></span>
-              <span><span class="mock-res-cell over">105%</span></span>
-            </div>
-            <div class="mock-res-row">
-              <span><span class="mock-res-name">B. Tamland</span><br><span class="mock-res-role">Developer</span></span>
-              <span><span class="mock-res-cell normal">50%</span></span>
-              <span><span class="mock-res-cell normal">70%</span></span>
-              <span><span class="mock-res-cell heavy">85%</span></span>
-              <span><span class="mock-res-cell normal">75%</span></span>
-            </div>
-          </div>
+        <div class="font-semibold text-sm text-[var(--color-ink)]">Scope</div>
+        <div class="text-xs text-[var(--color-ink-muted)]">6 features</div>
+      </a>
+      <a href="#features" data-tab="price" class="compact-card p-4 rounded-xl border border-[var(--color-cloud-grey)] text-center no-underline hover:border-[#4C82A7] hover:shadow-md transition-all">
+        <div class="text-2xl mb-2">
+          <svg class="inline-block w-6 h-6 text-[#4C82A7]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Pillar 4: Learn -->
-  <section class="pillar-section" id="learn" data-pillar="4" style="opacity:0; transform:translateY(30px);">
-    <div class="pillar-narrative">
-      <div class="narrative-today">
-        <span class="narrative-label">Sound familiar?</span>
-        <p>Your firm completes 200 engagements a year, but each one starts from scratch. When someone leaves, everything they know walks out with them.</p>
-      </div>
-      <div class="narrative-arrow">&rarr;</div>
-      <div class="narrative-servantium">
-        <span class="narrative-label">There's a better way</span>
-        <p>Every engagement feeds the institutional memory. Notes become embeddings. Quotes become catalog items. Outcomes become benchmarks. Your firm compounds knowledge automatically.</p>
-      </div>
-    </div>
-    <div class="pillar-grid reversed">
-      <div class="pillar-text reveal">
-        <h3 class="pillar-title accent-amber">Learn from everything</h3>
-        <p class="pillar-desc">This is what competitors cannot copy. Every delivered engagement feeds back into how you scope, price, and staff the next one.</p>
-        <ul class="pillar-bullets amber">
-          <li>Delivery variance analysis</li>
-          <li>Estimate accuracy tracking</li>
-          <li>Pattern detection</li>
-          <li>Continuous improvement engine</li>
-        </ul>
-        <a class="pillar-guide-link" href="#features" data-tab="learn">Explore features &darr;</a>
-      </div>
-      <div class="pillar-visual reveal">
-        <div class="mini-illus">
-          <div class="mock-learn">
-            <div class="mock-learn-title">KVWN, Post-Delivery Analysis</div>
-            <div class="mock-learn-metrics">
-              <span class="mock-learn-pill green">94% estimate accuracy</span>
-              <span class="mock-learn-pill green">8% under budget</span>
-              <span class="mock-learn-pill blue">17 weeks actual vs planned</span>
-            </div>
-            <div class="mock-learn-patterns">
-              <div class="mock-learn-patterns-title">Patterns Detected</div>
-              <div class="mock-learn-patterns-text">Discovery phases for CRM implementations consistently run 15% under estimate when led by senior analysts. Recommend adjusting catalog effort drivers.</div>
-            </div>
-            <div class="mock-learn-footer">Feeding insights into <span>Service Catalog</span></div>
-          </div>
+        <div class="font-semibold text-sm text-[var(--color-ink)]">Price</div>
+        <div class="text-xs text-[var(--color-ink-muted)]">6 features</div>
+      </a>
+      <a href="#features" data-tab="staff" class="compact-card p-4 rounded-xl border border-[var(--color-cloud-grey)] text-center no-underline hover:border-[#26A899] hover:shadow-md transition-all">
+        <div class="text-2xl mb-2">
+          <svg class="inline-block w-6 h-6 text-[#26A899]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
         </div>
-      </div>
+        <div class="font-semibold text-sm text-[var(--color-ink)]">Staff</div>
+        <div class="text-xs text-[var(--color-ink-muted)]">5 features</div>
+      </a>
+      <a href="#features" data-tab="learn" class="compact-card p-4 rounded-xl border border-[var(--color-cloud-grey)] text-center no-underline hover:border-[#8B5CF6] hover:shadow-md transition-all">
+        <div class="text-2xl mb-2">
+          <svg class="inline-block w-6 h-6 text-[#8B5CF6]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+        </div>
+        <div class="font-semibold text-sm text-[var(--color-ink)]">Learn</div>
+        <div class="text-xs text-[var(--color-ink-muted)]">5 features</div>
+      </a>
     </div>
   </section>
 
@@ -497,143 +643,44 @@ const jsonLd = {
     flex-wrap: wrap;
   }
 
-  /* Pillar Narrative — Today / With Servantium */
-  .pillar-narrative {
-    display: flex;
-    align-items: stretch;
-    gap: 1.5rem;
-    max-width: 1320px;
-    margin: 0 auto 0;
-    padding: 0 1.5rem;
-  }
-  .narrative-today, .narrative-servantium {
-    flex: 1;
-    padding: 1.25rem 1.5rem;
-    border-radius: 10px;
-    font-size: 0.95rem;
-    line-height: 1.6;
-  }
-  .narrative-today {
-    background: var(--neutral-100);
-    border-left: 3px solid #cbd5e1;
-  }
-  .narrative-today p {
-    color: #475569;
-    margin: 0;
-  }
-  .narrative-servantium {
-    background: var(--green-25);
-    border-left: 3px solid var(--green-500);
-  }
-  .narrative-servantium p {
-    font-weight: 500;
-    color: #1e293b;
-    margin: 0;
-  }
-  .narrative-label {
-    display: block;
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-bottom: 0.5rem;
-    color: var(--neutral-700);
-  }
-  .narrative-servantium .narrative-label {
-    color: var(--green-600);
-  }
-  .narrative-arrow {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    color: var(--green-500);
-    font-weight: 700;
-    flex-shrink: 0;
-    width: 32px;
-  }
-
-  /* Pillar guide link */
-  .pillar-guide-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.25rem;
-    margin-top: 1rem;
-    color: var(--green-600);
-    font-weight: 600;
-    font-size: 0.9rem;
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-  .pillar-guide-link:hover {
-    color: var(--green-700);
-  }
-
-  /* Four Pillars */
-  .pillar-section {
-    padding: 2rem 0;
+  /* Narrative section */
+  .narrative-section {
     background: var(--neutral-25);
+    padding-top: 4rem;
   }
-  .pillar-section.tinted {
+
+  .narrative-text {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  .narrative-text.hidden {
+    display: none;
+  }
+
+  .narrative-dot {
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  /* Astronaut costume switching */
+  .astro-variant {
+    transition: opacity 0.3s ease;
+  }
+  .astro-variant.hidden {
+    display: none;
+  }
+
+  /* Mobile narrative cards */
+  .narrative-mobile-card {
+    padding: 1.25rem;
     background: #F9FDFB;
+    border-radius: 12px;
+    border: 1px solid var(--neutral-300);
   }
-  .pillar-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 3rem;
-    align-items: center;
-    max-width: 1320px;
-    margin: 0 auto;
-    padding: 1rem 1.5rem 0;
-  }
-  .pillar-grid.reversed .pillar-text { order: 2; }
-  .pillar-grid.reversed .pillar-visual { order: 1; }
 
-  .pillar-title {
-    font-family: var(--font-heading, 'Playfair Display', serif);
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-    padding-left: 12px;
-    line-height: 1.3;
+  /* Compact jump cards */
+  .compact-card {
+    background: white;
+    cursor: pointer;
   }
-  .pillar-title.accent-green { border-left: 4px solid var(--green-500); }
-  .pillar-title.accent-blue { border-left: 4px solid var(--slate-blue); }
-  .pillar-title.accent-teal { border-left: 4px solid var(--deep-teal); }
-  .pillar-title.accent-amber { border-left: 4px solid var(--amber); }
-
-  .pillar-desc {
-    font-size: 1.125rem;
-    line-height: 1.7;
-    color: var(--neutral-700);
-    margin-bottom: 1.5rem;
-  }
-  .pillar-bullets {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  .pillar-bullets li {
-    padding: 0.4rem 0;
-    padding-left: 1.5rem;
-    position: relative;
-    font-size: 0.95rem;
-    color: var(--neutral-700);
-    line-height: 1.5;
-  }
-  .pillar-bullets li::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0.65rem;
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-  }
-  .pillar-bullets.green li::before { background: var(--green-500); }
-  .pillar-bullets.blue li::before { background: var(--slate-blue); }
-  .pillar-bullets.teal li::before { background: var(--deep-teal); }
-  .pillar-bullets.amber li::before { background: var(--amber); }
 
   /* Mini Illustrations */
   .mini-illus {
@@ -649,7 +696,7 @@ const jsonLd = {
     margin: 0 auto;
   }
 
-  /* Pillar 1: Engagement Card */
+  /* Mockup 1: Engagement Card */
   .mock-eng-card { padding: 16px; }
   .mock-eng-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
   .mock-eng-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green-500); }
@@ -658,7 +705,7 @@ const jsonLd = {
   .mock-eng-kw { padding: 3px 8px; border-radius: 4px; background: rgba(0,194,109,0.08); color: var(--green-700); font-size: 9px; font-weight: 600; }
   .mock-eng-insight { background: var(--neutral-100); border-radius: 6px; padding: 8px 10px; font-size: 9px; color: var(--slate); border-left: 3px solid var(--green-500); }
 
-  /* Pillar 2: Estimate Table */
+  /* Mockup 2: Estimate Table */
   .mock-est { font-size: 9px; }
   .mock-est-header { display: grid; grid-template-columns: 1fr 1.2fr 0.5fr 0.6fr 0.6fr 0.7fr; padding: 8px 12px; background: var(--neutral-100); font-weight: 600; font-size: 8px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--slate); border-bottom: 1px solid var(--neutral-300); }
   .mock-est-group { display: grid; grid-template-columns: 1fr 0.6fr 0.6fr 0.7fr; padding: 7px 12px; background: rgba(76,130,167,0.06); font-weight: 600; font-size: 9px; color: var(--slate-blue); border-bottom: 1px solid var(--neutral-300); }
@@ -666,7 +713,7 @@ const jsonLd = {
   .mock-est-badge { display: inline-block; padding: 1px 6px; border-radius: 3px; font-size: 8px; font-weight: 600; background: rgba(76,130,167,0.1); color: var(--slate-blue); }
   .mock-est-total { display: flex; justify-content: flex-end; padding: 10px 12px; font-weight: 700; font-size: 12px; color: var(--slate-blue); background: rgba(76,130,167,0.04); border-top: 2px solid var(--slate-blue); }
 
-  /* Pillar 3: Resource Grid */
+  /* Mockup 3: Resource Grid */
   .mock-res { font-size: 9px; }
   .mock-res-project { padding: 8px 12px; background: rgba(38,168,153,0.06); font-weight: 600; font-size: 10px; color: var(--deep-teal); border-bottom: 1px solid var(--neutral-300); }
   .mock-res-header { display: grid; grid-template-columns: 1.4fr repeat(4, 1fr); padding: 6px 12px; background: var(--neutral-100); font-weight: 600; font-size: 8px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--slate); border-bottom: 1px solid var(--neutral-300); }
@@ -678,7 +725,7 @@ const jsonLd = {
   .mock-res-cell.heavy { background: var(--amber); }
   .mock-res-cell.over { background: var(--coral); }
 
-  /* Pillar 4: Learning Card */
+  /* Mockup 4: Learning Card */
   .mock-learn { padding: 16px; }
   .mock-learn-title { font-weight: 600; font-size: 11px; margin-bottom: 12px; color: var(--neutral-900); }
   .mock-learn-metrics { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
@@ -792,13 +839,8 @@ const jsonLd = {
   /* Responsive */
   @media (max-width: 768px) {
     .platform-hero { padding: 7rem 0 3.5rem; }
-    .pillar-section { padding: 2rem 0; }
-    .pillar-story-compact { flex-direction: column; gap: 0.5rem; text-align: center; }
-    .story-solution-text { border-left: none; padding-left: 0; border-top: 2px solid var(--green-500); padding-top: 0.5rem; }
-    .story-arrow-compact { transform: rotate(90deg); }
-    .pillar-grid { grid-template-columns: 1fr; gap: 2rem; }
-    .pillar-grid.reversed .pillar-text { order: 1; }
-    .pillar-grid.reversed .pillar-visual { order: 0; }
+    .narrative-section { padding-top: 2rem; }
+    .narrative-mockup { min-height: auto !important; padding: 1.5rem 0; }
     .mini-illus { max-width: 100%; }
     .feature-table-wrap { border-radius: 8px; }
     .feature-table td:first-child { white-space: normal; }
@@ -872,7 +914,7 @@ const jsonLd = {
     }
   });
 
-  // Scroll reveal
+  // Scroll reveal for .reveal elements
   (function() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     var reveals = document.querySelectorAll('.reveal');
@@ -898,69 +940,63 @@ const jsonLd = {
   })();
 </script>
 
-<!-- Timed pillar section animations -->
+<!-- Narrative scroll observer -->
 <script is:inline>
-  function initPillarAnimations() {
-    var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var pillar1 = document.querySelector('[data-pillar="1"]');
-    var pillar2 = document.querySelector('[data-pillar="2"]');
-    var pillar3 = document.querySelector('[data-pillar="3"]');
-    var pillar4 = document.querySelector('[data-pillar="4"]');
-    var pillars = [pillar1, pillar2, pillar3, pillar4];
+  function initNarrative() {
+    var mockups = document.querySelectorAll('.narrative-mockup');
+    var texts = document.querySelectorAll('.narrative-text');
+    var dots = document.querySelectorAll('.narrative-dot');
+    var astroVariants = document.querySelectorAll('.astro-variant');
+    if (!mockups.length) return;
 
-    if (!pillar1) return;
+    var stageColors = [
+      'var(--color-green, #00C26D)',
+      '#4C82A7',
+      '#26A899',
+      '#8B5CF6'
+    ];
 
-    if (prefersReduced) {
-      pillars.forEach(function(el) {
-        if (el) { el.style.opacity = '1'; el.style.transform = 'none'; }
-      });
-      return;
-    }
+    var currentStage = 0;
 
-    var transition = 'opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1)';
-
-    pillars.forEach(function(el) {
-      if (el) {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(30px)';
-        el.style.transition = transition;
-      }
-    });
-
-    function reveal(el) {
-      if (el) { el.style.opacity = '1'; el.style.transform = 'translateY(0)'; }
-    }
-
-    setTimeout(function() { reveal(pillar1); }, 800);
-
-    var scrollHandled = false;
-    function onFirstScroll() {
-      if (scrollHandled) return;
-      scrollHandled = true;
-      window.removeEventListener('scroll', onFirstScroll);
-      setTimeout(function() { reveal(pillar2); }, 400);
-    }
-    window.addEventListener('scroll', onFirstScroll, { passive: true });
-
-    var io = new IntersectionObserver(function(entries) {
+    var observer = new IntersectionObserver(function(entries) {
       entries.forEach(function(entry) {
         if (entry.isIntersecting) {
-          var el = entry.target;
-          io.unobserve(el);
-          setTimeout(function() { reveal(el); }, 400);
+          var index = parseInt(entry.target.dataset.mockup);
+          if (index !== currentStage) {
+            // Hide current text, show new
+            texts.forEach(function(t) { t.classList.add('hidden'); });
+            if (texts[index]) texts[index].classList.remove('hidden');
+
+            // Update dots - active and previous are lit
+            dots.forEach(function(d, i) {
+              if (i <= index) {
+                d.style.background = stageColors[i];
+                d.style.boxShadow = '0 0 8px rgba(0,194,109,0.5)';
+              } else {
+                d.style.background = 'var(--color-cloud-grey, #E1E3E6)';
+                d.style.boxShadow = 'none';
+              }
+            });
+
+            // Switch astronaut costume
+            astroVariants.forEach(function(v) { v.classList.add('hidden'); });
+            if (astroVariants[index]) astroVariants[index].classList.remove('hidden');
+
+            currentStage = index;
+          }
         }
       });
-    }, { threshold: 0.15 });
+    }, { threshold: 0.5, rootMargin: '-20% 0px -20% 0px' });
 
-    if (pillar3) io.observe(pillar3);
-    if (pillar4) io.observe(pillar4);
+    mockups.forEach(function(m) { observer.observe(m); });
   }
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initPillarAnimations);
+    document.addEventListener('DOMContentLoaded', initNarrative);
   } else {
-    initPillarAnimations();
+    initNarrative();
   }
-  document.addEventListener('astro:page-load', initPillarAnimations);
+  document.addEventListener('astro:page-load', initNarrative);
 </script>
 
 <script is:inline>
@@ -988,8 +1024,8 @@ const jsonLd = {
       });
     });
 
-    // "Explore features" links: smooth scroll + activate tab
-    document.querySelectorAll('.pillar-guide-link[data-tab]').forEach(function(link) {
+    // "Explore features" links from narrative and compact cards: smooth scroll + activate tab
+    document.querySelectorAll('.narrative-link[data-tab], .compact-card[data-tab]').forEach(function(link) {
       link.addEventListener('click', function(e) {
         e.preventDefault();
         var tabName = this.dataset.tab;
