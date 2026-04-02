@@ -67,30 +67,32 @@ const finalRows = rows.map((row, i) => seededShuffle(row, 100 + i));
 
 <section class="integration-wall" aria-label={title}>
   <div class="wall-container">
-    <div class="wall-inner">
-      {finalRows.map((row, rowIdx) => (
-        <div
-          class="wall-row"
-          style={`--speed: ${rowSpeeds[rowIdx]};`}
-          data-row={rowIdx}
-        >
-          {/* Duplicate content for seamless loop */}
-          {[...row, ...row].map((ig, i) => (
-            <div
-              class={`wall-box wall-box-${ig.tier}`}
-              title={ig.name || undefined}
-              data-tooltip={ig.tier !== 'placeholder' ? ig.name : undefined}
-            >
-              <span
-                class="wall-box-text"
-                style={ig.tier !== 'placeholder' ? `color: ${ig.color}; font-weight: 700;` : ''}
+    <div class="wall-perspective">
+      <div class="wall-curved">
+        {finalRows.map((row, rowIdx) => (
+          <div
+            class="wall-row"
+            style={`--speed: ${rowSpeeds[rowIdx]};`}
+            data-row={rowIdx}
+          >
+            {/* Duplicate content for seamless loop */}
+            {[...row, ...row].map((ig, i) => (
+              <div
+                class={`wall-box wall-box-${ig.tier}`}
+                title={ig.name || undefined}
+                data-tooltip={ig.tier !== 'placeholder' ? ig.name : undefined}
               >
-                {ig.abbrev}
-              </span>
-            </div>
-          ))}
-        </div>
-      ))}
+                <span
+                  class="wall-box-text"
+                  style={ig.tier !== 'placeholder' ? `color: ${ig.color}; font-weight: 700;` : ''}
+                >
+                  {ig.abbrev}
+                </span>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
     </div>
 
     <!-- Edge vignettes -->
@@ -160,9 +162,13 @@ const finalRows = rows.map((row, i) => seededShuffle(row, 100 + i));
     margin: 0 auto;
   }
 
-  .wall-inner {
-    transform: rotateX(8deg);
-    transform-origin: center center;
+  .wall-perspective {
+    perspective: 1200px;
+  }
+
+  .wall-curved {
+    transform: rotateX(4deg);
+    transform-origin: center 60%;
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
@@ -175,6 +181,8 @@ const finalRows = rows.map((row, i) => seededShuffle(row, 100 + i));
     gap: 0.75rem;
     animation: scrollRow var(--speed) linear infinite;
     width: max-content;
+    mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
   }
   .wall-row[data-row="0"] { animation-direction: normal; }
   .wall-row[data-row="1"] { animation-direction: reverse; }
@@ -248,7 +256,7 @@ const finalRows = rows.map((row, i) => seededShuffle(row, 100 + i));
   }
 
   /* Hover: pause all rows */
-  .wall-container:hover .wall-row {
+  .wall-perspective:hover .wall-row {
     animation-play-state: paused;
   }
   .wall-box:hover {
@@ -262,17 +270,17 @@ const finalRows = rows.map((row, i) => seededShuffle(row, 100 + i));
     position: absolute;
     top: 0;
     bottom: 0;
-    width: 15%;
+    width: 22%;
     z-index: 5;
     pointer-events: none;
   }
   .wall-vignette-left {
     left: 0;
-    background: linear-gradient(to right, var(--color-mist-grey, #F5F6F7), transparent);
+    background: linear-gradient(to right, var(--color-mist-grey, #F5F6F7) 10%, rgba(245, 246, 247, 0.6) 50%, transparent 100%);
   }
   .wall-vignette-right {
     right: 0;
-    background: linear-gradient(to left, var(--color-mist-grey, #F5F6F7), transparent);
+    background: linear-gradient(to left, var(--color-mist-grey, #F5F6F7) 10%, rgba(245, 246, 247, 0.6) 50%, transparent 100%);
   }
 
   /* Center overlay */
@@ -447,7 +455,7 @@ const finalRows = rows.map((row, i) => seededShuffle(row, 100 + i));
     .wall-mobile-row {
       animation: none !important;
     }
-    .wall-inner {
+    .wall-curved {
       transform: none;
     }
     .wall-row {

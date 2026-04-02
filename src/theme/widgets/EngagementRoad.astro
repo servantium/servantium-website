@@ -18,52 +18,163 @@ const {
   subtitle,
   stops,
 } = Astro.props;
+
+// Stage accent colors and glow hues
+const stageThemes = [
+  { glow: '#22c55e', label: 'Discovery' },
+  { glow: '#3b82f6', label: 'Estimation' },
+  { glow: '#f59e0b', label: 'Proposal' },
+  { glow: '#14b8a6', label: 'Delivery' },
+  { glow: '#a855f7', label: 'Learning' },
+];
 ---
 
-<!-- Desktop: First-person driving simulator -->
+<!-- Desktop: First-person space journey -->
 <section class="engagement-road" aria-label={title}>
   <div class="road-scroll-spacer" style={`height: ${(stops.length + 1) * 100}vh;`}>
     <div class="road-viewport">
-      <!-- Sky / background -->
-      <div class="road-sky"></div>
-
-      <!-- Road surface -->
-      <div class="road-surface"></div>
-
-      <!-- Converging road lines -->
-      <div class="road-line road-line-left"></div>
-      <div class="road-line road-line-right"></div>
-
-      <!-- Green dust particles -->
-      <div class="road-particles" aria-hidden="true">
-        {Array.from({ length: 8 }).map((_, i) => (
-          <div class="road-particle" style={`--delay: ${i * 0.7}s; --x: ${15 + Math.random() * 70}%; --drift: ${(Math.random() - 0.5) * 40}px;`}></div>
+      <!-- Starfield background (CSS-only) — covers full viewport -->
+      <div class="starfield" aria-hidden="true">
+        {Array.from({ length: 120 }).map((_, i) => (
+          <div
+            class="star"
+            style={`left: ${(i * 13 + 3) % 100}%; top: ${(i * 23 + 7) % 100}%; width: ${1 + (i % 3)}px; height: ${1 + (i % 3)}px; opacity: ${0.3 + (i % 5) * 0.15};`}
+          ></div>
         ))}
       </div>
 
-      <!-- Ambient glow at edges -->
-      <div class="road-glow-left"></div>
-      <div class="road-glow-right"></div>
+      <!-- Star parallax layers for depth -->
+      <div class="stars-far" aria-hidden="true">
+        {Array.from({ length: 40 }).map((_, i) => (
+          <div
+            class="parallax-star"
+            style={`left: ${(i * 17 + 11) % 100}%; top: ${(i * 29 + 5) % 100}%; width: ${1 + (i % 2)}px; height: ${1 + (i % 2)}px; opacity: ${0.15 + (i % 4) * 0.08};`}
+          ></div>
+        ))}
+      </div>
+      <div class="stars-near" aria-hidden="true">
+        {Array.from({ length: 20 }).map((_, i) => (
+          <div
+            class="parallax-star"
+            style={`left: ${(i * 23 + 7) % 100}%; top: ${(i * 31 + 13) % 100}%; width: ${2 + (i % 2)}px; height: ${2 + (i % 2)}px; opacity: ${0.4 + (i % 3) * 0.15};`}
+          ></div>
+        ))}
+      </div>
+
+      <!-- Star streaks during transitions -->
+      <div class="star-streaks" aria-hidden="true">
+        <div class="streak-line" style="top: 15%; left: 5%; right: 35%;"></div>
+        <div class="streak-line" style="top: 28%; left: 12%; right: 20%;"></div>
+        <div class="streak-line" style="top: 42%; left: 8%; right: 30%;"></div>
+        <div class="streak-line" style="top: 55%; left: 18%; right: 12%;"></div>
+        <div class="streak-line" style="top: 68%; left: 10%; right: 28%;"></div>
+        <div class="streak-line" style="top: 78%; left: 22%; right: 18%;"></div>
+        <div class="streak-line" style="top: 88%; left: 15%; right: 25%;"></div>
+      </div>
+
+      <!-- Floating decorative orbs -->
+      <div class="floating-orbs" aria-hidden="true">
+        {(() => {
+          const orbConfigs = [
+            { size: 8, x: 3, y: 20, delay: 0, fromLeft: true },
+            { size: 12, x: 6, y: 45, delay: 1.2, fromLeft: true },
+            { size: 6, x: 8, y: 70, delay: 2.5, fromLeft: true },
+            { size: 14, x: 4, y: 85, delay: 0.8, fromLeft: true },
+            { size: 10, x: 5, y: 35, delay: 3.1, fromLeft: true },
+            { size: 10, x: 94, y: 15, delay: 0.5, fromLeft: false },
+            { size: 16, x: 92, y: 40, delay: 1.8, fromLeft: false },
+            { size: 8, x: 96, y: 60, delay: 2.2, fromLeft: false },
+            { size: 12, x: 93, y: 78, delay: 3.5, fromLeft: false },
+            { size: 6, x: 95, y: 55, delay: 0.3, fromLeft: false },
+          ];
+          return orbConfigs.map((orb, i) => (
+            <div
+              class="floating-orb"
+              data-orb-index={i}
+              style={`
+                width: ${orb.size}px;
+                height: ${orb.size}px;
+                left: ${orb.x}%;
+                top: ${orb.y}%;
+                animation-delay: ${orb.delay}s;
+                animation-name: ${orb.fromLeft ? 'orb-drift-left' : 'orb-drift-right'};
+              `}
+            ></div>
+          ));
+        })()}
+      </div>
 
       <!-- Stop content panels -->
-      {stops.map((stop, i) => (
-        <div
-          class="stop-content"
-          data-state={i === 0 ? 'active' : 'approaching'}
-          data-index={i}
-        >
-          <div class="stop-accent-glow" style={`background: ${stop.color};`}></div>
-          <div class="stop-icon">{stop.icon}</div>
-          <div class="stop-stage">Stage {i + 1}</div>
-          <h3 class="stop-title">{stop.title}</h3>
-          <p class="stop-description">{stop.description}</p>
-          <div class="stop-features">
-            {stop.features.map((f) => (
-              <span class="stop-feature-pill">{f}</span>
-            ))}
+      {stops.map((stop, i) => {
+        const theme = stageThemes[i] || stageThemes[0];
+        return (
+          <div
+            class="stop-content"
+            data-state={i === 0 ? 'active' : 'approaching'}
+            data-index={i}
+          >
+            <div class="stop-nebula-glow" style={`background: ${theme.glow};`}></div>
+            <div class="stop-icon-wrap" style={`--stage-glow: ${theme.glow};`}>
+              {i === 0 && (
+                <svg class="stop-svg-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="24" cy="24" r="16" stroke="white" stroke-width="1.5"/>
+                  <circle cx="24" cy="24" r="8" stroke="white" stroke-width="1.5"/>
+                  <line x1="24" y1="4" x2="24" y2="12" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+                  <line x1="24" y1="36" x2="24" y2="44" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+                  <line x1="4" y1="24" x2="12" y2="24" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+                  <line x1="36" y1="24" x2="44" y2="24" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+              )}
+              {i === 1 && (
+                <svg class="stop-svg-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="6" y="10" width="36" height="28" rx="3" stroke="white" stroke-width="1.5"/>
+                  <polyline points="10,34 18,22 24,28 32,16 38,20" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                  <line x1="6" y1="34" x2="42" y2="34" stroke="white" stroke-width="1.5"/>
+                </svg>
+              )}
+              {i === 2 && (
+                <svg class="stop-svg-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="10" y="6" width="28" height="36" rx="3" stroke="white" stroke-width="1.5"/>
+                  <line x1="16" y1="14" x2="32" y2="14" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+                  <line x1="16" y1="20" x2="32" y2="20" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+                  <line x1="16" y1="26" x2="28" y2="26" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+                  <circle cx="30" cy="34" r="6" stroke="white" stroke-width="1.5"/>
+                  <path d="M28 34 L30 36 L33 32" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              )}
+              {i === 3 && (
+                <svg class="stop-svg-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M24 6 L28 20 L24 18 L20 20 Z" stroke="white" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
+                  <path d="M20 20 L16 26 L24 18 L32 26 L28 20" stroke="white" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
+                  <path d="M16 26 L14 42 L24 36 L34 42 L32 26" stroke="white" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
+                  <circle cx="24" cy="38" r="1" fill="white"/>
+                  <circle cx="20" cy="40" r="0.8" fill="white" opacity="0.6"/>
+                  <circle cx="28" cy="40" r="0.8" fill="white" opacity="0.6"/>
+                </svg>
+              )}
+              {i === 4 && (
+                <svg class="stop-svg-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M24 8 C18 8 12 14 12 22 C12 30 18 36 24 40 C30 36 36 30 36 22 C36 14 30 8 24 8Z" stroke="white" stroke-width="1.5" fill="none"/>
+                  <path d="M16 20 C18 16 22 14 24 18 C26 14 30 16 32 20" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                  <path d="M16 24 C18 28 22 30 24 26 C26 30 30 28 32 24" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                  <line x1="24" y1="14" x2="24" y2="32" stroke="white" stroke-width="1" opacity="0.4"/>
+                </svg>
+              )}
+            </div>
+            <div class="stop-stage">Stage {i + 1}</div>
+            <h3 class="stop-title">{stop.title}</h3>
+            <p class="stop-description">{stop.description}</p>
+            <div class="stop-features">
+              {stop.features.map((f) => (
+                <span class="stop-feature-item">
+                  <svg class="stop-feature-check" viewBox="0 0 16 16" fill="none"><path d="M3 8.5 L6.5 12 L13 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  {f}
+                </span>
+              ))}
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
 
       <!-- Header overlay (shows at start) -->
       <div class="road-header" data-road-header>
@@ -87,6 +198,11 @@ const {
           ></button>
         ))}
       </div>
+
+      <!-- Persistent mini-CTA -->
+      <a href="/#contact" class="road-demo-cta">
+        Book a Demo &rarr;
+      </a>
     </div>
   </div>
 </section>
@@ -119,7 +235,7 @@ const {
 </section>
 
 <style>
-  /* ── Desktop: driving simulator ── */
+  /* ── Desktop: space journey ── */
   .engagement-road {
     position: relative;
     display: block;
@@ -134,151 +250,132 @@ const {
     top: 0;
     height: 100vh;
     overflow: hidden;
-    background: linear-gradient(to bottom, #0f172a 0%, #1e293b 55%, #334155 100%);
+    background: linear-gradient(to bottom, #0a0a1a 0%, #111827 50%, #0f172a 100%);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.8s ease;
+    will-change: transform;
+    transform-origin: center center;
   }
 
-  .road-sky {
+  /* Star parallax layers */
+  .stars-far, .stars-near {
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse at 50% 80%, rgba(0, 194, 109, 0.06) 0%, transparent 60%);
-  }
-
-  /* Road surface trapezoid */
-  .road-surface {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 45%;
-    background: #374151;
-    clip-path: polygon(35% 0%, 65% 0%, 100% 100%, 0% 100%);
-  }
-
-  /* Converging dashed road lines */
-  .road-line {
-    position: absolute;
-    bottom: 0;
-    height: 45%;
-    width: 3px;
-    background: repeating-linear-gradient(
-      to bottom,
-      rgba(255, 255, 255, 0.25) 0px,
-      rgba(255, 255, 255, 0.25) 15px,
-      transparent 15px,
-      transparent 30px
-    );
-  }
-  .road-line-left {
-    left: 42%;
-    transform-origin: top center;
-    transform: rotate(-8deg);
-  }
-  .road-line-right {
-    left: 58%;
-    transform-origin: top center;
-    transform: rotate(8deg);
-  }
-
-  /* Edge glow (street light effect) */
-  .road-glow-left,
-  .road-glow-right {
-    position: absolute;
-    bottom: 0;
-    width: 20%;
-    height: 45%;
     pointer-events: none;
+    will-change: transform;
+    z-index: 1;
   }
-  .road-glow-left {
-    left: 0;
-    background: radial-gradient(ellipse at 0% 80%, rgba(0, 194, 109, 0.08) 0%, transparent 70%);
-  }
-  .road-glow-right {
-    right: 0;
-    background: radial-gradient(ellipse at 100% 80%, rgba(0, 194, 109, 0.08) 0%, transparent 70%);
-  }
-
-  /* Green dust particles */
-  .road-particles {
+  .parallax-star {
     position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 50%;
-    pointer-events: none;
-    overflow: hidden;
-  }
-  .road-particle {
-    position: absolute;
-    bottom: 0;
-    left: var(--x);
-    width: 3px;
-    height: 3px;
-    background: var(--color-green, #00C26D);
+    background: #ffffff;
     border-radius: 50%;
-    opacity: 0;
-    animation: particle-float 3.5s var(--delay) ease-out infinite;
   }
-  @keyframes particle-float {
-    0% {
-      opacity: 0;
-      transform: translateY(0) translateX(0);
-    }
-    20% {
-      opacity: 0.6;
-    }
-    100% {
-      opacity: 0;
-      transform: translateY(-200px) translateX(var(--drift));
-    }
+
+  /* Star streaks during transitions */
+  .star-streaks {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 1;
+  }
+  .streak-line {
+    position: absolute;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.18);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.3s ease;
+  }
+  .star-streaks.active .streak-line {
+    transform: scaleX(1);
+  }
+
+  /* Starfield */
+  .starfield {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .star {
+    position: absolute;
+    background: #ffffff;
+    border-radius: 50%;
+  }
+
+  /* Warp speed transition: stars elongate */
+  .road-viewport.transitioning .star {
+    width: 20px !important;
+    height: 1px !important;
+    border-radius: 0;
+    transition: width 0.3s ease, height 0.3s ease, border-radius 0.3s ease;
+  }
+  .star {
+    transition: width 0.3s ease, height 0.3s ease, border-radius 0.3s ease;
   }
 
   /* Stop content panels */
   .stop-content {
     position: absolute;
-    top: 8%;
+    top: 50%;
     left: 50%;
     text-align: center;
-    max-width: 560px;
+    max-width: 672px;
     width: 90%;
+    max-height: 50vh;
     z-index: 5;
     will-change: transform, opacity;
     transition: transform 0.5s var(--ease-spring, cubic-bezier(0.16, 1, 0.3, 1)),
                 opacity 0.4s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   .stop-content[data-state="approaching"] {
-    transform: translateX(-50%) scale(0.3);
+    transform: translate(-50%, -50%) scale(0.2);
     opacity: 0;
     pointer-events: none;
   }
   .stop-content[data-state="active"] {
-    transform: translateX(-50%) scale(1);
+    transform: translate(-50%, -50%) scale(1);
     opacity: 1;
     pointer-events: auto;
   }
   .stop-content[data-state="passed"] {
-    transform: translateX(-50%) scale(2.5);
+    transform: translate(-50%, -50%) scale(2.5);
     opacity: 0;
     pointer-events: none;
   }
 
-  .stop-accent-glow {
+  /* Nebula glow behind icon */
+  .stop-nebula-glow {
     position: absolute;
-    top: -20px;
+    top: -30px;
     left: 50%;
     transform: translateX(-50%);
-    width: 200px;
-    height: 80px;
+    width: 240px;
+    height: 120px;
     border-radius: 50%;
-    opacity: 0.25;
-    filter: blur(40px);
+    opacity: 0.2;
+    filter: blur(50px);
     pointer-events: none;
     z-index: -1;
   }
 
-  .stop-icon {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
-    line-height: 1;
+  /* SVG icon wrapper with stage glow */
+  .stop-icon-wrap {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.75rem;
+    position: relative;
+    filter: drop-shadow(0 0 12px var(--stage-glow));
+  }
+  .stop-svg-icon {
+    width: 48px;
+    height: 48px;
   }
 
   .stop-stage {
@@ -293,39 +390,48 @@ const {
 
   .stop-title {
     font-family: var(--font-display, 'Playfair Display', serif);
-    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+    font-size: clamp(1.5rem, 3vw, 1.875rem);
     font-weight: 700;
     color: #fff;
-    margin: 0 0 0.75rem;
+    margin: 0 0 0.5rem;
     line-height: 1.2;
   }
 
   .stop-description {
     font-family: var(--font-body, 'Source Sans 3', sans-serif);
-    font-size: 1.05rem;
+    font-size: 1rem;
     line-height: 1.6;
     color: rgba(255, 255, 255, 0.75);
-    margin: 0 auto 1.25rem;
-    max-width: 480px;
+    margin: 0 auto 1rem;
+    max-width: 560px;
   }
 
+  /* 2-column feature grid */
   .stop-features {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 0.5rem;
+    margin-top: 0.5rem;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
-  .stop-feature-pill {
-    display: inline-block;
-    padding: 0.4rem 1rem;
-    background: rgba(0, 194, 109, 0.15);
-    color: var(--color-fresh-green, #36D993);
+  .stop-feature-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
     font-family: var(--font-body, 'Source Sans 3', sans-serif);
-    font-size: 0.82rem;
-    font-weight: 600;
-    border-radius: 100px;
-    border: 1px solid rgba(0, 194, 109, 0.25);
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.8);
+    text-align: left;
+  }
+
+  .stop-feature-check {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    color: #22c55e;
   }
 
   /* Header overlay */
@@ -384,23 +490,76 @@ const {
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    gap: 0.5rem;
+    gap: 0.75rem;
     z-index: 10;
   }
   .progress-dot {
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.25);
     border: none;
     padding: 0;
     cursor: pointer;
-    transition: background 0.3s ease, transform 0.3s ease;
+    transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
   }
   .progress-dot.active {
+    background: #22c55e;
+    transform: scale(1.4);
+    box-shadow: 0 0 12px rgba(34, 197, 94, 0.6), 0 0 24px rgba(34, 197, 94, 0.3);
+  }
+
+  /* Floating decorative orbs */
+  .floating-orbs {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .floating-orb {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.4;
+    filter: blur(1px);
+    background: currentColor;
+    animation-duration: 6s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: both;
+    transition: all 0.8s ease;
+  }
+  .road-viewport.paused .floating-orb {
+    animation-play-state: paused;
+  }
+
+  @keyframes orb-drift-left {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(12px, -8px); }
+  }
+  @keyframes orb-drift-right {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(-12px, 6px); }
+  }
+
+  /* Persistent demo CTA */
+  .road-demo-cta {
+    position: absolute;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    z-index: 20;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
     background: var(--color-green, #00C26D);
-    transform: scale(1.3);
-    box-shadow: 0 0 8px rgba(0, 194, 109, 0.5);
+    color: white;
+    font-family: var(--font-body, 'Source Sans 3', sans-serif);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+    transition: background 0.2s ease;
+  }
+  .road-demo-cta:hover {
+    background: var(--color-green-hover, #00A95E);
   }
 
   /* ── Mobile: stacked cards ── */
@@ -520,11 +679,20 @@ const {
     .engagement-road-mobile {
       display: block;
     }
-    .road-particle {
-      animation: none;
-    }
     .road-scroll-hint {
       animation: none;
+    }
+    .road-viewport {
+      transition: none !important;
+      transform: none !important;
+      will-change: auto;
+    }
+    .stars-far, .stars-near {
+      transform: none !important;
+      will-change: auto;
+    }
+    .star-streaks {
+      display: none;
     }
   }
 </style>
@@ -535,9 +703,13 @@ const {
     if (!section) return;
 
     var spacer = section.querySelector('.road-scroll-spacer');
+    var viewport = section.querySelector('.road-viewport');
     var stops = section.querySelectorAll('.stop-content');
     var dots = section.querySelectorAll('.progress-dot');
     var header = section.querySelector('[data-road-header]');
+    var nearStars = section.querySelector('.stars-near');
+    var farStars = section.querySelector('.stars-far');
+    var streaks = section.querySelector('.star-streaks');
     var totalStops = stops.length;
 
     if (!spacer || totalStops === 0) return;
@@ -545,7 +717,11 @@ const {
     // Check for reduced motion
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
+    // Stop accent colors for background color shift
+    var stopColors = ['#00C26D', '#4C82A7', '#FFB02E', '#26A899', '#8B5CF6'];
+
     var lastActiveIndex = -1;
+    var transitionTimeout = null;
 
     function updateRoad() {
       var rect = spacer.getBoundingClientRect();
@@ -567,33 +743,84 @@ const {
       // Which stop should be active?
       var rawIndex = progress * totalStops;
       var activeIndex = Math.min(totalStops - 1, Math.floor(rawIndex));
-      var withinStop = rawIndex - activeIndex;
+      var withinStop = rawIndex - activeIndex; // 0 to 1 progress within current stop
+
+      // ── Viewport drift/sway during transitions ──
+      var swayX = Math.sin(withinStop * Math.PI) * 30;
+      var swayY = Math.sin(withinStop * Math.PI * 0.7) * 15;
+      var rotation = Math.sin(withinStop * Math.PI) * 1.5;
+      var zoom = 1 + (Math.sin(withinStop * Math.PI) * 0.03);
+
+      if (viewport) {
+        viewport.style.transform = 'translate(' + swayX + 'px, ' + swayY + 'px) rotate(' + rotation + 'deg) scale(' + zoom + ')';
+      }
+
+      // ── Star parallax ──
+      if (nearStars) {
+        nearStars.style.transform = 'translate(' + (swayX * 2) + 'px, ' + (-scrolled * 0.1) + 'px)';
+      }
+      if (farStars) {
+        farStars.style.transform = 'translate(' + (swayX * 0.5) + 'px, ' + (-scrolled * 0.03) + 'px)';
+      }
+
+      // ── Star streaks during mid-transition ──
+      if (streaks) {
+        var isTransitioning = withinStop > 0.2 && withinStop < 0.8;
+        if (isTransitioning) {
+          streaks.style.opacity = '1';
+          streaks.classList.add('active');
+        } else {
+          streaks.style.opacity = '0';
+          streaks.classList.remove('active');
+        }
+      }
+
+      // ── Background color shift ──
+      if (viewport) {
+        var currentColor = stopColors[activeIndex] || stopColors[0];
+        viewport.style.background = 'radial-gradient(ellipse at 50% 30%, ' + currentColor + '15 0%, #0a0a1a 70%)';
+      }
 
       stops.forEach(function(stop, i) {
+        // Clear any inline style overrides
+        stop.style.transform = '';
+        stop.style.opacity = '';
+
         if (i < activeIndex) {
           stop.dataset.state = 'passed';
-          stop.style.transform = '';
-          stop.style.opacity = '';
         } else if (i === activeIndex) {
           stop.dataset.state = 'active';
-          stop.style.transform = '';
-          stop.style.opacity = '';
-        } else if (i === activeIndex + 1) {
-          // Approaching: interpolate scale and opacity
-          var approachScale = 0.3 + (withinStop * 0.7);
-          var approachOpacity = withinStop;
-          stop.dataset.state = 'approaching';
-          stop.style.transform = 'translateX(-50%) scale(' + approachScale + ')';
-          stop.style.opacity = approachOpacity;
         } else {
           stop.dataset.state = 'approaching';
-          stop.style.transform = '';
-          stop.style.opacity = '';
         }
       });
 
-      // Update progress dots
+      // Pause orbs while a stop is active (not transitioning)
+      if (viewport) {
+        viewport.classList.add('paused');
+      }
+
+      // Warp speed effect on transition
       if (activeIndex !== lastActiveIndex) {
+        if (viewport && lastActiveIndex >= 0) {
+          viewport.classList.remove('paused');
+          viewport.classList.add('transitioning');
+          if (transitionTimeout) clearTimeout(transitionTimeout);
+          transitionTimeout = setTimeout(function() {
+            viewport.classList.remove('transitioning');
+            viewport.classList.add('paused');
+          }, 300);
+        }
+
+        // Update orb colors to match active stop's accent
+        var orbColors = ['#22c55e', '#3b82f6', '#f59e0b', '#14b8a6', '#a855f7'];
+        var orbColor = orbColors[activeIndex] || orbColors[0];
+        var orbs = section.querySelectorAll('.floating-orb');
+        orbs.forEach(function(orb) {
+          orb.style.color = orbColor;
+          orb.style.boxShadow = '0 0 6px ' + orbColor;
+        });
+
         dots.forEach(function(dot, i) {
           if (i === activeIndex) {
             dot.classList.add('active');
