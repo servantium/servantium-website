@@ -58,157 +58,35 @@ const jsonLd = {
     </div>
   </section>
 
-  <!-- Section 2: Narrative Scroll -->
-  <section class="narrative-section relative" style="min-height: 300vh;" id="narrative">
-    <div class="mx-auto max-w-6xl px-6">
-      <div class="flex gap-12">
+  <!-- Section 2: Comic Book Narrative Panels -->
+  <section class="py-8" id="narrative">
+    <div class="mx-auto max-w-5xl px-6">
 
-        <!-- LEFT: Sticky text column (desktop) -->
-        <div class="w-[40%] hidden lg:block">
-          <div class="sticky top-24" style="height: calc(100vh - 8rem);">
-            <!-- Progress dots -->
-            <div class="absolute left-0 top-1/2 -translate-y-1/2 flex flex-col gap-6">
-              <div class="narrative-dot w-2.5 h-2.5 rounded-full bg-[var(--color-green)] shadow-[0_0_8px_rgba(0,194,109,0.5)]" data-dot="0"></div>
-              <div class="narrative-dot w-2.5 h-2.5 rounded-full bg-[var(--color-cloud-grey)]" data-dot="1"></div>
-              <div class="narrative-dot w-2.5 h-2.5 rounded-full bg-[var(--color-cloud-grey)]" data-dot="2"></div>
-              <div class="narrative-dot w-2.5 h-2.5 rounded-full bg-[var(--color-cloud-grey)]" data-dot="3"></div>
-            </div>
-
-            <!-- Astronaut -->
-            <div class="absolute right-0 bottom-8 narrative-astronaut" data-astro-stage="0">
-              <div class="astro-variant" data-astro-variant="0"><Astronaut size="md" variant="searching" /></div>
-              <div class="astro-variant hidden" data-astro-variant="1"><Astronaut size="md" variant="floating" /></div>
-              <div class="astro-variant hidden" data-astro-variant="2"><Astronaut size="md" variant="waving" /></div>
-              <div class="astro-variant hidden" data-astro-variant="3"><Astronaut size="md" variant="peeking" /></div>
-            </div>
-
-            <!-- Text panels (only one visible at a time) -->
-            <div class="pl-8 flex flex-col justify-center h-full">
-              <!-- STAGE 0: Scope -->
-              <div class="narrative-text" data-stage="0">
-                <p class="text-[var(--color-ink-muted)] leading-relaxed mb-4 text-base italic">
-                  Your consultant just landed a new client. She's spending the afternoon digging through Slack, email, and old proposals to piece together how you've handled similar work.
-                </p>
-                <h3 class="text-2xl md:text-3xl font-medium mb-3" style="font-family: var(--font-display); color: var(--color-ink); border-left: 3px solid var(--color-green); padding-left: 12px;">
-                  Scope with confidence
-                </h3>
-                <p class="text-[var(--color-ink-light)] leading-relaxed mb-4">
-                  She opens Similar Engagements and finds 4 comparable projects in seconds. Pricing, delivery outcomes, lessons learned — all there.
-                </p>
-                <div class="grid grid-cols-2 gap-2 mb-4">
-                  <span class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]">
-                    <svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                    Engagement workspace
-                  </span>
-                  <span class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]">
-                    <svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                    AI note parsing
-                  </span>
-                  <span class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]">
-                    <svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                    Similar matching
-                  </span>
-                  <span class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]">
-                    <svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                    Service catalog
-                  </span>
-                </div>
-                <a href="#features" data-tab="scope" class="narrative-link text-sm font-semibold text-[var(--color-green)] no-underline hover:text-[var(--color-green-hover)]">
-                  Explore features ↓
-                </a>
-              </div>
-
-              <!-- STAGE 1: Price (initially hidden) -->
-              <div class="narrative-text hidden" data-stage="1">
-                <p class="text-[var(--color-ink-muted)] leading-relaxed mb-4 text-base italic">
-                  Building a quote means opening three spreadsheets, guessing at margins, and hoping someone remembers what the last one actually cost to deliver.
-                </p>
-                <h3 class="text-2xl md:text-3xl font-medium mb-3" style="font-family: var(--font-display); color: var(--color-ink); border-left: 3px solid #4C82A7; padding-left: 12px;">
-                  Price with precision
-                </h3>
-                <p class="text-[var(--color-ink-light)] leading-relaxed mb-4">
-                  The quote builder pulls from your learning catalog. Real costs from real projects. AI generates a complete structure from your notes and history.
-                </p>
-                <div class="grid grid-cols-2 gap-2 mb-4">
-                  <span class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#4C82A7] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Grouped estimate builder</span>
-                  <span class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#4C82A7] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Margin analysis</span>
-                  <span class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#4C82A7] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>AI generation</span>
-                  <span class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#4C82A7] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Learning catalog</span>
-                </div>
-                <a href="#features" data-tab="price" class="narrative-link text-sm font-semibold text-[#4C82A7] no-underline hover:opacity-80">Explore features ↓</a>
-              </div>
-
-              <!-- STAGE 2: Staff (initially hidden) -->
-              <div class="narrative-text hidden" data-stage="2">
-                <p class="text-[var(--color-ink-muted)] leading-relaxed mb-4 text-base italic">
-                  You just won a big implementation. Now you're trying to figure out who's available without double-booking your best people across five active projects.
-                </p>
-                <h3 class="text-2xl md:text-3xl font-medium mb-3" style="font-family: var(--font-display); color: var(--color-ink); border-left: 3px solid #26A899; padding-left: 12px;">
-                  Staff with clarity
-                </h3>
-                <p class="text-[var(--color-ink-light)] leading-relaxed mb-4">
-                  The resource planner shows real-time capacity across every engagement. Assign the right people based on skills, availability, and track record.
-                </p>
-                <div class="grid grid-cols-2 gap-2 mb-4">
-                  <span class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#26A899] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Resource plans</span>
-                  <span class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#26A899] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Utilization tracking</span>
-                  <span class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#26A899] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Capacity forecasting</span>
-                  <span class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#26A899] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Skill matching</span>
-                </div>
-                <a href="#features" data-tab="staff" class="narrative-link text-sm font-semibold text-[#26A899] no-underline hover:opacity-80">Explore features ↓</a>
-              </div>
-
-              <!-- STAGE 3: Learn (initially hidden) -->
-              <div class="narrative-text hidden" data-stage="3">
-                <p class="text-[var(--color-ink-muted)] leading-relaxed mb-4 text-base italic">
-                  Your firm completes 200 engagements a year, but each one starts from scratch. When someone leaves, everything they know walks out with them.
-                </p>
-                <h3 class="text-2xl md:text-3xl font-medium mb-3" style="font-family: var(--font-display); color: var(--color-ink); border-left: 3px solid #8B5CF6; padding-left: 12px;">
-                  Learn and improve
-                </h3>
-                <p class="text-[var(--color-ink-light)] leading-relaxed mb-4">
-                  Every engagement feeds the institutional memory. Notes become embeddings. Quotes become catalog items. Outcomes become benchmarks. Your firm compounds knowledge automatically.
-                </p>
-                <div class="grid grid-cols-2 gap-2 mb-4">
-                  <span class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#8B5CF6] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Institutional memory</span>
-                  <span class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#8B5CF6] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Note embeddings</span>
-                  <span class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#8B5CF6] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Learning catalog</span>
-                  <span class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#8B5CF6] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Vector search</span>
-                </div>
-                <a href="#features" data-tab="learn" class="narrative-link text-sm font-semibold text-[#8B5CF6] no-underline hover:opacity-80">Explore features ↓</a>
-              </div>
+      <!-- SCOPE — green accent -->
+      <div class="narrative-stage mb-12" data-animate="fade-up">
+        <!-- Panel 1: The Setup -->
+        <div class="rounded-t-2xl p-8 md:p-12" style="background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%); border: 1px solid #d1fae5; border-bottom: none;">
+          <div class="flex items-start justify-between">
+            <p class="text-lg md:text-xl italic text-[var(--color-ink-muted)] leading-relaxed max-w-2xl">
+              "Your consultant just landed a new client. She's spending the afternoon digging through Slack, email, and old proposals to piece together how you've handled similar work."
+            </p>
+            <div class="hidden md:block ml-4 flex-shrink-0 opacity-60">
+              <Astronaut size="sm" variant="searching" />
             </div>
           </div>
         </div>
-
-        <!-- RIGHT: Scrolling mockup column -->
-        <div class="w-full lg:w-[60%]">
-
-          <!-- Mockup 0: Scope -->
-          <div class="narrative-mockup min-h-[75vh] flex items-center" data-mockup="0">
-            <!-- Mobile-only text card -->
-            <div class="narrative-mobile-card lg:hidden mb-6">
-              <div class="flex items-center gap-3 mb-3">
-                <div class="w-2.5 h-2.5 rounded-full bg-[var(--color-green)] shadow-[0_0_8px_rgba(0,194,109,0.5)]"></div>
-                <span class="text-xs font-semibold uppercase tracking-wider text-[var(--color-ink-muted)]">Stage 1</span>
-              </div>
-              <p class="text-[var(--color-ink-muted)] leading-relaxed mb-3 text-sm italic">
-                Your consultant just landed a new client. She's spending the afternoon digging through Slack, email, and old proposals to piece together how you've handled similar work.
-              </p>
-              <h3 class="text-xl font-medium mb-2" style="font-family: var(--font-display); color: var(--color-ink); border-left: 3px solid var(--color-green); padding-left: 10px;">
-                Scope with confidence
-              </h3>
-              <p class="text-[var(--color-ink-light)] leading-relaxed mb-3 text-sm">
-                She opens Similar Engagements and finds 4 comparable projects in seconds. Pricing, delivery outcomes, lessons learned — all there.
-              </p>
-              <div class="grid grid-cols-2 gap-1.5 mb-3">
-                <span class="flex items-center gap-1.5 text-xs text-[var(--color-ink-muted)]"><svg class="w-3.5 h-3.5 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Engagement workspace</span>
-                <span class="flex items-center gap-1.5 text-xs text-[var(--color-ink-muted)]"><svg class="w-3.5 h-3.5 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>AI note parsing</span>
-                <span class="flex items-center gap-1.5 text-xs text-[var(--color-ink-muted)]"><svg class="w-3.5 h-3.5 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Similar matching</span>
-                <span class="flex items-center gap-1.5 text-xs text-[var(--color-ink-muted)]"><svg class="w-3.5 h-3.5 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Service catalog</span>
-              </div>
-            </div>
-            <!-- Mockup -->
+        <!-- Panel 2: The Reveal -->
+        <div class="p-8 md:p-12 border-l-4 border-[var(--color-green)]" style="background: white; border-right: 1px solid #e5e7eb; border-top: 1px solid #e5e7eb;">
+          <h3 class="text-2xl md:text-3xl font-medium mb-3" style="font-family: var(--font-display); color: var(--color-ink);">
+            Scope with confidence
+          </h3>
+          <p class="text-base md:text-lg text-[var(--color-ink-light)] leading-relaxed max-w-2xl">
+            She opens Similar Engagements and finds 4 comparable projects in seconds. Pricing, delivery outcomes, lessons learned — all there.
+          </p>
+        </div>
+        <!-- Panel 3: Split — Mockup + Features -->
+        <div class="grid grid-cols-1 md:grid-cols-2 rounded-b-2xl overflow-hidden" style="border: 1px solid #e5e7eb; border-top: none;">
+          <div class="p-6 md:p-8 flex items-center justify-center bg-[var(--color-mist-grey)]">
             <div class="mini-illus w-full">
               <div class="mock-eng-card">
                 <div class="mock-eng-header">
@@ -226,30 +104,60 @@ const jsonLd = {
               </div>
             </div>
           </div>
-
-          <!-- Mockup 1: Price -->
-          <div class="narrative-mockup min-h-[75vh] flex items-center" data-mockup="1">
-            <div class="narrative-mobile-card lg:hidden mb-6">
-              <div class="flex items-center gap-3 mb-3">
-                <div class="w-2.5 h-2.5 rounded-full bg-[#4C82A7] shadow-[0_0_8px_rgba(76,130,167,0.5)]"></div>
-                <span class="text-xs font-semibold uppercase tracking-wider text-[var(--color-ink-muted)]">Stage 2</span>
-              </div>
-              <p class="text-[var(--color-ink-muted)] leading-relaxed mb-3 text-sm italic">
-                Building a quote means opening three spreadsheets, guessing at margins, and hoping someone remembers what the last one actually cost to deliver.
-              </p>
-              <h3 class="text-xl font-medium mb-2" style="font-family: var(--font-display); color: var(--color-ink); border-left: 3px solid #4C82A7; padding-left: 10px;">
-                Price with precision
-              </h3>
-              <p class="text-[var(--color-ink-light)] leading-relaxed mb-3 text-sm">
-                The quote builder pulls from your learning catalog. Real costs from real projects. AI generates a complete structure from your notes and history.
-              </p>
-              <div class="grid grid-cols-2 gap-1.5 mb-3">
-                <span class="flex items-center gap-1.5 text-xs text-[var(--color-ink-muted)]"><svg class="w-3.5 h-3.5 text-[#4C82A7] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Grouped estimate builder</span>
-                <span class="flex items-center gap-1.5 text-xs text-[var(--color-ink-muted)]"><svg class="w-3.5 h-3.5 text-[#4C82A7] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Margin analysis</span>
-                <span class="flex items-center gap-1.5 text-xs text-[var(--color-ink-muted)]"><svg class="w-3.5 h-3.5 text-[#4C82A7] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>AI generation</span>
-                <span class="flex items-center gap-1.5 text-xs text-[var(--color-ink-muted)]"><svg class="w-3.5 h-3.5 text-[#4C82A7] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Learning catalog</span>
-              </div>
+          <div class="p-6 md:p-8 bg-white">
+            <div class="grid grid-cols-2 gap-3 mb-6">
+              <span class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]">
+                <svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                Engagement workspace
+              </span>
+              <span class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]">
+                <svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                AI note parsing
+              </span>
+              <span class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]">
+                <svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                Similar matching
+              </span>
+              <span class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]">
+                <svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                Service catalog
+              </span>
             </div>
+            <a href="#features" data-tab="scope" class="narrative-link text-sm font-semibold text-[var(--color-green)] no-underline hover:text-[var(--color-green-hover)]">
+              Explore features ↓
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Green divider -->
+      <div class="w-16 h-0.5 bg-[var(--color-green)] mx-auto mb-12 opacity-30"></div>
+
+      <!-- PRICE — blue accent -->
+      <div class="narrative-stage mb-12" data-animate="fade-up">
+        <!-- Panel 1: The Setup -->
+        <div class="rounded-t-2xl p-8 md:p-12" style="background: linear-gradient(135deg, #eff6ff 0%, #e0f2fe 100%); border: 1px solid #bfdbfe; border-bottom: none;">
+          <div class="flex items-start justify-between">
+            <p class="text-lg md:text-xl italic text-[var(--color-ink-muted)] leading-relaxed max-w-2xl">
+              "Building a quote means opening three spreadsheets, guessing at margins, and hoping someone remembers what the last one actually cost to deliver."
+            </p>
+            <div class="hidden md:block ml-4 flex-shrink-0 opacity-60">
+              <Astronaut size="sm" variant="floating" />
+            </div>
+          </div>
+        </div>
+        <!-- Panel 2: The Reveal -->
+        <div class="p-8 md:p-12 border-l-4 border-[#4C82A7]" style="background: white; border-right: 1px solid #e5e7eb; border-top: 1px solid #e5e7eb;">
+          <h3 class="text-2xl md:text-3xl font-medium mb-3" style="font-family: var(--font-display); color: var(--color-ink);">
+            Price with precision
+          </h3>
+          <p class="text-base md:text-lg text-[var(--color-ink-light)] leading-relaxed max-w-2xl">
+            The quote builder pulls from your learning catalog. Real costs from real projects. AI generates a complete structure from your notes and history.
+          </p>
+        </div>
+        <!-- Panel 3: Split — Mockup + Features -->
+        <div class="grid grid-cols-1 md:grid-cols-2 rounded-b-2xl overflow-hidden" style="border: 1px solid #e5e7eb; border-top: none;">
+          <div class="p-6 md:p-8 flex items-center justify-center bg-[var(--color-mist-grey)]">
             <div class="mini-illus w-full">
               <div class="mock-est">
                 <div class="mock-est-header">
@@ -286,30 +194,48 @@ const jsonLd = {
               </div>
             </div>
           </div>
-
-          <!-- Mockup 2: Staff -->
-          <div class="narrative-mockup min-h-[75vh] flex items-center" data-mockup="2">
-            <div class="narrative-mobile-card lg:hidden mb-6">
-              <div class="flex items-center gap-3 mb-3">
-                <div class="w-2.5 h-2.5 rounded-full bg-[#26A899] shadow-[0_0_8px_rgba(38,168,153,0.5)]"></div>
-                <span class="text-xs font-semibold uppercase tracking-wider text-[var(--color-ink-muted)]">Stage 3</span>
-              </div>
-              <p class="text-[var(--color-ink-muted)] leading-relaxed mb-3 text-sm italic">
-                You just won a big implementation. Now you're trying to figure out who's available without double-booking your best people across five active projects.
-              </p>
-              <h3 class="text-xl font-medium mb-2" style="font-family: var(--font-display); color: var(--color-ink); border-left: 3px solid #26A899; padding-left: 10px;">
-                Staff with clarity
-              </h3>
-              <p class="text-[var(--color-ink-light)] leading-relaxed mb-3 text-sm">
-                The resource planner shows real-time capacity across every engagement. Assign the right people based on skills, availability, and track record.
-              </p>
-              <div class="grid grid-cols-2 gap-1.5 mb-3">
-                <span class="flex items-center gap-1.5 text-xs text-[var(--color-ink-muted)]"><svg class="w-3.5 h-3.5 text-[#26A899] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Resource plans</span>
-                <span class="flex items-center gap-1.5 text-xs text-[var(--color-ink-muted)]"><svg class="w-3.5 h-3.5 text-[#26A899] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Utilization tracking</span>
-                <span class="flex items-center gap-1.5 text-xs text-[var(--color-ink-muted)]"><svg class="w-3.5 h-3.5 text-[#26A899] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Capacity forecasting</span>
-                <span class="flex items-center gap-1.5 text-xs text-[var(--color-ink-muted)]"><svg class="w-3.5 h-3.5 text-[#26A899] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Skill matching</span>
-              </div>
+          <div class="p-6 md:p-8 bg-white">
+            <div class="grid grid-cols-2 gap-3 mb-6">
+              <span class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#4C82A7] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Grouped estimate builder</span>
+              <span class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#4C82A7] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Margin analysis</span>
+              <span class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#4C82A7] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>AI generation</span>
+              <span class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#4C82A7] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Learning catalog</span>
             </div>
+            <a href="#features" data-tab="price" class="narrative-link text-sm font-semibold text-[#4C82A7] no-underline hover:opacity-80">
+              Explore features ↓
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Green divider -->
+      <div class="w-16 h-0.5 bg-[var(--color-green)] mx-auto mb-12 opacity-30"></div>
+
+      <!-- STAFF — teal accent -->
+      <div class="narrative-stage mb-12" data-animate="fade-up">
+        <!-- Panel 1: The Setup -->
+        <div class="rounded-t-2xl p-8 md:p-12" style="background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%); border: 1px solid #99f6e4; border-bottom: none;">
+          <div class="flex items-start justify-between">
+            <p class="text-lg md:text-xl italic text-[var(--color-ink-muted)] leading-relaxed max-w-2xl">
+              "You just won a big implementation. Now you're trying to figure out who's available without double-booking your best people across five active projects."
+            </p>
+            <div class="hidden md:block ml-4 flex-shrink-0 opacity-60">
+              <Astronaut size="sm" variant="waving" />
+            </div>
+          </div>
+        </div>
+        <!-- Panel 2: The Reveal -->
+        <div class="p-8 md:p-12 border-l-4 border-[#26A899]" style="background: white; border-right: 1px solid #e5e7eb; border-top: 1px solid #e5e7eb;">
+          <h3 class="text-2xl md:text-3xl font-medium mb-3" style="font-family: var(--font-display); color: var(--color-ink);">
+            Staff with clarity
+          </h3>
+          <p class="text-base md:text-lg text-[var(--color-ink-light)] leading-relaxed max-w-2xl">
+            The resource planner shows real-time capacity across every engagement. Assign the right people based on skills, availability, and track record.
+          </p>
+        </div>
+        <!-- Panel 3: Split — Mockup + Features -->
+        <div class="grid grid-cols-1 md:grid-cols-2 rounded-b-2xl overflow-hidden" style="border: 1px solid #e5e7eb; border-top: none;">
+          <div class="p-6 md:p-8 flex items-center justify-center bg-[var(--color-mist-grey)]">
             <div class="mini-illus w-full">
               <div class="mock-res">
                 <div class="mock-res-project">KVWN, Salesforce CRM</div>
@@ -344,30 +270,48 @@ const jsonLd = {
               </div>
             </div>
           </div>
-
-          <!-- Mockup 3: Learn -->
-          <div class="narrative-mockup min-h-[75vh] flex items-center" data-mockup="3">
-            <div class="narrative-mobile-card lg:hidden mb-6">
-              <div class="flex items-center gap-3 mb-3">
-                <div class="w-2.5 h-2.5 rounded-full bg-[#8B5CF6] shadow-[0_0_8px_rgba(139,92,246,0.5)]"></div>
-                <span class="text-xs font-semibold uppercase tracking-wider text-[var(--color-ink-muted)]">Stage 4</span>
-              </div>
-              <p class="text-[var(--color-ink-muted)] leading-relaxed mb-3 text-sm italic">
-                Your firm completes 200 engagements a year, but each one starts from scratch. When someone leaves, everything they know walks out with them.
-              </p>
-              <h3 class="text-xl font-medium mb-2" style="font-family: var(--font-display); color: var(--color-ink); border-left: 3px solid #8B5CF6; padding-left: 10px;">
-                Learn and improve
-              </h3>
-              <p class="text-[var(--color-ink-light)] leading-relaxed mb-3 text-sm">
-                Every engagement feeds the institutional memory. Notes become embeddings. Quotes become catalog items. Outcomes become benchmarks. Your firm compounds knowledge automatically.
-              </p>
-              <div class="grid grid-cols-2 gap-1.5 mb-3">
-                <span class="flex items-center gap-1.5 text-xs text-[var(--color-ink-muted)]"><svg class="w-3.5 h-3.5 text-[#8B5CF6] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Institutional memory</span>
-                <span class="flex items-center gap-1.5 text-xs text-[var(--color-ink-muted)]"><svg class="w-3.5 h-3.5 text-[#8B5CF6] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Note embeddings</span>
-                <span class="flex items-center gap-1.5 text-xs text-[var(--color-ink-muted)]"><svg class="w-3.5 h-3.5 text-[#8B5CF6] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Learning catalog</span>
-                <span class="flex items-center gap-1.5 text-xs text-[var(--color-ink-muted)]"><svg class="w-3.5 h-3.5 text-[#8B5CF6] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Vector search</span>
-              </div>
+          <div class="p-6 md:p-8 bg-white">
+            <div class="grid grid-cols-2 gap-3 mb-6">
+              <span class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#26A899] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Resource plans</span>
+              <span class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#26A899] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Utilization tracking</span>
+              <span class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#26A899] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Capacity forecasting</span>
+              <span class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#26A899] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Skill matching</span>
             </div>
+            <a href="#features" data-tab="staff" class="narrative-link text-sm font-semibold text-[#26A899] no-underline hover:opacity-80">
+              Explore features ↓
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Green divider -->
+      <div class="w-16 h-0.5 bg-[var(--color-green)] mx-auto mb-12 opacity-30"></div>
+
+      <!-- LEARN — purple accent -->
+      <div class="narrative-stage mb-12" data-animate="fade-up">
+        <!-- Panel 1: The Setup -->
+        <div class="rounded-t-2xl p-8 md:p-12" style="background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%); border: 1px solid #e9d5ff; border-bottom: none;">
+          <div class="flex items-start justify-between">
+            <p class="text-lg md:text-xl italic text-[var(--color-ink-muted)] leading-relaxed max-w-2xl">
+              "Your firm completes 200 engagements a year, but each one starts from scratch. When someone leaves, everything they know walks out with them."
+            </p>
+            <div class="hidden md:block ml-4 flex-shrink-0 opacity-60">
+              <Astronaut size="sm" variant="peeking" />
+            </div>
+          </div>
+        </div>
+        <!-- Panel 2: The Reveal -->
+        <div class="p-8 md:p-12 border-l-4 border-[#8B5CF6]" style="background: white; border-right: 1px solid #e5e7eb; border-top: 1px solid #e5e7eb;">
+          <h3 class="text-2xl md:text-3xl font-medium mb-3" style="font-family: var(--font-display); color: var(--color-ink);">
+            Learn and improve
+          </h3>
+          <p class="text-base md:text-lg text-[var(--color-ink-light)] leading-relaxed max-w-2xl">
+            Every engagement feeds the institutional memory. Notes become embeddings. Quotes become catalog items. Outcomes become benchmarks. Your firm compounds knowledge automatically.
+          </p>
+        </div>
+        <!-- Panel 3: Split — Mockup + Features -->
+        <div class="grid grid-cols-1 md:grid-cols-2 rounded-b-2xl overflow-hidden" style="border: 1px solid #e5e7eb; border-top: none;">
+          <div class="p-6 md:p-8 flex items-center justify-center bg-[var(--color-mist-grey)]">
             <div class="mini-illus w-full">
               <div class="mock-learn">
                 <div class="mock-learn-title">KVWN, Post-Delivery Analysis</div>
@@ -384,9 +328,20 @@ const jsonLd = {
               </div>
             </div>
           </div>
-
+          <div class="p-6 md:p-8 bg-white">
+            <div class="grid grid-cols-2 gap-3 mb-6">
+              <span class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#8B5CF6] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Institutional memory</span>
+              <span class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#8B5CF6] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Note embeddings</span>
+              <span class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#8B5CF6] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Learning catalog</span>
+              <span class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#8B5CF6] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Vector search</span>
+            </div>
+            <a href="#features" data-tab="learn" class="narrative-link text-sm font-semibold text-[#8B5CF6] no-underline hover:opacity-80">
+              Explore features ↓
+            </a>
+          </div>
         </div>
       </div>
+
     </div>
   </section>
 
@@ -643,37 +598,15 @@ const jsonLd = {
     flex-wrap: wrap;
   }
 
-  /* Narrative section */
-  .narrative-section {
-    background: var(--neutral-25);
-    padding-top: 4rem;
+  /* Narrative stage panels — scroll reveal */
+  .narrative-stage {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   }
-
-  .narrative-text {
-    transition: opacity 0.3s ease, transform 0.3s ease;
-  }
-  .narrative-text.hidden {
-    display: none;
-  }
-
-  .narrative-dot {
-    transition: background 0.3s ease, box-shadow 0.3s ease;
-  }
-
-  /* Astronaut costume switching */
-  .astro-variant {
-    transition: opacity 0.3s ease;
-  }
-  .astro-variant.hidden {
-    display: none;
-  }
-
-  /* Mobile narrative cards */
-  .narrative-mobile-card {
-    padding: 1.25rem;
-    background: #F9FDFB;
-    border-radius: 12px;
-    border: 1px solid var(--neutral-300);
+  .narrative-stage.visible {
+    opacity: 1;
+    transform: none;
   }
 
   /* Compact jump cards */
@@ -839,8 +772,6 @@ const jsonLd = {
   /* Responsive */
   @media (max-width: 768px) {
     .platform-hero { padding: 7rem 0 3.5rem; }
-    .narrative-section { padding-top: 2rem; }
-    .narrative-mockup { min-height: auto !important; padding: 1.5rem 0; }
     .mini-illus { max-width: 100%; }
     .feature-table-wrap { border-radius: 8px; }
     .feature-table td:first-child { white-space: normal; }
@@ -940,63 +871,31 @@ const jsonLd = {
   })();
 </script>
 
-<!-- Narrative scroll observer -->
+<!-- Narrative panel scroll reveal -->
 <script is:inline>
-  function initNarrative() {
-    var mockups = document.querySelectorAll('.narrative-mockup');
-    var texts = document.querySelectorAll('.narrative-text');
-    var dots = document.querySelectorAll('.narrative-dot');
-    var astroVariants = document.querySelectorAll('.astro-variant');
-    if (!mockups.length) return;
-
-    var stageColors = [
-      'var(--color-green, #00C26D)',
-      '#4C82A7',
-      '#26A899',
-      '#8B5CF6'
-    ];
-
-    var currentStage = 0;
-
+  function initNarrativeReveal() {
+    var stages = document.querySelectorAll('.narrative-stage');
+    if (!stages.length) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      stages.forEach(function(s) { s.classList.add('visible'); });
+      return;
+    }
     var observer = new IntersectionObserver(function(entries) {
       entries.forEach(function(entry) {
         if (entry.isIntersecting) {
-          var index = parseInt(entry.target.dataset.mockup);
-          if (index !== currentStage) {
-            // Hide current text, show new
-            texts.forEach(function(t) { t.classList.add('hidden'); });
-            if (texts[index]) texts[index].classList.remove('hidden');
-
-            // Update dots - active and previous are lit
-            dots.forEach(function(d, i) {
-              if (i <= index) {
-                d.style.background = stageColors[i];
-                d.style.boxShadow = '0 0 8px rgba(0,194,109,0.5)';
-              } else {
-                d.style.background = 'var(--color-cloud-grey, #E1E3E6)';
-                d.style.boxShadow = 'none';
-              }
-            });
-
-            // Switch astronaut costume
-            astroVariants.forEach(function(v) { v.classList.add('hidden'); });
-            if (astroVariants[index]) astroVariants[index].classList.remove('hidden');
-
-            currentStage = index;
-          }
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.5, rootMargin: '-20% 0px -20% 0px' });
-
-    mockups.forEach(function(m) { observer.observe(m); });
+    }, { threshold: 0.15 });
+    stages.forEach(function(s) { observer.observe(s); });
   }
-
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initNarrative);
+    document.addEventListener('DOMContentLoaded', initNarrativeReveal);
   } else {
-    initNarrative();
+    initNarrativeReveal();
   }
-  document.addEventListener('astro:page-load', initNarrative);
+  document.addEventListener('astro:page-load', initNarrativeReveal);
 </script>
 
 <script is:inline>

@@ -69,29 +69,40 @@ const finalRows = rows.map((row, i) => seededShuffle(row, 100 + i));
   <div class="wall-container">
     <div class="wall-perspective">
       <div class="wall-curved">
-        {finalRows.map((row, rowIdx) => (
-          <div
-            class="wall-row"
-            style={`--speed: ${rowSpeeds[rowIdx]};`}
-            data-row={rowIdx}
-          >
-            {/* Duplicate content for seamless loop */}
-            {[...row, ...row].map((ig, i) => (
-              <div
-                class={`wall-box wall-box-${ig.tier}`}
-                title={ig.name || undefined}
-                data-tooltip={ig.tier !== 'placeholder' ? ig.name : undefined}
-              >
-                <span
-                  class="wall-box-text"
-                  style={ig.tier !== 'placeholder' ? `color: ${ig.color}; font-weight: 700;` : ''}
-                >
-                  {ig.abbrev}
-                </span>
-              </div>
-            ))}
-          </div>
-        ))}
+        {finalRows.map((row, rowIdx) => {
+          const doubled = [...row, ...row];
+          const totalInHalf = row.length;
+          return (
+            <div
+              class="wall-row"
+              style={`--speed: ${rowSpeeds[rowIdx]};`}
+              data-row={rowIdx}
+            >
+              {doubled.map((ig, i) => {
+                const posInHalf = i % totalInHalf;
+                const center = totalInHalf / 2;
+                const distFromCenter = Math.abs(posInHalf - center) / center;
+                const scale = 0.85 + (distFromCenter * 0.25);
+                const translateY = 15 - (distFromCenter * 25);
+                return (
+                  <div
+                    class={`wall-box wall-box-${ig.tier}`}
+                    title={ig.name || undefined}
+                    data-tooltip={ig.tier !== 'placeholder' ? ig.name : undefined}
+                    style={`transform: scale(${scale.toFixed(3)}) translateY(${translateY.toFixed(1)}px);`}
+                  >
+                    <span
+                      class="wall-box-text"
+                      style={ig.tier !== 'placeholder' ? `color: ${ig.color}; font-weight: 700;` : ''}
+                    >
+                      {ig.abbrev}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          );
+        })}
       </div>
     </div>
 
@@ -178,6 +189,7 @@ const finalRows = rows.map((row, i) => seededShuffle(row, 100 + i));
   /* Scrolling rows */
   .wall-row {
     display: flex;
+    align-items: flex-end;
     gap: 0.75rem;
     animation: scrollRow var(--speed) linear infinite;
     width: max-content;
@@ -260,7 +272,8 @@ const finalRows = rows.map((row, i) => seededShuffle(row, 100 + i));
     animation-play-state: paused;
   }
   .wall-box:hover {
-    transform: scale(1.15);
+    filter: brightness(1.05);
+    box-shadow: 0 0 16px rgba(0, 194, 109, 0.3);
     z-index: 15;
   }
 
@@ -290,7 +303,7 @@ const finalRows = rows.map((row, i) => seededShuffle(row, 100 + i));
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
-    z-index: 10;
+    z-index: 20;
     background: radial-gradient(
       ellipse,
       rgba(245, 246, 247, 0.95) 0%,
