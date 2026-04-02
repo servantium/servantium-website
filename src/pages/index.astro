@@ -136,109 +136,401 @@ const jsonLd = [
     </div>
   </section>
 
-  <section class="core-concept" id="concept" data-animate="fade-up">
+  <!-- 3D Road Workflow Visualization -->
+  <section class="road-section" id="concept" data-animate="fade-up">
     <div class="container">
-      <div class="concept-header">
-        <h2>Engagement Management for Professional Services</h2>
+      <div class="road-header">
+        <h2>The Engagement Journey</h2>
         <p class="text-large">
-          Everything in Servantium revolves around the Engagement: a living record that evolves
-          from first conversation through delivery and into organizational memory.
+          Every engagement follows a path. Servantium turns that path into a system that remembers, learns, and improves.
         </p>
       </div>
 
-      <!-- Journey Map: Desktop (horizontal) -->
-      <div class="journey-map" id="journey-map">
-        <svg class="journey-svg journey-svg--desktop" viewBox="0 0 960 200" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-          <defs>
-            <linearGradient id="journeyGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stop-color="#00C26D" />
-              <stop offset="50%" stop-color="#26A899" />
-              <stop offset="100%" stop-color="#4C82A7" />
-            </linearGradient>
-            <filter id="glowFilter">
-              <feGaussianBlur stdDeviation="4" result="blur" />
-              <feMerge>
-                <feMergeNode in="blur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
-          </defs>
-          <!-- Background path (track) -->
-          <path class="journey-track" d="M 60,100 C 140,40 220,40 300,100 C 380,160 460,160 540,100 C 620,40 700,40 780,100 C 820,120 860,130 900,110" fill="none" stroke="var(--color-cloud-grey)" stroke-width="4" stroke-linecap="round" />
-          <!-- Animated path (draws in) -->
-          <path class="journey-path" id="journey-path-desktop" d="M 60,100 C 140,40 220,40 300,100 C 380,160 460,160 540,100 C 620,40 700,40 780,100 C 820,120 860,130 900,110" fill="none" stroke="url(#journeyGrad)" stroke-width="4" stroke-linecap="round" />
-          <!-- Waypoints -->
-          <g class="journey-waypoint" data-stage="0">
-            <circle cx="60" cy="100" r="22" fill="white" stroke="var(--color-servantium-green)" stroke-width="3" class="waypoint-ring" />
-            <text x="60" y="105" text-anchor="middle" fill="var(--color-ink)" font-size="14" font-weight="600" font-family="var(--font-display)">1</text>
-            <text x="60" y="140" text-anchor="middle" fill="var(--color-ink-muted)" font-size="11" font-weight="600" letter-spacing="0.05em">Discovery</text>
-          </g>
-          <g class="journey-waypoint" data-stage="1">
-            <circle cx="236" cy="56" r="22" fill="white" stroke="var(--color-deep-teal)" stroke-width="3" class="waypoint-ring" />
-            <text x="236" y="61" text-anchor="middle" fill="var(--color-ink)" font-size="14" font-weight="600" font-family="var(--font-display)">2</text>
-            <text x="236" y="96" text-anchor="middle" fill="var(--color-ink-muted)" font-size="11" font-weight="600" letter-spacing="0.05em">Estimation</text>
-          </g>
-          <g class="journey-waypoint" data-stage="2">
-            <circle cx="420" cy="140" r="22" fill="white" stroke="var(--color-slate-blue)" stroke-width="3" class="waypoint-ring" />
-            <text x="420" y="145" text-anchor="middle" fill="var(--color-ink)" font-size="14" font-weight="600" font-family="var(--font-display)">3</text>
-            <text x="420" y="175" text-anchor="middle" fill="var(--color-ink-muted)" font-size="11" font-weight="600" letter-spacing="0.05em">Proposal</text>
-          </g>
-          <g class="journey-waypoint" data-stage="3">
-            <circle cx="600" cy="140" r="22" fill="white" stroke="var(--color-amber)" stroke-width="3" class="waypoint-ring" />
-            <text x="600" y="145" text-anchor="middle" fill="var(--color-ink)" font-size="14" font-weight="600" font-family="var(--font-display)">4</text>
-            <text x="600" y="175" text-anchor="middle" fill="var(--color-ink-muted)" font-size="11" font-weight="600" letter-spacing="0.05em">Contract</text>
-          </g>
-          <g class="journey-waypoint" data-stage="4">
-            <circle cx="780" cy="60" r="22" fill="white" stroke="var(--color-coral)" stroke-width="3" class="waypoint-ring" />
-            <text x="780" y="65" text-anchor="middle" fill="var(--color-ink)" font-size="14" font-weight="600" font-family="var(--font-display)">5</text>
-            <text x="780" y="96" text-anchor="middle" fill="var(--color-ink-muted)" font-size="11" font-weight="600" letter-spacing="0.05em">Delivery</text>
-          </g>
-          <g class="journey-waypoint" data-stage="5">
-            <circle cx="900" cy="110" r="22" fill="white" stroke="var(--color-slate)" stroke-width="3" class="waypoint-ring" />
-            <text x="900" y="115" text-anchor="middle" fill="var(--color-ink)" font-size="14" font-weight="600" font-family="var(--font-display)">6</text>
-            <text x="900" y="148" text-anchor="middle" fill="var(--color-ink-muted)" font-size="11" font-weight="600" letter-spacing="0.05em">Learning</text>
-          </g>
-        </svg>
+      <!-- Desktop: 3D Perspective Road -->
+      <div class="road-viewport" id="road-viewport">
+        <div class="road-container">
+          <div class="road-surface">
+            <div class="road-center-line"></div>
+            <!-- Green particles flowing along the road -->
+            <div class="road-particle" style="animation-delay: 0s;"></div>
+            <div class="road-particle" style="animation-delay: 0.5s;"></div>
+            <div class="road-particle" style="animation-delay: 1.0s;"></div>
+            <div class="road-particle" style="animation-delay: 1.5s;"></div>
+            <div class="road-particle" style="animation-delay: 2.0s;"></div>
+            <div class="road-particle" style="animation-delay: 2.5s;"></div>
 
-        <!-- Journey Map: Mobile (vertical) -->
-        <div class="journey-vertical" id="journey-vertical">
-          <div class="journey-vertical-line"></div>
-          <div class="journey-vertical-line-fill" id="journey-vertical-fill"></div>
-          {[
-            { num: 1, name: 'Discovery', color: 'var(--color-servantium-green)' },
-            { num: 2, name: 'Estimation', color: 'var(--color-deep-teal)' },
-            { num: 3, name: 'Proposal', color: 'var(--color-slate-blue)' },
-            { num: 4, name: 'Contract', color: 'var(--color-amber)' },
-            { num: 5, name: 'Delivery', color: 'var(--color-coral)' },
-            { num: 6, name: 'Learning', color: 'var(--color-slate)' },
-          ].map((stage, i) => (
-            <button class={`journey-vpoint${i === 0 ? ' active' : ''}`} data-stage={i} type="button" aria-label={`${stage.name} phase`}>
-              <div class="journey-vpoint-circle" style={`border-color: ${stage.color}`}>
-                <span class="journey-vpoint-num">{stage.num}</span>
+            <!-- Stage markers along the road -->
+            <div class="stage-marker" data-stage="1">
+              <div class="stage-pin" style="background: #00C26D;">
+                <span class="stage-pin-num">1</span>
               </div>
-              <span class="journey-vpoint-label">{stage.name}</span>
-            </button>
-          ))}
+              <div class="stage-pin-label">Discovery</div>
+              <div class="stage-sparkle"></div>
+            </div>
+            <div class="stage-marker" data-stage="2">
+              <div class="stage-pin" style="background: #4C82A7;">
+                <span class="stage-pin-num">2</span>
+              </div>
+              <div class="stage-pin-label">Estimation</div>
+              <div class="stage-sparkle"></div>
+            </div>
+            <div class="stage-marker" data-stage="3">
+              <div class="stage-pin" style="background: #FFB02E;">
+                <span class="stage-pin-num">3</span>
+              </div>
+              <div class="stage-pin-label">Proposal</div>
+              <div class="stage-sparkle"></div>
+            </div>
+            <div class="stage-marker" data-stage="4">
+              <div class="stage-pin" style="background: #26A899;">
+                <span class="stage-pin-num">4</span>
+              </div>
+              <div class="stage-pin-label">Delivery</div>
+              <div class="stage-sparkle"></div>
+            </div>
+            <div class="stage-marker" data-stage="5">
+              <div class="stage-pin" style="background: #9B59B6;">
+                <span class="stage-pin-num">5</span>
+              </div>
+              <div class="stage-pin-label">Learning</div>
+              <div class="stage-sparkle"></div>
+            </div>
+          </div>
         </div>
+      </div>
 
-        <!-- Detail Panel -->
-        <div class="journey-detail" id="journey-detail">
-          <div class="journey-detail-image">
-            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=400&fit=crop" alt="" id="journey-detail-img" loading="lazy" />
+      <!-- Mobile: Vertical road -->
+      <div class="road-mobile" id="road-mobile">
+        <div class="road-mobile-line"></div>
+        <div class="road-mobile-stage" data-stage="1">
+          <div class="road-mobile-pin" style="background: #00C26D;"><span>1</span></div>
+          <div class="road-mobile-info">
+            <strong>Discovery</strong>
+            <span>Understand client needs</span>
           </div>
-          <div class="journey-detail-content">
-            <h3 class="journey-detail-title" id="journey-detail-title">Discovery</h3>
-            <p class="journey-detail-text" id="journey-detail-text">Understand client needs, pain points, and desired outcomes.</p>
-            <ul class="journey-detail-features" id="journey-detail-features">
-              <li>Structured intake and needs assessment</li>
-              <li>Pain point and outcome mapping</li>
-              <li>Context capture for downstream decisions</li>
-            </ul>
+        </div>
+        <div class="road-mobile-stage" data-stage="2">
+          <div class="road-mobile-pin" style="background: #4C82A7;"><span>2</span></div>
+          <div class="road-mobile-info">
+            <strong>Estimation</strong>
+            <span>Build informed pricing</span>
           </div>
+        </div>
+        <div class="road-mobile-stage" data-stage="3">
+          <div class="road-mobile-pin" style="background: #FFB02E;"><span>3</span></div>
+          <div class="road-mobile-info">
+            <strong>Proposal</strong>
+            <span>Generate winning proposals</span>
+          </div>
+        </div>
+        <div class="road-mobile-stage" data-stage="4">
+          <div class="road-mobile-pin" style="background: #26A899;"><span>4</span></div>
+          <div class="road-mobile-info">
+            <strong>Delivery</strong>
+            <span>Execute with visibility</span>
+          </div>
+        </div>
+        <div class="road-mobile-stage" data-stage="5">
+          <div class="road-mobile-pin" style="background: #9B59B6;"><span>5</span></div>
+          <div class="road-mobile-info">
+            <strong>Learning</strong>
+            <span>Compound your knowledge</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detail panel below the road -->
+      <div class="road-detail-panel" id="road-detail-panel">
+        <div class="road-detail-inner">
+          <h3 class="road-detail-title" id="road-detail-title" style="color: #00C26D;">Discovery</h3>
+          <p class="road-detail-desc" id="road-detail-desc">Understand client needs, pain points, and desired outcomes before a single line item is written.</p>
+          <ul class="road-detail-features" id="road-detail-features">
+            <li>Structured intake and needs assessment</li>
+            <li>Pain point and outcome mapping</li>
+            <li>Context capture for downstream decisions</li>
+            <li>Similar engagement matching</li>
+          </ul>
         </div>
       </div>
     </div>
   </section>
+
+  <style>
+    /* ── 3D Road Visualization ── */
+    .road-section {
+      padding: 4rem 0 3rem;
+      background: var(--color-white);
+    }
+    .road-header {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 2.5rem;
+    }
+    .road-header h2 {
+      margin-bottom: 0.75rem;
+    }
+
+    /* Desktop road viewport */
+    .road-viewport {
+      position: relative;
+      height: 500px;
+      perspective: 800px;
+      overflow: hidden;
+      background: linear-gradient(to bottom, #f0f9f4 0%, white 100%);
+      border-radius: 16px;
+      margin: 0 auto;
+      max-width: 800px;
+    }
+    .road-container {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .road-surface {
+      position: relative;
+      width: 300px;
+      height: 600px;
+      background: #2d2d3d;
+      clip-path: polygon(35% 0%, 65% 0%, 100% 100%, 0% 100%);
+      transform: rotateX(55deg);
+      transform-origin: center bottom;
+      transition: transform 0.1s linear;
+    }
+
+    /* Dashed center line */
+    .road-center-line {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      margin-left: -2px;
+      background: repeating-linear-gradient(to bottom, white 0px, white 20px, transparent 20px, transparent 40px);
+      animation: roadLineScroll 2s linear infinite;
+      opacity: 0.7;
+    }
+    @keyframes roadLineScroll {
+      to { transform: translateY(40px); }
+    }
+
+    /* Green flowing particles */
+    .road-particle {
+      position: absolute;
+      left: 50%;
+      margin-left: -3px;
+      width: 6px;
+      height: 6px;
+      background: #00C26D;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #00C26D, 0 0 16px rgba(0, 194, 109, 0.3);
+      animation: particleFlow 3s linear infinite;
+      z-index: 3;
+    }
+    @keyframes particleFlow {
+      0% { top: 0; opacity: 0; transform: scale(0.5); }
+      10% { opacity: 1; transform: scale(0.6); }
+      90% { opacity: 1; transform: scale(1.2); }
+      100% { top: 100%; opacity: 0; transform: scale(1.4); }
+    }
+
+    /* Stage markers positioned along the road */
+    .stage-marker {
+      position: absolute;
+      left: 50%;
+      z-index: 4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: transform 0.4s var(--ease-spring, cubic-bezier(0.16, 1, 0.3, 1)), opacity 0.3s ease;
+    }
+    .stage-marker[data-stage="1"] { top: 8%; transform: translateX(-50%) scale(0.5); }
+    .stage-marker[data-stage="2"] { top: 24%; transform: translateX(-50%) scale(0.6); }
+    .stage-marker[data-stage="3"] { top: 42%; transform: translateX(-50%) scale(0.75); }
+    .stage-marker[data-stage="4"] { top: 62%; transform: translateX(-50%) scale(0.88); }
+    .stage-marker[data-stage="5"] { top: 80%; transform: translateX(-50%) scale(1.0); }
+
+    .stage-marker.active .stage-pin {
+      box-shadow: 0 0 20px rgba(0, 194, 109, 0.6), 0 0 40px rgba(0, 194, 109, 0.2);
+      transform: scale(1.15);
+    }
+    .stage-marker.active .stage-sparkle {
+      opacity: 1;
+    }
+
+    .stage-pin {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 14px;
+      font-family: var(--font-body, 'Source Sans 3', sans-serif);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+      cursor: pointer;
+    }
+    .stage-pin-num {
+      line-height: 1;
+    }
+    .stage-pin-label {
+      margin-top: 4px;
+      font-size: 10px;
+      font-weight: 600;
+      color: white;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+      white-space: nowrap;
+      letter-spacing: 0.03em;
+    }
+
+    /* Sparkle effect on active markers */
+    .stage-sparkle {
+      position: absolute;
+      top: -4px;
+      left: 50%;
+      margin-left: -20px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid rgba(0, 194, 109, 0.4);
+      opacity: 0;
+      animation: sparkle 2s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes sparkle {
+      0%, 100% { transform: scale(0.8); opacity: 0; }
+      50% { transform: scale(1.5); opacity: 0.6; }
+    }
+
+    /* Detail panel below the road */
+    .road-detail-panel {
+      max-width: 600px;
+      margin: 2rem auto 0;
+      background: var(--color-mint-tint, #F3FCF8);
+      border-radius: 12px;
+      padding: 2rem;
+      border: 1px solid var(--color-cloud-grey, #E1E3E6);
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+    .road-detail-panel.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .road-detail-title {
+      font-family: var(--font-display, 'Playfair Display', serif);
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      transition: color 0.3s ease;
+    }
+    .road-detail-desc {
+      color: var(--color-ink-light, #3d3d3d);
+      line-height: 1.7;
+      font-size: 1.05rem;
+      margin-bottom: 1rem;
+    }
+    .road-detail-features {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.4rem 1.5rem;
+    }
+    .road-detail-features li {
+      position: relative;
+      padding-left: 1.4rem;
+      font-size: 0.9rem;
+      color: var(--color-ink-light, #3d3d3d);
+      line-height: 1.5;
+    }
+    .road-detail-features li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.5em;
+      width: 14px;
+      height: 14px;
+      background: url("data:image/svg+xml,%3Csvg viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M16.7 5.3a1 1 0 010 1.4l-8 8a1 1 0 01-1.4 0l-4-4a1 1 0 111.4-1.4L8 12.6l7.3-7.3a1 1 0 011.4 0z' fill='%2300C26D'/%3E%3C/svg%3E") no-repeat center;
+      background-size: contain;
+    }
+
+    /* Mobile vertical road */
+    .road-mobile {
+      display: none;
+      position: relative;
+      padding-left: 60px;
+    }
+    .road-mobile-line {
+      position: absolute;
+      left: 24px;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: linear-gradient(to bottom, #00C26D, #4C82A7, #FFB02E, #26A899, #9B59B6);
+      border-radius: 2px;
+    }
+    .road-mobile-stage {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1.25rem 0;
+      position: relative;
+      cursor: pointer;
+      transition: opacity 0.3s ease;
+    }
+    .road-mobile-stage.active .road-mobile-pin {
+      box-shadow: 0 0 12px rgba(0, 194, 109, 0.5);
+      transform: scale(1.1);
+    }
+    .road-mobile-pin {
+      width: 40px;
+      height: 40px;
+      min-width: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 14px;
+      margin-left: -32px;
+      z-index: 2;
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+    .road-mobile-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+    .road-mobile-info strong {
+      font-size: 1rem;
+      color: var(--color-ink, #0D0D0D);
+    }
+    .road-mobile-info span {
+      font-size: 0.85rem;
+      color: var(--color-ink-muted, #6b6b6b);
+    }
+
+    @media (max-width: 768px) {
+      .road-viewport { display: none; }
+      .road-mobile { display: block; }
+      .road-detail-features { grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .road-center-line,
+      .road-particle,
+      .stage-sparkle {
+        animation: none !important;
+      }
+    }
+  </style>
 
   <section class="faq" id="faq">
     <div class="container">
@@ -481,163 +773,6 @@ const jsonLd = [
   });
 
   // Cal.com inline embed now handled by React CalBooker atom (client:visible)
-
-  // Journey Map interactive
-  const journeyStages = [
-    {
-      title: 'Discovery',
-      text: 'Understand client needs, pain points, and desired outcomes.',
-      features: ['Structured intake and needs assessment', 'Pain point and outcome mapping', 'Context capture for downstream decisions'],
-      image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=400&fit=crop',
-    },
-    {
-      title: 'Estimation',
-      text: 'Transform discovery into structured scope and pricing.',
-      features: ['Service definition templates', 'Historical data-driven pricing', 'Effort and resource modeling'],
-      image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=400&fit=crop',
-    },
-    {
-      title: 'Proposal',
-      text: 'Generate proposals from your service architecture.',
-      features: ['Auto-generated scope documents', 'Pricing tied to service definitions', 'Branded deliverable templates'],
-      image: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&h=400&fit=crop',
-    },
-    {
-      title: 'Contract',
-      text: 'Win the deal, assign the team, activate the engagement.',
-      features: ['Deal-to-delivery handoff', 'Automatic resource alignment', 'Timeline and milestone activation'],
-      image: 'https://images.unsplash.com/photo-1552581234-26160f608093?w=800&h=400&fit=crop',
-    },
-    {
-      title: 'Delivery',
-      text: 'Execute with real-time visibility into progress and margin.',
-      features: ['Live utilization tracking', 'Margin and burn-rate dashboards', 'Milestone and deliverable management'],
-      image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=400&fit=crop',
-    },
-    {
-      title: 'Learning',
-      text: 'Extract patterns and feed insights back into service definitions.',
-      features: ['Engagement retrospectives', 'Pattern recognition across projects', 'Service definition refinement'],
-      image: 'https://images.unsplash.com/photo-1531545514256-b1400bc00f31?w=800&h=400&fit=crop',
-    },
-  ];
-
-  let activeStage = 0;
-  const detailTitle = document.getElementById('journey-detail-title');
-  const detailText = document.getElementById('journey-detail-text');
-  const detailFeatures = document.getElementById('journey-detail-features');
-  const detailImg = document.getElementById('journey-detail-img') as HTMLImageElement | null;
-  const detailPanel = document.getElementById('journey-detail');
-
-  function setJourneyStage(index: number) {
-    if (index === activeStage && detailPanel?.classList.contains('visible')) return;
-    activeStage = index;
-    const stage = journeyStages[index];
-
-    // Fade out then update
-    detailPanel?.classList.remove('visible');
-    setTimeout(() => {
-      if (detailTitle) detailTitle.textContent = stage.title;
-      if (detailText) detailText.textContent = stage.text;
-      if (detailFeatures) {
-        detailFeatures.innerHTML = stage.features.map(f => `<li>${f}</li>`).join('');
-      }
-      if (detailImg) detailImg.src = stage.image;
-      detailPanel?.classList.add('visible');
-    }, 200);
-
-    // Update desktop SVG waypoints
-    document.querySelectorAll('.journey-waypoint').forEach((wp, i) => {
-      wp.classList.toggle('active', i === index);
-    });
-    // Update mobile vertical waypoints
-    document.querySelectorAll('.journey-vpoint').forEach((vp, i) => {
-      vp.classList.toggle('active', i === index);
-    });
-  }
-
-  // Desktop SVG waypoint click/hover
-  document.querySelectorAll('.journey-waypoint').forEach(wp => {
-    wp.addEventListener('click', () => {
-      const idx = parseInt(wp.getAttribute('data-stage') || '0');
-      setJourneyStage(idx);
-    });
-    wp.addEventListener('mouseenter', () => {
-      const idx = parseInt(wp.getAttribute('data-stage') || '0');
-      setJourneyStage(idx);
-    });
-    // Make SVG groups focusable/clickable
-    wp.setAttribute('role', 'button');
-    wp.setAttribute('tabindex', '0');
-    wp.addEventListener('keydown', (e) => {
-      if ((e as KeyboardEvent).key === 'Enter' || (e as KeyboardEvent).key === ' ') {
-        e.preventDefault();
-        const idx = parseInt(wp.getAttribute('data-stage') || '0');
-        setJourneyStage(idx);
-      }
-    });
-  });
-
-  // Mobile vertical waypoint click
-  document.querySelectorAll('.journey-vpoint').forEach(vp => {
-    vp.addEventListener('click', () => {
-      const idx = parseInt(vp.getAttribute('data-stage') || '0');
-      setJourneyStage(idx);
-    });
-  });
-
-  // Path draw animation via IntersectionObserver
-  const journeyMap = document.getElementById('journey-map');
-  if (journeyMap) {
-    const pathEl = document.getElementById('journey-path-desktop') as SVGPathElement | null;
-    const vertFill = document.getElementById('journey-vertical-fill');
-    let journeyAnimated = false;
-
-    const journeyObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting && !journeyAnimated) {
-          journeyAnimated = true;
-
-          // Animate desktop SVG path
-          if (pathEl) {
-            const len = pathEl.getTotalLength();
-            pathEl.style.strokeDasharray = `${len}`;
-            pathEl.style.strokeDashoffset = `${len}`;
-            pathEl.style.transition = 'stroke-dashoffset 2s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-            requestAnimationFrame(() => { pathEl.style.strokeDashoffset = '0'; });
-          }
-
-          // Animate mobile vertical line fill
-          if (vertFill) {
-            vertFill.style.transition = 'height 2s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-            requestAnimationFrame(() => { vertFill.style.height = '100%'; });
-          }
-
-          // Stagger waypoint fade-in (desktop)
-          document.querySelectorAll('.journey-waypoint').forEach((wp, i) => {
-            (wp as SVGGElement).style.opacity = '0';
-            (wp as SVGGElement).style.transition = `opacity 0.5s ease ${i * 300}ms`;
-            setTimeout(() => { (wp as SVGGElement).style.opacity = '1'; }, 50);
-          });
-
-          // Stagger waypoint fade-in (mobile)
-          document.querySelectorAll('.journey-vpoint').forEach((vp, i) => {
-            (vp as HTMLElement).style.opacity = '0';
-            (vp as HTMLElement).style.transition = `opacity 0.5s ease ${i * 300}ms`;
-            setTimeout(() => { (vp as HTMLElement).style.opacity = '1'; }, 50);
-          });
-
-          // Show detail panel after first waypoint appears
-          setTimeout(() => { detailPanel?.classList.add('visible'); }, 400);
-        }
-      });
-    }, { threshold: 0.2 });
-
-    journeyObserver.observe(journeyMap);
-  }
-
-  // Initialize first stage
-  setJourneyStage(0);
 </script>
 
 <!-- Scroll-triggered animations for homepage -->
@@ -685,4 +820,104 @@ const jsonLd = [
     initScrollAnimations();
   }
   document.addEventListener('astro:page-load', initScrollAnimations);
+</script>
+
+<!-- 3D Road scroll interaction -->
+<script is:inline>
+  function initRoadAnimation() {
+    var roadSection = document.querySelector('.road-section');
+    var markers = document.querySelectorAll('.stage-marker');
+    var mobileStages = document.querySelectorAll('.road-mobile-stage');
+    var detailPanel = document.getElementById('road-detail-panel');
+    var detailTitle = document.getElementById('road-detail-title');
+    var detailDesc = document.getElementById('road-detail-desc');
+    var detailFeatures = document.getElementById('road-detail-features');
+
+    if (!roadSection) return;
+
+    var roadStages = [
+      { title: 'Discovery', color: '#00C26D', desc: 'Understand client needs, pain points, and desired outcomes before a single line item is written.', features: ['Structured intake and needs assessment', 'Pain point and outcome mapping', 'Context capture for downstream decisions', 'Similar engagement matching'] },
+      { title: 'Estimation', color: '#4C82A7', desc: 'Transform discovery into structured scope and pricing, informed by every project your firm has delivered.', features: ['Service definition templates', 'Historical data-driven pricing', 'Effort and resource modeling', 'AI-powered quote generation'] },
+      { title: 'Proposal', color: '#FFB02E', desc: 'Generate professional proposals directly from your service architecture and pricing data.', features: ['Auto-generated scope documents', 'Pricing tied to service definitions', 'Branded deliverable templates', 'One-click PDF export'] },
+      { title: 'Delivery', color: '#26A899', desc: 'Execute with real-time visibility into progress, margin, and resource utilization.', features: ['Live utilization tracking', 'Margin and burn-rate dashboards', 'Milestone management', 'Cross-engagement visibility'] },
+      { title: 'Learning', color: '#9B59B6', desc: 'Every engagement feeds back into your institutional memory, making each future project smarter.', features: ['Engagement retrospectives', 'Pattern recognition across projects', 'Service definition refinement', 'Estimate accuracy tracking'] }
+    ];
+
+    var currentStage = -1;
+
+    function setActiveStage(index) {
+      if (index === currentStage) return;
+      currentStage = index;
+      var stage = roadStages[index];
+
+      // Update desktop markers
+      markers.forEach(function(m, i) {
+        m.classList.toggle('active', i === index);
+      });
+
+      // Update mobile stages
+      mobileStages.forEach(function(m, i) {
+        m.classList.toggle('active', i === index);
+      });
+
+      // Update detail panel
+      if (detailPanel) {
+        detailPanel.classList.remove('visible');
+        setTimeout(function() {
+          if (detailTitle) { detailTitle.textContent = stage.title; detailTitle.style.color = stage.color; }
+          if (detailDesc) detailDesc.textContent = stage.desc;
+          if (detailFeatures) {
+            detailFeatures.innerHTML = stage.features.map(function(f) { return '<li>' + f + '</li>'; }).join('');
+          }
+          detailPanel.classList.add('visible');
+        }, 180);
+      }
+    }
+
+    // Click on markers (desktop)
+    markers.forEach(function(m, i) {
+      m.addEventListener('click', function() { setActiveStage(i); });
+    });
+
+    // Click on mobile stages
+    mobileStages.forEach(function(m, i) {
+      m.addEventListener('click', function() { setActiveStage(i); });
+    });
+
+    // Scroll-linked animation
+    var animated = false;
+    var roadObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting && !animated) {
+          animated = true;
+          setActiveStage(0);
+          if (detailPanel) {
+            setTimeout(function() { detailPanel.classList.add('visible'); }, 500);
+          }
+        }
+      });
+    }, { threshold: 0.2 });
+    roadObserver.observe(roadSection);
+
+    // Scroll-driven stage progression
+    function onScroll() {
+      if (!animated) return;
+      var rect = roadSection.getBoundingClientRect();
+      var progress = 1 - (rect.top / window.innerHeight);
+      var clampedProgress = Math.max(0, Math.min(1, progress));
+      var activeIndex = Math.min(4, Math.max(0, Math.floor(clampedProgress * 5)));
+      setActiveStage(activeIndex);
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    // Initialize
+    setActiveStage(0);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initRoadAnimation);
+  } else {
+    initRoadAnimation();
+  }
+  document.addEventListener('astro:page-load', initRoadAnimation);
 </script>
