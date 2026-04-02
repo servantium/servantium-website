@@ -126,9 +126,10 @@ p {
     padding: 0 var(--space-lg);
 }
 
-section {
-    padding: var(--space-3xl) 0;
-}
+/* Section padding removed — pages control their own spacing via Tailwind.
+   The old blanket `section { padding: 8rem 0; }` was overriding all
+   Tailwind padding utilities on sections (py-1, pb-4, etc.) because
+   unlayered CSS outranks Tailwind's @layer utilities. */
 
 /* Buttons */
 .btn {
@@ -195,7 +196,7 @@ section {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Responsive */
+/* Responsive — section padding removed (same reason as above) */
 @media (max-width: 768px) {
-    section { padding: var(--space-2xl) 0; }
+    /* Individual pages handle their own responsive spacing via Tailwind */
 }
