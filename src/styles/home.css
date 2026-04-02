@@ -1337,7 +1337,7 @@
             text-decoration: underline;
         }
 
-        /* Core Concept - Panel Below on Hover/Click */
+        /* Core Concept - Journey Map */
         .core-concept {
             background: var(--color-white);
         }
@@ -1352,137 +1352,53 @@
             margin-bottom: var(--space-md);
         }
 
-        .lifecycle-interactive {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: var(--space-md);
-            flex-wrap: wrap;
-            padding: var(--space-lg) 0;
-        }
-
-        .lifecycle-step {
+        /* Journey Map */
+        .journey-map {
             position: relative;
-            cursor: pointer;
-        }
-
-        .lifecycle-circle {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            position: relative;
-            border: 3px solid transparent;
-            background: var(--color-white);
-        }
-
-        .lifecycle-circle:hover {
-            transform: scale(1.1);
-        }
-
-        /* Servantium colored lifecycle circles */
-        .lifecycle-step:nth-child(1) .lifecycle-circle {
-            border-color: var(--color-servantium-green);
-            background: linear-gradient(135deg, var(--color-mint-tint) 0%, var(--color-white) 100%);
-        }
-        .lifecycle-step:nth-child(3) .lifecycle-circle {
-            border-color: var(--color-deep-teal);
-            background: linear-gradient(135deg, rgba(38, 168, 153, 0.1) 0%, var(--color-white) 100%);
-        }
-        .lifecycle-step:nth-child(5) .lifecycle-circle {
-            border-color: var(--color-slate-blue);
-            background: linear-gradient(135deg, rgba(76, 130, 167, 0.1) 0%, var(--color-white) 100%);
-        }
-        .lifecycle-step:nth-child(7) .lifecycle-circle {
-            border-color: var(--color-amber);
-            background: linear-gradient(135deg, rgba(255, 176, 46, 0.1) 0%, var(--color-white) 100%);
-        }
-        .lifecycle-step:nth-child(9) .lifecycle-circle {
-            border-color: var(--color-coral);
-            background: linear-gradient(135deg, rgba(255, 92, 112, 0.1) 0%, var(--color-white) 100%);
-        }
-        .lifecycle-step:nth-child(11) .lifecycle-circle {
-            border-color: var(--color-slate);
-            background: linear-gradient(135deg, rgba(100, 116, 139, 0.1) 0%, var(--color-white) 100%);
-        }
-
-        .lifecycle-step.active .lifecycle-circle {
-            transform: scale(1.1);
-            box-shadow: 0 8px 30px rgba(0, 194, 109, 0.2);
-        }
-
-        .lifecycle-step:focus {
-            outline: none;
-        }
-
-        .lifecycle-step:focus .lifecycle-circle {
-            outline: 3px solid var(--color-servantium-green);
-            outline-offset: 4px;
-        }
-
-        .lifecycle-number {
-            font-family: var(--font-display);
-            font-size: 1.5rem;
-            color: var(--color-ink);
-        }
-
-        .lifecycle-name {
-            font-size: 0.65rem;
-            font-weight: 600;
-            color: var(--color-ink-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-top: 2px;
-        }
-
-        .lifecycle-connector {
-            width: 28px;
-            height: 3px;
-            background: linear-gradient(90deg, var(--color-servantium-green), var(--color-deep-teal), var(--color-amber));
-            border-radius: 2px;
-        }
-
-        /* Closed Loop Container */
-        .lifecycle-wrapper {
-            position: relative;
-            display: block;
-            text-align: center;
-            padding-top: 50px;
             margin: 0 auto;
+            max-width: 960px;
         }
 
-        .lifecycle-loop-arrow {
-            position: absolute;
-            top: 0;
-            left: 30px;
-            right: 30px;
-            height: 50px;
-            pointer-events: none;
-        }
-
-        .lifecycle-loop-arrow svg {
+        .journey-svg--desktop {
+            display: block;
             width: 100%;
-            height: 100%;
+            height: auto;
             overflow: visible;
         }
 
-        .loop-path {
-            fill: none;
-            stroke: url(#loopGradient);
-            stroke-width: 2;
-            stroke-dasharray: 8 5;
+        .journey-track {
+            opacity: 0.3;
         }
 
-        .loop-arrow-head {
-            fill: var(--color-servantium-green);
+        .journey-waypoint {
+            cursor: pointer;
+            transition: opacity 0.4s ease;
         }
 
-        /* Panel that appears below */
-        .lifecycle-panel {
+        .journey-waypoint .waypoint-ring {
+            transition: all 0.3s ease;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.08));
+        }
+
+        .journey-waypoint:hover .waypoint-ring,
+        .journey-waypoint.active .waypoint-ring {
+            filter: drop-shadow(0 0 12px rgba(0, 194, 109, 0.4));
+            stroke: var(--color-servantium-green);
+            stroke-width: 4;
+            r: 26;
+        }
+
+        .journey-waypoint:focus {
+            outline: none;
+        }
+
+        .journey-waypoint:focus .waypoint-ring {
+            stroke: var(--color-servantium-green);
+            stroke-width: 4;
+        }
+
+        /* Journey detail panel */
+        .journey-detail {
             margin-top: var(--space-xl);
             background: var(--color-white);
             border-radius: 16px;
@@ -1493,55 +1409,154 @@
             min-height: 280px;
             opacity: 0;
             transform: translateY(20px);
-            transition: all 0.4s ease;
+            transition: opacity 0.35s ease, transform 0.35s ease;
             pointer-events: none;
         }
 
-        .lifecycle-panel.active {
+        .journey-detail.visible {
             opacity: 1;
             transform: translateY(0);
             pointer-events: auto;
         }
 
-        .panel-image {
+        .journey-detail-image {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .journey-detail-image img {
             width: 100%;
             height: 100%;
             min-height: 280px;
             object-fit: cover;
         }
 
-        .panel-content,
-        .lifecycle-panel-content {
+        .journey-detail-content {
             padding: var(--space-xl);
             display: flex;
             flex-direction: column;
             justify-content: center;
         }
 
-        .panel-content h3,
-        .lifecycle-panel-content h3 {
+        .journey-detail-title {
             color: var(--color-servantium-green);
-            margin-bottom: var(--space-sm);
+            margin-bottom: var(--space-xs);
             font-size: 1.75rem;
+            font-family: var(--font-display);
         }
 
-        .panel-content p,
-        .lifecycle-panel-content p {
+        .journey-detail-text {
             line-height: 1.8;
             font-size: 1.1rem;
+            color: var(--color-ink-light);
+            margin-bottom: var(--space-sm);
         }
 
-        .lifecycle-panel-image {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
+        .journey-detail-features {
+            list-style: none;
+            padding: 0;
+            margin: 0;
         }
 
-        .lifecycle-panel-image img {
+        .journey-detail-features li {
+            position: relative;
+            padding-left: 1.25rem;
+            margin-bottom: 0.4rem;
+            font-size: 0.95rem;
+            color: var(--color-ink-light);
+            line-height: 1.6;
+        }
+
+        .journey-detail-features li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.55em;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--color-servantium-green);
+        }
+
+        /* Mobile vertical journey (hidden on desktop) */
+        .journey-vertical {
+            display: none;
+            position: relative;
+            padding-left: 50px;
+        }
+
+        .journey-vertical-line {
+            position: absolute;
+            left: 22px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--color-cloud-grey);
+            border-radius: 2px;
+        }
+
+        .journey-vertical-line-fill {
+            position: absolute;
+            left: 22px;
+            top: 0;
+            width: 4px;
+            height: 0;
+            background: linear-gradient(180deg, var(--color-servantium-green), var(--color-deep-teal), var(--color-slate-blue));
+            border-radius: 2px;
+        }
+
+        .journey-vpoint {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 0;
+            background: none;
+            border: none;
+            cursor: pointer;
             width: 100%;
-            height: 100%;
-            min-height: 280px;
-            object-fit: cover;
+            text-align: left;
+        }
+
+        .journey-vpoint-circle {
+            width: 44px;
+            height: 44px;
+            min-width: 44px;
+            border-radius: 50%;
+            border: 3px solid var(--color-cloud-grey);
+            background: var(--color-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+            margin-left: -27px;
+        }
+
+        .journey-vpoint-num {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--color-ink);
+        }
+
+        .journey-vpoint-label {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--color-ink-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            transition: color 0.2s ease;
+        }
+
+        .journey-vpoint.active .journey-vpoint-circle {
+            box-shadow: 0 0 12px rgba(0, 194, 109, 0.35);
+            transform: scale(1.15);
+        }
+
+        .journey-vpoint.active .journey-vpoint-label {
+            color: var(--color-servantium-green);
         }
 
         /* (Packages, Phases, AI Philosophy, Outcomes sections moved to platform.html) */
@@ -1881,8 +1896,8 @@
             .hero-ctas { justify-content: center; }
             .hero-visual { margin: 0 auto; width: 100%; max-width: 800px; aspect-ratio: 16 / 10; }
             .problem-stats { grid-template-columns: repeat(2, 1fr); }
-            .lifecycle-panel { grid-template-columns: 1fr; }
-            .panel-image { min-height: 200px; }
+            .journey-detail { grid-template-columns: 1fr; }
+            .journey-detail-image img { min-height: 200px; }
         }
 
         @media (max-width: 768px) {
@@ -1946,96 +1961,19 @@
             .mock-quote-toolbar-btn { font-size: 6px; }
             .mock-quote-label { font-size: 7px; }
 
-            /* Mobile lifecycle - vertical centered with expandable panels */
-            .lifecycle-wrapper {
-                width: 100%;
-            }
-            .lifecycle-loop-arrow {
+            /* Mobile journey map - vertical layout */
+            .journey-svg--desktop {
                 display: none;
             }
-            .lifecycle-interactive {
-                flex-direction: column;
-                align-items: center;
-                gap: 0;
-            }
-            .lifecycle-step {
-                width: 100%;
-                max-width: 320px;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-            .lifecycle-circle {
-                width: 80px;
-                height: 80px;
-                z-index: 2;
-            }
-            .lifecycle-number {
-                font-size: 1.25rem;
-            }
-            .lifecycle-name {
-                font-size: 0.6rem;
-            }
-            .lifecycle-connector {
-                width: 3px;
-                height: 20px;
-            }
-            /* Mobile expandable content panel inline */
-            .lifecycle-step-content {
-                max-height: 0;
-                overflow: hidden;
-                opacity: 0;
-                width: 100%;
-                transition: max-height 0.4s ease, opacity 0.3s ease, margin 0.3s ease;
-                margin: 0;
-            }
-            .lifecycle-step.expanded .lifecycle-step-content {
-                max-height: 400px;
-                opacity: 1;
-                margin: var(--space-sm) 0;
-            }
-            .lifecycle-step-content-inner {
-                background: var(--color-white);
-                border-radius: 12px;
-                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-                overflow: hidden;
-            }
-            .lifecycle-step-content img {
-                width: 100%;
-                height: 140px;
-                object-fit: cover;
-            }
-            .lifecycle-step-content-text {
-                padding: var(--space-md);
-            }
-            .lifecycle-step-content-text h4 {
-                font-family: var(--font-display);
-                font-size: 1.1rem;
-                color: var(--color-servantium-green);
-                margin-bottom: var(--space-xs);
-            }
-            .lifecycle-step-content-text p {
-                font-size: 0.9rem;
-                line-height: 1.6;
-                color: var(--color-ink-light);
-            }
-            /* Hide desktop panel on mobile */
-            .lifecycle-panel {
-                display: none;
-            }
-            /* Mobile hint */
-            .mobile-tap-hint {
+            .journey-vertical {
                 display: block;
-                text-align: center;
-                font-size: 0.85rem;
-                color: var(--color-ink-muted);
-                margin-top: var(--space-md);
-                padding: var(--space-sm) var(--space-md);
-                background: var(--color-mist-grey);
-                border-radius: 20px;
-                max-width: 200px;
-                margin-left: auto;
-                margin-right: auto;
+            }
+            .journey-detail {
+                grid-template-columns: 1fr;
+            }
+            .journey-detail-image img {
+                min-height: 160px;
+                max-height: 200px;
             }
             /* Mobile loop indicator at bottom */
             .mobile-loop-indicator {
@@ -2061,15 +1999,9 @@
             }
         }
 
-        /* Desktop: hide mobile elements */
+        /* Desktop: hide mobile journey elements */
         @media (min-width: 769px) {
-            .lifecycle-step-content {
-                display: none;
-            }
-            .mobile-tap-hint {
-                display: none;
-            }
-            .mobile-loop-indicator {
+            .journey-vertical {
                 display: none;
             }
         }

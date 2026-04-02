@@ -1,224 +1,56 @@
 ---
-import BaseLayout from '@/layouts/BaseLayout.astro';
-import SEO from '@/components/SEO.astro';
-
-const sections = [
-  { id: 'overview', title: 'Overview' },
-  { id: 'information-we-collect', title: 'Information We Collect' },
-  { id: 'how-we-use-your-information', title: 'How We Use Your Information' },
-  { id: 'your-rights-under-gdpr', title: 'Your Rights Under GDPR' },
-  { id: 'data-retention', title: 'Data Retention' },
-  { id: 'contact-us', title: 'Contact Us' },
-];
+import BlogLayout from '@/layouts/BlogLayout.astro';
 ---
 
-<BaseLayout>
-  <SEO
-    slot="head"
-    title="Privacy Policy"
-    description="Servantium Privacy Policy. Learn how we collect, use, and protect your information."
-    ogType="website"
-  />
+<BlogLayout
+  title="Privacy Policy"
+  description="How Servantium collects, uses, and protects your information."
+  date="2026-01-15"
+  category="Legal"
+  readingTime="10 min read"
+  hideAuthor={true}
+  hideShare={true}
+  hideRelated={true}
+>
+  <h2 id="overview">Overview</h2>
+  <p>At Servantium, we take your privacy seriously. This policy describes how we collect, use, and protect your personal information when you use our services.</p>
 
-  <!-- Hero header -->
-  <header class="legal-hero">
-    <div class="legal-hero-inner">
-      <h1 class="legal-hero-title">Privacy Policy</h1>
-      <div class="legal-hero-meta">
-        <span>Last updated: January 2026</span>
-        <span class="legal-meta-dot">&middot;</span>
-        <span>Version 1.0</span>
-      </div>
-    </div>
-  </header>
+  <h2 id="information-we-collect">Information We Collect</h2>
+  <p>We collect information you provide directly to us, such as:</p>
+  <ul>
+    <li>Contact information (name, email address, company)</li>
+    <li>Account credentials</li>
+    <li>Communications you send to us</li>
+    <li>Information about how you use our services</li>
+  </ul>
 
-  <div class="legal-body">
-    <div class="legal-container">
-      <!-- Table of Contents -->
-      <nav class="legal-toc" aria-label="Table of contents">
-        <h2 class="legal-toc-heading">Contents</h2>
-        <ol class="legal-toc-list">
-          {sections.map((s) => (
-            <li><a href={`#${s.id}`}>{s.title}</a></li>
-          ))}
-        </ol>
-      </nav>
+  <h2 id="how-we-use-your-information">How We Use Your Information</h2>
+  <p>We use the information we collect to:</p>
+  <ul>
+    <li>Provide, maintain, and improve our services</li>
+    <li>Communicate with you about products, services, and events</li>
+    <li>Respond to your comments and questions</li>
+    <li>Protect against fraud and abuse</li>
+  </ul>
 
-      <!-- Content -->
-      <div class="legal-prose">
-        <h2 id="overview">Overview</h2>
-        <p>At Servantium, we take your privacy seriously. This policy describes how we collect, use, and protect your personal information when you use our services.</p>
+  <h2 id="your-rights-under-gdpr">Your Rights Under GDPR</h2>
+  <p>If you are located in the European Economic Area (EEA), you have certain rights regarding your personal data under the General Data Protection Regulation (GDPR):</p>
+  <ul>
+    <li><strong>Right to Access:</strong> You can request a copy of the personal data we hold about you.</li>
+    <li><strong>Right to Rectification:</strong> You can request that we correct any inaccurate or incomplete personal data.</li>
+    <li><strong>Right to Erasure:</strong> You can request that we delete your personal data. We will comply with such requests unless we have a legitimate legal basis to retain the data.</li>
+    <li><strong>Right to Restrict Processing:</strong> You can request that we limit how we use your personal data.</li>
+    <li><strong>Right to Data Portability:</strong> You can request a copy of your data in a structured, machine-readable format.</li>
+    <li><strong>Right to Object:</strong> You can object to our processing of your personal data for certain purposes.</li>
+  </ul>
+  <p>To exercise any of these rights, please contact us at <a href="mailto:hello@servantium.com">hello@servantium.com</a>. We will respond to your request within 30 days.</p>
 
-        <h2 id="information-we-collect">Information We Collect</h2>
-        <p>We collect information you provide directly to us, such as:</p>
-        <ul>
-          <li>Contact information (name, email address, company)</li>
-          <li>Account credentials</li>
-          <li>Communications you send to us</li>
-          <li>Information about how you use our services</li>
-        </ul>
+  <h2 id="data-retention">Data Retention</h2>
+  <p>We retain your personal data only for as long as necessary to fulfill the purposes for which it was collected, or as required by law. When data is no longer needed, we securely delete or anonymize it.</p>
 
-        <h2 id="how-we-use-your-information">How We Use Your Information</h2>
-        <p>We use the information we collect to:</p>
-        <ul>
-          <li>Provide, maintain, and improve our services</li>
-          <li>Communicate with you about products, services, and events</li>
-          <li>Respond to your comments and questions</li>
-          <li>Protect against fraud and abuse</li>
-        </ul>
+  <h2 id="contact-us">Contact Us</h2>
+  <p>If you have questions about this Privacy Policy or wish to exercise your data rights, please contact us at <a href="mailto:hello@servantium.com">hello@servantium.com</a></p>
 
-        <h2 id="your-rights-under-gdpr">Your Rights Under GDPR</h2>
-        <p>If you are located in the European Economic Area (EEA), you have certain rights regarding your personal data under the General Data Protection Regulation (GDPR):</p>
-        <ul>
-          <li><strong>Right to Access:</strong> You can request a copy of the personal data we hold about you.</li>
-          <li><strong>Right to Rectification:</strong> You can request that we correct any inaccurate or incomplete personal data.</li>
-          <li><strong>Right to Erasure:</strong> You can request that we delete your personal data. We will comply with such requests unless we have a legitimate legal basis to retain the data.</li>
-          <li><strong>Right to Restrict Processing:</strong> You can request that we limit how we use your personal data.</li>
-          <li><strong>Right to Data Portability:</strong> You can request a copy of your data in a structured, machine-readable format.</li>
-          <li><strong>Right to Object:</strong> You can object to our processing of your personal data for certain purposes.</li>
-        </ul>
-        <p>To exercise any of these rights, please contact us at <a href="mailto:hello@servantium.com">hello@servantium.com</a>. We will respond to your request within 30 days.</p>
-
-        <h2 id="data-retention">Data Retention</h2>
-        <p>We retain your personal data only for as long as necessary to fulfill the purposes for which it was collected, or as required by law. When data is no longer needed, we securely delete or anonymize it.</p>
-
-        <h2 id="contact-us">Contact Us</h2>
-        <p>If you have questions about this Privacy Policy or wish to exercise your data rights, please contact us at <a href="mailto:hello@servantium.com">hello@servantium.com</a></p>
-      </div>
-
-      <!-- Footer meta -->
-      <div class="legal-footer-meta">
-        <p>Last updated: January 2026</p>
-        <p>Version: 1.0</p>
-      </div>
-    </div>
-  </div>
-</BaseLayout>
-
-<style>
-  .legal-hero {
-    padding: 7rem 0 3rem;
-    background: var(--color-mist-grey, #F5F6F7);
-    border-bottom: 1px solid var(--color-cloud-grey, #E1E3E6);
-  }
-  .legal-hero-inner {
-    max-width: 48rem;
-    margin: 0 auto;
-    padding: 0 1.5rem;
-  }
-  .legal-hero-title {
-    font-family: var(--font-display, 'Playfair Display', Georgia, serif);
-    font-size: 2.75rem;
-    font-weight: 600;
-    color: var(--color-ink, #0D0D0D);
-    margin: 0 0 0.75rem;
-    line-height: 1.15;
-  }
-  .legal-hero-meta {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.9rem;
-    color: var(--color-ink-muted, #6b6b6b);
-  }
-  .legal-meta-dot {
-    opacity: 0.5;
-  }
-
-  .legal-body {
-    padding: 3rem 0 6rem;
-  }
-  .legal-container {
-    max-width: 48rem;
-    margin: 0 auto;
-    padding: 0 1.5rem;
-  }
-
-  /* Table of Contents */
-  .legal-toc {
-    background: var(--color-mist-grey, #F5F6F7);
-    border: 1px solid var(--color-cloud-grey, #E1E3E6);
-    border-radius: 12px;
-    padding: 1.5rem 2rem;
-    margin-bottom: 2.5rem;
-  }
-  .legal-toc-heading {
-    font-family: var(--font-body, 'Source Sans 3', sans-serif);
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--color-ink-muted, #6b6b6b);
-    margin: 0 0 0.75rem;
-  }
-  .legal-toc-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    counter-reset: toc-counter;
-  }
-  .legal-toc-list li {
-    counter-increment: toc-counter;
-    margin-bottom: 0.4rem;
-  }
-  .legal-toc-list li::before {
-    content: counter(toc-counter) ".";
-    display: inline-block;
-    width: 1.5rem;
-    color: var(--color-ink-muted, #6b6b6b);
-    font-size: 0.875rem;
-  }
-  .legal-toc-list a {
-    color: var(--color-ink-light, #3d3d3d);
-    text-decoration: none;
-    font-size: 0.9375rem;
-    transition: color 0.15s;
-  }
-  .legal-toc-list a:hover {
-    color: var(--color-servantium-green, #00C26D);
-  }
-
-  /* Prose content */
-  .legal-prose h2 {
-    font-family: var(--font-display, 'Playfair Display', Georgia, serif);
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: var(--color-ink, #0D0D0D);
-    margin: 2.5rem 0 1rem;
-    scroll-margin-top: 6rem;
-  }
-  .legal-prose p {
-    font-size: 1.0625rem;
-    line-height: 1.7;
-    color: var(--color-ink-light, #3d3d3d);
-    margin-bottom: 1rem;
-  }
-  .legal-prose ul {
-    margin: 1rem 0 1.25rem 1.5rem;
-    color: var(--color-ink-light, #3d3d3d);
-  }
-  .legal-prose li {
-    margin-bottom: 0.5rem;
-    font-size: 1.0625rem;
-    line-height: 1.65;
-  }
-  .legal-prose a {
-    color: var(--color-servantium-green, #00C26D);
-    text-decoration: none;
-  }
-  .legal-prose a:hover {
-    text-decoration: underline;
-  }
-
-  /* Footer meta */
-  .legal-footer-meta {
-    margin-top: 4rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--color-cloud-grey, #E1E3E6);
-  }
-  .legal-footer-meta p {
-    font-size: 0.8125rem;
-    color: var(--color-ink-muted, #6b6b6b);
-    margin: 0 0 0.25rem;
-  }
-</style>
+  <hr />
+  <p><strong>Last updated:</strong> January 2026<br /><strong>Version:</strong> 1.0</p>
+</BlogLayout>

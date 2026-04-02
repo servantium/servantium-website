@@ -145,77 +145,96 @@ const jsonLd = [
           from first conversation through delivery and into organizational memory.
         </p>
       </div>
-      <div class="lifecycle-wrapper">
-        <div class="lifecycle-loop-arrow">
-          <svg viewBox="0 0 1000 50" preserveAspectRatio="none">
-            <defs>
-              <linearGradient id="loopGradient" x1="100%" y1="0%" x2="0%" y2="0%">
-                <stop offset="0%" stop-color="#4C82A7" />
-                <stop offset="50%" stop-color="#26A899" />
-                <stop offset="100%" stop-color="#00C26D" />
-              </linearGradient>
-            </defs>
-            <path class="loop-path" d="M 950 50 L 950 12 L 50 12 L 50 38" />
-            <polygon class="loop-arrow-head" points="50,50 42,38 58,38" />
-          </svg>
+
+      <!-- Journey Map: Desktop (horizontal) -->
+      <div class="journey-map" id="journey-map">
+        <svg class="journey-svg journey-svg--desktop" viewBox="0 0 960 200" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+          <defs>
+            <linearGradient id="journeyGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#00C26D" />
+              <stop offset="50%" stop-color="#26A899" />
+              <stop offset="100%" stop-color="#4C82A7" />
+            </linearGradient>
+            <filter id="glowFilter">
+              <feGaussianBlur stdDeviation="4" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+          <!-- Background path (track) -->
+          <path class="journey-track" d="M 60,100 C 140,40 220,40 300,100 C 380,160 460,160 540,100 C 620,40 700,40 780,100 C 820,120 860,130 900,110" fill="none" stroke="var(--color-cloud-grey)" stroke-width="4" stroke-linecap="round" />
+          <!-- Animated path (draws in) -->
+          <path class="journey-path" id="journey-path-desktop" d="M 60,100 C 140,40 220,40 300,100 C 380,160 460,160 540,100 C 620,40 700,40 780,100 C 820,120 860,130 900,110" fill="none" stroke="url(#journeyGrad)" stroke-width="4" stroke-linecap="round" />
+          <!-- Waypoints -->
+          <g class="journey-waypoint" data-stage="0">
+            <circle cx="60" cy="100" r="22" fill="white" stroke="var(--color-servantium-green)" stroke-width="3" class="waypoint-ring" />
+            <text x="60" y="105" text-anchor="middle" fill="var(--color-ink)" font-size="14" font-weight="600" font-family="var(--font-display)">1</text>
+            <text x="60" y="140" text-anchor="middle" fill="var(--color-ink-muted)" font-size="11" font-weight="600" letter-spacing="0.05em">Discovery</text>
+          </g>
+          <g class="journey-waypoint" data-stage="1">
+            <circle cx="236" cy="56" r="22" fill="white" stroke="var(--color-deep-teal)" stroke-width="3" class="waypoint-ring" />
+            <text x="236" y="61" text-anchor="middle" fill="var(--color-ink)" font-size="14" font-weight="600" font-family="var(--font-display)">2</text>
+            <text x="236" y="96" text-anchor="middle" fill="var(--color-ink-muted)" font-size="11" font-weight="600" letter-spacing="0.05em">Estimation</text>
+          </g>
+          <g class="journey-waypoint" data-stage="2">
+            <circle cx="420" cy="140" r="22" fill="white" stroke="var(--color-slate-blue)" stroke-width="3" class="waypoint-ring" />
+            <text x="420" y="145" text-anchor="middle" fill="var(--color-ink)" font-size="14" font-weight="600" font-family="var(--font-display)">3</text>
+            <text x="420" y="175" text-anchor="middle" fill="var(--color-ink-muted)" font-size="11" font-weight="600" letter-spacing="0.05em">Proposal</text>
+          </g>
+          <g class="journey-waypoint" data-stage="3">
+            <circle cx="600" cy="140" r="22" fill="white" stroke="var(--color-amber)" stroke-width="3" class="waypoint-ring" />
+            <text x="600" y="145" text-anchor="middle" fill="var(--color-ink)" font-size="14" font-weight="600" font-family="var(--font-display)">4</text>
+            <text x="600" y="175" text-anchor="middle" fill="var(--color-ink-muted)" font-size="11" font-weight="600" letter-spacing="0.05em">Contract</text>
+          </g>
+          <g class="journey-waypoint" data-stage="4">
+            <circle cx="780" cy="60" r="22" fill="white" stroke="var(--color-coral)" stroke-width="3" class="waypoint-ring" />
+            <text x="780" y="65" text-anchor="middle" fill="var(--color-ink)" font-size="14" font-weight="600" font-family="var(--font-display)">5</text>
+            <text x="780" y="96" text-anchor="middle" fill="var(--color-ink-muted)" font-size="11" font-weight="600" letter-spacing="0.05em">Delivery</text>
+          </g>
+          <g class="journey-waypoint" data-stage="5">
+            <circle cx="900" cy="110" r="22" fill="white" stroke="var(--color-slate)" stroke-width="3" class="waypoint-ring" />
+            <text x="900" y="115" text-anchor="middle" fill="var(--color-ink)" font-size="14" font-weight="600" font-family="var(--font-display)">6</text>
+            <text x="900" y="148" text-anchor="middle" fill="var(--color-ink-muted)" font-size="11" font-weight="600" letter-spacing="0.05em">Learning</text>
+          </g>
+        </svg>
+
+        <!-- Journey Map: Mobile (vertical) -->
+        <div class="journey-vertical" id="journey-vertical">
+          <div class="journey-vertical-line"></div>
+          <div class="journey-vertical-line-fill" id="journey-vertical-fill"></div>
+          {[
+            { num: 1, name: 'Discovery', color: 'var(--color-servantium-green)' },
+            { num: 2, name: 'Estimation', color: 'var(--color-deep-teal)' },
+            { num: 3, name: 'Proposal', color: 'var(--color-slate-blue)' },
+            { num: 4, name: 'Contract', color: 'var(--color-amber)' },
+            { num: 5, name: 'Delivery', color: 'var(--color-coral)' },
+            { num: 6, name: 'Learning', color: 'var(--color-slate)' },
+          ].map((stage, i) => (
+            <button class={`journey-vpoint${i === 0 ? ' active' : ''}`} data-stage={i} type="button" aria-label={`${stage.name} phase`}>
+              <div class="journey-vpoint-circle" style={`border-color: ${stage.color}`}>
+                <span class="journey-vpoint-num">{stage.num}</span>
+              </div>
+              <span class="journey-vpoint-label">{stage.name}</span>
+            </button>
+          ))}
         </div>
-        <div class="lifecycle-interactive">
-          <div class="lifecycle-step" data-index="0" role="button" tabindex="0" aria-expanded="false" aria-label="Discovery phase">
-            <div class="lifecycle-circle"><div class="lifecycle-number">1</div><div class="lifecycle-name">Discovery</div></div>
-            <div class="lifecycle-step-content"><div class="lifecycle-step-content-inner">
-              <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=400&fit=crop" alt="Discovery" loading="lazy">
-              <div class="lifecycle-step-content-text"><h4>Discovery</h4><p>Understand client needs, pain points, and desired outcomes. Capture context that will inform every downstream decision—from pricing to resource allocation to success metrics.</p></div>
-            </div></div>
+
+        <!-- Detail Panel -->
+        <div class="journey-detail" id="journey-detail">
+          <div class="journey-detail-image">
+            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=400&fit=crop" alt="" id="journey-detail-img" loading="lazy" />
           </div>
-          <div class="lifecycle-connector"></div>
-          <div class="lifecycle-step" data-index="1" role="button" tabindex="0" aria-expanded="false" aria-label="Estimation phase">
-            <div class="lifecycle-circle"><div class="lifecycle-number">2</div><div class="lifecycle-name">Estimation</div></div>
-            <div class="lifecycle-step-content"><div class="lifecycle-step-content-inner">
-              <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=400&fit=crop" alt="Estimation" loading="lazy">
-              <div class="lifecycle-step-content-text"><h4>Estimation</h4><p>Transform discovery insights into structured scope and pricing. Draw from encoded service definitions and historical data.</p></div>
-            </div></div>
+          <div class="journey-detail-content">
+            <h3 class="journey-detail-title" id="journey-detail-title">Discovery</h3>
+            <p class="journey-detail-text" id="journey-detail-text">Understand client needs, pain points, and desired outcomes.</p>
+            <ul class="journey-detail-features" id="journey-detail-features">
+              <li>Structured intake and needs assessment</li>
+              <li>Pain point and outcome mapping</li>
+              <li>Context capture for downstream decisions</li>
+            </ul>
           </div>
-          <div class="lifecycle-connector"></div>
-          <div class="lifecycle-step" data-index="2" role="button" tabindex="0" aria-expanded="false" aria-label="Proposal phase">
-            <div class="lifecycle-circle"><div class="lifecycle-number">3</div><div class="lifecycle-name">Proposal</div></div>
-            <div class="lifecycle-step-content"><div class="lifecycle-step-content-inner">
-              <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&h=400&fit=crop" alt="Proposal" loading="lazy">
-              <div class="lifecycle-step-content-text"><h4>Proposal</h4><p>Generate proposals that reflect your actual service architecture. Scope, pricing, and deliverables flow from your estimation work.</p></div>
-            </div></div>
-          </div>
-          <div class="lifecycle-connector"></div>
-          <div class="lifecycle-step" data-index="3" role="button" tabindex="0" aria-expanded="false" aria-label="Contract phase">
-            <div class="lifecycle-circle"><div class="lifecycle-number">4</div><div class="lifecycle-name">Contract</div></div>
-            <div class="lifecycle-step-content"><div class="lifecycle-step-content-inner">
-              <img src="https://images.unsplash.com/photo-1552581234-26160f608093?w=800&h=400&fit=crop" alt="Contract" loading="lazy">
-              <div class="lifecycle-step-content-text"><h4>Contract</h4><p>Win the deal, assign the team, and activate the engagement. Resources, timelines, and deliverables align automatically from your scoped work.</p></div>
-            </div></div>
-          </div>
-          <div class="lifecycle-connector"></div>
-          <div class="lifecycle-step" data-index="4" role="button" tabindex="0" aria-expanded="false" aria-label="Delivery phase">
-            <div class="lifecycle-circle"><div class="lifecycle-number">5</div><div class="lifecycle-name">Delivery</div></div>
-            <div class="lifecycle-step-content"><div class="lifecycle-step-content-inner">
-              <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=400&fit=crop" alt="Delivery" loading="lazy">
-              <div class="lifecycle-step-content-text"><h4>Delivery</h4><p>Execute against the engagement scope with real-time visibility into progress, utilization, and margin.</p></div>
-            </div></div>
-          </div>
-          <div class="lifecycle-connector"></div>
-          <div class="lifecycle-step" data-index="5" role="button" tabindex="0" aria-expanded="false" aria-label="Learning phase">
-            <div class="lifecycle-circle"><div class="lifecycle-number">6</div><div class="lifecycle-name">Learning</div></div>
-            <div class="lifecycle-step-content"><div class="lifecycle-step-content-inner">
-              <img src="https://images.unsplash.com/photo-1531545514256-b1400bc00f31?w=800&h=400&fit=crop" alt="Learning" loading="lazy">
-              <div class="lifecycle-step-content-text"><h4>Learning</h4><p>Extract patterns, measure outcomes, and feed insights back into your service definitions. Every engagement makes the next one better.</p></div>
-            </div></div>
-          </div>
-        </div>
-      </div>
-      <div class="lifecycle-panel" id="lifecycle-panel">
-        <div class="lifecycle-panel-image">
-          <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=400&fit=crop" alt="" id="lifecycle-panel-img" loading="lazy" />
-        </div>
-        <div class="lifecycle-panel-content">
-          <h3 id="lifecycle-panel-title">Discovery</h3>
-          <p id="lifecycle-panel-text">Understand client needs, pain points, and desired outcomes. Capture context that will inform every downstream decision—from pricing to resource allocation to success metrics.</p>
         </div>
       </div>
     </div>
@@ -463,49 +482,162 @@ const jsonLd = [
 
   // Cal.com inline embed now handled by React CalBooker atom (client:visible)
 
-  // Lifecycle interactive
-  const steps = document.querySelectorAll('.lifecycle-step');
-  const panel = document.getElementById('lifecycle-panel');
-  const panelImg = document.getElementById('lifecycle-panel-img');
-  const panelTitle = document.getElementById('lifecycle-panel-title');
-  const panelText = document.getElementById('lifecycle-panel-text');
+  // Journey Map interactive
+  const journeyStages = [
+    {
+      title: 'Discovery',
+      text: 'Understand client needs, pain points, and desired outcomes.',
+      features: ['Structured intake and needs assessment', 'Pain point and outcome mapping', 'Context capture for downstream decisions'],
+      image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=400&fit=crop',
+    },
+    {
+      title: 'Estimation',
+      text: 'Transform discovery into structured scope and pricing.',
+      features: ['Service definition templates', 'Historical data-driven pricing', 'Effort and resource modeling'],
+      image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=400&fit=crop',
+    },
+    {
+      title: 'Proposal',
+      text: 'Generate proposals from your service architecture.',
+      features: ['Auto-generated scope documents', 'Pricing tied to service definitions', 'Branded deliverable templates'],
+      image: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&h=400&fit=crop',
+    },
+    {
+      title: 'Contract',
+      text: 'Win the deal, assign the team, activate the engagement.',
+      features: ['Deal-to-delivery handoff', 'Automatic resource alignment', 'Timeline and milestone activation'],
+      image: 'https://images.unsplash.com/photo-1552581234-26160f608093?w=800&h=400&fit=crop',
+    },
+    {
+      title: 'Delivery',
+      text: 'Execute with real-time visibility into progress and margin.',
+      features: ['Live utilization tracking', 'Margin and burn-rate dashboards', 'Milestone and deliverable management'],
+      image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=400&fit=crop',
+    },
+    {
+      title: 'Learning',
+      text: 'Extract patterns and feed insights back into service definitions.',
+      features: ['Engagement retrospectives', 'Pattern recognition across projects', 'Service definition refinement'],
+      image: 'https://images.unsplash.com/photo-1531545514256-b1400bc00f31?w=800&h=400&fit=crop',
+    },
+  ];
 
-  function activateStep(step: Element) {
-    steps.forEach(s => { s.classList.remove('active'); s.setAttribute('aria-expanded', 'false'); });
-    step.classList.add('active');
-    step.setAttribute('aria-expanded', 'true');
-    const content = step.querySelector('.lifecycle-step-content-inner');
-    if (content && panel && panelImg && panelTitle && panelText) {
-      const img = content.querySelector('img');
-      const title = content.querySelector('h4');
-      const text = content.querySelector('p');
-      if (img) (panelImg as HTMLImageElement).src = (img as HTMLImageElement).src;
-      if (title) panelTitle.textContent = title.textContent;
-      if (text) panelText.textContent = text.textContent;
-      panel.classList.add('active');
-    }
+  let activeStage = 0;
+  const detailTitle = document.getElementById('journey-detail-title');
+  const detailText = document.getElementById('journey-detail-text');
+  const detailFeatures = document.getElementById('journey-detail-features');
+  const detailImg = document.getElementById('journey-detail-img') as HTMLImageElement | null;
+  const detailPanel = document.getElementById('journey-detail');
+
+  function setJourneyStage(index: number) {
+    if (index === activeStage && detailPanel?.classList.contains('visible')) return;
+    activeStage = index;
+    const stage = journeyStages[index];
+
+    // Fade out then update
+    detailPanel?.classList.remove('visible');
+    setTimeout(() => {
+      if (detailTitle) detailTitle.textContent = stage.title;
+      if (detailText) detailText.textContent = stage.text;
+      if (detailFeatures) {
+        detailFeatures.innerHTML = stage.features.map(f => `<li>${f}</li>`).join('');
+      }
+      if (detailImg) detailImg.src = stage.image;
+      detailPanel?.classList.add('visible');
+    }, 200);
+
+    // Update desktop SVG waypoints
+    document.querySelectorAll('.journey-waypoint').forEach((wp, i) => {
+      wp.classList.toggle('active', i === index);
+    });
+    // Update mobile vertical waypoints
+    document.querySelectorAll('.journey-vpoint').forEach((vp, i) => {
+      vp.classList.toggle('active', i === index);
+    });
   }
 
-  steps.forEach(step => {
-    step.addEventListener('mouseenter', function() { activateStep(this); });
-    step.addEventListener('click', function() {
-      steps.forEach(s => { s.classList.remove('active'); s.setAttribute('aria-expanded', 'false'); });
-      this.classList.add('active');
-      this.setAttribute('aria-expanded', 'true');
-      const content = this.querySelector('.lifecycle-step-content-inner');
-      if (content && panel && panelImg && panelTitle && panelText) {
-        const img = content.querySelector('img');
-        const title = content.querySelector('h4');
-        const text = content.querySelector('p');
-        if (img) (panelImg as HTMLImageElement).src = (img as HTMLImageElement).src;
-        if (title) panelTitle.textContent = title.textContent;
-        if (text) panelText.textContent = text.textContent;
-        panel.classList.add('active');
+  // Desktop SVG waypoint click/hover
+  document.querySelectorAll('.journey-waypoint').forEach(wp => {
+    wp.addEventListener('click', () => {
+      const idx = parseInt(wp.getAttribute('data-stage') || '0');
+      setJourneyStage(idx);
+    });
+    wp.addEventListener('mouseenter', () => {
+      const idx = parseInt(wp.getAttribute('data-stage') || '0');
+      setJourneyStage(idx);
+    });
+    // Make SVG groups focusable/clickable
+    wp.setAttribute('role', 'button');
+    wp.setAttribute('tabindex', '0');
+    wp.addEventListener('keydown', (e) => {
+      if ((e as KeyboardEvent).key === 'Enter' || (e as KeyboardEvent).key === ' ') {
+        e.preventDefault();
+        const idx = parseInt(wp.getAttribute('data-stage') || '0');
+        setJourneyStage(idx);
       }
     });
   });
-  // Auto-open first step
-  if (steps.length > 0) (steps[0] as HTMLElement).click();
+
+  // Mobile vertical waypoint click
+  document.querySelectorAll('.journey-vpoint').forEach(vp => {
+    vp.addEventListener('click', () => {
+      const idx = parseInt(vp.getAttribute('data-stage') || '0');
+      setJourneyStage(idx);
+    });
+  });
+
+  // Path draw animation via IntersectionObserver
+  const journeyMap = document.getElementById('journey-map');
+  if (journeyMap) {
+    const pathEl = document.getElementById('journey-path-desktop') as SVGPathElement | null;
+    const vertFill = document.getElementById('journey-vertical-fill');
+    let journeyAnimated = false;
+
+    const journeyObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !journeyAnimated) {
+          journeyAnimated = true;
+
+          // Animate desktop SVG path
+          if (pathEl) {
+            const len = pathEl.getTotalLength();
+            pathEl.style.strokeDasharray = `${len}`;
+            pathEl.style.strokeDashoffset = `${len}`;
+            pathEl.style.transition = 'stroke-dashoffset 2s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            requestAnimationFrame(() => { pathEl.style.strokeDashoffset = '0'; });
+          }
+
+          // Animate mobile vertical line fill
+          if (vertFill) {
+            vertFill.style.transition = 'height 2s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            requestAnimationFrame(() => { vertFill.style.height = '100%'; });
+          }
+
+          // Stagger waypoint fade-in (desktop)
+          document.querySelectorAll('.journey-waypoint').forEach((wp, i) => {
+            (wp as SVGGElement).style.opacity = '0';
+            (wp as SVGGElement).style.transition = `opacity 0.5s ease ${i * 300}ms`;
+            setTimeout(() => { (wp as SVGGElement).style.opacity = '1'; }, 50);
+          });
+
+          // Stagger waypoint fade-in (mobile)
+          document.querySelectorAll('.journey-vpoint').forEach((vp, i) => {
+            (vp as HTMLElement).style.opacity = '0';
+            (vp as HTMLElement).style.transition = `opacity 0.5s ease ${i * 300}ms`;
+            setTimeout(() => { (vp as HTMLElement).style.opacity = '1'; }, 50);
+          });
+
+          // Show detail panel after first waypoint appears
+          setTimeout(() => { detailPanel?.classList.add('visible'); }, 400);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    journeyObserver.observe(journeyMap);
+  }
+
+  // Initialize first stage
+  setJourneyStage(0);
 </script>
 
 <!-- Scroll-triggered animations for homepage -->

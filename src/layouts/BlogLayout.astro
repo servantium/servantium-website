@@ -18,7 +18,7 @@ interface Props {
   title: string;
   description: string;
   date: string;
-  author: string;
+  author?: string;
   authorRole?: string;
   category: string;
   image?: string;
@@ -26,9 +26,12 @@ interface Props {
   readingTime?: string;
   tags?: string[];
   headings?: Heading[];
+  hideAuthor?: boolean;
+  hideShare?: boolean;
+  hideRelated?: boolean;
 }
 
-const { title, description, date, author, authorRole, category, image, imageAlt, readingTime, tags = [], headings = [] } = Astro.props;
+const { title, description, date, author = '', authorRole, category, image, imageAlt, readingTime, tags = [], headings = [], hideAuthor = false, hideShare = false, hideRelated = false } = Astro.props;
 const authorData = authors[author] || { name: author, role: authorRole || '', image: '', linkedin: '', bio: '' };
 const formattedDate = new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
@@ -81,7 +84,7 @@ const relatedPosts = allPosts
   />
 
   {/* -- Share Sidebar (desktop: fixed left, mobile: bottom bar) -- */}
-  <ShareSidebar url={canonicalUrl} title={title} />
+  {!hideShare && <ShareSidebar url={canonicalUrl} title={title} />}
 
   {/* -- Hero Section -- */}
   <PageReveal>
@@ -131,41 +134,43 @@ const relatedPosts = allPosts
         </p>
 
         {/* Author Row */}
-        <div data-reveal="3" class="flex items-center gap-4 flex-wrap">
-          {/* Author Avatar + Info */}
-          <div class="flex items-center gap-3">
-            {authorData.image && (
-              <img
-                src={authorData.image}
-                alt={authorData.name}
-                class="w-10 h-10 rounded-full object-cover ring-2 ring-white shadow-sm"
-              />
-            )}
-            <div class="flex flex-col">
-              <a
-                href={`/blog/authors/${author}`}
-                class="text-sm font-semibold text-[var(--color-ink)] hover:text-[var(--color-green)] transition-colors no-underline"
-              >
-                {authorData.name}
-              </a>
-              {authorData.role && (
-                <span class="text-xs text-[var(--color-ink-muted)]">{authorData.role}</span>
+        {!hideAuthor && (
+          <div data-reveal="3" class="flex items-center gap-4 flex-wrap">
+            {/* Author Avatar + Info */}
+            <div class="flex items-center gap-3">
+              {authorData.image && (
+                <img
+                  src={authorData.image}
+                  alt={authorData.name}
+                  class="w-10 h-10 rounded-full object-cover ring-2 ring-white shadow-sm"
+                />
+              )}
+              <div class="flex flex-col">
+                <a
+                  href={`/blog/authors/${author}`}
+                  class="text-sm font-semibold text-[var(--color-ink)] hover:text-[var(--color-green)] transition-colors no-underline"
+                >
+                  {authorData.name}
+                </a>
+                {authorData.role && (
+                  <span class="text-xs text-[var(--color-ink-muted)]">{authorData.role}</span>
+                )}
+              </div>
+            </div>
+
+            {/* Separator + Date + Reading Time */}
+            <div class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]">
+              <span class="hidden sm:inline opacity-30 text-lg" aria-hidden="true">&middot;</span>
+              <time datetime={date}>{formattedDate}</time>
+              {readingTime && (
+                <>
+                  <span class="opacity-30" aria-hidden="true">&middot;</span>
+                  <span>{readingTime}</span>
+                </>
               )}
             </div>
           </div>
-
-          {/* Separator + Date + Reading Time */}
-          <div class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)]">
-            <span class="hidden sm:inline opacity-30 text-lg" aria-hidden="true">&middot;</span>
-            <time datetime={date}>{formattedDate}</time>
-            {readingTime && (
-              <>
-                <span class="opacity-30" aria-hidden="true">&middot;</span>
-                <span>{readingTime}</span>
-              </>
-            )}
-          </div>
-        </div>
+        )}
       </div>
     </header>
   </PageReveal>
@@ -198,33 +203,37 @@ const relatedPosts = allPosts
     </div>
   </div>
 
-  {/* -- CTA Section -- */}
-  <section class="mx-auto max-w-4xl px-6 pb-12 md:pb-16">
-    <div class="rounded-2xl bg-gradient-to-br from-[var(--color-soft-mint)] to-[var(--color-mint-tint)] p-8 md:p-10 text-center border border-[var(--color-pale-green)]">
-      <h3 class="font-[family-name:var(--font-display)] text-2xl md:text-[1.75rem] text-[var(--color-ink)] mb-3 leading-snug">
-        Ready to encode your services?
-      </h3>
-      <p class="text-[var(--color-ink-muted)] mb-6 max-w-md mx-auto leading-relaxed">
-        See how Servantium brings CPQ discipline to professional services.
-      </p>
-      <button
-        class="btn btn-primary btn-large"
-        data-cal-link="christopher-veale/servantium-introduction?duration=15"
-        data-cal-namespace="servantium-introduction"
-        data-cal-config='{"layout":"month_view"}'
-      >
-        Schedule a Demo
-      </button>
-    </div>
-  </section>
+  {!hideRelated && (
+    <>
+      {/* -- CTA Section -- */}
+      <section class="mx-auto max-w-4xl px-6 pb-12 md:pb-16">
+        <div class="rounded-2xl bg-gradient-to-br from-[var(--color-soft-mint)] to-[var(--color-mint-tint)] p-8 md:p-10 text-center border border-[var(--color-pale-green)]">
+          <h3 class="font-[family-name:var(--font-display)] text-2xl md:text-[1.75rem] text-[var(--color-ink)] mb-3 leading-snug">
+            Ready to encode your services?
+          </h3>
+          <p class="text-[var(--color-ink-muted)] mb-6 max-w-md mx-auto leading-relaxed">
+            See how Servantium brings CPQ discipline to professional services.
+          </p>
+          <button
+            class="btn btn-primary btn-large"
+            data-cal-link="christopher-veale/servantium-introduction?duration=15"
+            data-cal-namespace="servantium-introduction"
+            data-cal-config='{"layout":"month_view"}'
+          >
+            Schedule a Demo
+          </button>
+        </div>
+      </section>
 
-  {/* -- Related Posts -- */}
-  <section class="mx-auto max-w-[var(--content-width)] px-6 pb-16 md:pb-24">
-    <RelatedPosts posts={relatedPosts} />
-  </section>
+      {/* -- Related Posts -- */}
+      <section class="mx-auto max-w-[var(--content-width)] px-6 pb-16 md:pb-24">
+        <RelatedPosts posts={relatedPosts} />
+      </section>
+    </>
+  )}
 
   {/* -- Mobile share bar spacer -- */}
-  <div class="h-16 md:hidden" aria-hidden="true"></div>
+  {!hideShare && <div class="h-16 md:hidden" aria-hidden="true"></div>}
 </BaseLayout>
 
 <style>
