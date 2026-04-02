@@ -1,4 +1,6 @@
 ---
+import Astronaut from '@/theme/components/Astronaut.astro';
+
 interface RoadStop {
   title: string;
   description: string;
@@ -14,872 +16,544 @@ interface Props {
 }
 
 const {
-  title = 'The Servantium Journey',
-  subtitle,
+  title = 'Engagement Management for Professional Services',
+  subtitle = 'Everything revolves around the Engagement — a living record from first conversation through delivery.',
   stops,
 } = Astro.props;
 
-const stations = [
-  { glow: '#00C26D', label: 'Discovery', tagline: 'Scanning for opportunities.' },
-  { glow: '#4C82A7', label: 'Estimation', tagline: 'Calculating the approach.' },
-  { glow: '#FFB02E', label: 'Proposal', tagline: 'Charting the course.' },
-  { glow: '#26A899', label: 'Delivery', tagline: 'Mission in progress.' },
-  { glow: '#8B5CF6', label: 'Learning', tagline: 'Knowledge compounds.' },
+const panels = [
+  { number: '01', bg: 'linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%)', accent: '#00C26D', astronaut: 'searching' as const },
+  { number: '02', bg: 'linear-gradient(135deg, #ffffff 0%, #eff6ff 100%)', accent: '#4C82A7', astronaut: 'floating' as const },
+  { number: '03', bg: 'linear-gradient(135deg, #ffffff 0%, #fffbeb 100%)', accent: '#FFB02E', astronaut: 'waving' as const },
+  { number: '04', bg: 'linear-gradient(135deg, #ffffff 0%, #f0fdfa 100%)', accent: '#26A899', astronaut: 'peeking' as const },
+  { number: '05', bg: 'linear-gradient(135deg, #ffffff 0%, #faf5ff 100%)', accent: '#8B5CF6', astronaut: 'floating' as const },
 ];
 ---
 
-<!-- Desktop: The Servantium Journey — scroll through 5 space stations -->
-<section class="journey" aria-label={title}>
-  <div class="journey-scroll-spacer" style={`min-height: ${stops.length * 70}vh;`}>
-    <div class="journey-viewport">
-      <!-- Static starfield -->
-      <div class="journey-stars" aria-hidden="true">
-        {Array.from({ length: 100 }).map((_, i) => (
-          <div
-            class="journey-star"
-            style={`left: ${(i * 17 + 3) % 100}%; top: ${(i * 29 + 7) % 100}%; width: ${1 + (i % 3)}px; height: ${1 + (i % 3)}px; opacity: ${0.2 + (i % 5) * 0.12};`}
-          ></div>
-        ))}
-      </div>
+<!-- Filmstrip: Horizontal scroll driven by vertical scroll -->
+<section class="filmstrip-section" style="min-height: 400vh;" aria-label={title}>
 
-      <!-- Connection trail — thin green dotted line that grows as you progress -->
-      <div class="journey-connection-trail" aria-hidden="true">
-        <div class="journey-trail-line"></div>
-        <div class="journey-trail-fill"></div>
-      </div>
+  <!-- Section title — outside sticky so it scrolls away -->
+  <div class="text-center mb-8 pt-16 px-4">
+    <h2 class="text-3xl md:text-4xl font-medium" style="font-family: var(--font-display); color: var(--color-ink);">
+      {title}
+    </h2>
+    {subtitle && (
+      <p class="text-lg mt-3 max-w-2xl mx-auto" style="color: var(--color-ink-muted);">
+        {subtitle}
+      </p>
+    )}
+  </div>
 
-      <!-- Progress indicator — vertical dotted line on left -->
-      <div class="journey-progress" aria-hidden="true">
-        <div class="journey-progress-line"></div>
-        <div class="journey-progress-fill"></div>
-        {stations.map((_, i) => (
-          <div class="journey-progress-dot" data-progress-dot={i}></div>
-        ))}
-      </div>
+  <!-- Sticky viewport -->
+  <div class="filmstrip-viewport sticky top-0 h-screen overflow-hidden">
 
-      <!-- Floating astronaut -->
-      <div class="journey-astronaut" aria-hidden="true">
-        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="50" cy="40" r="25" fill="white" stroke="#0D0D0D" stroke-width="2"/>
-          <ellipse cx="50" cy="42" rx="15" ry="12" fill="#00C26D" opacity="0.8"/>
-          <rect x="35" y="60" width="30" height="25" rx="8" fill="white" stroke="#0D0D0D" stroke-width="2"/>
-          <rect x="60" y="62" width="12" height="20" rx="3" fill="white" stroke="#0D0D0D" stroke-width="2"/>
-          <rect x="20" y="65" width="18" height="8" rx="4" fill="white" stroke="#0D0D0D" stroke-width="2"/>
-          <rect x="62" y="70" width="18" height="8" rx="4" fill="white" stroke="#0D0D0D" stroke-width="2"/>
-          <line x1="50" y1="15" x2="50" y2="8" stroke="#6b6b6b" stroke-width="1.5" fill="none"/>
-          <circle cx="50" cy="6" r="3" fill="#00C26D"/>
-          <path d="M38 35 Q42 30 48 32" stroke="white" stroke-width="1.5" fill="none" opacity="0.5"/>
-        </svg>
-      </div>
+    <!-- Green thread SVG -->
+    <svg class="filmstrip-thread absolute left-0 w-full pointer-events-none z-10" style="top: 50%; height: 3px; transform: translateY(-50%);" preserveAspectRatio="none" viewBox="0 0 1000 3">
+      <line x1="0" y1="1.5" x2="1000" y2="1.5" stroke="#E8FBF1" stroke-width="3"/>
+      <line id="thread-progress" x1="0" y1="1.5" x2="0" y2="1.5" stroke="#00C26D" stroke-width="3" stroke-linecap="round"/>
+    </svg>
 
-      <!-- Station panels -->
+    <!-- Progress dots -->
+    <div class="filmstrip-dots absolute left-0 w-full flex justify-between px-[10%] z-20 pointer-events-none" style="top: 50%; transform: translateY(-50%);">
+      {stops.map((_, i) => (
+        <div class="filmstrip-dot w-3 h-3 rounded-full transition-all duration-300" style="background: #E1E3E6;" />
+      ))}
+    </div>
+
+    <!-- Panels track -->
+    <div class="filmstrip-track flex h-full" style="width: 500vw;" id="filmstrip-track">
       {stops.map((stop, i) => {
-        const station = stations[i] || stations[0];
+        const panel = panels[i] || panels[0];
         return (
           <div
-            class="station-panel"
-            data-station-state={i === 0 ? 'active' : 'upcoming'}
-            data-station-index={i}
+            class="filmstrip-panel w-screen h-full flex items-center relative"
+            data-panel={i}
+            style={`background: ${panel.bg};`}
           >
-            <div class="station-glow" style={`background: ${station.glow};`}></div>
+            <div class="mx-auto max-w-6xl px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center w-full">
 
-            <div class="station-illustration" set:html={
-              i === 0 ? `<!-- Discovery Station: Satellite dish with radar -->
-<svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" width="200" height="200">
-  <ellipse cx="100" cy="120" rx="60" ry="20" stroke="white" stroke-width="2"/>
-  <path d="M100 120 L100 60" stroke="white" stroke-width="2"/>
-  <circle cx="100" cy="55" r="8" stroke="#00C26D" stroke-width="2" fill="#00C26D" fill-opacity="0.2"/>
-  <path d="M100 55 L130 30" stroke="#00C26D" stroke-width="1.5" opacity="0.6"/>
-  <circle cx="130" cy="30" r="3" fill="#00C26D" opacity="0.8"/>
-  <path d="M80 40 Q100 25 120 40" stroke="#00C26D" stroke-width="1" fill="none" opacity="0.4"/>
-  <path d="M70 30 Q100 10 130 30" stroke="#00C26D" stroke-width="1" fill="none" opacity="0.3"/>
-  <rect x="85" y="120" width="30" height="40" rx="4" stroke="white" stroke-width="1.5" fill="white" fill-opacity="0.05"/>
-  <circle cx="40" cy="40" r="1.5" fill="white" opacity="0.6"/>
-  <circle cx="160" cy="50" r="1" fill="white" opacity="0.4"/>
-  <circle cx="30" cy="90" r="1" fill="#00C26D" opacity="0.5"/>
-</svg>` :
-              i === 1 ? `<!-- Estimation Station: Holographic data panels -->
-<svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" width="200" height="200">
-  <!-- Back panel -->
-  <rect x="55" y="35" width="90" height="65" rx="4" stroke="#4C82A7" stroke-width="1.5" fill="#4C82A7" fill-opacity="0.08" transform="rotate(-6 100 67)"/>
-  <!-- Middle panel -->
-  <rect x="45" y="50" width="90" height="65" rx="4" stroke="white" stroke-width="1.5" fill="white" fill-opacity="0.05" transform="rotate(3 90 82)"/>
-  <!-- Front panel -->
-  <rect x="50" y="65" width="100" height="70" rx="4" stroke="white" stroke-width="2" fill="white" fill-opacity="0.04"/>
-  <!-- Chart line -->
-  <polyline points="62,118 75,105 88,112 100,95 112,100 125,88 138,92" stroke="#4C82A7" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-  <!-- Data dots -->
-  <circle cx="75" cy="105" r="2.5" fill="#4C82A7" fill-opacity="0.6"/>
-  <circle cx="100" cy="95" r="2.5" fill="#4C82A7" fill-opacity="0.6"/>
-  <circle cx="125" cy="88" r="2.5" fill="#4C82A7" fill-opacity="0.8"/>
-  <!-- Grid lines -->
-  <line x1="60" y1="80" x2="140" y2="80" stroke="white" stroke-width="0.5" opacity="0.15"/>
-  <line x1="60" y1="100" x2="140" y2="100" stroke="white" stroke-width="0.5" opacity="0.15"/>
-  <line x1="60" y1="120" x2="140" y2="120" stroke="white" stroke-width="0.5" opacity="0.15"/>
-  <!-- Bar chart in back panel -->
-  <rect x="70" y="50" width="8" height="20" rx="1" fill="#4C82A7" fill-opacity="0.3" transform="rotate(-6 74 60)"/>
-  <rect x="82" y="45" width="8" height="25" rx="1" fill="#4C82A7" fill-opacity="0.3" transform="rotate(-6 86 57)"/>
-  <rect x="94" y="48" width="8" height="22" rx="1" fill="#4C82A7" fill-opacity="0.3" transform="rotate(-6 98 59)"/>
-  <!-- Stars -->
-  <circle cx="25" cy="55" r="1" fill="white" opacity="0.5"/>
-  <circle cx="175" cy="80" r="1.5" fill="white" opacity="0.4"/>
-  <circle cx="20" cy="140" r="1" fill="#4C82A7" opacity="0.5"/>
-</svg>` :
-              i === 2 ? `<!-- Proposal Station: Beacon/lighthouse with document -->
-<svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" width="200" height="200">
-  <!-- Lighthouse tower -->
-  <path d="M92 170 L88 90 L112 90 L108 170 Z" stroke="white" stroke-width="2" fill="white" fill-opacity="0.05"/>
-  <rect x="85" y="82" width="30" height="12" rx="2" stroke="white" stroke-width="1.5" fill="white" fill-opacity="0.08"/>
-  <!-- Light housing -->
-  <rect x="88" y="68" width="24" height="16" rx="3" stroke="#FFB02E" stroke-width="2" fill="#FFB02E" fill-opacity="0.15"/>
-  <circle cx="100" cy="76" r="4" fill="#FFB02E" fill-opacity="0.6"/>
-  <!-- Light rays -->
-  <line x1="75" y1="76" x2="55" y2="68" stroke="#FFB02E" stroke-width="1.5" opacity="0.5" stroke-linecap="round"/>
-  <line x1="75" y1="76" x2="50" y2="76" stroke="#FFB02E" stroke-width="1.5" opacity="0.4" stroke-linecap="round"/>
-  <line x1="75" y1="76" x2="55" y2="84" stroke="#FFB02E" stroke-width="1.5" opacity="0.3" stroke-linecap="round"/>
-  <line x1="125" y1="76" x2="145" y2="68" stroke="#FFB02E" stroke-width="1.5" opacity="0.5" stroke-linecap="round"/>
-  <line x1="125" y1="76" x2="150" y2="76" stroke="#FFB02E" stroke-width="1.5" opacity="0.4" stroke-linecap="round"/>
-  <line x1="125" y1="76" x2="145" y2="84" stroke="#FFB02E" stroke-width="1.5" opacity="0.3" stroke-linecap="round"/>
-  <!-- Document/scroll -->
-  <rect x="130" y="110" width="40" height="52" rx="3" stroke="white" stroke-width="1.5" fill="white" fill-opacity="0.05"/>
-  <line x1="138" y1="122" x2="162" y2="122" stroke="#FFB02E" stroke-width="1" opacity="0.5"/>
-  <line x1="138" y1="130" x2="162" y2="130" stroke="white" stroke-width="0.8" opacity="0.3"/>
-  <line x1="138" y1="138" x2="158" y2="138" stroke="white" stroke-width="0.8" opacity="0.3"/>
-  <line x1="138" y1="146" x2="155" y2="146" stroke="white" stroke-width="0.8" opacity="0.2"/>
-  <!-- Golden seal on document -->
-  <circle cx="155" cy="152" r="5" stroke="#FFB02E" stroke-width="1" fill="#FFB02E" fill-opacity="0.2"/>
-  <!-- Tower base -->
-  <rect x="82" y="168" width="36" height="6" rx="2" stroke="white" stroke-width="1" fill="white" fill-opacity="0.1"/>
-  <!-- Stars -->
-  <circle cx="35" cy="50" r="1.5" fill="white" opacity="0.5"/>
-  <circle cx="170" cy="40" r="1" fill="#FFB02E" opacity="0.6"/>
-  <circle cx="25" cy="130" r="1" fill="white" opacity="0.3"/>
-</svg>` :
-              i === 3 ? `<!-- Delivery Station: Space station with docking ports -->
-<svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" width="200" height="200">
-  <!-- Central hexagonal module -->
-  <polygon points="100,60 130,75 130,105 100,120 70,105 70,75" stroke="white" stroke-width="2" fill="white" fill-opacity="0.05"/>
-  <!-- Inner detail ring -->
-  <circle cx="100" cy="90" r="12" stroke="#26A899" stroke-width="1.5" fill="#26A899" fill-opacity="0.15"/>
-  <circle cx="100" cy="90" r="5" fill="#26A899" fill-opacity="0.3"/>
-  <!-- Left arm -->
-  <rect x="25" y="82" width="45" height="16" rx="3" stroke="white" stroke-width="1.5" fill="white" fill-opacity="0.04"/>
-  <rect x="18" y="78" width="12" height="24" rx="2" stroke="#26A899" stroke-width="1" fill="#26A899" fill-opacity="0.1"/>
-  <!-- Right arm -->
-  <rect x="130" y="82" width="45" height="16" rx="3" stroke="white" stroke-width="1.5" fill="white" fill-opacity="0.04"/>
-  <rect x="170" y="78" width="12" height="24" rx="2" stroke="#26A899" stroke-width="1" fill="#26A899" fill-opacity="0.1"/>
-  <!-- Top solar panel -->
-  <rect x="90" y="30" width="20" height="30" rx="2" stroke="white" stroke-width="1" fill="white" fill-opacity="0.04"/>
-  <line x1="95" y1="30" x2="95" y2="60" stroke="white" stroke-width="0.5" opacity="0.3"/>
-  <line x1="100" y1="30" x2="100" y2="60" stroke="white" stroke-width="0.5" opacity="0.3"/>
-  <line x1="105" y1="30" x2="105" y2="60" stroke="white" stroke-width="0.5" opacity="0.3"/>
-  <!-- Bottom antenna -->
-  <line x1="100" y1="120" x2="100" y2="150" stroke="white" stroke-width="1.5"/>
-  <circle cx="100" cy="153" r="4" stroke="#26A899" stroke-width="1" fill="#26A899" fill-opacity="0.2"/>
-  <!-- Small docked ship -->
-  <polygon points="170,72 180,78 170,84 165,78" stroke="#26A899" stroke-width="1" fill="#26A899" fill-opacity="0.3"/>
-  <!-- Connection beam from ship -->
-  <line x1="165" y1="78" x2="145" y2="85" stroke="#26A899" stroke-width="0.8" opacity="0.4" stroke-dasharray="3 2"/>
-  <!-- Stars -->
-  <circle cx="40" cy="45" r="1.5" fill="white" opacity="0.5"/>
-  <circle cx="160" cy="150" r="1" fill="white" opacity="0.4"/>
-  <circle cx="30" cy="150" r="1" fill="#26A899" opacity="0.5"/>
-</svg>` :
-              `<!-- Learning Station: Brain constellation -->
-<svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" width="200" height="200">
-  <!-- Brain outline made of connected dots/lines (neural network) -->
-  <!-- Left hemisphere nodes -->
-  <circle cx="70" cy="70" r="4" fill="#8B5CF6" fill-opacity="0.5" stroke="#8B5CF6" stroke-width="1"/>
-  <circle cx="55" cy="90" r="3" fill="#8B5CF6" fill-opacity="0.4" stroke="#8B5CF6" stroke-width="1"/>
-  <circle cx="60" cy="115" r="3.5" fill="#8B5CF6" fill-opacity="0.4" stroke="#8B5CF6" stroke-width="1"/>
-  <circle cx="75" cy="130" r="3" fill="#8B5CF6" fill-opacity="0.3" stroke="#8B5CF6" stroke-width="1"/>
-  <circle cx="80" cy="100" r="5" fill="#8B5CF6" fill-opacity="0.6" stroke="#8B5CF6" stroke-width="1.5"/>
-  <circle cx="65" cy="55" r="2.5" fill="white" fill-opacity="0.6" stroke="white" stroke-width="0.8"/>
-  <!-- Right hemisphere nodes -->
-  <circle cx="130" cy="70" r="4" fill="#8B5CF6" fill-opacity="0.5" stroke="#8B5CF6" stroke-width="1"/>
-  <circle cx="145" cy="90" r="3" fill="#8B5CF6" fill-opacity="0.4" stroke="#8B5CF6" stroke-width="1"/>
-  <circle cx="140" cy="115" r="3.5" fill="#8B5CF6" fill-opacity="0.4" stroke="#8B5CF6" stroke-width="1"/>
-  <circle cx="125" cy="130" r="3" fill="#8B5CF6" fill-opacity="0.3" stroke="#8B5CF6" stroke-width="1"/>
-  <circle cx="120" cy="100" r="5" fill="#8B5CF6" fill-opacity="0.6" stroke="#8B5CF6" stroke-width="1.5"/>
-  <circle cx="135" cy="55" r="2.5" fill="white" fill-opacity="0.6" stroke="white" stroke-width="0.8"/>
-  <!-- Central spine -->
-  <circle cx="100" cy="60" r="3" fill="white" fill-opacity="0.7" stroke="white" stroke-width="1"/>
-  <circle cx="100" cy="90" r="6" fill="#8B5CF6" fill-opacity="0.3" stroke="white" stroke-width="1.5"/>
-  <circle cx="100" cy="120" r="3" fill="white" fill-opacity="0.7" stroke="white" stroke-width="1"/>
-  <circle cx="100" cy="140" r="2.5" fill="#8B5CF6" fill-opacity="0.4" stroke="#8B5CF6" stroke-width="0.8"/>
-  <!-- Connections left hemisphere -->
-  <line x1="70" y1="70" x2="80" y2="100" stroke="#8B5CF6" stroke-width="0.8" opacity="0.5"/>
-  <line x1="55" y1="90" x2="80" y2="100" stroke="#8B5CF6" stroke-width="0.8" opacity="0.4"/>
-  <line x1="60" y1="115" x2="80" y2="100" stroke="#8B5CF6" stroke-width="0.8" opacity="0.4"/>
-  <line x1="75" y1="130" x2="80" y2="100" stroke="#8B5CF6" stroke-width="0.8" opacity="0.3"/>
-  <line x1="65" y1="55" x2="70" y2="70" stroke="white" stroke-width="0.6" opacity="0.4"/>
-  <line x1="70" y1="70" x2="100" y2="60" stroke="white" stroke-width="0.6" opacity="0.4"/>
-  <line x1="55" y1="90" x2="60" y2="115" stroke="#8B5CF6" stroke-width="0.6" opacity="0.3"/>
-  <!-- Connections right hemisphere -->
-  <line x1="130" y1="70" x2="120" y2="100" stroke="#8B5CF6" stroke-width="0.8" opacity="0.5"/>
-  <line x1="145" y1="90" x2="120" y2="100" stroke="#8B5CF6" stroke-width="0.8" opacity="0.4"/>
-  <line x1="140" y1="115" x2="120" y2="100" stroke="#8B5CF6" stroke-width="0.8" opacity="0.4"/>
-  <line x1="125" y1="130" x2="120" y2="100" stroke="#8B5CF6" stroke-width="0.8" opacity="0.3"/>
-  <line x1="135" y1="55" x2="130" y2="70" stroke="white" stroke-width="0.6" opacity="0.4"/>
-  <line x1="130" y1="70" x2="100" y2="60" stroke="white" stroke-width="0.6" opacity="0.4"/>
-  <line x1="145" y1="90" x2="140" y2="115" stroke="#8B5CF6" stroke-width="0.6" opacity="0.3"/>
-  <!-- Cross connections (corpus callosum) -->
-  <line x1="80" y1="100" x2="100" y2="90" stroke="white" stroke-width="1" opacity="0.5"/>
-  <line x1="120" y1="100" x2="100" y2="90" stroke="white" stroke-width="1" opacity="0.5"/>
-  <line x1="70" y1="70" x2="130" y2="70" stroke="white" stroke-width="0.5" opacity="0.2" stroke-dasharray="4 3"/>
-  <line x1="80" y1="100" x2="120" y2="100" stroke="white" stroke-width="0.5" opacity="0.2" stroke-dasharray="4 3"/>
-  <line x1="100" y1="60" x2="100" y2="120" stroke="white" stroke-width="0.6" opacity="0.3"/>
-  <line x1="100" y1="120" x2="75" y2="130" stroke="#8B5CF6" stroke-width="0.6" opacity="0.3"/>
-  <line x1="100" y1="120" x2="125" y2="130" stroke="#8B5CF6" stroke-width="0.6" opacity="0.3"/>
-  <line x1="100" y1="120" x2="100" y2="140" stroke="#8B5CF6" stroke-width="0.6" opacity="0.3"/>
-  <!-- Outer decorative stars -->
-  <circle cx="30" cy="55" r="1.5" fill="white" opacity="0.5"/>
-  <circle cx="170" cy="65" r="1" fill="white" opacity="0.4"/>
-  <circle cx="25" cy="140" r="1" fill="#8B5CF6" opacity="0.5"/>
-  <circle cx="175" cy="135" r="1.5" fill="#8B5CF6" opacity="0.3"/>
-  <!-- Pulse ring around central node -->
-  <circle cx="100" cy="90" r="14" stroke="#8B5CF6" stroke-width="0.5" fill="none" opacity="0.2"/>
-  <circle cx="100" cy="90" r="22" stroke="#8B5CF6" stroke-width="0.3" fill="none" opacity="0.1"/>
-</svg>`
-            } />
+              <!-- Left: Text content -->
+              <div>
+                <span class="text-[8rem] font-bold leading-none select-none" style={`color: ${panel.accent}; opacity: 0.08;`}>{panel.number}</span>
+                <h3 class="text-3xl md:text-4xl font-medium -mt-16 mb-4" style="font-family: var(--font-display); color: var(--color-ink);">
+                  {stop.title}
+                </h3>
+                <p class="text-lg leading-relaxed mb-6 max-w-md" style="color: var(--color-ink-muted);">
+                  {stop.description}
+                </p>
+                <div class="grid grid-cols-2 gap-3">
+                  {stop.features.map((feature) => (
+                    <span class="flex items-center gap-2 text-sm" style="color: var(--color-ink-light);">
+                      <svg class="w-4 h-4 flex-shrink-0" style={`color: ${panel.accent};`} fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                        <polyline points="20 6 9 17 4 12"/>
+                      </svg>
+                      {feature}
+                    </span>
+                  ))}
+                </div>
+              </div>
 
-            <div class="station-label" style={`color: ${station.glow};`}>{station.label} Station</div>
-            <p class="station-tagline">{station.tagline}</p>
-            <h3 class="station-title">{stop.title}</h3>
-            <p class="station-description">{stop.description}</p>
-            <div class="station-features">
-              {stop.features.map((f) => (
-                <span class="station-feature">
-                  <svg class="station-check" viewBox="0 0 16 16" fill="none"><path d="M3 8.5 L6.5 12 L13 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  {f}
+              <!-- Right: Mockup SVG (hidden on mobile) -->
+              <div class="hidden lg:flex items-center justify-center">
+                {i === 0 && (
+                  <!-- Discovery: Engagement info screen -->
+                  <svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full max-w-md" style="filter: drop-shadow(0 4px 24px rgba(0,0,0,0.08));">
+                    <rect x="1" y="1" width="398" height="298" rx="12" fill="white" stroke="#E1E3E6" stroke-width="1"/>
+                    <circle cx="20" cy="16" r="4" fill="#FF5C70"/>
+                    <circle cx="34" cy="16" r="4" fill="#FFB02E"/>
+                    <circle cx="48" cy="16" r="4" fill="#00C26D"/>
+                    <line x1="0" y1="30" x2="400" y2="30" stroke="#E1E3E6" stroke-width="1"/>
+                    <!-- Tabs -->
+                    <rect x="16" y="38" width="60" height="24" rx="4" fill="#f0fdf4"/>
+                    <text x="46" y="54" text-anchor="middle" font-size="9" fill="#00C26D" font-family="sans-serif">Overview</text>
+                    <rect x="84" y="38" width="50" height="24" rx="4" fill="transparent"/>
+                    <text x="109" y="54" text-anchor="middle" font-size="9" fill="#6b6b6b" font-family="sans-serif">Notes</text>
+                    <rect x="142" y="38" width="60" height="24" rx="4" fill="transparent"/>
+                    <text x="172" y="54" text-anchor="middle" font-size="9" fill="#6b6b6b" font-family="sans-serif">Timeline</text>
+                    <!-- Contact card -->
+                    <rect x="16" y="76" width="170" height="90" rx="8" fill="#F5F6F7" stroke="#E1E3E6" stroke-width="0.5"/>
+                    <circle cx="48" cy="104" r="16" fill="#E8FBF1" stroke="#00C26D" stroke-width="1"/>
+                    <text x="48" y="108" text-anchor="middle" font-size="12" fill="#00C26D" font-family="sans-serif">JD</text>
+                    <rect x="74" y="94" width="90" height="8" rx="2" fill="#0D0D0D" opacity="0.7"/>
+                    <rect x="74" y="108" width="60" height="6" rx="2" fill="#6b6b6b" opacity="0.4"/>
+                    <rect x="28" y="136" width="50" height="5" rx="2" fill="#E1E3E6"/>
+                    <rect x="84" y="136" width="80" height="5" rx="2" fill="#00C26D" opacity="0.3"/>
+                    <!-- Info lines -->
+                    <rect x="200" y="80" width="180" height="8" rx="2" fill="#0D0D0D" opacity="0.12"/>
+                    <rect x="200" y="96" width="140" height="6" rx="2" fill="#6b6b6b" opacity="0.15"/>
+                    <rect x="200" y="112" width="160" height="6" rx="2" fill="#6b6b6b" opacity="0.15"/>
+                    <rect x="200" y="128" width="120" height="6" rx="2" fill="#6b6b6b" opacity="0.15"/>
+                    <!-- Service tags -->
+                    <rect x="16" y="184" width="90" height="24" rx="12" fill="#E8FBF1" stroke="#00C26D" stroke-width="0.5"/>
+                    <text x="61" y="200" text-anchor="middle" font-size="8" fill="#00C26D" font-family="sans-serif">Consulting</text>
+                    <rect x="114" y="184" width="80" height="24" rx="12" fill="#eff6ff" stroke="#4C82A7" stroke-width="0.5"/>
+                    <text x="154" y="200" text-anchor="middle" font-size="8" fill="#4C82A7" font-family="sans-serif">Strategy</text>
+                    <rect x="202" y="184" width="100" height="24" rx="12" fill="#faf5ff" stroke="#8B5CF6" stroke-width="0.5"/>
+                    <text x="252" y="200" text-anchor="middle" font-size="8" fill="#8B5CF6" font-family="sans-serif">Implementation</text>
+                    <!-- AI note summary -->
+                    <rect x="16" y="226" width="368" height="56" rx="8" fill="#f0fdf4" stroke="#00C26D" stroke-width="0.5"/>
+                    <rect x="28" y="238" width="12" height="12" rx="3" fill="#00C26D" opacity="0.2"/>
+                    <text x="36" y="248" font-size="8" fill="#00C26D" font-family="sans-serif">AI</text>
+                    <rect x="52" y="240" width="200" height="5" rx="2" fill="#0D0D0D" opacity="0.12"/>
+                    <rect x="52" y="252" width="300" height="5" rx="2" fill="#6b6b6b" opacity="0.1"/>
+                    <rect x="52" y="264" width="260" height="5" rx="2" fill="#6b6b6b" opacity="0.1"/>
+                  </svg>
+                )}
+                {i === 1 && (
+                  <!-- Estimation: Quote editor -->
+                  <svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full max-w-md" style="filter: drop-shadow(0 4px 24px rgba(0,0,0,0.08));">
+                    <rect x="1" y="1" width="398" height="298" rx="12" fill="white" stroke="#E1E3E6" stroke-width="1"/>
+                    <circle cx="20" cy="16" r="4" fill="#FF5C70"/>
+                    <circle cx="34" cy="16" r="4" fill="#FFB02E"/>
+                    <circle cx="48" cy="16" r="4" fill="#00C26D"/>
+                    <line x1="0" y1="30" x2="400" y2="30" stroke="#E1E3E6" stroke-width="1"/>
+                    <!-- Table header -->
+                    <rect x="16" y="40" width="368" height="28" rx="4" fill="#F5F6F7"/>
+                    <text x="30" y="58" font-size="8" fill="#6b6b6b" font-family="sans-serif" font-weight="600">Item</text>
+                    <text x="180" y="58" font-size="8" fill="#6b6b6b" font-family="sans-serif" font-weight="600">Qty</text>
+                    <text x="220" y="58" font-size="8" fill="#6b6b6b" font-family="sans-serif" font-weight="600">Cost</text>
+                    <text x="270" y="58" font-size="8" fill="#6b6b6b" font-family="sans-serif" font-weight="600">Markup</text>
+                    <text x="335" y="58" font-size="8" fill="#6b6b6b" font-family="sans-serif" font-weight="600">Total</text>
+                    <!-- Section header -->
+                    <rect x="16" y="74" width="368" height="22" rx="2" fill="#eff6ff"/>
+                    <text x="30" y="89" font-size="8" fill="#4C82A7" font-family="sans-serif" font-weight="600">Phase 1: Discovery &amp; Strategy</text>
+                    <!-- Row 1 -->
+                    <line x1="16" y1="118" x2="384" y2="118" stroke="#E1E3E6" stroke-width="0.5"/>
+                    <text x="30" y="110" font-size="8" fill="#0D0D0D" font-family="sans-serif">Stakeholder Interviews</text>
+                    <text x="186" y="110" font-size="8" fill="#0D0D0D" font-family="sans-serif">8</text>
+                    <text x="220" y="110" font-size="8" fill="#0D0D0D" font-family="sans-serif">$250</text>
+                    <text x="276" y="110" font-size="8" fill="#0D0D0D" font-family="sans-serif">30%</text>
+                    <text x="335" y="110" font-size="8" fill="#0D0D0D" font-family="sans-serif">$2,600</text>
+                    <!-- Row 2 -->
+                    <line x1="16" y1="140" x2="384" y2="140" stroke="#E1E3E6" stroke-width="0.5"/>
+                    <text x="30" y="134" font-size="8" fill="#0D0D0D" font-family="sans-serif">Requirements Workshop</text>
+                    <text x="186" y="134" font-size="8" fill="#0D0D0D" font-family="sans-serif">2</text>
+                    <text x="220" y="134" font-size="8" fill="#0D0D0D" font-family="sans-serif">$800</text>
+                    <text x="276" y="134" font-size="8" fill="#0D0D0D" font-family="sans-serif">25%</text>
+                    <text x="335" y="134" font-size="8" fill="#0D0D0D" font-family="sans-serif">$2,000</text>
+                    <!-- Section 2 -->
+                    <rect x="16" y="150" width="368" height="22" rx="2" fill="#eff6ff"/>
+                    <text x="30" y="165" font-size="8" fill="#4C82A7" font-family="sans-serif" font-weight="600">Phase 2: Implementation</text>
+                    <!-- Row 3 -->
+                    <line x1="16" y1="196" x2="384" y2="196" stroke="#E1E3E6" stroke-width="0.5"/>
+                    <text x="30" y="188" font-size="8" fill="#0D0D0D" font-family="sans-serif">Platform Configuration</text>
+                    <text x="186" y="188" font-size="8" fill="#0D0D0D" font-family="sans-serif">40</text>
+                    <text x="220" y="188" font-size="8" fill="#0D0D0D" font-family="sans-serif">$175</text>
+                    <text x="276" y="188" font-size="8" fill="#0D0D0D" font-family="sans-serif">35%</text>
+                    <text x="335" y="188" font-size="8" fill="#0D0D0D" font-family="sans-serif">$9,450</text>
+                    <!-- Row 4 -->
+                    <line x1="16" y1="218" x2="384" y2="218" stroke="#E1E3E6" stroke-width="0.5"/>
+                    <text x="30" y="212" font-size="8" fill="#0D0D0D" font-family="sans-serif">Data Migration</text>
+                    <text x="186" y="212" font-size="8" fill="#0D0D0D" font-family="sans-serif">16</text>
+                    <text x="220" y="212" font-size="8" fill="#0D0D0D" font-family="sans-serif">$200</text>
+                    <text x="276" y="212" font-size="8" fill="#0D0D0D" font-family="sans-serif">30%</text>
+                    <text x="335" y="212" font-size="8" fill="#0D0D0D" font-family="sans-serif">$4,160</text>
+                    <!-- Total bar -->
+                    <rect x="16" y="234" width="368" height="44" rx="8" fill="#4C82A7" opacity="0.08"/>
+                    <text x="30" y="260" font-size="10" fill="#4C82A7" font-family="sans-serif" font-weight="700">Total</text>
+                    <rect x="220" y="248" width="60" height="18" rx="4" fill="#00C26D" opacity="0.15"/>
+                    <text x="250" y="261" text-anchor="middle" font-size="8" fill="#00C26D" font-family="sans-serif">42% margin</text>
+                    <text x="335" y="261" font-size="11" fill="#4C82A7" font-family="sans-serif" font-weight="700">$18,210</text>
+                  </svg>
+                )}
+                {i === 2 && (
+                  <!-- Proposal: Document preview -->
+                  <svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full max-w-md" style="filter: drop-shadow(0 4px 24px rgba(0,0,0,0.08));">
+                    <rect x="1" y="1" width="398" height="298" rx="12" fill="white" stroke="#E1E3E6" stroke-width="1"/>
+                    <circle cx="20" cy="16" r="4" fill="#FF5C70"/>
+                    <circle cx="34" cy="16" r="4" fill="#FFB02E"/>
+                    <circle cx="48" cy="16" r="4" fill="#00C26D"/>
+                    <line x1="0" y1="30" x2="400" y2="30" stroke="#E1E3E6" stroke-width="1"/>
+                    <!-- Document page -->
+                    <rect x="60" y="44" width="280" height="244" rx="4" fill="white" stroke="#E1E3E6" stroke-width="0.5" style="filter: drop-shadow(0 2px 8px rgba(0,0,0,0.04));"/>
+                    <!-- Header bar -->
+                    <rect x="60" y="44" width="280" height="40" rx="4" fill="#FFB02E" opacity="0.12"/>
+                    <rect x="78" y="54" width="120" height="8" rx="2" fill="#FFB02E" opacity="0.6"/>
+                    <rect x="78" y="68" width="80" height="5" rx="2" fill="#FFB02E" opacity="0.3"/>
+                    <!-- Proposal heading -->
+                    <rect x="78" y="100" width="180" height="10" rx="2" fill="#0D0D0D" opacity="0.7"/>
+                    <!-- Body text lines -->
+                    <rect x="78" y="120" width="244" height="5" rx="2" fill="#6b6b6b" opacity="0.15"/>
+                    <rect x="78" y="132" width="220" height="5" rx="2" fill="#6b6b6b" opacity="0.15"/>
+                    <rect x="78" y="144" width="244" height="5" rx="2" fill="#6b6b6b" opacity="0.15"/>
+                    <rect x="78" y="156" width="180" height="5" rx="2" fill="#6b6b6b" opacity="0.15"/>
+                    <!-- Scope section -->
+                    <rect x="78" y="178" width="100" height="8" rx="2" fill="#0D0D0D" opacity="0.5"/>
+                    <rect x="78" y="194" width="244" height="5" rx="2" fill="#6b6b6b" opacity="0.15"/>
+                    <rect x="78" y="206" width="200" height="5" rx="2" fill="#6b6b6b" opacity="0.15"/>
+                    <!-- Pricing highlight -->
+                    <rect x="78" y="224" width="244" height="30" rx="6" fill="#FFB02E" opacity="0.06" stroke="#FFB02E" stroke-width="0.5"/>
+                    <rect x="90" y="234" width="60" height="6" rx="2" fill="#FFB02E" opacity="0.4"/>
+                    <rect x="260" y="232" width="50" height="10" rx="2" fill="#FFB02E" opacity="0.6"/>
+                    <!-- Signature line -->
+                    <line x1="78" y1="272" x2="180" y2="272" stroke="#E1E3E6" stroke-width="1" stroke-dasharray="4 2"/>
+                    <text x="78" y="284" font-size="7" fill="#6b6b6b" font-family="sans-serif">Authorized Signature</text>
+                    <line x1="220" y1="272" x2="322" y2="272" stroke="#E1E3E6" stroke-width="1" stroke-dasharray="4 2"/>
+                    <text x="220" y="284" font-size="7" fill="#6b6b6b" font-family="sans-serif">Date</text>
+                  </svg>
+                )}
+                {i === 3 && (
+                  <!-- Delivery: Resource grid / timeline -->
+                  <svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full max-w-md" style="filter: drop-shadow(0 4px 24px rgba(0,0,0,0.08));">
+                    <rect x="1" y="1" width="398" height="298" rx="12" fill="white" stroke="#E1E3E6" stroke-width="1"/>
+                    <circle cx="20" cy="16" r="4" fill="#FF5C70"/>
+                    <circle cx="34" cy="16" r="4" fill="#FFB02E"/>
+                    <circle cx="48" cy="16" r="4" fill="#00C26D"/>
+                    <line x1="0" y1="30" x2="400" y2="30" stroke="#E1E3E6" stroke-width="1"/>
+                    <!-- Timeline header -->
+                    <rect x="100" y="38" width="284" height="22" rx="0" fill="#F5F6F7"/>
+                    <text x="130" y="53" text-anchor="middle" font-size="7" fill="#6b6b6b" font-family="sans-serif">Week 1</text>
+                    <text x="190" y="53" text-anchor="middle" font-size="7" fill="#6b6b6b" font-family="sans-serif">Week 2</text>
+                    <text x="250" y="53" text-anchor="middle" font-size="7" fill="#6b6b6b" font-family="sans-serif">Week 3</text>
+                    <text x="310" y="53" text-anchor="middle" font-size="7" fill="#6b6b6b" font-family="sans-serif">Week 4</text>
+                    <text x="370" y="53" text-anchor="middle" font-size="7" fill="#6b6b6b" font-family="sans-serif">Week 5</text>
+                    <!-- Grid lines -->
+                    <line x1="160" y1="38" x2="160" y2="280" stroke="#E1E3E6" stroke-width="0.5" stroke-dasharray="2 2"/>
+                    <line x1="220" y1="38" x2="220" y2="280" stroke="#E1E3E6" stroke-width="0.5" stroke-dasharray="2 2"/>
+                    <line x1="280" y1="38" x2="280" y2="280" stroke="#E1E3E6" stroke-width="0.5" stroke-dasharray="2 2"/>
+                    <line x1="340" y1="38" x2="340" y2="280" stroke="#E1E3E6" stroke-width="0.5" stroke-dasharray="2 2"/>
+                    <!-- Row 1 -->
+                    <circle cx="30" cy="82" r="12" fill="#E8FBF1" stroke="#00C26D" stroke-width="0.5"/>
+                    <text x="30" y="86" text-anchor="middle" font-size="8" fill="#00C26D" font-family="sans-serif">SA</text>
+                    <text x="52" y="80" font-size="8" fill="#0D0D0D" font-family="sans-serif">Sarah A.</text>
+                    <text x="52" y="90" font-size="6" fill="#6b6b6b" font-family="sans-serif">Lead Consultant</text>
+                    <rect x="106" y="72" width="108" height="20" rx="4" fill="#26A899" opacity="0.2" stroke="#26A899" stroke-width="0.5"/>
+                    <text x="160" y="86" text-anchor="middle" font-size="7" fill="#26A899" font-family="sans-serif">Discovery</text>
+                    <rect x="280" y="72" width="80" height="20" rx="4" fill="#26A899" opacity="0.2" stroke="#26A899" stroke-width="0.5"/>
+                    <text x="320" y="86" text-anchor="middle" font-size="7" fill="#26A899" font-family="sans-serif">Review</text>
+                    <!-- Row 2 -->
+                    <line x1="16" y1="108" x2="384" y2="108" stroke="#E1E3E6" stroke-width="0.5"/>
+                    <circle cx="30" cy="130" r="12" fill="#eff6ff" stroke="#4C82A7" stroke-width="0.5"/>
+                    <text x="30" y="134" text-anchor="middle" font-size="8" fill="#4C82A7" font-family="sans-serif">MK</text>
+                    <text x="52" y="128" font-size="8" fill="#0D0D0D" font-family="sans-serif">Mike K.</text>
+                    <text x="52" y="138" font-size="6" fill="#6b6b6b" font-family="sans-serif">Engineer</text>
+                    <rect x="160" y="120" width="168" height="20" rx="4" fill="#4C82A7" opacity="0.2" stroke="#4C82A7" stroke-width="0.5"/>
+                    <text x="244" y="134" text-anchor="middle" font-size="7" fill="#4C82A7" font-family="sans-serif">Implementation</text>
+                    <!-- Row 3 -->
+                    <line x1="16" y1="156" x2="384" y2="156" stroke="#E1E3E6" stroke-width="0.5"/>
+                    <circle cx="30" cy="178" r="12" fill="#faf5ff" stroke="#8B5CF6" stroke-width="0.5"/>
+                    <text x="30" y="182" text-anchor="middle" font-size="8" fill="#8B5CF6" font-family="sans-serif">JL</text>
+                    <text x="52" y="176" font-size="8" fill="#0D0D0D" font-family="sans-serif">Jan L.</text>
+                    <text x="52" y="186" font-size="6" fill="#6b6b6b" font-family="sans-serif">Analyst</text>
+                    <rect x="106" y="168" width="54" height="20" rx="4" fill="#8B5CF6" opacity="0.2" stroke="#8B5CF6" stroke-width="0.5"/>
+                    <text x="133" y="182" text-anchor="middle" font-size="7" fill="#8B5CF6" font-family="sans-serif">Data</text>
+                    <rect x="220" y="168" width="108" height="20" rx="4" fill="#8B5CF6" opacity="0.15" stroke="#8B5CF6" stroke-width="0.5"/>
+                    <text x="274" y="182" text-anchor="middle" font-size="7" fill="#8B5CF6" font-family="sans-serif">Migration</text>
+                    <!-- Row 4 -->
+                    <line x1="16" y1="204" x2="384" y2="204" stroke="#E1E3E6" stroke-width="0.5"/>
+                    <circle cx="30" cy="226" r="12" fill="#fffbeb" stroke="#FFB02E" stroke-width="0.5"/>
+                    <text x="30" y="230" text-anchor="middle" font-size="8" fill="#FFB02E" font-family="sans-serif">TR</text>
+                    <text x="52" y="224" font-size="8" fill="#0D0D0D" font-family="sans-serif">Tina R.</text>
+                    <text x="52" y="234" font-size="6" fill="#6b6b6b" font-family="sans-serif">PM</text>
+                    <rect x="106" y="216" width="260" height="20" rx="4" fill="#FFB02E" opacity="0.15" stroke="#FFB02E" stroke-width="0.5"/>
+                    <text x="236" y="230" text-anchor="middle" font-size="7" fill="#FFB02E" font-family="sans-serif">Project Management</text>
+                    <!-- Utilization bar -->
+                    <line x1="16" y1="252" x2="384" y2="252" stroke="#E1E3E6" stroke-width="0.5"/>
+                    <text x="20" y="270" font-size="8" fill="#6b6b6b" font-family="sans-serif">Team Utilization</text>
+                    <rect x="130" y="262" width="240" height="10" rx="5" fill="#F5F6F7"/>
+                    <rect x="130" y="262" width="182" height="10" rx="5" fill="#26A899" opacity="0.3"/>
+                    <text x="375" y="272" text-anchor="end" font-size="8" fill="#26A899" font-family="sans-serif" font-weight="600">76%</text>
+                  </svg>
+                )}
+                {i === 4 && (
+                  <!-- Learning: Knowledge graph -->
+                  <svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full max-w-md" style="filter: drop-shadow(0 4px 24px rgba(0,0,0,0.08));">
+                    <rect x="1" y="1" width="398" height="298" rx="12" fill="white" stroke="#E1E3E6" stroke-width="1"/>
+                    <circle cx="20" cy="16" r="4" fill="#FF5C70"/>
+                    <circle cx="34" cy="16" r="4" fill="#FFB02E"/>
+                    <circle cx="48" cy="16" r="4" fill="#00C26D"/>
+                    <line x1="0" y1="30" x2="400" y2="30" stroke="#E1E3E6" stroke-width="1"/>
+                    <!-- Connection lines (behind nodes) -->
+                    <line x1="200" y1="150" x2="100" y2="90" stroke="#8B5CF6" stroke-width="1" opacity="0.2"/>
+                    <line x1="200" y1="150" x2="310" y2="80" stroke="#8B5CF6" stroke-width="1" opacity="0.2"/>
+                    <line x1="200" y1="150" x2="80" y2="200" stroke="#8B5CF6" stroke-width="1" opacity="0.2"/>
+                    <line x1="200" y1="150" x2="320" y2="200" stroke="#8B5CF6" stroke-width="1" opacity="0.2"/>
+                    <line x1="200" y1="150" x2="150" y2="250" stroke="#8B5CF6" stroke-width="1" opacity="0.2"/>
+                    <line x1="200" y1="150" x2="270" y2="250" stroke="#8B5CF6" stroke-width="1" opacity="0.2"/>
+                    <line x1="100" y1="90" x2="80" y2="200" stroke="#E1E3E6" stroke-width="0.5"/>
+                    <line x1="310" y1="80" x2="320" y2="200" stroke="#E1E3E6" stroke-width="0.5"/>
+                    <line x1="80" y1="200" x2="150" y2="250" stroke="#E1E3E6" stroke-width="0.5"/>
+                    <line x1="320" y1="200" x2="270" y2="250" stroke="#E1E3E6" stroke-width="0.5"/>
+                    <!-- Animated pulse circles around center -->
+                    <circle cx="200" cy="150" r="40" fill="none" stroke="#8B5CF6" stroke-width="0.5" opacity="0.15"/>
+                    <circle cx="200" cy="150" r="60" fill="none" stroke="#8B5CF6" stroke-width="0.5" opacity="0.08"/>
+                    <!-- Central brain node -->
+                    <circle cx="200" cy="150" r="28" fill="#faf5ff" stroke="#8B5CF6" stroke-width="1.5"/>
+                    <path d="M188 145 C188 138 195 132 200 132 C205 132 212 138 212 145" stroke="#8B5CF6" stroke-width="1.5" fill="none"/>
+                    <path d="M188 148 C188 155 195 161 200 161 C205 161 212 155 212 148" stroke="#8B5CF6" stroke-width="1.5" fill="none"/>
+                    <line x1="200" y1="132" x2="200" y2="161" stroke="#8B5CF6" stroke-width="1" opacity="0.4"/>
+                    <line x1="188" y1="146" x2="212" y2="146" stroke="#8B5CF6" stroke-width="1" opacity="0.4"/>
+                    <!-- Outer nodes -->
+                    <circle cx="100" cy="90" r="18" fill="#E8FBF1" stroke="#00C26D" stroke-width="1"/>
+                    <text x="100" y="87" text-anchor="middle" font-size="7" fill="#00C26D" font-family="sans-serif">Past</text>
+                    <text x="100" y="97" text-anchor="middle" font-size="7" fill="#00C26D" font-family="sans-serif">Notes</text>
+                    <circle cx="310" cy="80" r="18" fill="#eff6ff" stroke="#4C82A7" stroke-width="1"/>
+                    <text x="310" y="77" text-anchor="middle" font-size="7" fill="#4C82A7" font-family="sans-serif">Quote</text>
+                    <text x="310" y="87" text-anchor="middle" font-size="7" fill="#4C82A7" font-family="sans-serif">History</text>
+                    <circle cx="80" cy="200" r="18" fill="#fffbeb" stroke="#FFB02E" stroke-width="1"/>
+                    <text x="80" y="197" text-anchor="middle" font-size="7" fill="#FFB02E" font-family="sans-serif">Delivery</text>
+                    <text x="80" y="207" text-anchor="middle" font-size="7" fill="#FFB02E" font-family="sans-serif">Logs</text>
+                    <circle cx="320" cy="200" r="18" fill="#f0fdfa" stroke="#26A899" stroke-width="1"/>
+                    <text x="320" y="197" text-anchor="middle" font-size="7" fill="#26A899" font-family="sans-serif">Team</text>
+                    <text x="320" y="207" text-anchor="middle" font-size="7" fill="#26A899" font-family="sans-serif">Patterns</text>
+                    <circle cx="150" cy="250" r="18" fill="#faf5ff" stroke="#8B5CF6" stroke-width="1"/>
+                    <text x="150" y="247" text-anchor="middle" font-size="7" fill="#8B5CF6" font-family="sans-serif">Service</text>
+                    <text x="150" y="257" text-anchor="middle" font-size="7" fill="#8B5CF6" font-family="sans-serif">Catalog</text>
+                    <circle cx="270" cy="250" r="18" fill="#faf5ff" stroke="#8B5CF6" stroke-width="1"/>
+                    <text x="270" y="247" text-anchor="middle" font-size="7" fill="#8B5CF6" font-family="sans-serif">Vector</text>
+                    <text x="270" y="257" text-anchor="middle" font-size="7" fill="#8B5CF6" font-family="sans-serif">Index</text>
+                    <!-- Data flow arrows -->
+                    <polygon points="175,143 168,148 168,138" fill="#8B5CF6" opacity="0.4"/>
+                    <polygon points="225,157 232,152 232,162" fill="#8B5CF6" opacity="0.4"/>
+                  </svg>
+                )}
+              </div>
+            </div>
+
+            <!-- Astronaut in bottom-right -->
+            <div class="absolute bottom-8 right-8 opacity-30">
+              <Astronaut size="sm" variant={panel.astronaut} />
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+
+  <!-- Mobile: Stacked cards (hidden on desktop, shown via CSS) -->
+  <div class="filmstrip-mobile">
+    <!-- Vertical green thread on the left -->
+    <div class="filmstrip-mobile-thread" aria-hidden="true"></div>
+
+    {stops.map((stop, i) => {
+      const panel = panels[i] || panels[0];
+      return (
+        <div class="filmstrip-mobile-card" data-animate="fade-up" data-delay={String(i * 100)}>
+          <!-- Dot on the thread -->
+          <div class="filmstrip-mobile-dot" style={`background: ${panel.accent};`}></div>
+          <div class="filmstrip-mobile-content">
+            <span class="text-5xl font-bold leading-none select-none" style={`color: ${panel.accent}; opacity: 0.1;`}>{panel.number}</span>
+            <h3 class="text-2xl font-medium -mt-8 mb-2" style="font-family: var(--font-display); color: var(--color-ink);">
+              {stop.title}
+            </h3>
+            <p class="text-base leading-relaxed mb-4" style="color: var(--color-ink-muted);">
+              {stop.description}
+            </p>
+            <div class="grid grid-cols-2 gap-2">
+              {stop.features.map((feature) => (
+                <span class="flex items-center gap-1.5 text-xs" style="color: var(--color-ink-light);">
+                  <svg class="w-3.5 h-3.5 flex-shrink-0" style={`color: ${panel.accent};`} fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                    <polyline points="20 6 9 17 4 12"/>
+                  </svg>
+                  {feature}
                 </span>
               ))}
             </div>
           </div>
-        );
-      })}
-
-      <!-- Header overlay -->
-      <div class="journey-header" data-journey-header>
-        {title && <h2 class="journey-title">{title}</h2>}
-        {subtitle && <p class="journey-subtitle">{subtitle}</p>}
-        <div class="journey-scroll-hint">
-          <span>Scroll to begin</span>
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M10 4v12M4 10l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
         </div>
-      </div>
-
-      <!-- Persistent CTA -->
-      <a href="/#contact" class="journey-cta">
-        Book a Demo &rarr;
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- Mobile: Stacked station cards -->
-<section class="journey-mobile" aria-label={title}>
-  <div class="journey-mobile-container">
-    {title && <h2 class="journey-mobile-title">{title}</h2>}
-    {subtitle && <p class="journey-mobile-subtitle">{subtitle}</p>}
-    <div class="journey-mobile-stations">
-      {stops.map((stop, i) => {
-        const station = stations[i] || stations[0];
-        return (
-          <div class="journey-mobile-card">
-            <div class="journey-mobile-dot" style={`background: ${station.glow}; box-shadow: 0 0 8px ${station.glow};`}></div>
-            {i < stops.length - 1 && (
-              <div class="journey-mobile-connector"></div>
-            )}
-            <div class="journey-mobile-content" style={`border-left-color: ${station.glow};`}>
-              <span class="journey-mobile-label" style={`color: ${station.glow};`}>{station.label} Station</span>
-              <h3 class="journey-mobile-card-title">{stop.title}</h3>
-              <p class="journey-mobile-card-desc">{stop.description}</p>
-              <div class="journey-mobile-features">
-                {stop.features.map((f) => (
-                  <span class="journey-mobile-feature">{f}</span>
-                ))}
-              </div>
-            </div>
-          </div>
-        );
-      })}
-    </div>
+      );
+    })}
   </div>
 </section>
 
 <style>
-  /* ===== Desktop: Space Journey ===== */
-  .journey {
-    position: relative;
-    display: block;
-  }
-
-  .journey-scroll-spacer {
-    position: relative;
-  }
-
-  .journey-viewport {
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    overflow: hidden;
-    background: #0B1120;
-  }
-  .journey-viewport::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image:
-      radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
-    background-size: 40px 40px;
-    pointer-events: none;
-    z-index: 1;
-  }
-
-  /* Static stars with subtle drift */
-  .journey-stars {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    animation: starDrift 20s ease-in-out infinite;
-  }
-  @keyframes starDrift {
-    0% { transform: translate(0, 0); }
-    50% { transform: translate(-10px, -5px); }
-    100% { transform: translate(0, 0); }
-  }
-  .journey-star {
-    position: absolute;
-    background: #ffffff;
-    border-radius: 50%;
-  }
-
-  /* ── Connection trail (center background) ── */
-  .journey-connection-trail {
-    position: absolute;
-    left: 50%;
-    top: 15%;
-    bottom: 15%;
-    width: 2px;
-    transform: translateX(-50%);
-    z-index: 2;
-    pointer-events: none;
-  }
-  .journey-trail-line {
-    position: absolute;
-    inset: 0;
-    border-left: 1px dotted rgba(0, 194, 109, 0.12);
-  }
-  .journey-trail-fill {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 2px;
-    height: 0%;
-    background: linear-gradient(to bottom, rgba(0, 194, 109, 0.4), rgba(0, 194, 109, 0.1));
-    transition: height 0.5s ease-out;
-  }
-
-  /* ── Progress indicator (left side) ── */
-  .journey-progress {
-    position: absolute;
-    left: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    height: 300px;
-    width: 20px;
-    z-index: 10;
+  /* Desktop filmstrip — hidden on mobile */
+  .filmstrip-viewport {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .journey-progress-line {
-    position: absolute;
-    left: 50%;
-    top: 0;
-    bottom: 0;
-    width: 1px;
-    transform: translateX(-50%);
-    border-left: 2px dotted rgba(255, 255, 255, 0.15);
-  }
-  .journey-progress-fill {
-    position: absolute;
-    left: 50%;
-    top: 0;
-    width: 2px;
-    height: 0%;
-    transform: translateX(-50%);
-    background: #00C26D;
-    transition: height 0.5s ease-out;
-    z-index: 1;
-  }
-  .journey-progress-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.2);
-    border: 1.5px solid rgba(255, 255, 255, 0.3);
-    position: relative;
-    z-index: 2;
-    transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
-  }
-  .journey-progress-dot.reached {
-    background: #00C26D;
-    border-color: #00C26D;
-  }
-  .journey-progress-dot.active {
-    background: #00C26D;
-    border-color: #00C26D;
-    box-shadow: 0 0 10px rgba(0, 194, 109, 0.6), 0 0 20px rgba(0, 194, 109, 0.3);
+    justify-content: center;
   }
 
-  /* ── Floating astronaut ── */
-  .journey-astronaut {
-    width: 40px;
-    height: 40px;
-    position: absolute;
-    z-index: 8;
-    opacity: 0;
-    transition: top 0.6s ease-out, left 0.6s ease-out, opacity 0.4s ease;
-    animation: astronautFloat 4s ease-in-out infinite;
-    pointer-events: none;
-  }
-  .journey-astronaut.visible {
-    opacity: 1;
-  }
-  @keyframes astronautFloat {
-    0%, 100% { transform: translate(0, 0) rotate(-3deg); }
-    50% { transform: translate(5px, -8px) rotate(3deg); }
-  }
-
-  /* ── Station panels ── */
-  .station-panel {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    text-align: center;
-    max-width: 768px;
-    width: 90%;
-    z-index: 5;
-    will-change: transform, opacity;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    pointer-events: none;
-  }
-  .station-panel[data-station-state="upcoming"] {
-    transform: translate(-50%, -50%) scale(0.9);
-    opacity: 0;
-    transition: transform 0.5s ease-out, opacity 0.5s ease-out;
-  }
-  .station-panel[data-station-state="active"] {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 1;
-    pointer-events: auto;
-    transition: transform 0.5s ease-out, opacity 0.5s ease-out;
-  }
-  .station-panel[data-station-state="passed"] {
-    transform: translate(-50%, -50%) scale(1.1);
-    opacity: 0;
-    transition: transform 0.5s ease-out, opacity 0.5s ease-out;
-  }
-
-  /* Station glow */
-  .station-glow {
-    position: absolute;
-    top: -20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 260px;
-    height: 130px;
-    border-radius: 50%;
-    opacity: 0.15;
-    filter: blur(50px);
-    pointer-events: none;
-    z-index: -1;
-  }
-
-  /* Station illustration */
-  .station-illustration {
-    margin-bottom: 1rem;
-  }
-  .station-illustration :global(svg) {
-    width: 300px;
-    height: 300px;
-  }
-
-  .station-label {
-    font-family: var(--font-body, 'Source Sans 3', sans-serif);
-    font-size: 0.8rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-bottom: 0.15rem;
-  }
-
-  .station-tagline {
-    font-family: var(--font-body, 'Source Sans 3', sans-serif);
-    font-size: 0.85rem;
-    font-style: italic;
-    color: rgba(255, 255, 255, 0.45);
-    margin: 0 0 0.5rem;
-  }
-
-  .station-title {
-    font-family: var(--font-display, 'Playfair Display', serif);
-    font-size: clamp(2.25rem, 4vw, 3rem);
-    font-weight: 700;
-    color: #fff;
-    margin: 0 0 0.75rem;
-    line-height: 1.2;
-  }
-
-  .station-description {
-    font-family: var(--font-body, 'Source Sans 3', sans-serif);
-    font-size: 1.125rem;
-    line-height: 1.6;
-    color: rgba(255, 255, 255, 0.7);
-    margin: 0 auto 1.25rem;
-    max-width: 640px;
-  }
-
-  /* 2x2 feature grid */
-  .station-features {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.625rem;
-    margin-top: 0.75rem;
-    max-width: 560px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .station-feature {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-family: var(--font-body, 'Source Sans 3', sans-serif);
-    font-size: 1rem;
-    color: rgba(255, 255, 255, 0.8);
-    text-align: left;
-  }
-  .station-check {
-    width: 16px;
-    height: 16px;
-    flex-shrink: 0;
-    color: #22c55e;
-  }
-
-  /* ── Header overlay ── */
-  .journey-header {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    z-index: 6;
-    max-width: 640px;
-    width: 90%;
-    transition: opacity 0.5s ease;
-  }
-  .journey-header.hidden {
-    opacity: 0;
-    pointer-events: none;
-  }
-  .journey-title {
-    font-family: var(--font-display, 'Playfair Display', serif);
-    font-size: clamp(2rem, 4vw, 3rem);
-    font-weight: 700;
-    color: #fff;
-    margin: 0 0 1rem;
-    line-height: 1.15;
-  }
-  .journey-subtitle {
-    font-family: var(--font-body, 'Source Sans 3', sans-serif);
-    font-size: 1.05rem;
-    line-height: 1.6;
-    color: rgba(255, 255, 255, 0.7);
-    margin: 0 0 1.5rem;
-  }
-  .journey-scroll-hint {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.25rem;
-    color: rgba(255, 255, 255, 0.4);
-    font-family: var(--font-body, 'Source Sans 3', sans-serif);
-    font-size: 0.8rem;
-    animation: hintBounce 2s ease-in-out infinite;
-  }
-  @keyframes hintBounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(6px); }
-  }
-
-  /* ── Persistent CTA ── */
-  .journey-cta {
-    position: absolute;
-    bottom: 1.5rem;
-    right: 1.5rem;
-    z-index: 20;
-    padding: 0.5rem 1rem;
-    border-radius: 9999px;
-    background: var(--color-green, #00C26D);
-    color: white;
-    font-family: var(--font-body, 'Source Sans 3', sans-serif);
-    font-size: 0.875rem;
-    font-weight: 600;
-    text-decoration: none;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
-    transition: background 0.2s ease;
-  }
-  .journey-cta:hover {
-    background: var(--color-green-hover, #00A95E);
-  }
-
-  /* ===== Mobile: Stacked Cards ===== */
-  .journey-mobile {
+  .filmstrip-mobile {
     display: none;
   }
-  .journey-mobile-container {
-    max-width: var(--content-width, 1140px);
-    margin: 0 auto;
-    padding: var(--v-space-xl, 4rem) 1.5rem;
-  }
-  .journey-mobile-title {
-    font-family: var(--font-display, 'Playfair Display', serif);
-    font-size: clamp(1.75rem, 4vw, 2.25rem);
-    color: var(--color-ink, #0D0D0D);
-    margin: 0 0 0.75rem;
-    text-align: center;
-  }
-  .journey-mobile-subtitle {
-    font-family: var(--font-body, 'Source Sans 3', sans-serif);
-    font-size: 1rem;
-    color: var(--color-ink-muted, #6b6b6b);
-    line-height: 1.6;
-    text-align: center;
-    margin: 0 auto 2rem;
-    max-width: 600px;
-  }
-  .journey-mobile-stations {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    padding-left: 1.5rem;
-    position: relative;
-  }
-  .journey-mobile-card {
-    position: relative;
-    padding-left: 1.5rem;
-    padding-bottom: 1.5rem;
-  }
-  .journey-mobile-dot {
-    position: absolute;
-    left: -6px;
-    top: 4px;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    z-index: 2;
-  }
-  .journey-mobile-connector {
-    position: absolute;
-    left: 0;
-    top: 16px;
-    bottom: 0;
-    width: 1px;
-    border-left: 2px dotted rgba(0, 194, 109, 0.3);
-  }
-  .journey-mobile-content {
-    background: #fff;
-    border: 1px solid var(--color-cloud-grey, #E1E3E6);
-    border-left: 4px solid;
-    border-radius: 12px;
-    padding: 1.25rem 1.5rem;
-  }
-  .journey-mobile-label {
-    font-family: var(--font-body, 'Source Sans 3', sans-serif);
-    font-size: 0.72rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    display: block;
-    margin-bottom: 0.25rem;
-  }
-  .journey-mobile-card-title {
-    font-family: var(--font-display, 'Playfair Display', serif);
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--color-ink, #0D0D0D);
-    margin: 0 0 0.5rem;
-    line-height: 1.25;
-  }
-  .journey-mobile-card-desc {
-    font-family: var(--font-body, 'Source Sans 3', sans-serif);
-    font-size: 0.92rem;
-    color: var(--color-ink-light, #3d3d3d);
-    line-height: 1.6;
-    margin: 0 0 0.75rem;
-  }
-  .journey-mobile-features {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.4rem;
-  }
-  .journey-mobile-feature {
-    display: inline-block;
-    padding: 0.3rem 0.75rem;
-    background: var(--color-soft-mint, #E8FBF1);
-    color: var(--color-emerald, #037A47);
-    font-family: var(--font-body, 'Source Sans 3', sans-serif);
-    font-size: 0.78rem;
-    font-weight: 600;
-    border-radius: 100px;
-  }
 
-  /* ===== Responsive ===== */
-  @media (max-width: 768px) {
-    .journey {
-      display: none;
+  /* Mobile layout */
+  @media (max-width: 767px) {
+    .filmstrip-section {
+      min-height: auto !important;
     }
-    .journey-mobile {
+    .filmstrip-viewport {
+      display: none !important;
+    }
+    .filmstrip-mobile {
       display: block;
+      position: relative;
+      padding: 0 1.5rem 3rem 3rem;
+    }
+    .filmstrip-mobile-thread {
+      position: absolute;
+      left: 2.25rem;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, #00C26D, #8B5CF6);
+      opacity: 0.25;
+    }
+    .filmstrip-mobile-card {
+      position: relative;
+      padding: 1.5rem 0;
+    }
+    .filmstrip-mobile-dot {
+      position: absolute;
+      left: -1.3rem;
+      top: 2rem;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      box-shadow: 0 0 6px rgba(0,194,109,0.3);
+    }
+    .filmstrip-mobile-content {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      border: 1px solid var(--color-cloud-grey);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
     }
   }
 
-  /* ===== Reduced Motion ===== */
+  /* Reduced motion: show all panels stacked, no horizontal scroll */
   @media (prefers-reduced-motion: reduce) {
-    .journey {
-      display: none;
+    .filmstrip-section {
+      min-height: auto !important;
     }
-    .journey-mobile {
-      display: block;
+    .filmstrip-viewport {
+      position: relative !important;
+      top: auto !important;
+      height: auto !important;
+      overflow: visible !important;
     }
-    .journey-scroll-hint {
-      animation: none;
+    .filmstrip-track {
+      flex-direction: column !important;
+      width: 100% !important;
+      transform: none !important;
     }
-    .journey-astronaut {
-      animation: none;
+    .filmstrip-panel {
+      width: 100% !important;
+      height: auto !important;
+      min-height: 0 !important;
+      padding: 4rem 0;
+    }
+    .filmstrip-thread,
+    .filmstrip-dots {
+      display: none !important;
     }
   }
 </style>
 
 <script is:inline>
-  function initJourney() {
-    var section = document.querySelector('.journey');
-    if (!section) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+function initFilmstrip() {
+  // Bail on mobile
+  if (window.innerWidth < 768) return;
 
-    var spacer = section.querySelector('.journey-scroll-spacer');
-    var header = section.querySelector('[data-journey-header]');
-    var panels = section.querySelectorAll('.station-panel');
-    var progressDots = section.querySelectorAll('.journey-progress-dot');
-    var progressFill = section.querySelector('.journey-progress-fill');
-    var trailFill = section.querySelector('.journey-trail-fill');
-    var astronaut = section.querySelector('.journey-astronaut');
-    var totalStations = panels.length;
+  // Bail on prefers-reduced-motion
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    if (!spacer || totalStations === 0) return;
+  var section = document.querySelector('.filmstrip-section');
+  var track = document.getElementById('filmstrip-track');
+  var threadProgress = document.getElementById('thread-progress');
+  var dots = document.querySelectorAll('.filmstrip-dot');
+  if (!section || !track) return;
 
-    var lastActiveIndex = -1;
+  var totalPanels = 5;
+  var running = false;
 
-    function update() {
-      var rect = spacer.getBoundingClientRect();
-      var scrollable = rect.height - window.innerHeight;
-      if (scrollable <= 0) return;
+  function update() {
+    if (!running) return;
 
-      var scrolled = Math.max(0, -rect.top);
-      var progress = Math.min(1, scrolled / scrollable);
-
-      // Fade header
-      if (header) {
-        if (progress > 0.02) {
-          header.classList.add('hidden');
-        } else {
-          header.classList.remove('hidden');
-        }
-      }
-
-      // Determine active station
-      var rawIndex = progress * totalStations;
-      var activeIndex = Math.min(totalStations - 1, Math.floor(rawIndex));
-
-      // Update station states
-      panels.forEach(function(panel, i) {
-        if (i < activeIndex) {
-          panel.dataset.stationState = 'passed';
-        } else if (i === activeIndex) {
-          panel.dataset.stationState = 'active';
-        } else {
-          panel.dataset.stationState = 'upcoming';
-        }
-      });
-
-      // Update progress dots
-      progressDots.forEach(function(dot, i) {
-        dot.classList.remove('active', 'reached');
-        if (i < activeIndex) {
-          dot.classList.add('reached');
-        } else if (i === activeIndex) {
-          dot.classList.add('active');
-        }
-      });
-
-      // Update progress fill line
-      if (progressFill) {
-        var fillPercent = totalStations > 1 ? (activeIndex / (totalStations - 1)) * 100 : 0;
-        progressFill.style.height = fillPercent + '%';
-      }
-
-      // Update connection trail fill
-      if (trailFill) {
-        var trailPercent = totalStations > 1 ? (activeIndex / (totalStations - 1)) * 100 : 0;
-        trailFill.style.height = trailPercent + '%';
-      }
-
-      // Position astronaut near active station
-      if (astronaut) {
-        var activePanel = panels[activeIndex];
-        if (activePanel && activePanel.dataset.stationState === 'active') {
-          astronaut.classList.add('visible');
-          // Position to the right of center, offset from station
-          var vpRect = section.querySelector('.journey-viewport').getBoundingClientRect();
-          var centerX = vpRect.width / 2;
-          var centerY = vpRect.height / 2;
-          astronaut.style.left = (centerX + 180) + 'px';
-          astronaut.style.top = (centerY - 80) + 'px';
-        }
-        if (progress < 0.01) {
-          astronaut.classList.remove('visible');
-        }
-      }
-
-      lastActiveIndex = activeIndex;
+    var rect = section.getBoundingClientRect();
+    var scrollable = rect.height - window.innerHeight;
+    if (scrollable <= 0) {
+      requestAnimationFrame(update);
+      return;
     }
 
-    var ticking = false;
-    function onScroll() {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(function() {
-          update();
-          ticking = false;
-        });
-      }
+    var scrolled = Math.max(0, -rect.top);
+    var progress = Math.min(1, scrolled / scrollable);
+
+    // Move track left (0 to -400vw)
+    var translateX = progress * (totalPanels - 1) * -100;
+    track.style.transform = 'translateX(' + translateX + 'vw)';
+
+    // Extend green thread
+    if (threadProgress) {
+      threadProgress.setAttribute('x2', String(progress * 1000));
     }
 
-    window.addEventListener('scroll', onScroll, { passive: true });
-    update();
+    // Update dots
+    var activeIndex = Math.min(totalPanels - 1, Math.floor(progress * totalPanels));
+    dots.forEach(function(dot, i) {
+      if (i <= activeIndex) {
+        dot.style.background = '#00C26D';
+        dot.style.boxShadow = '0 0 8px rgba(0,194,109,0.5)';
+      } else {
+        dot.style.background = '#E1E3E6';
+        dot.style.boxShadow = 'none';
+      }
+    });
+
+    requestAnimationFrame(update);
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initJourney);
-  } else {
-    initJourney();
-  }
-  document.addEventListener('astro:page-load', initJourney);
+  var observer = new IntersectionObserver(function(entries) {
+    if (entries[0].isIntersecting) {
+      if (!running) {
+        running = true;
+        requestAnimationFrame(update);
+      }
+    } else {
+      running = false;
+    }
+  }, { threshold: 0 });
+
+  observer.observe(section);
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initFilmstrip);
+} else {
+  initFilmstrip();
+}
+document.addEventListener('astro:page-load', initFilmstrip);
 </script>
