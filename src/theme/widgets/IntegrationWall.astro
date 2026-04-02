@@ -1,0 +1,464 @@
+---
+interface Integration {
+  name: string;
+  abbrev: string;
+  color: string;
+  tier: 'live' | 'planned' | 'placeholder';
+}
+
+interface Props {
+  title?: string;
+  subtitle?: string;
+  integrations: Integration[];
+  capabilities?: string[];
+}
+
+const {
+  title = 'Your data flows where it needs to',
+  subtitle,
+  integrations,
+  capabilities = [],
+} = Astro.props;
+
+// Distribute integrations across 4 rows with ~18 items each
+// Seed-based pseudo-random for deterministic builds
+function seededShuffle<T>(arr: T[], seed: number): T[] {
+  const shuffled = [...arr];
+  let s = seed;
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    s = (s * 1103515245 + 12345) & 0x7fffffff;
+    const j = s % (i + 1);
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
+const realIntegrations = integrations.filter((ig) => ig.tier !== 'placeholder');
+const placeholders = integrations.filter((ig) => ig.tier === 'placeholder');
+
+const rowSpeeds = ['40s', '25s', '30s', '45s'];
+const boxesPerRow = 18;
+const totalRows = 4;
+
+// Build rows
+const rows: Integration[][] = Array.from({ length: totalRows }, () => []);
+
+// Spread real integrations across rows
+const shuffledReal = seededShuffle(realIntegrations, 42);
+shuffledReal.forEach((ig, i) => {
+  rows[i % totalRows].push(ig);
+});
+
+// Fill remaining slots per row with placeholders
+let placeholderIdx = 0;
+rows.forEach((row) => {
+  while (row.length < boxesPerRow) {
+    if (placeholderIdx < placeholders.length) {
+      row.push(placeholders[placeholderIdx++]);
+    } else {
+      row.push({ name: '', abbrev: '+', color: '#94a3b8', tier: 'placeholder' });
+    }
+  }
+});
+
+// Shuffle each row for variety
+const finalRows = rows.map((row, i) => seededShuffle(row, 100 + i));
+---
+
+<section class="integration-wall" aria-label={title}>
+  <div class="wall-container">
+    <div class="wall-inner">
+      {finalRows.map((row, rowIdx) => (
+        <div
+          class="wall-row"
+          style={`--speed: ${rowSpeeds[rowIdx]};`}
+          data-row={rowIdx}
+        >
+          {/* Duplicate content for seamless loop */}
+          {[...row, ...row].map((ig, i) => (
+            <div
+              class={`wall-box wall-box-${ig.tier}`}
+              title={ig.name || undefined}
+              data-tooltip={ig.tier !== 'placeholder' ? ig.name : undefined}
+            >
+              <span
+                class="wall-box-text"
+                style={ig.tier !== 'placeholder' ? `color: ${ig.color}; font-weight: 700;` : ''}
+              >
+                {ig.abbrev}
+              </span>
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+
+    <!-- Edge vignettes -->
+    <div class="wall-vignette-left"></div>
+    <div class="wall-vignette-right"></div>
+
+    <!-- Center overlay with title -->
+    <div class="wall-overlay">
+      {title && <h2 class="wall-title">{title}</h2>}
+      {subtitle && <p class="wall-subtitle">{subtitle}</p>}
+      {capabilities.length > 0 && (
+        <div class="wall-capabilities">
+          {capabilities.map((cap) => (
+            <span class="wall-cap-pill">{cap}</span>
+          ))}
+        </div>
+      )}
+    </div>
+  </div>
+</section>
+
+<!-- Mobile: simplified 2-row version -->
+<section class="integration-wall-mobile" aria-label={title}>
+  <div class="wall-mobile-container">
+    {title && <h2 class="wall-mobile-title">{title}</h2>}
+    {subtitle && <p class="wall-mobile-subtitle">{subtitle}</p>}
+
+    <div class="wall-mobile-rows">
+      {finalRows.slice(0, 2).map((row, rowIdx) => (
+        <div class="wall-mobile-row" style={`--speed: ${rowIdx === 0 ? '50s' : '60s'};`}>
+          {[...row, ...row].map((ig) => (
+            <div class={`wall-mobile-box wall-mobile-box-${ig.tier}`} title={ig.name || undefined}>
+              <span style={ig.tier !== 'placeholder' ? `color: ${ig.color}; font-weight: 700;` : ''}>
+                {ig.abbrev}
+              </span>
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+
+    {capabilities.length > 0 && (
+      <div class="wall-mobile-caps">
+        {capabilities.map((cap) => (
+          <span class="wall-mobile-cap-pill">{cap}</span>
+        ))}
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  /* ── Desktop: Matrix wall with 3D wedge ── */
+  .integration-wall {
+    display: block;
+    padding: var(--v-space-xl, 4rem) 0;
+    background: var(--color-mist-grey, #F5F6F7);
+    overflow: hidden;
+  }
+
+  .wall-container {
+    position: relative;
+    perspective: 1200px;
+    overflow: hidden;
+    padding: 2rem 0;
+    max-width: var(--max-width, 1320px);
+    margin: 0 auto;
+  }
+
+  .wall-inner {
+    transform: rotateX(8deg);
+    transform-origin: center center;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1rem 0;
+  }
+
+  /* Scrolling rows */
+  .wall-row {
+    display: flex;
+    gap: 0.75rem;
+    animation: scrollRow var(--speed) linear infinite;
+    width: max-content;
+  }
+  .wall-row[data-row="0"] { animation-direction: normal; }
+  .wall-row[data-row="1"] { animation-direction: reverse; }
+  .wall-row[data-row="2"] { animation-direction: normal; }
+  .wall-row[data-row="3"] { animation-direction: reverse; }
+
+  @keyframes scrollRow {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* Logo boxes */
+  .wall-box {
+    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-body, 'Source Sans 3', sans-serif);
+    font-size: 13px;
+    transition: transform 0.2s var(--ease-out, ease);
+    cursor: default;
+    position: relative;
+  }
+
+  .wall-box-live {
+    background: #fff;
+    border: 2px solid var(--color-green, #00C26D);
+    box-shadow: 0 0 12px rgba(0, 194, 109, 0.2);
+  }
+
+  .wall-box-planned {
+    background: #fff;
+    border: 1px solid var(--color-cloud-grey, #E1E3E6);
+  }
+
+  .wall-box-placeholder {
+    background: var(--color-mist-grey, #F5F6F7);
+    border: 2px dashed var(--color-cloud-grey, #E1E3E6);
+    opacity: 0.45;
+  }
+  .wall-box-placeholder .wall-box-text {
+    color: #94a3b8 !important;
+    font-weight: 400 !important;
+    font-size: 18px;
+  }
+
+  .wall-box-text {
+    line-height: 1;
+    user-select: none;
+  }
+
+  /* Tooltip on hover */
+  .wall-box[data-tooltip]:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--color-ink, #0D0D0D);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 6px;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 20;
+  }
+
+  /* Hover: pause all rows */
+  .wall-container:hover .wall-row {
+    animation-play-state: paused;
+  }
+  .wall-box:hover {
+    transform: scale(1.15);
+    z-index: 15;
+  }
+
+  /* Edge vignettes */
+  .wall-vignette-left,
+  .wall-vignette-right {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 15%;
+    z-index: 5;
+    pointer-events: none;
+  }
+  .wall-vignette-left {
+    left: 0;
+    background: linear-gradient(to right, var(--color-mist-grey, #F5F6F7), transparent);
+  }
+  .wall-vignette-right {
+    right: 0;
+    background: linear-gradient(to left, var(--color-mist-grey, #F5F6F7), transparent);
+  }
+
+  /* Center overlay */
+  .wall-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 10;
+    background: radial-gradient(
+      ellipse,
+      rgba(245, 246, 247, 0.95) 0%,
+      rgba(245, 246, 247, 0.75) 55%,
+      transparent 100%
+    );
+    padding: 2.5rem 3.5rem;
+    pointer-events: none;
+  }
+
+  .wall-title {
+    font-family: var(--font-display, 'Playfair Display', serif);
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    font-weight: 700;
+    color: var(--color-ink, #0D0D0D);
+    margin: 0 0 0.75rem;
+    line-height: 1.2;
+  }
+
+  .wall-subtitle {
+    font-family: var(--font-body, 'Source Sans 3', sans-serif);
+    font-size: 0.95rem;
+    color: var(--color-ink-muted, #6b6b6b);
+    line-height: 1.6;
+    margin: 0 0 1.25rem;
+    max-width: 480px;
+  }
+
+  .wall-capabilities {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    pointer-events: auto;
+  }
+
+  .wall-cap-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.45rem 1.1rem;
+    background: rgba(0, 194, 109, 0.08);
+    border: 1px solid rgba(0, 194, 109, 0.2);
+    border-radius: 100px;
+    font-family: var(--font-body, 'Source Sans 3', sans-serif);
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--color-emerald, #037A47);
+  }
+
+  /* ── Mobile: simplified 2-row ── */
+  .integration-wall-mobile {
+    display: none;
+    padding: var(--v-space-lg, 2.5rem) 0;
+    background: var(--color-mist-grey, #F5F6F7);
+    overflow: hidden;
+  }
+
+  .wall-mobile-container {
+    max-width: var(--content-width, 1140px);
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .wall-mobile-title {
+    font-family: var(--font-display, 'Playfair Display', serif);
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    color: var(--color-ink, #0D0D0D);
+    text-align: center;
+    margin: 0 0 0.5rem;
+  }
+
+  .wall-mobile-subtitle {
+    font-family: var(--font-body, 'Source Sans 3', sans-serif);
+    font-size: 0.9rem;
+    color: var(--color-ink-muted, #6b6b6b);
+    text-align: center;
+    line-height: 1.6;
+    margin: 0 auto 1.5rem;
+    max-width: 500px;
+  }
+
+  .wall-mobile-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+  }
+
+  .wall-mobile-row {
+    display: flex;
+    gap: 0.5rem;
+    animation: scrollRow var(--speed) linear infinite;
+    width: max-content;
+  }
+  .wall-mobile-row:nth-child(odd) { animation-direction: normal; }
+  .wall-mobile-row:nth-child(even) { animation-direction: reverse; }
+
+  .wall-mobile-box {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-body, 'Source Sans 3', sans-serif);
+    font-size: 11px;
+  }
+  .wall-mobile-box-live {
+    background: #fff;
+    border: 2px solid var(--color-green, #00C26D);
+    box-shadow: 0 0 8px rgba(0, 194, 109, 0.15);
+  }
+  .wall-mobile-box-planned {
+    background: #fff;
+    border: 1px solid var(--color-cloud-grey, #E1E3E6);
+  }
+  .wall-mobile-box-placeholder {
+    background: var(--color-mist-grey, #F5F6F7);
+    border: 2px dashed var(--color-cloud-grey, #E1E3E6);
+    opacity: 0.4;
+  }
+  .wall-mobile-box-placeholder span {
+    color: #94a3b8 !important;
+    font-weight: 400 !important;
+    font-size: 14px;
+  }
+
+  .wall-mobile-caps {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+  .wall-mobile-cap-pill {
+    display: inline-flex;
+    padding: 0.35rem 0.9rem;
+    background: rgba(0, 194, 109, 0.08);
+    border: 1px solid rgba(0, 194, 109, 0.2);
+    border-radius: 100px;
+    font-family: var(--font-body, 'Source Sans 3', sans-serif);
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--color-emerald, #037A47);
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .integration-wall {
+      display: none;
+    }
+    .integration-wall-mobile {
+      display: block;
+    }
+  }
+
+  /* ── Reduced motion: static grid ── */
+  @media (prefers-reduced-motion: reduce) {
+    .wall-row,
+    .wall-mobile-row {
+      animation: none !important;
+    }
+    .wall-inner {
+      transform: none;
+    }
+    .wall-row {
+      flex-wrap: wrap;
+      width: auto;
+      justify-content: center;
+    }
+    /* Hide duplicated items in static mode (only show first half) */
+    .wall-row .wall-box:nth-child(n+19),
+    .wall-mobile-row .wall-mobile-box:nth-child(n+19) {
+      display: none;
+    }
+  }
+</style>

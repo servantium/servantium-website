@@ -1,0 +1,166 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SEO from '@/components/SEO.astro';
+---
+
+<BaseLayout activePage="platform">
+  <SEO
+    slot="head"
+    title="Scope with Confidence — Servantium Platform"
+    description="AI-assisted discovery that captures context from every conversation. Find similar past engagements in seconds."
+    ogType="website"
+  />
+
+  {/* Hero */}
+  <section class="pt-28 pb-12 md:pt-32 md:pb-16" style="background: linear-gradient(135deg, var(--color-green) 0%, var(--color-forest) 100%);">
+    <div class="mx-auto max-w-4xl px-6 text-center">
+      <span class="inline-block mb-4 text-xs font-semibold uppercase tracking-widest" style="color: rgba(255,255,255,0.7);">The Platform</span>
+      <h1 class="text-4xl md:text-5xl font-medium mb-4" style="color: #ffffff; font-family: var(--font-display); text-shadow: 0 2px 8px rgba(0,0,0,0.15);">
+        Scope with confidence
+      </h1>
+      <p class="text-lg md:text-xl max-w-2xl mx-auto leading-relaxed" style="color: rgba(255,255,255,0.9);">
+        Discovery that captures context, not just notes. Your service catalog provides the building blocks for every engagement.
+      </p>
+    </div>
+  </section>
+
+  {/* Feature: Engagement Workspace */}
+  <section class="py-16 md:py-20">
+    <div class="mx-auto max-w-5xl px-6">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div>
+          <span class="inline-block mb-2 text-xs font-semibold uppercase tracking-widest text-[var(--color-green)]">The workspace</span>
+          <h2 class="text-2xl md:text-3xl font-medium text-[var(--color-ink)] mb-4" style="font-family: var(--font-display);">
+            Everything about an engagement in one place
+          </h2>
+          <p class="text-[var(--color-ink-muted)] leading-relaxed mb-6">
+            Every engagement has a tabbed workspace with six views: Info, Similars, Notes, Quotes, Documents, and Resource Plans. No switching between tools. No lost context. One record from first conversation to final delivery.
+          </p>
+          <ul class="space-y-3">
+            <li class="flex items-start gap-3">
+              <span class="mt-1 flex-shrink-0 w-5 h-5 rounded-full bg-[var(--color-soft-mint)] flex items-center justify-center">
+                <svg class="w-3 h-3 text-[var(--color-green)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </span>
+              <span class="text-[var(--color-ink-light)]">Six integrated tabs, all feeding from the same data</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-1 flex-shrink-0 w-5 h-5 rounded-full bg-[var(--color-soft-mint)] flex items-center justify-center">
+                <svg class="w-3 h-3 text-[var(--color-green)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </span>
+              <span class="text-[var(--color-ink-light)]">Custom template fields per engagement type</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-1 flex-shrink-0 w-5 h-5 rounded-full bg-[var(--color-soft-mint)] flex items-center justify-center">
+                <svg class="w-3 h-3 text-[var(--color-green)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </span>
+              <span class="text-[var(--color-ink-light)]">Tags for cross-cutting organization across your portfolio</span>
+            </li>
+          </ul>
+        </div>
+        <div class="bg-[var(--color-mist-grey)] rounded-2xl p-8 flex items-center justify-center min-h-[300px]">
+          <p class="text-[var(--color-ink-muted)] text-sm italic">Product screenshot placeholder</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* Feature: Similar Matching */}
+  <section class="py-16 md:py-20 bg-[var(--color-mist-grey)]">
+    <div class="mx-auto max-w-5xl px-6">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div class="order-2 md:order-1 bg-white rounded-2xl p-8 flex items-center justify-center min-h-[300px]">
+          <p class="text-[var(--color-ink-muted)] text-sm italic">Similar engagements screenshot placeholder</p>
+        </div>
+        <div class="order-1 md:order-2">
+          <span class="inline-block mb-2 text-xs font-semibold uppercase tracking-widest text-[var(--color-green)]">AI-powered</span>
+          <h2 class="text-2xl md:text-3xl font-medium text-[var(--color-ink)] mb-4" style="font-family: var(--font-display);">
+            Find similar past work in seconds
+          </h2>
+          <p class="text-[var(--color-ink-muted)] leading-relaxed mb-6">
+            Servantium uses vector search on your engagement history to find semantically similar past projects. Not keyword matching. Real understanding of what you've done before and how it went.
+          </p>
+          <ul class="space-y-3">
+            <li class="flex items-start gap-3">
+              <span class="mt-1 flex-shrink-0 w-5 h-5 rounded-full bg-[var(--color-soft-mint)] flex items-center justify-center">
+                <svg class="w-3 h-3 text-[var(--color-green)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </span>
+              <span class="text-[var(--color-ink-light)]">Semantic matching powered by Gemini embeddings</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-1 flex-shrink-0 w-5 h-5 rounded-full bg-[var(--color-soft-mint)] flex items-center justify-center">
+                <svg class="w-3 h-3 text-[var(--color-green)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </span>
+              <span class="text-[var(--color-ink-light)]">See pricing, delivery outcomes, and lessons from comparable work</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-1 flex-shrink-0 w-5 h-5 rounded-full bg-[var(--color-soft-mint)] flex items-center justify-center">
+                <svg class="w-3 h-3 text-[var(--color-green)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </span>
+              <span class="text-[var(--color-ink-light)]">Gets smarter with every engagement you complete</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* Feature: Service Catalog + Templates */}
+  <section class="py-16 md:py-20">
+    <div class="mx-auto max-w-5xl px-6">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div>
+          <span class="inline-block mb-2 text-xs font-semibold uppercase tracking-widest text-[var(--color-green)]">Your playbook</span>
+          <h2 class="text-2xl md:text-3xl font-medium text-[var(--color-ink)] mb-4" style="font-family: var(--font-display);">
+            Templates and catalogs that learn from you
+          </h2>
+          <p class="text-[var(--color-ink-muted)] leading-relaxed mb-6">
+            Define engagement types with custom fields. Build a service catalog that updates itself as you deliver work. Every template and catalog item is a building block your team reuses.
+          </p>
+          <ul class="space-y-3">
+            <li class="flex items-start gap-3">
+              <span class="mt-1 flex-shrink-0 w-5 h-5 rounded-full bg-[var(--color-soft-mint)] flex items-center justify-center">
+                <svg class="w-3 h-3 text-[var(--color-green)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </span>
+              <span class="text-[var(--color-ink-light)]">Engagement templates with configurable custom fields</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-1 flex-shrink-0 w-5 h-5 rounded-full bg-[var(--color-soft-mint)] flex items-center justify-center">
+                <svg class="w-3 h-3 text-[var(--color-green)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </span>
+              <span class="text-[var(--color-ink-light)]">Service catalog that auto-updates from real quote data</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-1 flex-shrink-0 w-5 h-5 rounded-full bg-[var(--color-soft-mint)] flex items-center justify-center">
+                <svg class="w-3 h-3 text-[var(--color-green)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </span>
+              <span class="text-[var(--color-ink-light)]">AI-generated templates from natural language descriptions</span>
+            </li>
+          </ul>
+        </div>
+        <div class="bg-[var(--color-mist-grey)] rounded-2xl p-8 flex items-center justify-center min-h-[300px]">
+          <p class="text-[var(--color-ink-muted)] text-sm italic">Template configuration screenshot placeholder</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* CTA */}
+  <section class="py-16 md:py-20 text-center" style="background: linear-gradient(135deg, var(--color-green) 0%, var(--color-forest) 100%);">
+    <div class="mx-auto max-w-2xl px-6">
+      <h2 class="text-3xl md:text-4xl font-medium mb-4" style="color: #ffffff; font-family: var(--font-display); text-shadow: 0 2px 8px rgba(0,0,0,0.15);">
+        Ready to scope with confidence?
+      </h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.9);">
+        See how Servantium transforms discovery into structured, repeatable engagements.
+      </p>
+      <div class="flex justify-center gap-4">
+        <a href="/#contact" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-[var(--color-forest)] bg-white hover:bg-white/90 transition-colors no-underline">
+          Schedule a Demo
+        </a>
+        <a href="/platform/" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold border-2 border-white/30 hover:border-white/60 transition-colors no-underline" style="color: #ffffff;">
+          ← Back to Platform
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

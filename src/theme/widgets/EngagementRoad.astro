@@ -1,0 +1,629 @@
+---
+interface RoadStop {
+  title: string;
+  description: string;
+  features: string[];
+  color: string;
+  icon: string;
+}
+
+interface Props {
+  title?: string;
+  subtitle?: string;
+  stops: RoadStop[];
+}
+
+const {
+  title = 'The Engagement Journey',
+  subtitle,
+  stops,
+} = Astro.props;
+---
+
+<!-- Desktop: First-person driving simulator -->
+<section class="engagement-road" aria-label={title}>
+  <div class="road-scroll-spacer" style={`height: ${(stops.length + 1) * 100}vh;`}>
+    <div class="road-viewport">
+      <!-- Sky / background -->
+      <div class="road-sky"></div>
+
+      <!-- Road surface -->
+      <div class="road-surface"></div>
+
+      <!-- Converging road lines -->
+      <div class="road-line road-line-left"></div>
+      <div class="road-line road-line-right"></div>
+
+      <!-- Green dust particles -->
+      <div class="road-particles" aria-hidden="true">
+        {Array.from({ length: 8 }).map((_, i) => (
+          <div class="road-particle" style={`--delay: ${i * 0.7}s; --x: ${15 + Math.random() * 70}%; --drift: ${(Math.random() - 0.5) * 40}px;`}></div>
+        ))}
+      </div>
+
+      <!-- Ambient glow at edges -->
+      <div class="road-glow-left"></div>
+      <div class="road-glow-right"></div>
+
+      <!-- Stop content panels -->
+      {stops.map((stop, i) => (
+        <div
+          class="stop-content"
+          data-state={i === 0 ? 'active' : 'approaching'}
+          data-index={i}
+        >
+          <div class="stop-accent-glow" style={`background: ${stop.color};`}></div>
+          <div class="stop-icon">{stop.icon}</div>
+          <div class="stop-stage">Stage {i + 1}</div>
+          <h3 class="stop-title">{stop.title}</h3>
+          <p class="stop-description">{stop.description}</p>
+          <div class="stop-features">
+            {stop.features.map((f) => (
+              <span class="stop-feature-pill">{f}</span>
+            ))}
+          </div>
+        </div>
+      ))}
+
+      <!-- Header overlay (shows at start) -->
+      <div class="road-header" data-road-header>
+        {title && <h2 class="road-title">{title}</h2>}
+        {subtitle && <p class="road-subtitle">{subtitle}</p>}
+        <div class="road-scroll-hint">
+          <span>Scroll to begin</span>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M10 4v12M4 10l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Progress dots -->
+      <div class="road-progress-dots">
+        {stops.map((_, i) => (
+          <button
+            class={`progress-dot ${i === 0 ? 'active' : ''}`}
+            data-dot-index={i}
+            aria-label={`Go to stop ${i + 1}: ${stops[i].title}`}
+          ></button>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Mobile: Stacked cards -->
+<section class="engagement-road-mobile" aria-label={title}>
+  <div class="road-mobile-container">
+    {title && <h2 class="road-mobile-title">{title}</h2>}
+    {subtitle && <p class="road-mobile-subtitle">{subtitle}</p>}
+    <div class="road-mobile-stops">
+      {stops.map((stop, i) => (
+        <div class="road-mobile-card" style={`border-left-color: ${stop.color};`}>
+          <div class="road-mobile-card-header">
+            <span class="road-mobile-icon">{stop.icon}</span>
+            <div>
+              <span class="road-mobile-stage" style={`color: ${stop.color};`}>Stage {i + 1}</span>
+              <h3 class="road-mobile-card-title">{stop.title}</h3>
+            </div>
+          </div>
+          <p class="road-mobile-card-desc">{stop.description}</p>
+          <div class="road-mobile-features">
+            {stop.features.map((f) => (
+              <span class="road-mobile-feature">{f}</span>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ── Desktop: driving simulator ── */
+  .engagement-road {
+    position: relative;
+    display: block;
+  }
+
+  .road-scroll-spacer {
+    position: relative;
+  }
+
+  .road-viewport {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(to bottom, #0f172a 0%, #1e293b 55%, #334155 100%);
+  }
+
+  .road-sky {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 80%, rgba(0, 194, 109, 0.06) 0%, transparent 60%);
+  }
+
+  /* Road surface trapezoid */
+  .road-surface {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 45%;
+    background: #374151;
+    clip-path: polygon(35% 0%, 65% 0%, 100% 100%, 0% 100%);
+  }
+
+  /* Converging dashed road lines */
+  .road-line {
+    position: absolute;
+    bottom: 0;
+    height: 45%;
+    width: 3px;
+    background: repeating-linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.25) 0px,
+      rgba(255, 255, 255, 0.25) 15px,
+      transparent 15px,
+      transparent 30px
+    );
+  }
+  .road-line-left {
+    left: 42%;
+    transform-origin: top center;
+    transform: rotate(-8deg);
+  }
+  .road-line-right {
+    left: 58%;
+    transform-origin: top center;
+    transform: rotate(8deg);
+  }
+
+  /* Edge glow (street light effect) */
+  .road-glow-left,
+  .road-glow-right {
+    position: absolute;
+    bottom: 0;
+    width: 20%;
+    height: 45%;
+    pointer-events: none;
+  }
+  .road-glow-left {
+    left: 0;
+    background: radial-gradient(ellipse at 0% 80%, rgba(0, 194, 109, 0.08) 0%, transparent 70%);
+  }
+  .road-glow-right {
+    right: 0;
+    background: radial-gradient(ellipse at 100% 80%, rgba(0, 194, 109, 0.08) 0%, transparent 70%);
+  }
+
+  /* Green dust particles */
+  .road-particles {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .road-particle {
+    position: absolute;
+    bottom: 0;
+    left: var(--x);
+    width: 3px;
+    height: 3px;
+    background: var(--color-green, #00C26D);
+    border-radius: 50%;
+    opacity: 0;
+    animation: particle-float 3.5s var(--delay) ease-out infinite;
+  }
+  @keyframes particle-float {
+    0% {
+      opacity: 0;
+      transform: translateY(0) translateX(0);
+    }
+    20% {
+      opacity: 0.6;
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-200px) translateX(var(--drift));
+    }
+  }
+
+  /* Stop content panels */
+  .stop-content {
+    position: absolute;
+    top: 8%;
+    left: 50%;
+    text-align: center;
+    max-width: 560px;
+    width: 90%;
+    z-index: 5;
+    will-change: transform, opacity;
+    transition: transform 0.5s var(--ease-spring, cubic-bezier(0.16, 1, 0.3, 1)),
+                opacity 0.4s ease;
+  }
+  .stop-content[data-state="approaching"] {
+    transform: translateX(-50%) scale(0.3);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .stop-content[data-state="active"] {
+    transform: translateX(-50%) scale(1);
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .stop-content[data-state="passed"] {
+    transform: translateX(-50%) scale(2.5);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .stop-accent-glow {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 80px;
+    border-radius: 50%;
+    opacity: 0.25;
+    filter: blur(40px);
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .stop-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    line-height: 1;
+  }
+
+  .stop-stage {
+    font-family: var(--font-body, 'Source Sans 3', sans-serif);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-green, #00C26D);
+    margin-bottom: 0.25rem;
+  }
+
+  .stop-title {
+    font-family: var(--font-display, 'Playfair Display', serif);
+    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+    font-weight: 700;
+    color: #fff;
+    margin: 0 0 0.75rem;
+    line-height: 1.2;
+  }
+
+  .stop-description {
+    font-family: var(--font-body, 'Source Sans 3', sans-serif);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.75);
+    margin: 0 auto 1.25rem;
+    max-width: 480px;
+  }
+
+  .stop-features {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .stop-feature-pill {
+    display: inline-block;
+    padding: 0.4rem 1rem;
+    background: rgba(0, 194, 109, 0.15);
+    color: var(--color-fresh-green, #36D993);
+    font-family: var(--font-body, 'Source Sans 3', sans-serif);
+    font-size: 0.82rem;
+    font-weight: 600;
+    border-radius: 100px;
+    border: 1px solid rgba(0, 194, 109, 0.25);
+  }
+
+  /* Header overlay */
+  .road-header {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 6;
+    max-width: 640px;
+    width: 90%;
+    transition: opacity 0.5s ease;
+  }
+  .road-header.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .road-title {
+    font-family: var(--font-display, 'Playfair Display', serif);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    color: #fff;
+    margin: 0 0 1rem;
+    line-height: 1.15;
+  }
+
+  .road-subtitle {
+    font-family: var(--font-body, 'Source Sans 3', sans-serif);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0 0 1.5rem;
+  }
+
+  .road-scroll-hint {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    color: rgba(255, 255, 255, 0.4);
+    font-family: var(--font-body, 'Source Sans 3', sans-serif);
+    font-size: 0.8rem;
+    animation: hint-bounce 2s ease-in-out infinite;
+  }
+  @keyframes hint-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(6px); }
+  }
+
+  /* Progress dots */
+  .road-progress-dots {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.5rem;
+    z-index: 10;
+  }
+  .progress-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.25);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+  }
+  .progress-dot.active {
+    background: var(--color-green, #00C26D);
+    transform: scale(1.3);
+    box-shadow: 0 0 8px rgba(0, 194, 109, 0.5);
+  }
+
+  /* ── Mobile: stacked cards ── */
+  .engagement-road-mobile {
+    display: none;
+  }
+
+  .road-mobile-container {
+    max-width: var(--content-width, 1140px);
+    margin: 0 auto;
+    padding: var(--v-space-xl, 4rem) 1.5rem;
+  }
+
+  .road-mobile-title {
+    font-family: var(--font-display, 'Playfair Display', serif);
+    font-size: clamp(1.75rem, 4vw, 2.25rem);
+    color: var(--color-ink, #0D0D0D);
+    margin: 0 0 0.75rem;
+    text-align: center;
+  }
+
+  .road-mobile-subtitle {
+    font-family: var(--font-body, 'Source Sans 3', sans-serif);
+    font-size: 1rem;
+    color: var(--color-ink-muted, #6b6b6b);
+    line-height: 1.6;
+    text-align: center;
+    margin: 0 auto 2rem;
+    max-width: 600px;
+  }
+
+  .road-mobile-stops {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .road-mobile-card {
+    background: #fff;
+    border: 1px solid var(--color-cloud-grey, #E1E3E6);
+    border-left: 4px solid;
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+  }
+
+  .road-mobile-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .road-mobile-icon {
+    font-size: 1.75rem;
+    line-height: 1;
+  }
+
+  .road-mobile-stage {
+    font-family: var(--font-body, 'Source Sans 3', sans-serif);
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    display: block;
+    margin-bottom: 0.1rem;
+  }
+
+  .road-mobile-card-title {
+    font-family: var(--font-display, 'Playfair Display', serif);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--color-ink, #0D0D0D);
+    margin: 0;
+    line-height: 1.25;
+  }
+
+  .road-mobile-card-desc {
+    font-family: var(--font-body, 'Source Sans 3', sans-serif);
+    font-size: 0.92rem;
+    color: var(--color-ink-light, #3d3d3d);
+    line-height: 1.6;
+    margin: 0 0 0.75rem;
+  }
+
+  .road-mobile-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .road-mobile-feature {
+    display: inline-block;
+    padding: 0.3rem 0.75rem;
+    background: var(--color-soft-mint, #E8FBF1);
+    color: var(--color-emerald, #037A47);
+    font-family: var(--font-body, 'Source Sans 3', sans-serif);
+    font-size: 0.78rem;
+    font-weight: 600;
+    border-radius: 100px;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .engagement-road {
+      display: none;
+    }
+    .engagement-road-mobile {
+      display: block;
+    }
+  }
+
+  /* ── Reduced motion ── */
+  @media (prefers-reduced-motion: reduce) {
+    .engagement-road {
+      display: none;
+    }
+    .engagement-road-mobile {
+      display: block;
+    }
+    .road-particle {
+      animation: none;
+    }
+    .road-scroll-hint {
+      animation: none;
+    }
+  }
+</style>
+
+<script is:inline>
+  function initEngagementRoad() {
+    var section = document.querySelector('.engagement-road');
+    if (!section) return;
+
+    var spacer = section.querySelector('.road-scroll-spacer');
+    var stops = section.querySelectorAll('.stop-content');
+    var dots = section.querySelectorAll('.progress-dot');
+    var header = section.querySelector('[data-road-header]');
+    var totalStops = stops.length;
+
+    if (!spacer || totalStops === 0) return;
+
+    // Check for reduced motion
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var lastActiveIndex = -1;
+
+    function updateRoad() {
+      var rect = spacer.getBoundingClientRect();
+      var scrollable = rect.height - window.innerHeight;
+      if (scrollable <= 0) return;
+
+      var scrolled = Math.max(0, -rect.top);
+      var progress = Math.min(1, scrolled / scrollable);
+
+      // Fade header after initial scroll
+      if (header) {
+        if (progress > 0.02) {
+          header.classList.add('hidden');
+        } else {
+          header.classList.remove('hidden');
+        }
+      }
+
+      // Which stop should be active?
+      var rawIndex = progress * totalStops;
+      var activeIndex = Math.min(totalStops - 1, Math.floor(rawIndex));
+      var withinStop = rawIndex - activeIndex;
+
+      stops.forEach(function(stop, i) {
+        if (i < activeIndex) {
+          stop.dataset.state = 'passed';
+          stop.style.transform = '';
+          stop.style.opacity = '';
+        } else if (i === activeIndex) {
+          stop.dataset.state = 'active';
+          stop.style.transform = '';
+          stop.style.opacity = '';
+        } else if (i === activeIndex + 1) {
+          // Approaching: interpolate scale and opacity
+          var approachScale = 0.3 + (withinStop * 0.7);
+          var approachOpacity = withinStop;
+          stop.dataset.state = 'approaching';
+          stop.style.transform = 'translateX(-50%) scale(' + approachScale + ')';
+          stop.style.opacity = approachOpacity;
+        } else {
+          stop.dataset.state = 'approaching';
+          stop.style.transform = '';
+          stop.style.opacity = '';
+        }
+      });
+
+      // Update progress dots
+      if (activeIndex !== lastActiveIndex) {
+        dots.forEach(function(dot, i) {
+          if (i === activeIndex) {
+            dot.classList.add('active');
+          } else {
+            dot.classList.remove('active');
+          }
+        });
+        lastActiveIndex = activeIndex;
+      }
+    }
+
+    var ticking = false;
+    function onScroll() {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(function() {
+          updateRoad();
+          ticking = false;
+        });
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    updateRoad();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initEngagementRoad);
+  } else {
+    initEngagementRoad();
+  }
+  document.addEventListener('astro:page-load', initEngagementRoad);
+</script>

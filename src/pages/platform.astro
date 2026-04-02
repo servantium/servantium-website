@@ -1,6 +1,22 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import SEO from '@/components/SEO.astro';
+import IntegrationWall from '@/theme/widgets/IntegrationWall.astro';
+
+const integrations = [
+  { name: 'Salesforce', abbrev: 'SF', color: '#00A1E0', tier: 'live' as const },
+  { name: 'Google Workspace', abbrev: 'G', color: '#4285F4', tier: 'live' as const },
+  { name: 'CSV Import', abbrev: 'CSV', color: '#00C26D', tier: 'live' as const },
+  { name: 'HubSpot', abbrev: 'HS', color: '#FF7A59', tier: 'planned' as const },
+  { name: 'Slack', abbrev: 'SL', color: '#4A154B', tier: 'planned' as const },
+  { name: 'Teams', abbrev: 'TM', color: '#6264A7', tier: 'planned' as const },
+  { name: 'QuickBooks', abbrev: 'QB', color: '#2CA01C', tier: 'planned' as const },
+  { name: 'Jira', abbrev: 'JR', color: '#0052CC', tier: 'planned' as const },
+  { name: 'Zapier', abbrev: 'ZP', color: '#FF4A00', tier: 'planned' as const },
+  { name: 'Xero', abbrev: 'XR', color: '#13B5EA', tier: 'planned' as const },
+  { name: 'Dynamics', abbrev: 'DY', color: '#002050', tier: 'planned' as const },
+  ...Array.from({ length: 40 }, (_, i) => ({ name: '', abbrev: '+', color: '#94a3b8', tier: 'placeholder' as const })),
+];
 
 const jsonLd = {
   "@type": "WebPage",
@@ -254,14 +270,15 @@ const jsonLd = {
     </div>
   </section>
 
-  <!-- Section 3: Integrations — Wave of Connectivity -->
-  <section class="integrations" id="integrations">
-    <div class="container">
-      <div class="integrations-header reveal">
-        <span class="section-label">Integrations</span>
-        <h2>Your data flows where it needs to</h2>
-        <p class="text-large">Servantium connects with the tools your team already uses. Our REST API and MCP-ready architecture means new integrations take days, not months.</p>
-      </div>
+  <!-- Section 3: Integrations — Matrix Wall -->
+  <IntegrationWall
+    title="Your data flows where it needs to"
+    subtitle="Servantium connects with the tools your team already uses. Our REST API and MCP-ready architecture means new integrations take days, not months."
+    integrations={integrations}
+    capabilities={['Bi-directional sync', 'REST API ready', 'MCP-compatible']}
+  />
+
+  <!-- OLD_INTEGRATION_DELETE_START -->
 
       <!-- Wave Flow Integration Design -->
       <div class="wave-flow-wrapper reveal">
