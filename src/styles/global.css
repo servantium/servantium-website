@@ -88,31 +88,34 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h2, h3, h4 {
+/* Heading defaults in @layer base so Tailwind utilities can override */
+@layer base {
+  h1, h2, h3, h4 {
     font-family: var(--font-display);
     font-weight: 500;
     line-height: 1.25;
     color: var(--color-ink);
-}
+  }
 
-h1 {
+  h1 {
     font-size: clamp(2.5rem, 5vw, 3.5rem);
     letter-spacing: -0.02em;
-}
+  }
 
-h2 {
+  h2 {
     font-size: clamp(2rem, 4vw, 2.75rem);
     letter-spacing: -0.01em;
-}
+  }
 
-h3 {
+  h3 {
     font-size: 1.5rem;
     font-weight: 500;
-}
+  }
 
-p {
+  p {
     color: var(--color-ink-light);
     font-size: 1.125rem;
+  }
 }
 
 .text-large {
