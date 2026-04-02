@@ -293,10 +293,22 @@ const jsonLd = {
 
       <!-- Tab buttons -->
       <div class="flex justify-center gap-2 mb-8 flex-wrap" role="tablist">
-        <button class="tab-btn active" data-tab="scope" role="tab" aria-selected="true">Scope</button>
-        <button class="tab-btn" data-tab="price" role="tab" aria-selected="false">Price</button>
-        <button class="tab-btn" data-tab="staff" role="tab" aria-selected="false">Staff</button>
-        <button class="tab-btn" data-tab="learn" role="tab" aria-selected="false">Learn</button>
+        <button class="tab-btn active" data-tab="scope" role="tab" aria-selected="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          Scope
+        </button>
+        <button class="tab-btn" data-tab="price" role="tab" aria-selected="false">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+          Price
+        </button>
+        <button class="tab-btn" data-tab="staff" role="tab" aria-selected="false">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+          Staff
+        </button>
+        <button class="tab-btn" data-tab="learn" role="tab" aria-selected="false">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+          Learn
+        </button>
       </div>
 
       <!-- Tab panels -->
@@ -491,7 +503,7 @@ const jsonLd = {
     align-items: stretch;
     gap: 1.5rem;
     max-width: 1320px;
-    margin: 0 auto 2rem;
+    margin: 0 auto 0;
     padding: 0 1.5rem;
   }
   .narrative-today, .narrative-servantium {
@@ -559,7 +571,7 @@ const jsonLd = {
 
   /* Four Pillars */
   .pillar-section {
-    padding: 4rem 0;
+    padding: 2rem 0;
     background: var(--neutral-25);
   }
   .pillar-section.tinted {
@@ -572,7 +584,7 @@ const jsonLd = {
     align-items: center;
     max-width: 1320px;
     margin: 0 auto;
-    padding: 0 1.5rem;
+    padding: 1rem 1.5rem 0;
   }
   .pillar-grid.reversed .pillar-text { order: 2; }
   .pillar-grid.reversed .pillar-visual { order: 1; }
@@ -681,16 +693,19 @@ const jsonLd = {
 
   /* Feature Table Tabs */
   .tab-btn {
-    padding: 0.5rem 1.25rem;
+    padding: 0.625rem 1.5rem;
     border-radius: 8px;
     border: 1px solid var(--neutral-300);
     background: transparent;
     color: var(--neutral-700);
     font-family: var(--font-body, 'Source Sans 3', sans-serif);
-    font-size: 0.9rem;
+    font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
   }
   .tab-btn:hover {
     border-color: var(--green-500);
@@ -703,7 +718,7 @@ const jsonLd = {
   }
 
   .feature-table-wrap {
-    max-width: 768px;
+    max-width: 896px;
     margin: 0 auto;
     border: 1px solid var(--neutral-300);
     border-radius: 12px;
@@ -728,7 +743,7 @@ const jsonLd = {
     border-bottom: 1px solid var(--neutral-300);
   }
   .feature-table td {
-    padding: 0.7rem 1.25rem;
+    padding: 0.75rem 1.25rem;
     color: var(--neutral-700);
     line-height: 1.5;
   }
@@ -777,7 +792,7 @@ const jsonLd = {
   /* Responsive */
   @media (max-width: 768px) {
     .platform-hero { padding: 7rem 0 3.5rem; }
-    .pillar-section { padding: 3rem 0; }
+    .pillar-section { padding: 2rem 0; }
     .pillar-story-compact { flex-direction: column; gap: 0.5rem; text-align: center; }
     .story-solution-text { border-left: none; padding-left: 0; border-top: 2px solid var(--green-500); padding-top: 0.5rem; }
     .story-arrow-compact { transform: rotate(90deg); }

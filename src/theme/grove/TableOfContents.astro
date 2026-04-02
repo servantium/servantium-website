@@ -18,9 +18,9 @@ const { headings } = Astro.props;
       On this page
     </h2>
     <div class="relative">
-      {/* Green progress bar that slides to the active item */}
-      <div class="toc-progress-track absolute left-0 top-0 bottom-0 w-[2px] bg-slate-100 rounded-full" />
-      <div class="toc-progress-bar absolute left-0 top-0 w-[2px] bg-[var(--color-green)] rounded-full transition-all duration-300" style="height: 0; top: 0;" id="toc-progress" />
+      {/* Green progress bar that spans from first item to active item */}
+      <div class="toc-progress-track absolute left-0 top-0 bottom-0 w-[2px] bg-slate-200 rounded-full" />
+      <div class="toc-progress-bar absolute left-0 w-[2px] bg-[#00C26D] rounded-full transition-all duration-300" style="height: 0; top: 0;" id="toc-progress" />
 
       <ul class="space-y-1 pl-3 text-[13px]" role="list">
         {headings.map((heading) => (
@@ -65,24 +65,13 @@ const { headings } = Astro.props;
       if (slug === activeSlug) return;
       activeSlug = slug;
 
-      tocLinks.forEach((link, index) => {
+      tocLinks.forEach((link) => {
         const isCurrent = link.dataset.tocSlug === slug;
         if (isCurrent) {
-          link.classList.add('!text-[var(--color-green)]', 'font-semibold');
+          link.classList.add('!text-[#00C26D]', 'font-semibold');
           link.classList.remove('text-slate-500', 'text-slate-400');
-
-          // Move green progress bar to this item
-          if (progressBar) {
-            const linkRect = link.getBoundingClientRect();
-            const navRect = link.closest('.toc-nav')?.getBoundingClientRect();
-            if (navRect) {
-              const top = linkRect.top - navRect.top;
-              progressBar.style.top = `${top + 28}px`; // offset for heading
-              progressBar.style.height = `${linkRect.height}px`;
-            }
-          }
         } else {
-          link.classList.remove('!text-[var(--color-green)]', 'font-semibold');
+          link.classList.remove('!text-[#00C26D]', 'font-semibold');
           if (link.classList.contains('pl-3')) {
             link.classList.add('text-slate-400');
           } else {
@@ -90,6 +79,21 @@ const { headings } = Astro.props;
           }
         }
       });
+
+      // Calculate progress bar height from first link to active link
+      const firstLink = tocLinks[0];
+      const activeLink = Array.from(tocLinks).find(l => l.dataset.tocSlug === slug);
+      if (firstLink && activeLink && progressBar) {
+        const navRect = firstLink.closest('nav')?.getBoundingClientRect();
+        const firstRect = firstLink.getBoundingClientRect();
+        const activeRect = activeLink.getBoundingClientRect();
+        if (navRect) {
+          const startY = firstRect.top - navRect.top;
+          const endY = activeRect.top - navRect.top + activeRect.height;
+          progressBar.style.top = startY + 'px';
+          progressBar.style.height = (endY - startY) + 'px';
+        }
+      }
     }
 
     const observer = new IntersectionObserver(
@@ -99,7 +103,9 @@ const { headings } = Astro.props;
           .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
 
         if (visible.length > 0) {
-          setActive(visible[0].target.id);
+          const newSlug = visible[0].target.id;
+          setActive(newSlug);
+          history.replaceState(null, '', `#${newSlug}`);
         }
       },
       {
@@ -123,7 +129,7 @@ const { headings } = Astro.props;
         const target = document.getElementById(slug);
         if (target) {
           target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          history.pushState(null, '', `#${slug}`);
+          history.replaceState(null, '', `#${slug}`);
           setActive(slug);
         }
       });
