@@ -136,359 +136,396 @@ const jsonLd = [
     </div>
   </section>
 
-  <!-- 3D Road Workflow Visualization -->
-  <section class="road-section" id="concept" data-animate="fade-up">
-    <div class="container">
-      <div class="road-header">
+  <!-- Winding Road Engagement Journey -->
+  <section class="journey-section" id="concept">
+    <div class="journey-sticky">
+      <div class="journey-inner">
+        <div class="journey-header">
+          <h2>The Engagement Journey</h2>
+          <p class="text-large">
+            Every engagement follows a path. Servantium turns that path into a system that remembers, learns, and improves.
+          </p>
+        </div>
+
+        <!-- Desktop: Bird's-eye winding road SVG -->
+        <div class="journey-road-wrap" id="journey-road-wrap">
+          <svg viewBox="0 0 1200 500" class="journey-road-svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+            <!-- Road surface (wide grey path) -->
+            <path class="road-surface-path"
+              d="M 50,400 C 200,400 250,100 400,100 C 550,100 500,400 700,400 C 850,400 900,100 1050,150 L 1150,150"
+              stroke="#e2e8f0" stroke-width="44" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+            <!-- Road edge lines for depth -->
+            <path d="M 50,400 C 200,400 250,100 400,100 C 550,100 500,400 700,400 C 850,400 900,100 1050,150 L 1150,150"
+              stroke="#cbd5e1" stroke-width="46" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/>
+            <path d="M 50,400 C 200,400 250,100 400,100 C 550,100 500,400 700,400 C 850,400 900,100 1050,150 L 1150,150"
+              stroke="#e2e8f0" stroke-width="40" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+            <!-- Center dashed line -->
+            <path d="M 50,400 C 200,400 250,100 400,100 C 550,100 500,400 700,400 C 850,400 900,100 1050,150 L 1150,150"
+              stroke="white" stroke-width="2" fill="none" stroke-dasharray="12 8" stroke-linecap="round"/>
+
+            <!-- Green progress line (animated via stroke-dashoffset) -->
+            <path id="road-progress"
+              d="M 50,400 C 200,400 250,100 400,100 C 550,100 500,400 700,400 C 850,400 900,100 1050,150 L 1150,150"
+              stroke="#00C26D" stroke-width="4" fill="none" stroke-linecap="round"/>
+
+            <!-- Green glow behind progress line -->
+            <path id="road-progress-glow"
+              d="M 50,400 C 200,400 250,100 400,100 C 550,100 500,400 700,400 C 850,400 900,100 1050,150 L 1150,150"
+              stroke="#00C26D" stroke-width="12" fill="none" stroke-linecap="round" opacity="0.25"/>
+
+            <!-- Green particles flowing along the path -->
+            <circle r="4" fill="#00C26D" opacity="0.7">
+              <animateMotion dur="6s" repeatCount="indefinite" begin="0s"
+                path="M 50,400 C 200,400 250,100 400,100 C 550,100 500,400 700,400 C 850,400 900,100 1050,150 L 1150,150"/>
+            </circle>
+            <circle r="3" fill="#00C26D" opacity="0.5">
+              <animateMotion dur="6s" repeatCount="indefinite" begin="-2s"
+                path="M 50,400 C 200,400 250,100 400,100 C 550,100 500,400 700,400 C 850,400 900,100 1050,150 L 1150,150"/>
+            </circle>
+            <circle r="3.5" fill="#00C26D" opacity="0.6">
+              <animateMotion dur="6s" repeatCount="indefinite" begin="-4s"
+                path="M 50,400 C 200,400 250,100 400,100 C 550,100 500,400 700,400 C 850,400 900,100 1050,150 L 1150,150"/>
+            </circle>
+
+            <!-- Stop 1: Discovery -->
+            <g class="road-stop" data-stop="0">
+              <circle cx="50" cy="400" r="22" fill="white" stroke="#d1d5db" stroke-width="3" class="stop-ring"/>
+              <circle cx="50" cy="400" r="22" fill="none" stroke="#00C26D" stroke-width="3" class="stop-ring-active" opacity="0"/>
+              <text x="50" y="405" text-anchor="middle" font-size="14" font-weight="700" fill="#9ca3af" class="stop-num" font-family="Source Sans 3, sans-serif">1</text>
+              <text x="50" y="440" text-anchor="middle" font-size="13" font-weight="600" fill="#6b7280" class="stop-label" font-family="Source Sans 3, sans-serif">Discovery</text>
+            </g>
+
+            <!-- Stop 2: Estimation -->
+            <g class="road-stop" data-stop="1">
+              <circle cx="400" cy="100" r="22" fill="white" stroke="#d1d5db" stroke-width="3" class="stop-ring"/>
+              <circle cx="400" cy="100" r="22" fill="none" stroke="#4C82A7" stroke-width="3" class="stop-ring-active" opacity="0"/>
+              <text x="400" y="105" text-anchor="middle" font-size="14" font-weight="700" fill="#9ca3af" class="stop-num" font-family="Source Sans 3, sans-serif">2</text>
+              <text x="400" y="72" text-anchor="middle" font-size="13" font-weight="600" fill="#6b7280" class="stop-label" font-family="Source Sans 3, sans-serif">Estimation</text>
+            </g>
+
+            <!-- Stop 3: Proposal -->
+            <g class="road-stop" data-stop="2">
+              <circle cx="700" cy="400" r="22" fill="white" stroke="#d1d5db" stroke-width="3" class="stop-ring"/>
+              <circle cx="700" cy="400" r="22" fill="none" stroke="#FFB02E" stroke-width="3" class="stop-ring-active" opacity="0"/>
+              <text x="700" y="405" text-anchor="middle" font-size="14" font-weight="700" fill="#9ca3af" class="stop-num" font-family="Source Sans 3, sans-serif">3</text>
+              <text x="700" y="440" text-anchor="middle" font-size="13" font-weight="600" fill="#6b7280" class="stop-label" font-family="Source Sans 3, sans-serif">Proposal</text>
+            </g>
+
+            <!-- Stop 4: Delivery -->
+            <g class="road-stop" data-stop="3">
+              <circle cx="1050" cy="150" r="22" fill="white" stroke="#d1d5db" stroke-width="3" class="stop-ring"/>
+              <circle cx="1050" cy="150" r="22" fill="none" stroke="#26A899" stroke-width="3" class="stop-ring-active" opacity="0"/>
+              <text x="1050" y="155" text-anchor="middle" font-size="14" font-weight="700" fill="#9ca3af" class="stop-num" font-family="Source Sans 3, sans-serif">4</text>
+              <text x="1050" y="122" text-anchor="middle" font-size="13" font-weight="600" fill="#6b7280" class="stop-label" font-family="Source Sans 3, sans-serif">Delivery</text>
+            </g>
+
+            <!-- Stop 5: Learning -->
+            <g class="road-stop" data-stop="4">
+              <circle cx="1150" cy="150" r="22" fill="white" stroke="#d1d5db" stroke-width="3" class="stop-ring"/>
+              <circle cx="1150" cy="150" r="22" fill="none" stroke="#8B5CF6" stroke-width="3" class="stop-ring-active" opacity="0"/>
+              <text x="1150" y="155" text-anchor="middle" font-size="14" font-weight="700" fill="#9ca3af" class="stop-num" font-family="Source Sans 3, sans-serif">5</text>
+              <text x="1150" y="122" text-anchor="middle" font-size="13" font-weight="600" fill="#6b7280" class="stop-label" font-family="Source Sans 3, sans-serif">Learning</text>
+            </g>
+          </svg>
+        </div>
+
+        <!-- Detail panel below the road -->
+        <div class="journey-detail-panel" id="journey-detail-panel">
+          <div class="journey-detail-inner">
+            <div class="journey-detail-header">
+              <span class="journey-detail-number" id="journey-detail-number">1</span>
+              <h3 class="journey-detail-title" id="journey-detail-title">Discovery</h3>
+            </div>
+            <p class="journey-detail-desc" id="journey-detail-desc">Understand what your client actually needs. Capture context from every conversation, not just action items.</p>
+            <div class="journey-detail-features" id="journey-detail-features">
+              <span>Engagement workspace</span>
+              <span>AI note parsing</span>
+              <span>Similar matching</span>
+              <span>Service catalog</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile: Vertical road layout -->
+    <div class="journey-mobile" id="journey-mobile">
+      <div class="journey-mobile-header">
         <h2>The Engagement Journey</h2>
         <p class="text-large">
           Every engagement follows a path. Servantium turns that path into a system that remembers, learns, and improves.
         </p>
       </div>
+      <div class="journey-mobile-road">
+        <div class="journey-mobile-line"></div>
 
-      <!-- Desktop: 3D Perspective Road -->
-      <div class="road-viewport" id="road-viewport">
-        <div class="road-container">
-          <div class="road-surface">
-            <div class="road-center-line"></div>
-            <!-- Green particles flowing along the road -->
-            <div class="road-particle" style="animation-delay: 0s;"></div>
-            <div class="road-particle" style="animation-delay: 0.5s;"></div>
-            <div class="road-particle" style="animation-delay: 1.0s;"></div>
-            <div class="road-particle" style="animation-delay: 1.5s;"></div>
-            <div class="road-particle" style="animation-delay: 2.0s;"></div>
-            <div class="road-particle" style="animation-delay: 2.5s;"></div>
-
-            <!-- Stage markers along the road -->
-            <div class="stage-marker" data-stage="1">
-              <div class="stage-pin" style="background: #00C26D;">
-                <span class="stage-pin-num">1</span>
-              </div>
-              <div class="stage-pin-label">Discovery</div>
-              <div class="stage-sparkle"></div>
-            </div>
-            <div class="stage-marker" data-stage="2">
-              <div class="stage-pin" style="background: #4C82A7;">
-                <span class="stage-pin-num">2</span>
-              </div>
-              <div class="stage-pin-label">Estimation</div>
-              <div class="stage-sparkle"></div>
-            </div>
-            <div class="stage-marker" data-stage="3">
-              <div class="stage-pin" style="background: #FFB02E;">
-                <span class="stage-pin-num">3</span>
-              </div>
-              <div class="stage-pin-label">Proposal</div>
-              <div class="stage-sparkle"></div>
-            </div>
-            <div class="stage-marker" data-stage="4">
-              <div class="stage-pin" style="background: #26A899;">
-                <span class="stage-pin-num">4</span>
-              </div>
-              <div class="stage-pin-label">Delivery</div>
-              <div class="stage-sparkle"></div>
-            </div>
-            <div class="stage-marker" data-stage="5">
-              <div class="stage-pin" style="background: #9B59B6;">
-                <span class="stage-pin-num">5</span>
-              </div>
-              <div class="stage-pin-label">Learning</div>
-              <div class="stage-sparkle"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Mobile: Vertical road -->
-      <div class="road-mobile" id="road-mobile">
-        <div class="road-mobile-line"></div>
-        <div class="road-mobile-stage" data-stage="1">
-          <div class="road-mobile-pin" style="background: #00C26D;"><span>1</span></div>
-          <div class="road-mobile-info">
+        <div class="journey-mobile-stop">
+          <div class="journey-mobile-pin" style="background: #00C26D;"><span>1</span></div>
+          <div class="journey-mobile-content">
             <strong>Discovery</strong>
-            <span>Understand client needs</span>
+            <p>Understand what your client actually needs. Capture context from every conversation, not just action items.</p>
+            <div class="journey-mobile-features">
+              <span>Engagement workspace</span>
+              <span>AI note parsing</span>
+              <span>Similar matching</span>
+              <span>Service catalog</span>
+            </div>
           </div>
         </div>
-        <div class="road-mobile-stage" data-stage="2">
-          <div class="road-mobile-pin" style="background: #4C82A7;"><span>2</span></div>
-          <div class="road-mobile-info">
-            <strong>Estimation</strong>
-            <span>Build informed pricing</span>
-          </div>
-        </div>
-        <div class="road-mobile-stage" data-stage="3">
-          <div class="road-mobile-pin" style="background: #FFB02E;"><span>3</span></div>
-          <div class="road-mobile-info">
-            <strong>Proposal</strong>
-            <span>Generate winning proposals</span>
-          </div>
-        </div>
-        <div class="road-mobile-stage" data-stage="4">
-          <div class="road-mobile-pin" style="background: #26A899;"><span>4</span></div>
-          <div class="road-mobile-info">
-            <strong>Delivery</strong>
-            <span>Execute with visibility</span>
-          </div>
-        </div>
-        <div class="road-mobile-stage" data-stage="5">
-          <div class="road-mobile-pin" style="background: #9B59B6;"><span>5</span></div>
-          <div class="road-mobile-info">
-            <strong>Learning</strong>
-            <span>Compound your knowledge</span>
-          </div>
-        </div>
-      </div>
 
-      <!-- Detail panel below the road -->
-      <div class="road-detail-panel" id="road-detail-panel">
-        <div class="road-detail-inner">
-          <h3 class="road-detail-title" id="road-detail-title" style="color: #00C26D;">Discovery</h3>
-          <p class="road-detail-desc" id="road-detail-desc">Understand client needs, pain points, and desired outcomes before a single line item is written.</p>
-          <ul class="road-detail-features" id="road-detail-features">
-            <li>Structured intake and needs assessment</li>
-            <li>Pain point and outcome mapping</li>
-            <li>Context capture for downstream decisions</li>
-            <li>Similar engagement matching</li>
-          </ul>
+        <div class="journey-mobile-stop">
+          <div class="journey-mobile-pin" style="background: #4C82A7;"><span>2</span></div>
+          <div class="journey-mobile-content">
+            <strong>Estimation</strong>
+            <p>Build pricing that reflects reality, not guesswork. Every estimate draws from what you've actually delivered before.</p>
+            <div class="journey-mobile-features">
+              <span>Quote builder</span>
+              <span>Grouped sections</span>
+              <span>Margin calculator</span>
+              <span>AI generation</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="journey-mobile-stop">
+          <div class="journey-mobile-pin" style="background: #FFB02E;"><span>3</span></div>
+          <div class="journey-mobile-content">
+            <strong>Proposal</strong>
+            <p>Generate proposals that reflect your real service architecture. Scope, pricing, and deliverables flow from your estimation work.</p>
+            <div class="journey-mobile-features">
+              <span>Document generation</span>
+              <span>Template system</span>
+              <span>PDF export</span>
+              <span>Client review</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="journey-mobile-stop">
+          <div class="journey-mobile-pin" style="background: #26A899;"><span>4</span></div>
+          <div class="journey-mobile-content">
+            <strong>Delivery</strong>
+            <p>Execute with real-time visibility. Know who's doing what, when, and whether you're on track before it's too late.</p>
+            <div class="journey-mobile-features">
+              <span>Resource planning</span>
+              <span>Capacity tracking</span>
+              <span>Utilization metrics</span>
+              <span>Progress monitoring</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="journey-mobile-stop">
+          <div class="journey-mobile-pin" style="background: #8B5CF6;"><span>5</span></div>
+          <div class="journey-mobile-content">
+            <strong>Learning</strong>
+            <p>Every engagement makes the next one better. Your firm gets smarter automatically.</p>
+            <div class="journey-mobile-features">
+              <span>Institutional memory</span>
+              <span>Note embeddings</span>
+              <span>Learning catalog</span>
+              <span>Vector search</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
   <style>
-    /* ── 3D Road Visualization ── */
-    .road-section {
-      padding: 4rem 0 3rem;
-      background: var(--color-white);
+    /* ── Winding Road Engagement Journey ── */
+    .journey-section {
+      position: relative;
+      min-height: 180vh;
+      background: var(--color-white, #fff);
     }
-    .road-header {
+
+    .journey-sticky {
+      position: sticky;
+      top: 4rem;
+      height: calc(100vh - 5rem);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .journey-inner {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    .journey-header {
       text-align: center;
       max-width: 700px;
-      margin: 0 auto 2.5rem;
+      margin: 0 auto 2rem;
     }
-    .road-header h2 {
+    .journey-header h2 {
       margin-bottom: 0.75rem;
     }
 
-    /* Desktop road viewport */
-    .road-viewport {
+    /* SVG Road */
+    .journey-road-wrap {
       position: relative;
-      height: 500px;
-      perspective: 800px;
-      overflow: hidden;
-      background: linear-gradient(to bottom, #f0f9f4 0%, white 100%);
-      border-radius: 16px;
+      max-width: 1000px;
       margin: 0 auto;
-      max-width: 800px;
     }
-    .road-container {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-    }
-    .road-surface {
-      position: relative;
-      width: 300px;
-      height: 600px;
-      background: #2d2d3d;
-      clip-path: polygon(35% 0%, 65% 0%, 100% 100%, 0% 100%);
-      transform: rotateX(55deg);
-      transform-origin: center bottom;
-      transition: transform 0.1s linear;
+    .journey-road-svg {
+      width: 100%;
+      height: auto;
+      display: block;
     }
 
-    /* Dashed center line */
-    .road-center-line {
-      position: absolute;
-      left: 50%;
-      top: 0;
-      bottom: 0;
-      width: 4px;
-      margin-left: -2px;
-      background: repeating-linear-gradient(to bottom, white 0px, white 20px, transparent 20px, transparent 40px);
-      animation: roadLineScroll 2s linear infinite;
-      opacity: 0.7;
+    /* Stop markers */
+    .road-stop {
+      cursor: pointer;
+      transition: filter 0.4s ease;
     }
-    @keyframes roadLineScroll {
-      to { transform: translateY(40px); }
+    .road-stop .stop-ring {
+      transition: stroke 0.3s ease, opacity 0.3s ease;
     }
-
-    /* Green flowing particles */
-    .road-particle {
-      position: absolute;
-      left: 50%;
-      margin-left: -3px;
-      width: 6px;
-      height: 6px;
-      background: #00C26D;
-      border-radius: 50%;
-      box-shadow: 0 0 8px #00C26D, 0 0 16px rgba(0, 194, 109, 0.3);
-      animation: particleFlow 3s linear infinite;
-      z-index: 3;
+    .road-stop .stop-ring-active {
+      transition: opacity 0.4s ease;
     }
-    @keyframes particleFlow {
-      0% { top: 0; opacity: 0; transform: scale(0.5); }
-      10% { opacity: 1; transform: scale(0.6); }
-      90% { opacity: 1; transform: scale(1.2); }
-      100% { top: 100%; opacity: 0; transform: scale(1.4); }
+    .road-stop .stop-num {
+      transition: fill 0.3s ease;
     }
-
-    /* Stage markers positioned along the road */
-    .stage-marker {
-      position: absolute;
-      left: 50%;
-      z-index: 4;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      transition: transform 0.4s var(--ease-spring, cubic-bezier(0.16, 1, 0.3, 1)), opacity 0.3s ease;
+    .road-stop .stop-label {
+      transition: fill 0.3s ease;
     }
-    .stage-marker[data-stage="1"] { top: 8%; transform: translateX(-50%) scale(0.5); }
-    .stage-marker[data-stage="2"] { top: 24%; transform: translateX(-50%) scale(0.6); }
-    .stage-marker[data-stage="3"] { top: 42%; transform: translateX(-50%) scale(0.75); }
-    .stage-marker[data-stage="4"] { top: 62%; transform: translateX(-50%) scale(0.88); }
-    .stage-marker[data-stage="5"] { top: 80%; transform: translateX(-50%) scale(1.0); }
-
-    .stage-marker.active .stage-pin {
-      box-shadow: 0 0 20px rgba(0, 194, 109, 0.6), 0 0 40px rgba(0, 194, 109, 0.2);
-      transform: scale(1.15);
+    .road-stop.active .stop-ring {
+      opacity: 0;
     }
-    .stage-marker.active .stage-sparkle {
+    .road-stop.active .stop-ring-active {
       opacity: 1;
     }
+    .road-stop.active {
+      filter: drop-shadow(0 0 12px rgba(0, 194, 109, 0.5));
+    }
+    /* Per-stop active glow colors */
+    .road-stop[data-stop="0"].active { filter: drop-shadow(0 0 12px rgba(0, 194, 109, 0.6)); }
+    .road-stop[data-stop="1"].active { filter: drop-shadow(0 0 12px rgba(76, 130, 167, 0.6)); }
+    .road-stop[data-stop="2"].active { filter: drop-shadow(0 0 12px rgba(255, 176, 46, 0.6)); }
+    .road-stop[data-stop="3"].active { filter: drop-shadow(0 0 12px rgba(38, 168, 153, 0.6)); }
+    .road-stop[data-stop="4"].active { filter: drop-shadow(0 0 12px rgba(139, 92, 246, 0.6)); }
 
-    .stage-pin {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
+    /* Detail panel */
+    .journey-detail-panel {
+      max-width: 640px;
+      margin: 1.5rem auto 0;
+      background: var(--color-mint-tint, #F3FCF8);
+      border-radius: 12px;
+      padding: 1.5rem 2rem;
+      border: 1px solid var(--color-cloud-grey, #E1E3E6);
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+    .journey-detail-panel.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .journey-detail-header {
       display: flex;
       align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.5rem;
+    }
+    .journey-detail-number {
+      display: inline-flex;
+      align-items: center;
       justify-content: center;
+      width: 32px;
+      height: 32px;
+      min-width: 32px;
+      border-radius: 50%;
+      background: #00C26D;
       color: white;
       font-weight: 700;
       font-size: 14px;
       font-family: var(--font-body, 'Source Sans 3', sans-serif);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-      transition: box-shadow 0.3s ease, transform 0.3s ease;
-      cursor: pointer;
+      transition: background 0.3s ease;
     }
-    .stage-pin-num {
-      line-height: 1;
-    }
-    .stage-pin-label {
-      margin-top: 4px;
-      font-size: 10px;
-      font-weight: 600;
-      color: white;
-      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-      white-space: nowrap;
-      letter-spacing: 0.03em;
-    }
-
-    /* Sparkle effect on active markers */
-    .stage-sparkle {
-      position: absolute;
-      top: -4px;
-      left: 50%;
-      margin-left: -20px;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      border: 2px solid rgba(0, 194, 109, 0.4);
-      opacity: 0;
-      animation: sparkle 2s ease-in-out infinite;
-      pointer-events: none;
-    }
-    @keyframes sparkle {
-      0%, 100% { transform: scale(0.8); opacity: 0; }
-      50% { transform: scale(1.5); opacity: 0.6; }
-    }
-
-    /* Detail panel below the road */
-    .road-detail-panel {
-      max-width: 600px;
-      margin: 2rem auto 0;
-      background: var(--color-mint-tint, #F3FCF8);
-      border-radius: 12px;
-      padding: 2rem;
-      border: 1px solid var(--color-cloud-grey, #E1E3E6);
-      opacity: 0;
-      transform: translateY(12px);
-      transition: opacity 0.35s ease, transform 0.35s ease;
-    }
-    .road-detail-panel.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .road-detail-title {
+    .journey-detail-title {
       font-family: var(--font-display, 'Playfair Display', serif);
-      font-size: 1.5rem;
-      margin-bottom: 0.5rem;
+      font-size: 1.4rem;
+      margin: 0;
+      color: var(--color-ink, #0D0D0D);
       transition: color 0.3s ease;
     }
-    .road-detail-desc {
+    .journey-detail-desc {
       color: var(--color-ink-light, #3d3d3d);
       line-height: 1.7;
-      font-size: 1.05rem;
-      margin-bottom: 1rem;
+      font-size: 1rem;
+      margin-bottom: 0.75rem;
     }
-    .road-detail-features {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.4rem 1.5rem;
+    .journey-detail-features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
     }
-    .road-detail-features li {
-      position: relative;
-      padding-left: 1.4rem;
-      font-size: 0.9rem;
+    .journey-detail-features span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.85rem;
       color: var(--color-ink-light, #3d3d3d);
-      line-height: 1.5;
+      background: white;
+      border: 1px solid var(--color-cloud-grey, #E1E3E6);
+      border-radius: 6px;
+      padding: 0.3rem 0.65rem;
     }
-    .road-detail-features li::before {
+    .journey-detail-features span::before {
       content: '';
-      position: absolute;
-      left: 0;
-      top: 0.5em;
-      width: 14px;
-      height: 14px;
+      display: inline-block;
+      width: 12px;
+      height: 12px;
       background: url("data:image/svg+xml,%3Csvg viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M16.7 5.3a1 1 0 010 1.4l-8 8a1 1 0 01-1.4 0l-4-4a1 1 0 111.4-1.4L8 12.6l7.3-7.3a1 1 0 011.4 0z' fill='%2300C26D'/%3E%3C/svg%3E") no-repeat center;
       background-size: contain;
+      flex-shrink: 0;
     }
 
-    /* Mobile vertical road */
-    .road-mobile {
+    /* ── Mobile vertical layout ── */
+    .journey-mobile {
       display: none;
-      position: relative;
-      padding-left: 60px;
+      padding: 4rem 0 3rem;
     }
-    .road-mobile-line {
+    .journey-mobile-header {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 2.5rem;
+      padding: 0 1.5rem;
+    }
+    .journey-mobile-header h2 {
+      margin-bottom: 0.75rem;
+    }
+    .journey-mobile-road {
+      position: relative;
+      max-width: 560px;
+      margin: 0 auto;
+      padding-left: 56px;
+      padding-right: 1rem;
+    }
+    .journey-mobile-line {
       position: absolute;
-      left: 24px;
-      top: 0;
-      bottom: 0;
+      left: 30px;
+      top: 12px;
+      bottom: 12px;
       width: 4px;
-      background: linear-gradient(to bottom, #00C26D, #4C82A7, #FFB02E, #26A899, #9B59B6);
+      background: linear-gradient(to bottom, #00C26D, #4C82A7, #FFB02E, #26A899, #8B5CF6);
       border-radius: 2px;
     }
-    .road-mobile-stage {
+    .journey-mobile-stop {
       display: flex;
       align-items: flex-start;
       gap: 1rem;
       padding: 1.25rem 0;
       position: relative;
-      cursor: pointer;
-      transition: opacity 0.3s ease;
     }
-    .road-mobile-stage.active .road-mobile-pin {
-      box-shadow: 0 0 12px rgba(0, 194, 109, 0.5);
-      transform: scale(1.1);
-    }
-    .road-mobile-pin {
+    .journey-mobile-pin {
       width: 40px;
       height: 40px;
       min-width: 40px;
@@ -499,35 +536,59 @@ const jsonLd = [
       color: white;
       font-weight: 700;
       font-size: 14px;
-      margin-left: -32px;
+      margin-left: -28px;
       z-index: 2;
-      transition: box-shadow 0.3s ease, transform 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      font-family: var(--font-body, 'Source Sans 3', sans-serif);
     }
-    .road-mobile-info {
-      display: flex;
-      flex-direction: column;
-      gap: 0.15rem;
+    .journey-mobile-content {
+      flex: 1;
     }
-    .road-mobile-info strong {
-      font-size: 1rem;
+    .journey-mobile-content strong {
+      display: block;
+      font-size: 1.1rem;
       color: var(--color-ink, #0D0D0D);
+      margin-bottom: 0.25rem;
     }
-    .road-mobile-info span {
-      font-size: 0.85rem;
+    .journey-mobile-content p {
+      font-size: 0.9rem;
+      color: var(--color-ink-light, #3d3d3d);
+      line-height: 1.6;
+      margin: 0 0 0.5rem;
+    }
+    .journey-mobile-features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+    }
+    .journey-mobile-features span {
+      font-size: 0.8rem;
       color: var(--color-ink-muted, #6b6b6b);
+      background: var(--color-mist-grey, #F5F6F7);
+      border-radius: 4px;
+      padding: 0.2rem 0.5rem;
     }
 
+    /* ── Responsive ── */
     @media (max-width: 768px) {
-      .road-viewport { display: none; }
-      .road-mobile { display: block; }
-      .road-detail-features { grid-template-columns: 1fr; }
+      .journey-section {
+        min-height: auto;
+      }
+      .journey-sticky {
+        display: none;
+      }
+      .journey-mobile {
+        display: block;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .road-center-line,
-      .road-particle,
-      .stage-sparkle {
+      .journey-road-svg circle animateMotion {
         animation: none !important;
+      }
+      #road-progress,
+      #road-progress-glow {
+        transition: none !important;
       }
     }
   </style>
@@ -822,102 +883,154 @@ const jsonLd = [
   document.addEventListener('astro:page-load', initScrollAnimations);
 </script>
 
-<!-- 3D Road scroll interaction -->
+<!-- Winding road scroll interaction -->
 <script is:inline>
-  function initRoadAnimation() {
-    var roadSection = document.querySelector('.road-section');
-    var markers = document.querySelectorAll('.stage-marker');
-    var mobileStages = document.querySelectorAll('.road-mobile-stage');
-    var detailPanel = document.getElementById('road-detail-panel');
-    var detailTitle = document.getElementById('road-detail-title');
-    var detailDesc = document.getElementById('road-detail-desc');
-    var detailFeatures = document.getElementById('road-detail-features');
+  function initJourneyRoad() {
+    var section = document.querySelector('.journey-section');
+    var progressPath = document.getElementById('road-progress');
+    var glowPath = document.getElementById('road-progress-glow');
+    var stops = document.querySelectorAll('.road-stop');
+    var detailPanel = document.getElementById('journey-detail-panel');
+    var detailNumber = document.getElementById('journey-detail-number');
+    var detailTitle = document.getElementById('journey-detail-title');
+    var detailDesc = document.getElementById('journey-detail-desc');
+    var detailFeatures = document.getElementById('journey-detail-features');
 
-    if (!roadSection) return;
+    if (!section || !progressPath) return;
 
-    var roadStages = [
-      { title: 'Discovery', color: '#00C26D', desc: 'Understand client needs, pain points, and desired outcomes before a single line item is written.', features: ['Structured intake and needs assessment', 'Pain point and outcome mapping', 'Context capture for downstream decisions', 'Similar engagement matching'] },
-      { title: 'Estimation', color: '#4C82A7', desc: 'Transform discovery into structured scope and pricing, informed by every project your firm has delivered.', features: ['Service definition templates', 'Historical data-driven pricing', 'Effort and resource modeling', 'AI-powered quote generation'] },
-      { title: 'Proposal', color: '#FFB02E', desc: 'Generate professional proposals directly from your service architecture and pricing data.', features: ['Auto-generated scope documents', 'Pricing tied to service definitions', 'Branded deliverable templates', 'One-click PDF export'] },
-      { title: 'Delivery', color: '#26A899', desc: 'Execute with real-time visibility into progress, margin, and resource utilization.', features: ['Live utilization tracking', 'Margin and burn-rate dashboards', 'Milestone management', 'Cross-engagement visibility'] },
-      { title: 'Learning', color: '#9B59B6', desc: 'Every engagement feeds back into your institutional memory, making each future project smarter.', features: ['Engagement retrospectives', 'Pattern recognition across projects', 'Service definition refinement', 'Estimate accuracy tracking'] }
+    // Stage data
+    var stages = [
+      { title: 'Discovery', color: '#00C26D', num: '1',
+        desc: 'Understand what your client actually needs. Capture context from every conversation, not just action items.',
+        features: ['Engagement workspace', 'AI note parsing', 'Similar matching', 'Service catalog'] },
+      { title: 'Estimation', color: '#4C82A7', num: '2',
+        desc: 'Build pricing that reflects reality, not guesswork. Every estimate draws from what you\'ve actually delivered before.',
+        features: ['Quote builder', 'Grouped sections', 'Margin calculator', 'AI generation'] },
+      { title: 'Proposal', color: '#FFB02E', num: '3',
+        desc: 'Generate proposals that reflect your real service architecture. Scope, pricing, and deliverables flow from your estimation work.',
+        features: ['Document generation', 'Template system', 'PDF export', 'Client review'] },
+      { title: 'Delivery', color: '#26A899', num: '4',
+        desc: 'Execute with real-time visibility. Know who\'s doing what, when, and whether you\'re on track before it\'s too late.',
+        features: ['Resource planning', 'Capacity tracking', 'Utilization metrics', 'Progress monitoring'] },
+      { title: 'Learning', color: '#8B5CF6', num: '5',
+        desc: 'Every engagement makes the next one better. Your firm gets smarter automatically.',
+        features: ['Institutional memory', 'Note embeddings', 'Learning catalog', 'Vector search'] }
     ];
 
+    // Stop positions along the path as fractions (0-1)
+    // These correspond to approximate positions on the cubic bezier path
+    var stopPositions = [0.0, 0.22, 0.52, 0.82, 1.0];
+
+    // Get total path length and set up dash animation
+    var totalLength = progressPath.getTotalLength();
+    progressPath.style.strokeDasharray = totalLength;
+    progressPath.style.strokeDashoffset = totalLength;
+    if (glowPath) {
+      glowPath.style.strokeDasharray = totalLength;
+      glowPath.style.strokeDashoffset = totalLength;
+    }
+
     var currentStage = -1;
+    var ticking = false;
 
     function setActiveStage(index) {
       if (index === currentStage) return;
       currentStage = index;
-      var stage = roadStages[index];
+      var stage = stages[index];
 
-      // Update desktop markers
-      markers.forEach(function(m, i) {
-        m.classList.toggle('active', i === index);
-      });
+      // Update stop markers
+      stops.forEach(function(stop, i) {
+        var isActive = i <= index;
+        var isCurrent = i === index;
+        var stopColor = stages[i].color;
 
-      // Update mobile stages
-      mobileStages.forEach(function(m, i) {
-        m.classList.toggle('active', i === index);
+        stop.classList.toggle('active', isCurrent);
+
+        // Update number color
+        var numEl = stop.querySelector('.stop-num');
+        if (numEl) numEl.setAttribute('fill', isActive ? stopColor : '#9ca3af');
+
+        // Update label color
+        var labelEl = stop.querySelector('.stop-label');
+        if (labelEl) labelEl.setAttribute('fill', isActive ? '#0D0D0D' : '#6b7280');
       });
 
       // Update detail panel
       if (detailPanel) {
         detailPanel.classList.remove('visible');
         setTimeout(function() {
-          if (detailTitle) { detailTitle.textContent = stage.title; detailTitle.style.color = stage.color; }
+          if (detailNumber) {
+            detailNumber.textContent = stage.num;
+            detailNumber.style.background = stage.color;
+          }
+          if (detailTitle) detailTitle.textContent = stage.title;
           if (detailDesc) detailDesc.textContent = stage.desc;
           if (detailFeatures) {
-            detailFeatures.innerHTML = stage.features.map(function(f) { return '<li>' + f + '</li>'; }).join('');
+            detailFeatures.innerHTML = stage.features.map(function(f) {
+              return '<span>' + f + '</span>';
+            }).join('');
           }
           detailPanel.classList.add('visible');
-        }, 180);
+        }, 150);
       }
     }
 
-    // Click on markers (desktop)
-    markers.forEach(function(m, i) {
-      m.addEventListener('click', function() { setActiveStage(i); });
+    // Click on stops
+    stops.forEach(function(stop, i) {
+      stop.addEventListener('click', function() { setActiveStage(i); });
     });
 
-    // Click on mobile stages
-    mobileStages.forEach(function(m, i) {
-      m.addEventListener('click', function() { setActiveStage(i); });
-    });
+    function updateRoad() {
+      var rect = section.getBoundingClientRect();
+      var sectionHeight = rect.height;
+      var scrolled = Math.max(0, -rect.top);
+      var progress = Math.min(1, scrolled / (sectionHeight - window.innerHeight));
 
-    // Scroll-linked animation
-    var animated = false;
-    var roadObserver = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting && !animated) {
-          animated = true;
-          setActiveStage(0);
-          if (detailPanel) {
-            setTimeout(function() { detailPanel.classList.add('visible'); }, 500);
-          }
+      // Advance the green progress line
+      var offset = totalLength * (1 - progress);
+      progressPath.style.strokeDashoffset = offset;
+      if (glowPath) glowPath.style.strokeDashoffset = offset;
+
+      // Determine active stop based on progress
+      var activeIndex = 0;
+      for (var i = 0; i < stopPositions.length; i++) {
+        if (progress >= stopPositions[i] - 0.05) {
+          activeIndex = i;
         }
-      });
-    }, { threshold: 0.2 });
-    roadObserver.observe(roadSection);
-
-    // Scroll-driven stage progression
-    function onScroll() {
-      if (!animated) return;
-      var rect = roadSection.getBoundingClientRect();
-      var progress = 1 - (rect.top / window.innerHeight);
-      var clampedProgress = Math.max(0, Math.min(1, progress));
-      var activeIndex = Math.min(4, Math.max(0, Math.floor(clampedProgress * 5)));
+      }
       setActiveStage(activeIndex);
+      ticking = false;
     }
+
+    function onScroll() {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(updateRoad);
+      }
+    }
+
     window.addEventListener('scroll', onScroll, { passive: true });
 
-    // Initialize
+    // Initialize: show first stage
     setActiveStage(0);
+    updateRoad();
+
+    // Show detail panel once section is visible
+    var journeyObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting && detailPanel) {
+          setTimeout(function() { detailPanel.classList.add('visible'); }, 300);
+          journeyObserver.unobserve(section);
+        }
+      });
+    }, { threshold: 0.1 });
+    journeyObserver.observe(section);
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initRoadAnimation);
+    document.addEventListener('DOMContentLoaded', initJourneyRoad);
   } else {
-    initRoadAnimation();
+    initJourneyRoad();
   }
-  document.addEventListener('astro:page-load', initRoadAnimation);
+  document.addEventListener('astro:page-load', initJourneyRoad);
 </script>
