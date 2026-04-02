@@ -14,160 +14,237 @@ interface Props {
 }
 
 const {
-  title = 'The Engagement Journey',
+  title = 'The Servantium Journey',
   subtitle,
   stops,
 } = Astro.props;
 
-// Stage accent colors and glow hues
-const stageThemes = [
-  { glow: '#22c55e', label: 'Discovery' },
-  { glow: '#3b82f6', label: 'Estimation' },
-  { glow: '#f59e0b', label: 'Proposal' },
-  { glow: '#14b8a6', label: 'Delivery' },
-  { glow: '#a855f7', label: 'Learning' },
+const stations = [
+  { glow: '#00C26D', label: 'Discovery', tagline: 'Scanning for opportunities.' },
+  { glow: '#4C82A7', label: 'Estimation', tagline: 'Calculating the approach.' },
+  { glow: '#FFB02E', label: 'Proposal', tagline: 'Charting the course.' },
+  { glow: '#26A899', label: 'Delivery', tagline: 'Mission in progress.' },
+  { glow: '#8B5CF6', label: 'Learning', tagline: 'Knowledge compounds.' },
 ];
 ---
 
-<!-- Desktop: First-person space journey -->
-<section class="engagement-road" aria-label={title}>
-  <div class="road-scroll-spacer" style={`height: ${(stops.length + 1) * 100}vh;`}>
-    <div class="road-viewport">
-      <!-- Starfield background (CSS-only) — covers full viewport -->
-      <div class="starfield" aria-hidden="true">
-        {Array.from({ length: 120 }).map((_, i) => (
+<!-- Desktop: The Servantium Journey — scroll through 5 space stations -->
+<section class="journey" aria-label={title}>
+  <div class="journey-scroll-spacer" style={`min-height: ${stops.length * 100}vh;`}>
+    <div class="journey-viewport">
+      <!-- Static starfield -->
+      <div class="journey-stars" aria-hidden="true">
+        {Array.from({ length: 100 }).map((_, i) => (
           <div
-            class="star"
-            style={`left: ${(i * 13 + 3) % 100}%; top: ${(i * 23 + 7) % 100}%; width: ${1 + (i % 3)}px; height: ${1 + (i % 3)}px; opacity: ${0.3 + (i % 5) * 0.15};`}
+            class="journey-star"
+            style={`left: ${(i * 17 + 3) % 100}%; top: ${(i * 29 + 7) % 100}%; width: ${1 + (i % 3)}px; height: ${1 + (i % 3)}px; opacity: ${0.2 + (i % 5) * 0.12};`}
           ></div>
         ))}
       </div>
 
-      <!-- Star parallax layers for depth -->
-      <div class="stars-far" aria-hidden="true">
-        {Array.from({ length: 40 }).map((_, i) => (
-          <div
-            class="parallax-star"
-            style={`left: ${(i * 17 + 11) % 100}%; top: ${(i * 29 + 5) % 100}%; width: ${1 + (i % 2)}px; height: ${1 + (i % 2)}px; opacity: ${0.15 + (i % 4) * 0.08};`}
-          ></div>
-        ))}
-      </div>
-      <div class="stars-near" aria-hidden="true">
-        {Array.from({ length: 20 }).map((_, i) => (
-          <div
-            class="parallax-star"
-            style={`left: ${(i * 23 + 7) % 100}%; top: ${(i * 31 + 13) % 100}%; width: ${2 + (i % 2)}px; height: ${2 + (i % 2)}px; opacity: ${0.4 + (i % 3) * 0.15};`}
-          ></div>
+      <!-- Progress indicator — vertical dotted line on left -->
+      <div class="journey-progress" aria-hidden="true">
+        <div class="journey-progress-line"></div>
+        <div class="journey-progress-fill"></div>
+        {stations.map((_, i) => (
+          <div class="journey-progress-dot" data-progress-dot={i}></div>
         ))}
       </div>
 
-      <!-- Star streaks during transitions -->
-      <div class="star-streaks" aria-hidden="true">
-        <div class="streak-line" style="top: 15%; left: 5%; right: 35%;"></div>
-        <div class="streak-line" style="top: 28%; left: 12%; right: 20%;"></div>
-        <div class="streak-line" style="top: 42%; left: 8%; right: 30%;"></div>
-        <div class="streak-line" style="top: 55%; left: 18%; right: 12%;"></div>
-        <div class="streak-line" style="top: 68%; left: 10%; right: 28%;"></div>
-        <div class="streak-line" style="top: 78%; left: 22%; right: 18%;"></div>
-        <div class="streak-line" style="top: 88%; left: 15%; right: 25%;"></div>
+      <!-- Floating astronaut -->
+      <div class="journey-astronaut" aria-hidden="true">
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="40" r="25" fill="white" stroke="#0D0D0D" stroke-width="2"/>
+          <ellipse cx="50" cy="42" rx="15" ry="12" fill="#00C26D" opacity="0.8"/>
+          <rect x="35" y="60" width="30" height="25" rx="8" fill="white" stroke="#0D0D0D" stroke-width="2"/>
+          <rect x="60" y="62" width="12" height="20" rx="3" fill="white" stroke="#0D0D0D" stroke-width="2"/>
+          <rect x="20" y="65" width="18" height="8" rx="4" fill="white" stroke="#0D0D0D" stroke-width="2"/>
+          <rect x="62" y="70" width="18" height="8" rx="4" fill="white" stroke="#0D0D0D" stroke-width="2"/>
+          <line x1="50" y1="15" x2="50" y2="8" stroke="#6b6b6b" stroke-width="1.5" fill="none"/>
+          <circle cx="50" cy="6" r="3" fill="#00C26D"/>
+          <path d="M38 35 Q42 30 48 32" stroke="white" stroke-width="1.5" fill="none" opacity="0.5"/>
+        </svg>
       </div>
 
-      <!-- Floating decorative orbs -->
-      <div class="floating-orbs" aria-hidden="true">
-        {(() => {
-          const orbConfigs = [
-            { size: 8, x: 3, y: 20, delay: 0, fromLeft: true },
-            { size: 12, x: 6, y: 45, delay: 1.2, fromLeft: true },
-            { size: 6, x: 8, y: 70, delay: 2.5, fromLeft: true },
-            { size: 14, x: 4, y: 85, delay: 0.8, fromLeft: true },
-            { size: 10, x: 5, y: 35, delay: 3.1, fromLeft: true },
-            { size: 10, x: 94, y: 15, delay: 0.5, fromLeft: false },
-            { size: 16, x: 92, y: 40, delay: 1.8, fromLeft: false },
-            { size: 8, x: 96, y: 60, delay: 2.2, fromLeft: false },
-            { size: 12, x: 93, y: 78, delay: 3.5, fromLeft: false },
-            { size: 6, x: 95, y: 55, delay: 0.3, fromLeft: false },
-          ];
-          return orbConfigs.map((orb, i) => (
-            <div
-              class="floating-orb"
-              data-orb-index={i}
-              style={`
-                width: ${orb.size}px;
-                height: ${orb.size}px;
-                left: ${orb.x}%;
-                top: ${orb.y}%;
-                animation-delay: ${orb.delay}s;
-                animation-name: ${orb.fromLeft ? 'orb-drift-left' : 'orb-drift-right'};
-              `}
-            ></div>
-          ));
-        })()}
-      </div>
-
-      <!-- Stop content panels -->
+      <!-- Station panels -->
       {stops.map((stop, i) => {
-        const theme = stageThemes[i] || stageThemes[0];
+        const station = stations[i] || stations[0];
         return (
           <div
-            class="stop-content"
-            data-state={i === 0 ? 'active' : 'approaching'}
-            data-index={i}
+            class="station-panel"
+            data-station-state={i === 0 ? 'active' : 'upcoming'}
+            data-station-index={i}
           >
-            <div class="stop-nebula-glow" style={`background: ${theme.glow};`}></div>
-            <div class="stop-icon-wrap" style={`--stage-glow: ${theme.glow};`}>
-              {i === 0 && (
-                <svg class="stop-svg-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="24" cy="24" r="16" stroke="white" stroke-width="1.5"/>
-                  <circle cx="24" cy="24" r="8" stroke="white" stroke-width="1.5"/>
-                  <line x1="24" y1="4" x2="24" y2="12" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-                  <line x1="24" y1="36" x2="24" y2="44" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-                  <line x1="4" y1="24" x2="12" y2="24" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-                  <line x1="36" y1="24" x2="44" y2="24" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-                </svg>
-              )}
-              {i === 1 && (
-                <svg class="stop-svg-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect x="6" y="10" width="36" height="28" rx="3" stroke="white" stroke-width="1.5"/>
-                  <polyline points="10,34 18,22 24,28 32,16 38,20" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                  <line x1="6" y1="34" x2="42" y2="34" stroke="white" stroke-width="1.5"/>
-                </svg>
-              )}
-              {i === 2 && (
-                <svg class="stop-svg-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect x="10" y="6" width="28" height="36" rx="3" stroke="white" stroke-width="1.5"/>
-                  <line x1="16" y1="14" x2="32" y2="14" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-                  <line x1="16" y1="20" x2="32" y2="20" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-                  <line x1="16" y1="26" x2="28" y2="26" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-                  <circle cx="30" cy="34" r="6" stroke="white" stroke-width="1.5"/>
-                  <path d="M28 34 L30 36 L33 32" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              )}
-              {i === 3 && (
-                <svg class="stop-svg-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M24 6 L28 20 L24 18 L20 20 Z" stroke="white" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
-                  <path d="M20 20 L16 26 L24 18 L32 26 L28 20" stroke="white" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
-                  <path d="M16 26 L14 42 L24 36 L34 42 L32 26" stroke="white" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
-                  <circle cx="24" cy="38" r="1" fill="white"/>
-                  <circle cx="20" cy="40" r="0.8" fill="white" opacity="0.6"/>
-                  <circle cx="28" cy="40" r="0.8" fill="white" opacity="0.6"/>
-                </svg>
-              )}
-              {i === 4 && (
-                <svg class="stop-svg-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M24 8 C18 8 12 14 12 22 C12 30 18 36 24 40 C30 36 36 30 36 22 C36 14 30 8 24 8Z" stroke="white" stroke-width="1.5" fill="none"/>
-                  <path d="M16 20 C18 16 22 14 24 18 C26 14 30 16 32 20" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-                  <path d="M16 24 C18 28 22 30 24 26 C26 30 30 28 32 24" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-                  <line x1="24" y1="14" x2="24" y2="32" stroke="white" stroke-width="1" opacity="0.4"/>
-                </svg>
-              )}
-            </div>
-            <div class="stop-stage">Stage {i + 1}</div>
-            <h3 class="stop-title">{stop.title}</h3>
-            <p class="stop-description">{stop.description}</p>
-            <div class="stop-features">
+            <div class="station-glow" style={`background: ${station.glow};`}></div>
+
+            <div class="station-illustration" set:html={
+              i === 0 ? `<!-- Discovery Station: Satellite dish with radar -->
+<svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" width="200" height="200">
+  <ellipse cx="100" cy="120" rx="60" ry="20" stroke="white" stroke-width="2"/>
+  <path d="M100 120 L100 60" stroke="white" stroke-width="2"/>
+  <circle cx="100" cy="55" r="8" stroke="#00C26D" stroke-width="2" fill="#00C26D" fill-opacity="0.2"/>
+  <path d="M100 55 L130 30" stroke="#00C26D" stroke-width="1.5" opacity="0.6"/>
+  <circle cx="130" cy="30" r="3" fill="#00C26D" opacity="0.8"/>
+  <path d="M80 40 Q100 25 120 40" stroke="#00C26D" stroke-width="1" fill="none" opacity="0.4"/>
+  <path d="M70 30 Q100 10 130 30" stroke="#00C26D" stroke-width="1" fill="none" opacity="0.3"/>
+  <rect x="85" y="120" width="30" height="40" rx="4" stroke="white" stroke-width="1.5" fill="white" fill-opacity="0.05"/>
+  <circle cx="40" cy="40" r="1.5" fill="white" opacity="0.6"/>
+  <circle cx="160" cy="50" r="1" fill="white" opacity="0.4"/>
+  <circle cx="30" cy="90" r="1" fill="#00C26D" opacity="0.5"/>
+</svg>` :
+              i === 1 ? `<!-- Estimation Station: Holographic data panels -->
+<svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" width="200" height="200">
+  <!-- Back panel -->
+  <rect x="55" y="35" width="90" height="65" rx="4" stroke="#4C82A7" stroke-width="1.5" fill="#4C82A7" fill-opacity="0.08" transform="rotate(-6 100 67)"/>
+  <!-- Middle panel -->
+  <rect x="45" y="50" width="90" height="65" rx="4" stroke="white" stroke-width="1.5" fill="white" fill-opacity="0.05" transform="rotate(3 90 82)"/>
+  <!-- Front panel -->
+  <rect x="50" y="65" width="100" height="70" rx="4" stroke="white" stroke-width="2" fill="white" fill-opacity="0.04"/>
+  <!-- Chart line -->
+  <polyline points="62,118 75,105 88,112 100,95 112,100 125,88 138,92" stroke="#4C82A7" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Data dots -->
+  <circle cx="75" cy="105" r="2.5" fill="#4C82A7" fill-opacity="0.6"/>
+  <circle cx="100" cy="95" r="2.5" fill="#4C82A7" fill-opacity="0.6"/>
+  <circle cx="125" cy="88" r="2.5" fill="#4C82A7" fill-opacity="0.8"/>
+  <!-- Grid lines -->
+  <line x1="60" y1="80" x2="140" y2="80" stroke="white" stroke-width="0.5" opacity="0.15"/>
+  <line x1="60" y1="100" x2="140" y2="100" stroke="white" stroke-width="0.5" opacity="0.15"/>
+  <line x1="60" y1="120" x2="140" y2="120" stroke="white" stroke-width="0.5" opacity="0.15"/>
+  <!-- Bar chart in back panel -->
+  <rect x="70" y="50" width="8" height="20" rx="1" fill="#4C82A7" fill-opacity="0.3" transform="rotate(-6 74 60)"/>
+  <rect x="82" y="45" width="8" height="25" rx="1" fill="#4C82A7" fill-opacity="0.3" transform="rotate(-6 86 57)"/>
+  <rect x="94" y="48" width="8" height="22" rx="1" fill="#4C82A7" fill-opacity="0.3" transform="rotate(-6 98 59)"/>
+  <!-- Stars -->
+  <circle cx="25" cy="55" r="1" fill="white" opacity="0.5"/>
+  <circle cx="175" cy="80" r="1.5" fill="white" opacity="0.4"/>
+  <circle cx="20" cy="140" r="1" fill="#4C82A7" opacity="0.5"/>
+</svg>` :
+              i === 2 ? `<!-- Proposal Station: Beacon/lighthouse with document -->
+<svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" width="200" height="200">
+  <!-- Lighthouse tower -->
+  <path d="M92 170 L88 90 L112 90 L108 170 Z" stroke="white" stroke-width="2" fill="white" fill-opacity="0.05"/>
+  <rect x="85" y="82" width="30" height="12" rx="2" stroke="white" stroke-width="1.5" fill="white" fill-opacity="0.08"/>
+  <!-- Light housing -->
+  <rect x="88" y="68" width="24" height="16" rx="3" stroke="#FFB02E" stroke-width="2" fill="#FFB02E" fill-opacity="0.15"/>
+  <circle cx="100" cy="76" r="4" fill="#FFB02E" fill-opacity="0.6"/>
+  <!-- Light rays -->
+  <line x1="75" y1="76" x2="55" y2="68" stroke="#FFB02E" stroke-width="1.5" opacity="0.5" stroke-linecap="round"/>
+  <line x1="75" y1="76" x2="50" y2="76" stroke="#FFB02E" stroke-width="1.5" opacity="0.4" stroke-linecap="round"/>
+  <line x1="75" y1="76" x2="55" y2="84" stroke="#FFB02E" stroke-width="1.5" opacity="0.3" stroke-linecap="round"/>
+  <line x1="125" y1="76" x2="145" y2="68" stroke="#FFB02E" stroke-width="1.5" opacity="0.5" stroke-linecap="round"/>
+  <line x1="125" y1="76" x2="150" y2="76" stroke="#FFB02E" stroke-width="1.5" opacity="0.4" stroke-linecap="round"/>
+  <line x1="125" y1="76" x2="145" y2="84" stroke="#FFB02E" stroke-width="1.5" opacity="0.3" stroke-linecap="round"/>
+  <!-- Document/scroll -->
+  <rect x="130" y="110" width="40" height="52" rx="3" stroke="white" stroke-width="1.5" fill="white" fill-opacity="0.05"/>
+  <line x1="138" y1="122" x2="162" y2="122" stroke="#FFB02E" stroke-width="1" opacity="0.5"/>
+  <line x1="138" y1="130" x2="162" y2="130" stroke="white" stroke-width="0.8" opacity="0.3"/>
+  <line x1="138" y1="138" x2="158" y2="138" stroke="white" stroke-width="0.8" opacity="0.3"/>
+  <line x1="138" y1="146" x2="155" y2="146" stroke="white" stroke-width="0.8" opacity="0.2"/>
+  <!-- Golden seal on document -->
+  <circle cx="155" cy="152" r="5" stroke="#FFB02E" stroke-width="1" fill="#FFB02E" fill-opacity="0.2"/>
+  <!-- Tower base -->
+  <rect x="82" y="168" width="36" height="6" rx="2" stroke="white" stroke-width="1" fill="white" fill-opacity="0.1"/>
+  <!-- Stars -->
+  <circle cx="35" cy="50" r="1.5" fill="white" opacity="0.5"/>
+  <circle cx="170" cy="40" r="1" fill="#FFB02E" opacity="0.6"/>
+  <circle cx="25" cy="130" r="1" fill="white" opacity="0.3"/>
+</svg>` :
+              i === 3 ? `<!-- Delivery Station: Space station with docking ports -->
+<svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" width="200" height="200">
+  <!-- Central hexagonal module -->
+  <polygon points="100,60 130,75 130,105 100,120 70,105 70,75" stroke="white" stroke-width="2" fill="white" fill-opacity="0.05"/>
+  <!-- Inner detail ring -->
+  <circle cx="100" cy="90" r="12" stroke="#26A899" stroke-width="1.5" fill="#26A899" fill-opacity="0.15"/>
+  <circle cx="100" cy="90" r="5" fill="#26A899" fill-opacity="0.3"/>
+  <!-- Left arm -->
+  <rect x="25" y="82" width="45" height="16" rx="3" stroke="white" stroke-width="1.5" fill="white" fill-opacity="0.04"/>
+  <rect x="18" y="78" width="12" height="24" rx="2" stroke="#26A899" stroke-width="1" fill="#26A899" fill-opacity="0.1"/>
+  <!-- Right arm -->
+  <rect x="130" y="82" width="45" height="16" rx="3" stroke="white" stroke-width="1.5" fill="white" fill-opacity="0.04"/>
+  <rect x="170" y="78" width="12" height="24" rx="2" stroke="#26A899" stroke-width="1" fill="#26A899" fill-opacity="0.1"/>
+  <!-- Top solar panel -->
+  <rect x="90" y="30" width="20" height="30" rx="2" stroke="white" stroke-width="1" fill="white" fill-opacity="0.04"/>
+  <line x1="95" y1="30" x2="95" y2="60" stroke="white" stroke-width="0.5" opacity="0.3"/>
+  <line x1="100" y1="30" x2="100" y2="60" stroke="white" stroke-width="0.5" opacity="0.3"/>
+  <line x1="105" y1="30" x2="105" y2="60" stroke="white" stroke-width="0.5" opacity="0.3"/>
+  <!-- Bottom antenna -->
+  <line x1="100" y1="120" x2="100" y2="150" stroke="white" stroke-width="1.5"/>
+  <circle cx="100" cy="153" r="4" stroke="#26A899" stroke-width="1" fill="#26A899" fill-opacity="0.2"/>
+  <!-- Small docked ship -->
+  <polygon points="170,72 180,78 170,84 165,78" stroke="#26A899" stroke-width="1" fill="#26A899" fill-opacity="0.3"/>
+  <!-- Connection beam from ship -->
+  <line x1="165" y1="78" x2="145" y2="85" stroke="#26A899" stroke-width="0.8" opacity="0.4" stroke-dasharray="3 2"/>
+  <!-- Stars -->
+  <circle cx="40" cy="45" r="1.5" fill="white" opacity="0.5"/>
+  <circle cx="160" cy="150" r="1" fill="white" opacity="0.4"/>
+  <circle cx="30" cy="150" r="1" fill="#26A899" opacity="0.5"/>
+</svg>` :
+              `<!-- Learning Station: Brain constellation -->
+<svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" width="200" height="200">
+  <!-- Brain outline made of connected dots/lines (neural network) -->
+  <!-- Left hemisphere nodes -->
+  <circle cx="70" cy="70" r="4" fill="#8B5CF6" fill-opacity="0.5" stroke="#8B5CF6" stroke-width="1"/>
+  <circle cx="55" cy="90" r="3" fill="#8B5CF6" fill-opacity="0.4" stroke="#8B5CF6" stroke-width="1"/>
+  <circle cx="60" cy="115" r="3.5" fill="#8B5CF6" fill-opacity="0.4" stroke="#8B5CF6" stroke-width="1"/>
+  <circle cx="75" cy="130" r="3" fill="#8B5CF6" fill-opacity="0.3" stroke="#8B5CF6" stroke-width="1"/>
+  <circle cx="80" cy="100" r="5" fill="#8B5CF6" fill-opacity="0.6" stroke="#8B5CF6" stroke-width="1.5"/>
+  <circle cx="65" cy="55" r="2.5" fill="white" fill-opacity="0.6" stroke="white" stroke-width="0.8"/>
+  <!-- Right hemisphere nodes -->
+  <circle cx="130" cy="70" r="4" fill="#8B5CF6" fill-opacity="0.5" stroke="#8B5CF6" stroke-width="1"/>
+  <circle cx="145" cy="90" r="3" fill="#8B5CF6" fill-opacity="0.4" stroke="#8B5CF6" stroke-width="1"/>
+  <circle cx="140" cy="115" r="3.5" fill="#8B5CF6" fill-opacity="0.4" stroke="#8B5CF6" stroke-width="1"/>
+  <circle cx="125" cy="130" r="3" fill="#8B5CF6" fill-opacity="0.3" stroke="#8B5CF6" stroke-width="1"/>
+  <circle cx="120" cy="100" r="5" fill="#8B5CF6" fill-opacity="0.6" stroke="#8B5CF6" stroke-width="1.5"/>
+  <circle cx="135" cy="55" r="2.5" fill="white" fill-opacity="0.6" stroke="white" stroke-width="0.8"/>
+  <!-- Central spine -->
+  <circle cx="100" cy="60" r="3" fill="white" fill-opacity="0.7" stroke="white" stroke-width="1"/>
+  <circle cx="100" cy="90" r="6" fill="#8B5CF6" fill-opacity="0.3" stroke="white" stroke-width="1.5"/>
+  <circle cx="100" cy="120" r="3" fill="white" fill-opacity="0.7" stroke="white" stroke-width="1"/>
+  <circle cx="100" cy="140" r="2.5" fill="#8B5CF6" fill-opacity="0.4" stroke="#8B5CF6" stroke-width="0.8"/>
+  <!-- Connections left hemisphere -->
+  <line x1="70" y1="70" x2="80" y2="100" stroke="#8B5CF6" stroke-width="0.8" opacity="0.5"/>
+  <line x1="55" y1="90" x2="80" y2="100" stroke="#8B5CF6" stroke-width="0.8" opacity="0.4"/>
+  <line x1="60" y1="115" x2="80" y2="100" stroke="#8B5CF6" stroke-width="0.8" opacity="0.4"/>
+  <line x1="75" y1="130" x2="80" y2="100" stroke="#8B5CF6" stroke-width="0.8" opacity="0.3"/>
+  <line x1="65" y1="55" x2="70" y2="70" stroke="white" stroke-width="0.6" opacity="0.4"/>
+  <line x1="70" y1="70" x2="100" y2="60" stroke="white" stroke-width="0.6" opacity="0.4"/>
+  <line x1="55" y1="90" x2="60" y2="115" stroke="#8B5CF6" stroke-width="0.6" opacity="0.3"/>
+  <!-- Connections right hemisphere -->
+  <line x1="130" y1="70" x2="120" y2="100" stroke="#8B5CF6" stroke-width="0.8" opacity="0.5"/>
+  <line x1="145" y1="90" x2="120" y2="100" stroke="#8B5CF6" stroke-width="0.8" opacity="0.4"/>
+  <line x1="140" y1="115" x2="120" y2="100" stroke="#8B5CF6" stroke-width="0.8" opacity="0.4"/>
+  <line x1="125" y1="130" x2="120" y2="100" stroke="#8B5CF6" stroke-width="0.8" opacity="0.3"/>
+  <line x1="135" y1="55" x2="130" y2="70" stroke="white" stroke-width="0.6" opacity="0.4"/>
+  <line x1="130" y1="70" x2="100" y2="60" stroke="white" stroke-width="0.6" opacity="0.4"/>
+  <line x1="145" y1="90" x2="140" y2="115" stroke="#8B5CF6" stroke-width="0.6" opacity="0.3"/>
+  <!-- Cross connections (corpus callosum) -->
+  <line x1="80" y1="100" x2="100" y2="90" stroke="white" stroke-width="1" opacity="0.5"/>
+  <line x1="120" y1="100" x2="100" y2="90" stroke="white" stroke-width="1" opacity="0.5"/>
+  <line x1="70" y1="70" x2="130" y2="70" stroke="white" stroke-width="0.5" opacity="0.2" stroke-dasharray="4 3"/>
+  <line x1="80" y1="100" x2="120" y2="100" stroke="white" stroke-width="0.5" opacity="0.2" stroke-dasharray="4 3"/>
+  <line x1="100" y1="60" x2="100" y2="120" stroke="white" stroke-width="0.6" opacity="0.3"/>
+  <line x1="100" y1="120" x2="75" y2="130" stroke="#8B5CF6" stroke-width="0.6" opacity="0.3"/>
+  <line x1="100" y1="120" x2="125" y2="130" stroke="#8B5CF6" stroke-width="0.6" opacity="0.3"/>
+  <line x1="100" y1="120" x2="100" y2="140" stroke="#8B5CF6" stroke-width="0.6" opacity="0.3"/>
+  <!-- Outer decorative stars -->
+  <circle cx="30" cy="55" r="1.5" fill="white" opacity="0.5"/>
+  <circle cx="170" cy="65" r="1" fill="white" opacity="0.4"/>
+  <circle cx="25" cy="140" r="1" fill="#8B5CF6" opacity="0.5"/>
+  <circle cx="175" cy="135" r="1.5" fill="#8B5CF6" opacity="0.3"/>
+  <!-- Pulse ring around central node -->
+  <circle cx="100" cy="90" r="14" stroke="#8B5CF6" stroke-width="0.5" fill="none" opacity="0.2"/>
+  <circle cx="100" cy="90" r="22" stroke="#8B5CF6" stroke-width="0.3" fill="none" opacity="0.1"/>
+</svg>`
+            } />
+
+            <div class="station-label" style={`color: ${station.glow};`}>{station.label} Station</div>
+            <p class="station-tagline">{station.tagline}</p>
+            <h3 class="station-title">{stop.title}</h3>
+            <p class="station-description">{stop.description}</p>
+            <div class="station-features">
               {stop.features.map((f) => (
-                <span class="stop-feature-item">
-                  <svg class="stop-feature-check" viewBox="0 0 16 16" fill="none"><path d="M3 8.5 L6.5 12 L13 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span class="station-feature">
+                  <svg class="station-check" viewBox="0 0 16 16" fill="none"><path d="M3 8.5 L6.5 12 L13 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                   {f}
                 </span>
               ))}
@@ -176,11 +253,11 @@ const stageThemes = [
         );
       })}
 
-      <!-- Header overlay (shows at start) -->
-      <div class="road-header" data-road-header>
-        {title && <h2 class="road-title">{title}</h2>}
-        {subtitle && <p class="road-subtitle">{subtitle}</p>}
-        <div class="road-scroll-hint">
+      <!-- Header overlay -->
+      <div class="journey-header" data-journey-header>
+        {title && <h2 class="journey-title">{title}</h2>}
+        {subtitle && <p class="journey-subtitle">{subtitle}</p>}
+        <div class="journey-scroll-hint">
           <span>Scroll to begin</span>
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
             <path d="M10 4v12M4 10l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -188,207 +265,223 @@ const stageThemes = [
         </div>
       </div>
 
-      <!-- Progress dots -->
-      <div class="road-progress-dots">
-        {stops.map((_, i) => (
-          <button
-            class={`progress-dot ${i === 0 ? 'active' : ''}`}
-            data-dot-index={i}
-            aria-label={`Go to stop ${i + 1}: ${stops[i].title}`}
-          ></button>
-        ))}
-      </div>
-
-      <!-- Persistent mini-CTA -->
-      <a href="/#contact" class="road-demo-cta">
+      <!-- Persistent CTA -->
+      <a href="/#contact" class="journey-cta">
         Book a Demo &rarr;
       </a>
     </div>
   </div>
 </section>
 
-<!-- Mobile: Stacked cards -->
-<section class="engagement-road-mobile" aria-label={title}>
-  <div class="road-mobile-container">
-    {title && <h2 class="road-mobile-title">{title}</h2>}
-    {subtitle && <p class="road-mobile-subtitle">{subtitle}</p>}
-    <div class="road-mobile-stops">
-      {stops.map((stop, i) => (
-        <div class="road-mobile-card" style={`border-left-color: ${stop.color};`}>
-          <div class="road-mobile-card-header">
-            <span class="road-mobile-icon">{stop.icon}</span>
-            <div>
-              <span class="road-mobile-stage" style={`color: ${stop.color};`}>Stage {i + 1}</span>
-              <h3 class="road-mobile-card-title">{stop.title}</h3>
+<!-- Mobile: Stacked station cards -->
+<section class="journey-mobile" aria-label={title}>
+  <div class="journey-mobile-container">
+    {title && <h2 class="journey-mobile-title">{title}</h2>}
+    {subtitle && <p class="journey-mobile-subtitle">{subtitle}</p>}
+    <div class="journey-mobile-stations">
+      {stops.map((stop, i) => {
+        const station = stations[i] || stations[0];
+        return (
+          <div class="journey-mobile-card">
+            <div class="journey-mobile-dot" style={`background: ${station.glow}; box-shadow: 0 0 8px ${station.glow};`}></div>
+            {i < stops.length - 1 && (
+              <div class="journey-mobile-connector"></div>
+            )}
+            <div class="journey-mobile-content" style={`border-left-color: ${station.glow};`}>
+              <span class="journey-mobile-label" style={`color: ${station.glow};`}>{station.label} Station</span>
+              <h3 class="journey-mobile-card-title">{stop.title}</h3>
+              <p class="journey-mobile-card-desc">{stop.description}</p>
+              <div class="journey-mobile-features">
+                {stop.features.map((f) => (
+                  <span class="journey-mobile-feature">{f}</span>
+                ))}
+              </div>
             </div>
           </div>
-          <p class="road-mobile-card-desc">{stop.description}</p>
-          <div class="road-mobile-features">
-            {stop.features.map((f) => (
-              <span class="road-mobile-feature">{f}</span>
-            ))}
-          </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   </div>
 </section>
 
 <style>
-  /* ── Desktop: space journey ── */
-  .engagement-road {
+  /* ===== Desktop: Space Journey ===== */
+  .journey {
     position: relative;
     display: block;
   }
 
-  .road-scroll-spacer {
+  .journey-scroll-spacer {
     position: relative;
   }
 
-  .road-viewport {
+  .journey-viewport {
     position: sticky;
     top: 0;
     height: 100vh;
     overflow: hidden;
-    background: linear-gradient(to bottom, #0a0a1a 0%, #111827 50%, #0f172a 100%);
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.8s ease;
-    will-change: transform;
-    transform-origin: center center;
+    background: #0B1120;
   }
 
-  /* Star parallax layers */
-  .stars-far, .stars-near {
+  /* Static stars */
+  .journey-stars {
     position: absolute;
     inset: 0;
     pointer-events: none;
-    will-change: transform;
-    z-index: 1;
   }
-  .parallax-star {
+  .journey-star {
     position: absolute;
     background: #ffffff;
     border-radius: 50%;
   }
 
-  /* Star streaks during transitions */
-  .star-streaks {
+  /* ── Progress indicator (left side) ── */
+  .journey-progress {
     position: absolute;
-    inset: 0;
-    pointer-events: none;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 300px;
+    width: 20px;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .journey-progress-line {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    transform: translateX(-50%);
+    border-left: 2px dotted rgba(255, 255, 255, 0.15);
+  }
+  .journey-progress-fill {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 2px;
+    height: 0%;
+    transform: translateX(-50%);
+    background: #00C26D;
+    transition: height 0.5s ease-out;
+    z-index: 1;
+  }
+  .journey-progress-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1.5px solid rgba(255, 255, 255, 0.3);
+    position: relative;
+    z-index: 2;
+    transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+  }
+  .journey-progress-dot.reached {
+    background: #00C26D;
+    border-color: #00C26D;
+  }
+  .journey-progress-dot.active {
+    background: #00C26D;
+    border-color: #00C26D;
+    box-shadow: 0 0 10px rgba(0, 194, 109, 0.6), 0 0 20px rgba(0, 194, 109, 0.3);
+  }
+
+  /* ── Floating astronaut ── */
+  .journey-astronaut {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    z-index: 8;
     opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: 1;
-  }
-  .streak-line {
-    position: absolute;
-    height: 1px;
-    background: rgba(255, 255, 255, 0.18);
-    transform: scaleX(0);
-    transform-origin: left center;
-    transition: transform 0.3s ease;
-  }
-  .star-streaks.active .streak-line {
-    transform: scaleX(1);
-  }
-
-  /* Starfield */
-  .starfield {
-    position: absolute;
-    inset: 0;
+    transition: top 0.6s ease-out, left 0.6s ease-out, opacity 0.4s ease;
+    animation: astronautFloat 4s ease-in-out infinite;
     pointer-events: none;
   }
-  .star {
-    position: absolute;
-    background: #ffffff;
-    border-radius: 50%;
+  .journey-astronaut.visible {
+    opacity: 1;
+  }
+  @keyframes astronautFloat {
+    0%, 100% { transform: translate(0, 0) rotate(-3deg); }
+    50% { transform: translate(5px, -8px) rotate(3deg); }
   }
 
-  /* Warp speed transition: stars elongate */
-  .road-viewport.transitioning .star {
-    width: 20px !important;
-    height: 1px !important;
-    border-radius: 0;
-    transition: width 0.3s ease, height 0.3s ease, border-radius 0.3s ease;
-  }
-  .star {
-    transition: width 0.3s ease, height 0.3s ease, border-radius 0.3s ease;
-  }
-
-  /* Stop content panels */
-  .stop-content {
+  /* ── Station panels ── */
+  .station-panel {
     position: absolute;
     top: 50%;
     left: 50%;
     text-align: center;
     max-width: 672px;
     width: 90%;
-    max-height: 50vh;
     z-index: 5;
     will-change: transform, opacity;
-    transition: transform 0.5s var(--ease-spring, cubic-bezier(0.16, 1, 0.3, 1)),
-                opacity 0.4s ease;
     display: flex;
     flex-direction: column;
     align-items: center;
-  }
-  .stop-content[data-state="approaching"] {
-    transform: translate(-50%, -50%) scale(0.2);
-    opacity: 0;
     pointer-events: none;
   }
-  .stop-content[data-state="active"] {
+  .station-panel[data-station-state="upcoming"] {
+    transform: translate(-50%, -50%) scale(0.9);
+    opacity: 0;
+    transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+  }
+  .station-panel[data-station-state="active"] {
     transform: translate(-50%, -50%) scale(1);
     opacity: 1;
     pointer-events: auto;
+    transition: transform 0.5s ease-out, opacity 0.5s ease-out;
   }
-  .stop-content[data-state="passed"] {
-    transform: translate(-50%, -50%) scale(2.5);
+  .station-panel[data-station-state="passed"] {
+    transform: translate(-50%, -50%) scale(1.1);
     opacity: 0;
-    pointer-events: none;
+    transition: transform 0.5s ease-out, opacity 0.5s ease-out;
   }
 
-  /* Nebula glow behind icon */
-  .stop-nebula-glow {
+  /* Station glow */
+  .station-glow {
     position: absolute;
-    top: -30px;
+    top: -20px;
     left: 50%;
     transform: translateX(-50%);
-    width: 240px;
-    height: 120px;
+    width: 260px;
+    height: 130px;
     border-radius: 50%;
-    opacity: 0.2;
+    opacity: 0.15;
     filter: blur(50px);
     pointer-events: none;
     z-index: -1;
   }
 
-  /* SVG icon wrapper with stage glow */
-  .stop-icon-wrap {
-    width: 64px;
-    height: 64px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 0.75rem;
-    position: relative;
-    filter: drop-shadow(0 0 12px var(--stage-glow));
+  /* Station illustration */
+  .station-illustration {
+    margin-bottom: 1rem;
   }
-  .stop-svg-icon {
-    width: 48px;
-    height: 48px;
+  .station-illustration :global(svg) {
+    width: 200px;
+    height: 200px;
   }
 
-  .stop-stage {
+  .station-label {
     font-family: var(--font-body, 'Source Sans 3', sans-serif);
     font-size: 0.8rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: var(--color-green, #00C26D);
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.15rem;
   }
 
-  .stop-title {
+  .station-tagline {
+    font-family: var(--font-body, 'Source Sans 3', sans-serif);
+    font-size: 0.85rem;
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.45);
+    margin: 0 0 0.5rem;
+  }
+
+  .station-title {
     font-family: var(--font-display, 'Playfair Display', serif);
     font-size: clamp(1.5rem, 3vw, 1.875rem);
     font-weight: 700;
@@ -397,17 +490,17 @@ const stageThemes = [
     line-height: 1.2;
   }
 
-  .stop-description {
+  .station-description {
     font-family: var(--font-body, 'Source Sans 3', sans-serif);
     font-size: 1rem;
     line-height: 1.6;
-    color: rgba(255, 255, 255, 0.75);
+    color: rgba(255, 255, 255, 0.7);
     margin: 0 auto 1rem;
     max-width: 560px;
   }
 
-  /* 2-column feature grid */
-  .stop-features {
+  /* 2x2 feature grid */
+  .station-features {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 0.5rem;
@@ -416,8 +509,7 @@ const stageThemes = [
     margin-left: auto;
     margin-right: auto;
   }
-
-  .stop-feature-item {
+  .station-feature {
     display: flex;
     align-items: center;
     gap: 0.4rem;
@@ -426,16 +518,15 @@ const stageThemes = [
     color: rgba(255, 255, 255, 0.8);
     text-align: left;
   }
-
-  .stop-feature-check {
+  .station-check {
     width: 16px;
     height: 16px;
     flex-shrink: 0;
     color: #22c55e;
   }
 
-  /* Header overlay */
-  .road-header {
+  /* ── Header overlay ── */
+  .journey-header {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -446,12 +537,11 @@ const stageThemes = [
     width: 90%;
     transition: opacity 0.5s ease;
   }
-  .road-header.hidden {
+  .journey-header.hidden {
     opacity: 0;
     pointer-events: none;
   }
-
-  .road-title {
+  .journey-title {
     font-family: var(--font-display, 'Playfair Display', serif);
     font-size: clamp(2rem, 4vw, 3rem);
     font-weight: 700;
@@ -459,16 +549,14 @@ const stageThemes = [
     margin: 0 0 1rem;
     line-height: 1.15;
   }
-
-  .road-subtitle {
+  .journey-subtitle {
     font-family: var(--font-body, 'Source Sans 3', sans-serif);
     font-size: 1.05rem;
     line-height: 1.6;
     color: rgba(255, 255, 255, 0.7);
     margin: 0 0 1.5rem;
   }
-
-  .road-scroll-hint {
+  .journey-scroll-hint {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -476,73 +564,15 @@ const stageThemes = [
     color: rgba(255, 255, 255, 0.4);
     font-family: var(--font-body, 'Source Sans 3', sans-serif);
     font-size: 0.8rem;
-    animation: hint-bounce 2s ease-in-out infinite;
+    animation: hintBounce 2s ease-in-out infinite;
   }
-  @keyframes hint-bounce {
+  @keyframes hintBounce {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(6px); }
   }
 
-  /* Progress dots */
-  .road-progress-dots {
-    position: absolute;
-    bottom: 2rem;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 0.75rem;
-    z-index: 10;
-  }
-  .progress-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.25);
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  .progress-dot.active {
-    background: #22c55e;
-    transform: scale(1.4);
-    box-shadow: 0 0 12px rgba(34, 197, 94, 0.6), 0 0 24px rgba(34, 197, 94, 0.3);
-  }
-
-  /* Floating decorative orbs */
-  .floating-orbs {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 2;
-  }
-  .floating-orb {
-    position: absolute;
-    border-radius: 50%;
-    opacity: 0.4;
-    filter: blur(1px);
-    background: currentColor;
-    animation-duration: 6s;
-    animation-iteration-count: infinite;
-    animation-timing-function: ease-in-out;
-    animation-fill-mode: both;
-    transition: all 0.8s ease;
-  }
-  .road-viewport.paused .floating-orb {
-    animation-play-state: paused;
-  }
-
-  @keyframes orb-drift-left {
-    0%, 100% { transform: translate(0, 0); }
-    50% { transform: translate(12px, -8px); }
-  }
-  @keyframes orb-drift-right {
-    0%, 100% { transform: translate(0, 0); }
-    50% { transform: translate(-12px, 6px); }
-  }
-
-  /* Persistent demo CTA */
-  .road-demo-cta {
+  /* ── Persistent CTA ── */
+  .journey-cta {
     position: absolute;
     bottom: 1.5rem;
     right: 1.5rem;
@@ -558,30 +588,27 @@ const stageThemes = [
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
     transition: background 0.2s ease;
   }
-  .road-demo-cta:hover {
+  .journey-cta:hover {
     background: var(--color-green-hover, #00A95E);
   }
 
-  /* ── Mobile: stacked cards ── */
-  .engagement-road-mobile {
+  /* ===== Mobile: Stacked Cards ===== */
+  .journey-mobile {
     display: none;
   }
-
-  .road-mobile-container {
+  .journey-mobile-container {
     max-width: var(--content-width, 1140px);
     margin: 0 auto;
     padding: var(--v-space-xl, 4rem) 1.5rem;
   }
-
-  .road-mobile-title {
+  .journey-mobile-title {
     font-family: var(--font-display, 'Playfair Display', serif);
     font-size: clamp(1.75rem, 4vw, 2.25rem);
     color: var(--color-ink, #0D0D0D);
     margin: 0 0 0.75rem;
     text-align: center;
   }
-
-  .road-mobile-subtitle {
+  .journey-mobile-subtitle {
     font-family: var(--font-body, 'Source Sans 3', sans-serif);
     font-size: 1rem;
     color: var(--color-ink-muted, #6b6b6b);
@@ -590,67 +617,72 @@ const stageThemes = [
     margin: 0 auto 2rem;
     max-width: 600px;
   }
-
-  .road-mobile-stops {
+  .journey-mobile-stations {
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 0;
+    padding-left: 1.5rem;
+    position: relative;
   }
-
-  .road-mobile-card {
+  .journey-mobile-card {
+    position: relative;
+    padding-left: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+  .journey-mobile-dot {
+    position: absolute;
+    left: -6px;
+    top: 4px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    z-index: 2;
+  }
+  .journey-mobile-connector {
+    position: absolute;
+    left: 0;
+    top: 16px;
+    bottom: 0;
+    width: 1px;
+    border-left: 2px dotted rgba(0, 194, 109, 0.3);
+  }
+  .journey-mobile-content {
     background: #fff;
     border: 1px solid var(--color-cloud-grey, #E1E3E6);
     border-left: 4px solid;
     border-radius: 12px;
     padding: 1.25rem 1.5rem;
   }
-
-  .road-mobile-card-header {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 0.75rem;
-  }
-
-  .road-mobile-icon {
-    font-size: 1.75rem;
-    line-height: 1;
-  }
-
-  .road-mobile-stage {
+  .journey-mobile-label {
     font-family: var(--font-body, 'Source Sans 3', sans-serif);
     font-size: 0.72rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     display: block;
-    margin-bottom: 0.1rem;
+    margin-bottom: 0.25rem;
   }
-
-  .road-mobile-card-title {
+  .journey-mobile-card-title {
     font-family: var(--font-display, 'Playfair Display', serif);
     font-size: 1.2rem;
     font-weight: 700;
     color: var(--color-ink, #0D0D0D);
-    margin: 0;
+    margin: 0 0 0.5rem;
     line-height: 1.25;
   }
-
-  .road-mobile-card-desc {
+  .journey-mobile-card-desc {
     font-family: var(--font-body, 'Source Sans 3', sans-serif);
     font-size: 0.92rem;
     color: var(--color-ink-light, #3d3d3d);
     line-height: 1.6;
     margin: 0 0 0.75rem;
   }
-
-  .road-mobile-features {
-    display: flex;
-    flex-wrap: wrap;
+  .journey-mobile-features {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 0.4rem;
   }
-
-  .road-mobile-feature {
+  .journey-mobile-feature {
     display: inline-block;
     padding: 0.3rem 0.75rem;
     background: var(--color-soft-mint, #E8FBF1);
@@ -661,69 +693,52 @@ const stageThemes = [
     border-radius: 100px;
   }
 
-  /* ── Responsive ── */
+  /* ===== Responsive ===== */
   @media (max-width: 768px) {
-    .engagement-road {
+    .journey {
       display: none;
     }
-    .engagement-road-mobile {
+    .journey-mobile {
       display: block;
     }
   }
 
-  /* ── Reduced motion ── */
+  /* ===== Reduced Motion ===== */
   @media (prefers-reduced-motion: reduce) {
-    .engagement-road {
+    .journey {
       display: none;
     }
-    .engagement-road-mobile {
+    .journey-mobile {
       display: block;
     }
-    .road-scroll-hint {
+    .journey-scroll-hint {
       animation: none;
     }
-    .road-viewport {
-      transition: none !important;
-      transform: none !important;
-      will-change: auto;
-    }
-    .stars-far, .stars-near {
-      transform: none !important;
-      will-change: auto;
-    }
-    .star-streaks {
-      display: none;
+    .journey-astronaut {
+      animation: none;
     }
   }
 </style>
 
 <script is:inline>
-  function initEngagementRoad() {
-    var section = document.querySelector('.engagement-road');
+  function initJourney() {
+    var section = document.querySelector('.journey');
     if (!section) return;
-
-    var spacer = section.querySelector('.road-scroll-spacer');
-    var viewport = section.querySelector('.road-viewport');
-    var stops = section.querySelectorAll('.stop-content');
-    var dots = section.querySelectorAll('.progress-dot');
-    var header = section.querySelector('[data-road-header]');
-    var nearStars = section.querySelector('.stars-near');
-    var farStars = section.querySelector('.stars-far');
-    var streaks = section.querySelector('.star-streaks');
-    var totalStops = stops.length;
-
-    if (!spacer || totalStops === 0) return;
-
-    // Check for reduced motion
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    // Stop accent colors for background color shift
-    var stopColors = ['#00C26D', '#4C82A7', '#FFB02E', '#26A899', '#8B5CF6'];
+    var spacer = section.querySelector('.journey-scroll-spacer');
+    var header = section.querySelector('[data-journey-header]');
+    var panels = section.querySelectorAll('.station-panel');
+    var progressDots = section.querySelectorAll('.journey-progress-dot');
+    var progressFill = section.querySelector('.journey-progress-fill');
+    var astronaut = section.querySelector('.journey-astronaut');
+    var totalStations = panels.length;
+
+    if (!spacer || totalStations === 0) return;
 
     var lastActiveIndex = -1;
-    var transitionTimeout = null;
 
-    function updateRoad() {
+    function update() {
       var rect = spacer.getBoundingClientRect();
       var scrollable = rect.height - window.innerHeight;
       if (scrollable <= 0) return;
@@ -731,7 +746,7 @@ const stageThemes = [
       var scrolled = Math.max(0, -rect.top);
       var progress = Math.min(1, scrolled / scrollable);
 
-      // Fade header after initial scroll
+      // Fade header
       if (header) {
         if (progress > 0.02) {
           header.classList.add('hidden');
@@ -740,96 +755,55 @@ const stageThemes = [
         }
       }
 
-      // Which stop should be active?
-      var rawIndex = progress * totalStops;
-      var activeIndex = Math.min(totalStops - 1, Math.floor(rawIndex));
-      var withinStop = rawIndex - activeIndex; // 0 to 1 progress within current stop
+      // Determine active station
+      var rawIndex = progress * totalStations;
+      var activeIndex = Math.min(totalStations - 1, Math.floor(rawIndex));
 
-      // ── Viewport drift/sway during transitions ──
-      var swayX = Math.sin(withinStop * Math.PI) * 30;
-      var swayY = Math.sin(withinStop * Math.PI * 0.7) * 15;
-      var rotation = Math.sin(withinStop * Math.PI) * 1.5;
-      var zoom = 1 + (Math.sin(withinStop * Math.PI) * 0.03);
-
-      if (viewport) {
-        viewport.style.transform = 'translate(' + swayX + 'px, ' + swayY + 'px) rotate(' + rotation + 'deg) scale(' + zoom + ')';
-      }
-
-      // ── Star parallax ──
-      if (nearStars) {
-        nearStars.style.transform = 'translate(' + (swayX * 2) + 'px, ' + (-scrolled * 0.1) + 'px)';
-      }
-      if (farStars) {
-        farStars.style.transform = 'translate(' + (swayX * 0.5) + 'px, ' + (-scrolled * 0.03) + 'px)';
-      }
-
-      // ── Star streaks during mid-transition ──
-      if (streaks) {
-        var isTransitioning = withinStop > 0.2 && withinStop < 0.8;
-        if (isTransitioning) {
-          streaks.style.opacity = '1';
-          streaks.classList.add('active');
-        } else {
-          streaks.style.opacity = '0';
-          streaks.classList.remove('active');
-        }
-      }
-
-      // ── Background color shift ──
-      if (viewport) {
-        var currentColor = stopColors[activeIndex] || stopColors[0];
-        viewport.style.background = 'radial-gradient(ellipse at 50% 30%, ' + currentColor + '15 0%, #0a0a1a 70%)';
-      }
-
-      stops.forEach(function(stop, i) {
-        // Clear any inline style overrides
-        stop.style.transform = '';
-        stop.style.opacity = '';
-
+      // Update station states
+      panels.forEach(function(panel, i) {
         if (i < activeIndex) {
-          stop.dataset.state = 'passed';
+          panel.dataset.stationState = 'passed';
         } else if (i === activeIndex) {
-          stop.dataset.state = 'active';
+          panel.dataset.stationState = 'active';
         } else {
-          stop.dataset.state = 'approaching';
+          panel.dataset.stationState = 'upcoming';
         }
       });
 
-      // Pause orbs while a stop is active (not transitioning)
-      if (viewport) {
-        viewport.classList.add('paused');
-      }
-
-      // Warp speed effect on transition
-      if (activeIndex !== lastActiveIndex) {
-        if (viewport && lastActiveIndex >= 0) {
-          viewport.classList.remove('paused');
-          viewport.classList.add('transitioning');
-          if (transitionTimeout) clearTimeout(transitionTimeout);
-          transitionTimeout = setTimeout(function() {
-            viewport.classList.remove('transitioning');
-            viewport.classList.add('paused');
-          }, 300);
+      // Update progress dots
+      progressDots.forEach(function(dot, i) {
+        dot.classList.remove('active', 'reached');
+        if (i < activeIndex) {
+          dot.classList.add('reached');
+        } else if (i === activeIndex) {
+          dot.classList.add('active');
         }
+      });
 
-        // Update orb colors to match active stop's accent
-        var orbColors = ['#22c55e', '#3b82f6', '#f59e0b', '#14b8a6', '#a855f7'];
-        var orbColor = orbColors[activeIndex] || orbColors[0];
-        var orbs = section.querySelectorAll('.floating-orb');
-        orbs.forEach(function(orb) {
-          orb.style.color = orbColor;
-          orb.style.boxShadow = '0 0 6px ' + orbColor;
-        });
-
-        dots.forEach(function(dot, i) {
-          if (i === activeIndex) {
-            dot.classList.add('active');
-          } else {
-            dot.classList.remove('active');
-          }
-        });
-        lastActiveIndex = activeIndex;
+      // Update progress fill line
+      if (progressFill) {
+        var fillPercent = totalStations > 1 ? (activeIndex / (totalStations - 1)) * 100 : 0;
+        progressFill.style.height = fillPercent + '%';
       }
+
+      // Position astronaut near active station
+      if (astronaut) {
+        var activePanel = panels[activeIndex];
+        if (activePanel && activePanel.dataset.stationState === 'active') {
+          astronaut.classList.add('visible');
+          // Position to the right of center, offset from station
+          var vpRect = section.querySelector('.journey-viewport').getBoundingClientRect();
+          var centerX = vpRect.width / 2;
+          var centerY = vpRect.height / 2;
+          astronaut.style.left = (centerX + 180) + 'px';
+          astronaut.style.top = (centerY - 80) + 'px';
+        }
+        if (progress < 0.01) {
+          astronaut.classList.remove('visible');
+        }
+      }
+
+      lastActiveIndex = activeIndex;
     }
 
     var ticking = false;
@@ -837,20 +811,20 @@ const stageThemes = [
       if (!ticking) {
         ticking = true;
         requestAnimationFrame(function() {
-          updateRoad();
+          update();
           ticking = false;
         });
       }
     }
 
     window.addEventListener('scroll', onScroll, { passive: true });
-    updateRoad();
+    update();
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initEngagementRoad);
+    document.addEventListener('DOMContentLoaded', initJourney);
   } else {
-    initEngagementRoad();
+    initJourney();
   }
-  document.addEventListener('astro:page-load', initEngagementRoad);
+  document.addEventListener('astro:page-load', initJourney);
 </script>

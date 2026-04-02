@@ -63,12 +63,12 @@ const jsonLd = {
   <section class="pillar-section tinted" id="scope" data-pillar="1" style="opacity:0; transform:translateY(30px);">
     <div class="pillar-narrative">
       <div class="narrative-today">
-        <span class="narrative-label">Today</span>
+        <span class="narrative-label">Sound familiar?</span>
         <p>Your senior consultant just landed a new client. She's spending the afternoon digging through Slack, email, and old proposals to piece together how you've handled similar work.</p>
       </div>
       <div class="narrative-arrow">&rarr;</div>
       <div class="narrative-servantium">
-        <span class="narrative-label">With Servantium</span>
+        <span class="narrative-label">There's a better way</span>
         <p>She opens Similar Engagements and finds 4 comparable projects in seconds. Pricing, delivery outcomes, lessons learned — all there.</p>
       </div>
     </div>
@@ -109,12 +109,12 @@ const jsonLd = {
   <section class="pillar-section" id="price" data-pillar="2" style="opacity:0; transform:translateY(30px);">
     <div class="pillar-narrative">
       <div class="narrative-today">
-        <span class="narrative-label">Today</span>
+        <span class="narrative-label">Sound familiar?</span>
         <p>Building a quote means opening three spreadsheets, guessing at margins, and hoping someone remembers what the last one actually cost to deliver.</p>
       </div>
       <div class="narrative-arrow">&rarr;</div>
       <div class="narrative-servantium">
-        <span class="narrative-label">With Servantium</span>
+        <span class="narrative-label">There's a better way</span>
         <p>The quote builder pulls from your learning catalog. Real costs from real projects. AI generates a complete structure from your notes and history.</p>
       </div>
     </div>
@@ -174,12 +174,12 @@ const jsonLd = {
   <section class="pillar-section tinted" id="staff" data-pillar="3" style="opacity:0; transform:translateY(30px);">
     <div class="pillar-narrative">
       <div class="narrative-today">
-        <span class="narrative-label">Today</span>
+        <span class="narrative-label">Sound familiar?</span>
         <p>You just won a big implementation. Now you're trying to figure out who's available without accidentally double-booking your best people across five active projects.</p>
       </div>
       <div class="narrative-arrow">&rarr;</div>
       <div class="narrative-servantium">
-        <span class="narrative-label">With Servantium</span>
+        <span class="narrative-label">There's a better way</span>
         <p>The resource planner shows real-time capacity across every engagement. Assign the right people based on skills, availability, and track record.</p>
       </div>
     </div>
@@ -237,12 +237,12 @@ const jsonLd = {
   <section class="pillar-section" id="learn" data-pillar="4" style="opacity:0; transform:translateY(30px);">
     <div class="pillar-narrative">
       <div class="narrative-today">
-        <span class="narrative-label">Today</span>
+        <span class="narrative-label">Sound familiar?</span>
         <p>Your firm completes 200 engagements a year, but each one starts from scratch. When someone leaves, everything they know walks out with them.</p>
       </div>
       <div class="narrative-arrow">&rarr;</div>
       <div class="narrative-servantium">
-        <span class="narrative-label">With Servantium</span>
+        <span class="narrative-label">There's a better way</span>
         <p>Every engagement feeds the institutional memory. Notes become embeddings. Quotes become catalog items. Outcomes become benchmarks. Your firm compounds knowledge automatically.</p>
       </div>
     </div>
@@ -392,7 +392,30 @@ const jsonLd = {
       </div>
     </div>
   </div>
+  {/* Floating CTA — appears after scrolling past hero */}
+  <div class="fixed bottom-6 right-6 z-50 hidden" id="floating-cta">
+    <a href="/#contact" class="flex items-center gap-2 px-5 py-3 rounded-full bg-[var(--color-green)] text-white font-semibold no-underline shadow-xl hover:bg-[var(--color-green-hover)] transition-all text-sm" style="color:#fff;">
+      Book a Demo
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
 </BaseLayout>
+
+<script is:inline>
+  function initFloatingCTA() {
+    var cta = document.getElementById('floating-cta');
+    if (!cta) return;
+    window.addEventListener('scroll', function() {
+      cta.classList.toggle('hidden', window.scrollY < 400);
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initFloatingCTA);
+  } else {
+    initFloatingCTA();
+  }
+  document.addEventListener('astro:page-load', initFloatingCTA);
+</script>
 
 <style>
   :root {
