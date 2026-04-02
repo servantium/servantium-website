@@ -4,12 +4,12 @@ import logoSrc from '/public/logo.png';
 const currentYear = new Date().getFullYear();
 ---
 
-<footer>
+<footer role="contentinfo">
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
         <a href="/" class="logo">
-          <Image src={logoSrc} alt="Servantium" class="logo-image footer-logo" width={160} height={40} />
+          <Image src={logoSrc} alt="Servantium" class="logo-image footer-logo object-contain" width={180} height={40} />
         </a>
         <p>The operating system for professional services.</p>
         <div class="footer-social">
@@ -84,7 +84,7 @@ const currentYear = new Date().getFullYear();
   .footer-brand { max-width: 280px; }
   .footer-brand .logo { margin-bottom: var(--space-sm, 1rem); }
   .footer-brand p { font-size: 0.9rem; opacity: 0.6; color: var(--color-white, #FFFFFF); line-height: 1.6; margin-bottom: var(--space-sm, 1rem); }
-  .footer-logo { filter: brightness(0) invert(1); height: 40px; width: auto; }
+  .footer-logo { filter: brightness(0) invert(1); height: 40px; width: auto; min-width: 180px; overflow: visible; }
   .footer-social { display: flex; align-items: center; gap: 0.5rem; margin-top: var(--space-sm, 1rem); }
   .footer-social-label { font-size: 0.85rem; opacity: 0.7; }
   .social-link {
