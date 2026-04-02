@@ -306,18 +306,19 @@ const tocHeadings = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
     margin-bottom: 1.125rem;
   }
 
-  /* Links */
+  /* Links — no underline by default, subtle underline on hover */
   .grove-prose :global(a) {
     color: var(--color-green);
     font-weight: 500;
-    text-decoration: underline;
-    text-decoration-color: var(--color-pale-green);
-    text-underline-offset: 2px;
-    transition: text-decoration-color 0.15s ease;
+    text-decoration: none;
+    transition: color 0.15s ease;
   }
 
   .grove-prose :global(a:hover) {
-    text-decoration-color: var(--color-green);
+    color: var(--color-green-hover);
+    text-decoration: underline;
+    text-decoration-color: var(--color-pale-green);
+    text-underline-offset: 2px;
   }
 
   /* Lists */
@@ -358,8 +359,9 @@ const tocHeadings = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
     font-weight: 500;
   }
 
-  /* Code blocks */
+  /* Code blocks — relative for copy button positioning */
   .grove-prose :global(pre) {
+    position: relative;
     background: #1e293b;
     color: #e2e8f0;
     padding: 1rem 1.25rem;
@@ -369,6 +371,32 @@ const tocHeadings = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
     font-size: 0.875rem;
     line-height: 1.7;
     border: 1px solid var(--color-cloud-grey);
+  }
+
+  .grove-prose :global(.code-copy-btn) {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    background: rgba(255,255,255,0.1);
+    color: #94a3b8;
+    font-size: 0.7rem;
+    font-family: var(--font-body);
+    border: none;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+  }
+  .grove-prose :global(pre:hover .code-copy-btn) {
+    opacity: 1;
+  }
+  .grove-prose :global(.code-copy-btn:hover) {
+    background: rgba(255,255,255,0.2);
+    color: #e2e8f0;
+  }
+  .grove-prose :global(.code-copy-btn.copied) {
+    color: var(--color-green);
   }
 
   .grove-prose :global(pre code) {
@@ -475,3 +503,42 @@ const tocHeadings = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
     color: var(--color-green);
   }
 </style>
+
+<!-- Code block copy buttons + Linear-style sidebar animation -->
+<script is:inline>
+  function initDocEnhancements() {
+    // Code copy buttons
+    document.querySelectorAll('.grove-prose pre').forEach(function(pre) {
+      if (pre.querySelector('.code-copy-btn')) return;
+      var btn = document.createElement('button');
+      btn.className = 'code-copy-btn';
+      btn.textContent = 'Copy';
+      btn.setAttribute('aria-label', 'Copy code');
+      btn.addEventListener('click', function() {
+        var code = pre.querySelector('code');
+        var text = code ? code.textContent : pre.textContent;
+        navigator.clipboard.writeText(text).then(function() {
+          btn.textContent = '✓ Copied';
+          btn.classList.add('copied');
+          setTimeout(function() {
+            btn.textContent = 'Copy';
+            btn.classList.remove('copied');
+          }, 2000);
+        });
+      });
+      pre.appendChild(btn);
+    });
+
+    // Linear-style active section indicator on sidebar
+    var sidebarLinks = document.querySelectorAll('[aria-current="page"]');
+    sidebarLinks.forEach(function(link) {
+      link.style.transition = 'all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initDocEnhancements);
+  } else {
+    initDocEnhancements();
+  }
+  document.addEventListener('astro:page-load', initDocEnhancements);
+</script>
