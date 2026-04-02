@@ -1,7 +1,6 @@
 /**
- * CalBooker — Cal.com inline embed using embed.js.
+ * CalBooker — Cal.com inline embed matching production servantium.com.
  * React wrapper for Astro island hydration (client:visible).
- * Uses the standard embed script, NOT @calcom/embed-react (which crashes Vite dev server).
  */
 import { useEffect, useRef } from "react";
 
@@ -13,7 +12,6 @@ export default function CalBooker() {
     if (initialized.current || !containerRef.current) return;
     initialized.current = true;
 
-    // Load Cal.com embed script if not already loaded
     const win = window as any;
 
     function initEmbed() {
@@ -41,14 +39,10 @@ export default function CalBooker() {
     if (win.Cal) {
       initEmbed();
     } else {
-      // Load the script
       const script = document.createElement("script");
       script.src = "https://app.cal.com/embed/embed.js";
       script.async = true;
-      script.onload = () => {
-        // Cal.com script sets up window.Cal via IIFE
-        setTimeout(initEmbed, 100);
-      };
+      script.onload = () => setTimeout(initEmbed, 100);
       document.head.appendChild(script);
     }
   }, []);
@@ -56,7 +50,7 @@ export default function CalBooker() {
   return (
     <div
       ref={containerRef}
-      style={{ width: "100%", minHeight: "450px" }}
+      style={{ width: "100%", height: "100%", overflow: "scroll" }}
     />
   );
 }

@@ -1572,18 +1572,19 @@
         .cta-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: var(--space-lg);
+            gap: 1.5rem;
             align-items: stretch;
         }
 
         .cta-column {
             background: var(--color-white);
-            border-radius: 12px;
-            padding: 1.25rem;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
             color: var(--color-ink);
             display: flex;
             flex-direction: column;
+            min-height: 580px;
         }
 
         .cta-column-header {
@@ -1593,19 +1594,20 @@
 
         .cta-column-header h3 {
             font-family: var(--font-display);
-            font-size: 1.25rem;
-            margin-bottom: 0.25rem;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
             color: var(--color-ink);
         }
 
         .cta-column-header p {
-            font-size: 0.85rem;
+            font-size: 0.95rem;
             color: var(--color-ink-muted);
         }
 
         .cal-embed-container {
             width: 100%;
             flex: 1;
+            min-height: 460px;
         }
 
         @media (max-width: 900px) {

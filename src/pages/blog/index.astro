@@ -45,10 +45,10 @@ const bubblePostsData = bubblePosts.map(p => ({
   />
 
   {/* -- Hero Section — Servantium green background -- */}
-  <section class="relative overflow-hidden pt-24 pb-10 md:pt-28 md:pb-12" style="background: linear-gradient(135deg, var(--color-green) 0%, var(--color-forest) 100%);">
+  <section class="relative overflow-hidden pt-24 pb-4 md:pt-28 md:pb-6" style="background: linear-gradient(135deg, var(--color-green) 0%, var(--color-forest) 100%);">
     <div class="relative mx-auto max-w-[var(--content-width)] px-6 text-center">
       <h1
-        class="font-[family-name:var(--font-display)] text-4xl md:text-5xl lg:text-[3.25rem] font-medium mb-4 leading-[1.15] tracking-[-0.02em]"
+        class="font-[family-name:var(--font-display)] text-4xl md:text-5xl lg:text-[3.25rem] font-medium mb-3 leading-[1.15] tracking-[-0.02em]"
         style="color: #ffffff; text-shadow: 0 2px 8px rgba(0,0,0,0.15);"
       >
         Insights for Services Leaders
@@ -62,17 +62,14 @@ const bubblePostsData = bubblePosts.map(p => ({
     </div>
   </section>
 
-  {/* -- Search + Filters + Featured — right below hero, no gap -- */}
-  <section class="py-1 md:py-2">
+  {/* -- Search + Filters — tight below hero -- */}
+  <section class="py-1">
     <div class="mx-auto max-w-[var(--content-width)] px-6">
-      {/* -- Search Bar -- */}
-      <div class="mb-2">
+      <div class="mb-1">
         <BlogSearch />
       </div>
-
-      {/* -- Category Filter Pills -- */}
       <div
-        class="blog-filters flex gap-2.5 overflow-x-auto pb-3 scrollbar-none
+        class="blog-filters flex gap-2.5 overflow-x-auto pb-1 scrollbar-none
                [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         role="tablist"
         aria-label="Filter by category"
@@ -108,11 +105,11 @@ const bubblePostsData = bubblePosts.map(p => ({
   </section>
 
   {/* -- Featured Section -- */}
-  <section class="pb-1">
+  <section class="pb-0">
     <div class="mx-auto max-w-[var(--content-width)] px-6">
 
       {/* -- Featured Post (latest) -- */}
-      <div class="featured-section mb-6" data-featured-category={featuredPost.data.category}>
+      <div class="featured-section mb-3" data-featured-category={featuredPost.data.category}>
         <FeaturedPost
           title={featuredPost.data.title}
           description={featuredPost.data.description}
