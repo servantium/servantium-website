@@ -284,7 +284,7 @@ const jsonLd = {
       <!-- Green divider -->
       <div class="w-16 h-0.5 bg-[var(--color-green)] mx-auto mb-12 opacity-30"></div>
 
-      <!-- LEARN — purple accent -->
+      <!-- LEARN — purple accent (Stage 4: full-width cinematic, everything stacked) -->
       <div class="narrative-stage mb-12" data-animate="fade-up">
         <!-- Panel 1: The Setup -->
         <div class="rounded-t-2xl p-8 md:p-12" style="background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%); border: 1px solid #e9d5ff; border-bottom: none;">
@@ -297,45 +297,44 @@ const jsonLd = {
             </div>
           </div>
         </div>
-        <!-- Panel 2: The Reveal -->
-        <div class="p-8 md:p-12 border-l-4 border-[#8B5CF6]" style="background: white; border-right: 1px solid #e5e7eb; border-top: 1px solid #e5e7eb;">
-          <h3 class="text-2xl md:text-3xl font-medium mb-3" style="font-family: var(--font-display); color: var(--color-ink);">
+        <!-- Panel 2: Reveal — stacked full-width -->
+        <div class="p-8 md:p-12" style="background: white; border-left: 1px solid #e5e7eb; border-right: 1px solid #e5e7eb; border-top: 1px solid #e5e7eb;">
+          <h3 class="text-2xl md:text-3xl font-medium mb-3" style="font-family: var(--font-display); color: #8B5CF6;">
             Learn and improve
           </h3>
           <p class="text-base md:text-lg text-[var(--color-ink-light)] leading-relaxed max-w-2xl">
             Every engagement feeds the institutional memory. Notes become embeddings. Quotes become catalog items. Outcomes become benchmarks. Your firm compounds knowledge automatically.
           </p>
         </div>
-        <!-- Panel 3: Split — Mockup + Features -->
-        <div class="grid grid-cols-1 md:grid-cols-2 rounded-b-2xl overflow-hidden" style="border: 1px solid #e5e7eb; border-top: none;">
-          <div class="p-6 md:p-8 flex items-center justify-center bg-[var(--color-mist-grey)] min-h-[280px]">
-            <div class="mini-illus w-full">
-              <div class="mock-learn">
-                <div class="mock-learn-title">KVWN, Post-Delivery Analysis</div>
-                <div class="mock-learn-metrics">
-                  <span class="mock-learn-pill green">94% estimate accuracy</span>
-                  <span class="mock-learn-pill green">8% under budget</span>
-                  <span class="mock-learn-pill blue">17 weeks actual vs planned</span>
-                </div>
-                <div class="mock-learn-patterns">
-                  <div class="mock-learn-patterns-title">Patterns Detected</div>
-                  <div class="mock-learn-patterns-text">Discovery phases for CRM implementations consistently run 15% under estimate when led by senior analysts. Recommend adjusting catalog effort drivers.</div>
-                </div>
-                <div class="mock-learn-footer">Feeding insights into <span>Service Catalog</span></div>
+        <!-- Panel 3: Wide mockup banner spanning full width -->
+        <div class="flex items-center justify-center bg-[var(--color-mist-grey)] min-h-[280px] p-6 md:p-8" style="border-left: 1px solid #e5e7eb; border-right: 1px solid #e5e7eb;">
+          <div class="mini-illus w-full" style="max-width: 100%;">
+            <div class="mock-learn">
+              <div class="mock-learn-title">KVWN, Post-Delivery Analysis</div>
+              <div class="mock-learn-metrics">
+                <span class="mock-learn-pill green">94% estimate accuracy</span>
+                <span class="mock-learn-pill green">8% under budget</span>
+                <span class="mock-learn-pill blue">17 weeks actual vs planned</span>
               </div>
+              <div class="mock-learn-patterns">
+                <div class="mock-learn-patterns-title">Patterns Detected</div>
+                <div class="mock-learn-patterns-text">Discovery phases for CRM implementations consistently run 15% under estimate when led by senior analysts. Recommend adjusting catalog effort drivers.</div>
+              </div>
+              <div class="mock-learn-footer">Feeding insights into <span>Service Catalog</span></div>
             </div>
           </div>
-          <div class="p-6 md:p-8 bg-white">
-            <div class="grid grid-cols-2 gap-3 mb-6">
-              <span class="flex items-center gap-2 text-base text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#8B5CF6] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Institutional memory</span>
-              <span class="flex items-center gap-2 text-base text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#8B5CF6] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Note embeddings</span>
-              <span class="flex items-center gap-2 text-base text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#8B5CF6] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Learning catalog</span>
-              <span class="flex items-center gap-2 text-base text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#8B5CF6] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Vector search</span>
-            </div>
-            <a href="#features" data-tab="learn" class="narrative-link text-sm font-semibold text-[#8B5CF6] no-underline hover:opacity-80">
-              Explore features ↓
-            </a>
+        </div>
+        <!-- Panel 4: Features — stacked full-width below mockup -->
+        <div class="p-6 md:p-8 bg-white rounded-b-2xl" style="border: 1px solid #e5e7eb; border-top: none;">
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+            <span class="flex items-center gap-2 text-base text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#8B5CF6] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Institutional memory</span>
+            <span class="flex items-center gap-2 text-base text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#8B5CF6] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Note embeddings</span>
+            <span class="flex items-center gap-2 text-base text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#8B5CF6] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Learning catalog</span>
+            <span class="flex items-center gap-2 text-base text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#8B5CF6] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Vector search</span>
           </div>
+          <a href="#features" data-tab="learn" class="narrative-link text-sm font-semibold text-[#8B5CF6] no-underline hover:opacity-80">
+            Explore features ↓
+          </a>
         </div>
       </div>
 

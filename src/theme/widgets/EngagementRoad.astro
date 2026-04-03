@@ -28,6 +28,16 @@ const panels = [
   { number: '04', bg: 'linear-gradient(135deg, #ffffff 0%, #f0fdfa 100%)', accent: '#26A899', astronaut: 'chef' as const },
   { number: '05', bg: 'linear-gradient(135deg, #ffffff 0%, #faf5ff 100%)', accent: '#8B5CF6', astronaut: 'cowboy' as const },
 ];
+
+const taglines = [
+  'Every conversation is captured context.',
+  'Never guess at pricing again.',
+  'From estimate to client-ready in minutes.',
+  'Real-time visibility, not status meetings.',
+  "Your firm's knowledge, compounding.",
+];
+
+const stageNames = ['Discovery', 'Estimation', 'Proposal', 'Delivery', 'Learning'];
 ---
 
 <!-- Filmstrip: Horizontal scroll driven by vertical scroll -->
@@ -35,6 +45,12 @@ const panels = [
 
   <!-- Sticky viewport -->
   <div class="filmstrip-viewport sticky top-0 h-screen overflow-hidden">
+
+    <!-- Persistent overlay at top center -->
+    <div class="absolute top-6 left-1/2 -translate-x-1/2 z-30 text-center pointer-events-none">
+      <div class="text-sm font-semibold uppercase tracking-widest" style="color: var(--color-green); letter-spacing: 0.12em;">The Engagement Journey</div>
+      <div class="text-xs mt-1" style="color: var(--color-ink-muted);">From first conversation to institutional memory</div>
+    </div>
 
     <!-- Astronaut hopping above the thread -->
     <div class="filmstrip-astronaut absolute z-[25]" style="bottom: 140px; left: 10%; transition: left 0.5s cubic-bezier(0.16, 1, 0.3, 1);">
@@ -55,15 +71,16 @@ const panels = [
 
               <!-- Left: Text content -->
               <div>
-                <span class="text-xs uppercase tracking-widest text-[var(--color-green)] font-semibold mb-2 block">
-                  Engagement Management
-                </span>
+                <!-- Per-panel label removed; persistent overlay at top handles this -->
                 <span class="text-[10rem] font-bold leading-none select-none block" style={`color: ${panel.accent}; opacity: 0.08;`}>{panel.number}</span>
                 <h3 class="text-4xl md:text-5xl font-medium -mt-20 mb-4" style="font-family: var(--font-display); color: var(--color-ink);">
                   {stop.title}
                 </h3>
-                <p class="text-lg leading-relaxed mb-6 max-w-lg" style="color: var(--color-ink-muted);">
+                <p class="text-lg leading-relaxed mb-2 max-w-lg" style="color: var(--color-ink-muted);">
                   {stop.description}
+                </p>
+                <p class="text-sm font-semibold italic mb-6" style={`color: ${panel.accent};`}>
+                  {taglines[i]}
                 </p>
                 <div class="grid grid-cols-2 gap-3">
                   {stop.features.map((feature) => (
@@ -79,7 +96,7 @@ const panels = [
 
               <!-- Right: Mockup SVG with card stack (hidden on mobile) -->
               <div class="hidden lg:flex items-center justify-center">
-                <div class="relative" style="width: 450px;">
+                <div class="relative w-full max-w-xl">
                   <!-- Shadow/background card -->
                   <div class="absolute -top-3 -right-3 w-full h-full rounded-xl bg-slate-100 border border-slate-200 -z-10"></div>
                   <!-- Main mockup card -->
@@ -358,6 +375,19 @@ const panels = [
       ))}
     </div>
 
+    <!-- Stage name labels below progress dots -->
+    <div class="filmstrip-stage-labels absolute left-0 w-full flex justify-between px-[10%] z-20 pointer-events-none" style="bottom: 85px;">
+      {stageNames.map((name, i) => (
+        <span
+          class="filmstrip-stage-label text-xs opacity-40 transition-all duration-300 text-center"
+          data-stage={i}
+          style={`color: ${panels[i].accent};`}
+        >
+          {name}
+        </span>
+      ))}
+    </div>
+
   </div>
 
   <!-- Mobile: Stacked cards (hidden on desktop, shown via CSS) -->
@@ -376,8 +406,11 @@ const panels = [
             <h3 class="text-2xl font-medium -mt-8 mb-2" style="font-family: var(--font-display); color: var(--color-ink);">
               {stop.title}
             </h3>
-            <p class="text-base leading-relaxed mb-4" style="color: var(--color-ink-muted);">
+            <p class="text-base leading-relaxed mb-1" style="color: var(--color-ink-muted);">
               {stop.description}
+            </p>
+            <p class="text-xs font-semibold italic mb-4" style={`color: ${panel.accent};`}>
+              {taglines[i]}
             </p>
             <div class="grid grid-cols-2 gap-2">
               {stop.features.map((feature) => (
@@ -489,7 +522,8 @@ const panels = [
     }
     .filmstrip-thread,
     .filmstrip-dots,
-    .filmstrip-astronaut {
+    .filmstrip-astronaut,
+    .filmstrip-stage-labels {
       display: none !important;
     }
   }
@@ -508,6 +542,7 @@ function initFilmstrip() {
   var track = document.getElementById('filmstrip-track');
   var threadProgress = document.getElementById('thread-progress');
   var dots = document.querySelectorAll('.filmstrip-dot');
+  var stageLabels = document.querySelectorAll('.filmstrip-stage-label');
   var astronaut = viewport ? viewport.querySelector('.filmstrip-astronaut') : null;
   if (!section || !track || !viewport) return;
 
@@ -530,6 +565,15 @@ function initFilmstrip() {
     } else {
       dot.style.background = '#E1E3E6';
       dot.style.boxShadow = 'none';
+    }
+  });
+  stageLabels.forEach(function(label, i) {
+    if (i === 0) {
+      label.style.opacity = '1';
+      label.style.fontSize = '0.875rem';
+    } else {
+      label.style.opacity = '0.4';
+      label.style.fontSize = '0.75rem';
     }
   });
 
@@ -575,6 +619,17 @@ function initFilmstrip() {
       } else {
         dot.style.background = '#E1E3E6';
         dot.style.boxShadow = 'none';
+      }
+    });
+
+    // Update stage labels
+    stageLabels.forEach(function(label, i) {
+      if (i <= activeIndex) {
+        label.style.opacity = '1';
+        label.style.fontSize = '0.875rem';
+      } else {
+        label.style.opacity = '0.4';
+        label.style.fontSize = '0.75rem';
       }
     });
 
