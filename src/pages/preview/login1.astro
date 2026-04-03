@@ -1,0 +1,394 @@
+---
+/**
+ * Preview 1: Static HTML/CSS login — no framework dependencies.
+ * Self-contained, portable. Max can copy the CSS directly.
+ */
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign In — Servantium</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Source Sans 3', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      background: #ffffff;
+      color: #0D0D0D;
+    }
+
+    /* ── Left Panel: Branding ── */
+    .brand-panel {
+      width: 45%;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #00C26D 0%, #023E25 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .brand-panel::before {
+      content: '';
+      position: absolute;
+      top: -20%;
+      right: -20%;
+      width: 60%;
+      height: 60%;
+      background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .brand-panel::after {
+      content: '';
+      position: absolute;
+      bottom: -10%;
+      left: -10%;
+      width: 40%;
+      height: 40%;
+      background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .brand-logo {
+      width: 200px;
+      margin-bottom: 2rem;
+      filter: brightness(0) invert(1);
+      position: relative;
+      z-index: 1;
+    }
+
+    .brand-tagline {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 2rem;
+      font-weight: 500;
+      color: #ffffff;
+      text-align: center;
+      line-height: 1.3;
+      margin-bottom: 1rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .brand-subtitle {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.75);
+      text-align: center;
+      max-width: 320px;
+      line-height: 1.6;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Astronaut */
+    .brand-astronaut {
+      margin-top: 2.5rem;
+      position: relative;
+      z-index: 1;
+      animation: astroFloat 4s ease-in-out infinite;
+    }
+
+    @keyframes astroFloat {
+      0%, 100% { transform: translateY(0) rotate(-3deg); }
+      50% { transform: translateY(-12px) rotate(3deg); }
+    }
+
+    /* Stars */
+    .star {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.4;
+      animation: twinkle 3s ease-in-out infinite;
+    }
+    .star:nth-child(1) { top: 15%; left: 20%; animation-delay: 0s; }
+    .star:nth-child(2) { top: 25%; right: 25%; animation-delay: 0.8s; }
+    .star:nth-child(3) { top: 60%; left: 15%; animation-delay: 1.5s; }
+    .star:nth-child(4) { bottom: 25%; right: 20%; animation-delay: 0.4s; }
+    .star:nth-child(5) { top: 40%; left: 35%; animation-delay: 2s; width: 2px; height: 2px; }
+    .star:nth-child(6) { bottom: 40%; right: 35%; animation-delay: 1.2s; width: 2px; height: 2px; }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.8; }
+    }
+
+    /* ── Right Panel: Form ── */
+    .form-panel {
+      width: 55%;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 3rem;
+    }
+
+    .form-container {
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .form-header {
+      margin-bottom: 2.5rem;
+    }
+
+    .form-header h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 2rem;
+      font-weight: 500;
+      color: #0D0D0D;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-header p {
+      font-size: 1rem;
+      color: #6b6b6b;
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #3d3d3d;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      font-family: 'Source Sans 3', sans-serif;
+      border: 1.5px solid #E1E3E6;
+      border-radius: 10px;
+      background: #ffffff;
+      color: #0D0D0D;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      outline: none;
+    }
+
+    .form-input:focus {
+      border-color: #00C26D;
+      box-shadow: 0 0 0 3px rgba(0, 194, 109, 0.12);
+    }
+
+    .form-input::placeholder {
+      color: #9ca3af;
+    }
+
+    .form-options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      font-size: 0.875rem;
+    }
+
+    .form-remember {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #3d3d3d;
+    }
+
+    .form-remember input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: #00C26D;
+    }
+
+    .form-forgot {
+      color: #00C26D;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .form-forgot:hover {
+      color: #00A95E;
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 0.875rem;
+      font-size: 1rem;
+      font-weight: 600;
+      font-family: 'Source Sans 3', sans-serif;
+      color: #ffffff;
+      background: #00C26D;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.1s ease;
+    }
+
+    .btn-primary:hover {
+      background: #00A95E;
+    }
+
+    .btn-primary:active {
+      transform: scale(0.98);
+    }
+
+    .form-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 1.5rem 0;
+      color: #9ca3af;
+      font-size: 0.8rem;
+    }
+
+    .form-divider::before,
+    .form-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #E1E3E6;
+    }
+
+    .btn-google {
+      width: 100%;
+      padding: 0.75rem;
+      font-size: 0.95rem;
+      font-weight: 500;
+      font-family: 'Source Sans 3', sans-serif;
+      color: #3d3d3d;
+      background: #ffffff;
+      border: 1.5px solid #E1E3E6;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .btn-google:hover {
+      border-color: #d1d5db;
+      background: #f9fafb;
+    }
+
+    .form-footer {
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 0.9rem;
+      color: #6b6b6b;
+    }
+
+    .form-footer a {
+      color: #00C26D;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .form-footer a:hover {
+      color: #00A95E;
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      body { flex-direction: column; }
+      .brand-panel {
+        width: 100%;
+        min-height: 40vh;
+        padding: 2rem;
+      }
+      .brand-tagline { font-size: 1.5rem; }
+      .brand-astronaut svg { width: 60px; height: 60px; }
+      .form-panel {
+        width: 100%;
+        min-height: 60vh;
+        padding: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Left: Brand Panel -->
+  <div class="brand-panel">
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+
+    <img src="/logo.png" alt="Servantium" class="brand-logo" />
+
+    <div class="brand-tagline">The operating system<br/>for your clients.</div>
+    <div class="brand-subtitle">Scope, price, deliver, and learn from every engagement.</div>
+
+    <!-- Astronaut waving -->
+    <div class="brand-astronaut">
+      <svg width="80" height="80" viewBox="0 0 100 100">
+        <circle cx="50" cy="40" r="25" fill="white" stroke="#0D0D0D" stroke-width="2"/>
+        <ellipse cx="50" cy="42" rx="15" ry="12" fill="#00C26D" opacity="0.8"/>
+        <rect x="35" y="60" width="30" height="25" rx="8" fill="white" stroke="#0D0D0D" stroke-width="2"/>
+        <rect x="60" y="62" width="12" height="20" rx="3" fill="white" stroke="#0D0D0D" stroke-width="2"/>
+        <rect x="20" y="55" width="18" height="8" rx="4" fill="white" stroke="#0D0D0D" stroke-width="2" transform="rotate(-30 29 59)"/>
+        <rect x="62" y="65" width="18" height="8" rx="4" fill="white" stroke="#0D0D0D" stroke-width="2"/>
+        <line x1="50" y1="15" x2="50" y2="8" stroke="#0D0D0D" stroke-width="2"/>
+        <circle cx="50" cy="6" r="3" fill="#00C26D"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Right: Form Panel -->
+  <div class="form-panel">
+    <div class="form-container">
+      <div class="form-header">
+        <h1>Welcome back</h1>
+        <p>Sign in to continue to Servantium</p>
+      </div>
+
+      <form>
+        <div class="form-group">
+          <label class="form-label" for="email">Email address</label>
+          <input class="form-input" type="email" id="email" placeholder="you@company.com" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="password">Password</label>
+          <input class="form-input" type="password" id="password" placeholder="Enter your password" />
+        </div>
+
+        <div class="form-options">
+          <label class="form-remember">
+            <input type="checkbox" /> Remember me
+          </label>
+          <a href="#" class="form-forgot">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="btn-primary">Sign In</button>
+
+        <div class="form-divider">or continue with</div>
+
+        <button type="button" class="btn-google">
+          <svg width="18" height="18" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+          Continue with Google
+        </button>
+      </form>
+
+      <div class="form-footer">
+        Don't have an account? <a href="#">Sign up</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
