@@ -44,6 +44,13 @@
 
       if (!pagefindLoaded) {
         try {
+          // Load Pagefind CSS
+          if (!document.querySelector('link[href="/pagefind/pagefind-ui.css"]')) {
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = '/pagefind/pagefind-ui.css';
+            document.head.appendChild(link);
+          }
           const pagefind = await import('/pagefind/pagefind-ui.js');
           new pagefind.PagefindUI({
             element: pagefindEl,

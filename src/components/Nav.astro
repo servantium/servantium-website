@@ -61,6 +61,14 @@ const navLinks = [
   {navLinks.map(link => (
     <a href={link.href}>{link.label}</a>
   ))}
+  <button
+    class="btn btn-secondary"
+    data-cal-link="christopher-veale/servantium-introduction?duration=15"
+    data-cal-namespace="servantium-introduction"
+    data-cal-config='{"layout":"month_view"}'
+  >
+    Book a Demo
+  </button>
   <a href="https://app.servantium.com/" class="btn btn-primary">Log In</a>
 </div>
 
@@ -181,11 +189,13 @@ const navLinks = [
     padding-top: 80px;
     flex-direction: column;
     gap: var(--space-sm, 1rem);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
   .mobile-menu.active { display: flex; }
   .mobile-menu-close {
     position: absolute;
-    top: var(--space-sm, 1rem);
+    top: calc(env(safe-area-inset-top, 0px) + var(--space-sm, 1rem));
     right: var(--space-lg, 2.5rem);
     width: 44px; height: 44px;
     background: none;
@@ -195,6 +205,7 @@ const navLinks = [
     align-items: center;
     justify-content: center;
     padding: 0;
+    z-index: 1002;
   }
   .mobile-menu-close svg {
     width: 28px; height: 28px;
@@ -257,11 +268,11 @@ const navLinks = [
     }
   });
 
-  // Scroll-hide header on mobile
+  // Scroll-hide header on mobile and tablet (including landscape)
   let lastScroll = 0;
   const nav = document.querySelector('nav');
   window.addEventListener('scroll', () => {
-    if (window.innerWidth > 768) return;
+    if (window.innerWidth > 1024) return;
     const current = window.scrollY;
     if (current > lastScroll && current > 100) {
       nav.style.transform = 'translateY(-100%)';

@@ -41,10 +41,10 @@ const stageNames = ['Discovery', 'Estimation', 'Proposal', 'Delivery', 'Learning
 ---
 
 <!-- Filmstrip: Horizontal scroll driven by vertical scroll -->
-<section class="filmstrip-section" style="min-height: 300vh;" aria-label={title}>
+<section class="filmstrip-section" style="min-height: 300vh; overflow: visible;" aria-label={title}>
 
   <!-- Sticky viewport -->
-  <div class="filmstrip-viewport sticky top-0 h-screen overflow-hidden">
+  <div class="filmstrip-viewport sticky top-0 h-screen overflow-hidden" style="-webkit-overflow-scrolling: touch;">
 
     <!-- Persistent overlay at top center -->
     <div class="absolute top-6 left-1/2 -translate-x-1/2 z-30 text-center pointer-events-none">
@@ -52,9 +52,13 @@ const stageNames = ['Discovery', 'Estimation', 'Proposal', 'Delivery', 'Learning
       <div class="text-xs mt-1" style="color: var(--color-ink-muted);">From first conversation to institutional memory</div>
     </div>
 
-    <!-- Astronaut hopping above the thread -->
+    <!-- Astronaut hopping above the thread — one per costume, toggled by script -->
     <div class="filmstrip-astronaut absolute z-[25]" style="bottom: 140px; left: 10%; transition: left 0.5s cubic-bezier(0.16, 1, 0.3, 1);">
-      <Astronaut size="md" variant="detective" />
+      <div class="astronaut-costume" data-costume="0"><Astronaut size="md" variant="detective" /></div>
+      <div class="astronaut-costume" data-costume="1" style="display:none;"><Astronaut size="md" variant="professor" /></div>
+      <div class="astronaut-costume" data-costume="2" style="display:none;"><Astronaut size="md" variant="captain" /></div>
+      <div class="astronaut-costume" data-costume="3" style="display:none;"><Astronaut size="md" variant="chef" /></div>
+      <div class="astronaut-costume" data-costume="4" style="display:none;"><Astronaut size="md" variant="cowboy" /></div>
     </div>
 
     <!-- Panels track -->
@@ -633,6 +637,14 @@ function initFilmstrip() {
         label.style.fontSize = '0.75rem';
       }
     });
+
+    // Switch astronaut costume based on active panel
+    if (astronaut) {
+      var costumes = astronaut.querySelectorAll('.astronaut-costume');
+      costumes.forEach(function(c) {
+        c.style.display = parseInt(c.getAttribute('data-costume')) === activeIndex ? '' : 'none';
+      });
+    }
 
     requestAnimationFrame(update);
   }

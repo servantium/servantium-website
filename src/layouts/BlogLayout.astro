@@ -202,13 +202,13 @@ const relatedPosts = allPosts
 
   {/* -- Article + TOC Layout -- */}
   <div class="mx-auto max-w-4xl px-6">
-    <div class="blog-layout-grid relative">
+    <div class={`blog-layout-grid relative ${hideAuthor ? 'blog-layout-grid--legal' : ''}`}>
       {/* -- Article Content -- */}
       <article class="article-content pb-12 md:pb-16 min-w-0">
         <slot />
       </article>
 
-      {/* -- TOC Sidebar (xl+ only) -- */}
+      {/* -- TOC Sidebar (xl+ for blog, lg+ for legal pages) -- */}
       <BlogTOC headings={headings} />
     </div>
   </div>
@@ -258,6 +258,17 @@ const relatedPosts = allPosts
     .blog-layout-grid {
       grid-template-columns: 1fr 200px;
       gap: 3rem;
+    }
+  }
+
+  /* Legal pages: show TOC sidebar at lg breakpoint (1024px+) */
+  @media (min-width: 1024px) {
+    .blog-layout-grid--legal {
+      grid-template-columns: 1fr 200px;
+      gap: 3rem;
+    }
+    .blog-layout-grid--legal :global(.blog-toc) {
+      display: block !important;
     }
   }
 

@@ -364,24 +364,69 @@ const jsonLd = {
       <h2 class="text-center text-3xl md:text-4xl font-medium mb-3" style="font-family: var(--font-display);">Plans & Features</h2>
       <p class="text-center text-[var(--color-ink-muted)] mb-10 max-w-xl mx-auto">Simple pricing. Everything you need to manage engagements from first conversation through delivery.</p>
 
-      <!-- Single pricing card -->
-      <div class="mx-auto max-w-md mb-12 rounded-2xl border-2 border-[var(--color-green)] bg-white p-8 text-center shadow-lg">
-        <span class="text-xs font-semibold uppercase tracking-widest text-[var(--color-green)]">Early Access</span>
-        <div class="mt-3 mb-2">
-          <span class="text-4xl font-bold text-[var(--color-ink)]">Contact Us</span>
+      <!-- Pricing tiers -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 max-w-5xl mx-auto">
+        <!-- Essentials -->
+        <div class="rounded-2xl border border-[var(--color-cloud-grey)] bg-white p-8">
+          <span class="text-sm font-semibold text-[var(--color-ink-muted)] uppercase tracking-wider">Essentials</span>
+          <div class="mt-3 mb-1">
+            <span class="text-4xl font-bold text-[var(--color-ink)]">$199</span>
+            <span class="text-[var(--color-ink-muted)]">/mo</span>
+          </div>
+          <p class="text-sm text-[var(--color-ink-muted)] mb-6">Up to 5 users. Everything to get started.</p>
+          <a href="/#contact" class="block w-full py-2.5 rounded-xl border-2 border-[var(--color-green)] text-center font-semibold text-[var(--color-green)] no-underline hover:bg-[var(--color-soft-mint)] transition-colors" style="color: var(--color-green);">Get Started</a>
+          <ul class="mt-6 space-y-2.5 text-sm text-[var(--color-ink-light)]">
+            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Unlimited engagements</li>
+            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Similar matching</li>
+            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Quote builder</li>
+            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Document generation</li>
+            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>CSV import</li>
+            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-[var(--color-ink-muted)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/></svg><span class="text-[var(--color-ink-muted)]">AI quote generation</span></li>
+            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-[var(--color-ink-muted)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/></svg><span class="text-[var(--color-ink-muted)]">Resource planning</span></li>
+          </ul>
         </div>
-        <p class="text-sm text-[var(--color-ink-muted)] mb-6">We're onboarding a small number of firms. Get in early.</p>
-        <a href="/#contact" class="inline-block w-full py-3 rounded-xl bg-[var(--color-green)] text-white font-semibold no-underline hover:bg-[var(--color-green-hover)] transition-colors" style="color:#fff;">Book a Demo</a>
-        <ul class="mt-6 text-left space-y-2 text-sm text-[var(--color-ink-light)]">
-          <li class="flex items-center gap-2"><svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Unlimited engagements</li>
-          <li class="flex items-center gap-2"><svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>AI quote generation</li>
-          <li class="flex items-center gap-2"><svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Similar engagement matching</li>
-          <li class="flex items-center gap-2"><svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Document generation</li>
-          <li class="flex items-center gap-2"><svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Resource planning</li>
-          <li class="flex items-center gap-2"><svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Institutional memory engine</li>
-          <li class="flex items-center gap-2"><svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Salesforce integration</li>
-        </ul>
+
+        <!-- Professional (highlighted) -->
+        <div class="rounded-2xl border-2 border-[var(--color-green)] bg-white p-8 relative shadow-lg">
+          <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-[var(--color-green)] text-white text-xs font-bold px-3 py-1 rounded-full">Most Popular</span>
+          <span class="text-sm font-semibold text-[var(--color-green)] uppercase tracking-wider">Professional</span>
+          <div class="mt-3 mb-1">
+            <span class="text-4xl font-bold text-[var(--color-ink)]">$399</span>
+            <span class="text-[var(--color-ink-muted)]">/mo</span>
+          </div>
+          <p class="text-sm text-[var(--color-ink-muted)] mb-6">Up to 15 users. Full AI + integrations.</p>
+          <a href="/#contact" class="block w-full py-2.5 rounded-xl bg-[var(--color-green)] text-center font-semibold no-underline hover:bg-[var(--color-green-hover)] transition-colors" style="color: #ffffff;">Get Started</a>
+          <ul class="mt-6 space-y-2.5 text-sm text-[var(--color-ink-light)]">
+            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Everything in Essentials</li>
+            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>AI quote generation</li>
+            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Resource planning</li>
+            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Salesforce integration</li>
+            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Note context extraction</li>
+            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Priority support</li>
+            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Institutional memory</li>
+          </ul>
+        </div>
+
+        <!-- Enterprise -->
+        <div class="rounded-2xl border border-[var(--color-cloud-grey)] bg-white p-8">
+          <span class="text-sm font-semibold text-[var(--color-ink-muted)] uppercase tracking-wider">Enterprise</span>
+          <div class="mt-3 mb-1">
+            <span class="text-4xl font-bold text-[var(--color-ink)]">Custom</span>
+          </div>
+          <p class="text-sm text-[var(--color-ink-muted)] mb-6">Unlimited users. Custom integrations.</p>
+          <a href="/#contact" class="block w-full py-2.5 rounded-xl border-2 border-[var(--color-cloud-grey)] text-center font-semibold text-[var(--color-ink)] no-underline hover:border-[var(--color-green)] hover:text-[var(--color-green)] transition-colors">Contact Sales</a>
+          <ul class="mt-6 space-y-2.5 text-sm text-[var(--color-ink-light)]">
+            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Everything in Professional</li>
+            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Unlimited users</li>
+            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Custom integrations</li>
+            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>SSO / SAML</li>
+            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Dedicated success manager</li>
+            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>SLA guarantee</li>
+          </ul>
+        </div>
       </div>
+
+      <p class="text-center text-sm text-[var(--color-ink-muted)] mb-12">All plans include unlimited engagements. Annual billing saves 15%. <a href="/#contact" class="text-[var(--color-green)] font-medium no-underline">Contact us for annual pricing</a>.</p>
 
       <!-- Full feature breakdown -->
       <h3 class="text-center text-xl font-medium mb-6" style="font-family: var(--font-display);">Full feature breakdown</h3>
