@@ -81,9 +81,22 @@ const finalRows = rows.map((row, i) => seededShuffle(row, 100 + i));
               {doubled.map((ig, i) => {
                 const posInHalf = i % totalInHalf;
                 const center = totalInHalf / 2;
-                const distFromCenter = Math.abs(posInHalf - center) / center;
-                const scale = 0.7 + (distFromCenter * 0.4);
-                const translateY = 25 - (distFromCenter * 40);
+                const dist = Math.abs(posInHalf - center) / center;
+                // Different formulas per row for concave bowl effect
+                let scale: number, translateY: number;
+                if (rowIdx === 0) {
+                  // Top outer: flares UP
+                  scale = 0.85 + (dist * 0.35);
+                  translateY = 15 - (dist * 35);
+                } else if (rowIdx === 3) {
+                  // Bottom outer: flares DOWN
+                  scale = 0.85 + (dist * 0.35);
+                  translateY = 15 - (dist * 35);
+                } else {
+                  // Inner rows: mostly flat
+                  scale = 0.9 + (dist * 0.1);
+                  translateY = 5 - (dist * 10);
+                }
                 return (
                   <div
                     class={`wall-box wall-box-${ig.tier}`}

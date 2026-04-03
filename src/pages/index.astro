@@ -3,7 +3,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import SEO from '@/components/SEO.astro';
 import '@/styles/home.css';
 import HeroMockup from '@/components/HeroMockup.astro';
-import CalBooker from '@/components/CalBooker.tsx';
+
 import EngagementRoad from '@/theme/widgets/EngagementRoad.astro';
 
 const jsonLd = [
@@ -242,7 +242,7 @@ const jsonLd = [
             <p>Book an intro call to see Servantium in action</p>
           </div>
           <div class="cal-embed-container">
-            <CalBooker client:visible calLink="christopher-veale/servantium-introduction" />
+            <div id="cal-inline-embed" style="width:100%;height:100%;overflow:scroll;"></div>
           </div>
         </div>
         <div class="cta-column" style="border-radius: 8px; padding: 1rem;">
@@ -391,7 +391,14 @@ const jsonLd = [
     });
   });
 
-  // Cal.com inline embed now handled by React CalBooker atom (client:visible)
+  // Cal.com inline embed
+  if (window.Cal && window.Cal.ns && window.Cal.ns["servantium-introduction"]) {
+    window.Cal.ns["servantium-introduction"]("inline", {
+      elementOrSelector: "#cal-inline-embed",
+      calLink: "christopher-veale/servantium-introduction",
+      config: {layout:"month_view", useSlotsViewOnSmallScreen:"true", theme:"light"},
+    });
+  }
 </script>
 
 <!-- Scroll-triggered animations for homepage -->

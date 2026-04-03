@@ -75,22 +75,6 @@ const tocHeadings = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
 
   <Nav activePage="help" />
 
-  <!-- Mobile sidebar toggle -->
-  <button
-    id="grove-sidebar-toggle"
-    class="fixed bottom-6 right-6 z-50 flex items-center gap-2 rounded-full bg-green px-4 py-3 text-sm font-semibold text-white shadow-lg lg:hidden"
-    aria-label="Toggle documentation menu"
-    aria-expanded="false"
-    aria-controls="grove-sidebar-drawer"
-  >
-    <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <line x1="3" y1="6" x2="21" y2="6"></line>
-      <line x1="3" y1="12" x2="21" y2="12"></line>
-      <line x1="3" y1="18" x2="21" y2="18"></line>
-    </svg>
-    Menu
-  </button>
-
   <!-- Mobile sidebar drawer overlay -->
   <div
     id="grove-sidebar-drawer"
@@ -196,25 +180,14 @@ const tocHeadings = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
   <!-- Mobile drawer script -->
   <script>
     document.addEventListener('astro:page-load', () => {
-      const toggle = document.getElementById('grove-sidebar-toggle');
       const drawer = document.getElementById('grove-sidebar-drawer');
-      if (!toggle || !drawer) return;
-
-      function openDrawer() {
-        drawer!.classList.remove('hidden');
-        drawer!.setAttribute('aria-hidden', 'false');
-        toggle!.setAttribute('aria-expanded', 'true');
-        document.body.style.overflow = 'hidden';
-      }
+      if (!drawer) return;
 
       function closeDrawer() {
         drawer!.classList.add('hidden');
         drawer!.setAttribute('aria-hidden', 'true');
-        toggle!.setAttribute('aria-expanded', 'false');
         document.body.style.overflow = '';
       }
-
-      toggle.addEventListener('click', openDrawer);
 
       drawer.querySelectorAll('[data-close-drawer]').forEach((el) => {
         el.addEventListener('click', closeDrawer);

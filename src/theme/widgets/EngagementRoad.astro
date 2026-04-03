@@ -72,7 +72,7 @@ const stageNames = ['Discovery', 'Estimation', 'Proposal', 'Delivery', 'Learning
               <!-- Left: Text content -->
               <div>
                 <!-- Per-panel label removed; persistent overlay at top handles this -->
-                <span class="text-[10rem] font-bold leading-none select-none block" style={`color: ${panel.accent}; opacity: 0.08;`}>{panel.number}</span>
+                <span class="text-[12rem] font-bold leading-none select-none block" style={`color: ${panel.accent}; opacity: 0.08;`}>{panel.number}</span>
                 <h3 class="text-4xl md:text-5xl font-medium -mt-20 mb-4" style="font-family: var(--font-display); color: var(--color-ink);">
                   {stop.title}
                 </h3>
@@ -96,7 +96,7 @@ const stageNames = ['Discovery', 'Estimation', 'Proposal', 'Delivery', 'Learning
 
               <!-- Right: Mockup SVG with card stack (hidden on mobile) -->
               <div class="hidden lg:flex items-center justify-center">
-                <div class="relative w-full max-w-xl">
+                <div class="relative w-full max-w-2xl">
                   <!-- Shadow/background card -->
                   <div class="absolute -top-3 -right-3 w-full h-full rounded-xl bg-slate-100 border border-slate-200 -z-10"></div>
                   <!-- Main mockup card -->
@@ -444,6 +444,7 @@ const stageNames = ['Discovery', 'Estimation', 'Proposal', 'Delivery', 'Learning
 
   .filmstrip-panel {
     width: 100vw;
+    min-height: 80vh;
     height: 100%;
     display: flex;
     align-items: center;

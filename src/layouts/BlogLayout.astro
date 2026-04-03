@@ -99,11 +99,21 @@ const relatedPosts = allPosts
           class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)] mb-6"
           aria-label="Breadcrumb"
         >
-          <a href="/" class="hover:text-[var(--color-green)] transition-colors">Home</a>
-          <span class="opacity-40" aria-hidden="true">&rsaquo;</span>
-          <a href="/blog/" class="hover:text-[var(--color-green)] transition-colors">Blog</a>
-          <span class="opacity-40" aria-hidden="true">&rsaquo;</span>
-          <a href={`/blog/category/${category.toLowerCase().replace(/\s+/g, '-')}`} class="hover:text-[var(--color-green)] transition-colors">{category}</a>
+          {hideAuthor ? (
+            <>
+              <a href="/" class="hover:text-[var(--color-green)] transition-colors">Home</a>
+              <span class="opacity-40" aria-hidden="true">&rsaquo;</span>
+              <span>{title}</span>
+            </>
+          ) : (
+            <>
+              <a href="/" class="hover:text-[var(--color-green)] transition-colors">Home</a>
+              <span class="opacity-40" aria-hidden="true">&rsaquo;</span>
+              <a href="/blog/" class="hover:text-[var(--color-green)] transition-colors">Blog</a>
+              <span class="opacity-40" aria-hidden="true">&rsaquo;</span>
+              <a href={`/blog/category/${category.toLowerCase().replace(/\s+/g, '-')}`} class="hover:text-[var(--color-green)] transition-colors">{category}</a>
+            </>
+          )}
         </nav>
 
         {/* Category Badge */}

@@ -75,6 +75,7 @@ const navLinks = [
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--color-cloud-grey, #E1E3E6);
+    transition: transform 0.3s ease;
   }
   nav .container {
     display: flex;
@@ -254,5 +255,19 @@ const navLinks = [
     if (e.key === 'Escape' && mobileMenu?.classList.contains('active')) {
       closeMobileMenu();
     }
+  });
+
+  // Scroll-hide header on mobile
+  let lastScroll = 0;
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    if (window.innerWidth > 768) return;
+    const current = window.scrollY;
+    if (current > lastScroll && current > 100) {
+      nav.style.transform = 'translateY(-100%)';
+    } else {
+      nav.style.transform = 'translateY(0)';
+    }
+    lastScroll = current;
   });
 </script>
