@@ -82,24 +82,20 @@ const finalRows = rows.map((row, i) => seededShuffle(row, 100 + i));
                 const posInHalf = i % totalInHalf;
                 const center = totalInHalf / 2;
                 const dist = Math.abs(posInHalf - center) / center;
-                // Different formulas per row for 4 distinct concave curves
+                // Per-row concave transforms: pure scale + translateY, no sine/wave
                 let scale: number, translateY: number;
                 if (rowIdx === 0) {
-                  // Top row: flares UP aggressively
-                  scale = 0.8 + (dist * 0.4);
-                  translateY = 20 - (dist * 40);
+                  scale = 0.75 + (dist * 0.4);
+                  translateY = 10 - (dist * 35);
                 } else if (rowIdx === 1) {
-                  // Second row: mostly flat
-                  scale = 0.9 + (dist * 0.1);
-                  translateY = 5 - (dist * 10);
+                  scale = 0.9 + (dist * 0.15);
+                  translateY = 5 - (dist * 15);
                 } else if (rowIdx === 2) {
-                  // Third row: mostly flat, inverted
-                  scale = 0.9 + (dist * 0.1);
-                  translateY = -5 + (dist * 10);
+                  scale = 0.9 + (dist * 0.15);
+                  translateY = -5 + (dist * 15);
                 } else {
-                  // Bottom row: flares DOWN aggressively
-                  scale = 0.8 + (dist * 0.4);
-                  translateY = -20 + (dist * 40);
+                  scale = 0.75 + (dist * 0.4);
+                  translateY = -10 + (dist * 35);
                 }
                 return (
                   <div
@@ -196,8 +192,6 @@ const finalRows = rows.map((row, i) => seededShuffle(row, 100 + i));
   }
 
   .wall-curved {
-    transform: rotateX(4deg);
-    transform-origin: center 60%;
     display: flex;
     flex-direction: column;
     gap: 3rem;
@@ -208,10 +202,10 @@ const finalRows = rows.map((row, i) => seededShuffle(row, 100 + i));
   /* Scrolling rows */
   .wall-row {
     display: flex;
-    align-items: flex-end;
-    gap: 0.75rem;
+    align-items: center;
     animation: scrollRow var(--speed) linear infinite;
     width: max-content;
+    overflow: visible;
     mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
     -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
   }

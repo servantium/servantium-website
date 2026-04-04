@@ -36,7 +36,7 @@ import Astronaut from '@/theme/components/Astronaut.astro';
 
     /* ── sideBuilder ── (Flutter: only renders on constraints.maxWidth > 800) */
     .flutter-side-builder {
-      width: 420px;
+      width: 480px;
       min-height: 100vh;
       background: linear-gradient(160deg, #00C26D 0%, #037A47 40%, #023E25 100%);
       display: flex;
@@ -61,7 +61,7 @@ import Astronaut from '@/theme/components/Astronaut.astro';
     .flutter-side-builder .orb-2 { bottom: -5%; left: -10%; width: 35%; height: 35%; }
 
     .side-content { position: relative; z-index: 1; text-align: center; }
-    .side-logo { height: 36px; filter: brightness(0) invert(1); margin-bottom: 32px; }
+    .side-logo { height: 44px; filter: brightness(0) invert(1); margin-bottom: 32px; }
     .side-title { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 500; color: #fff; line-height: 1.25; margin-bottom: 12px; }
     .side-subtitle { font-size: 1rem; color: rgba(255,255,255,0.75); max-width: 280px; line-height: 1.6; }
     .side-astronaut { margin-top: 40px; }
@@ -260,6 +260,31 @@ import Astronaut from '@/theme/components/Astronaut.astro';
     }
     *:hover > .code-note { opacity: 1; }
     [data-flutter] { position: relative; }
+
+    /* Astronaut costumes */
+    .costume-carousel {
+      margin-top: 32px;
+      position: relative;
+      width: 100%;
+      max-width: 260px;
+      height: 100px;
+    }
+    .costume-carousel .costume {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+      color: rgba(255,255,255,0.85);
+      font-size: 0.85rem;
+      text-align: center;
+    }
+    .costume-carousel .costume.active { opacity: 1; }
+    .costume-icon { font-size: 2.5rem; line-height: 1; }
+    .costume-label { font-weight: 600; font-size: 0.8rem; color: rgba(255,255,255,0.7); }
   </style>
 </head>
 <body>
@@ -279,6 +304,28 @@ import Astronaut from '@/theme/components/Astronaut.astro';
       <div class="side-testimonial">
         <p>"Servantium changed how we scope engagements. We went from guessing to knowing."</p>
         <span class="author">— Beta Customer, Professional Services</span>
+      </div>
+      <div class="costume-carousel" aria-hidden="true">
+        <div class="costume active" data-costume="0">
+          <span class="costume-icon">&#x1F468;&#x200D;&#x1F680;</span>
+          <span class="costume-label">The Explorer</span>
+        </div>
+        <div class="costume" data-costume="1">
+          <span class="costume-icon">&#x1F9D1;&#x200D;&#x1F52C;</span>
+          <span class="costume-label">The Analyst</span>
+        </div>
+        <div class="costume" data-costume="2">
+          <span class="costume-icon">&#x1F9D1;&#x200D;&#x1F4BB;</span>
+          <span class="costume-label">The Architect</span>
+        </div>
+        <div class="costume" data-costume="3">
+          <span class="costume-icon">&#x1F9D1;&#x200D;&#x1F3EB;</span>
+          <span class="costume-label">The Mentor</span>
+        </div>
+        <div class="costume" data-costume="4">
+          <span class="costume-icon">&#x1F9D1;&#x200D;&#x1F3A8;</span>
+          <span class="costume-label">The Designer</span>
+        </div>
       </div>
     </div>
   </div>
@@ -337,5 +384,17 @@ import Astronaut from '@/theme/components/Astronaut.astro';
     </div>
   </div>
 
+  <script>
+    (function() {
+      var costumes = document.querySelectorAll('.costume-carousel .costume');
+      if (!costumes.length) return;
+      var current = 0;
+      setInterval(function() {
+        costumes[current].classList.remove('active');
+        current = (current + 1) % costumes.length;
+        costumes[current].classList.add('active');
+      }, 4000);
+    })();
+  </script>
 </body>
 </html>
