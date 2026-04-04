@@ -346,6 +346,60 @@ const jsonLd = [
     }
   });
 
+  // Hero mockup auto-cycling (rotates through 6 screens)
+  (function() {
+    const pages = document.querySelectorAll('.mockup-page');
+    const dots = document.querySelectorAll('.mockup-auto-dot');
+    const navBtns = document.querySelectorAll('.mockup-nav-btn');
+    if (pages.length < 2) return;
+
+    const pageOrder = ['notes', 'engagement', 'documents', 'resources', 'dashboard', 'learning'];
+    let currentIdx = 0;
+    let autoTimer: ReturnType<typeof setInterval>;
+
+    function showPage(idx: number) {
+      pages.forEach(p => p.classList.remove('active'));
+      dots.forEach(d => d.classList.remove('active'));
+      navBtns.forEach(b => b.classList.remove('active'));
+      const targetPage = pageOrder[idx];
+      const page = document.querySelector(`.mockup-page[data-page="${targetPage}"]`);
+      const dot = document.querySelector(`.mockup-auto-dot[data-page="${targetPage}"]`);
+      const btn = document.querySelector(`.mockup-nav-btn[data-page="${targetPage}"]`);
+      if (page) page.classList.add('active');
+      if (dot) dot.classList.add('active');
+      if (btn) btn.classList.add('active');
+      currentIdx = idx;
+    }
+
+    function startAuto() {
+      clearInterval(autoTimer);
+      autoTimer = setInterval(() => {
+        showPage((currentIdx + 1) % pageOrder.length);
+      }, 5000);
+    }
+
+    // Click dots to jump
+    dots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        const page = dot.getAttribute('data-page') || '';
+        const idx = pageOrder.indexOf(page);
+        if (idx >= 0) { showPage(idx); startAuto(); }
+      });
+    });
+
+    // Click nav buttons to jump
+    navBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const page = btn.getAttribute('data-page') || '';
+        const idx = pageOrder.indexOf(page);
+        if (idx >= 0) { showPage(idx); startAuto(); }
+      });
+    });
+
+    showPage(0);
+    startAuto();
+  })();
+
   // Hero rotating words
   document.querySelectorAll('.hero-rotating').forEach(function(container) {
     const words = container.querySelectorAll('.hero-rotating-word');

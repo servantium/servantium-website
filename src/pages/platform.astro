@@ -5,17 +5,19 @@ import IntegrationWall from '@/theme/widgets/IntegrationWall.astro';
 import Astronaut from '@/theme/components/Astronaut.astro';
 
 const integrations = [
-  { name: 'Salesforce', abbrev: 'SF', color: '#00A1E0', tier: 'live' as const },
-  { name: 'Google Workspace', abbrev: 'G', color: '#4285F4', tier: 'live' as const },
+  // Live integrations
+  { name: 'Salesforce', abbrev: 'SF', color: '#00A1E0', tier: 'live' as const, logo: 'https://cdn.brandfetch.io/salesforce.com/icon/symbol' },
+  { name: 'Google Workspace', abbrev: 'G', color: '#4285F4', tier: 'live' as const, logo: 'https://cdn.brandfetch.io/google.com/icon/symbol' },
   { name: 'CSV Import', abbrev: 'CSV', color: '#00C26D', tier: 'live' as const },
-  { name: 'HubSpot', abbrev: 'HS', color: '#FF7A59', tier: 'planned' as const },
-  { name: 'Slack', abbrev: 'SL', color: '#4A154B', tier: 'planned' as const },
-  { name: 'Teams', abbrev: 'TM', color: '#6264A7', tier: 'planned' as const },
-  { name: 'QuickBooks', abbrev: 'QB', color: '#2CA01C', tier: 'planned' as const },
-  { name: 'Jira', abbrev: 'JR', color: '#0052CC', tier: 'planned' as const },
-  { name: 'Zapier', abbrev: 'ZP', color: '#FF4A00', tier: 'planned' as const },
-  { name: 'Xero', abbrev: 'XR', color: '#13B5EA', tier: 'planned' as const },
-  { name: 'Dynamics', abbrev: 'DY', color: '#002050', tier: 'planned' as const },
+  // Planned integrations
+  { name: 'HubSpot', abbrev: 'HS', color: '#FF7A59', tier: 'planned' as const, logo: 'https://cdn.brandfetch.io/hubspot.com/icon/symbol' },
+  { name: 'Slack', abbrev: 'SL', color: '#4A154B', tier: 'planned' as const, logo: 'https://cdn.brandfetch.io/slack.com/icon/symbol' },
+  { name: 'Microsoft Teams', abbrev: 'TM', color: '#6264A7', tier: 'planned' as const, logo: 'https://cdn.brandfetch.io/microsoft.com/icon/symbol' },
+  { name: 'QuickBooks', abbrev: 'QB', color: '#2CA01C', tier: 'planned' as const, logo: 'https://cdn.brandfetch.io/quickbooks.intuit.com/icon/symbol' },
+  { name: 'Jira', abbrev: 'JR', color: '#0052CC', tier: 'planned' as const, logo: 'https://cdn.brandfetch.io/atlassian.com/icon/symbol' },
+  { name: 'Zapier', abbrev: 'ZP', color: '#FF4A00', tier: 'planned' as const, logo: 'https://cdn.brandfetch.io/zapier.com/icon/symbol' },
+  { name: 'Xero', abbrev: 'XR', color: '#13B5EA', tier: 'planned' as const, logo: 'https://cdn.brandfetch.io/xero.com/icon/symbol' },
+  { name: 'Dynamics 365', abbrev: 'DY', color: '#002050', tier: 'planned' as const, logo: 'https://cdn.brandfetch.io/microsoft.com/icon/symbol' },
   ...Array.from({ length: 40 }, (_, i) => ({ name: '', abbrev: '+', color: '#94a3b8', tier: 'placeholder' as const })),
 ];
 
@@ -170,6 +172,9 @@ const jsonLd = {
               <a href="#features" data-tab="price" class="narrative-link text-sm font-semibold text-[#4C82A7] no-underline hover:opacity-80">
                 Explore features ↓
               </a>
+              <button onclick="openROICalculator()" class="ml-4 text-sm font-semibold text-[var(--color-green)] bg-transparent border border-[var(--color-green)] rounded-lg px-3 py-1 hover:bg-[var(--color-soft-mint)] transition-colors cursor-pointer">
+                Calculate your ROI →
+              </button>
             </div>
             <div class="p-6 md:p-8 flex items-center justify-center bg-[var(--color-mist-grey)] min-h-[280px]">
               <div class="mini-illus w-full">
@@ -358,157 +363,206 @@ const jsonLd = {
     capabilities={['Bi-directional sync', 'REST API ready', 'MCP-compatible']}
   />
 
-  <!-- Section 4: Plans & Features -->
+  <!-- Section 4: Simple Pricing -->
   <section id="features" class="py-12" style="background: linear-gradient(to bottom, white, var(--color-mist-grey));">
     <div class="mx-auto max-w-5xl px-6">
-      <h2 class="text-center text-3xl md:text-4xl font-medium mb-3" style="font-family: var(--font-display);">Plans & Features</h2>
-      <p class="text-center text-[var(--color-ink-muted)] mb-10 max-w-xl mx-auto">Simple pricing. Everything you need to manage engagements from first conversation through delivery.</p>
+      <h2 class="text-center text-3xl md:text-4xl font-medium mb-3" style="font-family: var(--font-display);">Simple, Transparent Pricing</h2>
+      <p class="text-center text-[var(--color-ink-muted)] mb-10 max-w-xl mx-auto">One plan. Every feature. No surprises. Monthly and annual options available.</p>
 
-      <!-- Pricing tiers -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 max-w-5xl mx-auto">
-        <!-- Essentials -->
-        <div class="rounded-2xl border border-[var(--color-cloud-grey)] bg-white p-8">
-          <span class="text-sm font-semibold text-[var(--color-ink-muted)] uppercase tracking-wider">Essentials</span>
-          <div class="mt-3 mb-1">
-            <span class="text-4xl font-bold text-[var(--color-ink)]">$199</span>
-            <span class="text-[var(--color-ink-muted)]">/mo</span>
+      <!-- Pricing + Feature table combo -->
+      <div class="rounded-2xl border border-[var(--color-cloud-grey)] bg-white shadow-lg overflow-hidden mb-8">
+        <!-- Pricing header with slider -->
+        <div class="px-6 md:px-10 py-8 border-b border-[var(--color-cloud-grey)] bg-gradient-to-r from-white to-[var(--color-mint-tint)]">
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+            <div>
+              <div class="flex items-center gap-3 mb-2">
+                <div id="price-display">
+                  <span class="text-4xl md:text-5xl font-bold text-[var(--color-ink)]" id="price-amount">$199</span>
+                  <span class="text-[var(--color-ink-muted)]" id="price-period">/mo</span>
+                </div>
+              </div>
+              <p class="text-sm text-[var(--color-ink-muted)]" id="price-note">Everything included for your team.</p>
+            </div>
+            <div class="flex-1 max-w-xs">
+              <label class="block text-xs font-semibold text-[var(--color-ink-muted)] uppercase tracking-wider mb-2" for="user-slider">Team size</label>
+              <input type="range" id="user-slider" min="1" max="50" value="5" class="pricing-slider w-full mb-1" />
+              <div class="flex justify-between text-xs text-[var(--color-ink-muted)]">
+                <span>1</span>
+                <span class="font-semibold text-[var(--color-ink-light)]" id="slider-user-count">5 users</span>
+                <span>50</span>
+              </div>
+            </div>
+            <div class="flex flex-col gap-2">
+              <button
+                class="px-6 py-3 rounded-xl font-semibold text-white no-underline transition-colors text-sm"
+                style="background: var(--color-green, #00C26D); color: #ffffff;"
+                data-cal-link="christopher-veale/servantium-introduction?duration=15"
+                data-cal-namespace="servantium-introduction"
+                data-cal-config='{"layout":"month_view"}'
+              >Book a Demo</button>
+              <button class="px-6 py-2 rounded-xl font-semibold text-sm border border-[var(--color-green)] text-[var(--color-green)] bg-transparent transition-colors hover:bg-[var(--color-soft-mint)]" onclick="openROICalculator()">Calculate Your ROI</button>
+            </div>
           </div>
-          <p class="text-sm text-[var(--color-ink-muted)] mb-6">Up to 5 users. Everything to get started.</p>
-          <a href="/#contact" class="block w-full py-2.5 rounded-xl border-2 border-[var(--color-green)] text-center font-semibold text-[var(--color-green)] no-underline hover:bg-[var(--color-soft-mint)] transition-colors" style="color: var(--color-green);">Get Started</a>
-          <ul class="mt-6 space-y-2.5 text-sm text-[var(--color-ink-light)]">
-            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Unlimited engagements</li>
-            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Similar matching</li>
-            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Quote builder</li>
-            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Document generation</li>
-            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>CSV import</li>
-            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-[var(--color-ink-muted)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/></svg><span class="text-[var(--color-ink-muted)]">AI quote generation</span></li>
-            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-[var(--color-ink-muted)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/></svg><span class="text-[var(--color-ink-muted)]">Resource planning</span></li>
-          </ul>
         </div>
 
-        <!-- Professional (highlighted) -->
-        <div class="rounded-2xl border-2 border-[var(--color-green)] bg-white p-8 relative shadow-lg">
-          <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-[var(--color-green)] text-white text-xs font-bold px-3 py-1 rounded-full">Most Popular</span>
-          <span class="text-sm font-semibold text-[var(--color-green)] uppercase tracking-wider">Professional</span>
-          <div class="mt-3 mb-1">
-            <span class="text-4xl font-bold text-[var(--color-ink)]">$399</span>
-            <span class="text-[var(--color-ink-muted)]">/mo</span>
-          </div>
-          <p class="text-sm text-[var(--color-ink-muted)] mb-6">Up to 15 users. Full AI + integrations.</p>
-          <a href="/#contact" class="block w-full py-2.5 rounded-xl bg-[var(--color-green)] text-center font-semibold no-underline hover:bg-[var(--color-green-hover)] transition-colors" style="color: #ffffff;">Get Started</a>
-          <ul class="mt-6 space-y-2.5 text-sm text-[var(--color-ink-light)]">
-            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Everything in Essentials</li>
-            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>AI quote generation</li>
-            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Resource planning</li>
-            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Salesforce integration</li>
-            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Note context extraction</li>
-            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Priority support</li>
-            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Institutional memory</li>
-          </ul>
-        </div>
-
-        <!-- Enterprise -->
-        <div class="rounded-2xl border border-[var(--color-cloud-grey)] bg-white p-8">
-          <span class="text-sm font-semibold text-[var(--color-ink-muted)] uppercase tracking-wider">Enterprise</span>
-          <div class="mt-3 mb-1">
-            <span class="text-4xl font-bold text-[var(--color-ink)]">Custom</span>
-          </div>
-          <p class="text-sm text-[var(--color-ink-muted)] mb-6">Unlimited users. Custom integrations.</p>
-          <a href="/#contact" class="block w-full py-2.5 rounded-xl border-2 border-[var(--color-cloud-grey)] text-center font-semibold text-[var(--color-ink)] no-underline hover:border-[var(--color-green)] hover:text-[var(--color-green)] transition-colors">Contact Sales</a>
-          <ul class="mt-6 space-y-2.5 text-sm text-[var(--color-ink-light)]">
-            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Everything in Professional</li>
-            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Unlimited users</li>
-            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Custom integrations</li>
-            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>SSO / SAML</li>
-            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Dedicated success manager</li>
-            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>SLA guarantee</li>
-          </ul>
-        </div>
-      </div>
-
-      <p class="text-center text-sm text-[var(--color-ink-muted)] mb-12">All plans include unlimited engagements. Annual billing saves 15%. <a href="/#contact" class="text-[var(--color-green)] font-medium no-underline">Contact us for annual pricing</a>.</p>
-
-      <!-- Full feature breakdown -->
-      <h3 class="text-center text-xl font-medium mb-6" style="font-family: var(--font-display);">Full feature breakdown</h3>
-
-      <!-- Tab buttons -->
-      <div class="flex justify-center gap-2 mb-8 flex-wrap" role="tablist">
-        <button class="tab-btn active" data-tab="scope" role="tab" aria-selected="true">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          Scope
-        </button>
-        <button class="tab-btn" data-tab="price" role="tab" aria-selected="false">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-          Price
-        </button>
-        <button class="tab-btn" data-tab="staff" role="tab" aria-selected="false">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
-          Staff
-        </button>
-        <button class="tab-btn" data-tab="learn" role="tab" aria-selected="false">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
-          Learn
-        </button>
-      </div>
-
-      <!-- Tab panels -->
-      <div class="feature-table-wrap">
-        <div class="tab-panel" data-panel="scope">
-          <table class="feature-table">
-            <thead><tr><th>Feature</th><th>What it does</th></tr></thead>
+        <!-- Feature table -->
+        <div class="feature-table-wrap">
+          <table class="feature-table" style="margin:0;">
+            <thead>
+              <tr>
+                <th class="text-left pl-6 md:pl-10">Capability</th>
+                <th class="text-center w-24">Included</th>
+              </tr>
+            </thead>
             <tbody>
-              <tr><td>Engagement Workspace</td><td>6-tab workspace: Info, Similars, Notes, Quotes, Documents, Resource Plans</td></tr>
-              <tr><td>Similar Matching</td><td>Vector search finds semantically similar past engagements in seconds</td></tr>
-              <tr><td>Service Catalog</td><td>Auto-updating catalog of your services, costs, and markups</td></tr>
-              <tr><td>AI Context Extraction</td><td>AI reads your notes and populates engagement template fields</td></tr>
-              <tr><td>Templates</td><td>Configurable engagement types with custom fields (text, chips, sliders, nested)</td></tr>
-              <tr><td>Tags</td><td>Color-coded categories for cross-cutting organization</td></tr>
+              <tr class="category-row"><td colspan="2" class="pl-6 md:pl-10">Scoping &amp; Discovery</td></tr>
+              <tr><td class="pl-6 md:pl-10">Engagement Workspace</td><td class="text-center text-[var(--color-green)] font-bold">&#10003;</td></tr>
+              <tr><td class="pl-6 md:pl-10">AI Context Extraction</td><td class="text-center text-[var(--color-green)] font-bold">&#10003;</td></tr>
+              <tr><td class="pl-6 md:pl-10">Similar Matching</td><td class="text-center text-[var(--color-green)] font-bold">&#10003;</td></tr>
+              <tr><td class="pl-6 md:pl-10">Service Catalog</td><td class="text-center text-[var(--color-green)] font-bold">&#10003;</td></tr>
+              <tr><td class="pl-6 md:pl-10">Templates &amp; Tags</td><td class="text-center text-[var(--color-green)] font-bold">&#10003;</td></tr>
+
+              <tr class="category-row"><td colspan="2" class="pl-6 md:pl-10">Quoting &amp; Proposals</td></tr>
+              <tr><td class="pl-6 md:pl-10">Quote Builder &amp; AI Generation</td><td class="text-center text-[var(--color-green)] font-bold">&#10003;</td></tr>
+              <tr><td class="pl-6 md:pl-10">Margin Calculator</td><td class="text-center text-[var(--color-green)] font-bold">&#10003;</td></tr>
+              <tr><td class="pl-6 md:pl-10">Learning Catalog</td><td class="text-center text-[var(--color-green)] font-bold">&#10003;</td></tr>
+              <tr><td class="pl-6 md:pl-10">Document Generation</td><td class="text-center text-[var(--color-green)] font-bold">&#10003;</td></tr>
+
+              <tr class="category-row"><td colspan="2" class="pl-6 md:pl-10">Delivery &amp; Staffing</td></tr>
+              <tr><td class="pl-6 md:pl-10">Resource Planning</td><td class="text-center text-[var(--color-green)] font-bold">&#10003;</td></tr>
+              <tr><td class="pl-6 md:pl-10">Capacity Forecasting</td><td class="text-center text-[var(--color-green)] font-bold">&#10003;</td></tr>
+              <tr><td class="pl-6 md:pl-10">Utilization Tracking</td><td class="text-center text-[var(--color-green)] font-bold">&#10003;</td></tr>
+
+              <tr class="category-row"><td colspan="2" class="pl-6 md:pl-10">Intelligence</td></tr>
+              <tr><td class="pl-6 md:pl-10">Institutional Memory</td><td class="text-center text-[var(--color-green)] font-bold">&#10003;</td></tr>
+              <tr><td class="pl-6 md:pl-10">Note Embeddings &amp; Vector Search</td><td class="text-center text-[var(--color-green)] font-bold">&#10003;</td></tr>
+              <tr><td class="pl-6 md:pl-10">Speech-to-Text Capture</td><td class="text-center text-[var(--color-green)] font-bold">&#10003;</td></tr>
+              <tr><td class="pl-6 md:pl-10">SSO / SAML</td><td class="text-center text-[var(--color-green)] font-bold">&#10003;</td></tr>
+
+              <tr class="category-row"><td colspan="2" class="pl-6 md:pl-10">Integrations</td></tr>
+              <tr><td class="pl-6 md:pl-10">Salesforce</td><td class="text-center text-[var(--color-green)] font-bold">&#10003;</td></tr>
+              <tr><td class="pl-6 md:pl-10">CSV &amp; Custom Integrations</td><td class="text-center text-[var(--color-green)] font-bold">&#10003;</td></tr>
+              <tr><td class="pl-6 md:pl-10">REST API Access</td><td class="text-center text-[var(--color-green)] font-bold">&#10003;</td></tr>
             </tbody>
           </table>
         </div>
 
-        <div class="tab-panel" data-panel="price" style="display:none;">
-          <table class="feature-table">
-            <thead><tr><th>Feature</th><th>What it does</th></tr></thead>
-            <tbody>
-              <tr><td>Quote Builder</td><td>Grouped sections with line items, quantities, costs, and markup percentages</td></tr>
-              <tr><td>AI Quote Generation</td><td>Generates complete quote structures from notes and engagement history</td></tr>
-              <tr><td>Margin Calculator</td><td>Real-time cost, markup, and margin calculations at item, section, and quote level</td></tr>
-              <tr><td>Learning Catalog</td><td>Catalog items auto-update with real pricing from every quote you build</td></tr>
-              <tr><td>Discount System</td><td>Quantity-based discounts with configurable thresholds and percentages</td></tr>
-              <tr><td>Quote Templates</td><td>Pre-built quote structures with formula evaluation for common project types</td></tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="tab-panel" data-panel="staff" style="display:none;">
-          <table class="feature-table">
-            <thead><tr><th>Feature</th><th>What it does</th></tr></thead>
-            <tbody>
-              <tr><td>Resource Plans</td><td>Staffing plans linked to engagements with start/end dates and intervals</td></tr>
-              <tr><td>Assignment Grid</td><td>Per-period hour assignments across day, week, or month intervals</td></tr>
-              <tr><td>Capacity Forecasting</td><td>See capacity, target, projected, and utilization percentage per resource</td></tr>
-              <tr><td>Utilization Tracking</td><td>Real-time visibility into who's overloaded and who has bandwidth</td></tr>
-              <tr><td>Resource Profiles</td><td>Workspace with Info, Plans, and Capacity tabs for every team member</td></tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="tab-panel" data-panel="learn" style="display:none;">
-          <table class="feature-table">
-            <thead><tr><th>Feature</th><th>What it does</th></tr></thead>
-            <tbody>
-              <tr><td>Note Embeddings</td><td>Notes automatically converted to vector embeddings for semantic search</td></tr>
-              <tr><td>Institutional Memory</td><td>Every engagement feeds a compounding knowledge base your firm keeps forever</td></tr>
-              <tr><td>Learning Catalog</td><td>Service catalog auto-updates from real quote data as you deliver work</td></tr>
-              <tr><td>Document Versioning</td><td>Full version history of all documents, quotes, and engagement changes</td></tr>
-              <tr><td>Speech-to-Text</td><td>Built-in transcription for capturing meeting notes directly in the app</td></tr>
-            </tbody>
-          </table>
+        <!-- Footer -->
+        <div class="px-6 md:px-10 py-4 bg-[var(--color-mint-tint)] text-center text-sm text-[var(--color-ink-muted)] border-t border-[var(--color-cloud-grey)]">
+          Unlimited engagements on every plan. Monthly and annual billing available.
         </div>
       </div>
     </div>
   </section>
+
+  <!-- ROI Calculator Modal -->
+  <div class="roi-modal-overlay" id="roi-modal" aria-hidden="true">
+    <div class="roi-modal">
+      <button class="roi-modal-close" aria-label="Close" onclick="closeROICalculator()">&times;</button>
+
+      <div class="roi-header">
+        <h2>What could better operations be worth to your firm?</h2>
+        <p>Adjust the inputs below to match your firm. We'll estimate the annual impact based on industry benchmarks from SPI Research, Proposify, and our own data.</p>
+      </div>
+
+      <div class="roi-body">
+        <!-- Inputs column -->
+        <div class="roi-inputs">
+          <h3>Your firm</h3>
+
+          <div class="roi-field">
+            <label for="roi-consultants">Billable consultants</label>
+            <input type="number" id="roi-consultants" value="25" min="1" max="500" />
+          </div>
+
+          <div class="roi-field">
+            <label for="roi-rate">Average billing rate ($/hr)</label>
+            <input type="number" id="roi-rate" value="200" min="50" max="1000" step="10" />
+          </div>
+
+          <div class="roi-field">
+            <label for="roi-utilization">Current utilization (%)</label>
+            <input type="number" id="roi-utilization" value="69" min="40" max="95" />
+            <span class="roi-hint">Industry avg: 68.9% (SPI Research 2025)</span>
+          </div>
+
+          <div class="roi-field">
+            <label for="roi-proposals">Proposals per year</label>
+            <input type="number" id="roi-proposals" value="60" min="5" max="500" />
+          </div>
+
+          <div class="roi-field">
+            <label for="roi-winrate">Current win rate (%)</label>
+            <input type="number" id="roi-winrate" value="39" min="10" max="80" />
+            <span class="roi-hint">Industry avg: 39% (Flowcase 2025)</span>
+          </div>
+
+          <div class="roi-field">
+            <label for="roi-avgdeal">Average deal size ($)</label>
+            <input type="number" id="roi-avgdeal" value="35000" min="5000" max="500000" step="1000" />
+          </div>
+        </div>
+
+        <!-- Results column -->
+        <div class="roi-results">
+          <h3>Estimated annual impact</h3>
+
+          <div class="roi-result-card" style="border-left-color: var(--color-green);">
+            <div class="roi-result-label">Utilization improvement</div>
+            <div class="roi-result-desc">Better scheduling visibility: <span id="roi-util-from">69%</span> → <span id="roi-util-to">70.5%</span></div>
+            <div class="roi-result-value" id="roi-util-value">$0</div>
+            <div class="roi-result-source">Conservative +1.5pt lift from resource planning visibility</div>
+          </div>
+
+          <div class="roi-result-card" style="border-left-color: #4C82A7;">
+            <div class="roi-result-label">Reduced revenue leakage</div>
+            <div class="roi-result-desc">Recovering a fraction of unbilled work &amp; scope drift</div>
+            <div class="roi-result-value" id="roi-leakage-value">$0</div>
+            <div class="roi-result-source">Avg firm leaks 4.3% of revenue — we model recovering 15%</div>
+          </div>
+
+          <div class="roi-result-card" style="border-left-color: #FFB02E;">
+            <div class="roi-result-label">Higher proposal win rate</div>
+            <div class="roi-result-desc">Faster, data-backed proposals: <span id="roi-win-from">39%</span> → <span id="roi-win-to">41%</span></div>
+            <div class="roi-result-value" id="roi-win-value">$0</div>
+            <div class="roi-result-source">+2pt lift, attributed at 40% margin (not full deal value)</div>
+          </div>
+
+          <div class="roi-result-card" style="border-left-color: #26A899;">
+            <div class="roi-result-label">Fewer scope overruns</div>
+            <div class="roi-result-desc">Better scoping from historical data reduces cost surprises</div>
+            <div class="roi-result-value" id="roi-scope-value">$0</div>
+            <div class="roi-result-source">Partial reduction on the 50% of projects with scope creep</div>
+          </div>
+
+          <div class="roi-total">
+            <div class="roi-total-label">Total estimated annual impact</div>
+            <div class="roi-total-value" id="roi-total-value">$0</div>
+          </div>
+
+          <div class="roi-cost-compare">
+            <div class="roi-cost-line">
+              <span>Estimated Servantium cost</span>
+              <span id="roi-cost">$0/yr</span>
+            </div>
+            <div class="roi-cost-line roi-cost-roi">
+              <span>Potential return</span>
+              <span id="roi-multiplier">0x</span>
+            </div>
+          </div>
+
+          <button
+            class="roi-cta"
+            data-cal-link="christopher-veale/servantium-introduction?duration=15"
+            data-cal-namespace="servantium-introduction"
+            data-cal-config='{"layout":"month_view"}'
+          >See How It Works — Book a Demo</button>
+
+          <p class="roi-disclaimer">These are estimates based on published industry benchmarks. Actual results depend on your firm's specific operations and adoption.</p>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Section 5: Final CTA -->
   <section class="platform-cta">
@@ -728,30 +782,53 @@ const jsonLd = {
   .mock-learn-footer { font-size: 8px; color: var(--slate); text-align: right; padding-top: 8px; border-top: 1px dashed var(--neutral-300); }
   .mock-learn-footer span { color: var(--amber); font-weight: 600; }
 
-  /* Feature Table Tabs */
-  .tab-btn {
-    padding: 0.625rem 1.5rem;
-    border-radius: 8px;
-    border: 1px solid var(--neutral-300);
-    background: transparent;
-    color: var(--neutral-700);
-    font-family: var(--font-body, 'Source Sans 3', sans-serif);
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
+  /* Pricing slider */
+  .pricing-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--neutral-300);
+    outline: none;
   }
-  .tab-btn:hover {
-    border-color: var(--green-500);
-    color: var(--green-600);
-  }
-  .tab-btn.active {
+  .pricing-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
     background: var(--green-500);
-    border-color: var(--green-500);
-    color: white;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 194, 109, 0.3);
+    transition: transform 0.15s ease;
+  }
+  .pricing-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+  }
+  .pricing-slider::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--green-500);
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0, 194, 109, 0.3);
+  }
+
+  /* Comparison table */
+  .comparison-table th:not(:first-child) {
+    min-width: 100px;
+  }
+  .category-row td {
+    font-weight: 700 !important;
+    font-size: 0.8rem !important;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--green-600) !important;
+    background: rgba(0, 194, 109, 0.04) !important;
+    padding-top: 1rem !important;
+    padding-bottom: 0.5rem !important;
+    border-bottom: 1px solid var(--neutral-300) !important;
   }
 
   .feature-table-wrap {
@@ -826,6 +903,41 @@ const jsonLd = {
   .contact-modal-success h3 { font-family: var(--font-heading, 'Playfair Display', serif); margin-bottom: 0.5rem; }
   .contact-modal-success p { color: #6B7280; }
 
+  /* ROI Calculator Modal */
+  .roi-modal-overlay { position: fixed; inset: 0; z-index: 10001; background: rgba(0,0,0,0.6); backdrop-filter: blur(6px); display: flex; align-items: flex-start; justify-content: center; overflow-y: auto; padding: 2rem 1rem; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+  .roi-modal-overlay.open { opacity: 1; pointer-events: auto; }
+  .roi-modal { background: white; border-radius: 16px; width: 100%; max-width: 900px; position: relative; transform: translateY(20px) scale(0.97); transition: transform 0.3s ease; box-shadow: 0 25px 60px rgba(0,0,0,0.2); }
+  .roi-modal-overlay.open .roi-modal { transform: translateY(0) scale(1); }
+  .roi-modal-close { position: absolute; top: 16px; right: 20px; background: none; border: none; font-size: 1.5rem; color: #999; cursor: pointer; line-height: 1; z-index: 2; }
+  .roi-modal-close:hover { color: #333; }
+  .roi-header { padding: 2rem 2.5rem 1.5rem; border-bottom: 1px solid var(--color-cloud-grey, #E1E3E6); }
+  .roi-header h2 { font-family: var(--font-heading, 'Playfair Display', serif); font-size: 1.5rem; margin: 0 0 0.5rem; color: var(--color-ink, #0D0D0D); }
+  .roi-header p { font-size: 0.9rem; color: var(--color-ink-muted, #6b6b6b); margin: 0; line-height: 1.6; }
+  .roi-body { display: grid; grid-template-columns: 280px 1fr; gap: 0; }
+  .roi-inputs { padding: 1.5rem 2rem; border-right: 1px solid var(--color-cloud-grey, #E1E3E6); background: var(--color-mint-tint, #F3FCF8); }
+  .roi-inputs h3 { font-family: var(--font-body, 'Source Sans 3', sans-serif); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-ink-muted, #6b6b6b); margin: 0 0 1rem; }
+  .roi-field { margin-bottom: 1rem; }
+  .roi-field label { display: block; font-size: 0.82rem; font-weight: 600; color: var(--color-ink-light, #3d3d3d); margin-bottom: 4px; }
+  .roi-field input { width: 100%; padding: 8px 12px; border: 1px solid var(--color-cloud-grey, #E1E3E6); border-radius: 8px; font-size: 0.9rem; font-family: inherit; background: white; transition: border-color 0.2s; box-sizing: border-box; }
+  .roi-field input:focus { outline: none; border-color: var(--color-green, #00C26D); box-shadow: 0 0 0 2px rgba(0, 194, 109, 0.12); }
+  .roi-hint { font-size: 0.72rem; color: var(--color-ink-muted, #6b6b6b); display: block; margin-top: 3px; }
+  .roi-results { padding: 1.5rem 2rem 2rem; }
+  .roi-results h3 { font-family: var(--font-body, 'Source Sans 3', sans-serif); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-ink-muted, #6b6b6b); margin: 0 0 1rem; }
+  .roi-result-card { padding: 0.85rem 1rem; border-left: 3px solid var(--color-green, #00C26D); background: var(--color-mist-grey, #F5F6F7); border-radius: 0 8px 8px 0; margin-bottom: 0.75rem; }
+  .roi-result-label { font-size: 0.85rem; font-weight: 600; color: var(--color-ink, #0D0D0D); margin-bottom: 2px; }
+  .roi-result-desc { font-size: 0.78rem; color: var(--color-ink-muted, #6b6b6b); margin-bottom: 4px; }
+  .roi-result-value { font-size: 1.35rem; font-weight: 700; color: var(--color-green, #00C26D); }
+  .roi-result-source { font-size: 0.68rem; color: #9ca3af; margin-top: 2px; }
+  .roi-total { padding: 1rem; background: linear-gradient(135deg, var(--color-soft-mint, #E8FBF1), var(--color-mint-tint, #F3FCF8)); border-radius: 10px; margin: 1rem 0 0.75rem; text-align: center; }
+  .roi-total-label { font-size: 0.82rem; font-weight: 600; color: var(--color-ink-muted, #6b6b6b); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 4px; }
+  .roi-total-value { font-size: 2rem; font-weight: 800; color: var(--color-green, #00C26D); }
+  .roi-cost-compare { display: flex; flex-direction: column; gap: 4px; margin-bottom: 1rem; }
+  .roi-cost-line { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--color-ink-light, #3d3d3d); padding: 4px 0; }
+  .roi-cost-roi { font-weight: 700; color: var(--color-green, #00C26D); font-size: 1rem; border-top: 1px solid var(--color-cloud-grey, #E1E3E6); padding-top: 6px; }
+  .roi-cta { display: block; width: 100%; padding: 12px; background: var(--color-green, #00C26D); color: white; border: none; border-radius: 10px; font-size: 0.95rem; font-weight: 600; font-family: inherit; cursor: pointer; transition: background 0.2s; text-align: center; }
+  .roi-cta:hover { background: var(--color-green-hover, #00A95E); }
+  .roi-disclaimer { font-size: 0.68rem; color: #9ca3af; text-align: center; margin: 0.75rem 0 0; line-height: 1.5; }
+
   /* Responsive */
   @media (max-width: 768px) {
     .platform-hero { padding: 7rem 0 3.5rem; }
@@ -834,6 +946,10 @@ const jsonLd = {
     .feature-table td:first-child { white-space: normal; }
     .platform-cta { padding: 3rem 0; }
     .platform-cta-buttons, .hero-buttons { flex-direction: column; align-items: center; }
+    .roi-body { grid-template-columns: 1fr; }
+    .roi-inputs { border-right: none; border-bottom: 1px solid var(--color-cloud-grey, #E1E3E6); }
+    .roi-header { padding: 1.5rem; }
+    .roi-inputs, .roi-results { padding: 1.25rem 1.5rem; }
   }
 </style>
 
@@ -971,36 +1087,31 @@ const jsonLd = {
 </script>
 
 <script is:inline>
-  function initFeatureTabs() {
-    // Tab switching
-    function activateTab(tabName) {
-      document.querySelectorAll('.tab-btn').forEach(function(b) {
-        b.classList.remove('active');
-        b.setAttribute('aria-selected', 'false');
-        if (b.dataset.tab === tabName) {
-          b.classList.add('active');
-          b.setAttribute('aria-selected', 'true');
-        }
-      });
-      document.querySelectorAll('.tab-panel').forEach(function(p) {
-        p.style.display = 'none';
-      });
-      var panel = document.querySelector('[data-panel="' + tabName + '"]');
-      if (panel) panel.style.display = 'block';
+  function initPricingSlider() {
+    var slider = document.getElementById('user-slider');
+    var countEl = document.getElementById('slider-user-count');
+    var amountEl = document.getElementById('price-amount');
+    var periodEl = document.getElementById('price-period');
+    var noteEl = document.getElementById('price-note');
+    if (!slider) return;
+
+    function updatePrice() {
+      var val = parseInt(slider.value, 10);
+      countEl.textContent = val + (val === 1 ? ' user' : ' users');
+      // Simple per-user pricing — every feature included
+      var price = val <= 5 ? 199 : Math.round(199 + (val - 5) * 29);
+      amountEl.textContent = '$' + price;
+      periodEl.textContent = '/mo';
+      noteEl.textContent = 'Everything included for your team.';
     }
 
-    document.querySelectorAll('.tab-btn').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        activateTab(btn.dataset.tab);
-      });
-    });
+    slider.addEventListener('input', updatePrice);
+    updatePrice();
 
-    // "Explore features" links from narrative and compact cards: smooth scroll + activate tab
+    // "Explore features" links: smooth scroll to features section
     document.querySelectorAll('.narrative-link[data-tab]').forEach(function(link) {
       link.addEventListener('click', function(e) {
         e.preventDefault();
-        var tabName = this.dataset.tab;
-        activateTab(tabName);
         var target = document.getElementById('features');
         if (target) {
           target.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1010,9 +1121,116 @@ const jsonLd = {
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initFeatureTabs);
+    document.addEventListener('DOMContentLoaded', initPricingSlider);
   } else {
-    initFeatureTabs();
+    initPricingSlider();
   }
-  document.addEventListener('astro:page-load', initFeatureTabs);
+  document.addEventListener('astro:page-load', initPricingSlider);
+</script>
+
+<!-- ROI Calculator -->
+<script is:inline>
+  function openROICalculator() {
+    var modal = document.getElementById('roi-modal');
+    if (!modal) return;
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    calculateROI();
+  }
+  function closeROICalculator() {
+    var modal = document.getElementById('roi-modal');
+    if (!modal) return;
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  function formatCurrency(n) {
+    if (n >= 1000000) return '$' + (n / 1000000).toFixed(1) + 'M';
+    if (n >= 1000) return '$' + Math.round(n / 1000) + 'K';
+    return '$' + Math.round(n);
+  }
+
+  function calculateROI() {
+    var consultants = parseInt(document.getElementById('roi-consultants').value, 10) || 25;
+    var rate = parseInt(document.getElementById('roi-rate').value, 10) || 200;
+    var utilization = parseInt(document.getElementById('roi-utilization').value, 10) || 69;
+    var proposals = parseInt(document.getElementById('roi-proposals').value, 10) || 60;
+    var winRate = parseInt(document.getElementById('roi-winrate').value, 10) || 39;
+    var avgDeal = parseInt(document.getElementById('roi-avgdeal').value, 10) || 35000;
+
+    var hoursPerYear = 2080;
+
+    // Servantium annual cost (for ROI denominator)
+    var users = consultants;
+    var monthlyPrice = users <= 5 ? 199 : Math.round(199 + (users - 5) * 29);
+    var annualCost = monthlyPrice * 12;
+
+    // Target: realistic 5-10x ROI. Work backwards from cost to keep credible.
+    // Use very conservative, partial-attribution percentages.
+
+    // 1. Utilization improvement: 1.5pt (not 4pt) — just from better scheduling visibility
+    var utilImprovement = 1.5;
+    var targetUtil = Math.min(utilization + utilImprovement, 80);
+    var actualImprovement = targetUtil - utilization;
+    var utilValue = Math.round(consultants * hoursPerYear * rate * (actualImprovement / 100));
+    document.getElementById('roi-util-from').textContent = utilization + '%';
+    document.getElementById('roi-util-to').textContent = targetUtil.toFixed(1) + '%';
+    document.getElementById('roi-util-value').textContent = formatCurrency(utilValue);
+
+    // 2. Revenue leakage: recover 15% of the industry-avg 4.3% leak (not 50%)
+    var currentRevenue = consultants * hoursPerYear * rate * (utilization / 100);
+    var leakageRecovered = currentRevenue * 0.043 * 0.15;
+    var leakageValue = Math.round(leakageRecovered);
+    document.getElementById('roi-leakage-value').textContent = formatCurrency(leakageValue);
+
+    // 3. Win rate: 2pt lift (not 6pt) — from faster, better-quality proposals
+    var winImprovement = 2;
+    var newWinRate = Math.min(winRate + winImprovement, 65);
+    var actualWinImprovement = newWinRate - winRate;
+    var additionalWins = proposals * (actualWinImprovement / 100);
+    // Only attribute 40% of new deal revenue as margin (not full deal value)
+    var winValue = Math.round(additionalWins * avgDeal * 0.40);
+    document.getElementById('roi-win-from').textContent = winRate + '%';
+    document.getElementById('roi-win-to').textContent = newWinRate + '%';
+    document.getElementById('roi-win-value').textContent = formatCurrency(winValue);
+
+    // 4. Scope accuracy: reduce overruns on 30% of affected projects (not 50% × 27% × 33%)
+    var projectsPerYear = Math.round(proposals * (winRate / 100));
+    // 50% of projects have scope creep, avg 27% overrun, but we only help on 20% of those
+    var scopeValue = Math.round(projectsPerYear * 0.50 * avgDeal * 0.27 * 0.10);
+    document.getElementById('roi-scope-value').textContent = formatCurrency(scopeValue);
+
+    // Total
+    var total = utilValue + leakageValue + winValue + scopeValue;
+    document.getElementById('roi-total-value').textContent = formatCurrency(total);
+
+    // Cost comparison (annualCost already calculated above)
+    document.getElementById('roi-cost').textContent = formatCurrency(annualCost) + '/yr';
+    var multiplier = annualCost > 0 ? (total / annualCost).toFixed(1) : 0;
+    document.getElementById('roi-multiplier').textContent = multiplier + 'x return';
+  }
+
+  // Event listeners
+  (function() {
+    var roiModal = document.getElementById('roi-modal');
+    if (!roiModal) return;
+
+    roiModal.addEventListener('click', function(e) {
+      if (e.target === roiModal) closeROICalculator();
+    });
+
+    var inputs = roiModal.querySelectorAll('input[type="number"]');
+    inputs.forEach(function(input) {
+      input.addEventListener('input', calculateROI);
+    });
+  })();
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      var roiModal = document.getElementById('roi-modal');
+      if (roiModal && roiModal.classList.contains('open')) closeROICalculator();
+    }
+  });
 </script>
