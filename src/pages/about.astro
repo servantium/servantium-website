@@ -38,13 +38,9 @@ const jsonLd = {
     jsonLd={jsonLd}
   />
 
-  <!-- ════════════════════════════════════════════════════
-       HERO — gradient mesh + astronaut
-       ════════════════════════════════════════════════════ -->
-  <section class="relative overflow-hidden pt-40 pb-24" style="background: linear-gradient(160deg, #F3FCF8 0%, #fff 40%, #E8FBF1 100%);">
-    <!-- Decorative mesh dots -->
+  <!-- ═══════════════════ HERO ═══════════════════ -->
+  <section class="relative overflow-hidden pt-40 pb-20" style="background: linear-gradient(160deg, #F3FCF8 0%, #fff 40%, #E8FBF1 100%);">
     <div class="absolute inset-0 opacity-[0.03]" style="background-image: radial-gradient(circle, #00C26D 1px, transparent 1px); background-size: 32px 32px;"></div>
-
     <div class="container relative z-10">
       <div class="max-w-4xl mx-auto flex items-start gap-12">
         <div class="flex-1" data-animate="fade-up">
@@ -53,7 +49,7 @@ const jsonLd = {
             We're building the infrastructure services businesses have always needed
           </h1>
           <p class="text-lg md:text-xl text-[var(--color-ink-muted)] leading-relaxed max-w-2xl">
-            Services businesses have real products — they just lack the systems to define, price, and deliver them consistently. We're here to change that.
+            Two Drexel engineers who spent a decade at Veeva Systems — one running engagements, the other building the platform underneath — decided the services industry deserved better tooling.
           </p>
         </div>
         <div class="hidden lg:block flex-shrink-0 mt-8" data-animate="fade-up" data-delay="200">
@@ -63,87 +59,83 @@ const jsonLd = {
     </div>
   </section>
 
-  <!-- ════════════════════════════════════════════════════
-       STORY — editorial layout with pull quotes
-       ════════════════════════════════════════════════════ -->
+  <!-- ═══════════════════ STORY ═══════════════════ -->
   <section class="py-20 md:py-28 bg-white">
     <div class="container">
       <div class="max-w-3xl mx-auto">
-        <h2 class="text-3xl md:text-4xl font-medium mb-10" style="font-family: var(--font-display);" data-animate="fade-up">The story behind Servantium</h2>
+        <h2 class="text-3xl md:text-4xl font-medium mb-12" style="font-family: var(--font-display);" data-animate="fade-up">The story behind Servantium</h2>
 
         <div class="story-prose" data-animate="fade-up" data-delay="100">
           <p>
-            <strong>We've spent 15 years each in the trenches of professional services</strong> — running consulting organizations, managing complex engagements, and building products in regulated industries. We've seen firsthand how talented teams struggle with the same problems over and over again.
+            Between us, we've spent over a decade inside Veeva Systems — Christopher running engagement delivery and practice management for Veeva Claims, Maxwell architecting the platform that powered it. Before that and since, we've held roles across TetraScience, Litify, Optin, and a handful of other companies in life sciences, legal tech, and enterprise SaaS.
           </p>
           <p>
-            Pricing decisions made in isolation. Scope changes that never made it to the contract. Delivery teams reinventing the wheel because lessons from past projects lived only in people's heads. We saw how much margin leaked through the cracks of disconnected systems.
+            The pattern was always the same. Talented consultants pricing engagements from memory. Scope changes communicated over Slack but never making it to the contract. Delivery teams rebuilding what someone else already built last quarter because nobody wrote it down in a place the next team could find.
           </p>
         </div>
 
-        <!-- Pull quote 1 -->
         <blockquote class="pull-quote" data-animate="fade-up">
-          <p>Product companies don't have these problems. Services businesses deserve the same advantage.</p>
+          <p>Product companies don't have this problem. Every feature, every price change, every customer interaction feeds back into the system. Services businesses deserve the same loop.</p>
         </blockquote>
 
         <div class="story-prose" data-animate="fade-up">
           <p>
-            Product companies have systems that remember everything: every price change, every customer interaction, every feature update feeds back into better decisions. We knew that same compounding loop was possible for services — if someone built the right foundation.
+            We'd seen the PSA tools. They track hours. They don't capture the reasoning behind a scope decision or the lessons from a delivery that went sideways. We'd seen the CRMs. They track deals. They lose the thread the moment a deal becomes a project.
           </p>
           <p>
-            So we built Servantium. Not another tool that bends to chaos, but a system that creates structure. A single source of truth for how services are sold, priced, contracted, and delivered.
+            What nobody had built was the connective tissue — a system that carries context from the first client conversation through scoping, pricing, delivery, and back into the next engagement. A system that actually remembers.
           </p>
         </div>
 
-        <!-- Pull quote 2 -->
         <blockquote class="pull-quote" data-animate="fade-up">
-          <p>Structure before automation. AI only works when built on organized foundations.</p>
+          <p>We didn't want to build another tool that bends to chaos. We wanted to build one that creates structure.</p>
         </blockquote>
 
         <div class="story-prose" data-animate="fade-up">
           <p>
-            The name fuses <em class="latin-word">servare</em>, the Latin root meaning to serve, protect, and preserve, with <em class="latin-word">-ium</em>, the suffix used for foundational elements. Like titanium or platinum, Servantium is meant to be essential infrastructure: strong, enduring, and built to last.
+            The name comes from <em class="latin-word">servare</em> — the Latin root meaning to serve, protect, and preserve — fused with <em class="latin-word">-ium</em>, the suffix for foundational elements. Like titanium or platinum, Servantium is infrastructure: strong, enduring, and meant to last.
           </p>
           <p>
-            An operating system that gives services businesses the operational discipline traditionally reserved for product companies — without sacrificing the flexibility and human expertise that makes services work.
+            We're building an operating system for services firms. Not a dashboard. Not a time tracker. A system that encodes how your firm works — so it can work better every time.
           </p>
         </div>
 
-        <!-- Pull quote 3 -->
         <blockquote class="pull-quote" data-animate="fade-up">
-          <p>Technology should amplify human expertise, not replace human judgment.</p>
+          <p>Technology should amplify human expertise, not replace human judgment. Services are relationships. We're just giving them better memory.</p>
         </blockquote>
       </div>
     </div>
   </section>
 
-  <!-- ════════════════════════════════════════════════════
-       FOUNDERS — clean cards, green accent, human bios
-       ════════════════════════════════════════════════════ -->
+  <!-- ═══════════════════ FOUNDERS ═══════════════════ -->
   <section class="py-20 md:py-28" style="background: var(--color-mist-grey, #F5F6F7);">
     <div class="container">
       <div class="text-center max-w-xl mx-auto mb-16" data-animate="fade-up">
         <span class="inline-block text-xs font-semibold uppercase tracking-[0.14em] text-[var(--color-green)] mb-4">Leadership</span>
         <h2 class="text-3xl md:text-4xl font-medium mb-4" style="font-family: var(--font-display);">Meet the founders</h2>
         <p class="text-lg text-[var(--color-ink-muted)]">
-          Two operators who've lived the problems Servantium solves.
+          Two Drexel engineers. A decade at Veeva together. One on the services side, one on the platform side.
         </p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
         <!-- Christopher -->
-        <div class="founder-card group" data-animate="fade-up">
-          <div class="h-1 bg-[var(--color-green)] rounded-t-2xl"></div>
+        <div data-animate="fade-up">
+          <div class="h-1 rounded-t-2xl" style="background: var(--color-green);"></div>
           <div class="bg-white rounded-b-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-            <div class="aspect-[4/3] bg-gradient-to-br from-[#023E25] to-[#037A47] flex items-center justify-center overflow-hidden">
+            <div class="aspect-[4/3] bg-gradient-to-br from-[#023E25] to-[#037A47] overflow-hidden">
               <img src="/christopher-veale.png" alt="Christopher Veale" class="w-full h-full object-cover object-top" />
             </div>
             <div class="p-6 md:p-8">
               <h3 class="text-xl font-medium mb-1" style="font-family: var(--font-display);">Christopher Veale</h3>
               <div class="text-sm font-medium text-[var(--color-green)] mb-4">Co-founder & CEO</div>
-              <p class="text-[0.92rem] text-[var(--color-ink-muted)] leading-relaxed mb-4">
-                15 years building and scaling professional services organizations. Specializes in the intersection of product thinking and service delivery — turning operational chaos into repeatable systems.
+              <p class="text-[0.92rem] text-[var(--color-ink-muted)] leading-relaxed mb-3">
+                Seven years at Veeva Systems running engagement delivery for Veeva Claims — scoping, delivery, post-implementation support across global teams. Went on to lead professional services at Litify (legal tech) and engagement management at TetraScience (life sciences data).
               </p>
-              <a href="https://linkedin.com/in/christopher-veale" class="inline-flex items-center gap-2 text-sm text-[var(--color-ink-muted)] hover:text-[var(--color-green)] transition-colors" target="_blank">
+              <p class="text-[0.85rem] text-[var(--color-ink-muted)] leading-relaxed mb-4 opacity-80">
+                Drexel University, Biomedical Engineering. Spent his career at the intersection of products and services — figuring out how to make the handoff between "sold" and "delivered" stop breaking.
+              </p>
+              <a href="https://linkedin.com/in/christopher-veale" class="inline-flex items-center gap-2 text-sm text-[var(--color-ink-muted)] hover:text-[var(--color-green)] transition-colors" target="_blank" rel="noopener noreferrer">
                 <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
                 LinkedIn
               </a>
@@ -152,19 +144,22 @@ const jsonLd = {
         </div>
 
         <!-- Maxwell -->
-        <div class="founder-card group" data-animate="fade-up" data-delay="150">
-          <div class="h-1 bg-[var(--color-slate-blue,#4C82A7)] rounded-t-2xl"></div>
+        <div data-animate="fade-up" data-delay="150">
+          <div class="h-1 rounded-t-2xl" style="background: var(--color-slate-blue, #4C82A7);"></div>
           <div class="bg-white rounded-b-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-            <div class="aspect-[4/3] bg-gradient-to-br from-[#023E25] to-[#037A47] flex items-center justify-center overflow-hidden">
+            <div class="aspect-[4/3] bg-gradient-to-br from-[#023E25] to-[#037A47] overflow-hidden">
               <img src="/maxwell-friel.png" alt="Maxwell Friel" class="w-full h-full object-cover object-top" />
             </div>
             <div class="p-6 md:p-8">
               <h3 class="text-xl font-medium mb-1" style="font-family: var(--font-display);">Maxwell Friel</h3>
               <div class="text-sm font-medium text-[var(--color-slate-blue,#4C82A7)] mb-4">Co-founder & CTO</div>
-              <p class="text-[0.92rem] text-[var(--color-ink-muted)] leading-relaxed mb-4">
-                15 years building enterprise software in regulated industries. Solution architect turned CTO — brings deep insight into what services organizations actually need and what they don't.
+              <p class="text-[0.92rem] text-[var(--color-ink-muted)] leading-relaxed mb-3">
+                Ten years at Veeva Systems — started as a technical analyst, became a senior technical architect building Veeva Vault for regulated industries. Then VP of Services at Optin, where he built and ran the delivery organization from scratch.
               </p>
-              <a href="https://linkedin.com/in/maxwell-friel-2bb02b30" class="inline-flex items-center gap-2 text-sm text-[var(--color-ink-muted)] hover:text-[var(--color-green)] transition-colors" target="_blank">
+              <p class="text-[0.85rem] text-[var(--color-ink-muted)] leading-relaxed mb-4 opacity-80">
+                Drexel University, Computing & Informatics. The person who's been inside both the platform architecture and the services delivery — and knows exactly where both break down.
+              </p>
+              <a href="https://linkedin.com/in/maxwell-friel-2bb02b30" class="inline-flex items-center gap-2 text-sm text-[var(--color-ink-muted)] hover:text-[var(--color-green)] transition-colors" target="_blank" rel="noopener noreferrer">
                 <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
                 LinkedIn
               </a>
@@ -175,9 +170,7 @@ const jsonLd = {
     </div>
   </section>
 
-  <!-- ════════════════════════════════════════════════════
-       VALUES — horizontal pillars with custom SVG icons
-       ════════════════════════════════════════════════════ -->
+  <!-- ═══════════════════ VALUES ═══════════════════ -->
   <section class="py-20 md:py-28 bg-white overflow-hidden">
     <div class="container">
       <div class="text-center max-w-xl mx-auto mb-16" data-animate="fade-up">
@@ -189,88 +182,76 @@ const jsonLd = {
       </div>
 
       <div class="max-w-4xl mx-auto space-y-0">
-        <!-- Value 1: Clarity -->
+        <!-- Clarity -->
         <div class="value-pillar" data-animate="fade-up">
           <div class="value-number">01</div>
           <div class="value-divider"></div>
           <div class="value-icon-wrap">
-            <svg viewBox="0 0 48 48" fill="none" class="w-10 h-10">
-              <!-- Clarity: clean geometric prism refracting light -->
-              <path d="M24 4L40 38H8L24 4Z" stroke="#00C26D" stroke-width="2" fill="none"/>
-              <line x1="24" y1="38" x2="24" y2="4" stroke="#00C26D" stroke-width="1" opacity="0.3"/>
-              <line x1="16" y1="21" x2="32" y2="21" stroke="#00C26D" stroke-width="1" opacity="0.3"/>
-              <circle cx="24" cy="22" r="3" fill="#00C26D" opacity="0.2"/>
-              <circle cx="24" cy="22" r="1.5" fill="#00C26D"/>
-              <!-- Light rays emerging -->
-              <line x1="36" y1="30" x2="44" y2="26" stroke="#00C26D" stroke-width="1.5" opacity="0.5" stroke-linecap="round"/>
-              <line x1="36" y1="34" x2="44" y2="34" stroke="#00C26D" stroke-width="1.5" opacity="0.4" stroke-linecap="round"/>
-              <line x1="36" y1="38" x2="42" y2="42" stroke="#00C26D" stroke-width="1.5" opacity="0.3" stroke-linecap="round"/>
+            <svg viewBox="0 0 48 48" fill="none" class="w-12 h-12">
+              <rect x="8" y="12" width="32" height="24" rx="3" stroke="#00C26D" stroke-width="2.5" fill="none"/>
+              <line x1="8" y1="20" x2="40" y2="20" stroke="#00C26D" stroke-width="2" opacity="0.4"/>
+              <rect x="12" y="24" width="10" height="3" rx="1.5" fill="#00C26D" opacity="0.6"/>
+              <rect x="12" y="29" width="16" height="2" rx="1" fill="#00C26D" opacity="0.3"/>
+              <circle cx="36" cy="14" r="5" fill="#00C26D" opacity="0.15" stroke="#00C26D" stroke-width="1.5"/>
+              <polyline points="33,14 35,16 39,12" stroke="#00C26D" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </div>
           <div class="value-content">
             <h3 class="text-xl font-semibold mb-2" style="font-family: var(--font-display);">Clarity</h3>
-            <p class="text-[var(--color-ink-muted)] leading-relaxed">Your services are a product. Define them like one. Simple, understandable systems beat complex ones — if you can't explain it, you can't trust it.</p>
+            <p class="text-[var(--color-ink-muted)] leading-relaxed">Your services are a product. Define them like one. Simple, understandable systems beat complex ones — if you can't explain it to a new hire in their first week, it's too complicated.</p>
           </div>
         </div>
 
-        <!-- Value 2: Compounding -->
+        <!-- Compounding -->
         <div class="value-pillar" data-animate="fade-up" data-delay="150">
           <div class="value-number">02</div>
           <div class="value-divider"></div>
           <div class="value-icon-wrap">
-            <svg viewBox="0 0 48 48" fill="none" class="w-10 h-10">
-              <!-- Compounding: ascending spiral growth -->
-              <path d="M8 40C8 40 12 32 18 28C24 24 20 18 26 14C32 10 28 6 36 4" stroke="#00C26D" stroke-width="2" fill="none" stroke-linecap="round"/>
-              <circle cx="8" cy="40" r="2" fill="#00C26D" opacity="0.3"/>
-              <circle cx="18" cy="28" r="2.5" fill="#00C26D" opacity="0.4"/>
-              <circle cx="26" cy="14" r="3" fill="#00C26D" opacity="0.6"/>
-              <circle cx="36" cy="4" r="3.5" fill="#00C26D"/>
-              <!-- Growth arrows -->
-              <path d="M34 8L36 4L40 6" stroke="#00C26D" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <svg viewBox="0 0 48 48" fill="none" class="w-12 h-12">
+              <circle cx="10" cy="38" r="4" fill="#00C26D" opacity="0.2" stroke="#00C26D" stroke-width="1.5"/>
+              <circle cx="24" cy="24" r="5" fill="#00C26D" opacity="0.35" stroke="#00C26D" stroke-width="1.5"/>
+              <circle cx="38" cy="10" r="6" fill="#00C26D" opacity="0.5" stroke="#00C26D" stroke-width="2"/>
+              <path d="M13 35L21 27" stroke="#00C26D" stroke-width="1.5" stroke-dasharray="3 2" opacity="0.5"/>
+              <path d="M28 20L34 14" stroke="#00C26D" stroke-width="1.5" stroke-dasharray="3 2" opacity="0.5"/>
+              <path d="M36 14L38 10L42 12" stroke="#00C26D" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </div>
           <div class="value-content">
             <h3 class="text-xl font-semibold mb-2" style="font-family: var(--font-display);">Compounding</h3>
-            <p class="text-[var(--color-ink-muted)] leading-relaxed">Every engagement should make the next one better. We build systems that remember, learn, and improve — turning institutional knowledge into a compounding advantage.</p>
+            <p class="text-[var(--color-ink-muted)] leading-relaxed">Every engagement should make the next one better. We build systems that remember, learn, and improve — turning what your team knows into an asset that grows, not one that walks out the door.</p>
           </div>
         </div>
 
-        <!-- Value 3: Craft -->
+        <!-- Craft -->
         <div class="value-pillar" data-animate="fade-up" data-delay="300">
           <div class="value-number">03</div>
           <div class="value-divider"></div>
           <div class="value-icon-wrap">
-            <svg viewBox="0 0 48 48" fill="none" class="w-10 h-10">
-              <!-- Craft: precision compass/tool -->
-              <circle cx="24" cy="24" r="18" stroke="#00C26D" stroke-width="1.5" fill="none" opacity="0.2"/>
-              <circle cx="24" cy="24" r="12" stroke="#00C26D" stroke-width="1.5" fill="none" opacity="0.3"/>
-              <circle cx="24" cy="24" r="2" fill="#00C26D"/>
-              <!-- Compass needle -->
-              <line x1="24" y1="24" x2="24" y2="8" stroke="#00C26D" stroke-width="2" stroke-linecap="round"/>
-              <line x1="24" y1="24" x2="36" y2="32" stroke="#00C26D" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
-              <!-- Precision marks -->
-              <line x1="24" y1="6" x2="24" y2="9" stroke="#00C26D" stroke-width="1.5" stroke-linecap="round"/>
-              <line x1="42" y1="24" x2="39" y2="24" stroke="#00C26D" stroke-width="1.5" stroke-linecap="round"/>
-              <line x1="24" y1="42" x2="24" y2="39" stroke="#00C26D" stroke-width="1.5" stroke-linecap="round"/>
-              <line x1="6" y1="24" x2="9" y2="24" stroke="#00C26D" stroke-width="1.5" stroke-linecap="round"/>
+            <svg viewBox="0 0 48 48" fill="none" class="w-12 h-12">
+              <rect x="6" y="6" width="36" height="36" rx="4" stroke="#00C26D" stroke-width="2" fill="none"/>
+              <line x1="6" y1="14" x2="42" y2="14" stroke="#00C26D" stroke-width="1.5" opacity="0.3"/>
+              <circle cx="12" cy="10" r="1.5" fill="#FF5C70"/>
+              <circle cx="17" cy="10" r="1.5" fill="#FFB02E"/>
+              <circle cx="22" cy="10" r="1.5" fill="#00C26D"/>
+              <rect x="10" y="18" width="28" height="2" rx="1" fill="#00C26D" opacity="0.15"/>
+              <rect x="10" y="22" width="20" height="2" rx="1" fill="#00C26D" opacity="0.25"/>
+              <rect x="10" y="26" width="24" height="2" rx="1" fill="#00C26D" opacity="0.35"/>
+              <rect x="10" y="30" width="16" height="2" rx="1" fill="#00C26D" opacity="0.2"/>
+              <rect x="10" y="34" width="22" height="2" rx="1" fill="#00C26D" opacity="0.15"/>
             </svg>
           </div>
           <div class="value-content">
             <h3 class="text-xl font-semibold mb-2" style="font-family: var(--font-display);">Craft</h3>
-            <p class="text-[var(--color-ink-muted)] leading-relaxed">Software should earn its place in your workflow. We sweat the details — day-one usability, thoughtful defaults, and interfaces that respect your time. No bloat, no vanity features.</p>
+            <p class="text-[var(--color-ink-muted)] leading-relaxed">Software should earn its place in your workflow. We obsess over the details — day-one usability, defaults that actually make sense, and an interface that respects how busy you are. No bloat. No vanity features. No features that exist because a competitor has them.</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ════════════════════════════════════════════════════
-       CTA — green gradient + Cal.com
-       ════════════════════════════════════════════════════ -->
+  <!-- ═══════════════════ CTA ═══════════════════ -->
   <section class="relative overflow-hidden py-20 md:py-24" style="background: linear-gradient(135deg, #00C26D 0%, #037A47 50%, #023E25 100%);">
-    <!-- Decorative orb -->
     <div class="absolute -top-20 -right-20 w-80 h-80 rounded-full opacity-10" style="background: radial-gradient(circle, white, transparent 70%);"></div>
-
     <div class="container relative z-10">
       <div class="max-w-2xl mx-auto text-center">
         <div class="hidden md:flex justify-center mb-8" data-animate="fade-up">
@@ -282,18 +263,34 @@ const jsonLd = {
         </p>
         <div class="flex flex-col sm:flex-row items-center justify-center gap-4" data-animate="fade-up" data-delay="200">
           <button
-            class="px-8 py-3.5 bg-white text-[var(--color-green)] font-semibold rounded-xl hover:bg-white/90 transition-colors text-sm"
+            class="px-8 py-3.5 bg-white text-[var(--color-green)] font-semibold rounded-xl hover:bg-white/90 transition-colors text-sm cursor-pointer"
             data-cal-link="christopher-veale/servantium-introduction?duration=15"
             data-cal-namespace="servantium-introduction"
             data-cal-config='{"layout":"month_view"}'
           >Book a Demo</button>
-          <a href="mailto:hello@servantium.com" class="px-8 py-3.5 border-2 border-white/30 text-white font-semibold rounded-xl hover:bg-white/10 transition-colors text-sm no-underline">
-            hello@servantium.com
-          </a>
+          <button
+            class="px-8 py-3.5 border-2 border-white/30 text-white font-semibold rounded-xl hover:bg-white/10 transition-colors text-sm cursor-pointer bg-transparent"
+            onclick="openContactModal()"
+          >Send a Message</button>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- Contact Modal (reuse pattern from platform page) -->
+  <div class="contact-modal-overlay" id="contact-modal" aria-hidden="true">
+    <div class="contact-modal">
+      <button class="contact-modal-close" aria-label="Close" onclick="closeContactModal()">&times;</button>
+      <h2 style="font-family: var(--font-display); font-size: 1.5rem; margin-bottom: 0.25rem;">Get in touch</h2>
+      <p style="color: var(--color-ink-muted); margin-bottom: 1.5rem; font-size: 0.95rem;">Tell us about your firm and we'll reach out within 24 hours.</p>
+      <form class="contact-modal-form" id="about-contact-form">
+        <input type="text" name="name" placeholder="Your name" required>
+        <input type="email" name="email" placeholder="Work email" required>
+        <textarea name="message" placeholder="Tell us about your firm and what you're looking for..." rows="4"></textarea>
+        <button type="submit" class="contact-submit-btn" id="about-contact-submit">Send Message</button>
+      </form>
+    </div>
+  </div>
 </BaseLayout>
 
 <style>
@@ -303,15 +300,10 @@ const jsonLd = {
     line-height: 1.85;
     color: var(--color-ink-muted, #6b6b6b);
   }
-  .story-prose p {
-    margin-bottom: 1.5rem;
-  }
-  .story-prose strong {
-    color: var(--color-ink, #0D0D0D);
-    font-weight: 500;
-  }
+  .story-prose p { margin-bottom: 1.5rem; }
+  .story-prose strong { color: var(--color-ink, #0D0D0D); font-weight: 500; }
 
-  /* ── Pull quotes — editorial accent ── */
+  /* ── Pull quotes ── */
   .pull-quote {
     position: relative;
     margin: 3rem 0 3rem -2rem;
@@ -320,10 +312,10 @@ const jsonLd = {
   }
   .pull-quote p {
     font-family: var(--font-display, 'Playfair Display', serif);
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     font-weight: 400;
     font-style: italic;
-    line-height: 1.4;
+    line-height: 1.45;
     color: var(--color-ink, #0D0D0D);
     margin: 0;
   }
@@ -344,12 +336,10 @@ const jsonLd = {
     display: flex;
     align-items: flex-start;
     gap: 1.5rem;
-    padding: 2rem 0;
+    padding: 2.5rem 0;
     border-bottom: 1px solid var(--color-cloud-grey, #E1E3E6);
   }
-  .value-pillar:last-child {
-    border-bottom: none;
-  }
+  .value-pillar:last-child { border-bottom: none; }
   .value-number {
     font-family: var(--font-display, 'Playfair Display', serif);
     font-size: 2.5rem;
@@ -359,7 +349,7 @@ const jsonLd = {
     line-height: 1;
     flex-shrink: 0;
     width: 50px;
-    padding-top: 2px;
+    padding-top: 4px;
   }
   .value-divider {
     width: 2px;
@@ -367,42 +357,74 @@ const jsonLd = {
     background: var(--color-green, #00C26D);
     border-radius: 1px;
     flex-shrink: 0;
-    opacity: 0.4;
   }
   .value-icon-wrap {
     flex-shrink: 0;
-    width: 48px;
-    height: 48px;
+    width: 52px;
+    height: 52px;
     display: flex;
     align-items: center;
     justify-content: center;
     padding-top: 2px;
   }
-  .value-content {
-    flex: 1;
-    padding-top: 2px;
-  }
+  .value-content { flex: 1; padding-top: 4px; }
+
+  /* ── Contact modal ── */
+  .contact-modal-overlay { position: fixed; inset: 0; z-index: 10000; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+  .contact-modal-overlay.open { opacity: 1; pointer-events: auto; }
+  .contact-modal { background: white; border-radius: 16px; padding: 2.5rem; width: 90%; max-width: 480px; position: relative; transform: translateY(20px) scale(0.97); transition: transform 0.3s ease; box-shadow: 0 25px 60px rgba(0,0,0,0.15); }
+  .contact-modal-overlay.open .contact-modal { transform: translateY(0) scale(1); }
+  .contact-modal-close { position: absolute; top: 16px; right: 20px; background: none; border: none; font-size: 1.5rem; color: #999; cursor: pointer; line-height: 1; }
+  .contact-modal-close:hover { color: #333; }
+  .contact-modal-form input, .contact-modal-form textarea { display: block; width: 100%; padding: 0.75rem 1rem; border: 1px solid #E1E3E6; border-radius: 8px; font-family: inherit; font-size: 0.95rem; margin-bottom: 0.75rem; transition: border-color 0.2s; box-sizing: border-box; }
+  .contact-modal-form input:focus, .contact-modal-form textarea:focus { outline: none; border-color: #00C26D; }
+  .contact-submit-btn { display: block; width: 100%; padding: 0.85rem; font-size: 1rem; font-weight: 600; font-family: inherit; color: #fff; background: #00C26D; border: none; border-radius: 8px; cursor: pointer; transition: background 0.2s; }
+  .contact-submit-btn:hover { background: #00A95E; }
 
   /* ── Responsive ── */
   @media (max-width: 768px) {
-    .pull-quote {
-      margin-left: 0;
-    }
-    .pull-quote p {
-      font-size: 1.25rem;
-    }
-    .value-number {
-      display: none;
-    }
-    .value-pillar {
-      gap: 1rem;
-    }
+    .pull-quote { margin-left: 0; }
+    .pull-quote p { font-size: 1.2rem; }
+    .value-number { display: none; }
+    .value-pillar { gap: 1rem; }
   }
 </style>
 
 <script is:inline>
+  // Contact modal
+  function openContactModal() {
+    var modal = document.getElementById('contact-modal');
+    if (modal) { modal.classList.add('open'); modal.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden'; }
+  }
+  function closeContactModal() {
+    var modal = document.getElementById('contact-modal');
+    if (modal) { modal.classList.remove('open'); modal.setAttribute('aria-hidden', 'true'); document.body.style.overflow = ''; }
+  }
+  document.getElementById('contact-modal')?.addEventListener('click', function(e) { if (e.target === this) closeContactModal(); });
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeContactModal(); });
+
+  // Contact form submit
+  document.getElementById('about-contact-form')?.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    var btn = document.getElementById('about-contact-submit');
+    btn.disabled = true; btn.textContent = 'Sending...';
+    try {
+      var response = await fetch('https://contact.servantium.com/', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: this.querySelector('[name="name"]').value,
+          email: this.querySelector('[name="email"]').value,
+          message: this.querySelector('[name="message"]').value
+        })
+      });
+      if (response.ok) { btn.textContent = 'Sent!'; btn.style.background = '#037A47'; setTimeout(closeContactModal, 2000); }
+      else throw new Error();
+    } catch(err) { btn.textContent = 'Error — try hello@servantium.com'; btn.style.background = '#FF5C70'; }
+    finally { setTimeout(function() { btn.disabled = false; btn.textContent = 'Send Message'; btn.style.background = ''; }, 3000); }
+  });
+
+  // Scroll reveal
   document.addEventListener('DOMContentLoaded', function() {
-    // Scroll reveal
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     var elements = document.querySelectorAll('[data-animate]');
     elements.forEach(function(el) {
@@ -413,11 +435,7 @@ const jsonLd = {
     });
     var observer = new IntersectionObserver(function(entries) {
       entries.forEach(function(entry) {
-        if (entry.isIntersecting) {
-          entry.target.style.opacity = '1';
-          entry.target.style.transform = 'none';
-          observer.unobserve(entry.target);
-        }
+        if (entry.isIntersecting) { entry.target.style.opacity = '1'; entry.target.style.transform = 'none'; observer.unobserve(entry.target); }
       });
     }, { threshold: 0.1 });
     elements.forEach(function(el) { observer.observe(el); });
