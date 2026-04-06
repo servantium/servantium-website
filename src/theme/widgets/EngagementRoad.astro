@@ -3,6 +3,7 @@ import Astronaut from '@/theme/components/Astronaut.astro';
 
 interface RoadStop {
   title: string;
+  tagline?: string;
   description: string;
   features: string[];
   color: string;
@@ -29,13 +30,7 @@ const panels = [
   { number: '05', bg: 'linear-gradient(135deg, #ffffff 0%, #faf5ff 100%)', accent: '#8B5CF6', astronaut: 'cowboy' as const },
 ];
 
-const taglines = [
-  'Every conversation is captured context.',
-  'Never guess at pricing again.',
-  'From estimate to client-ready in minutes.',
-  'Real-time visibility, not status meetings.',
-  "Your firm's knowledge, compounding.",
-];
+const taglines = stops.map(s => s.tagline || '');
 
 const stageNames = ['Discovery', 'Estimation', 'Proposal', 'Delivery', 'Learning'];
 ---
@@ -46,10 +41,12 @@ const stageNames = ['Discovery', 'Estimation', 'Proposal', 'Delivery', 'Learning
   <!-- Sticky viewport -->
   <div class="filmstrip-viewport sticky top-0 h-screen overflow-hidden" style="-webkit-overflow-scrolling: touch;">
 
-    <!-- Persistent overlay at top center -->
-    <div class="absolute top-6 left-1/2 -translate-x-1/2 z-30 text-center pointer-events-none">
-      <div class="text-sm font-semibold uppercase tracking-widest" style="color: var(--color-green); letter-spacing: 0.12em;">The Engagement Journey</div>
-      <div class="text-xs mt-1" style="color: var(--color-ink-muted);">From first conversation to institutional memory</div>
+    <!-- Flying title — scales up on enter, fades out as panels scroll -->
+    <div class="filmstrip-hero-title absolute inset-0 flex items-center justify-center z-30 pointer-events-none" id="filmstrip-hero-title">
+      <div class="text-center px-6">
+        <div class="text-sm font-semibold uppercase tracking-widest mb-3" style="color: var(--color-green); letter-spacing: 0.12em;">The Engagement Journey</div>
+        <h2 class="text-3xl md:text-5xl lg:text-6xl font-medium leading-tight" style="font-family: var(--font-display); color: var(--color-ink);">From first conversation<br/>to institutional memory</h2>
+      </div>
     </div>
 
     <!-- Astronaut hopping above the thread — one per costume, toggled by script -->
@@ -551,6 +548,7 @@ function initFilmstrip() {
   var astronaut = viewport ? viewport.querySelector('.filmstrip-astronaut') : null;
   if (!section || !track || !viewport) return;
 
+  var heroTitle = document.getElementById('filmstrip-hero-title');
   var totalPanels = 5;
   var running = false;
   var slack = 100; // px of scroll before filmstrip starts moving
@@ -604,6 +602,13 @@ function initFilmstrip() {
     // Move track left (0 to -400vw)
     var translateX = progress * (totalPanels - 1) * -100;
     track.style.transform = 'translateX(' + translateX + 'vw)';
+
+    // Flying title: visible at progress 0, fades out by progress 0.15
+    if (heroTitle) {
+      var titleFade = Math.max(0, 1 - (progress / 0.12));
+      heroTitle.style.opacity = String(titleFade);
+      heroTitle.style.transform = 'translateY(' + (-progress * 200) + 'px) scale(' + (1 + progress * 0.1) + ')';
+    }
 
     // Extend green thread
     if (threadProgress) {

@@ -21,7 +21,6 @@ const {
   capabilities = [],
 } = Astro.props;
 
-// Distribute integrations across 4 rows with ~18 items each
 // Seed-based pseudo-random for deterministic builds
 function seededShuffle<T>(arr: T[], seed: number): T[] {
   const shuffled = [...arr];
@@ -37,20 +36,18 @@ function seededShuffle<T>(arr: T[], seed: number): T[] {
 const realIntegrations = integrations.filter((ig) => ig.tier !== 'placeholder');
 const placeholders = integrations.filter((ig) => ig.tier === 'placeholder');
 
-const rowSpeeds = ['40s', '25s', '30s', '45s'];
-const boxesPerRow = 18;
-const totalRows = 4;
+// 2 rows (ClickUp style), ~20 items each
+const boxesPerRow = 20;
+const totalRows = 2;
+const rowSpeeds = ['50s', '60s'];
 
-// Build rows
 const rows: Integration[][] = Array.from({ length: totalRows }, () => []);
 
-// Spread real integrations across rows
 const shuffledReal = seededShuffle(realIntegrations, 42);
 shuffledReal.forEach((ig, i) => {
   rows[i % totalRows].push(ig);
 });
 
-// Fill remaining slots per row with placeholders
 let placeholderIdx = 0;
 rows.forEach((row) => {
   while (row.length < boxesPerRow) {
@@ -62,115 +59,86 @@ rows.forEach((row) => {
   }
 });
 
-// Shuffle each row for variety
 const finalRows = rows.map((row, i) => seededShuffle(row, 100 + i));
 ---
 
-<section class="integration-wall" aria-label={title}>
-  <div class="wall-container">
-    <div class="wall-perspective">
-      <div class="wall-curved">
-        {finalRows.map((row, rowIdx) => {
-          const doubled = [...row, ...row];
-          const totalInHalf = row.length;
-          return (
-            <div
-              class="wall-row"
-              style={`--speed: ${rowSpeeds[rowIdx]};`}
-              data-row={rowIdx}
-            >
-              {doubled.map((ig, i) => {
-                // Use position across the FULL doubled array to avoid repeating patterns
-                const totalDoubled = doubled.length;
-                const center = totalDoubled / 2;
-                const dist = Math.abs(i - center) / center; // 0 at center, 1 at edges
-                // Pure parabolic U shapes — no sine, no modular repeat
-                // Row 0: U shape (edges up, center down)
-                // Row 1: gentle U
-                // Row 2: inverted U (edges down, center up)
-                // Row 3: aggressive inverted U
-                let scale: number, translateY: number;
-                if (rowIdx === 0) {
-                  scale = 0.88 + (dist * 0.15);
-                  translateY = 25 * (1 - dist);  // linear U: +25 center, 0 at edges
-                } else if (rowIdx === 1) {
-                  scale = 0.94 + (dist * 0.08);
-                  translateY = 12 * (1 - dist);
-                } else if (rowIdx === 2) {
-                  scale = 0.94 + (dist * 0.08);
-                  translateY = -12 * (1 - dist);
-                } else {
-                  scale = 0.88 + (dist * 0.15);
-                  translateY = -25 * (1 - dist);
-                }
-                return (
-                  <div
-                    class={`wall-box wall-box-${ig.tier}`}
-                    title={ig.name || undefined}
-                    data-tooltip={ig.tier !== 'placeholder' ? ig.name : undefined}
-                    style={`transform: scale(${scale.toFixed(3)}) translateY(${translateY.toFixed(1)}px);`}
+<!-- Desktop: ClickUp-style flat rows with centered logo -->
+<section class="iw" aria-label={title}>
+  <div class="iw-container">
+    <!-- Text above -->
+    <div class="iw-header">
+      {title && <h2 class="iw-title">{title}</h2>}
+      {subtitle && <p class="iw-subtitle">{subtitle}</p>}
+    </div>
+
+    <!-- Scrolling rows with centered Servantium logo -->
+    <div class="iw-rows">
+      {finalRows.map((row, rowIdx) => {
+        const doubled = [...row, ...row];
+        return (
+          <div
+            class="iw-row"
+            style={`--speed: ${rowSpeeds[rowIdx]};`}
+            data-row={rowIdx}
+          >
+            {doubled.map((ig) => (
+              <div
+                class={`iw-box iw-box-${ig.tier}`}
+                title={ig.name || undefined}
+              >
+                {ig.logo ? (
+                  <img
+                    src={ig.logo}
+                    alt={ig.name}
+                    class="iw-logo"
+                    loading="lazy"
+                    width="30"
+                    height="30"
+                  />
+                ) : (
+                  <span
+                    class="iw-abbrev"
+                    style={ig.tier !== 'placeholder' ? `color: ${ig.color}; font-weight: 700;` : ''}
                   >
-                    {ig.logo ? (
-                      <img
-                        src={ig.logo}
-                        alt={ig.name}
-                        class="wall-box-logo"
-                        loading="lazy"
-                        width="28"
-                        height="28"
-                      />
-                    ) : (
-                      <span
-                        class="wall-box-text"
-                        style={ig.tier !== 'placeholder' ? `color: ${ig.color}; font-weight: 700;` : ''}
-                      >
-                        {ig.abbrev}
-                      </span>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          );
-        })}
+                    {ig.abbrev}
+                  </span>
+                )}
+              </div>
+            ))}
+          </div>
+        );
+      })}
+
+      <!-- Centered Servantium logo -->
+      <div class="iw-center-logo">
+        <img src="/logo.png" alt="Servantium" width="48" height="48" />
       </div>
     </div>
 
-    <!-- Edge vignettes -->
-    <div class="wall-vignette-left"></div>
-    <div class="wall-vignette-right"></div>
-
-    <!-- Floating tooltip (outside mask context) -->
-    <div class="wall-tooltip" id="wall-tooltip" aria-hidden="true"></div>
-
-    <!-- Center overlay with title -->
-    <div class="wall-overlay">
-      {title && <h2 class="wall-title">{title}</h2>}
-      {subtitle && <p class="wall-subtitle">{subtitle}</p>}
-      {capabilities.length > 0 && (
-        <div class="wall-capabilities">
-          {capabilities.map((cap) => (
-            <span class="wall-cap-pill">{cap}</span>
-          ))}
-        </div>
-      )}
-    </div>
+    <!-- Capability pills below -->
+    {capabilities.length > 0 && (
+      <div class="iw-caps">
+        {capabilities.map((cap) => (
+          <span class="iw-pill">{cap}</span>
+        ))}
+      </div>
+    )}
   </div>
 </section>
 
 <!-- Mobile: simplified 2-row version -->
-<section class="integration-wall-mobile" aria-label={title}>
-  <div class="wall-mobile-container">
-    {title && <h2 class="wall-mobile-title">{title}</h2>}
-    {subtitle && <p class="wall-mobile-subtitle">{subtitle}</p>}
+<section class="iw-mobile" aria-label={title}>
+  <div class="iw-mobile-container">
+    {title && <h2 class="iw-mobile-title">{title}</h2>}
+    {subtitle && <p class="iw-mobile-subtitle">{subtitle}</p>}
 
-    <div class="wall-mobile-rows">
-      {finalRows.slice(0, 2).map((row, rowIdx) => (
-        <div class="wall-mobile-row" style={`--speed: ${rowIdx === 0 ? '50s' : '60s'};`}>
+    <div class="iw-mobile-rows">
+      {finalRows.map((row, rowIdx) => (
+        <div class="iw-mobile-row" style={`--speed: ${rowIdx === 0 ? '50s' : '60s'};`} data-row={rowIdx}>
           {[...row, ...row].map((ig) => (
-            <div class={`wall-mobile-box wall-mobile-box-${ig.tier}`} title={ig.name || undefined}>
+            <div class={`iw-mobile-box iw-mobile-box-${ig.tier}`} title={ig.name || undefined}>
               {ig.logo ? (
-                <img src={ig.logo} alt={ig.name} class="wall-mobile-logo" loading="lazy" width="22" height="22" />
+                <img src={ig.logo} alt={ig.name} class="iw-mobile-logo" loading="lazy" width="22" height="22" />
               ) : (
                 <span style={ig.tier !== 'placeholder' ? `color: ${ig.color}; font-weight: 700;` : ''}>
                   {ig.abbrev}
@@ -183,9 +151,9 @@ const finalRows = rows.map((row, i) => seededShuffle(row, 100 + i));
     </div>
 
     {capabilities.length > 0 && (
-      <div class="wall-mobile-caps">
+      <div class="iw-mobile-caps">
         {capabilities.map((cap) => (
-          <span class="wall-mobile-cap-pill">{cap}</span>
+          <span class="iw-mobile-pill">{cap}</span>
         ))}
       </div>
     )}
@@ -193,187 +161,26 @@ const finalRows = rows.map((row, i) => seededShuffle(row, 100 + i));
 </section>
 
 <style>
-  /* ── Desktop: Matrix wall with 3D wedge ── */
-  .integration-wall {
+  /* ── Desktop: ClickUp-style flat rows ── */
+  .iw {
     display: block;
-    padding: var(--v-space-xl, 4rem) 0;
-    background: var(--color-mist-grey, #F5F6F7);
+    padding: var(--v-space-xl, 4rem) 0 var(--v-space-lg, 2.5rem);
+    background: #fff;
     overflow: hidden;
   }
 
-  .wall-container {
-    position: relative;
-    perspective: 1200px;
-    overflow: visible;
-    padding: 2rem 0;
+  .iw-container {
     max-width: var(--max-width, 1320px);
     margin: 0 auto;
   }
 
-  .wall-perspective {
-    perspective: 1200px;
-    overflow: visible;
-  }
-
-  .wall-curved {
-    display: flex;
-    flex-direction: column;
-    gap: 3rem;
-    padding: 1rem 0;
-    overflow: visible;
-  }
-
-  /* Scrolling rows */
-  .wall-row {
-    display: flex;
-    align-items: center;
-    animation: scrollRow var(--speed) linear infinite;
-    width: max-content;
-    overflow: visible;
-    mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
-  }
-  .wall-row[data-row="0"] { animation-direction: normal; }
-  .wall-row[data-row="1"] { animation-direction: reverse; }
-  .wall-row[data-row="2"] { animation-direction: normal; }
-  .wall-row[data-row="3"] { animation-direction: reverse; }
-
-  @keyframes scrollRow {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
-  }
-
-  /* Logo boxes */
-  .wall-box {
-    flex-shrink: 0;
-    width: 52px;
-    height: 52px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--font-body, 'Source Sans 3', sans-serif);
-    font-size: 13px;
-    transition: transform 0.2s var(--ease-out, ease);
-    cursor: default;
-    position: relative;
-    margin: 10px;
-    overflow: visible;
-  }
-
-  .wall-box-live {
-    background: #fff;
-    border: 2px solid var(--color-green, #00C26D);
-    box-shadow: 0 0 12px rgba(0, 194, 109, 0.2);
-  }
-
-  .wall-box-planned {
-    background: #fff;
-    border: 1px solid var(--color-cloud-grey, #E1E3E6);
-  }
-
-  .wall-box-placeholder {
-    background: var(--color-mist-grey, #F5F6F7);
-    border: 2px dashed var(--color-cloud-grey, #E1E3E6);
-    opacity: 0.45;
-  }
-  .wall-box-placeholder .wall-box-text {
-    color: #94a3b8 !important;
-    font-weight: 400 !important;
-    font-size: 18px;
-  }
-
-  .wall-box-text {
-    line-height: 1;
-    user-select: none;
-  }
-
-  .wall-box-logo {
-    width: 28px;
-    height: 28px;
-    object-fit: contain;
-    pointer-events: none;
-  }
-
-  .wall-mobile-logo {
-    width: 22px;
-    height: 22px;
-    object-fit: contain;
-    pointer-events: none;
-  }
-
-  /* Floating tooltip — lives outside mask context, positioned by JS */
-  .wall-tooltip {
-    position: absolute;
-    top: 0;
-    left: 0;
-    background: var(--color-ink, #0D0D0D);
-    color: #fff;
-    font-family: var(--font-body, 'Source Sans 3', sans-serif);
-    font-size: 12px;
-    font-weight: 600;
-    padding: 5px 14px;
-    border-radius: 6px;
-    white-space: nowrap;
-    pointer-events: none;
-    z-index: 10000;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.35);
-    opacity: 0;
-    transition: opacity 0.15s;
-    transform: translateX(-50%);
-  }
-  .wall-tooltip.visible { opacity: 1; }
-
-  /* Hover: pause all rows */
-  .wall-perspective:hover .wall-row {
-    animation-play-state: paused;
-  }
-  .wall-box:hover {
-    filter: brightness(1.05);
-    box-shadow: 0 0 16px rgba(0, 194, 109, 0.3);
-  }
-
-  /* Edge vignettes */
-  .wall-vignette-left,
-  .wall-vignette-right {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 22%;
-    z-index: 40;
-    pointer-events: none;
-  }
-  .wall-vignette-left {
-    left: 0;
-    background: linear-gradient(to right, var(--color-mist-grey, #F5F6F7) 10%, rgba(245, 246, 247, 0.6) 50%, transparent 100%);
-  }
-  .wall-vignette-right {
-    right: 0;
-    background: linear-gradient(to left, var(--color-mist-grey, #F5F6F7) 10%, rgba(245, 246, 247, 0.6) 50%, transparent 100%);
-  }
-
-  /* Center overlay */
-  .wall-overlay {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  /* Text above rows */
+  .iw-header {
     text-align: center;
-    z-index: 30;
-    background: radial-gradient(
-      ellipse,
-      rgba(245, 246, 247, 0.98) 0%,
-      rgba(245, 246, 247, 0.85) 45%,
-      rgba(245, 246, 247, 0.5) 70%,
-      transparent 100%
-    );
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    padding: 2.5rem 3.5rem;
-    pointer-events: none;
+    padding: 0 2rem 2rem;
   }
 
-  .wall-title {
+  .iw-title {
     font-family: var(--font-display, 'Playfair Display', serif);
     font-size: clamp(1.5rem, 3vw, 2.25rem);
     font-weight: 700;
@@ -382,24 +189,132 @@ const finalRows = rows.map((row, i) => seededShuffle(row, 100 + i));
     line-height: 1.2;
   }
 
-  .wall-subtitle {
+  .iw-subtitle {
     font-family: var(--font-body, 'Source Sans 3', sans-serif);
     font-size: 0.95rem;
     color: var(--color-ink-muted, #6b6b6b);
     line-height: 1.6;
-    margin: 0 0 1.25rem;
-    max-width: 480px;
+    margin: 0 auto;
+    max-width: 520px;
   }
 
-  .wall-capabilities {
+  /* Scrolling rows container */
+  .iw-rows {
+    position: relative;
+    padding: 1rem 0;
+  }
+
+  .iw-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: iwScroll var(--speed) linear infinite;
+    width: max-content;
+    padding: 6px 0;
+    /* Soft fade at edges — does NOT block interaction */
+    mask-image: linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%);
+  }
+  .iw-row[data-row="0"] { animation-direction: normal; }
+  .iw-row[data-row="1"] { animation-direction: reverse; }
+
+  @keyframes iwScroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* Logo boxes — flat, tight, clean */
+  .iw-box {
+    flex-shrink: 0;
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-body, 'Source Sans 3', sans-serif);
+    font-size: 13px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: default;
+  }
+
+  .iw-box-live {
+    background: #fff;
+    border: 2px solid var(--color-green, #00C26D);
+    box-shadow: 0 2px 8px rgba(0, 194, 109, 0.15);
+  }
+
+  .iw-box-planned {
+    background: #fff;
+    border: 1px solid var(--color-cloud-grey, #E1E3E6);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  }
+
+  .iw-box-placeholder {
+    background: #fafafa;
+    border: 1.5px dashed var(--color-cloud-grey, #E1E3E6);
+    opacity: 0.5;
+  }
+  .iw-box-placeholder .iw-abbrev {
+    color: #bcc3cc !important;
+    font-weight: 400 !important;
+    font-size: 18px;
+  }
+
+  .iw-box:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 16px rgba(0, 194, 109, 0.2);
+  }
+
+  .iw-abbrev {
+    line-height: 1;
+    user-select: none;
+  }
+
+  .iw-logo {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+    pointer-events: none;
+  }
+
+  /* Centered Servantium logo */
+  .iw-center-logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 100px;
+    background: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08), 0 0 0 6px rgba(255,255,255,0.9);
+    z-index: 10;
+  }
+  .iw-center-logo img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+  }
+
+  /* Hover: pause rows */
+  .iw-rows:hover .iw-row {
+    animation-play-state: paused;
+  }
+
+  /* Capability pills below rows */
+  .iw-caps {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 0.5rem;
-    pointer-events: auto;
+    padding: 1.5rem 2rem 0;
   }
 
-  .wall-cap-pill {
+  .iw-pill {
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
@@ -413,21 +328,21 @@ const finalRows = rows.map((row, i) => seededShuffle(row, 100 + i));
     color: var(--color-emerald, #037A47);
   }
 
-  /* ── Mobile: simplified 2-row ── */
-  .integration-wall-mobile {
+  /* ── Mobile ── */
+  .iw-mobile {
     display: none;
     padding: var(--v-space-lg, 2.5rem) 0;
-    background: var(--color-mist-grey, #F5F6F7);
+    background: #fff;
     overflow: hidden;
   }
 
-  .wall-mobile-container {
+  .iw-mobile-container {
     max-width: var(--content-width, 1140px);
     margin: 0 auto;
     padding: 0 1.5rem;
   }
 
-  .wall-mobile-title {
+  .iw-mobile-title {
     font-family: var(--font-display, 'Playfair Display', serif);
     font-size: clamp(1.5rem, 4vw, 2rem);
     color: var(--color-ink, #0D0D0D);
@@ -435,7 +350,7 @@ const finalRows = rows.map((row, i) => seededShuffle(row, 100 + i));
     margin: 0 0 0.5rem;
   }
 
-  .wall-mobile-subtitle {
+  .iw-mobile-subtitle {
     font-family: var(--font-body, 'Source Sans 3', sans-serif);
     font-size: 0.9rem;
     color: var(--color-ink-muted, #6b6b6b);
@@ -445,7 +360,7 @@ const finalRows = rows.map((row, i) => seededShuffle(row, 100 + i));
     max-width: 500px;
   }
 
-  .wall-mobile-rows {
+  .iw-mobile-rows {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -453,19 +368,19 @@ const finalRows = rows.map((row, i) => seededShuffle(row, 100 + i));
     margin-bottom: 1.5rem;
   }
 
-  .wall-mobile-row {
+  .iw-mobile-row {
     display: flex;
-    gap: 0.5rem;
-    animation: scrollRow var(--speed) linear infinite;
+    gap: 8px;
+    animation: iwScroll var(--speed) linear infinite;
     width: max-content;
   }
-  .wall-mobile-row:nth-child(odd) { animation-direction: normal; }
-  .wall-mobile-row:nth-child(even) { animation-direction: reverse; }
+  .iw-mobile-row[data-row="0"] { animation-direction: normal; }
+  .iw-mobile-row[data-row="1"] { animation-direction: reverse; }
 
-  .wall-mobile-box {
+  .iw-mobile-box {
     flex-shrink: 0;
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     border-radius: 10px;
     display: flex;
     align-items: center;
@@ -473,33 +388,34 @@ const finalRows = rows.map((row, i) => seededShuffle(row, 100 + i));
     font-family: var(--font-body, 'Source Sans 3', sans-serif);
     font-size: 11px;
   }
-  .wall-mobile-box-live {
+  .iw-mobile-box-live {
     background: #fff;
     border: 2px solid var(--color-green, #00C26D);
     box-shadow: 0 0 8px rgba(0, 194, 109, 0.15);
   }
-  .wall-mobile-box-planned {
+  .iw-mobile-box-planned {
     background: #fff;
     border: 1px solid var(--color-cloud-grey, #E1E3E6);
   }
-  .wall-mobile-box-placeholder {
-    background: var(--color-mist-grey, #F5F6F7);
-    border: 2px dashed var(--color-cloud-grey, #E1E3E6);
+  .iw-mobile-box-placeholder {
+    background: #fafafa;
+    border: 1.5px dashed var(--color-cloud-grey, #E1E3E6);
     opacity: 0.4;
   }
-  .wall-mobile-box-placeholder span {
-    color: #94a3b8 !important;
-    font-weight: 400 !important;
-    font-size: 14px;
+
+  .iw-mobile-logo {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
   }
 
-  .wall-mobile-caps {
+  .iw-mobile-caps {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 0.5rem;
   }
-  .wall-mobile-cap-pill {
+  .iw-mobile-pill {
     display: inline-flex;
     padding: 0.35rem 0.9rem;
     background: rgba(0, 194, 109, 0.08);
@@ -513,64 +429,27 @@ const finalRows = rows.map((row, i) => seededShuffle(row, 100 + i));
 
   /* ── Responsive ── */
   @media (max-width: 768px) {
-    .integration-wall {
-      display: none;
-    }
-    .integration-wall-mobile {
-      display: block;
-    }
+    .iw { display: none; }
+    .iw-mobile { display: block; }
   }
 
-  /* ── Reduced motion: static grid ── */
+  /* ── Reduced motion ── */
   @media (prefers-reduced-motion: reduce) {
-    .wall-row,
-    .wall-mobile-row {
+    .iw-row,
+    .iw-mobile-row {
       animation: none !important;
     }
-    .wall-curved {
-      transform: none;
-    }
-    .wall-row {
+    .iw-row {
       flex-wrap: wrap;
       width: auto;
       justify-content: center;
+      gap: 8px;
+      mask-image: none;
+      -webkit-mask-image: none;
     }
-    /* Hide duplicated items in static mode (only show first half) */
-    .wall-row .wall-box:nth-child(n+19),
-    .wall-mobile-row .wall-mobile-box:nth-child(n+19) {
+    .iw-row .iw-box:nth-child(n+21),
+    .iw-mobile-row .iw-mobile-box:nth-child(n+21) {
       display: none;
     }
   }
 </style>
-
-<script is:inline>
-  (function() {
-    var tooltip = document.getElementById('wall-tooltip');
-    if (!tooltip) return;
-    var container = tooltip.parentElement;
-
-    container.addEventListener('mouseover', function(e) {
-      var box = e.target.closest('.wall-box[data-tooltip]');
-      if (!box) return;
-      var text = box.getAttribute('data-tooltip');
-      if (!text) return;
-      tooltip.textContent = text;
-      tooltip.classList.add('visible');
-      positionTooltip(box);
-    });
-
-    container.addEventListener('mouseout', function(e) {
-      var box = e.target.closest('.wall-box[data-tooltip]');
-      if (box) tooltip.classList.remove('visible');
-    });
-
-    function positionTooltip(box) {
-      var boxRect = box.getBoundingClientRect();
-      var containerRect = container.getBoundingClientRect();
-      var x = (boxRect.left + boxRect.width / 2) - containerRect.left;
-      var y = boxRect.top - containerRect.top - 10;
-      tooltip.style.left = x + 'px';
-      tooltip.style.top = y + 'px';
-    }
-  })();
-</script>
