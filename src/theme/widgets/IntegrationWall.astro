@@ -76,25 +76,17 @@ const finalRows = rows.map((row, i) => seededShuffle(row, 100 + i));
       {finalRows.map((row, rowIdx) => {
         const doubled = [...row, ...row];
         return (
+          <div class="iw-row-wrap" data-row={rowIdx}>
           <div
-            class={`iw-row iw-row-${rowIdx}`}
+            class="iw-row"
             style={`--speed: ${rowSpeeds[rowIdx]};`}
             data-row={rowIdx}
           >
             {doubled.map((ig, i) => {
-              // Concave transforms: position across full doubled array
-              const center = doubled.length / 2;
-              const dist = Math.abs(i - center) / center; // 0=center, 1=edge
-              let translateY: number;
-              if (rowIdx === 0) translateY = 35 * (1 - dist);       // U shape — strong
-              else if (rowIdx === 1) translateY = 15 * (1 - dist);  // gentle U
-              else if (rowIdx === 2) translateY = -15 * (1 - dist); // inverted gentle
-              else translateY = -35 * (1 - dist);                    // inverted — strong
               return (
                 <div
                   class={`iw-box iw-box-${ig.tier}`}
                   title={ig.name || undefined}
-                  style={`transform: translateY(${translateY.toFixed(1)}px);`}
                 >
                   {ig.logo ? (
                     <img
@@ -117,12 +109,13 @@ const finalRows = rows.map((row, i) => seededShuffle(row, 100 + i));
               );
             })}
           </div>
+          </div>
         );
       })}
 
       <!-- Centered Servantium logo mark -->
       <div class="iw-center-logo">
-        <img src="/S-nobg.png" alt="Servantium" width="90" height="90" />
+        <img src="/logo.png" alt="Servantium" width="90" height="90" />
       </div>
     </div>
 
@@ -231,6 +224,13 @@ const finalRows = rows.map((row, i) => seededShuffle(row, 100 + i));
   .iw-row[data-row="1"] { animation-direction: reverse; }
   .iw-row[data-row="2"] { animation-direction: normal; }
   .iw-row[data-row="3"] { animation-direction: reverse; }
+
+  /* Concave shape: wrapper div offsets each row vertically */
+  .iw-row-wrap { position: relative; overflow: visible; }
+  .iw-row-wrap[data-row="0"] { top: 14px; }
+  .iw-row-wrap[data-row="1"] { top: 5px; }
+  .iw-row-wrap[data-row="2"] { top: -5px; }
+  .iw-row-wrap[data-row="3"] { top: -14px; }
 
   @keyframes iwScroll {
     from { transform: translateX(0); }
