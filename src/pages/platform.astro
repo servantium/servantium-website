@@ -604,30 +604,8 @@ const jsonLd = {
       </div>
     </div>
   </div>
-  {/* Floating CTA — appears after scrolling past hero */}
-  <div class="fixed bottom-6 right-6 z-50 hidden" id="floating-cta">
-    <a href="/#contact" class="flex items-center gap-2 px-5 py-3 rounded-full bg-[var(--color-green)] text-white font-semibold no-underline shadow-xl hover:bg-[var(--color-green-hover)] transition-all text-sm" style="color:#fff;">
-      Book a Demo
-      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-    </a>
-  </div>
-</BaseLayout>
 
-<script is:inline>
-  function initFloatingCTA() {
-    var cta = document.getElementById('floating-cta');
-    if (!cta) return;
-    window.addEventListener('scroll', function() {
-      cta.classList.toggle('hidden', window.scrollY < 400);
-    });
-  }
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initFloatingCTA);
-  } else {
-    initFloatingCTA();
-  }
-  document.addEventListener('astro:page-load', initFloatingCTA);
-</script>
+</BaseLayout>
 
 <style>
   :root {
