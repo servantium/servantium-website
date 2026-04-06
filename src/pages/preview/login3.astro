@@ -1,11 +1,6 @@
 ---
 /**
- * Preview 3: Flutter firebase_ui_auth SignInScreen re-skin.
- * Simulates what the actual Flutter sign-in screen would look like
- * using firebase_ui_auth's headerBuilder, sideBuilder, and footerBuilder.
- *
- * This preview mimics Flutter's Material Design constraints while
- * applying Servantium/Verdant branding. Max can reference this 1:1.
+ * Login screen design reference for Flutter firebase_ui_auth SignInScreen.
  *
  * FLUTTER MAPPING:
  * - Left green panel = sideBuilder (only shows on wide screens)
@@ -29,13 +24,12 @@ import Astronaut from '@/theme/components/Astronaut.astro';
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sign In — Servantium (Flutter Preview)</title>
+  <title>Sign In — Servantium</title>
   <style>
-    /* Simulate Flutter's Material Design system */
     body { margin: 0; font-family: 'Source Sans 3', sans-serif; min-height: 100vh; display: flex; background: #fafafa; }
 
-    /* ── sideBuilder ── (Flutter: only renders on constraints.maxWidth > 800) */
-    .flutter-side-builder {
+    /* ── Side panel ── */
+    .side-panel {
       width: 45%;
       min-width: 400px;
       max-width: 720px;
@@ -45,42 +39,102 @@ import Astronaut from '@/theme/components/Astronaut.astro';
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 48px;
+      padding: 48px 40px;
       position: relative;
       overflow: hidden;
+      box-sizing: border-box;
     }
 
     @media (max-width: 800px) {
-      .flutter-side-builder { display: none; }
+      .side-panel { display: none; }
     }
 
-    .flutter-side-builder .orb {
+    .side-panel .orb {
       position: absolute;
       border-radius: 50%;
       background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 65%);
     }
-    .flutter-side-builder .orb-1 { top: -10%; right: -15%; width: 50%; height: 50%; }
-    .flutter-side-builder .orb-2 { bottom: -5%; left: -10%; width: 35%; height: 35%; }
+    .side-panel .orb-1 { top: -10%; right: -15%; width: 50%; height: 50%; }
+    .side-panel .orb-2 { bottom: -5%; left: -10%; width: 35%; height: 35%; }
 
-    .side-content { position: relative; z-index: 1; text-align: center; max-width: 400px; width: 100%; }
-    .side-logo { height: 44px; filter: brightness(0) invert(1); margin-bottom: 28px; }
-    .side-title { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 500; color: #fff; line-height: 1.3; margin-bottom: 14px; }
-    .side-subtitle { font-size: 1.05rem; color: rgba(255,255,255,0.75); max-width: 360px; margin: 0 auto; line-height: 1.65; }
-    .side-testimonial {
-      margin-top: 32px;
-      padding: 18px 24px;
+    .side-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      width: 100%;
+      max-width: 420px;
+      gap: 0;
+    }
+
+    .side-logo { height: 48px; filter: brightness(0) invert(1); margin-bottom: 32px; }
+
+    .side-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.1rem;
+      font-weight: 500;
+      color: #fff;
+      line-height: 1.3;
+      margin: 0 0 12px;
+    }
+
+    .side-subtitle {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.65;
+      margin: 0 0 28px;
+      max-width: 380px;
+    }
+
+    /* Astronaut carousel */
+    .astronaut-carousel {
+      position: relative;
+      width: 140px;
+      height: 170px;
+      margin-bottom: 28px;
+    }
+    .astronaut-carousel .astro-slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      opacity: 0;
+      transform: scale(0.85);
+      transition: opacity 0.6s ease, transform 0.5s ease;
+    }
+    .astronaut-carousel .astro-slide.active { opacity: 1; transform: scale(1); }
+    .astro-icon { width: 120px; height: 120px; filter: drop-shadow(0 4px 16px rgba(0,0,0,0.2)); }
+    .astro-label { font-weight: 600; font-size: 0.8rem; color: rgba(255,255,255,0.6); letter-spacing: 0.02em; }
+
+    /* Testimonial */
+    .side-quote {
+      padding: 20px 24px;
       background: rgba(255,255,255,0.08);
       backdrop-filter: blur(8px);
       border-radius: 12px;
       text-align: left;
-      max-width: 380px;
       width: 100%;
+      max-width: 380px;
     }
-    .side-testimonial p { font-size: 0.88rem; color: rgba(255,255,255,0.85); font-style: italic; line-height: 1.55; margin: 0 0 8px; }
-    .side-testimonial .author { font-size: 0.78rem; color: rgba(255,255,255,0.6); }
+    .side-quote p {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.88);
+      font-style: italic;
+      line-height: 1.6;
+      margin: 0 0 8px;
+    }
+    .side-quote .attribution {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.55);
+    }
 
-    /* ── Main form area ── (Flutter: Scaffold body with centered card) */
-    .flutter-form-area {
+    /* ── Form area ── */
+    .form-area {
       flex: 1;
       display: flex;
       flex-direction: column;
@@ -89,39 +143,37 @@ import Astronaut from '@/theme/components/Astronaut.astro';
       padding: 32px 24px;
     }
 
-    /* Flutter SignInScreen renders form inside a ConstrainedBox maxWidth ~400 */
-    .flutter-form-card {
+    .form-card {
       width: 100%;
       max-width: 380px;
     }
 
-    /* ── headerBuilder ── */
-    .flutter-header-builder {
+    /* Header */
+    .form-header {
       text-align: center;
       margin-bottom: 32px;
     }
-    .flutter-header-builder .mobile-logo { display: none; height: 32px; margin-bottom: 24px; }
+    .form-header .mobile-logo { display: none; height: 32px; margin-bottom: 24px; }
     @media (max-width: 800px) {
-      .flutter-header-builder .mobile-logo { display: inline-block; }
+      .form-header .mobile-logo { display: inline-block; }
     }
-    .flutter-header-builder h1 {
+    .form-header h1 {
       font-family: 'Playfair Display', serif;
       font-size: 1.75rem;
       font-weight: 500;
       color: #0D0D0D;
       margin: 0 0 4px;
     }
-    .flutter-header-builder p {
+    .form-header p {
       font-size: 0.95rem;
       color: #6b6b6b;
       margin: 0;
     }
 
-    /* ── Firebase UI Auth form fields (simulated) ── */
-    /* Flutter: These are rendered by EmailAuthProvider automatically */
-    .firebase-form { display: flex; flex-direction: column; gap: 16px; }
+    /* Form fields */
+    .login-form { display: flex; flex-direction: column; gap: 16px; }
 
-    .firebase-field label {
+    .field label {
       display: block;
       font-size: 0.8rem;
       font-weight: 600;
@@ -130,7 +182,7 @@ import Astronaut from '@/theme/components/Astronaut.astro';
       letter-spacing: 0.02em;
     }
 
-    .firebase-field input {
+    .field input {
       width: 100%;
       padding: 12px 16px;
       font-size: 0.95rem;
@@ -144,14 +196,13 @@ import Astronaut from '@/theme/components/Astronaut.astro';
       box-sizing: border-box;
     }
 
-    .firebase-field input:focus {
+    .field input:focus {
       border-color: #00C26D;
       box-shadow: 0 0 0 3px rgba(0, 194, 109, 0.12);
     }
 
-    .firebase-field input::placeholder { color: #9ca3af; }
+    .field input::placeholder { color: #9ca3af; }
 
-    /* Flutter: password visibility toggle */
     .password-wrapper { position: relative; }
     .password-wrapper input { padding-right: 44px; }
     .password-toggle {
@@ -167,8 +218,7 @@ import Astronaut from '@/theme/components/Astronaut.astro';
     }
     .password-toggle:hover { color: #3d3d3d; }
 
-    /* Flutter: ElevatedButton with Material theme */
-    .firebase-submit {
+    .submit-btn {
       width: 100%;
       padding: 14px;
       font-size: 0.95rem;
@@ -182,10 +232,9 @@ import Astronaut from '@/theme/components/Astronaut.astro';
       transition: background 0.2s, transform 0.1s;
       margin-top: 4px;
     }
-    .firebase-submit:hover { background: #00A95E; }
-    .firebase-submit:active { transform: scale(0.98); }
+    .submit-btn:hover { background: #00A95E; }
+    .submit-btn:active { transform: scale(0.98); }
 
-    /* Forgot password link */
     .forgot-link {
       text-align: right;
       margin-top: -8px;
@@ -198,8 +247,7 @@ import Astronaut from '@/theme/components/Astronaut.astro';
     }
     .forgot-link a:hover { color: #00A95E; }
 
-    /* Divider */
-    .auth-divider {
+    .divider {
       display: flex;
       align-items: center;
       gap: 12px;
@@ -207,9 +255,8 @@ import Astronaut from '@/theme/components/Astronaut.astro';
       color: #9ca3af;
       font-size: 0.8rem;
     }
-    .auth-divider::before, .auth-divider::after { content: ''; flex: 1; height: 1px; background: #E1E3E6; }
+    .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: #E1E3E6; }
 
-    /* Google button */
     .google-btn {
       width: 100%;
       padding: 11px;
@@ -229,133 +276,74 @@ import Astronaut from '@/theme/components/Astronaut.astro';
     }
     .google-btn:hover { border-color: #d1d5db; background: #f9fafb; }
 
-    /* ── footerBuilder ── */
-    .flutter-footer-builder {
+    .form-footer {
       text-align: center;
       margin-top: 28px;
       font-size: 0.9rem;
       color: #6b6b6b;
     }
-    .flutter-footer-builder a {
+    .form-footer a {
       color: #00C26D;
       text-decoration: none;
       font-weight: 600;
     }
-    .flutter-footer-builder a:hover { color: #00A95E; }
-
-    /* ── Code annotations (visible on hover) ── */
-    .code-note {
-      position: absolute;
-      top: 4px;
-      right: 4px;
-      background: rgba(0,0,0,0.7);
-      color: #22c55e;
-      font-size: 9px;
-      font-family: monospace;
-      padding: 2px 6px;
-      border-radius: 4px;
-      opacity: 0;
-      transition: opacity 0.2s;
-      pointer-events: none;
-      z-index: 100;
-      white-space: nowrap;
-    }
-    *:hover > .code-note { opacity: 1; }
-    [data-flutter] { position: relative; }
-
-    /* Astronaut costumes */
-    .costume-carousel {
-      margin-top: 32px;
-      position: relative;
-      width: 100%;
-      max-width: 280px;
-      height: 160px;
-    }
-    .costume-carousel .costume {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      opacity: 0;
-      transform: scale(0.9);
-      transition: opacity 0.6s ease, transform 0.5s ease;
-      color: rgba(255,255,255,0.85);
-      font-size: 0.85rem;
-      text-align: center;
-    }
-    .costume-carousel .costume.active { opacity: 1; transform: scale(1); }
-    .costume-icon { width: 120px; height: 120px; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.2)); }
-    .costume-label { font-weight: 600; font-size: 0.8rem; color: rgba(255,255,255,0.7); }
+    .form-footer a:hover { color: #00A95E; }
   </style>
 </head>
 <body>
 
-  <!-- sideBuilder: only on wide screens (Flutter: constraints.maxWidth > 800) -->
-  <div class="flutter-side-builder" data-flutter="sideBuilder">
-    <span class="code-note">sideBuilder(context, constraints)</span>
+  <!-- Side panel (sideBuilder) -->
+  <div class="side-panel">
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
     <div class="side-content">
       <img src="/logo.png" alt="Servantium" class="side-logo" />
-      <div class="side-title">The operating system<br/>for your clients.</div>
-      <div class="side-subtitle">Scope, price, deliver, and learn from every engagement.</div>
-      <div class="costume-carousel" aria-hidden="true">
-        <div class="costume active" data-costume="0">
-          <div class="costume-icon"><Astronaut size="lg" variant="waving" animate={true} /></div>
-          <span class="costume-label">The Greeter</span>
+      <div class="side-title">The operating system for services teams.</div>
+      <div class="side-subtitle">Your hub to scope, price, deliver and learn from every project.</div>
+      <div class="astronaut-carousel" aria-hidden="true">
+        <div class="astro-slide active" data-slide="0">
+          <div class="astro-icon"><Astronaut size="lg" variant="waving" animate={true} /></div>
         </div>
-        <div class="costume" data-costume="1">
-          <div class="costume-icon"><Astronaut size="lg" variant="cowboy" animate={true} /></div>
-          <span class="costume-label">The Explorer</span>
+        <div class="astro-slide" data-slide="1">
+          <div class="astro-icon"><Astronaut size="lg" variant="cowboy" animate={true} /></div>
         </div>
-        <div class="costume" data-costume="2">
-          <div class="costume-icon"><Astronaut size="lg" variant="detective" animate={true} /></div>
-          <span class="costume-label">The Analyst</span>
+        <div class="astro-slide" data-slide="2">
+          <div class="astro-icon"><Astronaut size="lg" variant="detective" animate={true} /></div>
         </div>
-        <div class="costume" data-costume="3">
-          <div class="costume-icon"><Astronaut size="lg" variant="captain" animate={true} /></div>
-          <span class="costume-label">The Architect</span>
+        <div class="astro-slide" data-slide="3">
+          <div class="astro-icon"><Astronaut size="lg" variant="captain" animate={true} /></div>
         </div>
-        <div class="costume" data-costume="4">
-          <div class="costume-icon"><Astronaut size="lg" variant="professor" animate={true} /></div>
-          <span class="costume-label">The Mentor</span>
+        <div class="astro-slide" data-slide="4">
+          <div class="astro-icon"><Astronaut size="lg" variant="professor" animate={true} /></div>
         </div>
       </div>
-      <div class="side-testimonial">
-        <p>"Servantium changed how we scope engagements. We went from guessing to knowing."</p>
-        <span class="author">— Beta Customer, Professional Services</span>
+      <div class="side-quote">
+        <p>"Servantium makes turning around quotes and invoices faster than ever."</p>
+        <span class="attribution">— Business Development, Federal Services</span>
       </div>
     </div>
   </div>
 
-  <!-- Main form area (Flutter: Scaffold body) -->
-  <div class="flutter-form-area">
-    <div class="flutter-form-card">
+  <!-- Form area -->
+  <div class="form-area">
+    <div class="form-card">
 
-      <!-- headerBuilder -->
-      <div class="flutter-header-builder" data-flutter="headerBuilder">
-        <span class="code-note">headerBuilder(context, constraints, shrinkOffset)</span>
+      <div class="form-header">
         <img src="/logo.png" alt="Servantium" class="mobile-logo" />
         <h1>Welcome back</h1>
         <p>Sign in to continue to Servantium</p>
       </div>
 
-      <!-- Firebase UI Auth form (auto-rendered by EmailAuthProvider) -->
-      <form class="firebase-form" data-flutter="EmailAuthProvider auto-rendered form">
-        <span class="code-note">EmailAuthProvider() — auto-rendered fields</span>
-
-        <div class="firebase-field">
-          <label for="email3">Email</label>
-          <input type="email" id="email3" placeholder="you@company.com" />
+      <form class="login-form">
+        <div class="field">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="you@company.com" />
         </div>
 
-        <div class="firebase-field">
-          <label for="password3">Password</label>
+        <div class="field">
+          <label for="password">Password</label>
           <div class="password-wrapper">
-            <input type="password" id="password3" placeholder="Enter your password" />
+            <input type="password" id="password" placeholder="Enter your password" />
             <button type="button" class="password-toggle" aria-label="Toggle password visibility">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
             </button>
@@ -366,9 +354,9 @@ import Astronaut from '@/theme/components/Astronaut.astro';
           <a href="#">Forgot password?</a>
         </div>
 
-        <button type="submit" class="firebase-submit">Sign In</button>
+        <button type="submit" class="submit-btn">Sign In</button>
 
-        <div class="auth-divider">or</div>
+        <div class="divider">or</div>
 
         <button type="button" class="google-btn">
           <svg width="18" height="18" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
@@ -376,9 +364,7 @@ import Astronaut from '@/theme/components/Astronaut.astro';
         </button>
       </form>
 
-      <!-- footerBuilder -->
-      <div class="flutter-footer-builder" data-flutter="footerBuilder">
-        <span class="code-note">footerBuilder(context, auth)</span>
+      <div class="form-footer">
         Don't have an account? <a href="#">Contact us</a>
       </div>
 
@@ -387,13 +373,13 @@ import Astronaut from '@/theme/components/Astronaut.astro';
 
   <script>
     (function() {
-      var costumes = document.querySelectorAll('.costume-carousel .costume');
-      if (!costumes.length) return;
+      var slides = document.querySelectorAll('.astronaut-carousel .astro-slide');
+      if (!slides.length) return;
       var current = 0;
       setInterval(function() {
-        costumes[current].classList.remove('active');
-        current = (current + 1) % costumes.length;
-        costumes[current].classList.add('active');
+        slides[current].classList.remove('active');
+        current = (current + 1) % slides.length;
+        slides[current].classList.add('active');
       }, 4000);
     })();
   </script>
