@@ -460,8 +460,7 @@ const jsonLd = {
       <button class="roi-modal-close" aria-label="Close" onclick="closeROICalculator()">&times;</button>
 
       <div class="roi-header">
-        <h2>What could better operations be worth to your firm?</h2>
-        <p>Adjust the inputs below to match your firm. We'll estimate the annual impact based on industry benchmarks from SPI Research, Proposify, and our own data.</p>
+        <h2>What's better operations worth?</h2>
       </div>
 
       <div class="roi-body">
@@ -893,18 +892,17 @@ const jsonLd = {
   .roi-modal-overlay.open .roi-modal { transform: translateY(0) scale(1); }
   .roi-modal-close { position: absolute; top: 16px; right: 20px; background: none; border: none; font-size: 1.5rem; color: #999; cursor: pointer; line-height: 1; z-index: 2; }
   .roi-modal-close:hover { color: #333; }
-  .roi-header { padding: 2rem 2.5rem 1.5rem; border-bottom: 1px solid var(--color-cloud-grey, #E1E3E6); }
-  .roi-header h2 { font-family: var(--font-heading, 'Playfair Display', serif); font-size: 1.5rem; margin: 0 0 0.5rem; color: var(--color-ink, #0D0D0D); }
-  .roi-header p { font-size: 0.9rem; color: var(--color-ink-muted, #6b6b6b); margin: 0; line-height: 1.6; }
-  .roi-body { display: grid; grid-template-columns: 280px 1fr; gap: 0; }
-  .roi-inputs { padding: 1.5rem 2rem; border-right: 1px solid var(--color-cloud-grey, #E1E3E6); background: var(--color-mint-tint, #F3FCF8); }
+  .roi-header { padding: 1.5rem 2rem 1rem; border-bottom: 1px solid var(--color-cloud-grey, #E1E3E6); }
+  .roi-header h2 { font-family: var(--font-heading, 'Playfair Display', serif); font-size: 1.5rem; margin: 0; color: var(--color-ink, #0D0D0D); }
+  .roi-body { display: flex; gap: 0; }
+  .roi-inputs { flex: 1; padding: 2rem; background: white; }
   .roi-inputs h3 { font-family: var(--font-body, 'Source Sans 3', sans-serif); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-ink-muted, #6b6b6b); margin: 0 0 1rem; }
   .roi-field { margin-bottom: 1rem; }
   .roi-field label { display: block; font-size: 0.82rem; font-weight: 600; color: var(--color-ink-light, #3d3d3d); margin-bottom: 4px; }
   .roi-field input { width: 100%; padding: 8px 12px; border: 1px solid var(--color-cloud-grey, #E1E3E6); border-radius: 8px; font-size: 0.9rem; font-family: inherit; background: white; transition: border-color 0.2s; box-sizing: border-box; }
   .roi-field input:focus { outline: none; border-color: var(--color-green, #00C26D); box-shadow: 0 0 0 2px rgba(0, 194, 109, 0.12); }
   .roi-hint { font-size: 0.72rem; color: var(--color-ink-muted, #6b6b6b); display: block; margin-top: 3px; }
-  .roi-results { padding: 1.5rem 2rem 2rem; }
+  .roi-results { flex: 1; padding: 2rem; background: var(--color-mint-tint, #F3FCF8); }
   .roi-results h3 { font-family: var(--font-body, 'Source Sans 3', sans-serif); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-ink-muted, #6b6b6b); margin: 0 0 1rem; }
   /* Clean result rows */
   .roi-row { display: flex; justify-content: space-between; align-items: center; padding: 0.85rem 0; border-bottom: 1px solid var(--color-cloud-grey, #E1E3E6); }
@@ -934,9 +932,9 @@ const jsonLd = {
     .feature-table td:first-child { white-space: normal; }
     .platform-cta { padding: 3rem 0; }
     .platform-cta-buttons, .hero-buttons { flex-direction: column; align-items: center; }
-    .roi-body { grid-template-columns: 1fr; }
-    .roi-inputs { border-right: none; border-bottom: 1px solid var(--color-cloud-grey, #E1E3E6); }
-    .roi-header { padding: 1.5rem; }
+    .roi-body { flex-direction: column; }
+    .roi-inputs { border-bottom: 1px solid var(--color-cloud-grey, #E1E3E6); }
+    .roi-header { padding: 1.25rem 1.5rem; }
     .roi-inputs, .roi-results { padding: 1.25rem 1.5rem; }
   }
 </style>
