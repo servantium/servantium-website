@@ -51,7 +51,7 @@ const jsonLd = {
   <!-- Hero -->
   <section class="about-hero">
     <div class="container">
-      <div class="about-hero-content">
+      <div class="about-hero-content" data-animate="fade-up">
         <span class="section-label">About Servantium</span>
         <h1>We're building the infrastructure services businesses have always needed</h1>
         <p class="text-large">
@@ -133,7 +133,7 @@ const jsonLd = {
   <!-- Founders Section -->
   <section class="founders">
     <div class="container">
-      <div class="founders-header">
+      <div class="founders-header" data-animate="fade-up">
         <span class="section-label">Leadership</span>
         <h2>Meet the founders</h2>
         <p class="text-large">
@@ -412,6 +412,11 @@ const jsonLd = {
     border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .founder-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.1);
   }
 
   .founder-photo {
@@ -703,5 +708,24 @@ const jsonLd = {
     if (chip) {
       chip.addEventListener('click', copyEmail);
     }
+
+    // Scroll reveal for About page
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var elements = document.querySelectorAll('[data-animate]');
+    elements.forEach(function(el) {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(24px)';
+      el.style.transition = 'opacity 0.6s cubic-bezier(0.25,0.46,0.45,0.94), transform 0.6s cubic-bezier(0.16,1,0.3,1)';
+    });
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'none';
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    elements.forEach(function(el) { observer.observe(el); });
   });
 </script>

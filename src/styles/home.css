@@ -1570,7 +1570,7 @@
         .cta-header {
             text-align: center;
             max-width: 700px;
-            margin: 0 auto var(--space-md);
+            margin: 0 auto 1.5rem;
         }
 
         .cta-header h2,
@@ -1594,12 +1594,12 @@
         .cta-column {
             background: var(--color-white);
             border-radius: 16px;
-            padding: 1.5rem;
+            padding: 1.25rem;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
             color: var(--color-ink);
             display: flex;
             flex-direction: column;
-            min-height: 580px;
+            min-height: 480px;
         }
 
         .cta-column-header {

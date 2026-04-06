@@ -374,9 +374,9 @@ const jsonLd = {
         <!-- Pricing header with slider -->
         <div class="px-6 md:px-10 py-8 border-b border-[var(--color-cloud-grey)] bg-gradient-to-r from-white to-[var(--color-mint-tint)]">
           <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-            <div>
+            <div style="min-width: 220px;">
               <div class="flex items-baseline gap-2 mb-1">
-                <span class="text-4xl md:text-5xl font-bold text-[var(--color-ink)]" id="price-amount">$500</span>
+                <span class="text-4xl md:text-5xl font-bold text-[var(--color-ink)] tabular-nums" style="min-width: 160px; display: inline-block;" id="price-amount">$500</span>
                 <span class="text-[var(--color-ink-muted)]" id="price-period">/mo</span>
               </div>
               <p class="text-sm text-[var(--color-ink-muted)]" id="price-note">Includes 5 users. Every feature.</p>
@@ -506,58 +506,65 @@ const jsonLd = {
         <div class="roi-results">
           <h3>Estimated annual impact</h3>
 
-          <div class="roi-result-card" style="border-left-color: var(--color-green);">
-            <div class="roi-result-label">Utilization improvement</div>
-            <div class="roi-result-desc">Better scheduling visibility: <span id="roi-util-from">69%</span> → <span id="roi-util-to">70.5%</span></div>
-            <div class="roi-result-value" id="roi-util-value">$0</div>
-            <div class="roi-result-source">Conservative +1.5pt lift from resource planning visibility</div>
+          <!-- Clean result rows (no colored borders) -->
+          <div class="roi-row">
+            <div>
+              <div class="roi-row-label">Utilization improvement</div>
+              <div class="roi-row-desc"><span id="roi-util-from">69%</span> → <span id="roi-util-to">70.5%</span> · Resource planning visibility</div>
+            </div>
+            <div class="roi-row-value" id="roi-util-value">$0</div>
           </div>
 
-          <div class="roi-result-card" style="border-left-color: #4C82A7;">
-            <div class="roi-result-label">Reduced revenue leakage</div>
-            <div class="roi-result-desc">Recovering a fraction of unbilled work &amp; scope drift</div>
-            <div class="roi-result-value" id="roi-leakage-value">$0</div>
-            <div class="roi-result-source">Avg firm leaks 4.3% of revenue — we model recovering 15%</div>
+          <div class="roi-row">
+            <div>
+              <div class="roi-row-label">Revenue leakage recovery</div>
+              <div class="roi-row-desc">Capturing unbilled work &amp; scope drift</div>
+            </div>
+            <div class="roi-row-value" id="roi-leakage-value">$0</div>
           </div>
 
-          <div class="roi-result-card" style="border-left-color: #FFB02E;">
-            <div class="roi-result-label">Higher proposal win rate</div>
-            <div class="roi-result-desc">Faster, data-backed proposals: <span id="roi-win-from">39%</span> → <span id="roi-win-to">41%</span></div>
-            <div class="roi-result-value" id="roi-win-value">$0</div>
-            <div class="roi-result-source">+2pt lift, attributed at 40% margin (not full deal value)</div>
+          <div class="roi-row">
+            <div>
+              <div class="roi-row-label">Proposal win rate</div>
+              <div class="roi-row-desc"><span id="roi-win-from">39%</span> → <span id="roi-win-to">41%</span> · Faster, data-backed proposals</div>
+            </div>
+            <div class="roi-row-value" id="roi-win-value">$0</div>
           </div>
 
-          <div class="roi-result-card" style="border-left-color: #26A899;">
-            <div class="roi-result-label">Fewer scope overruns</div>
-            <div class="roi-result-desc">Better scoping from historical data reduces cost surprises</div>
-            <div class="roi-result-value" id="roi-scope-value">$0</div>
-            <div class="roi-result-source">Partial reduction on the 50% of projects with scope creep</div>
+          <div class="roi-row">
+            <div>
+              <div class="roi-row-label">Scope accuracy</div>
+              <div class="roi-row-desc">Fewer overruns from historical scoping data</div>
+            </div>
+            <div class="roi-row-value" id="roi-scope-value">$0</div>
           </div>
 
+          <!-- Total — dark prominent block -->
           <div class="roi-total">
             <div class="roi-total-label">Your estimated annual impact</div>
             <div class="roi-total-value" id="roi-total-value">$0</div>
           </div>
 
-          <div class="roi-cost-compare">
-            <div class="roi-cost-line">
-              <span>Estimated Servantium cost</span>
+          <!-- Cost comparison — prominent multiplier -->
+          <div class="roi-compare">
+            <div class="roi-compare-line">
+              <span>Servantium cost</span>
               <span id="roi-cost">$0/yr</span>
             </div>
-            <div class="roi-cost-line roi-cost-roi">
+            <div class="roi-compare-highlight">
               <span>Potential return</span>
-              <span id="roi-multiplier">0x</span>
+              <span class="roi-multiplier-value" id="roi-multiplier">0x</span>
             </div>
           </div>
 
           <button
             class="roi-cta"
-            data-cal-link="christopher-veale/servantium-introduction?duration=15"
+            data-cal-link="christopher-veale/servantium-introduction?duration=30"
             data-cal-namespace="servantium-introduction"
             data-cal-config='{"layout":"month_view"}'
-          >See How It Works — Book a Demo</button>
+          >Get Your Custom Analysis</button>
 
-          <p class="roi-disclaimer">These are estimates based on published industry benchmarks. Actual results depend on your firm's specific operations and adoption.</p>
+          <p class="roi-disclaimer">Estimates based on SPI Research, Proposify, and PMI benchmarks. Your results will vary.</p>
         </div>
       </div>
     </div>
@@ -921,17 +928,22 @@ const jsonLd = {
   .roi-hint { font-size: 0.72rem; color: var(--color-ink-muted, #6b6b6b); display: block; margin-top: 3px; }
   .roi-results { padding: 1.5rem 2rem 2rem; }
   .roi-results h3 { font-family: var(--font-body, 'Source Sans 3', sans-serif); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-ink-muted, #6b6b6b); margin: 0 0 1rem; }
-  .roi-result-card { padding: 0.85rem 1rem; border-left: 3px solid var(--color-green, #00C26D); background: var(--color-mist-grey, #F5F6F7); border-radius: 0 8px 8px 0; margin-bottom: 0.75rem; }
-  .roi-result-label { font-size: 0.85rem; font-weight: 600; color: var(--color-ink, #0D0D0D); margin-bottom: 2px; }
-  .roi-result-desc { font-size: 0.78rem; color: var(--color-ink-muted, #6b6b6b); margin-bottom: 4px; }
-  .roi-result-value { font-size: 1.35rem; font-weight: 700; color: var(--color-green, #00C26D); }
-  .roi-result-source { font-size: 0.68rem; color: #9ca3af; margin-top: 2px; }
-  .roi-total { padding: 1rem; background: linear-gradient(135deg, var(--color-soft-mint, #E8FBF1), var(--color-mint-tint, #F3FCF8)); border-radius: 10px; margin: 1rem 0 0.75rem; text-align: center; }
-  .roi-total-label { font-size: 0.82rem; font-weight: 600; color: var(--color-ink-muted, #6b6b6b); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 4px; }
-  .roi-total-value { font-size: 2rem; font-weight: 800; color: var(--color-green, #00C26D); }
-  .roi-cost-compare { display: flex; flex-direction: column; gap: 4px; margin-bottom: 1rem; }
-  .roi-cost-line { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--color-ink-light, #3d3d3d); padding: 4px 0; }
-  .roi-cost-roi { font-weight: 700; color: var(--color-green, #00C26D); font-size: 1rem; border-top: 1px solid var(--color-cloud-grey, #E1E3E6); padding-top: 6px; }
+  /* Clean result rows */
+  .roi-row { display: flex; justify-content: space-between; align-items: center; padding: 0.85rem 0; border-bottom: 1px solid var(--color-cloud-grey, #E1E3E6); }
+  .roi-row:last-of-type { border-bottom: none; }
+  .roi-row-label { font-size: 0.9rem; font-weight: 600; color: var(--color-ink, #0D0D0D); }
+  .roi-row-desc { font-size: 0.78rem; color: var(--color-ink-muted, #6b6b6b); margin-top: 2px; }
+  .roi-row-value { font-size: 1.25rem; font-weight: 700; color: var(--color-ink, #0D0D0D); white-space: nowrap; margin-left: 1rem; font-variant-numeric: tabular-nums; }
+  /* Dark total block */
+  .roi-total { padding: 1.25rem 1.5rem; background: var(--color-ink, #0D0D0D); border-radius: 12px; margin: 1rem 0 0.75rem; text-align: center; }
+  .roi-total-label { font-size: 0.78rem; font-weight: 600; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+  .roi-total-value { font-size: 2.25rem; font-weight: 800; color: var(--color-green, #00C26D); }
+  /* Cost comparison */
+  .roi-compare { margin-bottom: 1rem; }
+  .roi-compare-line { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--color-ink-muted, #6b6b6b); padding: 6px 0; }
+  .roi-compare-highlight { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-top: 1px solid var(--color-cloud-grey, #E1E3E6); }
+  .roi-compare-highlight span:first-child { font-size: 0.9rem; font-weight: 600; color: var(--color-ink, #0D0D0D); }
+  .roi-multiplier-value { font-size: 1.5rem; font-weight: 800; color: var(--color-green, #00C26D); }
   .roi-cta { display: block; width: 100%; padding: 12px; background: var(--color-green, #00C26D); color: white; border: none; border-radius: 10px; font-size: 0.95rem; font-weight: 600; font-family: inherit; cursor: pointer; transition: background 0.2s; text-align: center; }
   .roi-cta:hover { background: var(--color-green-hover, #00A95E); }
   .roi-disclaimer { font-size: 0.68rem; color: #9ca3af; text-align: center; margin: 0.75rem 0 0; line-height: 1.5; }
@@ -1099,33 +1111,39 @@ const jsonLd = {
       var val = parseInt(slider.value, 10);
       countEl.textContent = val + (val === 1 ? ' user' : ' users');
 
-      // Base + user pricing: $500 for 1-5, $1000 for 6-15, $1000 + $39/user for 16+
+      // Smooth base + per-user: $500 base + $50/user, with volume discounts
+      // Effective per-user drops smoothly from $150 (1 user) to ~$65 (50 users)
+      var base = 500;
+      var perUser;
+      if (val <= 5) perUser = 0;  // base covers first 5
+      else if (val <= 15) perUser = 50;
+      else if (val <= 30) perUser = 45;
+      else perUser = 39;
+
       var price, note;
       if (val <= 5) {
-        price = 500;
-        note = 'Includes 5 users. Every feature.';
-      } else if (val <= 15) {
-        price = 1000;
-        note = 'Includes 15 users. Every feature.';
+        price = base;
+        note = 'Platform base — includes 5 users.';
       } else if (val <= 50) {
-        price = 1000 + (val - 15) * 39;
-        note = '$1,000 base + $39/additional user.';
+        price = base + (val - 5) * perUser;
+        note = '$500 base + $' + perUser + '/user beyond 5.';
       } else {
         price = 0;
-        note = "Let's build a custom plan for your team.";
+        note = '';
       }
 
-      if (price > 0) {
-        amountEl.textContent = '$' + price.toLocaleString();
-        periodEl.textContent = '/mo';
-        var perUser = Math.round(price / val);
-        if (perUserEl) perUserEl.textContent = '$' + perUser + '/user effective';
-      } else {
+      if (val > 50 || price === 0) {
         amountEl.textContent = "Let's talk";
         periodEl.textContent = '';
-        if (perUserEl) perUserEl.textContent = '';
+        noteEl.textContent = "Custom pricing for teams over 50.";
+        if (perUserEl) perUserEl.textContent = 'Contact us for volume pricing';
+      } else {
+        amountEl.textContent = '$' + price.toLocaleString();
+        periodEl.textContent = '/mo';
+        noteEl.textContent = note;
+        var effectivePerUser = Math.round(price / val);
+        if (perUserEl) perUserEl.textContent = '$' + effectivePerUser + '/user effective';
       }
-      noteEl.textContent = note;
     }
 
     slider.addEventListener('input', updatePrice);
@@ -1189,10 +1207,8 @@ const jsonLd = {
 
     // Servantium annual cost (must match pricing slider algorithm)
     var users = consultants;
-    var monthlyPrice;
-    if (users <= 5) monthlyPrice = 500;
-    else if (users <= 15) monthlyPrice = 1000;
-    else monthlyPrice = 1000 + (users - 15) * 39;
+    var perUser = users <= 5 ? 0 : users <= 15 ? 50 : users <= 30 ? 45 : 39;
+    var monthlyPrice = users <= 5 ? 500 : 500 + (users - 5) * perUser;
     var annualCost = monthlyPrice * 12;
 
     // Target: realistic 5-10x ROI. Work backwards from cost to keep credible.

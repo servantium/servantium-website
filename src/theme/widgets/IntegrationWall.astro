@@ -36,10 +36,10 @@ function seededShuffle<T>(arr: T[], seed: number): T[] {
 const realIntegrations = integrations.filter((ig) => ig.tier !== 'placeholder');
 const placeholders = integrations.filter((ig) => ig.tier === 'placeholder');
 
-// 2 rows (ClickUp style), ~20 items each
-const boxesPerRow = 20;
-const totalRows = 2;
-const rowSpeeds = ['50s', '60s'];
+// 4 rows with concave shape, ~18 items each
+const boxesPerRow = 18;
+const totalRows = 4;
+const rowSpeeds = ['45s', '30s', '35s', '50s'];
 
 const rows: Integration[][] = Array.from({ length: totalRows }, () => []);
 
@@ -77,34 +77,45 @@ const finalRows = rows.map((row, i) => seededShuffle(row, 100 + i));
         const doubled = [...row, ...row];
         return (
           <div
-            class="iw-row"
+            class={`iw-row iw-row-${rowIdx}`}
             style={`--speed: ${rowSpeeds[rowIdx]};`}
             data-row={rowIdx}
           >
-            {doubled.map((ig) => (
-              <div
-                class={`iw-box iw-box-${ig.tier}`}
-                title={ig.name || undefined}
-              >
-                {ig.logo ? (
-                  <img
-                    src={ig.logo}
-                    alt={ig.name}
-                    class="iw-logo"
-                    loading="lazy"
-                    width="30"
-                    height="30"
-                  />
-                ) : (
-                  <span
-                    class="iw-abbrev"
-                    style={ig.tier !== 'placeholder' ? `color: ${ig.color}; font-weight: 700;` : ''}
-                  >
-                    {ig.abbrev}
-                  </span>
-                )}
-              </div>
-            ))}
+            {doubled.map((ig, i) => {
+              // Concave transforms: position across full doubled array
+              const center = doubled.length / 2;
+              const dist = Math.abs(i - center) / center; // 0=center, 1=edge
+              let translateY: number;
+              if (rowIdx === 0) translateY = 18 * (1 - dist);       // U shape
+              else if (rowIdx === 1) translateY = 8 * (1 - dist);   // gentle U
+              else if (rowIdx === 2) translateY = -8 * (1 - dist);  // inverted
+              else translateY = -18 * (1 - dist);                    // inverted aggressive
+              return (
+                <div
+                  class={`iw-box iw-box-${ig.tier}`}
+                  title={ig.name || undefined}
+                  style={`transform: translateY(${translateY.toFixed(1)}px);`}
+                >
+                  {ig.logo ? (
+                    <img
+                      src={ig.logo}
+                      alt={ig.name}
+                      class="iw-logo"
+                      loading="lazy"
+                      width="30"
+                      height="30"
+                    />
+                  ) : (
+                    <span
+                      class="iw-abbrev"
+                      style={ig.tier !== 'placeholder' ? `color: ${ig.color}; font-weight: 700;` : ''}
+                    >
+                      {ig.abbrev}
+                    </span>
+                  )}
+                </div>
+              );
+            })}
           </div>
         );
       })}
@@ -217,6 +228,8 @@ const finalRows = rows.map((row, i) => seededShuffle(row, 100 + i));
   }
   .iw-row[data-row="0"] { animation-direction: normal; }
   .iw-row[data-row="1"] { animation-direction: reverse; }
+  .iw-row[data-row="2"] { animation-direction: normal; }
+  .iw-row[data-row="3"] { animation-direction: reverse; }
 
   @keyframes iwScroll {
     from { transform: translateX(0); }
@@ -284,19 +297,19 @@ const finalRows = rows.map((row, i) => seededShuffle(row, 100 + i));
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 100px;
-    height: 100px;
+    width: 140px;
+    height: 140px;
     background: #fff;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.08), 0 0 0 6px rgba(255,255,255,0.9);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1), 0 0 0 8px rgba(255,255,255,0.95);
     z-index: 10;
   }
   .iw-center-logo img {
-    width: 48px;
-    height: 48px;
+    width: 80px;
+    height: 80px;
     object-fit: contain;
   }
 
