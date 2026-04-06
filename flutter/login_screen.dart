@@ -4,28 +4,61 @@
 /// headerBuilder, and footerBuilder. Matches the design at:
 /// https://test.servantium.com/preview/login3/
 ///
-/// DEPENDENCIES (pubspec.yaml):
-///   firebase_ui_auth: ^1.15.0
-///   firebase_ui_oauth_google: ^1.3.0  (for Google SSO)
-///   google_fonts: ^6.0.0
+/// SETUP:
 ///
-/// ASSETS:
-///   - assets/images/logo_white.png  (Servantium logo, white version)
-///   - assets/images/logo.png        (Servantium logo, dark version)
+/// 1. Add dependencies to pubspec.yaml:
+///      firebase_ui_auth: ^1.15.0
+///      firebase_ui_oauth_google: ^1.3.0
+///      google_fonts: ^6.0.0
+///      flutter_svg: ^2.0.0
 ///
-/// USAGE:
-///   Navigator.push(context, MaterialPageRoute(
-///     builder: (_) => const ServantiumLoginScreen(),
-///   ));
+/// 2. Copy the assets/ folder next to this file into your project,
+///    then declare them in pubspec.yaml:
+///      flutter:
+///        assets:
+///          - assets/logo.png
+///          - assets/logo_white.png
+///          - assets/astronaut_waving.svg
+///          - assets/astronaut_cowboy.svg
+///          - assets/astronaut_detective.svg
+///          - assets/astronaut_captain.svg
+///          - assets/astronaut_professor.svg
+///
+/// 3. Wrap your MaterialApp with servantiumLightTheme():
+///      MaterialApp(
+///        theme: servantiumLightTheme(),
+///        ...
+///      )
+///
+/// 4. Use:
+///      Navigator.push(context, MaterialPageRoute(
+///        builder: (_) => const ServantiumLoginScreen(),
+///      ));
+///
+/// NOTES ON RESKINNING:
+/// firebase_ui_auth does NOT fully respect ThemeData for its form widgets.
+/// It uses its own internal button and layout rendering. To override:
+/// - The Sign In button style uses the `styles` parameter on SignInScreen
+/// - Input decoration comes from ThemeData.inputDecorationTheme
+/// - The "or" divider and Google button need a custom subtitleBuilder
+///   or you build your own form with AuthFlowBuilder instead.
+///
+/// The approach below uses SignInScreen's `styles` map to override the
+/// primary submit button, plus ThemeData for inputs. For full pixel-perfect
+/// control, consider using AuthFlowBuilder + a completely custom form.
 
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
-// Uncomment when google sign-in is configured:
+// Uncomment when Google sign-in is configured:
 // import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
-/// Servantium brand colors
+// ============================================================
+// BRAND COLORS
+// ============================================================
+
 class ServantiumColors {
   static const green = Color(0xFF00C26D);
   static const greenHover = Color(0xFF00A95E);
@@ -36,7 +69,12 @@ class ServantiumColors {
   static const inkMuted = Color(0xFF6B6B6B);
   static const cloudGrey = Color(0xFFE1E3E6);
   static const mistGrey = Color(0xFFF5F6F7);
+  static const softMint = Color(0xFFE8FBF1);
 }
+
+// ============================================================
+// LOGIN SCREEN
+// ============================================================
 
 class ServantiumLoginScreen extends StatelessWidget {
   const ServantiumLoginScreen({super.key});
@@ -49,6 +87,12 @@ class ServantiumLoginScreen extends StatelessWidget {
         // Uncomment when Google OAuth is configured:
         // GoogleProvider(clientId: 'YOUR_GOOGLE_CLIENT_ID'),
       ],
+
+      // Override the submit button to be green + filled
+      styles: const {
+        EmailFormStyle(signInButtonVariant: ButtonVariant.filled),
+      },
+
       sideBuilder: (context, constraints) {
         return const _SidePanel();
       },
@@ -64,7 +108,7 @@ class ServantiumLoginScreen extends StatelessWidget {
 
 // ============================================================
 // SIDE PANEL (sideBuilder)
-// Only rendered on screens wider than ~800px by firebase_ui_auth
+// Only rendered by firebase_ui_auth on screens > 800px wide
 // ============================================================
 
 class _SidePanel extends StatelessWidget {
@@ -99,7 +143,7 @@ class _SidePanel extends StatelessWidget {
                 shape: BoxShape.circle,
                 gradient: RadialGradient(
                   colors: [
-                    Colors.white.withValues(alpha: 0.08),
+                    Colors.white.withOpacity(0.08),
                     Colors.transparent,
                   ],
                 ),
@@ -116,33 +160,40 @@ class _SidePanel extends StatelessWidget {
                 shape: BoxShape.circle,
                 gradient: RadialGradient(
                   colors: [
-                    Colors.white.withValues(alpha: 0.06),
+                    Colors.white.withOpacity(0.06),
                     Colors.transparent,
                   ],
                 ),
               ),
             ),
           ),
+
           // Content
           Center(
-            child: Padding(
+            child: SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 48),
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 420),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    // Logo
-                    Image.asset(
-                      'assets/images/logo_white.png',
-                      height: 48,
-                      errorBuilder: (_, __, ___) => Text(
-                        'SERVANTIUM',
-                        style: GoogleFonts.playfairDisplay(
-                          fontSize: 28,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white,
-                          letterSpacing: 2,
+                    // Logo — use ColorFiltered to make it white
+                    ColorFiltered(
+                      colorFilter: const ColorFilter.mode(
+                        Colors.white,
+                        BlendMode.srcATop,
+                      ),
+                      child: Image.asset(
+                        'assets/logo.png',
+                        height: 48,
+                        errorBuilder: (_, __, ___) => Text(
+                          'SERVANTIUM',
+                          style: GoogleFonts.playfairDisplay(
+                            fontSize: 28,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white,
+                            letterSpacing: 2,
+                          ),
                         ),
                       ),
                     ),
@@ -167,23 +218,23 @@ class _SidePanel extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: GoogleFonts.sourceSans3(
                         fontSize: 16,
-                        color: Colors.white.withValues(alpha: 0.75),
+                        color: Colors.white.withOpacity(0.75),
                         height: 1.65,
                       ),
                     ),
                     const SizedBox(height: 28),
 
-                    // Astronaut mascot (animated carousel)
+                    // Astronaut mascot carousel
                     const _AstronautCarousel(),
                     const SizedBox(height: 28),
 
-                    // Testimonial quote
+                    // Testimonial
                     Container(
                       width: double.infinity,
                       constraints: const BoxConstraints(maxWidth: 380),
                       padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.08),
+                        color: Colors.white.withOpacity(0.08),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Column(
@@ -194,7 +245,7 @@ class _SidePanel extends StatelessWidget {
                             style: GoogleFonts.sourceSans3(
                               fontSize: 14,
                               fontStyle: FontStyle.italic,
-                              color: Colors.white.withValues(alpha: 0.88),
+                              color: Colors.white.withOpacity(0.88),
                               height: 1.6,
                             ),
                           ),
@@ -203,7 +254,7 @@ class _SidePanel extends StatelessWidget {
                             '— Business Development, Federal Services',
                             style: GoogleFonts.sourceSans3(
                               fontSize: 12,
-                              color: Colors.white.withValues(alpha: 0.55),
+                              color: Colors.white.withOpacity(0.55),
                             ),
                           ),
                         ],
@@ -222,9 +273,8 @@ class _SidePanel extends StatelessWidget {
 
 // ============================================================
 // ASTRONAUT CAROUSEL
-// Cycles through mascot variants with a crossfade animation.
-// Replace the placeholder icons with your actual SVG/Lottie
-// astronaut assets once they're in the Flutter project.
+// Cycles through SVG mascot variants with a crossfade.
+// Requires flutter_svg and the SVG files in assets/.
 // ============================================================
 
 class _AstronautCarousel extends StatefulWidget {
@@ -235,12 +285,12 @@ class _AstronautCarousel extends StatefulWidget {
 }
 
 class _AstronautCarouselState extends State<_AstronautCarousel> {
-  static const _variants = [
-    _AstronautVariant(Icons.waving_hand, 'Waving'),
-    _AstronautVariant(Icons.explore, 'Explorer'),
-    _AstronautVariant(Icons.search, 'Detective'),
-    _AstronautVariant(Icons.sailing, 'Captain'),
-    _AstronautVariant(Icons.school, 'Professor'),
+  static const _svgPaths = [
+    'assets/astronaut_waving.svg',
+    'assets/astronaut_cowboy.svg',
+    'assets/astronaut_detective.svg',
+    'assets/astronaut_captain.svg',
+    'assets/astronaut_professor.svg',
   ];
 
   int _current = 0;
@@ -250,7 +300,7 @@ class _AstronautCarouselState extends State<_AstronautCarousel> {
   void initState() {
     super.initState();
     _timer = Timer.periodic(const Duration(seconds: 4), (_) {
-      if (mounted) setState(() => _current = (_current + 1) % _variants.length);
+      if (mounted) setState(() => _current = (_current + 1) % _svgPaths.length);
     });
   }
 
@@ -262,49 +312,27 @@ class _AstronautCarouselState extends State<_AstronautCarousel> {
 
   @override
   Widget build(BuildContext context) {
-    final variant = _variants[_current];
     return SizedBox(
-      height: 140,
+      height: 120,
+      width: 120,
       child: AnimatedSwitcher(
         duration: const Duration(milliseconds: 600),
         switchInCurve: Curves.easeOut,
         switchOutCurve: Curves.easeIn,
-        child: Column(
+        child: SvgPicture.asset(
+          _svgPaths[_current],
           key: ValueKey(_current),
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // TODO: Replace with actual SVG astronaut assets
-            // e.g. SvgPicture.asset('assets/astronaut/${variant.name}.svg')
-            Container(
-              width: 100,
-              height: 100,
-              decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.12),
-                shape: BoxShape.circle,
-              ),
-              child: Icon(
-                variant.icon,
-                size: 48,
-                color: Colors.white.withValues(alpha: 0.9),
-              ),
-            ),
-            const SizedBox(height: 8),
-          ],
+          width: 100,
+          height: 100,
         ),
       ),
     );
   }
 }
 
-class _AstronautVariant {
-  final IconData icon;
-  final String label;
-  const _AstronautVariant(this.icon, this.label);
-}
-
 // ============================================================
 // HEADER BUILDER
-// Shows above the form. On mobile (when sideBuilder is hidden),
+// Shown above the form. On mobile (side panel hidden),
 // also shows the logo.
 // ============================================================
 
@@ -314,14 +342,14 @@ class _HeaderBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isNarrow = MediaQuery.sizeOf(context).width <= 800;
+    final isNarrow = MediaQuery.of(context).size.width <= 800;
     return Padding(
       padding: const EdgeInsets.only(bottom: 24),
       child: Column(
         children: [
           if (isNarrow) ...[
             Image.asset(
-              'assets/images/logo.png',
+              'assets/logo.png',
               height: 32,
               errorBuilder: (_, __, ___) => Text(
                 'SERVANTIUM',
@@ -358,7 +386,6 @@ class _HeaderBuilder extends StatelessWidget {
 
 // ============================================================
 // FOOTER BUILDER
-// Shows below the form with the sign-up link.
 // ============================================================
 
 class _FooterBuilder extends StatelessWidget {
@@ -398,18 +425,32 @@ class _FooterBuilder extends StatelessWidget {
 }
 
 // ============================================================
-// THEME HELPER
-// Use this ThemeData in your MaterialApp to match the design.
+// THEME
+//
+// Apply this to your MaterialApp:
+//   MaterialApp(theme: servantiumLightTheme(), ...)
+//
+// This controls the form field styling, button colors, and
+// overall look. firebase_ui_auth reads from ThemeData for:
+//   - InputDecorationTheme → form field borders & padding
+//   - ElevatedButtonThemeData → "Sign In" button fill color
+//   - OutlinedButtonThemeData → "Sign in with Google" button
+//   - ColorScheme.primary → accent color (links, focus rings)
 // ============================================================
 
 ThemeData servantiumLightTheme() {
-  return ThemeData(
+  final base = ThemeData(
     useMaterial3: true,
     colorScheme: ColorScheme.fromSeed(
       seedColor: ServantiumColors.green,
+      primary: ServantiumColors.green,
       brightness: Brightness.light,
     ),
     textTheme: GoogleFonts.sourceSans3TextTheme(),
+  );
+
+  return base.copyWith(
+    // Form fields: rounded border, green focus ring
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: Colors.white,
@@ -425,6 +466,14 @@ ThemeData servantiumLightTheme() {
         borderRadius: BorderRadius.circular(10),
         borderSide: const BorderSide(color: ServantiumColors.green, width: 1.5),
       ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10),
+        borderSide: const BorderSide(color: Colors.red, width: 1.5),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10),
+        borderSide: const BorderSide(color: Colors.red, width: 1.5),
+      ),
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       labelStyle: GoogleFonts.sourceSans3(
         fontSize: 13,
@@ -432,6 +481,8 @@ ThemeData servantiumLightTheme() {
         color: ServantiumColors.inkLight,
       ),
     ),
+
+    // "Sign In" button: green, full width, rounded
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: ServantiumColors.green,
@@ -444,8 +495,11 @@ ThemeData servantiumLightTheme() {
           fontSize: 15,
           fontWeight: FontWeight.w600,
         ),
+        elevation: 0,
       ),
     ),
+
+    // "Sign in with Google" button: outlined, rounded
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
         foregroundColor: ServantiumColors.inkLight,
@@ -454,6 +508,17 @@ ThemeData servantiumLightTheme() {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
+        textStyle: GoogleFonts.sourceSans3(
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+    ),
+
+    // Text buttons (Forgot password, etc): green
+    textButtonTheme: TextButtonThemeData(
+      style: TextButton.styleFrom(
+        foregroundColor: ServantiumColors.green,
         textStyle: GoogleFonts.sourceSans3(
           fontSize: 14,
           fontWeight: FontWeight.w500,
