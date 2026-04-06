@@ -86,10 +86,10 @@ const finalRows = rows.map((row, i) => seededShuffle(row, 100 + i));
               const center = doubled.length / 2;
               const dist = Math.abs(i - center) / center; // 0=center, 1=edge
               let translateY: number;
-              if (rowIdx === 0) translateY = 18 * (1 - dist);       // U shape
-              else if (rowIdx === 1) translateY = 8 * (1 - dist);   // gentle U
-              else if (rowIdx === 2) translateY = -8 * (1 - dist);  // inverted
-              else translateY = -18 * (1 - dist);                    // inverted aggressive
+              if (rowIdx === 0) translateY = 35 * (1 - dist);       // U shape — strong
+              else if (rowIdx === 1) translateY = 15 * (1 - dist);  // gentle U
+              else if (rowIdx === 2) translateY = -15 * (1 - dist); // inverted gentle
+              else translateY = -35 * (1 - dist);                    // inverted — strong
               return (
                 <div
                   class={`iw-box iw-box-${ig.tier}`}
@@ -120,9 +120,9 @@ const finalRows = rows.map((row, i) => seededShuffle(row, 100 + i));
         );
       })}
 
-      <!-- Centered Servantium logo -->
+      <!-- Centered Servantium logo mark -->
       <div class="iw-center-logo">
-        <img src="/logo.png" alt="Servantium" width="48" height="48" />
+        <img src="/S-nobg.png" alt="Servantium" width="90" height="90" />
       </div>
     </div>
 
@@ -221,7 +221,8 @@ const finalRows = rows.map((row, i) => seededShuffle(row, 100 + i));
     gap: 10px;
     animation: iwScroll var(--speed) linear infinite;
     width: max-content;
-    padding: 6px 0;
+    padding: 10px 0;
+    margin-bottom: 6px;
     /* Soft fade at edges — does NOT block interaction */
     mask-image: linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%);
     -webkit-mask-image: linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%);
@@ -297,19 +298,19 @@ const finalRows = rows.map((row, i) => seededShuffle(row, 100 + i));
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 140px;
-    height: 140px;
+    width: 160px;
+    height: 160px;
     background: #fff;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.1), 0 0 0 8px rgba(255,255,255,0.95);
+    box-shadow: 0 8px 40px rgba(0,0,0,0.1), 0 0 0 10px rgba(255,255,255,0.95);
     z-index: 10;
   }
   .iw-center-logo img {
-    width: 80px;
-    height: 80px;
+    width: 100px;
+    height: 100px;
     object-fit: contain;
   }
 
