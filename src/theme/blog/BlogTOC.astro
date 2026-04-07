@@ -43,6 +43,13 @@ const tocHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
   </nav>
 )}
 
+<style>
+  .toc-passed {
+    color: var(--color-green) !important;
+    opacity: 0.5;
+  }
+</style>
+
 <script is:inline>
   document.addEventListener('astro:page-load', () => {
     const tocLinks = document.querySelectorAll('.toc-link');
@@ -63,14 +70,20 @@ const tocHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
 
     function setActive(link) {
       if (currentActive === link) return;
-      // Remove active from all
-      tocLinks.forEach(l => {
-        l.classList.remove('!text-[var(--color-green)]', '!border-[var(--color-green)]', 'font-medium');
+      // Find index of active link
+      var activeIdx = -1;
+      tocLinks.forEach(function(l, i) { if (l === link) activeIdx = i; });
+      // Color all links: passed = green border + muted green text, active = bright green, future = transparent
+      tocLinks.forEach(function(l, i) {
+        l.classList.remove('!text-[var(--color-green)]', '!border-[var(--color-green)]', 'font-medium', 'toc-passed');
+        if (i < activeIdx) {
+          // Passed sections: green border, slightly muted
+          l.classList.add('!border-[var(--color-green)]', 'toc-passed');
+        } else if (i === activeIdx) {
+          // Active section: bright green + bold
+          l.classList.add('!text-[var(--color-green)]', '!border-[var(--color-green)]', 'font-medium');
+        }
       });
-      // Set active
-      if (link) {
-        link.classList.add('!text-[var(--color-green)]', '!border-[var(--color-green)]', 'font-medium');
-      }
       currentActive = link;
     }
 
