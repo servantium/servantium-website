@@ -1,0 +1,97 @@
+---
+/**
+ * Search -- Shared Pagefind search UI for blog and help.
+ * Loads Pagefind's client-side search. Gracefully handles missing index.
+ * Supports Cmd+K keyboard shortcut to focus.
+ */
+interface Props {
+  id?: string;
+  placeholder?: string;
+  variant?: 'blog' | 'docs';
+}
+
+const {
+  id = 'pagefind-search',
+  placeholder = 'Search...',
+  variant = 'blog',
+} = Astro.props;
+---
+
+<div class={`search-wrapper search-wrapper--${variant}`}>
+  <link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
+  <div id={id}></div>
+</div>
+
+<script is:inline src="/pagefind/pagefind-ui.js"></script>
+<script is:inline define:vars={{ id, placeholder }}>
+  function initSearch() {
+    var el = document.getElementById(id);
+    if (!el || el.childNodes.length > 0) return;
+    try {
+      if (typeof PagefindUI === 'undefined') throw new Error('PagefindUI not loaded');
+      new PagefindUI({
+        element: '#' + id,
+        showSubResults: true,
+        showImages: false,
+        bundlePath: '/pagefind/',
+        translations: { placeholder: placeholder },
+      });
+    } catch(e) {
+      el.innerHTML = '<p style="color:#6b6b6b;font-size:0.85rem;padding:0.5rem 0;">Search is loading or unavailable. Try refreshing.</p>';
+    }
+
+    // Cmd+K / Ctrl+K to focus search
+    document.addEventListener('keydown', function(e) {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        var input = el.querySelector('input');
+        if (input) input.focus();
+      }
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSearch);
+  } else {
+    initSearch();
+  }
+  document.addEventListener('astro:page-load', initSearch);
+</script>
+
+<style is:global>
+  /* Shared search input styling */
+  .search-wrapper .pagefind-ui__search-input {
+    font-family: var(--font-body, 'Source Sans 3', sans-serif) !important;
+    border: 1.5px solid var(--color-cloud-grey, #E1E3E6) !important;
+    border-radius: 12px !important;
+    font-size: 0.95rem !important;
+    width: 100% !important;
+  }
+  .search-wrapper .pagefind-ui__search-input:focus {
+    border-color: var(--color-green, #00C26D) !important;
+    box-shadow: 0 0 0 3px rgba(0, 194, 109, 0.12) !important;
+    outline: none !important;
+  }
+  .search-wrapper .pagefind-ui__result-link {
+    color: var(--color-green, #00C26D) !important;
+    font-weight: 500 !important;
+  }
+  .search-wrapper .pagefind-ui__message,
+  .search-wrapper .pagefind-ui__result-excerpt {
+    font-family: var(--font-body, 'Source Sans 3', sans-serif) !important;
+  }
+  .search-wrapper .pagefind-ui__form::before {
+    display: none !important;
+  }
+
+  /* Blog variant: slightly larger padding */
+  .search-wrapper--blog .pagefind-ui__search-input {
+    padding: 0.65rem 1rem !important;
+  }
+
+  /* Docs variant: compact padding */
+  .search-wrapper--docs .pagefind-ui__search-input {
+    padding: 0.6rem 0.85rem !important;
+    font-size: 0.875rem !important;
+    border-radius: 10px !important;
+  }
+</style>

@@ -1,62 +1,11 @@
 ---
 /**
- * BlogSearch -- Pagefind search UI.
- * Loads Pagefind directly via link/script tags. No lazy loading, no modals.
+ * BlogSearch -- Pagefind search UI wrapper for blog pages.
+ * Delegates to the shared Search component.
  */
+import Search from '@/components/Search.astro';
 ---
 
-<div class="blog-search-wrapper mb-6 w-full">
-  <link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
-  <div id="blog-pagefind-search"></div>
+<div class="mb-6 w-full">
+  <Search id="blog-pagefind-search" placeholder="Search blog posts..." variant="blog" />
 </div>
-
-<script is:inline src="/pagefind/pagefind-ui.js"></script>
-<script is:inline>
-  function initBlogSearch() {
-    var el = document.getElementById('blog-pagefind-search');
-    if (!el || el.childNodes.length > 0) return;
-    try {
-      new PagefindUI({
-        element: '#blog-pagefind-search',
-        showSubResults: true,
-        showImages: false,
-        bundlePath: '/pagefind/',
-      });
-    } catch(e) {
-      el.innerHTML = '<p style="color:#6b6b6b;font-size:0.85rem;padding:0.5rem 0;">Search unavailable.</p>';
-    }
-  }
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initBlogSearch);
-  } else {
-    initBlogSearch();
-  }
-  document.addEventListener('astro:page-load', initBlogSearch);
-</script>
-
-<style is:global>
-  #blog-pagefind-search .pagefind-ui__search-input {
-    font-family: var(--font-body, 'Source Sans 3', sans-serif) !important;
-    border: 1.5px solid var(--color-cloud-grey, #E1E3E6) !important;
-    border-radius: 12px !important;
-    padding: 0.65rem 1rem !important;
-    font-size: 0.95rem !important;
-    width: 100% !important;
-  }
-  #blog-pagefind-search .pagefind-ui__search-input:focus {
-    border-color: var(--color-green, #00C26D) !important;
-    box-shadow: 0 0 0 3px rgba(0, 194, 109, 0.12) !important;
-    outline: none !important;
-  }
-  #blog-pagefind-search .pagefind-ui__result-link {
-    color: var(--color-green, #00C26D) !important;
-    font-weight: 500 !important;
-  }
-  #blog-pagefind-search .pagefind-ui__message,
-  #blog-pagefind-search .pagefind-ui__result-excerpt {
-    font-family: var(--font-body, 'Source Sans 3', sans-serif) !important;
-  }
-  #blog-pagefind-search .pagefind-ui__form::before {
-    display: none !important;
-  }
-</style>

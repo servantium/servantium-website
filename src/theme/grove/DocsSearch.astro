@@ -1,72 +1,9 @@
 ---
 /**
- * DocsSearch -- Pagefind search UI for Grove documentation.
- * Loads Pagefind directly. No lazy loading, no modals.
- * Cmd+K focuses the search input.
+ * DocsSearch -- Pagefind search UI wrapper for Grove documentation.
+ * Delegates to the shared Search component.
  */
+import Search from '@/components/Search.astro';
 ---
 
-<div class="docs-search-wrapper">
-  <link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
-  <div id="docs-pagefind-search"></div>
-</div>
-
-<script is:inline src="/pagefind/pagefind-ui.js"></script>
-<script is:inline>
-  function initDocsSearch() {
-    var el = document.getElementById('docs-pagefind-search');
-    if (!el || el.childNodes.length > 0) return;
-    try {
-      new PagefindUI({
-        element: '#docs-pagefind-search',
-        showSubResults: true,
-        showImages: false,
-        bundlePath: '/pagefind/',
-      });
-    } catch(e) {
-      el.innerHTML = '<p style="color:#6b6b6b;font-size:0.85rem;padding:0.5rem 0;">Search unavailable.</p>';
-    }
-
-    // Cmd+K to focus search
-    document.addEventListener('keydown', function(e) {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-        e.preventDefault();
-        var input = el.querySelector('input');
-        if (input) input.focus();
-      }
-    });
-  }
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initDocsSearch);
-  } else {
-    initDocsSearch();
-  }
-  document.addEventListener('astro:page-load', initDocsSearch);
-</script>
-
-<style is:global>
-  #docs-pagefind-search .pagefind-ui__search-input {
-    font-family: var(--font-body, 'Source Sans 3', sans-serif) !important;
-    border: 1.5px solid var(--color-cloud-grey, #E1E3E6) !important;
-    border-radius: 10px !important;
-    padding: 0.6rem 0.85rem !important;
-    font-size: 0.875rem !important;
-    width: 100% !important;
-  }
-  #docs-pagefind-search .pagefind-ui__search-input:focus {
-    border-color: var(--color-green, #00C26D) !important;
-    box-shadow: 0 0 0 3px rgba(0, 194, 109, 0.12) !important;
-    outline: none !important;
-  }
-  #docs-pagefind-search .pagefind-ui__result-link {
-    color: var(--color-green, #00C26D) !important;
-    font-weight: 500 !important;
-  }
-  #docs-pagefind-search .pagefind-ui__message,
-  #docs-pagefind-search .pagefind-ui__result-excerpt {
-    font-family: var(--font-body, 'Source Sans 3', sans-serif) !important;
-  }
-  #docs-pagefind-search .pagefind-ui__form::before {
-    display: none !important;
-  }
-</style>
+<Search id="docs-pagefind-search" placeholder="Search docs..." variant="docs" />

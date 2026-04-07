@@ -27,8 +27,8 @@ const formattedDate = new Date(date).toLocaleDateString('en-US', {
          transition-[transform,box-shadow] duration-300 ease-[var(--ease-bounce)]
          hover:-translate-y-1 hover:shadow-[0_16px_48px_-12px_rgba(0,0,0,0.18)]"
 >
-  {/* Image container — 60% height */}
-  <div class="relative w-full" style="aspect-ratio: 16/7;">
+  {/* Image container — responsive aspect ratio: taller on mobile for text space */}
+  <div class="relative w-full aspect-[4/3] sm:aspect-[16/9] md:aspect-[16/7]">
     {image ? (
       <img
         src={image}

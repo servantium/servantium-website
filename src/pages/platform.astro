@@ -591,13 +591,9 @@ const jsonLd = {
       <button class="contact-modal-close" aria-label="Close" onclick="closeContactModal()">&times;</button>
       <h2>Get in touch</h2>
       <p style="color:var(--color-ink-muted, #6B7280);margin-bottom:1.5rem;font-size:0.95rem;">Tell us about your firm and we'll reach out within 24 hours.</p>
-      <form class="contact-modal-form" id="contact-modal-form" autocomplete="off" data-form-type="other">
-        <!-- Hidden honeypot to confuse password managers -->
-        <input type="text" name="username_fake" style="display:none" tabindex="-1" autocomplete="username">
-        <input type="password" name="password_fake" style="display:none" tabindex="-1" autocomplete="current-password">
-        <input type="text" name="fullname" placeholder="Your name" required autocomplete="new-password" data-lpignore="true" data-1p-ignore>
-        <input type="email" name="workemail" placeholder="Work email" required autocomplete="new-password" data-lpignore="true" data-1p-ignore>
-        <textarea name="message" placeholder="Tell us about your firm and what you're looking for..." rows="4"></textarea>
+      <!-- Form inputs are injected via JS on modal open to prevent password manager autofill -->
+      <form class="contact-modal-form" id="contact-modal-form" autocomplete="off">
+        <div id="contact-form-fields"></div>
         <button type="submit" class="btn btn-primary" id="contact-modal-submit">Send Message</button>
         <div class="contact-modal-status" id="contact-modal-status" style="display:none;"></div>
       </form>
@@ -953,6 +949,15 @@ const jsonLd = {
     modal.classList.add('open');
     modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
+    // Inject form fields on open to prevent password manager autofill
+    var container = document.getElementById('contact-form-fields');
+    if (container && container.children.length === 0) {
+      container.innerHTML =
+        '<input type="text" name="fullname" placeholder="Your name" required autocomplete="off">' +
+        '<input type="email" name="workemail" placeholder="Work email" required autocomplete="off">' +
+        '<textarea name="message" placeholder="Tell us about your firm and what you\'re looking for..." rows="4"></textarea>';
+      setTimeout(function() { container.querySelector('input').focus(); }, 100);
+    }
   }
   function closeContactModal() {
     var modal = document.getElementById('contact-modal');
@@ -961,8 +966,10 @@ const jsonLd = {
     document.body.style.overflow = '';
     var form = document.getElementById('contact-modal-form');
     var success = document.getElementById('contact-modal-success');
+    var container = document.getElementById('contact-form-fields');
     if (form) form.style.display = '';
     if (success) success.style.display = 'none';
+    if (container) container.innerHTML = '';
   }
   document.getElementById('contact-modal').addEventListener('click', function(e) {
     if (e.target === this) closeContactModal();
