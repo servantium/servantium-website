@@ -115,7 +115,7 @@ const finalRows = rows.map((row, i) => seededShuffle(row, 100 + i));
 
       <!-- Centered Servantium logo mark -->
       <div class="iw-center-logo">
-        <img src="/S-nobg.png" alt="Servantium" width="200" height="200" />
+        <img src="/S-nobg.png" alt="Servantium" class="iw-center-logo-img" />
       </div>
     </div>
 
@@ -155,7 +155,7 @@ const finalRows = rows.map((row, i) => seededShuffle(row, 100 + i));
 
       <!-- Centered Servantium logo mark (mobile) -->
       <div class="iw-mobile-center-logo">
-        <img src="/S-nobg.png" alt="Servantium" width="80" height="80" />
+        <img src="/S-nobg.png" alt="Servantium" class="iw-mobile-center-logo-img" />
       </div>
     </div>
 
@@ -314,10 +314,11 @@ const finalRows = rows.map((row, i) => seededShuffle(row, 100 + i));
     z-index: 10;
     overflow: hidden;
   }
-  .iw-center-logo img {
-    width: 400px;
-    height: 400px;
+  .iw-center-logo-img {
+    width: 280px;
+    height: 280px;
     object-fit: contain;
+    max-width: none;
   }
 
   /* Hover: pause rows */
@@ -451,10 +452,11 @@ const finalRows = rows.map((row, i) => seededShuffle(row, 100 + i));
     z-index: 10;
     overflow: hidden;
   }
-  .iw-mobile-center-logo img {
-    width: 240px;
-    height: 240px;
+  .iw-mobile-center-logo-img {
+    width: 160px;
+    height: 160px;
     object-fit: contain;
+    max-width: none;
   }
 
   .iw-mobile-caps {
