@@ -52,7 +52,7 @@ const tocHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
 </style>
 
 <script is:inline>
-  document.addEventListener('astro:page-load', () => {
+  function initBlogTOC() {
     const tocLinks = document.querySelectorAll('.toc-link');
     if (!tocLinks.length) return;
 
@@ -145,5 +145,11 @@ const tocHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
         }
       });
     });
-  });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initBlogTOC);
+  } else {
+    initBlogTOC();
+  }
+  document.addEventListener('astro:page-load', initBlogTOC);
 </script>

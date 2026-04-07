@@ -591,9 +591,12 @@ const jsonLd = {
       <button class="contact-modal-close" aria-label="Close" onclick="closeContactModal()">&times;</button>
       <h2>Get in touch</h2>
       <p style="color:var(--color-ink-muted, #6B7280);margin-bottom:1.5rem;font-size:0.95rem;">Tell us about your firm and we'll reach out within 24 hours.</p>
-      <form class="contact-modal-form" id="contact-modal-form" autocomplete="off">
-        <input type="text" name="name" placeholder="Your name" required autocomplete="off">
-        <input type="email" name="email" placeholder="Work email" required autocomplete="off">
+      <form class="contact-modal-form" id="contact-modal-form" autocomplete="off" data-form-type="other">
+        <!-- Hidden honeypot to confuse password managers -->
+        <input type="text" name="username_fake" style="display:none" tabindex="-1" autocomplete="username">
+        <input type="password" name="password_fake" style="display:none" tabindex="-1" autocomplete="current-password">
+        <input type="text" name="fullname" placeholder="Your name" required autocomplete="new-password" data-lpignore="true" data-1p-ignore>
+        <input type="email" name="workemail" placeholder="Work email" required autocomplete="new-password" data-lpignore="true" data-1p-ignore>
         <textarea name="message" placeholder="Tell us about your firm and what you're looking for..." rows="4"></textarea>
         <button type="submit" class="btn btn-primary" id="contact-modal-submit">Send Message</button>
         <div class="contact-modal-status" id="contact-modal-status" style="display:none;"></div>
@@ -976,8 +979,8 @@ const jsonLd = {
     if (statusEl) { statusEl.className = 'contact-modal-status'; statusEl.style.display = 'none'; }
 
     var formData = {
-      name: this.querySelector('[name="name"]').value,
-      email: this.querySelector('[name="email"]').value,
+      name: this.querySelector('[name="fullname"]').value,
+      email: this.querySelector('[name="workemail"]').value,
       message: this.querySelector('[name="message"]').value
     };
 

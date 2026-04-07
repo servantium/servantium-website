@@ -86,10 +86,9 @@ const stageNames = ['Discovery', 'Estimation', 'Proposal', 'Delivery', 'Learning
               <div>
                 <!-- Per-panel label removed; persistent overlay at top handles this -->
                 <span class="text-[12rem] font-bold leading-none select-none block" style={`color: ${panel.accent}; opacity: 0.08;`}>{panel.number}</span>
-                <h3 class="text-4xl md:text-5xl font-medium -mt-20 mb-2" style="font-family: var(--font-display); color: var(--color-ink);">
+                <h3 class="text-4xl md:text-5xl font-medium -mt-20 mb-4" style="font-family: var(--font-display); color: var(--color-ink);">
                   {stop.title}
                 </h3>
-                <p class="text-lg md:text-xl font-medium mb-4 italic" style={`color: ${panel.accent};`}>{panelSubtitles[i]}</p>
                 <p class="text-base leading-relaxed mb-2 max-w-lg" style="color: var(--color-ink-muted);">
                   {stop.description}
                 </p>
@@ -565,11 +564,11 @@ function initFilmstrip() {
   var sectionLabel = document.getElementById('filmstrip-section-label');
   var panelLabels = [
     'The Engagement Journey',
-    'Scope & Discover',
-    'Estimate & Price',
-    'Propose & Win',
-    'Deliver & Staff',
-    'Learn & Improve'
+    'From first conversation to clear requirements',
+    'From requirements to confident pricing',
+    'From pricing to a winning proposal',
+    'From proposal to flawless delivery',
+    'From delivery to institutional memory'
   ];
   var totalPanels = 5;
   var running = false;

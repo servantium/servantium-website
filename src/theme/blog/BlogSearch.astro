@@ -1,118 +1,30 @@
 ---
 /**
- * BlogSearch -- Pagefind search UI for the blog listing.
- * Lazy-loads Pagefind JS on first interaction (click or Cmd+K).
- * Follows the same pattern as DocsSearch.
+ * BlogSearch -- Pagefind search UI.
+ * Loads Pagefind directly via link/script tags. No lazy loading, no modals.
  */
 ---
 
-<div class="blog-search-wrapper mb-6">
-  <button
-    id="blog-search-trigger"
-    type="button"
-    class="flex w-full items-center gap-2.5 rounded-xl border border-[var(--color-cloud-grey)]
-           bg-white px-4 py-2.5 text-sm text-[var(--color-ink-muted)]
-           transition-all duration-150
-           hover:border-[var(--color-green)]/40 hover:shadow-sm
-           focus:outline-none focus:ring-2 focus:ring-[var(--color-green)] focus:ring-offset-1"
-    aria-label="Search articles"
-  >
-    <svg class="size-4 shrink-0 text-[var(--color-ink-muted)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="11" cy="11" r="8"></circle>
-      <path d="m21 21-4.3-4.3"></path>
-    </svg>
-    <span class="flex-1 text-left text-[var(--color-ink-muted)]/60">Search articles...</span>
-    <kbd class="hidden items-center gap-0.5 rounded-md bg-[var(--color-mist-grey)] px-1.5 py-0.5 font-mono text-[0.6875rem] text-[var(--color-ink-muted)] sm:inline-flex">
-      <span class="text-xs">&#8984;</span>K
-    </kbd>
-  </button>
-
-  {/* Search modal overlay */}
-  <div id="blog-search-container" class="fixed inset-0 z-[10000] hidden items-start justify-center bg-black/50 pt-[15vh] backdrop-blur-sm">
-    <div class="mx-4 w-full max-w-2xl overflow-hidden rounded-xl bg-white shadow-2xl" id="blog-search-modal">
-      <div id="blog-search-pagefind"></div>
-    </div>
-  </div>
+<div class="blog-search-wrapper mb-6 w-full">
+  <link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
+  <div id="blog-pagefind-search"></div>
 </div>
 
+<script is:inline src="/pagefind/pagefind-ui.js"></script>
 <script is:inline>
   function initBlogSearch() {
-    const trigger = document.getElementById('blog-search-trigger');
-    const container = document.getElementById('blog-search-container');
-    const pagefindEl = document.getElementById('blog-search-pagefind');
-    if (!trigger || !container || !pagefindEl) return;
-    let pagefindLoaded = false;
-
-    async function openSearch() {
-      if (!container || !pagefindEl) return;
-      container.classList.remove('hidden');
-      container.classList.add('flex');
-      document.body.style.overflow = 'hidden';
-
-      if (!pagefindLoaded) {
-        try {
-          // Load Pagefind CSS
-          if (!document.querySelector('link[href="/pagefind/pagefind-ui.css"]')) {
-            var link = document.createElement('link');
-            link.rel = 'stylesheet';
-            link.href = '/pagefind/pagefind-ui.css';
-            document.head.appendChild(link);
-          }
-          // Load Pagefind UI as script (IIFE, not ES module)
-          await new Promise(function(resolve, reject) {
-            if (window.PagefindUI) { resolve(); return; }
-            var script = document.createElement('script');
-            script.src = '/pagefind/pagefind-ui.js';
-            script.onload = resolve;
-            script.onerror = reject;
-            document.head.appendChild(script);
-          });
-          new window.PagefindUI({
-            element: pagefindEl,
-            showSubResults: true,
-            showImages: false,
-            resetStyles: true,
-            bundlePath: '/pagefind/',
-          });
-          pagefindLoaded = true;
-        } catch (e) {
-          pagefindEl.innerHTML =
-            '<p class="p-6 text-center text-sm text-[var(--color-ink-muted)]">Search index not available. Try after a full build.</p>';
-        }
-      }
-
-      setTimeout(() => {
-        const input = pagefindEl.querySelector('input');
-        if (input) input.focus();
-      }, 100);
+    var el = document.getElementById('blog-pagefind-search');
+    if (!el || el.childNodes.length > 0) return;
+    try {
+      new PagefindUI({
+        element: '#blog-pagefind-search',
+        showSubResults: true,
+        showImages: false,
+        bundlePath: '/pagefind/',
+      });
+    } catch(e) {
+      el.innerHTML = '<p style="color:#6b6b6b;font-size:0.85rem;padding:0.5rem 0;">Search unavailable.</p>';
     }
-
-    function closeSearch() {
-      if (!container) return;
-      container.classList.add('hidden');
-      container.classList.remove('flex');
-      document.body.style.overflow = '';
-    }
-
-    trigger?.addEventListener('click', openSearch);
-
-    container?.addEventListener('click', (e) => {
-      if (e.target === container) closeSearch();
-    });
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && container && !container.classList.contains('hidden')) {
-        closeSearch();
-      }
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-        e.preventDefault();
-        if (container?.classList.contains('hidden')) {
-          openSearch();
-        } else {
-          closeSearch();
-        }
-      }
-    });
   }
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initBlogSearch);
@@ -123,28 +35,28 @@
 </script>
 
 <style is:global>
-  /* Pagefind UI overrides for blog search */
-  #blog-search-pagefind .pagefind-ui__search-input {
-    font-family: var(--font-body) !important;
-    border-color: var(--color-cloud-grey) !important;
-    border-radius: 0.5rem !important;
-    padding: 0.75rem 1rem !important;
-    font-size: 1rem !important;
+  #blog-pagefind-search .pagefind-ui__search-input {
+    font-family: var(--font-body, 'Source Sans 3', sans-serif) !important;
+    border: 1.5px solid var(--color-cloud-grey, #E1E3E6) !important;
+    border-radius: 12px !important;
+    padding: 0.65rem 1rem !important;
+    font-size: 0.95rem !important;
+    width: 100% !important;
   }
-  #blog-search-pagefind .pagefind-ui__search-input:focus {
-    border-color: var(--color-green) !important;
-    box-shadow: 0 0 0 3px rgba(0, 194, 109, 0.15) !important;
+  #blog-pagefind-search .pagefind-ui__search-input:focus {
+    border-color: var(--color-green, #00C26D) !important;
+    box-shadow: 0 0 0 3px rgba(0, 194, 109, 0.12) !important;
     outline: none !important;
   }
-  #blog-search-pagefind .pagefind-ui__result-link {
-    color: var(--color-green) !important;
+  #blog-pagefind-search .pagefind-ui__result-link {
+    color: var(--color-green, #00C26D) !important;
     font-weight: 500 !important;
   }
-  #blog-search-pagefind .pagefind-ui__result-link:hover {
-    color: var(--color-green-hover) !important;
+  #blog-pagefind-search .pagefind-ui__message,
+  #blog-pagefind-search .pagefind-ui__result-excerpt {
+    font-family: var(--font-body, 'Source Sans 3', sans-serif) !important;
   }
-  #blog-search-pagefind .pagefind-ui__message {
-    font-family: var(--font-body) !important;
-    color: var(--color-ink-muted) !important;
+  #blog-pagefind-search .pagefind-ui__form::before {
+    display: none !important;
   }
 </style>
