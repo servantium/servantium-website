@@ -12,6 +12,7 @@ const shareText = description ? `${title} — ${description}` : title;
 const shareMessage = `${shareText}\n${url}`;
 
 const bf = import.meta.env.BRAND_FETCH ? `?c=${import.meta.env.BRAND_FETCH}` : '';
+const bfLogo = (domain: string) => `https://cdn.brandfetch.io/${domain}/w/24/h/24${bf}`;
 
 const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
 const twitterUrl = `https://x.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`;
@@ -21,444 +22,211 @@ const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareMessage)}`;
 const emailUrl = `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(`Check out this article: ${url}`)}`;
 const substackUrl = `https://substack.com/note?url=${encodeURIComponent(url)}&title=${encodeURIComponent(title)}`;
 const threadsUrl = `https://threads.net/intent/post?text=${encodeURIComponent(shareMessage)}`;
-// Messenger apps
 const teamsUrl = `https://teams.microsoft.com/share?href=${encodeURIComponent(url)}&msgText=${encodeURIComponent(shareText)}`;
 const slackUrl = `https://slack.com/share?url=${encodeURIComponent(url)}&text=${encodeURIComponent(shareText)}`;
 const gchatUrl = `https://chat.google.com/share?url=${encodeURIComponent(url)}&text=${encodeURIComponent(shareText)}`;
 
-const isLeft = variant === 'blog';
-const sidebarPositionClass = isLeft
-  ? 'left-4 lg:left-8'
-  : 'right-4 lg:right-8';
+const isBlog = variant === 'blog';
+const sidebarPositionClass = isBlog ? 'left-4 lg:left-8' : 'right-4 lg:right-8';
+
+// Messenger apps
+const messengerButtons = [
+  { href: slackUrl, label: 'Slack', logo: bfLogo('slack.com') },
+  { href: teamsUrl, label: 'Teams', logo: bfLogo('microsoft.com') },
+  { href: gchatUrl, label: 'Google Chat', logo: bfLogo('google.com') },
+  { href: whatsappUrl, label: 'WhatsApp', logo: bfLogo('whatsapp.com') },
+];
+
+// Social platforms
+const socialButtons = [
+  { href: linkedInUrl, label: 'LinkedIn', logo: bfLogo('linkedin.com') },
+  { href: twitterUrl, label: 'X', logo: bfLogo('x.com') },
+  { href: substackUrl, label: 'Substack', logo: bfLogo('substack.com') },
+  { href: redditUrl, label: 'Reddit', logo: bfLogo('reddit.com') },
+  { href: facebookUrl, label: 'Facebook', logo: bfLogo('facebook.com') },
+  { href: threadsUrl, label: 'Threads', logo: bfLogo('threads.net') },
+];
+
+// Blog: social first, messenger in expanded. Help: messenger first, social in expanded.
+const primaryButtons = isBlog ? socialButtons : messengerButtons;
+const expandedButtons = isBlog ? messengerButtons : socialButtons;
 ---
 
-{/* -- Desktop: fixed sidebar (left for blog, right for help) -- */}
+{/* -- Desktop: fixed sidebar -- */}
 <aside
   class:list={[
     'share-sidebar',
     'hidden md:flex fixed top-1/2 -translate-y-1/2 z-40',
-    'flex-col gap-3',
+    'flex-col gap-2.5',
     sidebarPositionClass,
   ]}
   aria-label="Share this article"
 >
-  {/* 1. Copy Link (green) */}
+  {/* 1. Copy Link (always first, green) */}
   <button
     type="button"
-    class="share-copy-btn no-underline inline-flex items-center justify-center w-10 h-10 rounded-full
-           bg-[var(--color-green)] text-white shadow-sm
-           hover:bg-[var(--color-green-hover)] hover:shadow-md
-           transition-all duration-200"
-    data-url={url}
+    class="share-copy-btn share-btn-base bg-[var(--color-green)] text-white hover:bg-[var(--color-green-hover)]"
     aria-label="Copy link"
   >
-    <svg class="share-copy-icon w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+    <svg class="share-copy-icon w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
       <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
     </svg>
-    <svg class="share-check-icon w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+    <svg class="share-check-icon w-[18px] h-[18px] hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
       <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
     </svg>
   </button>
 
-  {/* 2. Slack (Brandfetch logo) */}
-  <a
-    href={slackUrl}
-    target="_blank"
-    rel="noopener noreferrer"
-    class="share-btn no-underline inline-flex items-center justify-center w-10 h-10 rounded-full
-           bg-white border border-[var(--color-cloud-grey)] text-[var(--color-ink-muted)] shadow-sm
-           hover:border-[#4A154B] hover:shadow-md
-           transition-all duration-200"
-    aria-label="Share on Slack"
-  >
-    <img src={`https://cdn.brandfetch.io/slack.com${bf}`} alt="Slack" class="w-5 h-5 rounded" />
-  </a>
-
-  {/* 3. Microsoft Teams (Brandfetch logo) */}
-  <a
-    href={teamsUrl}
-    target="_blank"
-    rel="noopener noreferrer"
-    class="share-btn no-underline inline-flex items-center justify-center w-10 h-10 rounded-full
-           bg-white border border-[var(--color-cloud-grey)] text-[var(--color-ink-muted)] shadow-sm
-           hover:border-[#6264A7] hover:shadow-md
-           transition-all duration-200"
-    aria-label="Share on Microsoft Teams"
-  >
-    <img src={`https://cdn.brandfetch.io/microsoft.com/w/32/h/32${bf}`} alt="Teams" class="w-5 h-5 rounded" />
-  </a>
-
-  {/* 4. Google Chat (Brandfetch logo) */}
-  <a
-    href={gchatUrl}
-    target="_blank"
-    rel="noopener noreferrer"
-    class="share-btn no-underline inline-flex items-center justify-center w-10 h-10 rounded-full
-           bg-white border border-[var(--color-cloud-grey)] text-[var(--color-ink-muted)] shadow-sm
-           hover:border-[#00AC47] hover:shadow-md
-           transition-all duration-200"
-    aria-label="Share on Google Chat"
-  >
-    <img src={`https://cdn.brandfetch.io/google.com/w/32/h/32${bf}`} alt="Google Chat" class="w-5 h-5 rounded" />
-  </a>
-
-  {/* 5. More / Close toggle button */}
-  <button
-    type="button"
-    class="share-more-btn no-underline inline-flex items-center justify-center w-10 h-10 rounded-full
-           bg-white border border-[var(--color-cloud-grey)] text-[var(--color-ink-muted)] shadow-sm
-           hover:text-[var(--color-green)] hover:border-[var(--color-green)] hover:shadow-md
-           transition-all duration-200"
-    aria-label="More share options"
-    aria-expanded="false"
-  >
-    {/* Dots icon (default) */}
-    <svg class="share-dots-icon w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
-      <circle cx="12" cy="5" r="1.5" fill="currentColor" stroke="none"/>
-      <circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/>
-      <circle cx="12" cy="19" r="1.5" fill="currentColor" stroke="none"/>
-    </svg>
-    {/* Close icon (shown when expanded) */}
-    <svg class="share-close-icon w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
-    </svg>
-  </button>
-
-  {/* 6. Expanded section (hidden by default) */}
-  <div class="share-extra hidden flex-col gap-3">
-    {/* LinkedIn */}
-    <a
-      href={linkedInUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      class="share-btn no-underline inline-flex items-center justify-center w-10 h-10 rounded-full
-             bg-white border border-[var(--color-cloud-grey)] text-[var(--color-ink-muted)] shadow-sm
-             hover:text-[var(--color-green)] hover:border-[var(--color-green)] hover:shadow-md
-             transition-all duration-200"
-      aria-label="Share on LinkedIn"
-    >
-      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-      </svg>
-    </a>
-
-    {/* X / Twitter */}
-    <a
-      href={twitterUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      class="share-btn no-underline inline-flex items-center justify-center w-10 h-10 rounded-full
-             bg-white border border-[var(--color-cloud-grey)] text-[var(--color-ink-muted)] shadow-sm
-             hover:text-[var(--color-green)] hover:border-[var(--color-green)] hover:shadow-md
-             transition-all duration-200"
-      aria-label="Share on X"
-    >
-      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-      </svg>
-    </a>
-
-    {/* Email */}
-    <a
-      href={emailUrl}
-      class="share-btn no-underline inline-flex items-center justify-center w-10 h-10 rounded-full
-             bg-white border border-[var(--color-cloud-grey)] text-[var(--color-ink-muted)] shadow-sm
-             hover:text-[var(--color-green)] hover:border-[var(--color-green)] hover:shadow-md
-             transition-all duration-200"
-      aria-label="Share via email"
-    >
-      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-      </svg>
-    </a>
-
-    {/* Substack Notes */}
-    <a
-      href={substackUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      class="share-btn no-underline inline-flex items-center justify-center w-10 h-10 rounded-full
-             bg-white border border-[var(--color-cloud-grey)] text-[var(--color-ink-muted)] shadow-sm
-             hover:text-[var(--color-green)] hover:border-[var(--color-green)] hover:shadow-md
-             transition-all duration-200"
-      aria-label="Share on Substack Notes"
-    >
-      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/>
-      </svg>
-    </a>
-
-    {/* Facebook */}
-    <a
-      href={facebookUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      class="share-btn no-underline inline-flex items-center justify-center w-10 h-10 rounded-full
-             bg-white border border-[var(--color-cloud-grey)] text-[var(--color-ink-muted)] shadow-sm
-             hover:text-[var(--color-green)] hover:border-[var(--color-green)] hover:shadow-md
-             transition-all duration-200"
-      aria-label="Share on Facebook"
-    >
-      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-      </svg>
-    </a>
-
-    {/* Reddit */}
-    <a
-      href={redditUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      class="share-btn no-underline inline-flex items-center justify-center w-10 h-10 rounded-full
-             bg-white border border-[var(--color-cloud-grey)] text-[var(--color-ink-muted)] shadow-sm
-             hover:text-[var(--color-green)] hover:border-[var(--color-green)] hover:shadow-md
-             transition-all duration-200"
-      aria-label="Share on Reddit"
-    >
-      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 0-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/>
-      </svg>
-    </a>
-
-    {/* WhatsApp */}
-    <a
-      href={whatsappUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      class="share-btn no-underline inline-flex items-center justify-center w-10 h-10 rounded-full
-             bg-white border border-[var(--color-cloud-grey)] text-[var(--color-ink-muted)] shadow-sm
-             hover:text-[var(--color-green)] hover:border-[var(--color-green)] hover:shadow-md
-             transition-all duration-200"
-      aria-label="Share on WhatsApp"
-    >
-      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-      </svg>
-    </a>
-
-    {/* Threads */}
-    <a
-      href={threadsUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      class="share-btn no-underline inline-flex items-center justify-center w-10 h-10 rounded-full
-             bg-white border border-[var(--color-cloud-grey)] text-[var(--color-ink-muted)] shadow-sm
-             hover:text-[var(--color-green)] hover:border-[var(--color-green)] hover:shadow-md
-             transition-all duration-200"
-      aria-label="Share on Threads"
-    >
-      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.59 12c.025 3.086.718 5.496 2.057 7.164 1.432 1.783 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.96-.065-1.186.408-2.228 1.33-2.934.874-.67 2.078-1.04 3.487-1.073.893-.021 1.72.063 2.478.245l.003-.014c-.043-.68-.173-1.263-.389-1.735-.325-.71-.89-1.148-1.727-1.34a5.8 5.8 0 00-.71-.078l-.018-.002c-1.073-.064-2.257.14-2.912.51l-.86-1.83c.937-.44 2.312-.762 3.834-.69.255.014.504.036.744.067 1.426.263 2.47 1.01 3.104 2.224.514 1.002.686 2.263.71 3.743.206.097.404.2.593.312 1.164.686 2.065 1.644 2.603 2.88.808 1.855.87 4.573-1.227 6.624C18.038 23.18 15.575 23.977 12.186 24zm-1.248-8.402c-.95.032-1.684.239-2.183.615-.384.29-.585.67-.56 1.066.037.663.672 1.443 2.07 1.443l.282-.012c1.065-.057 1.88-.462 2.425-1.201.393-.536.668-1.236.822-2.1a8.73 8.73 0 00-2.856.189z"/>
-      </svg>
-    </a>
-  </div>
-</aside>
-
-{/* -- Mobile: fixed bottom bar with horizontal scroll -- */}
-<div
-  class="share-bottom-bar
-         flex md:hidden fixed bottom-0 inset-x-0 z-40
-         bg-white/95 backdrop-blur-sm border-t border-[var(--color-cloud-grey)]
-         items-center px-4 py-3 overflow-x-auto gap-3
-         [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-  aria-label="Share this article"
->
-  {/* Copy Link first */}
-  <button
-    type="button"
-    class="share-copy-btn-mobile no-underline inline-flex items-center justify-center w-10 h-10 shrink-0 rounded-full
-           bg-[var(--color-green)] text-white transition-colors duration-200"
-    data-url={url}
-    aria-label="Copy link"
-  >
-    <svg class="share-copy-icon w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
-    </svg>
-    <svg class="share-check-icon w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
-    </svg>
-  </button>
-
-  {/* Messenger apps prominent on mobile (Brandfetch logos) */}
-  <a href={teamsUrl} target="_blank" rel="noopener noreferrer"
-    class="no-underline inline-flex items-center justify-center w-10 h-10 shrink-0 rounded-full bg-[var(--color-mist-grey)] hover:shadow-md transition-colors duration-200"
-    aria-label="Share on Teams">
-    <img src={`https://cdn.brandfetch.io/microsoft.com/w/32/h/32${bf}`} alt="Teams" class="w-5 h-5 rounded" />
-  </a>
-  <a href={slackUrl} target="_blank" rel="noopener noreferrer"
-    class="no-underline inline-flex items-center justify-center w-10 h-10 shrink-0 rounded-full bg-[var(--color-mist-grey)] hover:shadow-md transition-colors duration-200"
-    aria-label="Share on Slack">
-    <img src={`https://cdn.brandfetch.io/slack.com${bf}`} alt="Slack" class="w-5 h-5 rounded" />
-  </a>
-  <a href={gchatUrl} target="_blank" rel="noopener noreferrer"
-    class="no-underline inline-flex items-center justify-center w-10 h-10 shrink-0 rounded-full bg-[var(--color-mist-grey)] hover:shadow-md transition-colors duration-200"
-    aria-label="Share on Google Chat">
-    <img src={`https://cdn.brandfetch.io/google.com/w/32/h/32${bf}`} alt="Google Chat" class="w-5 h-5 rounded" />
-  </a>
-
-  {/* Social media */}
-  <a
-    href={linkedInUrl}
-    target="_blank"
-    rel="noopener noreferrer"
-    class="no-underline inline-flex items-center justify-center w-10 h-10 shrink-0 rounded-full
-           bg-[var(--color-mist-grey)] text-[var(--color-ink-muted)]
-           hover:text-[var(--color-green)] hover:border-[var(--color-green)] transition-colors duration-200"
-    aria-label="Share on LinkedIn"
-  >
-    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-    </svg>
-  </a>
-
-  <a
-    href={twitterUrl}
-    target="_blank"
-    rel="noopener noreferrer"
-    class="no-underline inline-flex items-center justify-center w-10 h-10 shrink-0 rounded-full
-           bg-[var(--color-mist-grey)] text-[var(--color-ink-muted)]
-           hover:text-[var(--color-green)] transition-colors duration-200"
-    aria-label="Share on X"
-  >
-    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-    </svg>
-  </a>
-
-  <a
-    href={emailUrl}
-    class="no-underline inline-flex items-center justify-center w-10 h-10 shrink-0 rounded-full
-           bg-[var(--color-mist-grey)] text-[var(--color-ink-muted)]
-           hover:text-[var(--color-green)] transition-colors duration-200"
-    aria-label="Share via email"
-  >
-    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+  {/* 2. Email (always second) */}
+  <a href={emailUrl} class="share-btn-base share-btn-ring" aria-label="Share via email">
+    <svg class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
       <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
     </svg>
   </a>
 
-  <a
-    href={substackUrl}
-    target="_blank"
-    rel="noopener noreferrer"
-    class="no-underline inline-flex items-center justify-center w-10 h-10 shrink-0 rounded-full
-           bg-[var(--color-mist-grey)] text-[var(--color-ink-muted)]
-           hover:text-[var(--color-green)] transition-colors duration-200"
-    aria-label="Share on Substack Notes"
-  >
-    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/>
-    </svg>
-  </a>
+  {/* 3. Primary buttons (social for blog, messenger for help) */}
+  {primaryButtons.map((btn) => (
+    <a href={btn.href} target="_blank" rel="noopener noreferrer" class="share-btn-base share-btn-ring" aria-label={`Share on ${btn.label}`}>
+      <img src={btn.logo} alt={btn.label} class="w-[18px] h-[18px] rounded-sm grayscale" loading="lazy" />
+    </a>
+  ))}
 
-  <a
-    href={facebookUrl}
-    target="_blank"
-    rel="noopener noreferrer"
-    class="no-underline inline-flex items-center justify-center w-10 h-10 shrink-0 rounded-full
-           bg-[var(--color-mist-grey)] text-[var(--color-ink-muted)]
-           hover:text-[var(--color-green)] transition-colors duration-200"
-    aria-label="Share on Facebook"
-  >
-    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-    </svg>
-  </a>
+  {/* 4. Expanded section (hidden by default) */}
+  <div class="share-extra hidden flex-col gap-2.5">
+    {expandedButtons.map((btn) => (
+      <a href={btn.href} target="_blank" rel="noopener noreferrer" class="share-btn-base share-btn-ring" aria-label={`Share on ${btn.label}`}>
+        <img src={btn.logo} alt={btn.label} class="w-[18px] h-[18px] rounded-sm grayscale" loading="lazy" />
+      </a>
+    ))}
+  </div>
 
-  <a
-    href={redditUrl}
-    target="_blank"
-    rel="noopener noreferrer"
-    class="no-underline inline-flex items-center justify-center w-10 h-10 shrink-0 rounded-full
-           bg-[var(--color-mist-grey)] text-[var(--color-ink-muted)]
-           hover:text-[var(--color-green)] transition-colors duration-200"
-    aria-label="Share on Reddit"
+  {/* 5. Toggle button (AT THE BOTTOM) — dots ⋮ / close × */}
+  <button
+    type="button"
+    class="share-toggle-btn share-btn-base share-btn-ring"
+    aria-label="More share options"
+    aria-expanded="false"
   >
-    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 0-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/>
+    <svg class="share-dots-icon w-[18px] h-[18px]" fill="currentColor" viewBox="0 0 24 24">
+      <circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/>
     </svg>
-  </a>
+    <svg class="share-close-icon w-[18px] h-[18px] hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+    </svg>
+  </button>
+</aside>
 
-  <a
-    href={whatsappUrl}
-    target="_blank"
-    rel="noopener noreferrer"
-    class="no-underline inline-flex items-center justify-center w-10 h-10 shrink-0 rounded-full
-           bg-[var(--color-mist-grey)] text-[var(--color-ink-muted)]
-           hover:text-[var(--color-green)] transition-colors duration-200"
-    aria-label="Share on WhatsApp"
-  >
-    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+{/* -- Mobile: fixed bottom bar -- */}
+<div
+  class="share-bottom-bar flex md:hidden fixed bottom-0 inset-x-0 z-40
+         bg-white/95 backdrop-blur-sm border-t border-[var(--color-cloud-grey)]
+         items-center px-4 py-3 overflow-x-auto gap-2.5
+         [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+  aria-label="Share this article"
+>
+  <button type="button" class="share-copy-btn share-btn-mobile bg-[var(--color-green)] text-white" aria-label="Copy link">
+    <svg class="share-copy-icon w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
+    </svg>
+    <svg class="share-check-icon w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+    </svg>
+  </button>
+  <a href={emailUrl} class="share-btn-mobile bg-[var(--color-mist-grey)]" aria-label="Email">
+    <svg class="w-5 h-5 text-[var(--color-ink-muted)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
     </svg>
   </a>
-
-  <a
-    href={threadsUrl}
-    target="_blank"
-    rel="noopener noreferrer"
-    class="no-underline inline-flex items-center justify-center w-10 h-10 shrink-0 rounded-full
-           bg-[var(--color-mist-grey)] text-[var(--color-ink-muted)]
-           hover:text-[var(--color-green)] transition-colors duration-200"
-    aria-label="Share on Threads"
-  >
-    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.59 12c.025 3.086.718 5.496 2.057 7.164 1.432 1.783 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.96-.065-1.186.408-2.228 1.33-2.934.874-.67 2.078-1.04 3.487-1.073.893-.021 1.72.063 2.478.245l.003-.014c-.043-.68-.173-1.263-.389-1.735-.325-.71-.89-1.148-1.727-1.34a5.8 5.8 0 00-.71-.078l-.018-.002c-1.073-.064-2.257.14-2.912.51l-.86-1.83c.937-.44 2.312-.762 3.834-.69.255.014.504.036.744.067 1.426.263 2.47 1.01 3.104 2.224.514 1.002.686 2.263.71 3.743.206.097.404.2.593.312 1.164.686 2.065 1.644 2.603 2.88.808 1.855.87 4.573-1.227 6.624C18.038 23.18 15.575 23.977 12.186 24zm-1.248-8.402c-.95.032-1.684.239-2.183.615-.384.29-.585.67-.56 1.066.037.663.672 1.443 2.07 1.443l.282-.012c1.065-.057 1.88-.462 2.425-1.201.393-.536.668-1.236.822-2.1a8.73 8.73 0 00-2.856.189z"/>
-    </svg>
-  </a>
+  {primaryButtons.map((btn) => (
+    <a href={btn.href} target="_blank" rel="noopener noreferrer" class="share-btn-mobile bg-[var(--color-mist-grey)]" aria-label={btn.label}>
+      <img src={btn.logo} alt={btn.label} class="w-5 h-5 rounded-sm grayscale" loading="lazy" />
+    </a>
+  ))}
+  {expandedButtons.map((btn) => (
+    <a href={btn.href} target="_blank" rel="noopener noreferrer" class="share-btn-mobile bg-[var(--color-mist-grey)]" aria-label={btn.label}>
+      <img src={btn.logo} alt={btn.label} class="w-5 h-5 rounded-sm grayscale" loading="lazy" />
+    </a>
+  ))}
 </div>
 
+<style>
+  .share-btn-base {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border: none;
+  }
+  .share-btn-ring {
+    background: #fff;
+    border: 1px solid var(--color-cloud-grey, #E1E3E6);
+    color: var(--color-ink-muted, #6b6b6b);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+  .share-btn-ring:hover {
+    border-color: var(--color-green, #00C26D);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  .share-btn-ring:hover img { filter: grayscale(0); }
+  .share-btn-mobile {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+</style>
+
 <script>
-  function initShareButtons() {
-    function handleCopy(btn: HTMLButtonElement) {
-      const url = btn.dataset.url;
-      if (!url) return;
-
-      const linkIcon = btn.querySelector('.share-copy-icon') as HTMLElement;
-      const checkIcon = btn.querySelector('.share-check-icon') as HTMLElement;
-
-      navigator.clipboard.writeText(url).then(() => {
-        linkIcon.classList.add('hidden');
-        checkIcon.classList.remove('hidden');
-        btn.classList.add('text-[var(--color-green)]', 'border-[var(--color-green)]');
-
-        setTimeout(() => {
-          linkIcon.classList.remove('hidden');
-          checkIcon.classList.add('hidden');
-          btn.classList.remove('text-[var(--color-green)]', 'border-[var(--color-green)]');
-        }, 2000);
+  function initShareSidebar() {
+    // Copy link — uses current page URL dynamically
+    document.querySelectorAll<HTMLButtonElement>('.share-copy-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const currentUrl = window.location.href;
+        const linkIcon = btn.querySelector('.share-copy-icon') as HTMLElement;
+        const checkIcon = btn.querySelector('.share-check-icon') as HTMLElement;
+        navigator.clipboard.writeText(currentUrl).then(() => {
+          if (linkIcon) linkIcon.classList.add('hidden');
+          if (checkIcon) checkIcon.classList.remove('hidden');
+          setTimeout(() => {
+            if (linkIcon) linkIcon.classList.remove('hidden');
+            if (checkIcon) checkIcon.classList.add('hidden');
+          }, 2000);
+        });
       });
-    }
-
-    document.querySelectorAll<HTMLButtonElement>('.share-copy-btn, .share-copy-btn-mobile').forEach((btn) => {
-      btn.addEventListener('click', () => handleCopy(btn));
     });
 
-    // Desktop "more" expand/collapse with dots/close icon toggle
-    const moreBtn = document.querySelector<HTMLButtonElement>('.share-more-btn');
+    // Toggle expand/collapse — dots ↔ close icon
+    const toggleBtn = document.querySelector<HTMLButtonElement>('.share-toggle-btn');
     const extraPanel = document.querySelector<HTMLElement>('.share-extra');
-    const dotsIcon = moreBtn?.querySelector<HTMLElement>('.share-dots-icon');
-    const closeIcon = moreBtn?.querySelector<HTMLElement>('.share-close-icon');
-
-    if (moreBtn && extraPanel && dotsIcon && closeIcon) {
-      moreBtn.addEventListener('click', () => {
+    if (toggleBtn && extraPanel) {
+      toggleBtn.addEventListener('click', () => {
         const isHidden = extraPanel.classList.contains('hidden');
         extraPanel.classList.toggle('hidden', !isHidden);
         extraPanel.classList.toggle('flex', isHidden);
-        moreBtn.setAttribute('aria-expanded', String(isHidden));
-
-        // Swap between dots and close icons
-        dotsIcon.classList.toggle('hidden', isHidden);
-        closeIcon.classList.toggle('hidden', !isHidden);
-
-        // Update aria-label
-        moreBtn.setAttribute('aria-label', isHidden ? 'Close share options' : 'More share options');
+        toggleBtn.setAttribute('aria-expanded', String(isHidden));
+        toggleBtn.setAttribute('aria-label', isHidden ? 'Close share options' : 'More share options');
+        // Swap icons
+        const dots = toggleBtn.querySelector('.share-dots-icon') as HTMLElement;
+        const close = toggleBtn.querySelector('.share-close-icon') as HTMLElement;
+        if (dots && close) {
+          dots.classList.toggle('hidden', isHidden);
+          close.classList.toggle('hidden', !isHidden);
+        }
       });
     }
   }
 
-  document.addEventListener('astro:page-load', initShareButtons);
+  document.addEventListener('astro:page-load', initShareSidebar);
   if (!document.querySelector('[name="astro-view-transitions"]')) {
-    initShareButtons();
+    initShareSidebar();
   }
 </script>

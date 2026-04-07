@@ -19,42 +19,47 @@ const {
 
 <div class={`search-wrapper search-wrapper--${variant}`}>
   <link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
-  <div id={id}></div>
+  <div id={id} data-pagefind-search data-placeholder={placeholder}></div>
 </div>
 
 <script is:inline src="/pagefind/pagefind-ui.js"></script>
-<script is:inline define:vars={{ id, placeholder }}>
-  function initSearch() {
-    var el = document.getElementById(id);
-    if (!el || el.childNodes.length > 0) return;
-    try {
-      if (typeof PagefindUI === 'undefined') throw new Error('PagefindUI not loaded');
-      new PagefindUI({
-        element: '#' + id,
-        showSubResults: true,
-        showImages: false,
-        bundlePath: '/pagefind/',
-        translations: { placeholder: placeholder },
-      });
-    } catch(e) {
-      el.innerHTML = '<p style="color:#6b6b6b;font-size:0.85rem;padding:0.5rem 0;">Search is loading or unavailable. Try refreshing.</p>';
-    }
-
-    // Cmd+K / Ctrl+K to focus search
-    document.addEventListener('keydown', function(e) {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-        e.preventDefault();
-        var input = el.querySelector('input');
-        if (input) input.focus();
+<script is:inline>
+  function initAllSearches() {
+    document.querySelectorAll('[data-pagefind-search]').forEach(function(el) {
+      if (el.childNodes.length > 0) return;
+      var placeholder = el.getAttribute('data-placeholder') || 'Search...';
+      try {
+        if (typeof PagefindUI === 'undefined') throw new Error('PagefindUI not loaded');
+        new PagefindUI({
+          element: '#' + el.id,
+          showSubResults: true,
+          showImages: false,
+          bundlePath: '/pagefind/',
+          translations: { placeholder: placeholder },
+        });
+      } catch(e) {
+        el.innerHTML = '<p style="color:#6b6b6b;font-size:0.85rem;padding:0.5rem 0;">Search is loading or unavailable. Try refreshing.</p>';
       }
     });
+
+    // Cmd+K / Ctrl+K to focus first visible search input
+    if (!window._pagefindCmdKBound) {
+      window._pagefindCmdKBound = true;
+      document.addEventListener('keydown', function(e) {
+        if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+          e.preventDefault();
+          var input = document.querySelector('[data-pagefind-search] input');
+          if (input) input.focus();
+        }
+      });
+    }
   }
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initSearch);
+    document.addEventListener('DOMContentLoaded', initAllSearches);
   } else {
-    initSearch();
+    initAllSearches();
   }
-  document.addEventListener('astro:page-load', initSearch);
+  document.addEventListener('astro:page-load', initAllSearches);
 </script>
 
 <style is:global>

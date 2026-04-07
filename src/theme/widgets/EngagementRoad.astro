@@ -79,13 +79,10 @@ const stageNames = ['Discovery', 'Estimation', 'Proposal', 'Delivery', 'Learning
 
               <!-- Left: Text content -->
               <div>
-                <h3 class="text-2xl md:text-3xl lg:text-4xl font-medium leading-tight mb-8" style="font-family: var(--font-display); color: var(--color-ink);">
-                  {panelSubtitles[i]}
-                </h3>
                 <span class="text-[12rem] font-bold leading-none select-none block" style={`color: ${panel.accent}; opacity: 0.08;`}>{panel.number}</span>
-                <h4 class="text-4xl md:text-5xl font-medium -mt-20 mb-4" style="font-family: var(--font-display); color: var(--color-ink);">
+                <h3 class="text-4xl md:text-5xl font-medium -mt-20 mb-4" style="font-family: var(--font-display); color: var(--color-ink);">
                   {stop.title}
-                </h4>
+                </h3>
                 <p class="text-base leading-relaxed mb-2 max-w-lg" style="color: var(--color-ink-muted);">
                   {stop.description}
                 </p>
@@ -613,11 +610,20 @@ function initFilmstrip() {
     var translateX = progress * (totalPanels - 1) * -100;
     track.style.transform = 'translateX(' + translateX + 'vw)';
 
-    // Flying title: visible at progress 0, fades out by progress 0.15
+    // Hero title: stays visible, text updates per panel
     if (heroTitle) {
-      var titleFade = Math.max(0, 1 - (progress / 0.12));
-      heroTitle.style.opacity = String(titleFade);
-      heroTitle.style.transform = 'translateY(' + (-progress * 200) + 'px) scale(' + (1 + progress * 0.1) + ')';
+      var heroTexts = [
+        'From first conversation<br/>to institutional memory',
+        'From requirements to<br/>confident pricing',
+        'From pricing to a<br/>winning proposal',
+        'From proposal to<br/>flawless delivery',
+        'From delivery to<br/>institutional memory'
+      ];
+      var h2 = heroTitle.querySelector('h2');
+      if (h2) {
+        var newText = heroTexts[activeIndex] || heroTexts[0];
+        if (h2.innerHTML !== newText) h2.innerHTML = newText;
+      }
     }
 
     // Extend green thread
