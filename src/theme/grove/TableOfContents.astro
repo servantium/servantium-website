@@ -74,22 +74,18 @@ const { headings } = Astro.props;
 
       const activeIdx = Array.from(tocLinks).findIndex(l => l.dataset.tocSlug === slug);
       tocLinks.forEach((link, i) => {
-        link.classList.remove('!text-[#00C26D]', 'font-semibold', 'grove-toc-passed');
         if (i === activeIdx) {
-          // Active: bright green + bold
-          link.classList.add('!text-[#00C26D]', 'font-semibold');
-          link.classList.remove('text-slate-500', 'text-slate-400');
+          link.style.color = '#00C26D';
+          link.style.opacity = '1';
+          link.style.fontWeight = '600';
         } else if (i < activeIdx) {
-          // Passed: green at 70% opacity
-          link.classList.add('grove-toc-passed');
-          link.classList.remove('text-slate-500', 'text-slate-400');
+          link.style.color = '#00C26D';
+          link.style.opacity = '0.55';
+          link.style.fontWeight = '400';
         } else {
-          // Future: default slate
-          if (link.classList.contains('pl-3')) {
-            link.classList.add('text-slate-400');
-          } else {
-            link.classList.add('text-slate-500');
-          }
+          link.style.color = '';
+          link.style.opacity = '';
+          link.style.fontWeight = '';
         }
       });
 

@@ -74,15 +74,26 @@ const tocHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
       // Find index of active link
       var activeIdx = -1;
       tocLinks.forEach(function(l, i) { if (l === link) activeIdx = i; });
-      // Color all links: passed = green border + muted green text, active = bright green, future = transparent
+      // Use inline styles for reliability (Tailwind class specificity issues)
       tocLinks.forEach(function(l, i) {
-        l.classList.remove('!text-[var(--color-green)]', '!border-[var(--color-green)]', 'font-medium', 'toc-passed');
         if (i < activeIdx) {
-          // Passed sections: green border, slightly muted
-          l.classList.add('!border-[var(--color-green)]', 'toc-passed');
+          // Passed: green at 60%
+          l.style.color = '#00C26D';
+          l.style.opacity = '0.6';
+          l.style.borderLeftColor = '#00C26D';
+          l.style.fontWeight = '400';
         } else if (i === activeIdx) {
-          // Active section: bright green + bold
-          l.classList.add('!text-[var(--color-green)]', '!border-[var(--color-green)]', 'font-medium');
+          // Active: bright green + bold
+          l.style.color = '#00C26D';
+          l.style.opacity = '1';
+          l.style.borderLeftColor = '#00C26D';
+          l.style.fontWeight = '600';
+        } else {
+          // Future: default
+          l.style.color = '';
+          l.style.opacity = '';
+          l.style.borderLeftColor = 'transparent';
+          l.style.fontWeight = '';
         }
       });
       currentActive = link;

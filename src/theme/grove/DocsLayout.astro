@@ -121,7 +121,7 @@ const tocHeadings = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
 
       <!-- Content area -->
       <main id="docs-content" class="min-w-0 flex-1 px-6 py-4 md:px-10 md:py-6 lg:px-16" tabindex="-1">
-        <article class="mx-auto max-w-4xl">
+        <article class="mx-auto max-w-3xl">
           <!-- Page title -->
           <header class="mb-4">
             <h1 class="font-display text-[2rem] font-semibold leading-tight tracking-tight text-ink sm:text-[2.25rem]">{title}</h1>
@@ -165,7 +165,7 @@ const tocHeadings = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
 
       <!-- Table of Contents (xl screens only, compact) -->
       {tocHeadings.length > 0 && (
-        <aside class="hidden xl:block w-[160px] shrink-0 pl-4">
+        <aside class="hidden xl:block w-[220px] shrink-0 pl-4">
           <div class="sticky top-[80px] max-h-[calc(100vh-100px)] overflow-y-auto overscroll-contain py-8">
             <TableOfContents headings={tocHeadings} />
           </div>
