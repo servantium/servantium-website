@@ -71,10 +71,10 @@ const jsonLd = {
 
         <div class="story-prose" data-animate="fade-up" data-delay="100">
           <p>
-            <strong>We've spent 15+ years each leading professional services organizations,</strong> building delivery teams, running complex engagements, and implementing enterprise platforms across life sciences, legal tech, and regulated industries. We've held VP and Director-level roles where we owned the outcomes, managed global teams, and watched the same problems repeat at every company we touched.
+            <strong>We've spent 15+ years each leading <span class="highlight-word">professional services</span> organizations,</strong> building delivery teams, running complex engagements, and implementing <span class="highlight-word">enterprise platforms</span> across life sciences, legal tech, and regulated industries. We've held VP and Director-level roles where we owned the outcomes, managed global teams, and watched the same problems repeat at every company we touched.
           </p>
           <p>
-            The pattern never changed. Talented consultants pricing engagements from memory. Scope changes communicated over Slack but never making it to the contract. Delivery teams rebuilding what someone else already built last quarter because nobody wrote it down in a place the next team could find.
+            The pattern never changed. Talented <span class="highlight-word">consultants pricing engagements from memory</span>. <span class="highlight-word">Scope changes</span> communicated over Slack but never making it to the contract. Delivery teams rebuilding what someone else already built last quarter because nobody wrote it down in a place the next team could find.
           </p>
         </div>
 
@@ -84,10 +84,10 @@ const jsonLd = {
 
         <div class="story-prose" data-animate="fade-up">
           <p>
-            We'd seen the PSA tools. They track hours. They don't capture the reasoning behind a scope decision or the lessons from a delivery that went sideways. We'd seen the CRMs. They track deals. They lose the thread the moment a deal becomes a project.
+            We'd seen the <span class="highlight-word">PSA tools</span>. They track hours. They don't capture the reasoning behind a scope decision or the lessons from a delivery that went sideways. We'd seen the <span class="highlight-word">CRMs</span>. They track deals. They lose the thread the moment a deal becomes a project.
           </p>
           <p>
-            What nobody had built was the connective tissue: a system that carries context from the first client conversation through scoping, pricing, delivery, and back into the next engagement. A system that actually remembers.
+            What nobody had built was the <span class="highlight-word">connective tissue</span>: a system that carries context from the first client conversation through scoping, pricing, delivery, and back into the next engagement. A system that actually remembers.
           </p>
         </div>
 
@@ -97,10 +97,10 @@ const jsonLd = {
 
         <div class="story-prose" data-animate="fade-up">
           <p>
-            The name comes from <em class="latin-word">servare</em>, the Latin root meaning to serve, protect, and preserve, fused with <em class="latin-word">-ium</em>, the suffix for foundational elements. Like titanium or platinum, Servantium is infrastructure: strong, enduring, and built to last.
+            The name comes from <em class="latin-word highlight-word">servare</em>, the Latin root meaning to serve, protect, and preserve, fused with <em class="latin-word highlight-word">-ium</em>, the suffix for foundational elements. Like titanium or platinum, Servantium is infrastructure: strong, enduring, and built to last.
           </p>
           <p>
-            We're building an operating system for services firms. Not a dashboard. Not a time tracker. A system that encodes how your firm works, so it can work better every time.
+            We're building an <span class="highlight-word">operating system</span> for services firms. Not a dashboard. Not a time tracker. A system that encodes how your firm works, so it can work better every time.
           </p>
         </div>
 
@@ -311,6 +311,17 @@ const jsonLd = {
 </BaseLayout>
 
 <style>
+  /* ── Scroll highlight words ── */
+  .highlight-word {
+    transition: color 0.4s ease, background-color 0.4s ease;
+    border-radius: 2px;
+    padding: 0 2px;
+  }
+  .highlight-word.highlighted {
+    color: #00C26D;
+    background-color: rgba(0, 194, 109, 0.08);
+  }
+
   /* ── Story prose ── */
   .story-prose {
     font-size: 1.1rem;
@@ -467,5 +478,19 @@ const jsonLd = {
         observer.observe(el);
       }
     });
+
+    // Highlight words on scroll
+    var highlightWords = document.querySelectorAll('.highlight-word');
+    if (highlightWords.length) {
+      var highlightObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('highlighted');
+            highlightObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -40% 0px' });
+      highlightWords.forEach(function(el) { highlightObserver.observe(el); });
+    }
   });
 </script>

@@ -92,7 +92,7 @@ const relatedPosts = allPosts
       {/* Subtle radial glow */}
       <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-10%,rgba(0,194,109,0.06),transparent)]" aria-hidden="true"></div>
 
-      <div class="relative mx-auto max-w-4xl px-6">
+      <div class="relative mx-auto max-w-4xl px-4 sm:px-6">
         {/* Breadcrumb */}
         <nav
           data-reveal="1"
@@ -187,21 +187,21 @@ const relatedPosts = allPosts
 
   {/* -- Hero Image -- */}
   {image && (
-    <div class="mx-auto max-w-4xl px-6 -mt-2 mb-10 md:mb-14">
-      <div class="relative overflow-hidden rounded-2xl shadow-lg">
+    <div class="mx-auto max-w-4xl px-4 sm:px-6 -mt-2 mb-10 md:mb-14">
+      <div class="relative overflow-hidden rounded-xl sm:rounded-2xl shadow-lg">
         <img
           src={image}
           alt={imageAlt || title}
-          class="w-full h-auto max-h-[480px] object-cover"
+          class="w-full h-auto max-h-[280px] sm:max-h-[380px] md:max-h-[480px] object-cover"
           loading="eager"
         />
-        <div class="absolute inset-0 rounded-2xl ring-1 ring-inset ring-black/5 pointer-events-none" aria-hidden="true"></div>
+        <div class="absolute inset-0 rounded-xl sm:rounded-2xl ring-1 ring-inset ring-black/5 pointer-events-none" aria-hidden="true"></div>
       </div>
     </div>
   )}
 
   {/* -- Article + TOC Layout -- */}
-  <div class="mx-auto max-w-4xl px-6">
+  <div class="mx-auto max-w-4xl px-4 sm:px-6">
     <div class={`blog-layout-grid relative ${hideAuthor ? 'blog-layout-grid--legal' : ''}`}>
       {/* -- Article Content -- */}
       <article class="article-content pb-12 md:pb-16 min-w-0">
@@ -216,7 +216,7 @@ const relatedPosts = allPosts
   {!hideRelated && (
     <>
       {/* -- CTA Section -- */}
-      <section class="mx-auto max-w-4xl px-6 pb-12 md:pb-16">
+      <section class="mx-auto max-w-4xl px-4 sm:px-6 pb-12 md:pb-16">
         <div class="rounded-2xl bg-gradient-to-br from-[var(--color-soft-mint)] to-[var(--color-mint-tint)] p-8 md:p-10 text-center border border-[var(--color-pale-green)]">
           <h3 class="font-[family-name:var(--font-display)] text-2xl md:text-[1.75rem] text-[var(--color-ink)] mb-3 leading-snug">
             Ready to encode your services?
@@ -236,7 +236,7 @@ const relatedPosts = allPosts
       </section>
 
       {/* -- Related Posts -- */}
-      <section class="mx-auto max-w-[var(--content-width)] px-6 pb-16 md:pb-24">
+      <section class="mx-auto max-w-[var(--content-width)] px-4 sm:px-6 pb-16 md:pb-24">
         <RelatedPosts posts={relatedPosts} />
       </section>
     </>
