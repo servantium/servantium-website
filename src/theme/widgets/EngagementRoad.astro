@@ -610,6 +610,18 @@ function initFilmstrip() {
     var translateX = progress * (totalPanels - 1) * -100;
     track.style.transform = 'translateX(' + translateX + 'vw)';
 
+    // Extend green thread
+    if (threadProgress) {
+      threadProgress.setAttribute('x2', String(progress * 1000));
+    }
+
+    // Move astronaut along the thread
+    if (astronaut) {
+      astronaut.style.left = (10 + progress * 80) + '%';
+    }
+
+    var activeIndex = Math.min(totalPanels - 1, Math.floor(progress * totalPanels));
+
     // Hero title: stays visible, text updates per panel
     if (heroTitle) {
       var heroTexts = [
@@ -625,18 +637,6 @@ function initFilmstrip() {
         if (h2.innerHTML !== newText) h2.innerHTML = newText;
       }
     }
-
-    // Extend green thread
-    if (threadProgress) {
-      threadProgress.setAttribute('x2', String(progress * 1000));
-    }
-
-    // Move astronaut along the thread
-    if (astronaut) {
-      astronaut.style.left = (10 + progress * 80) + '%';
-    }
-
-    var activeIndex = Math.min(totalPanels - 1, Math.floor(progress * totalPanels));
 
     // Update dots
     dots.forEach(function(dot, i) {

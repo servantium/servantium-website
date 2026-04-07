@@ -105,14 +105,27 @@ const { headings } = Astro.props;
 
     const observer = new IntersectionObserver(
       (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+        // Find first heading currently in viewport
+        let active: string | null = null;
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            active = entry.target.id;
+            break;
+          }
+        }
 
-        if (visible.length > 0) {
-          const newSlug = visible[0].target.id;
-          setActive(newSlug);
-          history.replaceState(null, '', `#${newSlug}`);
+        if (active) {
+          setActive(active);
+          history.replaceState(null, '', '#' + active);
+        } else {
+          // Fallback: find the last heading that scrolled past the top
+          let lastAbove: string | null = null;
+          for (const el of headingElements) {
+            if (el.getBoundingClientRect().top < 120) {
+              lastAbove = el.id;
+            }
+          }
+          if (lastAbove) setActive(lastAbove);
         }
       },
       {

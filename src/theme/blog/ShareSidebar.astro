@@ -12,7 +12,7 @@ const shareText = description ? `${title} — ${description}` : title;
 const shareMessage = `${shareText}\n${url}`;
 
 const bf = import.meta.env.BRAND_FETCH ? `?c=${import.meta.env.BRAND_FETCH}` : '';
-const bfLogo = (domain: string) => `https://cdn.brandfetch.io/${domain}/w/24/h/24${bf}`;
+const bfLogo = (domain: string) => `https://cdn.brandfetch.io/${domain}/w/40/h/40${bf}`;
 
 const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
 const twitterUrl = `https://x.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`;
@@ -44,7 +44,7 @@ const socialButtons = [
   { href: substackUrl, label: 'Substack', logo: bfLogo('substack.com') },
   { href: redditUrl, label: 'Reddit', logo: bfLogo('reddit.com') },
   { href: facebookUrl, label: 'Facebook', logo: bfLogo('facebook.com') },
-  { href: threadsUrl, label: 'Threads', logo: bfLogo('threads.net') },
+  { href: threadsUrl, label: 'Threads', logo: bfLogo('threads.com') },
 ];
 
 // Blog: social first, messenger in expanded. Help: messenger first, social in expanded.
@@ -86,7 +86,7 @@ const expandedButtons = isBlog ? messengerButtons : socialButtons;
   {/* 3. Primary buttons (social for blog, messenger for help) */}
   {primaryButtons.map((btn) => (
     <a href={btn.href} target="_blank" rel="noopener noreferrer" class="share-btn-base share-btn-ring" aria-label={`Share on ${btn.label}`}>
-      <img src={btn.logo} alt={btn.label} class="w-[18px] h-[18px] rounded-sm grayscale" loading="lazy" />
+      <img src={btn.logo} alt={btn.label} class="w-5 h-5 rounded-sm grayscale" loading="lazy" />
     </a>
   ))}
 
@@ -94,7 +94,7 @@ const expandedButtons = isBlog ? messengerButtons : socialButtons;
   <div class="share-extra hidden flex-col gap-2.5">
     {expandedButtons.map((btn) => (
       <a href={btn.href} target="_blank" rel="noopener noreferrer" class="share-btn-base share-btn-ring" aria-label={`Share on ${btn.label}`}>
-        <img src={btn.logo} alt={btn.label} class="w-[18px] h-[18px] rounded-sm grayscale" loading="lazy" />
+        <img src={btn.logo} alt={btn.label} class="w-5 h-5 rounded-sm grayscale" loading="lazy" />
       </a>
     ))}
   </div>

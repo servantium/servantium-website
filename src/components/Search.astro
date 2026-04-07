@@ -32,8 +32,9 @@ const {
         if (typeof PagefindUI === 'undefined') throw new Error('PagefindUI not loaded');
         new PagefindUI({
           element: '#' + el.id,
-          showSubResults: true,
+          showSubResults: false,
           showImages: false,
+          excerptLength: 20,
           bundlePath: '/pagefind/',
           translations: { placeholder: placeholder },
         });
@@ -87,6 +88,28 @@ const {
   .search-wrapper .pagefind-ui__form::before {
     display: none !important;
   }
+  /* Tighter result density — enterprise-style compact list */
+  .search-wrapper .pagefind-ui__result {
+    padding: 0.75rem 0 !important;
+    border-bottom: 1px solid var(--color-cloud-grey, #E1E3E6) !important;
+  }
+  .search-wrapper .pagefind-ui__result-link {
+    font-size: 0.95rem !important;
+    line-height: 1.3 !important;
+  }
+  .search-wrapper .pagefind-ui__result-excerpt {
+    font-size: 0.825rem !important;
+    line-height: 1.5 !important;
+    color: var(--color-ink-muted, #6b6b6b) !important;
+    margin-top: 0.2rem !important;
+    -webkit-line-clamp: 2 !important;
+    display: -webkit-box !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+  }
+  .search-wrapper .pagefind-ui__result-nested { display: none !important; }
+  .search-wrapper .pagefind-ui__result-title { margin: 0 !important; }
+  .search-wrapper .pagefind-ui__results-area { margin-top: 0.5rem !important; }
 
   /* Blog variant: slightly larger padding */
   .search-wrapper--blog .pagefind-ui__search-input {
