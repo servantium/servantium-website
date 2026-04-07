@@ -53,13 +53,21 @@
         try {
           // Load Pagefind CSS
           if (!document.querySelector('link[href="/pagefind/pagefind-ui.css"]')) {
-            const link = document.createElement('link');
+            var link = document.createElement('link');
             link.rel = 'stylesheet';
             link.href = '/pagefind/pagefind-ui.css';
             document.head.appendChild(link);
           }
-          const pagefind = await import('/pagefind/pagefind-ui.js');
-          new pagefind.PagefindUI({
+          // Load Pagefind UI as script (IIFE, not ES module)
+          await new Promise(function(resolve, reject) {
+            if (window.PagefindUI) { resolve(); return; }
+            var script = document.createElement('script');
+            script.src = '/pagefind/pagefind-ui.js';
+            script.onload = resolve;
+            script.onerror = reject;
+            document.head.appendChild(script);
+          });
+          new window.PagefindUI({
             element: pagefindEl,
             showSubResults: true,
             showImages: false,

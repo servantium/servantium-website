@@ -32,6 +32,14 @@ const panels = [
 
 const taglines = stops.map(s => s.tagline || '');
 
+const panelSubtitles = [
+  'From first conversation to clear requirements',
+  'From requirements to confident pricing',
+  'From pricing to a winning proposal',
+  'From proposal to flawless delivery',
+  'From delivery to institutional memory',
+];
+
 const stageNames = ['Discovery', 'Estimation', 'Proposal', 'Delivery', 'Learning'];
 ---
 
@@ -77,6 +85,7 @@ const stageNames = ['Discovery', 'Estimation', 'Proposal', 'Delivery', 'Learning
               <!-- Left: Text content -->
               <div>
                 <!-- Per-panel label removed; persistent overlay at top handles this -->
+                <p class="text-base md:text-lg font-medium mb-4 italic" style={`color: ${panel.accent}; opacity: 0.7;`}>{panelSubtitles[i]}</p>
                 <span class="text-[12rem] font-bold leading-none select-none block" style={`color: ${panel.accent}; opacity: 0.08;`}>{panel.number}</span>
                 <h3 class="text-4xl md:text-5xl font-medium -mt-20 mb-4" style="font-family: var(--font-display); color: var(--color-ink);">
                   {stop.title}
