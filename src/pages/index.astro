@@ -427,6 +427,12 @@ const jsonLd = [
   }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
   document.querySelectorAll('section').forEach(section => {
+    // Don't hide sections that are already in the viewport (hero, above-fold)
+    var rect = section.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      // Already visible - don't hide it
+      return;
+    }
     section.style.opacity = '0';
     section.style.transform = 'translateY(24px)';
     section.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
