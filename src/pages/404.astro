@@ -1,6 +1,8 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import SEO from '@/components/SEO.astro';
+import { Image } from 'astro:assets';
+import logoSrc from '/public/logo.png';
 ---
 
 <BaseLayout>
@@ -12,6 +14,9 @@ import SEO from '@/components/SEO.astro';
   />
 
   <div class="container">
+    <a href="/" class="logo-link" aria-label="Servantium home">
+      <Image src={logoSrc} alt="Servantium" width={140} height={40} class="logo-img" />
+    </a>
     <div class="error-visual">
       <div class="stars">
         <div class="star"></div>
@@ -110,7 +115,17 @@ import SEO from '@/components/SEO.astro';
     text-align: center;
     position: relative;
     min-height: 60vh;
+    font-family: var(--font-body);
+    background: linear-gradient(180deg, var(--color-white) 0%, var(--color-mist-grey) 100%);
   }
+
+  .logo-link {
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    transition: opacity 0.2s ease;
+  }
+  .logo-link:hover { opacity: 0.8; }
+  .logo-img { display: block; }
 
   .game-arena {
     position: fixed;
@@ -216,9 +231,9 @@ import SEO from '@/components/SEO.astro';
     75% { transform: translateX(-50%) translateY(5px) rotate(5deg); }
   }
 
-  h1 { font-family: var(--font-display); font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 400; margin-bottom: 1rem; color: var(--color-ink); }
+  h1 { font-family: var(--font-display); font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 400; margin-bottom: 1rem; color: var(--color-ink); letter-spacing: -0.01em; }
   h1 em { font-style: italic; color: var(--color-servantium-green); }
-  p { font-size: 1.1rem; color: var(--color-ink-muted); max-width: 400px; margin-bottom: 2rem; line-height: 1.7; }
+  p { font-family: var(--font-body); font-size: 1.1rem; color: var(--color-ink-muted); max-width: 400px; margin-bottom: 2rem; line-height: 1.7; }
   .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; }
 
   /* Game Styles */

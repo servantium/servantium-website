@@ -131,4 +131,33 @@ function getAutogenerateEntries(directory: string) {
   .grove-sidebar-summary::-webkit-details-marker {
     display: none;
   }
+
+  /* Ensure active link is visible on mobile drawer */
+  @media (max-width: 1023px) {
+    a[aria-current="page"] {
+      border-left-color: #00C26D !important;
+      background-color: #E8FBF1 !important;
+      color: #00C26D !important;
+      font-weight: 600 !important;
+      border-left-width: 3px !important;
+      position: relative;
+    }
+  }
 </style>
+
+<script>
+  // Auto-scroll to active link when mobile drawer opens
+  document.addEventListener('astro:page-load', () => {
+    const drawer = document.getElementById('grove-sidebar-drawer');
+    if (!drawer) return;
+    const observer = new MutationObserver(() => {
+      if (!drawer.classList.contains('hidden')) {
+        const activeLink = drawer.querySelector('a[aria-current="page"]');
+        if (activeLink) {
+          activeLink.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        }
+      }
+    });
+    observer.observe(drawer, { attributes: true, attributeFilter: ['class'] });
+  });
+</script>
