@@ -49,11 +49,6 @@ const stageNames = ['Discovery', 'Estimation', 'Proposal', 'Delivery', 'Learning
   <!-- Sticky viewport -->
   <div class="filmstrip-viewport sticky top-0 h-screen overflow-hidden" style="-webkit-overflow-scrolling: touch;">
 
-    <!-- Persistent section label — stays visible, text changes per panel -->
-    <div class="absolute left-1/2 -translate-x-1/2 z-[50] pointer-events-none text-center" style="top: 80px; background: #fff; border: 1px solid rgba(0,194,109,0.2); padding: 8px 28px; border-radius: 100px; box-shadow: 0 4px 16px rgba(0,0,0,0.1);" id="filmstrip-label-pill">
-      <div class="text-sm font-bold uppercase tracking-widest" style="color: var(--color-green); letter-spacing: 0.12em; white-space: nowrap;" id="filmstrip-section-label">The Engagement Journey</div>
-    </div>
-
     <!-- Hero title — fades out as scroll progresses -->
     <div class="absolute top-0 left-0 right-0 z-20 pointer-events-none flex items-center justify-center" id="filmstrip-hero-title" style="height: 30vh;">
       <div class="text-center px-6 pt-10">
@@ -84,14 +79,13 @@ const stageNames = ['Discovery', 'Estimation', 'Proposal', 'Delivery', 'Learning
 
               <!-- Left: Text content -->
               <div>
-                <!-- Per-panel label removed; persistent overlay at top handles this -->
-                <p class="text-base font-semibold uppercase tracking-widest mb-6" style={`color: ${panel.accent}; letter-spacing: 0.1em;`}>
+                <h3 class="text-2xl md:text-3xl lg:text-4xl font-medium leading-tight mb-8" style="font-family: var(--font-display); color: var(--color-ink);">
                   {panelSubtitles[i]}
-                </p>
-                <span class="text-[12rem] font-bold leading-none select-none block" style={`color: ${panel.accent}; opacity: 0.08;`}>{panel.number}</span>
-                <h3 class="text-4xl md:text-5xl font-medium -mt-20 mb-4" style="font-family: var(--font-display); color: var(--color-ink);">
-                  {stop.title}
                 </h3>
+                <span class="text-[12rem] font-bold leading-none select-none block" style={`color: ${panel.accent}; opacity: 0.08;`}>{panel.number}</span>
+                <h4 class="text-4xl md:text-5xl font-medium -mt-20 mb-4" style="font-family: var(--font-display); color: var(--color-ink);">
+                  {stop.title}
+                </h4>
                 <p class="text-base leading-relaxed mb-2 max-w-lg" style="color: var(--color-ink-muted);">
                   {stop.description}
                 </p>
@@ -564,15 +558,7 @@ function initFilmstrip() {
   if (!section || !track || !viewport) return;
 
   var heroTitle = document.getElementById('filmstrip-hero-title');
-  var sectionLabel = document.getElementById('filmstrip-section-label');
-  var panelLabels = [
-    'The Engagement Journey',
-    'From first conversation to clear requirements',
-    'From requirements to confident pricing',
-    'From pricing to a winning proposal',
-    'From proposal to flawless delivery',
-    'From delivery to institutional memory'
-  ];
+  // Label pill removed — subtitles now rendered directly on each card
   var totalPanels = 5;
   var running = false;
   var slack = 100; // px of scroll before filmstrip starts moving
@@ -644,12 +630,7 @@ function initFilmstrip() {
       astronaut.style.left = (10 + progress * 80) + '%';
     }
 
-    // Update section label per panel
     var activeIndex = Math.min(totalPanels - 1, Math.floor(progress * totalPanels));
-    if (sectionLabel) {
-      var labelIdx = progress < 0.02 ? 0 : activeIndex + 1;
-      sectionLabel.textContent = panelLabels[labelIdx] || panelLabels[0];
-    }
 
     // Update dots
     dots.forEach(function(dot, i) {

@@ -11,8 +11,8 @@ interface Props {
 
 const { headings } = Astro.props;
 
-// Only show h2 and h3 headings in the TOC
-const tocHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
+// Only show h2 headings (major sections) for cleaner scroll tracking
+const tocHeadings = headings.filter(h => h.depth === 2);
 ---
 
 {tocHeadings.length > 0 && (
@@ -23,15 +23,12 @@ const tocHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
       </p>
       <ul class="space-y-1.5 list-none m-0 p-0">
         {tocHeadings.map((heading) => (
-          <li class={heading.depth === 3 ? 'pl-4' : ''}>
+          <li>
             <a
               href={`#${heading.slug}`}
-              class={`toc-link block text-sm leading-snug py-1 no-underline transition-colors duration-150
+              class="toc-link block text-sm leading-snug py-1 no-underline transition-colors duration-150
                       border-l-2 pl-3
-                      ${heading.depth === 3
-                        ? 'text-[var(--color-ink-muted)]/70 border-transparent hover:text-[var(--color-ink-light)] hover:border-[var(--color-cloud-grey)]'
-                        : 'text-[var(--color-ink-muted)] border-transparent hover:text-[var(--color-ink)] hover:border-[var(--color-cloud-grey)]'
-                      }`}
+                      text-[var(--color-ink-muted)] border-transparent hover:text-[var(--color-ink)] hover:border-[var(--color-cloud-grey)]"
               data-toc-slug={heading.slug}
             >
               {heading.text}

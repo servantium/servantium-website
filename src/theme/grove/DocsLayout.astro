@@ -54,7 +54,7 @@ const {
   hideShare = false,
 } = Astro.props;
 
-const tocHeadings = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
+const tocHeadings = headings.filter((h) => h.depth === 2);
 const pageUrl = `https://servantium.com${Astro.url.pathname}`;
 ---
 
@@ -474,12 +474,12 @@ const pageUrl = `https://servantium.com${Astro.url.pathname}`;
   .grove-prose :global(h3 .heading-anchor) {
     opacity: 0;
     position: absolute;
-    left: -1.5em;
-    top: 50%;
-    transform: translateY(-50%);
+    left: -1.75em;
+    top: 0.15em;
     color: var(--color-ink-muted);
     text-decoration: none;
     font-size: 0.75em;
+    line-height: inherit;
     transition: opacity 0.15s ease;
   }
   .grove-prose :global(h2:hover .heading-anchor),
