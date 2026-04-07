@@ -11,5 +11,6 @@ Sitemap: https://servantium.com/sitemap.xml
 # See https://llmstxt.org for specification
 # File location: https://servantium.com/llms.txt
 
-# Disallow admin and app paths
+# Disallow admin, app, and internal paths
 Disallow: /cdn-cgi/
+Disallow: /preview/

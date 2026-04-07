@@ -21,7 +21,7 @@ const redditUrl = `https://reddit.com/submit?url=${encodeURIComponent(url)}&titl
 const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareMessage)}`;
 const emailUrl = `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(`Check out this article: ${url}`)}`;
 const substackUrl = `https://substack.com/note?url=${encodeURIComponent(url)}&title=${encodeURIComponent(title)}`;
-const threadsUrl = `https://threads.net/intent/post?text=${encodeURIComponent(shareMessage)}`;
+
 const teamsUrl = `https://teams.microsoft.com/share?href=${encodeURIComponent(url)}&msgText=${encodeURIComponent(shareText)}`;
 const slackUrl = `https://slack.com/share?url=${encodeURIComponent(url)}&text=${encodeURIComponent(shareText)}`;
 const gchatUrl = `https://chat.google.com/share?url=${encodeURIComponent(url)}&text=${encodeURIComponent(shareText)}`;
@@ -46,7 +46,6 @@ const socialButtons = [
   { href: substackUrl, label: 'Substack', logo: bfLogo('substack.com') },
   { href: redditUrl, label: 'Reddit', logo: bfLogo('reddit.com') },
   { href: facebookUrl, label: 'Facebook', logo: bfLogo('facebook.com') },
-  { href: threadsUrl, label: 'Threads', logo: bfLogo('threads.net') },
 ];
 
 // Blog: social first, messenger in expanded. Help: messenger first, social in expanded.
