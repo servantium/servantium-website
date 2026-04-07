@@ -125,8 +125,7 @@ const jsonLd = {
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
         <!-- Christopher -->
         <div data-animate="fade-up">
-          <div class="h-1 rounded-t-2xl" style="background: var(--color-green);"></div>
-          <div class="bg-white rounded-b-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+          <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
             <div class="aspect-[4/3] bg-gradient-to-br from-[#023E25] to-[#037A47] overflow-hidden">
               <img src="/christopher-veale.png" alt="Christopher Veale" class="w-full h-full object-cover object-top" />
             </div>
@@ -145,7 +144,7 @@ const jsonLd = {
                   <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
                   LinkedIn
                 </a>
-                <div class="flex items-center gap-3 ml-auto opacity-40">
+                <div class="flex items-center gap-3 ml-auto">
                   <img src={bfLogo('drexel.edu')} alt="Drexel" class="h-5 w-auto" loading="lazy" />
                   <img src={bfLogo('veeva.com')} alt="Veeva" class="h-5 w-auto" loading="lazy" />
                   <img src={bfLogo('tetrascience.com')} alt="TetraScience" class="h-5 w-auto" loading="lazy" />
@@ -157,14 +156,13 @@ const jsonLd = {
 
         <!-- Maxwell -->
         <div data-animate="fade-up" data-delay="150">
-          <div class="h-1 rounded-t-2xl" style="background: var(--color-slate-blue, #4C82A7);"></div>
-          <div class="bg-white rounded-b-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+          <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
             <div class="aspect-[4/3] bg-gradient-to-br from-[#023E25] to-[#037A47] overflow-hidden">
               <img src="/maxwell-friel.png" alt="Maxwell Friel" class="w-full h-full object-cover object-top" />
             </div>
             <div class="p-6 md:p-8">
               <h3 class="text-xl font-medium mb-1" style="font-family: var(--font-display);">Maxwell Friel</h3>
-              <div class="text-sm font-medium text-[var(--color-slate-blue,#4C82A7)] mb-4">Co-founder & CTO</div>
+              <div class="text-sm font-medium text-[var(--color-green)] mb-4">Co-founder & CTO</div>
               <p class="text-[0.92rem] text-[var(--color-ink-muted)] leading-relaxed mb-3">
                 Maxwell is a technology executive and platform architect with 15+ years of experience designing and delivering enterprise software in regulated industries. He has led platform architecture, built delivery organizations from scratch, and held VP-level roles spanning engineering and services, giving him a rare perspective that bridges both sides of the build-and-deliver equation.
               </p>
@@ -177,10 +175,10 @@ const jsonLd = {
                   <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
                   LinkedIn
                 </a>
-                <div class="flex items-center gap-3 ml-auto opacity-40">
+                <div class="flex items-center gap-3 ml-auto">
                   <img src={bfLogo('drexel.edu')} alt="Drexel" class="h-5 w-auto" loading="lazy" />
                   <img src={bfLogo('veeva.com')} alt="Veeva" class="h-5 w-auto" loading="lazy" />
-                  <img src={bfLogo('optin.ai')} alt="Optin" class="h-5 w-auto" loading="lazy" />
+                  <img src={bfLogo('optininc.com')} alt="Optin" class="h-5 w-auto" loading="lazy" onerror="this.style.display='none'" />
                 </div>
               </div>
             </div>
@@ -190,8 +188,20 @@ const jsonLd = {
     </div>
   </section>
 
+  <!-- ═══════════════════ VISION ═══════════════════ -->
+  <section class="py-16 md:py-20 bg-white">
+    <div class="container">
+      <div class="max-w-3xl mx-auto text-center" data-animate="fade-up">
+        <span class="inline-block text-xs font-semibold uppercase tracking-[0.14em] text-[var(--color-green)] mb-4">Our Vision</span>
+        <p class="text-xl md:text-2xl text-[var(--color-ink)] leading-relaxed" style="font-family: var(--font-display);">
+          Build the system that turns a services firm's knowledge into a lasting advantage. Help every team scope faster, price smarter, deliver better, and never lose what they've learned.
+        </p>
+      </div>
+    </div>
+  </section>
+
   <!-- ═══════════════════ VALUES ═══════════════════ -->
-  <section class="py-20 md:py-28 bg-white overflow-hidden">
+  <section class="py-20 md:py-28 overflow-hidden" style="background: var(--color-mist-grey, #F5F6F7);">
     <div class="container">
       <div class="text-center max-w-xl mx-auto mb-16" data-animate="fade-up">
         <span class="inline-block text-xs font-semibold uppercase tracking-[0.14em] text-[var(--color-green)] mb-4">Our Values</span>
@@ -239,9 +249,10 @@ const jsonLd = {
           <div class="value-divider"></div>
           <div class="value-icon-wrap">
             <svg viewBox="0 0 40 40" fill="none" class="w-10 h-10">
-              <path d="M30 12a10 10 0 11-18 4" stroke="#00C26D" stroke-width="2" stroke-linecap="round"/>
-              <path d="M10 28a10 10 0 1118-4" stroke="#00C26D" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
-              <path d="M30 12l-4 1 1-4" stroke="#00C26D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M32 14a12 12 0 01-2 15.5L26 26" stroke="#00C26D" stroke-width="2.5" stroke-linecap="round"/>
+              <path d="M8 26a12 12 0 012-15.5L14 14" stroke="#00C26D" stroke-width="2.5" stroke-linecap="round"/>
+              <path d="M32 14l-4-2 2-4" stroke="#00C26D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              <path d="M8 26l4 2-2 4" stroke="#00C26D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
             </svg>
           </div>
           <div class="value-content">
@@ -251,15 +262,6 @@ const jsonLd = {
         </div>
       </div>
 
-      <!-- Vision callout -->
-      <div class="max-w-3xl mx-auto mt-16 pt-12 border-t border-[var(--color-cloud-grey)]" data-animate="fade-up">
-        <div class="text-center">
-          <span class="inline-block text-xs font-semibold uppercase tracking-[0.14em] text-[var(--color-green)] mb-4">Our Vision</span>
-          <p class="text-xl md:text-2xl text-[var(--color-ink)] leading-relaxed" style="font-family: var(--font-display);">
-            Build the system that turns a services firm's operational knowledge into a compounding advantage. Encode clarity, create structure, and make every engagement better than the last.
-          </p>
-        </div>
-      </div>
     </div>
   </section>
 
@@ -320,16 +322,18 @@ const jsonLd = {
   /* ── Pull quotes ── */
   .pull-quote {
     position: relative;
-    margin: 3rem 0 3rem -2rem;
-    padding: 0 0 0 2rem;
-    border-left: 3px solid var(--color-green, #00C26D);
+    margin: 2.5rem 0;
+    padding: 1rem 0 1rem 1.5rem;
+    border-left: 4px solid var(--color-green, #00C26D);
+    background: var(--color-mint-tint, #F3FCF8);
+    border-radius: 0 8px 8px 0;
   }
   .pull-quote p {
-    font-family: var(--font-display, 'Playfair Display', serif);
-    font-size: 1.4rem;
-    font-weight: 400;
-    font-style: italic;
-    line-height: 1.45;
+    font-family: var(--font-body, 'Source Sans 3', sans-serif);
+    font-size: 1.05rem;
+    font-weight: 500;
+    font-style: normal;
+    line-height: 1.6;
     color: var(--color-ink, #0D0D0D);
     margin: 0;
   }
