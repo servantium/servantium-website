@@ -4,20 +4,24 @@ import SEO from '@/components/SEO.astro';
 import IntegrationWall from '@/theme/widgets/IntegrationWall.astro';
 import Astronaut from '@/theme/components/Astronaut.astro';
 
+// Brandfetch Logo Link API - client ID from env
+const bf = import.meta.env.BRAND_FETCH ? `?c=${import.meta.env.BRAND_FETCH}` : '';
+const bfLogo = (domain: string) => `https://cdn.brandfetch.io/${domain}${bf}`;
+
 const integrations = [
   // Live integrations
-  { name: 'Salesforce', abbrev: 'SF', color: '#00A1E0', tier: 'live' as const, _logo: 'https://cdn.brandfetch.io/salesforce.com/icon/symbol' },
-  { name: 'Google Workspace', abbrev: 'G', color: '#4285F4', tier: 'live' as const, _logo: 'https://cdn.brandfetch.io/google.com/icon/symbol' },
+  { name: 'Salesforce', abbrev: 'SF', color: '#00A1E0', tier: 'live' as const, logo: bfLogo('salesforce.com') },
+  { name: 'Google Workspace', abbrev: 'G', color: '#4285F4', tier: 'live' as const, logo: bfLogo('google.com') },
   { name: 'CSV Import', abbrev: 'CSV', color: '#00C26D', tier: 'live' as const },
   // Planned integrations
-  { name: 'HubSpot', abbrev: 'HS', color: '#FF7A59', tier: 'planned' as const, _logo: 'https://cdn.brandfetch.io/hubspot.com/icon/symbol' },
-  { name: 'Slack', abbrev: 'SL', color: '#4A154B', tier: 'planned' as const, _logo: 'https://cdn.brandfetch.io/slack.com/icon/symbol' },
-  { name: 'Microsoft Teams', abbrev: 'TM', color: '#6264A7', tier: 'planned' as const, _logo: 'https://cdn.brandfetch.io/microsoft.com/icon/symbol' },
-  { name: 'QuickBooks', abbrev: 'QB', color: '#2CA01C', tier: 'planned' as const, _logo: 'https://cdn.brandfetch.io/quickbooks.intuit.com/icon/symbol' },
-  { name: 'Jira', abbrev: 'JR', color: '#0052CC', tier: 'planned' as const, _logo: 'https://cdn.brandfetch.io/atlassian.com/icon/symbol' },
-  { name: 'Zapier', abbrev: 'ZP', color: '#FF4A00', tier: 'planned' as const, _logo: 'https://cdn.brandfetch.io/zapier.com/icon/symbol' },
-  { name: 'Xero', abbrev: 'XR', color: '#13B5EA', tier: 'planned' as const, _logo: 'https://cdn.brandfetch.io/xero.com/icon/symbol' },
-  { name: 'Dynamics 365', abbrev: 'DY', color: '#002050', tier: 'planned' as const, _logo: 'https://cdn.brandfetch.io/microsoft.com/icon/symbol' },
+  { name: 'HubSpot', abbrev: 'HS', color: '#FF7A59', tier: 'planned' as const, logo: bfLogo('hubspot.com') },
+  { name: 'Slack', abbrev: 'SL', color: '#4A154B', tier: 'planned' as const, logo: bfLogo('slack.com') },
+  { name: 'Microsoft Teams', abbrev: 'TM', color: '#6264A7', tier: 'planned' as const, logo: bfLogo('microsoft.com') },
+  { name: 'QuickBooks', abbrev: 'QB', color: '#2CA01C', tier: 'planned' as const, logo: bfLogo('quickbooks.intuit.com') },
+  { name: 'Jira', abbrev: 'JR', color: '#0052CC', tier: 'planned' as const, logo: bfLogo('atlassian.com') },
+  { name: 'Zapier', abbrev: 'ZP', color: '#FF4A00', tier: 'planned' as const, logo: bfLogo('zapier.com') },
+  { name: 'Xero', abbrev: 'XR', color: '#13B5EA', tier: 'planned' as const, logo: bfLogo('xero.com') },
+  { name: 'Dynamics 365', abbrev: 'DY', color: '#002050', tier: 'planned' as const, logo: bfLogo('microsoft.com') },
   ...Array.from({ length: 40 }, (_, i) => ({ name: '', abbrev: '+', color: '#94a3b8', tier: 'placeholder' as const })),
 ];
 

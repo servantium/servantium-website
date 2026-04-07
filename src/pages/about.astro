@@ -3,6 +3,10 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import SEO from '@/components/SEO.astro';
 import Astronaut from '@/theme/components/Astronaut.astro';
 
+// Brandfetch Logo Link API
+const bf = import.meta.env.BRAND_FETCH ? `?c=${import.meta.env.BRAND_FETCH}` : '';
+const bfLogo = (domain: string) => `https://cdn.brandfetch.io/${domain}${bf}`;
+
 const jsonLd = {
   "@type": "AboutPage",
   "mainEntity": {
@@ -141,10 +145,10 @@ const jsonLd = {
                   <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
                   LinkedIn
                 </a>
-                <div class="flex items-center gap-3 ml-auto">
-                  <span class="text-[10px] font-semibold tracking-wider text-[var(--color-ink-muted)] opacity-40 uppercase">Drexel</span>
-                  <span class="text-[10px] font-semibold tracking-wider text-[var(--color-ink-muted)] opacity-40 uppercase">Veeva</span>
-                  <span class="text-[10px] font-semibold tracking-wider text-[var(--color-ink-muted)] opacity-40 uppercase">TetraScience</span>
+                <div class="flex items-center gap-3 ml-auto opacity-40">
+                  <img src={bfLogo('drexel.edu')} alt="Drexel" class="h-5 w-auto" loading="lazy" />
+                  <img src={bfLogo('veeva.com')} alt="Veeva" class="h-5 w-auto" loading="lazy" />
+                  <img src={bfLogo('tetrascience.com')} alt="TetraScience" class="h-5 w-auto" loading="lazy" />
                 </div>
               </div>
             </div>
@@ -173,10 +177,10 @@ const jsonLd = {
                   <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
                   LinkedIn
                 </a>
-                <div class="flex items-center gap-3 ml-auto">
-                  <span class="text-[10px] font-semibold tracking-wider text-[var(--color-ink-muted)] opacity-40 uppercase">Drexel</span>
-                  <span class="text-[10px] font-semibold tracking-wider text-[var(--color-ink-muted)] opacity-40 uppercase">Veeva</span>
-                  <span class="text-[10px] font-semibold tracking-wider text-[var(--color-ink-muted)] opacity-40 uppercase">Optin</span>
+                <div class="flex items-center gap-3 ml-auto opacity-40">
+                  <img src={bfLogo('drexel.edu')} alt="Drexel" class="h-5 w-auto" loading="lazy" />
+                  <img src={bfLogo('veeva.com')} alt="Veeva" class="h-5 w-auto" loading="lazy" />
+                  <img src={bfLogo('optin.ai')} alt="Optin" class="h-5 w-auto" loading="lazy" />
                 </div>
               </div>
             </div>
@@ -193,59 +197,67 @@ const jsonLd = {
         <span class="inline-block text-xs font-semibold uppercase tracking-[0.14em] text-[var(--color-green)] mb-4">Our Values</span>
         <h2 class="text-3xl md:text-4xl font-medium mb-4" style="font-family: var(--font-display);">How we operate</h2>
         <p class="text-lg text-[var(--color-ink-muted)]">
-          The principles that guide everything we build.
+          The principles that drive every decision we make.
         </p>
       </div>
 
       <div class="max-w-4xl mx-auto space-y-0">
-        <!-- Clarity + Customer First -->
+        <!-- Startup Speed -->
         <div class="value-pillar" data-animate="fade-up">
           <div class="value-number">01</div>
           <div class="value-divider"></div>
           <div class="value-icon-wrap">
             <svg viewBox="0 0 40 40" fill="none" class="w-10 h-10">
-              <circle cx="20" cy="20" r="16" stroke="#00C26D" stroke-width="2"/>
-              <circle cx="20" cy="20" r="10" stroke="#00C26D" stroke-width="1.5" opacity="0.4"/>
-              <circle cx="20" cy="20" r="4" fill="#00C26D"/>
+              <path d="M20 6L10 22h8l-2 12 12-16h-8l2-12z" fill="#00C26D" opacity="0.15" stroke="#00C26D" stroke-width="2" stroke-linejoin="round"/>
             </svg>
           </div>
           <div class="value-content">
-            <h3 class="text-xl font-semibold mb-2" style="font-family: var(--font-display);">Clarity First</h3>
-            <p class="text-[var(--color-ink-muted)] leading-relaxed">Your services are a product. Define them like one. Every feature we build solves a real problem for real customers, not a hypothetical one. If you can't explain it to a new hire in their first week, it's too complicated.</p>
+            <h3 class="text-xl font-semibold mb-2" style="font-family: var(--font-display);">Startup Speed</h3>
+            <p class="text-[var(--color-ink-muted)] leading-relaxed">Ship fast, iterate faster. We move at startup pace while delivering enterprise reliability. Every week matters. Every release should make the product meaningfully better than it was on Friday.</p>
           </div>
         </div>
 
-        <!-- Compounding + Relentless Iteration -->
+        <!-- Customer First -->
         <div class="value-pillar" data-animate="fade-up" data-delay="150">
           <div class="value-number">02</div>
           <div class="value-divider"></div>
           <div class="value-icon-wrap">
             <svg viewBox="0 0 40 40" fill="none" class="w-10 h-10">
-              <path d="M8 32L16 22L24 26L32 10" stroke="#00C26D" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-              <circle cx="32" cy="10" r="3" fill="#00C26D"/>
-              <path d="M28 10H32V14" stroke="#00C26D" stroke-width="1.5" stroke-linecap="round"/>
+              <circle cx="20" cy="14" r="8" fill="#00C26D" opacity="0.15" stroke="#00C26D" stroke-width="2"/>
+              <path d="M8 34c0-6.627 5.373-12 12-12s12 5.373 12 12" stroke="#00C26D" stroke-width="2" stroke-linecap="round"/>
             </svg>
           </div>
           <div class="value-content">
-            <h3 class="text-xl font-semibold mb-2" style="font-family: var(--font-display);">Compounding Returns</h3>
-            <p class="text-[var(--color-ink-muted)] leading-relaxed">Every engagement should make the next one better. We treat feedback as a gift and build systems that remember, learn, and improve. Your team's knowledge becomes an asset that grows, not one that walks out the door.</p>
+            <h3 class="text-xl font-semibold mb-2" style="font-family: var(--font-display);">Customer First</h3>
+            <p class="text-[var(--color-ink-muted)] leading-relaxed">Every feature we build solves a real problem for a real customer. No vanity features. No building because a competitor has it. We talk to customers constantly and let their workflows shape our roadmap.</p>
           </div>
         </div>
 
-        <!-- Craft + Startup Speed -->
+        <!-- Relentless Iteration -->
         <div class="value-pillar" data-animate="fade-up" data-delay="300">
           <div class="value-number">03</div>
           <div class="value-divider"></div>
           <div class="value-icon-wrap">
             <svg viewBox="0 0 40 40" fill="none" class="w-10 h-10">
-              <path d="M20 4L24 16H36L26 24L30 36L20 28L10 36L14 24L4 16H16L20 4Z" stroke="#00C26D" stroke-width="2" stroke-linejoin="round"/>
-              <circle cx="20" cy="20" r="4" fill="#00C26D" opacity="0.3"/>
+              <path d="M30 12a10 10 0 11-18 4" stroke="#00C26D" stroke-width="2" stroke-linecap="round"/>
+              <path d="M10 28a10 10 0 1118-4" stroke="#00C26D" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+              <path d="M30 12l-4 1 1-4" stroke="#00C26D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </div>
           <div class="value-content">
-            <h3 class="text-xl font-semibold mb-2" style="font-family: var(--font-display);">Craft at Speed</h3>
-            <p class="text-[var(--color-ink-muted)] leading-relaxed">Ship fast, iterate faster, but never cut corners on the experience. We obsess over the details: day-one usability, defaults that make sense, and an interface that respects how busy you are. Enterprise reliability at startup pace.</p>
+            <h3 class="text-xl font-semibold mb-2" style="font-family: var(--font-display);">Relentless Iteration</h3>
+            <p class="text-[var(--color-ink-muted)] leading-relaxed">We treat feedback as a gift. Every conversation shapes the product. We're never done improving. The version you see today is the worst version of Servantium you'll ever use.</p>
           </div>
+        </div>
+      </div>
+
+      <!-- Vision callout -->
+      <div class="max-w-3xl mx-auto mt-16 pt-12 border-t border-[var(--color-cloud-grey)]" data-animate="fade-up">
+        <div class="text-center">
+          <span class="inline-block text-xs font-semibold uppercase tracking-[0.14em] text-[var(--color-green)] mb-4">Our Vision</span>
+          <p class="text-xl md:text-2xl text-[var(--color-ink)] leading-relaxed" style="font-family: var(--font-display);">
+            Build the system that turns a services firm's operational knowledge into a compounding advantage. Encode clarity, create structure, and make every engagement better than the last.
+          </p>
         </div>
       </div>
     </div>
