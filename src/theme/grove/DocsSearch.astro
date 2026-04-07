@@ -30,7 +30,7 @@
 </div>
 
 <script is:inline>
-  document.addEventListener('astro:page-load', () => {
+  function initDocsSearch() {
     const trigger = document.getElementById('docs-search-trigger');
     const container = document.getElementById('docs-search-container');
     const pagefindEl = document.getElementById('docs-search-pagefind');
@@ -96,7 +96,14 @@
         }
       }
     });
-  });
+  }
+  // Initialize on both DOMContentLoaded and astro:page-load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initDocsSearch);
+  } else {
+    initDocsSearch();
+  }
+  document.addEventListener('astro:page-load', initDocsSearch);
 </script>
 
 <style is:global>

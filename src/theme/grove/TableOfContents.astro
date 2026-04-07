@@ -45,6 +45,13 @@ const { headings } = Astro.props;
   </nav>
 )}
 
+<style>
+  .grove-toc-passed {
+    color: #00C26D !important;
+    opacity: 0.6;
+  }
+</style>
+
 <script>
   document.addEventListener('astro:page-load', () => {
     const tocLinks = document.querySelectorAll<HTMLAnchorElement>('[data-toc-link]');
@@ -65,13 +72,19 @@ const { headings } = Astro.props;
       if (slug === activeSlug) return;
       activeSlug = slug;
 
-      tocLinks.forEach((link) => {
-        const isCurrent = link.dataset.tocSlug === slug;
-        if (isCurrent) {
+      const activeIdx = Array.from(tocLinks).findIndex(l => l.dataset.tocSlug === slug);
+      tocLinks.forEach((link, i) => {
+        link.classList.remove('!text-[#00C26D]', 'font-semibold', 'grove-toc-passed');
+        if (i === activeIdx) {
+          // Active: bright green + bold
           link.classList.add('!text-[#00C26D]', 'font-semibold');
           link.classList.remove('text-slate-500', 'text-slate-400');
+        } else if (i < activeIdx) {
+          // Passed: green at 70% opacity
+          link.classList.add('grove-toc-passed');
+          link.classList.remove('text-slate-500', 'text-slate-400');
         } else {
-          link.classList.remove('!text-[#00C26D]', 'font-semibold');
+          // Future: default slate
           if (link.classList.contains('pl-3')) {
             link.classList.add('text-slate-400');
           } else {
