@@ -7,7 +7,7 @@ import HeroMockup from '@/components/HeroMockup.astro';
 import EngagementRoad from '@/theme/widgets/EngagementRoad.astro';
 
 const bf = import.meta.env.BRAND_FETCH ? `?c=${import.meta.env.BRAND_FETCH}` : '';
-const bfLogo = (domain: string) => `https://cdn.brandfetch.io/${domain}/w/120/h/40${bf}`;
+const bfLogo = (domain: string) => `https://cdn.brandfetch.io/${domain}/w/240/h/96${bf}`;
 
 const jsonLd = [
   {
@@ -89,6 +89,13 @@ const jsonLd = [
           <img src={bfLogo('plottlabs.com')} alt="Plott Labs" class="logo-bar-img" loading="lazy" />
           <img src={bfLogo('google.com')} alt="Google for Startups" class="logo-bar-img" loading="lazy" />
           <img src={bfLogo('nvidia.com')} alt="NVIDIA Inception Program" class="logo-bar-img" loading="lazy" />
+          {/* Duplicate set for seamless infinite scroll */}
+          <img src={bfLogo('investorflow.com')} alt="InvestorFlow" class="logo-bar-img" loading="lazy" aria-hidden="true" />
+          <img src={bfLogo('compliancelabs.us')} alt="Compliance Labs" class="logo-bar-img" loading="lazy" aria-hidden="true" />
+          <img src={bfLogo('e-9corporation.com')} alt="E-9 Corporation" class="logo-bar-img" loading="lazy" aria-hidden="true" />
+          <img src={bfLogo('plottlabs.com')} alt="Plott Labs" class="logo-bar-img" loading="lazy" aria-hidden="true" />
+          <img src={bfLogo('google.com')} alt="Google for Startups" class="logo-bar-img" loading="lazy" aria-hidden="true" />
+          <img src={bfLogo('nvidia.com')} alt="NVIDIA Inception Program" class="logo-bar-img" loading="lazy" aria-hidden="true" />
         </div>
       </div>
     </div>
