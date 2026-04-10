@@ -6,6 +6,9 @@ import HeroMockup from '@/components/HeroMockup.astro';
 
 import EngagementRoad from '@/theme/widgets/EngagementRoad.astro';
 
+const bf = import.meta.env.BRAND_FETCH ? `?c=${import.meta.env.BRAND_FETCH}` : '';
+const bfLogo = (domain: string) => `https://cdn.brandfetch.io/${domain}/w/120/h/40${bf}`;
+
 const jsonLd = [
   {
     "@type": "Organization",
@@ -77,21 +80,15 @@ const jsonLd = [
     </div>
     <!-- Logo bar at bottom of hero viewport -->
     <div class="logo-bar-inner">
-      <div class="logo-bar-label">Trusted by innovative services teams</div>
+      <div class="logo-bar-label">Customers & Partners</div>
       <div class="logo-bar-scroll">
         <div class="logo-bar-track">
-          <div class="logo-placeholder"></div>
-          <div class="logo-placeholder"></div>
-          <div class="logo-placeholder"></div>
-          <div class="logo-placeholder"></div>
-          <div class="logo-placeholder"></div>
-          <div class="logo-placeholder"></div>
-          <div class="logo-placeholder"></div>
-          <div class="logo-placeholder"></div>
-          <div class="logo-placeholder"></div>
-          <div class="logo-placeholder"></div>
-          <div class="logo-placeholder"></div>
-          <div class="logo-placeholder"></div>
+          <img src={bfLogo('investorflow.com')} alt="InvestorFlow" class="logo-bar-img" loading="lazy" />
+          <img src={bfLogo('compliancelabs.us')} alt="Compliance Labs" class="logo-bar-img" loading="lazy" />
+          <img src={bfLogo('e-9corporation.com')} alt="E-9 Corporation" class="logo-bar-img" loading="lazy" />
+          <img src={bfLogo('plottlabs.com')} alt="Plott Labs" class="logo-bar-img" loading="lazy" />
+          <img src={bfLogo('google.com')} alt="Google for Startups" class="logo-bar-img" loading="lazy" />
+          <img src={bfLogo('nvidia.com')} alt="NVIDIA Inception Program" class="logo-bar-img" loading="lazy" />
         </div>
       </div>
     </div>

@@ -1245,6 +1245,20 @@
             flex-shrink: 0;
         }
 
+        .logo-bar-img {
+            height: 28px;
+            width: auto;
+            flex-shrink: 0;
+            opacity: 0.6;
+            filter: grayscale(100%);
+            transition: opacity 0.3s ease, filter 0.3s ease;
+            object-fit: contain;
+        }
+        .logo-bar-img:hover {
+            opacity: 1;
+            filter: grayscale(0%);
+        }
+
         /* The Problem Section */
         .problem {
             background: var(--color-deep-forest);
