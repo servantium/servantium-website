@@ -1,5 +1,17 @@
 ---
 import BlogLayout from '@/layouts/BlogLayout.astro';
+
+const headings = [
+  { depth: 2, slug: 'eligibility', text: '1. Eligibility' },
+  { depth: 2, slug: 'website-usage', text: '2. Website Usage' },
+  { depth: 2, slug: 'limitation-of-liability', text: '3. Limitation of Liability' },
+  { depth: 2, slug: 'dmca', text: '4. DMCA' },
+  { depth: 2, slug: 'sale-of-company', text: '5. Sale of the Company' },
+  { depth: 2, slug: 'miscellaneous', text: '6. Miscellaneous' },
+  { depth: 2, slug: 'dispute-resolution', text: '7. Dispute Resolution' },
+  { depth: 2, slug: 'ccpa', text: '8. CCPA' },
+  { depth: 2, slug: 'gdpr', text: '9. GDPR' },
+];
 ---
 
 <BlogLayout
@@ -11,6 +23,7 @@ import BlogLayout from '@/layouts/BlogLayout.astro';
   hideAuthor={true}
   hideShare={true}
   hideRelated={true}
+  headings={headings}
 >
 
   <p>Welcome to <a href="https://www.servantium.com">www.servantium.com</a> (the "Website"), owned and operated by Servantium Inc. (the "Company"). By using the Website, you accept and agree to these terms (these "Terms of Service"), which together with the Company's <a href="/privacy">Privacy Policy</a>, govern the Company's relationship with you in relation to this Website. These Terms of Service create a binding legal agreement between you and the Company regarding your use of the Website. The Company reserves the right to update and change these Terms of Service by posting updates and changes to the Website. You are advised to check these Terms of Service from time to time for any updates or changes.</p>

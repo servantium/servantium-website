@@ -7,7 +7,16 @@ import HeroMockup from '@/components/HeroMockup.astro';
 import EngagementRoad from '@/theme/widgets/EngagementRoad.astro';
 
 const bf = import.meta.env.BRAND_FETCH ? `?c=${import.meta.env.BRAND_FETCH}` : '';
-const bfLogo = (domain: string) => `https://cdn.brandfetch.io/${domain}/w/240/h/96${bf}`;
+const bfLogo = (domain: string) => `https://cdn.brandfetch.io/${domain}/w/400/h/160${bf}`;
+
+const logos = [
+  { src: bfLogo('investorflow.com'), alt: 'InvestorFlow' },
+  { src: bfLogo('compliancelabs.us'), alt: 'Compliance Labs' },
+  { src: bfLogo('e-9corporation.com'), alt: 'E-9 Corporation' },
+  { src: bfLogo('plottlabs.com'), alt: 'Plott Labs' },
+  { src: 'https://startup.google.com/static/img/logo.svg', alt: 'Google for Startups' },
+  { src: 'https://www.nvidia.com/content/dam/en-zz/Solutions/startups/nvidia-inception-logo-badge.png', alt: 'NVIDIA Inception Program' },
+];
 
 const jsonLd = [
   {
@@ -83,19 +92,10 @@ const jsonLd = [
       <div class="logo-bar-label">Customers & Partners</div>
       <div class="logo-bar-scroll">
         <div class="logo-bar-track">
-          <img src={bfLogo('investorflow.com')} alt="InvestorFlow" class="logo-bar-img" loading="lazy" />
-          <img src={bfLogo('compliancelabs.us')} alt="Compliance Labs" class="logo-bar-img" loading="lazy" />
-          <img src={bfLogo('e-9corporation.com')} alt="E-9 Corporation" class="logo-bar-img" loading="lazy" />
-          <img src={bfLogo('plottlabs.com')} alt="Plott Labs" class="logo-bar-img" loading="lazy" />
-          <img src={bfLogo('google.com')} alt="Google for Startups" class="logo-bar-img" loading="lazy" />
-          <img src={bfLogo('nvidia.com')} alt="NVIDIA Inception Program" class="logo-bar-img" loading="lazy" />
-          {/* Duplicate set for seamless infinite scroll */}
-          <img src={bfLogo('investorflow.com')} alt="InvestorFlow" class="logo-bar-img" loading="lazy" aria-hidden="true" />
-          <img src={bfLogo('compliancelabs.us')} alt="Compliance Labs" class="logo-bar-img" loading="lazy" aria-hidden="true" />
-          <img src={bfLogo('e-9corporation.com')} alt="E-9 Corporation" class="logo-bar-img" loading="lazy" aria-hidden="true" />
-          <img src={bfLogo('plottlabs.com')} alt="Plott Labs" class="logo-bar-img" loading="lazy" aria-hidden="true" />
-          <img src={bfLogo('google.com')} alt="Google for Startups" class="logo-bar-img" loading="lazy" aria-hidden="true" />
-          <img src={bfLogo('nvidia.com')} alt="NVIDIA Inception Program" class="logo-bar-img" loading="lazy" aria-hidden="true" />
+          {/* Two copies for seamless infinite scroll */}
+          {[...logos, ...logos].map((logo, i) => (
+            <img src={logo.src} alt={logo.alt} class="logo-bar-img" loading="lazy" aria-hidden={i >= logos.length ? 'true' : undefined} />
+          ))}
         </div>
       </div>
     </div>

@@ -1,5 +1,23 @@
 ---
 import BlogLayout from '@/layouts/BlogLayout.astro';
+
+const headings = [
+  { depth: 2, slug: 'data-collected', text: '1. Data Collected' },
+  { depth: 2, slug: 'use-of-data', text: '2. Use of Data' },
+  { depth: 2, slug: 'data-retention', text: '3. Data Retention' },
+  { depth: 2, slug: 'third-parties', text: '4. Third Parties' },
+  { depth: 2, slug: 'minors', text: '5. Minors' },
+  { depth: 2, slug: 'security', text: '6. Security' },
+  { depth: 2, slug: 'proprietary-rights', text: '7. Proprietary Rights' },
+  { depth: 2, slug: 'tracking', text: '8. Tracking & Cookies' },
+  { depth: 2, slug: 'other-websites', text: '9. Other Websites' },
+  { depth: 2, slug: 'social-media', text: '10. Social Media' },
+  { depth: 2, slug: 'update-info', text: '11. Update Info' },
+  { depth: 2, slug: 'sale-of-company', text: '12. Sale of Company' },
+  { depth: 2, slug: 'miscellaneous', text: '13. Miscellaneous' },
+  { depth: 2, slug: 'ccpa', text: '14. CCPA' },
+  { depth: 2, slug: 'gdpr', text: '15. GDPR' },
+];
 ---
 
 <BlogLayout
@@ -11,6 +29,7 @@ import BlogLayout from '@/layouts/BlogLayout.astro';
   hideAuthor={true}
   hideShare={true}
   hideRelated={true}
+  headings={headings}
 >
 
   <p>Welcome to <a href="https://www.servantium.com">www.servantium.com</a> (the "Website"), owned and operated by Servantium Inc. (the "Company"). This privacy policy (this "Privacy Policy") governs your use of the Website and the Company's use of your private information. This Privacy Policy creates a binding legal agreement between you and the Company, and your access to the Website is subject to this Privacy Policy. By using the Website, you accept and agree to the terms of this Privacy Policy. The Company reserves the right to update and change this Privacy Policy by posting updates and changes to the Website.</p>
