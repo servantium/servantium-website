@@ -1256,6 +1256,13 @@
         .logo-bar-img:hover {
             opacity: 1;
         }
+        .logo-bar-img.logo-invert {
+            filter: invert(1);
+        }
+        .logo-bar-img.logo-invert:hover {
+            filter: invert(1);
+            opacity: 1;
+        }
 
         /* The Problem Section */
         .problem {

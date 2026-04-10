@@ -6,16 +6,13 @@ import HeroMockup from '@/components/HeroMockup.astro';
 
 import EngagementRoad from '@/theme/widgets/EngagementRoad.astro';
 
-const bf = import.meta.env.BRAND_FETCH ? `?c=${import.meta.env.BRAND_FETCH}` : '';
-const bfLogo = (domain: string) => `https://cdn.brandfetch.io/${domain}/w/400/h/160${bf}`;
-
 const logos = [
-  { src: bfLogo('investorflow.com'), alt: 'InvestorFlow' },
-  { src: bfLogo('compliancelabs.us'), alt: 'Compliance Labs' },
-  { src: bfLogo('e-9corporation.com'), alt: 'E-9 Corporation' },
-  { src: bfLogo('plottlabs.com'), alt: 'Plott Labs' },
-  { src: 'https://startup.google.com/static/img/logo.svg', alt: 'Google for Startups' },
-  { src: 'https://www.nvidia.com/content/dam/en-zz/Solutions/startups/nvidia-inception-logo-badge.png', alt: 'NVIDIA Inception Program' },
+  { src: '/logos/investorflow.svg', alt: 'InvestorFlow' },
+  { src: '/logos/compliancelabs.png', alt: 'Compliance Labs' },
+  { src: '/logos/e9corporation.png', alt: 'E-9 Corporation', invert: true },
+  { src: '/logos/plottlabs.png', alt: 'Plott Labs' },
+  { src: '/logos/google-for-startups.svg', alt: 'Google for Startups' },
+  { src: '/logos/nvidia-inception.svg', alt: 'NVIDIA Inception Program' },
 ];
 
 const jsonLd = [
@@ -94,7 +91,7 @@ const jsonLd = [
         <div class="logo-bar-track">
           {/* Two copies for seamless infinite scroll */}
           {[...logos, ...logos].map((logo, i) => (
-            <img src={logo.src} alt={logo.alt} class="logo-bar-img" loading="lazy" aria-hidden={i >= logos.length ? 'true' : undefined} />
+            <img src={logo.src} alt={logo.alt} class={`logo-bar-img${logo.invert ? ' logo-invert' : ''}`} loading="lazy" aria-hidden={i >= logos.length ? 'true' : undefined} />
           ))}
         </div>
       </div>
