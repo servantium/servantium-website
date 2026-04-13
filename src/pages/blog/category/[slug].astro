@@ -50,6 +50,7 @@ const { category, posts } = Astro.props;
   <!-- Posts Grid -->
   <section class="py-16">
     <div class="mx-auto max-w-[var(--content-width)] px-6">
+      <h2 class="sr-only">Articles in {category}</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {posts.map((post) => (
           <a

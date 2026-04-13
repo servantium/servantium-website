@@ -13,7 +13,9 @@ export default defineConfig({
   integrations: [
     react(),
     mdx(),
-    sitemap(),
+    sitemap({
+      filter: (page) => !page.includes('/preview/'),
+    }),
   ],
 
   // ── Prefetch: preload pages on hover for near-instant navigation ──

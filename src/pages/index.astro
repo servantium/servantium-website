@@ -32,7 +32,54 @@ const jsonLd = [
       "addressCountry": "US"
     },
     "email": "hello@servantium.com",
-    "sameAs": []
+    "sameAs": [
+      "https://www.linkedin.com/company/servantium"
+    ]
+  },
+  {
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is Servantium?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Servantium is the single place where you define what you sell, price it, scope it, deliver it, and learn from it. One system for the whole engagement lifecycle. Most tools make you stitch together a CRM, a PSA, spreadsheets, and a document generator. We built one thing that does the job properly."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How is Servantium different from traditional PSA software?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Most PSA tools bolt project tracking onto a sales tool and call it a day. Servantium connects the whole chain. Your service definitions feed your estimates, your estimates feed your proposals, your delivery data feeds back into smarter estimates next time. Everything shares context instead of living in silos."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What types of businesses use Servantium?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Consulting firms, implementation teams, MSPs, agencies, and technical services companies. The common thread: you deliver engagements that are roughly repeatable but always a bit different — and you're tired of reinventing the wheel every time."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does Servantium handle AI and automation?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Servantium gives you structured engagement data that AI can actually learn from. Then the automation gets useful — smarter estimates, pattern matching across past work, things that genuinely save time. But we're not pretending AI replaces the humans who do the work."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is my data secure?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Everything's encrypted at rest and in transit — your engagement data, your pricing, your client details. We take this seriously because we know services firms handle sensitive commercial information."
+        }
+      }
+    ]
   },
   {
     "@type": "SoftwareApplication",
@@ -226,7 +273,7 @@ const jsonLd = [
   <section class="cta-section" id="contact">
     <div class="container">
       <div class="cta-header">
-        <h3 style="font-family: var(--font-display); font-size: 1.75rem; margin-bottom: 0.5rem; color: var(--color-white);">Ready to Encode Your Services?</h3>
+        <h2 style="font-family: var(--font-display); font-size: 1.75rem; margin-bottom: 0.5rem; color: var(--color-white);">Ready to Encode Your Services?</h2>
         <p>
           We're working with a small number of services firms who believe their
           operational knowledge deserves better than spreadsheets and tribal memory.
