@@ -72,6 +72,13 @@ const hostId = `${smId}-host`;
     if (!modal || !host) return;
     var fallback = modal.querySelector('.sm-fallback');
 
+    // Portal the modal to document.body so position:fixed escapes any
+    // ancestor containing block (transform/filter/backdrop-filter), which
+    // would otherwise pin the modal to a sidebar/toolbar instead of the viewport.
+    if (modal.parentElement !== document.body) {
+      document.body.appendChild(modal);
+    }
+
     var opened = false;
     var pagefindReady = false;
 

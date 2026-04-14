@@ -256,14 +256,24 @@ const kindMeta: Record<string, { icon: string; label: string; color: string; cov
         {wallTiles.map((t, i) => {
           const m = kindMeta[t.kind] || { icon: '•', label: t.type, color: '#6b6b6b', cover: '' };
           const cover = t.cover || m.cover;
-          // Every 7th non-blog tile gets wide treatment for visual rhythm
-          const wide = (i % 7 === 3 && t.kind !== 'blog');
+          // Deterministic "artsy" variation — seeded by title hash so the same tile
+          // always gets the same treatment build-to-build.
+          const hash = Array.from(t.title).reduce((a, c) => (a * 31 + c.charCodeAt(0)) | 0, 7);
+          const n = Math.abs(hash);
+          // Size rhythm: 1/6 tall, 1/6 wide, rest normal. Blogs always normal for density.
+          const tall = (t.kind !== 'blog') && (n % 11 === 0);
+          const wide = (t.kind !== 'blog') && !tall && (n % 7 === 3);
+          // Style rhythm: 60% image, 25% gradient, 15% solid accent
+          const styleRoll = n % 20;
+          const variant = styleRoll < 12 ? 'image' : styleRoll < 17 ? 'gradient' : 'solid';
+          // Rotation: tiny jitter for playful feel (max ±1deg)
+          const rot = ((n % 5) - 2) * 0.25;
           return (
             <a
               href={t.href}
-              class={`r-tile${wide ? ' r-tile--wide' : ''}`}
+              class={`r-tile r-tile--${variant}${wide ? ' r-tile--wide' : ''}${tall ? ' r-tile--tall' : ''}`}
               data-kind={t.kind}
-              style={`--tile-accent: ${m.color}; --tile-cover: url('${cover}');`}
+              style={`--tile-accent: ${m.color}; --tile-cover: url('${cover}'); --tile-rot: ${rot}deg;`}
             >
               <div class="r-tile-image" aria-hidden="true"></div>
               <div class="r-tile-chip">
@@ -748,6 +758,35 @@ const kindMeta: Record<string, { icon: string; label: string; color: string; cov
     border-color: transparent;
   }
   .r-tile--wide { grid-column: span 8; min-height: 380px; }
+  .r-tile--tall { grid-row: span 2; min-height: 520px; }
+
+  /* Variant A — image background (default photo-wall treatment kept) */
+
+  /* Variant B — gradient only (no photo) for artsy rhythm */
+  .r-tile--gradient .r-tile-image {
+    background-image: none;
+    background:
+      radial-gradient(circle at 20% 15%, color-mix(in srgb, var(--tile-accent) 65%, white) 0%, transparent 55%),
+      radial-gradient(circle at 85% 85%, color-mix(in srgb, var(--tile-accent) 45%, black) 0%, transparent 60%),
+      linear-gradient(135deg, var(--tile-accent) 0%, color-mix(in srgb, var(--tile-accent) 60%, #0D0D0D) 100%);
+  }
+  .r-tile--gradient .r-tile-image::after {
+    background: linear-gradient(180deg, rgba(0,0,0,0.0) 0%, rgba(0,0,0,0.55) 100%);
+  }
+
+  /* Variant C — solid accent wash, minimal */
+  .r-tile--solid .r-tile-image {
+    background-image: none;
+    background: color-mix(in srgb, var(--tile-accent) 22%, #F8FAF9);
+  }
+  .r-tile--solid .r-tile-image::after {
+    background: none;
+  }
+  .r-tile--solid { border-color: color-mix(in srgb, var(--tile-accent) 28%, #E1E3E6); }
+  .r-tile--solid .r-tile-title { color: var(--color-ink, #0D0D0D); }
+  .r-tile--solid .r-tile-desc { color: var(--color-ink-light, #3d3d3d); }
+  .r-tile--solid .r-tile-meta { color: var(--color-ink-muted, #6b6b6b); }
+  .r-tile--solid .r-tile-chip { background: #ffffff; }
 
   .r-tile-image {
     position: absolute;
@@ -861,6 +900,18 @@ const kindMeta: Record<string, { icon: string; label: string; color: string; cov
     margin: 0 0 0.65rem;
   }
   .r-tile:hover .r-tile-meta { color: var(--color-ink-muted, #6b6b6b); }
+
+  /* Solid variant: text starts dark (no overlay shadow needed) */
+  .r-tile--solid .r-tile-title {
+    color: var(--color-ink, #0D0D0D);
+    text-shadow: none;
+  }
+  .r-tile--solid .r-tile-desc {
+    max-height: 120px;
+    opacity: 1;
+    color: var(--color-ink-light, #3d3d3d);
+  }
+  .r-tile--solid .r-tile-meta { color: var(--color-ink-muted, #6b6b6b); }
 
   @media (max-width: 1000px) {
     .r-tile { grid-column: span 6; }
