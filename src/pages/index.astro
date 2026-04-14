@@ -495,14 +495,23 @@ const jsonLd = [
     });
   });
 
-  // Cal.com inline embed
-  if (window.Cal && window.Cal.ns && window.Cal.ns["servantium-introduction"]) {
-    window.Cal.ns["servantium-introduction"]("inline", {
-      elementOrSelector: "#cal-inline-embed",
-      calLink: "christopher-veale/servantium-introduction",
-      config: {layout:"month_view", useSlotsViewOnSmallScreen:"true", theme:"light"},
-    });
-  }
+  // Cal.com inline embed — Cal is lazy-loaded, so poll until the namespace
+  // is ready, then mount the inline widget. Gives up after ~6s.
+  (function () {
+    var tries = 0;
+    function mount() {
+      if (window.Cal && window.Cal.ns && window.Cal.ns["servantium-introduction"]) {
+        window.Cal.ns["servantium-introduction"]("inline", {
+          elementOrSelector: "#cal-inline-embed",
+          calLink: "christopher-veale/servantium-introduction",
+          config: { layout: "month_view", useSlotsViewOnSmallScreen: "true", theme: "light" },
+        });
+        return;
+      }
+      if (++tries < 40) setTimeout(mount, 150);
+    }
+    mount();
+  })();
 </script>
 
 <!-- Scroll-triggered animations for homepage -->

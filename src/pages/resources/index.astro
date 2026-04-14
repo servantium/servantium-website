@@ -267,21 +267,21 @@ const kindMeta: Record<string, { icon: string; label: string; color: string; cov
               data-kind={t.kind}
               style={`--tile-accent: ${m.color}; --tile-cover: url('${m.cover}');`}
             >
-              <div class="r-tile-cover" aria-hidden="true">
-                <div class="r-tile-cover-scrim"></div>
-                <div class="r-tile-cover-icon"><ResourceIcon name={m.icon as any} size={24} /></div>
-                <div class="r-tile-cover-badge">{m.label}</div>
+              <div class="r-tile-image" aria-hidden="true"></div>
+              <div class="r-tile-chip">
+                <span class="r-tile-chip-icon"><ResourceIcon name={m.icon as any} size={14} /></span>
+                {m.label}
               </div>
-              <div class="r-tile-body">
-              <h3 class="r-tile-title">{t.title}</h3>
-              <p class="r-tile-desc">{t.description}</p>
-              <div class="r-tile-meta">
-                {t.category && <span class="r-tile-category">{t.category}</span>}
-                {t.readingTime && <span>{t.readingTime}</span>}
-                {t.date && !t.readingTime && (
-                  <span>{new Date(t.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
-                )}
-              </div>
+              <div class="r-tile-info">
+                <h3 class="r-tile-title">{t.title}</h3>
+                <p class="r-tile-desc">{t.description}</p>
+                <div class="r-tile-meta">
+                  {t.category && <span class="r-tile-category">{t.category}</span>}
+                  {t.readingTime && <span>{t.readingTime}</span>}
+                  {t.date && !t.readingTime && (
+                    <span>{new Date(t.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
+                  )}
+                </div>
               </div>
             </a>
           );
@@ -586,82 +586,141 @@ const kindMeta: Record<string, { icon: string; label: string; color: string; cov
     grid-template-columns: repeat(12, 1fr);
     gap: 1.25rem;
   }
+  /* Photo-wall tile: full-bleed image fills the card; on hover the image
+     fades + scales away, revealing a clean white card with full text. */
   .r-tile {
     grid-column: span 4;
-    display: flex;
-    flex-direction: column;
-    padding: 0;
+    position: relative;
+    display: block;
+    min-height: 340px;
     background: #ffffff;
     border: 1px solid var(--color-cloud-grey, #E1E3E6);
     border-radius: 16px;
     text-decoration: none;
     color: var(--color-ink, #0D0D0D);
-    position: relative;
     overflow: hidden;
-    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-    min-height: 360px;
+    isolation: isolate;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
   }
   .r-tile:hover {
     transform: translateY(-6px);
-    box-shadow: 0 24px 60px rgba(13, 13, 13, 0.12);
+    box-shadow: 0 28px 70px rgba(13, 13, 13, 0.18);
     border-color: transparent;
   }
-  .r-tile:hover .r-tile-cover { transform: scale(1.06); }
-  .r-tile:hover .r-tile-title { color: var(--tile-accent, var(--color-green, #00C26D)); }
-  .r-tile--wide { grid-column: span 8; }
+  .r-tile--wide { grid-column: span 8; min-height: 380px; }
 
-  .r-tile-cover {
-    position: relative;
-    height: 170px;
+  .r-tile-image {
+    position: absolute;
+    inset: 0;
     background-image: var(--tile-cover);
     background-size: cover;
     background-position: center;
     background-color: var(--tile-accent, #00C26D);
-    transition: transform 0.5s ease;
+    z-index: 0;
+    transition: opacity 0.45s ease, transform 0.6s ease;
   }
-  .r-tile-cover-scrim {
+  .r-tile-image::after {
+    content: '';
     position: absolute;
     inset: 0;
     background:
-      linear-gradient(135deg, color-mix(in srgb, var(--tile-accent) 55%, transparent) 0%, color-mix(in srgb, var(--tile-accent) 15%, transparent) 100%),
-      linear-gradient(180deg, transparent 50%, rgba(13, 13, 13, 0.35) 100%);
+      linear-gradient(180deg,
+        rgba(0, 0, 0, 0.05) 0%,
+        rgba(0, 0, 0, 0.25) 45%,
+        rgba(0, 0, 0, 0.82) 100%),
+      linear-gradient(135deg,
+        color-mix(in srgb, var(--tile-accent) 35%, transparent) 0%,
+        transparent 60%);
   }
-  .r-tile-cover-icon {
+  .r-tile:hover .r-tile-image {
+    opacity: 0;
+    transform: scale(1.12);
+  }
+
+  .r-tile-chip {
     position: absolute;
-    top: 1.1rem;
-    left: 1.1rem;
-    width: 46px; height: 46px;
-    display: flex;
+    top: 1rem;
+    left: 1rem;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.4rem 0.75rem 0.4rem 0.55rem;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(8px);
+    border-radius: 100px;
+    font-size: 0.66rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--tile-accent, var(--color-green, #00C26D));
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+    transition: transform 0.3s ease;
+  }
+  .r-tile-chip-icon {
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: #ffffff;
-    border-radius: 10px;
+    width: 20px; height: 20px;
     color: var(--tile-accent, var(--color-green, #00C26D));
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
-    z-index: 1;
   }
-  .r-tile-cover-badge {
+  .r-tile:hover .r-tile-chip { transform: translateY(-2px); }
+
+  .r-tile-info {
     position: absolute;
-    top: 1.25rem;
-    right: 1.1rem;
-    font-size: 0.68rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
+    left: 0; right: 0; bottom: 0;
+    z-index: 2;
+    padding: 1.5rem;
     color: #ffffff;
-    background: rgba(13, 13, 13, 0.42);
-    backdrop-filter: blur(6px);
-    padding: 0.35rem 0.7rem;
-    border-radius: 100px;
-    z-index: 1;
+    transition: color 0.35s ease, padding 0.35s ease;
   }
-  .r-tile-body {
-    padding: 1.5rem 1.5rem 1.5rem;
+  .r-tile--wide .r-tile-info { padding: 1.75rem 2rem; }
+
+  .r-tile-title {
+    font-family: var(--font-display, 'Playfair Display', serif);
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.22;
+    margin: 0 0 0.5rem;
+    color: #ffffff;
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.35);
+    transition: color 0.35s ease, text-shadow 0.35s ease;
+  }
+  .r-tile--wide .r-tile-title { font-size: 1.55rem; }
+
+  .r-tile-desc {
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.88);
+    margin: 0;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease, opacity 0.35s ease, color 0.35s ease, margin 0.35s ease;
+  }
+  .r-tile-meta {
     display: flex;
-    flex-direction: column;
-    flex: 1;
+    gap: 0.75rem;
+    font-size: 0.72rem;
+    color: rgba(255, 255, 255, 0.8);
+    text-transform: lowercase;
+    margin-top: 0.5rem;
+    transition: color 0.35s ease;
   }
-  .r-tile--wide .r-tile-cover { height: 200px; }
+  .r-tile-category { text-transform: capitalize; font-weight: 600; }
+
+  .r-tile:hover { background: #ffffff; }
+  .r-tile:hover .r-tile-title {
+    color: var(--tile-accent, var(--color-green, #00C26D));
+    text-shadow: none;
+  }
+  .r-tile:hover .r-tile-desc {
+    max-height: 180px;
+    opacity: 1;
+    color: var(--color-ink-muted, #6b6b6b);
+    margin: 0 0 0.65rem;
+  }
+  .r-tile:hover .r-tile-meta { color: var(--color-ink-muted, #6b6b6b); }
 
   @media (max-width: 1000px) {
     .r-tile { grid-column: span 6; }
@@ -675,40 +734,6 @@ const kindMeta: Record<string, { icon: string; label: string; color: string; cov
     .r-filter { flex-shrink: 0; }
     .r-hero { padding-top: 6rem; }
   }
-
-  .r-tile-title {
-    transition: color 0.2s ease;
-    font-family: var(--font-display, 'Playfair Display', serif);
-    font-size: 1.2rem;
-    font-weight: 600;
-    line-height: 1.25;
-    margin: 0 0 0.5rem;
-    color: var(--color-ink, #0D0D0D);
-  }
-  .r-tile--wide .r-tile-title { font-size: 1.5rem; }
-  .r-tile-desc {
-    font-size: 0.92rem;
-    line-height: 1.55;
-    color: var(--color-ink-muted, #6b6b6b);
-    margin: 0 0 1rem;
-    flex: 1;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  .r-tile--wide .r-tile-desc {
-    -webkit-line-clamp: 4;
-    font-size: 1rem;
-  }
-  .r-tile-meta {
-    display: flex;
-    gap: 0.75rem;
-    font-size: 0.75rem;
-    color: var(--color-ink-muted, #6b6b6b);
-    text-transform: lowercase;
-  }
-  .r-tile-category { text-transform: capitalize; font-weight: 500; }
 
   .r-empty {
     padding: 3rem;

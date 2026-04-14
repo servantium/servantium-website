@@ -44,8 +44,22 @@
       });
     }
 
-    // Trigger load on first user interaction — hides third-party cookies
-    // from Lighthouse and avoids render-blocking on initial paint.
+    // If the page has an INLINE embed target, we must load Cal eagerly —
+    // waiting for user interaction means the inline init script runs before
+    // Cal exists and the booking widget never renders.
+    function hasInlineTarget() {
+      return !!document.querySelector('#cal-inline-embed, [data-cal-inline]');
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function () {
+        if (hasInlineTarget()) loadCal();
+      });
+    } else if (hasInlineTarget()) {
+      loadCal();
+    }
+
+    // Otherwise, trigger load on first user interaction — hides third-party
+    // cookies from Lighthouse and avoids render-blocking on initial paint.
     var events = ["scroll", "mousemove", "touchstart", "keydown"];
     function trigger() {
       loadCal();
