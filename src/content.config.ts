@@ -105,4 +105,62 @@ const press = defineCollection({
   }),
 });
 
-export const collections = { docs, authors, blog, customers, integrations, press };
+// ── Resources (lead magnets: templates, calculators, guides) ──
+const resources = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/resources' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    // Type drives the resource card icon, badge, and index grouping.
+    type: z.enum(['template', 'calculator', 'guide', 'ebook', 'playbook', 'checklist']),
+    // Where the asset lives. 'internal' = on-site calculator/tool page.
+    // 'download' = file served from /public. 'gated' = email gate then download.
+    delivery: z.enum(['internal', 'download', 'gated']).default('download'),
+    // For 'download' / 'gated': path to the file in /public
+    fileUrl: z.string().optional(),
+    // For 'internal': the local URL of the tool
+    toolUrl: z.string().optional(),
+    // For card thumbnails
+    cover: z.string().optional(),
+    coverAlt: z.string().optional(),
+    // Preview/reading time for guides
+    readingTime: z.string().optional(),
+    // Ordering + surfacing
+    featured: z.boolean().default(false),
+    order: z.number().default(100),
+    date: z.string(),
+    tags: z.array(z.string()).default([]),
+    draft: z.boolean().default(false),
+  }),
+});
+
+// ── Comparisons (competitor + category comparison pages) ──
+const comparisons = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/comparisons' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    // 'competitor' = Servantium vs {Product}. 'category' = PSA vs ERP etc.
+    kind: z.enum(['competitor', 'category']).default('competitor'),
+    // The thing being compared against (for competitor pages)
+    competitor: z.string().optional(),
+    competitorLogo: z.string().optional(),
+    // A one-line honest summary used in footer link labels
+    tagline: z.string().optional(),
+    // For structured comparison tables
+    verdict: z.string().optional(),
+    // Feature matrix rendered at top of page
+    matrix: z.array(z.object({
+      feature: z.string(),
+      servantium: z.string(),
+      other: z.string(),
+      winner: z.enum(['servantium', 'other', 'tie']).optional(),
+    })).optional(),
+    date: z.string(),
+    updated: z.string().optional(),
+    order: z.number().default(100),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { docs, authors, blog, customers, integrations, press, resources, comparisons };

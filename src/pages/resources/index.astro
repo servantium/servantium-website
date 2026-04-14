@@ -1,0 +1,275 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SEO from '@/components/SEO.astro';
+import { getCollection } from 'astro:content';
+
+const resources = (await getCollection('resources', ({ data }) => !data.draft))
+  .sort((a, b) => a.data.order - b.data.order);
+
+const customers = (await getCollection('customers', ({ data }) => data.published))
+  .slice(0, 3);
+
+const recentPosts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+  .slice(0, 3);
+
+const templates = resources.filter(r => ['template', 'checklist'].includes(r.data.type));
+const calculators = resources.filter(r => r.data.type === 'calculator');
+const guides = resources.filter(r => ['guide', 'ebook', 'playbook'].includes(r.data.type));
+
+const typeIcon: Record<string, string> = {
+  template: '📄',
+  calculator: '🧮',
+  guide: '📘',
+  ebook: '📘',
+  playbook: '📙',
+  checklist: '✅',
+};
+---
+
+<BaseLayout activePage="resources">
+  <SEO
+    slot="head"
+    title="Resources — Servantium"
+    description="Templates, calculators, playbooks, and customer stories for professional services firms. Free, practical, and built from real engagement operations experience."
+    ogType="website"
+  />
+
+  <section class="resources-hero">
+    <div class="container">
+      <div class="eyebrow">Resources</div>
+      <h1>Everything you need to run better engagements.</h1>
+      <p class="lede">
+        Free templates, pricing calculators, buyer's guides, and customer stories. All practical. All built from real professional services operations experience.
+      </p>
+    </div>
+  </section>
+
+  {calculators.length > 0 && (
+    <section class="resources-section">
+      <div class="container">
+        <div class="section-head">
+          <h2>Calculators & Tools</h2>
+          <p>Plug in your numbers. Get a defensible answer in 60 seconds.</p>
+        </div>
+        <div class="resource-grid">
+          {calculators.map(r => (
+            <a href={r.data.toolUrl || `/resources/calculators/${r.id}/`} class="resource-card">
+              <div class="resource-icon">{typeIcon[r.data.type]}</div>
+              <div class="resource-type">{r.data.type}</div>
+              <h3>{r.data.title}</h3>
+              <p>{r.data.description}</p>
+              <span class="resource-cta">Open calculator →</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {templates.length > 0 && (
+    <section class="resources-section alt">
+      <div class="container">
+        <div class="section-head">
+          <h2>Templates</h2>
+          <p>Free, defensible, drop-in artifacts for the documents your team edits most.</p>
+        </div>
+        <div class="resource-grid">
+          {templates.map(r => (
+            <a href={`/resources/templates/${r.id}/`} class="resource-card">
+              <div class="resource-icon">{typeIcon[r.data.type]}</div>
+              <div class="resource-type">{r.data.type}</div>
+              <h3>{r.data.title}</h3>
+              <p>{r.data.description}</p>
+              <span class="resource-cta">Get the template →</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {guides.length > 0 && (
+    <section class="resources-section">
+      <div class="container">
+        <div class="section-head">
+          <h2>Guides & Playbooks</h2>
+          <p>Long-form field guides for services leaders who want to go deep.</p>
+        </div>
+        <div class="resource-grid">
+          {guides.map(r => (
+            <a href={`/resources/templates/${r.id}/`} class="resource-card">
+              <div class="resource-icon">{typeIcon[r.data.type]}</div>
+              <div class="resource-type">{r.data.type}</div>
+              <h3>{r.data.title}</h3>
+              <p>{r.data.description}</p>
+              {r.data.readingTime && <span class="resource-meta">{r.data.readingTime}</span>}
+              <span class="resource-cta">Read the guide →</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="resources-section alt">
+    <div class="container">
+      <div class="section-head">
+        <h2>Customer Stories</h2>
+        <p>How modern services firms run engagements on Servantium.</p>
+      </div>
+      {customers.length > 0 ? (
+        <div class="resource-grid">
+          {customers.map(c => (
+            <a href={`/resources/customers/${c.id}/`} class="resource-card">
+              <div class="resource-type">{c.data.industry}</div>
+              <h3>{c.data.name}</h3>
+              {c.data.quote && <p>"{c.data.quote}"</p>}
+              <span class="resource-cta">Read the story →</span>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <div class="empty-state">
+          <p>Customer stories coming soon. If you're building on Servantium and want to share how your firm runs engagements, <a href="mailto:hello@servantium.com">we'd love to talk</a>.</p>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <section class="resources-section">
+    <div class="container">
+      <div class="section-head">
+        <h2>From the Blog</h2>
+        <p>Op-eds, strategy, and the Professional Services OS category.</p>
+      </div>
+      <div class="resource-grid">
+        {recentPosts.map(p => (
+          <a href={`/blog/${p.id}/`} class="resource-card">
+            <div class="resource-type">{p.data.category}</div>
+            <h3>{p.data.title}</h3>
+            <p>{p.data.description}</p>
+            <span class="resource-cta">Read the post →</span>
+          </a>
+        ))}
+      </div>
+      <div class="section-footer">
+        <a href="/blog/" class="btn btn-secondary">See all blog posts</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .resources-hero {
+    padding: 8rem 0 4rem;
+    background: linear-gradient(180deg, var(--color-white) 0%, var(--color-mist-grey) 100%);
+    text-align: center;
+  }
+  .resources-hero .container { max-width: var(--content-width); margin: 0 auto; padding: 0 var(--space-lg); }
+  .eyebrow {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-green);
+    margin-bottom: 1rem;
+  }
+  .resources-hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 4.5vw, 3.25rem);
+    font-weight: 500;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+    color: var(--color-ink);
+  }
+  .lede {
+    font-size: 1.125rem;
+    color: var(--color-ink-muted);
+    max-width: 42rem;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+  .resources-section { padding: 4rem 0; }
+  .resources-section.alt { background: var(--color-mist-grey); }
+  .resources-section .container { max-width: var(--content-width); margin: 0 auto; padding: 0 var(--space-lg); }
+  .section-head { text-align: center; margin-bottom: 2.5rem; }
+  .section-head h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: var(--color-ink);
+  }
+  .section-head p {
+    color: var(--color-ink-muted);
+    font-size: 1rem;
+  }
+  .resource-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  .resource-card {
+    display: flex;
+    flex-direction: column;
+    padding: 1.75rem;
+    background: var(--color-white);
+    border: 1px solid var(--color-cloud-grey);
+    border-radius: 14px;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+  .resources-section.alt .resource-card { background: var(--color-white); }
+  .resource-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+    border-color: var(--color-green);
+  }
+  .resource-icon { font-size: 1.75rem; margin-bottom: 0.5rem; }
+  .resource-type {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-green);
+    margin-bottom: 0.5rem;
+  }
+  .resource-card h3 {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--color-ink);
+    line-height: 1.3;
+  }
+  .resource-card p {
+    font-size: 0.95rem;
+    color: var(--color-ink-muted);
+    line-height: 1.55;
+    flex: 1;
+    margin-bottom: 1rem;
+  }
+  .resource-meta {
+    font-size: 0.75rem;
+    color: var(--color-ink-muted);
+    margin-bottom: 0.5rem;
+  }
+  .resource-cta {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-green);
+  }
+  .empty-state {
+    text-align: center;
+    padding: 3rem;
+    background: var(--color-white);
+    border: 1px dashed var(--color-cloud-grey);
+    border-radius: 14px;
+    color: var(--color-ink-muted);
+  }
+  .empty-state a { color: var(--color-green); }
+  .section-footer { text-align: center; margin-top: 2.5rem; }
+</style>

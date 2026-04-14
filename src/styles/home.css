@@ -1227,8 +1227,13 @@
             display: flex;
             align-items: center;
             gap: var(--space-2xl);
-            animation: scrollLogos 8s linear infinite;
+            animation: scrollLogos 60s linear infinite;
             width: max-content;
+            will-change: transform;
+        }
+
+        .logo-bar-scroll:hover .logo-bar-track {
+            animation-duration: 120s;
         }
 
         @keyframes scrollLogos {
@@ -1252,6 +1257,10 @@
             opacity: 0.75;
             transition: opacity 0.3s ease;
             object-fit: contain;
+            mix-blend-mode: multiply;
+        }
+        .logo-bar-img.logo-invert {
+            mix-blend-mode: normal;
         }
         .logo-bar-img:hover {
             opacity: 1;

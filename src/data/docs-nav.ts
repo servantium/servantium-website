@@ -52,6 +52,19 @@ export const docsNav: DocsNavSection[] = [
     ],
   },
   {
+    label: 'Glossary',
+    items: [
+      { label: 'All terms', slug: 'glossary' },
+      { label: 'Realization rate', slug: 'glossary/realization-rate' },
+    ],
+  },
+  {
+    label: 'Videos',
+    items: [
+      { label: 'All videos', slug: 'videos' },
+    ],
+  },
+  {
     label: 'Release Notes',
     autogenerate: 'release-notes',
   },

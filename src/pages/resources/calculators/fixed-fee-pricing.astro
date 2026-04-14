@@ -1,0 +1,202 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SEO from '@/components/SEO.astro';
+---
+
+<BaseLayout activePage="resources">
+  <SEO
+    slot="head"
+    title="Fixed-Fee Pricing Calculator — Servantium"
+    description="Free fixed-fee pricing calculator for professional services firms. Enter scope, team mix, and target margin — get a defensible number in 60 seconds."
+    ogType="website"
+  />
+
+  <section class="calc-hero">
+    <div class="container">
+      <nav class="breadcrumbs">
+        <a href="/resources/">Resources</a>
+        <span>›</span>
+        <span>Calculators</span>
+        <span>›</span>
+        <span>Fixed-Fee Pricing</span>
+      </nav>
+      <h1>Fixed-Fee Pricing Calculator</h1>
+      <p class="lede">
+        Price a fixed-fee engagement with confidence. This calculator walks you through the same logic Servantium uses internally — blended rate, risk buffer, target margin, and a defensible number you can put in a proposal.
+      </p>
+    </div>
+  </section>
+
+  <section class="calc-body">
+    <div class="container calc-grid">
+      <div class="calc-inputs">
+        <h2>Engagement shape</h2>
+        <label>
+          Duration (weeks)
+          <input type="number" id="weeks" value="8" min="1" max="52" />
+        </label>
+        <label>
+          Senior hours per week
+          <input type="number" id="srHours" value="12" min="0" />
+        </label>
+        <label>
+          Mid hours per week
+          <input type="number" id="midHours" value="20" min="0" />
+        </label>
+        <label>
+          Junior hours per week
+          <input type="number" id="jrHours" value="15" min="0" />
+        </label>
+
+        <h2>Rates &amp; margin</h2>
+        <label>
+          Senior rate ($/hr)
+          <input type="number" id="srRate" value="300" min="0" />
+        </label>
+        <label>
+          Mid rate ($/hr)
+          <input type="number" id="midRate" value="200" min="0" />
+        </label>
+        <label>
+          Junior rate ($/hr)
+          <input type="number" id="jrRate" value="125" min="0" />
+        </label>
+        <label>
+          Target gross margin (%)
+          <input type="number" id="margin" value="45" min="0" max="90" />
+        </label>
+        <label>
+          Risk contingency (%)
+          <input type="number" id="risk" value="12" min="0" max="50" />
+        </label>
+      </div>
+
+      <aside class="calc-output">
+        <div class="output-card">
+          <div class="output-label">Suggested fixed fee</div>
+          <div class="output-value" id="outFee">$—</div>
+          <div class="output-sub" id="outBreakdown">—</div>
+        </div>
+        <div class="output-rows">
+          <div class="row"><span>Blended hours</span><span id="outHours">—</span></div>
+          <div class="row"><span>Cost (at rates)</span><span id="outCost">—</span></div>
+          <div class="row"><span>With risk buffer</span><span id="outWithRisk">—</span></div>
+          <div class="row"><span>Margin target</span><span id="outMarginTarget">—</span></div>
+        </div>
+        <div class="disclaimer">
+          This is a starter tool. The full scoping engine, historical pricing memory, and win-rate analytics live inside Servantium.
+          <a href="/platform">See the full platform →</a>
+        </div>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
+
+<script is:inline>
+  function calc() {
+    var g = function(id) { return parseFloat(document.getElementById(id).value) || 0; };
+    var weeks = g('weeks');
+    var srH = g('srHours'), midH = g('midHours'), jrH = g('jrHours');
+    var srR = g('srRate'), midR = g('midRate'), jrR = g('jrRate');
+    var margin = g('margin') / 100;
+    var risk = g('risk') / 100;
+
+    var hours = (srH + midH + jrH) * weeks;
+    var cost = (srH * srR + midH * midR + jrH * jrR) * weeks;
+    var withRisk = cost * (1 + risk);
+    // Price so that (price - withRisk) / price = margin  =>  price = withRisk / (1 - margin)
+    var price = margin < 1 ? withRisk / (1 - margin) : withRisk;
+
+    var fmt = function(n) { return '$' + Math.round(n).toLocaleString(); };
+    document.getElementById('outFee').textContent = fmt(price);
+    document.getElementById('outHours').textContent = Math.round(hours) + ' hrs';
+    document.getElementById('outCost').textContent = fmt(cost);
+    document.getElementById('outWithRisk').textContent = fmt(withRisk);
+    document.getElementById('outMarginTarget').textContent = Math.round(margin * 100) + '%';
+    document.getElementById('outBreakdown').textContent =
+      Math.round(hours) + ' hours · ' + Math.round(margin * 100) + '% margin · ' + Math.round(risk * 100) + '% risk buffer';
+  }
+  document.querySelectorAll('.calc-inputs input').forEach(function(el) {
+    el.addEventListener('input', calc);
+  });
+  calc();
+</script>
+
+<style>
+  .calc-hero { padding: 7rem 0 2rem; background: linear-gradient(180deg, var(--color-white), var(--color-mist-grey)); }
+  .container { max-width: var(--content-width); margin: 0 auto; padding: 0 var(--space-lg); }
+  .breadcrumbs { display: flex; gap: 0.5rem; font-size: 0.85rem; color: var(--color-ink-muted); margin-bottom: 1rem; }
+  .breadcrumbs a { color: var(--color-green); text-decoration: none; }
+  .calc-hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 500;
+    color: var(--color-ink);
+    margin-bottom: 0.75rem;
+  }
+  .calc-hero .lede { font-size: 1.05rem; color: var(--color-ink-muted); max-width: 48rem; line-height: 1.55; }
+  .calc-body { padding: 2rem 0 5rem; }
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 2.5rem;
+  }
+  @media (max-width: 860px) { .calc-grid { grid-template-columns: 1fr; } }
+  .calc-inputs h2 {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin: 1.5rem 0 0.5rem;
+    color: var(--color-ink);
+  }
+  .calc-inputs h2:first-child { margin-top: 0; }
+  .calc-inputs label {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.85rem;
+    color: var(--color-ink-muted);
+    font-weight: 500;
+    margin-bottom: 0.75rem;
+  }
+  .calc-inputs input {
+    margin-top: 0.25rem;
+    padding: 0.65rem 0.85rem;
+    border: 1.5px solid var(--color-cloud-grey);
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 1rem;
+    color: var(--color-ink);
+  }
+  .calc-inputs input:focus { outline: none; border-color: var(--color-green); }
+  .calc-output { position: sticky; top: 6rem; align-self: start; }
+  .output-card {
+    padding: 2rem 1.75rem;
+    background: var(--color-deep-forest);
+    color: var(--color-white);
+    border-radius: 14px;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  .output-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.12em; opacity: 0.7; margin-bottom: 0.5rem; }
+  .output-value { font-family: var(--font-display); font-size: 2.75rem; font-weight: 600; color: var(--color-green); line-height: 1; }
+  .output-sub { font-size: 0.85rem; opacity: 0.8; margin-top: 0.75rem; }
+  .output-rows { background: var(--color-mist-grey); padding: 1rem 1.25rem; border-radius: 12px; margin-bottom: 1rem; }
+  .output-rows .row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    font-size: 0.9rem;
+    border-bottom: 1px solid var(--color-cloud-grey);
+  }
+  .output-rows .row:last-child { border-bottom: none; }
+  .output-rows .row span:first-child { color: var(--color-ink-muted); }
+  .output-rows .row span:last-child { color: var(--color-ink); font-weight: 600; }
+  .disclaimer {
+    font-size: 0.85rem;
+    color: var(--color-ink-muted);
+    padding: 1rem;
+    border-left: 3px solid var(--color-green);
+    background: var(--color-soft-mint);
+  }
+  .disclaimer a { display: block; margin-top: 0.5rem; color: var(--color-green); font-weight: 600; }
+</style>

@@ -1,0 +1,81 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SEO from '@/components/SEO.astro';
+import { getCollection } from 'astro:content';
+
+const items = (await getCollection('comparisons', ({ data }) => !data.draft))
+  .sort((a, b) => a.data.order - b.data.order);
+
+const competitors = items.filter(i => i.data.kind === 'competitor');
+const categories = items.filter(i => i.data.kind === 'category');
+---
+
+<BaseLayout>
+  <SEO
+    slot="head"
+    title="Compare Servantium — Alternatives, Competitors, and Categories"
+    description="Honest comparisons of Servantium against Kantata, Certinia, Monday, Salesforce PSA, spreadsheets, and more. Built for buyers in the shortlist stage."
+    ogType="website"
+  />
+
+  <section class="compare-hero">
+    <div class="container">
+      <div class="eyebrow">Compare</div>
+      <h1>Honest comparisons. No spin.</h1>
+      <p class="lede">
+        Side-by-side looks at Servantium and the tools you're probably evaluating. We'll tell you where they're better and where we are — so you can make the right call for your firm.
+      </p>
+    </div>
+  </section>
+
+  {competitors.length > 0 && (
+    <section class="compare-section">
+      <div class="container">
+        <h2>Servantium vs the alternatives</h2>
+        <div class="compare-grid">
+          {competitors.map(c => (
+            <a href={`/compare/${c.id}/`} class="compare-card">
+              <h3>{c.data.title}</h3>
+              {c.data.tagline && <p>{c.data.tagline}</p>}
+              <span class="cta">Read the comparison →</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {categories.length > 0 && (
+    <section class="compare-section alt">
+      <div class="container">
+        <h2>Category comparisons</h2>
+        <div class="compare-grid">
+          {categories.map(c => (
+            <a href={`/compare/${c.id}/`} class="compare-card">
+              <h3>{c.data.title}</h3>
+              {c.data.tagline && <p>{c.data.tagline}</p>}
+              <span class="cta">Read the comparison →</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+</BaseLayout>
+
+<style>
+  .compare-hero { padding: 8rem 0 4rem; background: linear-gradient(180deg, var(--color-white), var(--color-mist-grey)); text-align: center; }
+  .container { max-width: var(--content-width); margin: 0 auto; padding: 0 var(--space-lg); }
+  .eyebrow { display: inline-block; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em; color: var(--color-green); margin-bottom: 1rem; }
+  .compare-hero h1 { font-family: var(--font-display); font-size: clamp(2.25rem, 4.5vw, 3.25rem); font-weight: 500; line-height: 1.15; letter-spacing: -0.02em; margin-bottom: 1rem; color: var(--color-ink); }
+  .lede { font-size: 1.125rem; color: var(--color-ink-muted); max-width: 42rem; margin: 0 auto; line-height: 1.6; }
+  .compare-section { padding: 4rem 0; }
+  .compare-section.alt { background: var(--color-mist-grey); }
+  .compare-section h2 { font-family: var(--font-display); font-size: clamp(1.75rem, 3vw, 2.25rem); font-weight: 500; margin-bottom: 2rem; text-align: center; color: var(--color-ink); }
+  .compare-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.25rem; }
+  .compare-card { display: block; padding: 1.5rem 1.75rem; background: var(--color-white); border: 1px solid var(--color-cloud-grey); border-radius: 14px; text-decoration: none; transition: all 0.2s ease; }
+  .compare-card:hover { transform: translateY(-3px); border-color: var(--color-green); box-shadow: 0 12px 32px rgba(0,0,0,0.08); }
+  .compare-card h3 { font-family: var(--font-display); font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--color-ink); }
+  .compare-card p { font-size: 0.9rem; color: var(--color-ink-muted); margin-bottom: 0.75rem; line-height: 1.55; }
+  .compare-card .cta { font-size: 0.85rem; font-weight: 600; color: var(--color-green); }
+</style>

@@ -1164,14 +1164,34 @@ const jsonLd = {
   document.addEventListener('astro:page-load', initPricingSlider);
 
   // Guard: prevent unwanted auto-scroll to pricing section on fresh page load.
-  // Browser form restoration or async embeds (Cal.com) can scroll to form elements.
-  // If no URL hash is present, ensure the page starts at the top.
+  // Causes: (1) browser form-restoration focusing the range input, (2) async
+  // embeds (Cal.com iframe) shifting layout, (3) bfcache restoring scroll.
+  // Strategy: disable native scroll restoration, then repeatedly snap to top
+  // during the first ~1.5s of load unless the user interacted or a hash is set.
   if (!window.location.hash) {
-    window.addEventListener('load', function() {
-      if (window.scrollY > 0) {
-        window.scrollTo({ top: 0, behavior: 'instant' });
+    try { if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; } catch(e) {}
+    var userInteracted = false;
+    var markInteraction = function() { userInteracted = true; };
+    window.addEventListener('wheel', markInteraction, { passive: true, once: true });
+    window.addEventListener('touchstart', markInteraction, { passive: true, once: true });
+    window.addEventListener('keydown', markInteraction, { once: true });
+    var snapTop = function() {
+      if (userInteracted) return;
+      if (window.scrollY > 0) window.scrollTo({ top: 0, behavior: 'instant' });
+    };
+    // Snap now, after DOM ready, after load, and a few times in between.
+    snapTop();
+    document.addEventListener('DOMContentLoaded', snapTop);
+    window.addEventListener('load', snapTop);
+    [50, 150, 350, 750, 1500].forEach(function(ms) { setTimeout(snapTop, ms); });
+    // Also catch: if the range input ever steals focus on load, blur it.
+    setTimeout(function() {
+      var active = document.activeElement;
+      if (active && active.tagName === 'INPUT' && active.type === 'range' && !userInteracted) {
+        active.blur();
+        snapTop();
       }
-    });
+    }, 100);
   }
 </script>
 
