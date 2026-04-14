@@ -65,9 +65,6 @@ const bubblePostsData = bubblePosts.map(p => ({
   {/* -- Search + Filters — tight below hero -- */}
   <section class="py-1">
     <div class="mx-auto max-w-[var(--content-width)] px-6">
-      <div class="mb-1">
-        <BlogSearch />
-      </div>
       <div
         class="blog-filters flex gap-2.5 overflow-x-auto pb-1 scrollbar-none
                [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
@@ -100,6 +97,9 @@ const bubblePostsData = bubblePosts.map(p => ({
             {cat}
           </button>
         ))}
+      </div>
+      <div class="mt-3">
+        <BlogSearch />
       </div>
     </div>
   </section>

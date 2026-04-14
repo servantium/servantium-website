@@ -499,11 +499,20 @@ const navLinks: NavLink[] = [
     }
   });
 
-  // Scroll-hide header on mobile and tablet (including landscape)
+  // Scroll-hide header on mobile and tablet (including landscape).
+  // Pauses while hovering the nav so mega-menu interactions don't collapse.
   let lastScroll = 0;
+  let navHovered = false;
   const nav = document.querySelector('nav');
+  if (nav) {
+    nav.addEventListener('mouseenter', () => { navHovered = true; });
+    nav.addEventListener('mouseleave', () => { navHovered = false; });
+    nav.addEventListener('focusin', () => { navHovered = true; });
+    nav.addEventListener('focusout', () => { navHovered = false; });
+  }
   window.addEventListener('scroll', () => {
     if (window.innerWidth > 1024) return;
+    if (navHovered) return;
     const current = window.scrollY;
     if (current > lastScroll && current > 100) {
       nav.style.transform = 'translateY(-100%)';
