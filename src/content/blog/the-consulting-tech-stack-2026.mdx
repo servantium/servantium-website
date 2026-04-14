@@ -1,0 +1,74 @@
+---
+title: "The Consulting Tech Stack in 2026"
+description: "What a modern consulting firm actually runs on — CRM, PSA, CPQ, collaboration, AI — and why the five-tool stack is a dead end. A field map for operators."
+date: "2026-04-14"
+author: "christopher-veale"
+category: "Tools"
+image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&h=630&fit=crop"
+imageAlt: "Stack of connected technology systems"
+readingTime: "9 min read"
+tags: ["tech stack", "psa", "cpq", "crm", "professional services", "tooling"]
+---
+
+Most consulting firms in 2026 run on some version of the same five-tool stack. A CRM for pipeline. A PSA for delivery and time. A CPQ or spreadsheet for pricing. A collaboration suite (Notion, Confluence, Google Docs) for everything that doesn't fit. And, increasingly, a layer of AI tools pasted on top — a chatbot for proposals, a summariser for calls, a code-gen tool for implementation work.
+
+This stack is the product of twenty years of buying the best tool for each specific job. Each tool is individually reasonable. Together they are a dead end — not because any single tool is bad, but because the seams between them are where the firm's institutional memory is quietly leaking out.
+
+## The canonical 2026 stack
+
+Here is what most mid-market services firms run in 2026:
+
+| Layer | Common tools | What it does |
+|---|---|---|
+| Pipeline | HubSpot, Salesforce, Pipedrive | Track leads and opportunities |
+| Scoping | Word, Google Docs, Notion | Write proposals and SOWs |
+| Pricing | Excel, Salesforce CPQ, Apttus | Generate quotes, enforce discount rules |
+| Delivery | Kantata, Mavenlink, OpenAir, Asana | Manage projects, track time, resource plan |
+| Finance | QuickBooks, NetSuite, Xero | Invoice, recognise revenue, run the books |
+| Knowledge | Confluence, Notion, Google Drive | Document methodologies, retros, templates |
+| AI layer | ChatGPT, Claude, Gong | Draft proposals, summarise calls, search context |
+
+Each of these tools has a database. None of the databases talk to each other meaningfully. Integrations exist, but they shuttle flat records — they do not connect the underlying data model, so a scope in the CRM is not the same object as a scope in the PSA, which is not the same object as a scope in the knowledge base.
+
+## Why the seams matter
+
+The seams are where institutional memory goes to die. Here are the common leaks:
+
+- **CRM → scoping**: The deal record in Salesforce has five fields about the client's need. The scoping doc has fifty. None of them feed back into Salesforce, so the next deal from the same industry starts from zero.
+- **Scoping → pricing**: The scope is a Word doc. The price is an Excel cell. The link between them is a senior consultant's memory.
+- **Pricing → delivery**: The PSA gets a project with a total budget number. It does not know which scope lines that budget was allocated to, so delivery variance cannot be measured against scope.
+- **Delivery → learning**: A retro is a doc in Confluence. It is read by maybe three people. The PSA has no idea it exists.
+- **Learning → next scope**: The next senior consultant writing a scope opens Google Docs, searches "similar client," and reads whatever comes up. Institutional memory is a search problem on an unindexed corpus.
+
+The AI layer makes some of these leaks less bad — a well-configured Claude can summarise retros, draft proposals from templates, and search prior engagements. But summaries are not data models, and drafts are not structured scopes. The AI layer patches the symptoms without fixing the underlying architecture.
+
+## What actually changes in 2026
+
+Three things are shifting, and they collectively make the five-tool stack untenable for firms that want to scale past $30–50M:
+
+1. **AI commoditises "write the proposal"**. When every consultant can draft a competent SOW in ten minutes, the differentiating question stops being "who can write it" and becomes "whose scope reflects what actually happened on the last three engagements like this?" Firms whose history is locked in Word docs lose to firms whose history is queryable.
+
+2. **Clients expect faster turnaround**. The 10-day proposal cycle is dead. Clients in 2026 expect a first draft in 24 hours. That is impossible if your scope process requires reassembling context from six tools.
+
+3. **Margin pressure compounds**. Every missed learning, every repeated overrun, every retro that nobody reads shows up in the margin line. Firms running the five-tool stack cannot fix this with better discipline — the disease is architectural.
+
+## The emerging alternative
+
+The alternative that is forming in 2026 is what we call a [Professional Services OS](/help/glossary/what-is-a-professional-services-os/): a single connected system where scoping, pricing, delivery, and learning share one data model. It does not replace every tool in the stack — a firm can still run its books in NetSuite and its pipeline in Salesforce — but it replaces the middle, where the biggest leaks happen.
+
+The test for whether a tool is a PS OS or just another PSA in new clothes is in [our 10-question checklist](/help/glossary/professional-services-os-criteria/). Most tools fail it. The ones that pass are what firms will be running on by 2028.
+
+## What to do in the meantime
+
+If you are running the five-tool stack today and cannot rip it out tomorrow, the two highest-leverage moves are:
+
+1. **Make your scoping history queryable** — pick one tool and commit to writing every scope there, in a structured format, even if it duplicates what lives in Word.
+2. **Feed delivery actuals back into a shared spreadsheet** your estimators use at the start of every new scope. It is crude, but it closes the loop manually until the tooling catches up.
+
+These are patches. The durable fix is a single system where the four stages are not a stack — they are one object. Everything else is paying interest on the seams.
+
+## Related
+
+- [What is a Professional Services OS?](/help/glossary/what-is-a-professional-services-os/)
+- [Professional Services OS vs PSA](/help/glossary/professional-services-os-vs-psa/)
+- [Professional Services OS vs CPQ](/help/glossary/professional-services-os-vs-cpq/)

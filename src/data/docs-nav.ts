@@ -56,6 +56,10 @@ export const docsNav: DocsNavSection[] = [
     items: [
       { label: 'All terms', slug: 'glossary' },
       { label: 'What is a Professional Services OS?', slug: 'glossary/what-is-a-professional-services-os' },
+      { label: 'Professional Services OS vs PSA', slug: 'glossary/professional-services-os-vs-psa' },
+      { label: 'Professional Services OS vs CPQ', slug: 'glossary/professional-services-os-vs-cpq' },
+      { label: 'The 10-question PS OS test', slug: 'glossary/professional-services-os-criteria' },
+      { label: 'History of professional services software', slug: 'glossary/history-of-professional-services-software' },
       { label: 'Realization rate', slug: 'glossary/realization-rate' },
     ],
   },

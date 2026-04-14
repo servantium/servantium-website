@@ -73,10 +73,12 @@ const navLinks: NavLink[] = [
       {navLinks.map(link => (
         <li class={link.dropdown ? 'has-dropdown' : ''}>
           <a
-            href={link.href}
+            href={link.dropdown ? '#' : link.href}
             class={activePage === link.id ? 'active' : ''}
             aria-haspopup={link.dropdown ? 'true' : undefined}
             aria-expanded={link.dropdown ? 'false' : undefined}
+            onclick={link.dropdown ? 'event.preventDefault()' : undefined}
+            role={link.dropdown ? 'button' : undefined}
           >
             {link.label}
             {link.dropdown && (

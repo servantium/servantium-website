@@ -19,12 +19,16 @@ const {
   placeholder = 'Search docs, guides, releases...',
   triggerVariant = 'full',
 } = Astro.props;
+
+// Unique instance id so multiple SearchModals on one page don't collide.
+const smId = 'sm-' + Math.random().toString(36).slice(2, 9);
+const hostId = `${smId}-host`;
 ---
 
 <button
   type="button"
   class={`sm-trigger sm-trigger--${triggerVariant}`}
-  data-search-modal-open
+  data-search-modal-open={smId}
   aria-haspopup="dialog"
   aria-label={label}
 >
@@ -35,7 +39,7 @@ const {
   {triggerVariant === 'full' && <kbd class="sm-trigger-kbd">⌘K</kbd>}
 </button>
 
-<div class="sm-modal" data-search-modal hidden role="dialog" aria-modal="true" aria-label="Search">
+<div class="sm-modal" data-search-modal={smId} id={smId} hidden role="dialog" aria-modal="true" aria-label="Search">
   <div class="sm-backdrop" data-search-modal-close></div>
   <div class="sm-panel" role="document">
     <div class="sm-panel-head">
@@ -50,7 +54,7 @@ const {
       </button>
     </div>
     <link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
-    <div class="sm-search-host" id="sm-pagefind-host" data-placeholder={placeholder}></div>
+    <div class="sm-search-host" id={hostId} data-placeholder={placeholder}></div>
     <div class="sm-fallback" hidden>
       <p>Search index not available. Run <code>npm run build</code> locally or ship to production to enable search.</p>
     </div>
@@ -61,12 +65,12 @@ const {
   </div>
 </div>
 
-<script is:inline>
+<script is:inline define:vars={{ smId, hostId }}>
   (function() {
-    var modal = document.querySelector('[data-search-modal]');
-    var host = document.getElementById('sm-pagefind-host');
-    var fallback = document.querySelector('.sm-fallback');
+    var modal = document.getElementById(smId);
+    var host = document.getElementById(hostId);
     if (!modal || !host) return;
+    var fallback = modal.querySelector('.sm-fallback');
 
     var opened = false;
     var pagefindReady = false;
