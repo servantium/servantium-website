@@ -1,6 +1,5 @@
 ---
-import BaseLayout from '@/layouts/BaseLayout.astro';
-import SEO from '@/components/SEO.astro';
+import ResourceLayout from '@/layouts/ResourceLayout.astro';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -14,83 +13,80 @@ export async function getStaticPaths() {
 const { item } = Astro.props;
 const { Content } = await render(item);
 const { name, industry, logo, metrics, quote, quoteAuthor, quoteRole } = item.data;
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Resources', href: '/resources/' },
+  { label: 'Customer Stories', href: '/resources/customers/' },
+  { label: name },
+];
 ---
 
-<BaseLayout activePage="resources">
-  <SEO
-    slot="head"
-    title={`${name} — Customer Story — Servantium`}
-    description={`How ${name} uses Servantium to run engagements.`}
-    ogType="article"
-  />
+<ResourceLayout
+  title={name}
+  description={quote || `How ${name} runs engagements on Servantium.`}
+  badge={industry}
+  badgeColor="#FF5C70"
+  breadcrumbs={breadcrumbs}
+  activePage="resources"
+>
+  <div slot="aside">
+    {logo && <img src={logo} alt={`${name} logo`} class="customer-logo" />}
 
-  <article class="customer-article">
-    <div class="container">
-      <nav class="breadcrumbs">
-        <a href="/resources/">Resources</a>
-        <span>›</span>
-        <a href="/resources/#customers">Customers</a>
-        <span>›</span>
-        <span>{name}</span>
-      </nav>
-
-      <header class="customer-header">
-        {logo && <img src={logo} alt={`${name} logo`} class="customer-logo" />}
-        <div class="industry">{industry}</div>
-        <h1>{name}</h1>
-      </header>
-
-      {metrics && metrics.length > 0 && (
-        <div class="metrics-row">
-          {metrics.map(m => (
-            <div class="metric">
-              <div class="metric-value">{m.value}</div>
-              <div class="metric-label">{m.label}</div>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {quote && (
-        <blockquote class="pull-quote">
-          <p>"{quote}"</p>
-          <footer>— {quoteAuthor}{quoteRole && `, ${quoteRole}`}</footer>
-        </blockquote>
-      )}
-
-      <div class="customer-content prose">
-        <Content />
+    {metrics && metrics.length > 0 && (
+      <div class="metrics-row">
+        {metrics.map((m: { label: string; value: string }) => (
+          <div class="metric">
+            <div class="metric-value">{m.value}</div>
+            <div class="metric-label">{m.label}</div>
+          </div>
+        ))}
       </div>
-    </div>
-  </article>
-</BaseLayout>
+    )}
+
+    {quote && (
+      <blockquote class="pull-quote">
+        <p>"{quote}"</p>
+        {(quoteAuthor || quoteRole) && (
+          <footer>— {quoteAuthor}{quoteRole && `, ${quoteRole}`}</footer>
+        )}
+      </blockquote>
+    )}
+  </div>
+
+  <Content />
+</ResourceLayout>
 
 <style>
-  .customer-article { padding: 7rem 0 5rem; }
-  .container { max-width: 780px; margin: 0 auto; padding: 0 var(--space-lg); }
-  .breadcrumbs { display: flex; gap: 0.5rem; font-size: 0.85rem; color: var(--color-ink-muted); margin-bottom: 1.5rem; }
-  .breadcrumbs a { color: var(--color-green); text-decoration: none; }
-  .customer-header { margin-bottom: 2rem; }
-  .customer-logo { max-height: 48px; width: auto; margin-bottom: 1rem; }
-  .industry {
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--color-green);
-    margin-bottom: 0.5rem;
+  .customer-logo { max-height: 56px; width: auto; margin-bottom: 1.5rem; }
+  .metrics-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
   }
-  .customer-header h1 {
+  .metric {
+    padding: 1.25rem;
+    background: var(--color-mist-grey);
+    border-radius: 12px;
+    text-align: center;
+  }
+  .metric-value {
     font-family: var(--font-display);
-    font-size: clamp(2rem, 4vw, 2.75rem);
-    font-weight: 500;
-    color: var(--color-ink);
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--color-green);
   }
-  .metrics-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 2.5rem; }
-  .metric { padding: 1.25rem; background: var(--color-mist-grey); border-radius: 12px; text-align: center; }
-  .metric-value { font-family: var(--font-display); font-size: 2rem; font-weight: 600; color: var(--color-green); }
   .metric-label { font-size: 0.85rem; color: var(--color-ink-muted); margin-top: 0.25rem; }
-  .pull-quote { border-left: 3px solid var(--color-green); padding-left: 1.25rem; margin: 2rem 0; font-size: 1.25rem; color: var(--color-ink-light); font-style: italic; }
+  .pull-quote {
+    border-left: 3px solid var(--color-green);
+    padding: 1rem 1.25rem;
+    margin: 1.5rem 0 2rem;
+    font-size: 1.15rem;
+    color: var(--color-ink-light);
+    font-style: italic;
+    background: var(--color-mint-tint);
+    border-radius: 0 12px 12px 0;
+  }
   .pull-quote footer { font-size: 0.9rem; color: var(--color-ink-muted); margin-top: 0.5rem; font-style: normal; }
-  .customer-content { font-size: 1.05rem; line-height: 1.7; color: var(--color-ink-light); }
 </style>

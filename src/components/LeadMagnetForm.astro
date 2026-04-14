@@ -2,9 +2,9 @@
 /**
  * LeadMagnetForm — Inline, in-page email capture for gated resources.
  *
- * Posts to the same contact.servantium.com endpoint as the homepage contact form,
- * with `source: "lead-magnet"` and the resource title in the message payload.
- * On success, reveals the download link (or triggers an immediate download).
+ * Posts to leads.servantium.com (separate from the contact-us pipeline) so
+ * submissions land in the lead-capture database, not a founder inbox.
+ * On success, hides the form and triggers an automatic download of the file.
  *
  * Usage:
  *   <LeadMagnetForm
@@ -76,7 +76,8 @@ const formId = `lead-form-${resourceId}`;
   <button type="submit" class="lead-form-submit btn btn-primary">{ctaLabel}</button>
 
   <p class="lead-form-note">
-    Or <a href={fileUrl} download data-lead-skip>download directly</a> without the form.
+    We'll email you the file and occasionally share new templates.
+    No spam. Unsubscribe anytime.
   </p>
 
   <div class="lead-form-status" role="status" aria-live="polite"></div>
@@ -107,9 +108,13 @@ const formId = `lead-form-${resourceId}`;
         name: String(fd.get('name') || '').trim(),
         email: String(fd.get('email') || '').trim(),
         firm: String(fd.get('firm') || '').trim(),
-        message: 'Lead magnet request: ' + form.dataset.resource,
-        source: 'lead-magnet',
         resource: form.dataset.resource,
+        resourceId: form.id.replace('lead-form-', ''),
+        fileUrl: form.dataset.fileUrl,
+        source: 'lead-magnet',
+        referrer: document.referrer || '',
+        pagePath: window.location.pathname,
+        submittedAt: new Date().toISOString(),
       };
       if (!payload.name || !payload.email) {
         statusEl.textContent = 'Name and email are required.';
@@ -123,7 +128,10 @@ const formId = `lead-form-${resourceId}`;
       statusEl.className = 'lead-form-status';
 
       try {
-        var res = await fetch('https://contact.servantium.com/', {
+        // Posts to the dedicated lead-capture endpoint (NOT contact.servantium.com).
+        // The endpoint is a separate Cloudflare Worker backed by a D1 database so
+        // lead submissions land in a queryable table, not a founder inbox.
+        var res = await fetch('https://leads.servantium.com/', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),

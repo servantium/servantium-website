@@ -43,11 +43,16 @@ const {
           try {
             new PagefindUI({
               element: '#' + el.id,
-              showSubResults: false,
+              showSubResults: true,
               showImages: false,
-              excerptLength: 20,
+              resetStyles: false,
+              excerptLength: 30,
               bundlePath: '/pagefind/',
-              translations: { placeholder: placeholder },
+              translations: {
+                placeholder: placeholder,
+                clear_search: 'Clear',
+                zero_results: 'No results for [SEARCH_TERM]',
+              },
             });
             el.setAttribute('data-pagefind-initialized', '1');
           } catch (e) {

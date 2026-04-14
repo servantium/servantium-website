@@ -1,0 +1,205 @@
+---
+/**
+ * ResourceLayout — shared article layout for /resources/*, /compare/*, /customers/*.
+ * Modeled on BlogLayout: breadcrumbs, share sidebar, prose typography, CTA footer,
+ * anchor-link injection. Keeps Nav + Footer. Pagefind-indexed body.
+ */
+import BaseLayout from './BaseLayout.astro';
+import SEO from '@/components/SEO.astro';
+import ShareSidebar from '@/theme/blog/ShareSidebar.astro';
+import PageReveal from '@/theme/components/PageReveal.astro';
+
+interface Breadcrumb {
+  label: string;
+  href?: string;
+}
+interface Props {
+  title: string;
+  description: string;
+  badge?: string;
+  badgeColor?: string;
+  breadcrumbs?: Breadcrumb[];
+  activePage?: string;
+  meta?: string;
+  ogImage?: string;
+  hideShare?: boolean;
+  hideCta?: boolean;
+  /** Optional slot before the article body (forms, download boxes, hero image) */
+}
+
+const {
+  title,
+  description,
+  badge,
+  badgeColor,
+  breadcrumbs = [],
+  activePage = 'resources',
+  meta,
+  ogImage,
+  hideShare = false,
+  hideCta = false,
+} = Astro.props;
+
+const canonicalUrl = new URL(Astro.url.pathname, 'https://servantium.com').toString();
+---
+
+<BaseLayout activePage={activePage}>
+  <SEO
+    slot="head"
+    title={`${title} — Servantium`}
+    description={description}
+    ogType="article"
+    ogImage={ogImage}
+  />
+
+  {!hideShare && <ShareSidebar url={canonicalUrl} title={title} />}
+
+  <PageReveal>
+    <header class="relative bg-gradient-to-b from-[var(--color-soft-mint)] via-[var(--color-mint-tint)] to-white pt-28 pb-8 md:pt-36 md:pb-10">
+      <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-10%,rgba(0,194,109,0.06),transparent)]" aria-hidden="true"></div>
+
+      <div class="relative mx-auto max-w-4xl px-4 sm:px-6">
+        {breadcrumbs.length > 0 && (
+          <nav data-reveal="1" class="flex items-center gap-2 text-sm text-[var(--color-ink-muted)] mb-6 flex-wrap" aria-label="Breadcrumb">
+            {breadcrumbs.map((crumb, i) => (
+              <>
+                {i > 0 && <span class="opacity-40" aria-hidden="true">&rsaquo;</span>}
+                {crumb.href ? (
+                  <a href={crumb.href} class="hover:text-[var(--color-green)] transition-colors">{crumb.label}</a>
+                ) : (
+                  <span>{crumb.label}</span>
+                )}
+              </>
+            ))}
+          </nav>
+        )}
+
+        {badge && (
+          <span
+            data-reveal="1"
+            class="inline-block rounded-full px-3.5 py-1 text-xs font-semibold uppercase tracking-wider mb-5"
+            style={`background:${badgeColor ? badgeColor + '1a' : 'rgba(0,194,109,0.1)'};color:${badgeColor || 'var(--color-green)'};`}
+          >
+            {badge}
+          </span>
+        )}
+
+        <h1
+          data-reveal-title
+          data-reveal="1"
+          class="font-[family-name:var(--font-display)] text-3xl md:text-4xl lg:text-[2.75rem] font-medium text-[var(--color-ink)] leading-[1.15] tracking-[-0.02em] mb-5"
+        >
+          {title}
+        </h1>
+
+        <p data-reveal="2" class="text-lg md:text-xl text-[var(--color-ink-muted)] leading-relaxed mb-4">
+          {description}
+        </p>
+
+        {meta && <div data-reveal="3" class="text-sm text-[var(--color-ink-muted)]">{meta}</div>}
+      </div>
+    </header>
+  </PageReveal>
+
+  <div class="mx-auto max-w-4xl px-4 sm:px-6">
+    {Astro.slots.has('aside') && (
+      <div class="mt-8">
+        <slot name="aside" />
+      </div>
+    )}
+
+    <article class="article-content pb-12 md:pb-16 min-w-0" data-pagefind-body>
+      <slot />
+    </article>
+  </div>
+
+  {!hideCta && (
+    <section class="mx-auto max-w-4xl px-4 sm:px-6 pb-12 md:pb-16">
+      <div class="rounded-2xl bg-gradient-to-br from-[var(--color-soft-mint)] to-[var(--color-mint-tint)] p-8 md:p-10 text-center border border-[var(--color-pale-green)]">
+        <h3 class="font-[family-name:var(--font-display)] text-2xl md:text-[1.75rem] text-[var(--color-ink)] mb-3 leading-snug">
+          See it running on your firm's data
+        </h3>
+        <p class="text-[var(--color-ink-muted)] mb-6 max-w-md mx-auto leading-relaxed">
+          15-minute working demo. No slides. Bring an engagement you actually scoped.
+        </p>
+        <button
+          class="btn btn-primary btn-large"
+          data-cal-link="christopher-veale/servantium-introduction?duration=15"
+          data-cal-namespace="servantium-introduction"
+          data-cal-config='{"layout":"month_view"}'
+        >
+          Schedule a Demo
+        </button>
+      </div>
+    </section>
+  )}
+
+  {!hideShare && <div class="h-16 md:hidden" aria-hidden="true"></div>}
+</BaseLayout>
+
+<style>
+  .article-content { font-size: 1.125rem; line-height: 1.8; color: var(--color-ink-light); }
+  .article-content :global(h2),
+  .article-content :global(h3) { position: relative; scroll-margin-top: 5rem; }
+  .article-content :global(h2) {
+    font-family: var(--font-display);
+    font-size: 1.75rem; font-weight: 500; line-height: 1.3;
+    color: var(--color-ink); margin: 3rem 0 1rem; letter-spacing: -0.01em;
+  }
+  .article-content :global(h3) {
+    font-family: var(--font-display);
+    font-size: 1.35rem; font-weight: 500; line-height: 1.4;
+    color: var(--color-ink); margin: 2.5rem 0 0.75rem;
+  }
+  .article-content :global(h2 .heading-anchor),
+  .article-content :global(h3 .heading-anchor) {
+    opacity: 0; position: absolute; left: -1.5em; top: 50%;
+    transform: translateY(-50%); color: var(--color-ink-muted);
+    text-decoration: none; font-size: 0.75em; transition: opacity 0.15s ease;
+  }
+  .article-content :global(h2:hover .heading-anchor),
+  .article-content :global(h3:hover .heading-anchor) { opacity: 0.5; }
+  .article-content :global(h2 .heading-anchor:hover),
+  .article-content :global(h3 .heading-anchor:hover) { opacity: 1; color: var(--color-green); }
+  .article-content :global(p) { margin-bottom: 1.35rem; }
+  .article-content :global(a:not(.heading-anchor)) {
+    color: var(--color-green); text-decoration: underline;
+    text-underline-offset: 3px; text-decoration-thickness: 1px;
+  }
+  .article-content :global(strong) { color: var(--color-ink); font-weight: 600; }
+  .article-content :global(ul), .article-content :global(ol) { margin: 1rem 0 1.5rem 1.25rem; }
+  .article-content :global(li) { margin-bottom: 0.6rem; color: var(--color-ink-light); line-height: 1.75; }
+  .article-content :global(li::marker) { color: var(--color-green); }
+  .article-content :global(blockquote) {
+    border-left: 3px solid var(--color-green);
+    padding: 1.25rem 1.5rem; margin: 2rem 0;
+    background: var(--color-mint-tint); border-radius: 0 12px 12px 0;
+  }
+  .article-content :global(blockquote p) { font-style: italic; color: var(--color-ink); margin-bottom: 0; }
+  .article-content :global(table) { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.95rem; }
+  .article-content :global(th) { text-align: left; font-weight: 600; color: var(--color-ink); padding: 0.75rem 1rem; border-bottom: 2px solid var(--color-cloud-grey); }
+  .article-content :global(td) { padding: 0.75rem 1rem; border-bottom: 1px solid var(--color-cloud-grey); color: var(--color-ink-light); }
+  .article-content :global(hr) { border: none; border-top: 1px solid var(--color-cloud-grey); margin: 2.5rem 0; }
+  .article-content :global(> p:first-of-type) { font-size: 1.2rem; color: var(--color-ink); line-height: 1.75; }
+</style>
+
+<script>
+  function initArticleAnchors() {
+    const article = document.querySelector('.article-content');
+    if (!article) return;
+    const headings = article.querySelectorAll('h2[id], h3[id]');
+    headings.forEach((heading) => {
+      const id = heading.getAttribute('id');
+      if (!id || heading.querySelector('.heading-anchor')) return;
+      const anchor = document.createElement('a');
+      anchor.href = `#${id}`;
+      anchor.className = 'heading-anchor';
+      anchor.setAttribute('aria-label', `Link to ${heading.textContent}`);
+      anchor.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>`;
+      (heading as HTMLElement).style.position = 'relative';
+      heading.insertBefore(anchor, heading.firstChild);
+    });
+  }
+  document.addEventListener('astro:page-load', initArticleAnchors);
+  initArticleAnchors();
+</script>

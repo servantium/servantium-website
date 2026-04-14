@@ -1,0 +1,133 @@
+---
+/**
+ * ResourceGrid — reusable tile wall for filtered resource index pages.
+ * Accepts a list of pre-built Tile objects (same shape as /resources/index.astro).
+ */
+import ResourceIcon from '@/components/ResourceIcons.astro';
+
+interface Tile {
+  href: string;
+  kind: string;
+  type?: string;
+  title: string;
+  description: string;
+  date?: string;
+  readingTime?: string;
+  category?: string;
+}
+interface Props {
+  tiles: Tile[];
+  emptyMessage?: string;
+}
+const { tiles, emptyMessage = 'Nothing here yet — check back soon.' } = Astro.props;
+
+const kindMeta: Record<string, { icon: string; label: string; color: string }> = {
+  calculator:  { icon: 'calculator', label: 'Calculator',    color: '#FFB02E' },
+  template:    { icon: 'template',   label: 'Template',      color: '#4C82A7' },
+  guide:       { icon: 'guide',      label: 'Guide',         color: '#26A899' },
+  playbook:    { icon: 'playbook',   label: 'Playbook',      color: '#26A899' },
+  customer:    { icon: 'customer',   label: 'Customer story',color: '#FF5C70' },
+  blog:        { icon: 'blog',       label: 'Article',       color: '#00C26D' },
+  comparison:  { icon: 'comparison', label: 'Comparison',    color: '#8B5CF6' },
+  ebook:       { icon: 'ebook',      label: 'Ebook',         color: '#26A899' },
+  checklist:   { icon: 'checklist',  label: 'Checklist',     color: '#00C26D' },
+};
+---
+
+{tiles.length === 0 ? (
+  <div class="rg-empty">
+    <p>{emptyMessage}</p>
+    <a href="/resources/" class="rg-empty-link">Browse all resources →</a>
+  </div>
+) : (
+  <div class="rg-grid">
+    {tiles.map((t) => {
+      const m = kindMeta[t.kind] || { icon: 'guide', label: t.type || 'Resource', color: '#6b6b6b' };
+      return (
+        <a href={t.href} class="rg-tile" style={`--tile-accent:${m.color};`}>
+          <div class="rg-tile-top">
+            <div class="rg-tile-icon"><ResourceIcon name={m.icon as any} size={22} /></div>
+            <div class="rg-tile-badge">{m.label}</div>
+          </div>
+          <h3 class="rg-tile-title">{t.title}</h3>
+          <p class="rg-tile-desc">{t.description}</p>
+          <div class="rg-tile-meta">
+            {t.category && <span class="rg-tile-category">{t.category}</span>}
+            {t.readingTime && <span>{t.readingTime}</span>}
+            {t.date && !t.readingTime && (
+              <span>{new Date(t.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
+            )}
+          </div>
+        </a>
+      );
+    })}
+  </div>
+)}
+
+<style>
+  .rg-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+  @media (max-width: 1000px) { .rg-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 640px) { .rg-grid { grid-template-columns: 1fr; } }
+  .rg-tile {
+    display: flex;
+    flex-direction: column;
+    padding: 1.75rem;
+    background: #ffffff;
+    border: 1px solid var(--color-cloud-grey, #E1E3E6);
+    border-radius: 16px;
+    text-decoration: none;
+    color: var(--color-ink, #0D0D0D);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    min-height: 220px;
+  }
+  .rg-tile::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: var(--tile-accent, var(--color-green, #00C26D));
+    opacity: 0; transition: opacity 0.2s ease;
+  }
+  .rg-tile:hover { transform: translateY(-4px); box-shadow: 0 20px 44px rgba(13, 13, 13, 0.08); border-color: transparent; }
+  .rg-tile:hover::before { opacity: 1; }
+  .rg-tile-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+  .rg-tile-icon {
+    width: 42px; height: 42px; border-radius: 10px;
+    background: var(--color-mist-grey, #F5F6F7);
+    display: inline-flex; align-items: center; justify-content: center;
+    color: var(--tile-accent, var(--color-green, #00C26D));
+  }
+  .rg-tile-badge {
+    font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--tile-accent, var(--color-green, #00C26D));
+  }
+  .rg-tile-title {
+    font-family: var(--font-display, 'Playfair Display', serif);
+    font-size: 1.2rem; font-weight: 600; line-height: 1.25;
+    margin: 0 0 0.5rem; color: var(--color-ink, #0D0D0D);
+  }
+  .rg-tile-desc {
+    font-size: 0.92rem; line-height: 1.55;
+    color: var(--color-ink-muted, #6b6b6b);
+    margin: 0 0 1rem; flex: 1;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .rg-tile-meta {
+    display: flex; gap: 0.75rem;
+    font-size: 0.75rem; color: var(--color-ink-muted, #6b6b6b);
+  }
+  .rg-tile-category { text-transform: capitalize; font-weight: 500; }
+  .rg-empty {
+    padding: 4rem 2rem;
+    background: #ffffff;
+    border: 1px dashed var(--color-cloud-grey, #E1E3E6);
+    border-radius: 16px;
+    text-align: center;
+    color: var(--color-ink-muted, #6b6b6b);
+  }
+  .rg-empty-link { color: var(--color-green, #00C26D); font-weight: 500; text-decoration: none; }
+</style>

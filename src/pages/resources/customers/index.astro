@@ -1,0 +1,21 @@
+---
+import ResourceIndexPage from '@/components/ResourceIndexPage.astro';
+import { getCollection } from 'astro:content';
+import { customersToTiles } from '@/lib/resourceTiles';
+
+const items = (await getCollection('customers', ({ data }) => data.published))
+  .sort((a, b) => (b.data.featured ? 1 : 0) - (a.data.featured ? 1 : 0));
+const tiles = customersToTiles(items as any);
+---
+
+<ResourceIndexPage
+  seoTitle="Customer Stories — Servantium"
+  seoDescription="How consulting firms, agencies, and IT services companies run their engagement operations on Servantium."
+  eyebrow="In the trenches"
+  h1="Customer Stories"
+  lede="How real services firms actually use Servantium to price, deliver, and learn from every engagement."
+  crumbLabel="Customer Stories"
+  tiles={tiles}
+  emptyMessage="Case studies launching soon. Want to be the first published customer? Book a demo."
+  searchId="rix-search-customers"
+/>

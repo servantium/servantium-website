@@ -1,6 +1,5 @@
 ---
-import BaseLayout from '@/layouts/BaseLayout.astro';
-import SEO from '@/components/SEO.astro';
+import ResourceLayout from '@/layouts/ResourceLayout.astro';
 import LeadMagnetForm from '@/components/LeadMagnetForm.astro';
 import { getCollection, render } from 'astro:content';
 
@@ -17,129 +16,50 @@ export async function getStaticPaths() {
 const { item } = Astro.props;
 const { Content } = await render(item);
 const { title, description, type, delivery, fileUrl, readingTime } = item.data;
+
+const typeLabelMap: Record<string, string> = {
+  template: 'Template',
+  guide: 'Guide',
+  playbook: 'Playbook',
+  ebook: 'Ebook',
+  checklist: 'Checklist',
+};
+
+// Index page a resource should breadcrumb back to
+const indexMap: Record<string, { label: string; href: string }> = {
+  template: { label: 'Templates', href: '/resources/templates/' },
+  guide: { label: 'Guides & Playbooks', href: '/resources/guides/' },
+  playbook: { label: 'Guides & Playbooks', href: '/resources/guides/' },
+  ebook: { label: 'Guides & Playbooks', href: '/resources/guides/' },
+  checklist: { label: 'Checklists', href: '/resources/checklists/' },
+};
+
+const parent = indexMap[type] || { label: 'Resources', href: '/resources/' };
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Resources', href: '/resources/' },
+  { label: parent.label, href: parent.href },
+  { label: title },
+];
 ---
 
-<BaseLayout activePage="resources">
-  <SEO
-    slot="head"
-    title={`${title} — Servantium`}
-    description={description}
-    ogType="article"
-  />
-
-  <article class="resource-article">
-    <div class="container">
-      <nav class="breadcrumbs" aria-label="Breadcrumb">
-        <a href="/resources/">Resources</a>
-        <span>›</span>
-        <span class="current">{type}</span>
-      </nav>
-
-      <header class="resource-header">
-        <div class="badge">{type}</div>
-        <h1>{title}</h1>
-        <p class="lede">{description}</p>
-        {readingTime && <div class="meta">{readingTime}</div>}
-      </header>
-
-      {delivery === 'gated' && fileUrl && (
-        <LeadMagnetForm
-          resourceTitle={title}
-          fileUrl={fileUrl}
-          resourceId={item.id}
-        />
-      )}
-
-      {delivery === 'download' && fileUrl && (
-        <div class="download-box">
-          <a href={fileUrl} download class="btn btn-primary">Download</a>
-        </div>
-      )}
-
-      <div class="resource-content prose">
-        <Content />
-      </div>
+<ResourceLayout
+  title={title}
+  description={description}
+  badge={typeLabelMap[type] || type}
+  breadcrumbs={breadcrumbs}
+  meta={readingTime}
+  activePage="resources"
+>
+  {delivery === 'gated' && fileUrl && (
+    <div slot="aside">
+      <LeadMagnetForm
+        resourceTitle={title}
+        fileUrl={fileUrl}
+        resourceId={item.id}
+      />
     </div>
-  </article>
-</BaseLayout>
+  )}
 
-<style>
-  .resource-article { padding: 7rem 0 5rem; }
-  .container { max-width: 780px; margin: 0 auto; padding: 0 var(--space-lg); }
-  .breadcrumbs {
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
-    font-size: 0.85rem;
-    color: var(--color-ink-muted);
-    margin-bottom: 1.5rem;
-  }
-  .breadcrumbs a { color: var(--color-green); text-decoration: none; }
-  .breadcrumbs .current { text-transform: capitalize; }
-  .resource-header { margin-bottom: 2.5rem; }
-  .badge {
-    display: inline-block;
-    font-size: 0.7rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--color-green);
-    background: var(--color-soft-mint);
-    padding: 0.35rem 0.75rem;
-    border-radius: 100px;
-    margin-bottom: 1rem;
-  }
-  .resource-header h1 {
-    font-family: var(--font-display);
-    font-size: clamp(2rem, 4vw, 2.75rem);
-    font-weight: 500;
-    line-height: 1.15;
-    letter-spacing: -0.02em;
-    margin-bottom: 1rem;
-    color: var(--color-ink);
-  }
-  .lede { font-size: 1.15rem; color: var(--color-ink-light); line-height: 1.55; }
-  .meta { font-size: 0.85rem; color: var(--color-ink-muted); margin-top: 0.75rem; }
-  .gate-box, .download-box {
-    padding: 2rem;
-    background: var(--color-mist-grey);
-    border: 1px solid var(--color-cloud-grey);
-    border-radius: 14px;
-    margin-bottom: 2.5rem;
-  }
-  .gate-box h2 { font-family: var(--font-display); font-size: 1.5rem; margin-bottom: 0.5rem; }
-  .gate-box p { color: var(--color-ink-muted); margin-bottom: 1rem; }
-  .gate-form { display: flex; gap: 0.5rem; margin-bottom: 0.75rem; }
-  .gate-form input {
-    flex: 1;
-    padding: 0.75rem 1rem;
-    border: 1.5px solid var(--color-cloud-grey);
-    border-radius: 10px;
-    font-family: inherit;
-    font-size: 0.95rem;
-  }
-  .gate-form input:focus { outline: none; border-color: var(--color-green); }
-  .gate-note { font-size: 0.85rem; color: var(--color-ink-muted); margin: 0; }
-  .gate-note a { color: var(--color-green); }
-  .download-box { text-align: center; }
-  .resource-content {
-    font-size: 1.05rem;
-    line-height: 1.7;
-    color: var(--color-ink-light);
-  }
-  .resource-content :global(h2) {
-    font-family: var(--font-display);
-    font-size: 1.5rem;
-    margin: 2rem 0 0.75rem;
-    color: var(--color-ink);
-  }
-  .resource-content :global(ul) { padding-left: 1.25rem; margin: 1rem 0; }
-  .resource-content :global(li) { margin: 0.4rem 0; }
-  .resource-content :global(blockquote) {
-    border-left: 3px solid var(--color-green);
-    padding-left: 1rem;
-    margin: 1.5rem 0;
-    color: var(--color-ink-muted);
-    font-style: italic;
-  }
-</style>
+  <Content />
+</ResourceLayout>

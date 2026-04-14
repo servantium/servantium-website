@@ -1,0 +1,352 @@
+---
+/**
+ * SearchModal — full-page modal search for Help + Resources.
+ * Renders as a trigger button that opens a centered modal with Pagefind UI.
+ * Keyboard: Cmd/Ctrl+K to open, Esc to close.
+ *
+ * Initializes PagefindUI lazily the first time the modal opens, so failed
+ * indexes don't break the rest of the page.
+ */
+interface Props {
+  label?: string;
+  placeholder?: string;
+  /** CSS to apply to the trigger button. Use "compact" for sidebar, "full" for hero. */
+  triggerVariant?: 'full' | 'compact' | 'icon';
+}
+
+const {
+  label = 'Search the docs',
+  placeholder = 'Search docs, guides, releases...',
+  triggerVariant = 'full',
+} = Astro.props;
+---
+
+<button
+  type="button"
+  class={`sm-trigger sm-trigger--${triggerVariant}`}
+  data-search-modal-open
+  aria-haspopup="dialog"
+  aria-label={label}
+>
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+  </svg>
+  {triggerVariant !== 'icon' && <span class="sm-trigger-label">{label}</span>}
+  {triggerVariant === 'full' && <kbd class="sm-trigger-kbd">⌘K</kbd>}
+</button>
+
+<div class="sm-modal" data-search-modal hidden role="dialog" aria-modal="true" aria-label="Search">
+  <div class="sm-backdrop" data-search-modal-close></div>
+  <div class="sm-panel" role="document">
+    <div class="sm-panel-head">
+      <svg class="sm-panel-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <span class="sm-panel-title">Search Servantium</span>
+      <button type="button" class="sm-close-btn" data-search-modal-close aria-label="Close search">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+    <link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
+    <div class="sm-search-host" id="sm-pagefind-host" data-placeholder={placeholder}></div>
+    <div class="sm-fallback" hidden>
+      <p>Search index not available. Run <code>npm run build</code> locally or ship to production to enable search.</p>
+    </div>
+    <div class="sm-footer">
+      <span><kbd>Esc</kbd> to close</span>
+      <span><kbd>⌘K</kbd> to search from anywhere</span>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  (function() {
+    var modal = document.querySelector('[data-search-modal]');
+    var host = document.getElementById('sm-pagefind-host');
+    var fallback = document.querySelector('.sm-fallback');
+    if (!modal || !host) return;
+
+    var opened = false;
+    var pagefindReady = false;
+
+    function ensurePagefindScript() {
+      return new Promise(function(resolve, reject) {
+        if (window.__pagefindScriptLoaded && typeof window.PagefindUI !== 'undefined') {
+          resolve();
+          return;
+        }
+        if (window.__pagefindScriptLoaded) {
+          // Already appended by another component; wait for it.
+          var tries = 0;
+          var timer = setInterval(function() {
+            tries++;
+            if (typeof window.PagefindUI !== 'undefined') {
+              clearInterval(timer);
+              resolve();
+            } else if (tries > 40) {
+              clearInterval(timer);
+              reject(new Error('pagefind timeout'));
+            }
+          }, 100);
+          return;
+        }
+        window.__pagefindScriptLoaded = true;
+        var s = document.createElement('script');
+        s.src = '/pagefind/pagefind-ui.js';
+        s.onload = function() { resolve(); };
+        s.onerror = function() { reject(new Error('pagefind-ui.js 404')); };
+        document.head.appendChild(s);
+      });
+    }
+
+    function initPagefind() {
+      if (pagefindReady) return;
+      ensurePagefindScript()
+        .then(function() {
+          if (typeof window.PagefindUI === 'undefined') throw new Error('no PagefindUI');
+          new window.PagefindUI({
+            element: '#' + host.id,
+            showSubResults: true,
+            showImages: false,
+            resetStyles: false,
+            excerptLength: 30,
+            bundlePath: '/pagefind/',
+            translations: {
+              placeholder: host.getAttribute('data-placeholder') || 'Search...',
+              clear_search: 'Clear',
+              zero_results: 'No results for [SEARCH_TERM]',
+            },
+          });
+          pagefindReady = true;
+          // Focus the input after init
+          setTimeout(function() {
+            var input = host.querySelector('input');
+            if (input) input.focus();
+          }, 50);
+        })
+        .catch(function(err) {
+          console.warn('[SearchModal] Pagefind unavailable:', err && err.message);
+          host.hidden = true;
+          if (fallback) fallback.hidden = false;
+        });
+    }
+
+    function openModal() {
+      if (opened) return;
+      opened = true;
+      modal.hidden = false;
+      document.body.style.overflow = 'hidden';
+      // Defer init until after modal is painted
+      requestAnimationFrame(initPagefind);
+      // If already initialized, focus input
+      if (pagefindReady) {
+        setTimeout(function() {
+          var input = host.querySelector('input');
+          if (input) { input.focus(); input.select(); }
+        }, 50);
+      }
+    }
+
+    function closeModal() {
+      if (!opened) return;
+      opened = false;
+      modal.hidden = true;
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('click', function(e) {
+      var t = e.target;
+      if (!t) return;
+      if (t.closest && t.closest('[data-search-modal-open]')) {
+        e.preventDefault();
+        openModal();
+      } else if (t.closest && t.closest('[data-search-modal-close]')) {
+        e.preventDefault();
+        closeModal();
+      }
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        opened ? closeModal() : openModal();
+      } else if (e.key === 'Escape' && opened) {
+        closeModal();
+      }
+    });
+  })();
+</script>
+
+<style is:global>
+  /* Trigger button variants */
+  .sm-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-family: inherit;
+    background: #ffffff;
+    border: 1.5px solid var(--color-cloud-grey, #E1E3E6);
+    border-radius: 10px;
+    color: var(--color-ink-muted, #6b6b6b);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .sm-trigger:hover {
+    border-color: var(--color-green, #00C26D);
+    color: var(--color-ink, #0D0D0D);
+  }
+  .sm-trigger--full {
+    width: 100%;
+    padding: 0.7rem 0.9rem;
+    font-size: 0.9rem;
+  }
+  .sm-trigger--compact {
+    padding: 0.55rem 0.8rem;
+    font-size: 0.85rem;
+  }
+  .sm-trigger--icon {
+    width: 40px; height: 40px;
+    padding: 0;
+    justify-content: center;
+  }
+  .sm-trigger-label { flex: 1; text-align: left; }
+  .sm-trigger-kbd {
+    font-family: 'SF Mono', 'Fira Mono', ui-monospace, monospace;
+    font-size: 0.7rem;
+    padding: 0.12rem 0.35rem;
+    background: var(--color-mist-grey, #F5F6F7);
+    border: 1px solid var(--color-cloud-grey, #E1E3E6);
+    border-radius: 5px;
+    color: var(--color-ink-muted, #6b6b6b);
+  }
+
+  /* Modal */
+  .sm-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 10vh 1rem 2rem;
+  }
+  .sm-modal[hidden] { display: none; }
+  .sm-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(13, 13, 13, 0.55);
+    backdrop-filter: blur(4px);
+    animation: smFadeIn 0.15s ease;
+  }
+  .sm-panel {
+    position: relative;
+    width: min(680px, 100%);
+    max-height: 80vh;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.35), 0 10px 30px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: smPopIn 0.18s ease;
+  }
+  @keyframes smFadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes smPopIn {
+    from { opacity: 0; transform: translateY(-8px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .sm-panel-head {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.1rem 1.25rem 0.75rem;
+    border-bottom: 1px solid var(--color-cloud-grey, #E1E3E6);
+  }
+  .sm-panel-icon { color: var(--color-green, #00C26D); flex-shrink: 0; }
+  .sm-panel-title {
+    flex: 1;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--color-ink, #0D0D0D);
+  }
+  .sm-close-btn {
+    background: none;
+    border: none;
+    padding: 0.35rem;
+    cursor: pointer;
+    color: var(--color-ink-muted, #6b6b6b);
+    border-radius: 6px;
+    display: inline-flex;
+  }
+  .sm-close-btn:hover { background: var(--color-mist-grey, #F5F6F7); color: var(--color-ink, #0D0D0D); }
+
+  .sm-search-host {
+    padding: 1rem 1.25rem 0.5rem;
+    overflow-y: auto;
+    flex: 1;
+  }
+  .sm-search-host .pagefind-ui { --pagefind-ui-scale: 1; }
+  .sm-search-host .pagefind-ui__search-input {
+    font-family: var(--font-body, 'Source Sans 3', sans-serif) !important;
+    font-size: 1.05rem !important;
+    padding: 0.85rem 1rem !important;
+    border: 1.5px solid var(--color-cloud-grey, #E1E3E6) !important;
+    border-radius: 12px !important;
+    width: 100% !important;
+  }
+  .sm-search-host .pagefind-ui__search-input:focus {
+    border-color: var(--color-green, #00C26D) !important;
+    box-shadow: 0 0 0 3px rgba(0, 194, 109, 0.12) !important;
+    outline: none !important;
+  }
+  .sm-search-host .pagefind-ui__form::before { display: none !important; }
+  .sm-search-host .pagefind-ui__result {
+    padding: 0.9rem 0 !important;
+    border-bottom: 1px solid var(--color-cloud-grey, #E1E3E6) !important;
+  }
+  .sm-search-host .pagefind-ui__result-link {
+    color: var(--color-ink, #0D0D0D) !important;
+    font-weight: 600 !important;
+    font-size: 1rem !important;
+    text-decoration: none !important;
+  }
+  .sm-search-host .pagefind-ui__result-link:hover { color: var(--color-green, #00C26D) !important; }
+  .sm-search-host .pagefind-ui__result-excerpt {
+    font-size: 0.875rem !important;
+    line-height: 1.5 !important;
+    color: var(--color-ink-muted, #6b6b6b) !important;
+    margin-top: 0.3rem !important;
+  }
+
+  .sm-fallback {
+    padding: 2rem 1.25rem;
+    text-align: center;
+    color: var(--color-ink-muted, #6b6b6b);
+    font-size: 0.9rem;
+  }
+  .sm-fallback code {
+    background: var(--color-mist-grey, #F5F6F7);
+    padding: 0.1em 0.4em;
+    border-radius: 4px;
+    font-size: 0.85em;
+  }
+  .sm-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.65rem 1.25rem;
+    border-top: 1px solid var(--color-cloud-grey, #E1E3E6);
+    background: var(--color-mist-grey, #F5F6F7);
+    font-size: 0.75rem;
+    color: var(--color-ink-muted, #6b6b6b);
+  }
+  .sm-footer kbd {
+    font-family: 'SF Mono', 'Fira Mono', ui-monospace, monospace;
+    padding: 0.1rem 0.35rem;
+    background: #ffffff;
+    border: 1px solid var(--color-cloud-grey, #E1E3E6);
+    border-radius: 4px;
+  }
+</style>

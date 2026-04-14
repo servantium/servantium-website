@@ -1,0 +1,22 @@
+---
+import ResourceIndexPage from '@/components/ResourceIndexPage.astro';
+import { getCollection } from 'astro:content';
+import { resourcesToTiles } from '@/lib/resourceTiles';
+
+const longform = ['guide', 'playbook', 'ebook'];
+const items = (await getCollection('resources', ({ data }) => !data.draft && longform.includes(data.type)))
+  .sort((a, b) => a.data.order - b.data.order);
+const tiles = resourcesToTiles(items as any);
+---
+
+<ResourceIndexPage
+  seoTitle="Guides & Playbooks — Servantium Resources"
+  seoDescription="Long-form field guides and playbooks for services operators: pricing, utilization, institutional memory, delivery systems."
+  eyebrow="Long-form field guides"
+  h1="Guides & Playbooks"
+  lede="Deep dives for services operators. Written by people who ran the engagements before they built the software."
+  crumbLabel="Guides & Playbooks"
+  tiles={tiles}
+  emptyMessage="No guides published yet — more coming soon."
+  searchId="rix-search-guides"
+/>

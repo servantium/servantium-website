@@ -1,0 +1,21 @@
+---
+import ResourceIndexPage from '@/components/ResourceIndexPage.astro';
+import { getCollection } from 'astro:content';
+import { resourcesToTiles } from '@/lib/resourceTiles';
+
+const items = (await getCollection('resources', ({ data }) => !data.draft && data.type === 'template'))
+  .sort((a, b) => a.data.order - b.data.order);
+const tiles = resourcesToTiles(items as any);
+---
+
+<ResourceIndexPage
+  seoTitle="Templates — Servantium Resources"
+  seoDescription="Free templates for services firms: SOWs, rate cards, utilization dashboards, engagement checklists. Download and adapt."
+  eyebrow="Download & adapt"
+  h1="Templates for services firms"
+  lede="SOWs, rate cards, dashboards, and scoping docs you can drop into the next engagement. Drop your email and we'll send the file."
+  crumbLabel="Templates"
+  tiles={tiles}
+  emptyMessage="No templates published yet — more coming soon."
+  searchId="rix-search-templates"
+/>

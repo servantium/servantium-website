@@ -55,6 +55,7 @@ export const docsNav: DocsNavSection[] = [
     label: 'Glossary',
     items: [
       { label: 'All terms', slug: 'glossary' },
+      { label: 'What is a Professional Services OS?', slug: 'glossary/what-is-a-professional-services-os' },
       { label: 'Realization rate', slug: 'glossary/realization-rate' },
     ],
   },

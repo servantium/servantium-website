@@ -1,0 +1,21 @@
+---
+import ResourceIndexPage from '@/components/ResourceIndexPage.astro';
+import { getCollection } from 'astro:content';
+import { resourcesToTiles } from '@/lib/resourceTiles';
+
+const items = (await getCollection('resources', ({ data }) => !data.draft && data.type === 'checklist'))
+  .sort((a, b) => a.data.order - b.data.order);
+const tiles = resourcesToTiles(items as any);
+---
+
+<ResourceIndexPage
+  seoTitle="Checklists — Servantium Resources"
+  seoDescription="Step-by-step checklists for scoping, kickoff, delivery, and closeout of professional services engagements."
+  eyebrow="Step-by-step"
+  h1="Checklists for services firms"
+  lede="The unsexy work that separates firms that scale from firms that don't. Scoping, kickoff, delivery, closeout."
+  crumbLabel="Checklists"
+  tiles={tiles}
+  emptyMessage="No checklists published yet — the first batch is coming soon."
+  searchId="rix-search-checklists"
+/>
