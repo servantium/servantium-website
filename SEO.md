@@ -32,43 +32,91 @@
 
 ## 1. Positioning & Category Definition
 
-### The OS positioning fight
+### The category: "The Professional Services OS"
 
-Three startups are claiming "OS for professional services/consulting" with completely different products. Servantium's actual differentiator is **the closed loop** — scope → price → propose → deliver → learn, where every engagement makes the next one better via institutional memory.
+**Tagline:** The Professional Services OS
+**Sub-tagline:** Scope, price, deliver, learn. Compound every engagement into your firm's advantage.
 
-### Tagline candidates (pending CEO decision)
+### Why this works (the competitive picture)
 
-| Option | Tagline | Sub-tagline | Notes |
+Three startups are circling the "OS for services/consulting" positioning, but none of them actually claim "The Professional Services OS":
+
+| Company | HQ | Actual claim | Scope |
 |---|---|---|---|
-| **A** | The Services Operating System | Remembers every engagement. Compounds every delivery. | Broadest claim, sharpest qualifier ("services") |
-| **B** | The Services OS | Scope, price, deliver, learn. Compound forever. | Shortest, most brand-friendly |
-| **C** | ServantiumOS | The operating system for services that remember. | Most trademarkable |
-| **D** | The Practice OS | The operating system for services practices. | Industry-native language, risk of medical/law confusion |
+| Operating.app | Helsinki + NYC | "AI Platform to Run a Professional Services Firm" | Resource planning + time tracking + invoicing (1 stage) |
+| Riplo | London | "Agentic Operating System for Consulting" | AI agents for consulting deliverables (1 stage) |
+| **Servantium** | Delaware, US | **"The Professional Services OS"** | Scope → price → deliver → learn (4 stages + loop) |
 
-**Implementation (once picked):**
+**Strategic advantages:**
+1. **Geographic window.** Both competitors are EU-focused with minimal US GTM. US services market is 5-6x larger by revenue. Owning the US conversation = owning the bigger half of the market.
+2. **Scope window.** Neither competitor covers the full lifecycle. Servantium is the only one with a legitimate 4-stage + feedback-loop claim.
+3. **Language window.** Operating.app hedged with "platform." Riplo narrowed to "consulting." "The Professional Services OS" is both the broadest and most specific phrase — it's unclaimed.
+4. **Timing window.** Neither competitor has published serious content targeting "professional services operating system." Riplo came out of stealth in March 2026 with a bare content cupboard. A 4-week sprint plants the flag before they react.
+5. **Funding stage.** Both are pre-seed. Neither has capital to outspend you on paid channels. This is an organic SEO/AEO game where content velocity + entity recognition wins.
+
+### Implementation across the site
+
+Once committed, the phrase goes everywhere:
 - Homepage hero H1 and meta title
-- Platform page H1
+- Platform page H1 (replace current "Every engagement makes your firm smarter")
 - All JSON-LD `name` / `description` fields
-- Social profile bios (LinkedIn company page)
+- LinkedIn company page bio (both Christopher + Maxwell reference it)
 - Email signatures
 - Every future blog post intro
+- Always paired with "Servantium" (brand + category co-occurrence signals entity recognition to Google and LLMs)
 
 ### Category definition (the manifesto)
 
-A single long-form piece that defines the criteria for what counts as an "operating system for services" vs what's just a tool. Goals:
-- Establish Servantium as the definition source AI cites when users ask what OS for services means
-- Implicitly position Operating.app (resource planning only) as "missing the scope-and-price layer"
-- Implicitly position Riplo (AI content generation) as "missing the operations layer"
-- Never name competitors directly
+A single long-form piece at `/blog/what-is-the-professional-services-os` that defines the criteria for what counts as a Professional Services OS vs a tool. Goals:
+
+1. **Plant the flag.** First page Google indexes for "professional services operating system."
+2. **Define the criteria.** A Professional Services OS must handle (a) scoping, (b) pricing, (c) delivery, (d) learning — with data flowing between all four stages.
+3. **Provide the diagnostic.** A 10-question self-test: "Is your current stack a Professional Services OS?" Readers can grade themselves.
+4. **Implicitly position competitors.** "Resource planning alone isn't an OS. AI-powered document generation isn't an OS. An OS is where every stage feeds the next." Never name names.
+5. **Establish Servantium as the reference implementation.** Show how the 4 stages connect.
+
+This piece becomes the URL every future blog post, glossary entry, and LinkedIn post links back to. It becomes the definitive answer AI tools cite when users ask "what's a Professional Services OS?"
 
 **Recommended structure:**
-1. Hook: "Everyone's building tools. Few are building operating systems. Here's the difference."
-2. Define OS criteria: must handle (a) scope, (b) price, (c) deliver, (d) learn, with (e) data flow between all four
-3. Show how the pieces feed each other (the loop is the differentiator)
-4. Position Servantium as the reference implementation
-5. Call out the anti-pattern: tools that automate one step without feeding the others
+- Hook: "Everyone's building tools. Few are building operating systems. Here's the difference."
+- Part 1: The 4 stages of services work
+- Part 2: Why the connections between stages matter more than the stages themselves
+- Part 3: The diagnostic (10 questions)
+- Part 4: What a Professional Services OS enables (compounding knowledge, faster estimates, better margins)
+- Part 5: The anti-patterns (tools that automate one step without feeding others)
+- Close: "If you're building for the services category, build an operating system. If you're buying for a services firm, buy one."
 
-This piece gets written under Christopher's byline, lives at `/blog/what-is-an-operating-system-for-services`, and becomes the primary target for "what is an operating system for professional services" queries.
+### The war plan: how we actually win "Professional Services OS"
+
+**Phase 1 — Plant the flag (Week 1)**
+- Ship the manifesto piece. This is the single highest-priority content item in the entire sprint.
+- Rewrite homepage + platform page with the new positioning
+- Submit to GSC for indexing immediately on production deploy
+
+**Phase 2 — Saturate the query landscape (Weeks 2-3)**
+- Ship 5 glossary pages targeting adjacent phrases: "what is a professional services OS," "professional services OS vs PSA," "professional services OS vs CPQ," "professional services OS criteria," "history of professional services software"
+- Ship 4 blog posts: "The 4 stages of a Professional Services OS," "Why PSA isn't an operating system," "What CPQ got right about services," "The feedback loop in services operations"
+- Internal linking: every piece links back to the manifesto with anchor text "Professional Services OS"
+
+**Phase 3 — Build the moat (Weeks 4-8 post-launch)**
+- Structured data: FAQPage, Organization, Article schemas all reference the phrase
+- LinkedIn language discipline: both founders use "Professional Services OS" instead of "platform" or "software" in every category-level post
+- Trademark filing: submit "The Professional Services OS" as Class 42 tagline alongside Servantium brand
+
+**Phase 4 — Defend and expand (Month 3+)**
+- When competitors catch on, the defensive content writes itself:
+  - If Operating.app adopts "OS" language: publish "What it really takes to build a Professional Services OS" (reinforce 4-stage criteria they don't meet)
+  - If Riplo broadens beyond consulting: publish "Why 'operating system for consulting' is narrower than 'Professional Services OS'"
+- Never attack by name. Let the category definition do the work.
+
+### Risks and mitigations
+
+| Risk | Severity | Mitigation |
+|---|---|---|
+| Operating.app rebrands to "Professional Services OS" before we plant the flag | Low | Ship the manifesto this week, before they could react |
+| Google treats the phrase as too descriptive to rank a specific site for | Medium | Always pair with brand: "Servantium — The Professional Services OS" |
+| Buyers don't search the exact phrase | High | Capture adjacent phrases (PSA alternative, CPQ for services, engagement management software) and redirect to the manifesto via internal links and glossary pages |
+| Riplo or Operating.app raises a US-market Series A with aggressive paid marketing | Low in 12 months, higher after | Build organic + entity recognition moat first; switch to paid defense only if needed |
 
 ---
 
@@ -106,26 +154,32 @@ Skip until month 3. We don't have the authority to punch up at Kantata/Deltek/Ro
 
 ### Glossary entries to create (`/help/glossary/`)
 
-These are the AEO workhorses. Each is 500-800 words, definition-first, structured with FAQ schema, AI-drafted and human-edited.
+These are the AEO workhorses. Each is 500-800 words, definition-first, structured with FAQ schema, AI-drafted and human-edited. The first 5 are specifically chosen to saturate the "Professional Services OS" query landscape.
 
-1. `what-is-engagement-management` — Q6
-2. `what-is-services-cpq` — Q7
-3. `what-is-the-engagement-lifecycle` — Q6, Q10
-4. `what-is-institutional-memory-software` — Q3
-5. `what-is-revenue-leakage` — Q1
-6. `scope-creep-prevention` — Q2
-7. `psa-vs-cpq-explained` — Q9
-8. `utilization-rate-benchmarks` — Q4
+1. `what-is-a-professional-services-os` — **category flag, links to manifesto**
+2. `professional-services-os-vs-psa` — category differentiation
+3. `professional-services-os-vs-cpq` — category differentiation
+4. `professional-services-os-criteria` — the 10-question diagnostic
+5. `history-of-professional-services-software` — PSA era → CPQ era → OS era narrative
+6. `what-is-engagement-management` — Q6
+7. `what-is-services-cpq` — Q7
+8. `what-is-institutional-memory-software` — Q3
+9. `what-is-revenue-leakage` — Q1
+10. `scope-creep-prevention` — Q2
+11. `psa-vs-cpq-explained` — Q9
+12. `utilization-rate-benchmarks` — Q4
 
 ### Blog posts to create (`/blog/`)
 
 These are voice-driven, founder-authored, mid-to-long form. Target 1500-2500 words. Written by humans or heavily human-edited.
 
-1. **Manifesto:** `what-is-an-operating-system-for-services` (PRIORITY 1)
+1. **Manifesto:** `what-is-the-professional-services-os` (PRIORITY 1 — plants the category flag)
 2. `why-consulting-projects-go-over-budget` — Q1
 3. `preventing-scope-creep-in-professional-services` — Q2
 4. `the-utilization-paradox` — Q4
 5. `the-consulting-tech-stack-2026` — Q8 (listicle)
+6. `the-4-stages-of-a-professional-services-os` — category reinforcement
+7. `why-psa-software-isnt-an-operating-system` — category differentiation
 
 ### Comparison pages to create (`/platform/vs/`)
 
@@ -296,9 +350,11 @@ Based on the language brainstorm from your IP attorney (Ricardo Unikel), here's 
    - Class 42: SaaS for engagement management
    - Intent-to-use (ITU) or actual use depending on launch timing
 
-2. **[Chosen tagline from Section 1]** — either "The Services Operating System" or "ServantiumOS" depending on CEO decision
-   - Class 42 only
-   - ITU filing
+2. **"The Professional Services OS"** — the tagline and category claim
+   - Class 42 only (SaaS / software-as-a-service)
+   - ITU filing (intent-to-use)
+   - Note: likely faces "merely descriptive" challenge from USPTO. Ricardo should advise on filing strategy. Even if refused for registration, the filing creates priority-use record and establishes evidence of first use in commerce.
+   - Alternative: file with "Servantium" prefix ("Servantium — The Professional Services OS") which is more defensible as composite mark
 
 ### Tier 2 — Consider for later (month 3-6)
 
@@ -428,15 +484,15 @@ Decisions made so far:
 | 2026-04-13 | "The Engagement Operating System" rejected as tagline | ✅ Confirmed |
 | 2026-04-13 | Manual AI tracking only for 3 months, no paid tools | ✅ Confirmed |
 | 2026-04-13 | Christopher committed to LinkedIn rhythm (already active) | ✅ Confirmed |
+| 2026-04-13 | **Tagline: "The Professional Services OS"** with sub-tagline "Scope, price, deliver, learn. Compound every engagement into your firm's advantage." | ✅ Confirmed |
 
 Pending decisions:
 
 | Decision needed | Owner | Deadline |
 |---|---|---|
-| Final tagline: A, B, C, D, or variant | CEO | Week 1 |
-| Blog/glossary content split approval | CEO | Week 1 |
-| Trademark filing: send Section 7 memo to Ricardo | CEO | Week 1 |
-| Content writer/editor assignment | CEO | Week 1 |
+| Trademark filing: send Section 7 memo + tagline to Ricardo | CEO | Week 1 |
+| Content writer/editor assignment for glossary pages | CEO | Week 1 |
+| Final approval of manifesto draft (once written) | CEO | Week 1 |
 
 ---
 
