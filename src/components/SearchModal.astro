@@ -142,9 +142,8 @@ const hostId = `${smId}-host`;
       opened = true;
       modal.hidden = false;
       document.body.style.overflow = 'hidden';
-      // Defer init until after modal is painted
-      requestAnimationFrame(initPagefind);
-      // If already initialized, focus input
+      // Initialize immediately (rAF can be throttled in background tabs).
+      initPagefind();
       if (pagefindReady) {
         setTimeout(function() {
           var input = host.querySelector('input');
@@ -163,17 +162,29 @@ const hostId = `${smId}-host`;
     document.addEventListener('click', function(e) {
       var t = e.target;
       if (!t) return;
-      if (t.closest && t.closest('[data-search-modal-open]')) {
+      var openBtn = t.closest && t.closest('[data-search-modal-open]');
+      if (openBtn) {
+        // Only respond if this click targets THIS instance.
+        if (openBtn.getAttribute('data-search-modal-open') !== smId) return;
         e.preventDefault();
         openModal();
-      } else if (t.closest && t.closest('[data-search-modal-close]')) {
+        return;
+      }
+      var closeBtn = t.closest && t.closest('[data-search-modal-close]');
+      if (closeBtn && modal.contains(closeBtn)) {
         e.preventDefault();
         closeModal();
       }
     });
 
+    // Only the FIRST SearchModal instance on the page handles Cmd+K globally,
+    // so pages with multiple instances (mobile + desktop sidebar) don't open
+    // every modal at once. Claim the slot atomically.
+    var isCmdKOwner = !window.__searchModalCmdKOwned;
+    if (isCmdKOwner) window.__searchModalCmdKOwned = true;
     document.addEventListener('keydown', function(e) {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        if (!isCmdKOwner) return;
         e.preventDefault();
         opened ? closeModal() : openModal();
       } else if (e.key === 'Escape' && opened) {

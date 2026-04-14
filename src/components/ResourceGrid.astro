@@ -45,18 +45,32 @@ const kindMeta: Record<string, { icon: string; label: string; color: string }> =
       const m = kindMeta[t.kind] || { icon: 'guide', label: t.type || 'Resource', color: '#6b6b6b' };
       return (
         <a href={t.href} class="rg-tile" style={`--tile-accent:${m.color};`}>
-          <div class="rg-tile-top">
-            <div class="rg-tile-icon"><ResourceIcon name={m.icon as any} size={22} /></div>
-            <div class="rg-tile-badge">{m.label}</div>
+          <div class="rg-tile-cover" aria-hidden="true">
+            <svg class="rg-tile-cover-pattern" viewBox="0 0 200 100" preserveAspectRatio="xMidYMid slice">
+              <defs>
+                <pattern id={`rgp-${t.kind}-${t.title.replace(/\s+/g,'').slice(0,8)}`} x="0" y="0" width="14" height="14" patternUnits="userSpaceOnUse">
+                  <circle cx="1" cy="1" r="1" fill="#ffffff" fill-opacity="0.2"/>
+                </pattern>
+              </defs>
+              <rect width="200" height="100" fill={`url(#rgp-${t.kind}-${t.title.replace(/\s+/g,'').slice(0,8)})`}/>
+              <circle cx="170" cy="20" r="60" fill="#ffffff" fill-opacity="0.08"/>
+              <circle cx="30" cy="90" r="45" fill="#ffffff" fill-opacity="0.06"/>
+            </svg>
+            <div class="rg-tile-cover-icon">
+              <ResourceIcon name={m.icon as any} size={44} />
+            </div>
+            <div class="rg-tile-cover-badge">{m.label}</div>
           </div>
-          <h3 class="rg-tile-title">{t.title}</h3>
-          <p class="rg-tile-desc">{t.description}</p>
-          <div class="rg-tile-meta">
-            {t.category && <span class="rg-tile-category">{t.category}</span>}
-            {t.readingTime && <span>{t.readingTime}</span>}
-            {t.date && !t.readingTime && (
-              <span>{new Date(t.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
-            )}
+          <div class="rg-tile-body">
+            <h3 class="rg-tile-title">{t.title}</h3>
+            <p class="rg-tile-desc">{t.description}</p>
+            <div class="rg-tile-meta">
+              {t.category && <span class="rg-tile-category">{t.category}</span>}
+              {t.readingTime && <span>{t.readingTime}</span>}
+              {t.date && !t.readingTime && (
+                <span>{new Date(t.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
+              )}
+            </div>
           </div>
         </a>
       );
@@ -75,7 +89,6 @@ const kindMeta: Record<string, { icon: string; label: string; color: string }> =
   .rg-tile {
     display: flex;
     flex-direction: column;
-    padding: 1.75rem;
     background: #ffffff;
     border: 1px solid var(--color-cloud-grey, #E1E3E6);
     border-radius: 16px;
@@ -84,26 +97,65 @@ const kindMeta: Record<string, { icon: string; label: string; color: string }> =
     position: relative;
     overflow: hidden;
     transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-    min-height: 220px;
+    min-height: 320px;
   }
-  .rg-tile::before {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0; height: 3px;
-    background: var(--tile-accent, var(--color-green, #00C26D));
-    opacity: 0; transition: opacity 0.2s ease;
+  .rg-tile:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 24px 50px rgba(13, 13, 13, 0.1);
+    border-color: transparent;
   }
-  .rg-tile:hover { transform: translateY(-4px); box-shadow: 0 20px 44px rgba(13, 13, 13, 0.08); border-color: transparent; }
-  .rg-tile:hover::before { opacity: 1; }
-  .rg-tile-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
-  .rg-tile-icon {
-    width: 42px; height: 42px; border-radius: 10px;
-    background: var(--color-mist-grey, #F5F6F7);
-    display: inline-flex; align-items: center; justify-content: center;
-    color: var(--tile-accent, var(--color-green, #00C26D));
+  .rg-tile-cover {
+    position: relative;
+    height: 130px;
+    background: linear-gradient(135deg, var(--tile-accent, #00C26D) 0%, color-mix(in srgb, var(--tile-accent, #00C26D) 70%, #000 30%) 100%);
+    overflow: hidden;
+    flex-shrink: 0;
   }
-  .rg-tile-badge {
-    font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em;
-    color: var(--tile-accent, var(--color-green, #00C26D));
+  .rg-tile-cover-pattern {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .rg-tile-cover-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 72px;
+    height: 72px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.95);
+    color: var(--tile-accent, #00C26D);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+    transition: transform 0.25s ease;
+  }
+  .rg-tile:hover .rg-tile-cover-icon {
+    transform: translate(-50%, -50%) scale(1.06) rotate(-2deg);
+  }
+  .rg-tile-cover-badge {
+    position: absolute;
+    top: 0.85rem;
+    right: 0.85rem;
+    padding: 0.3rem 0.65rem;
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #ffffff;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 999px;
+    backdrop-filter: blur(4px);
+  }
+  .rg-tile-body {
+    padding: 1.5rem 1.5rem 1.4rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
   }
   .rg-tile-title {
     font-family: var(--font-display, 'Playfair Display', serif);
