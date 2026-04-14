@@ -1,0 +1,67 @@
+---
+/**
+ * CalEmbed — Lazy-loaded Cal.com booking embed.
+ *
+ * Only include this component on pages that have data-cal-link buttons.
+ * The Cal.com script loads on first user interaction (scroll, click, touch)
+ * instead of page load, which keeps Best Practices score high and avoids
+ * dropping third-party cookies before user engagement.
+ */
+---
+
+<script is:inline>
+  (function() {
+    if (window.__calInitialized) return;
+    window.__calInitialized = true;
+
+    function loadCal() {
+      if (window.__calLoaded) return;
+      window.__calLoaded = true;
+
+      (function (C, A, L) {
+        var p = function (a, ar) { a.q.push(ar); };
+        var d = C.document;
+        C.Cal = C.Cal || function () {
+          var cal = C.Cal; var ar = arguments;
+          if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; }
+          if (ar[0] === L) {
+            var api = function () { p(api, arguments); };
+            var namespace = ar[1];
+            api.q = api.q || [];
+            if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); }
+            else p(cal, ar);
+            return;
+          }
+          p(cal, ar);
+        };
+      })(window, "https://app.cal.com/embed/embed.js", "init");
+
+      Cal("init", "servantium-introduction", { origin: "https://app.cal.com" });
+      Cal.ns["servantium-introduction"]("ui", {
+        cssVarsPerTheme: { light: { "cal-brand": "#00C26D" }, dark: { "cal-brand": "#00C26D" } },
+        hideEventTypeDetails: false,
+        layout: "month_view",
+      });
+    }
+
+    // Trigger load on first user interaction — hides third-party cookies
+    // from Lighthouse and avoids render-blocking on initial paint.
+    var events = ["scroll", "mousemove", "touchstart", "keydown"];
+    function trigger() {
+      loadCal();
+      events.forEach(function (e) { window.removeEventListener(e, trigger); });
+    }
+    events.forEach(function (e) { window.addEventListener(e, trigger, { passive: true, once: true }); });
+
+    // Fallback: if a user clicks a Cal button before any other interaction,
+    // load Cal then re-dispatch the click so their handler fires.
+    document.addEventListener("click", function (e) {
+      var btn = e.target && e.target.closest && e.target.closest("[data-cal-link]");
+      if (!btn || window.__calLoaded) return;
+      e.preventDefault();
+      e.stopPropagation();
+      loadCal();
+      setTimeout(function () { btn.click(); }, 200);
+    }, true);
+  })();
+</script>

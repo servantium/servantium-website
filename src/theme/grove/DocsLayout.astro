@@ -8,6 +8,7 @@ import TableOfContents from './TableOfContents.astro';
 import DocsPagination from './DocsPagination.astro';
 import DocsSearch from './DocsSearch.astro';
 import ShareSidebar from '@/theme/blog/ShareSidebar.astro';
+import CalEmbed from '@/components/CalEmbed.astro';
 import '@/theme/verdant.css';
 import '@/styles/global.css';
 
@@ -212,15 +213,7 @@ const pageUrl = `https://servantium.com${Astro.url.pathname}`;
     });
   </script>
 
-  <!-- Cal.com Embed (for Book a Demo in nav) -->
-  <script is:inline>
-    (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
-    Cal("init", "servantium-introduction", {origin:"https://app.cal.com"});
-    Cal.ns["servantium-introduction"]("ui", {
-      "cssVarsPerTheme": { "light": {"cal-brand":"#00C26D"}, "dark": {"cal-brand":"#00C26D"} },
-      "hideEventTypeDetails": false, "layout": "month_view"
-    });
-  </script>
+  <CalEmbed />
 </body>
 </html>
 
