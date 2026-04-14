@@ -73,12 +73,10 @@ const navLinks: NavLink[] = [
       {navLinks.map(link => (
         <li class={link.dropdown ? 'has-dropdown' : ''}>
           <a
-            href={link.dropdown ? '#' : link.href}
+            href={link.href}
             class={activePage === link.id ? 'active' : ''}
             aria-haspopup={link.dropdown ? 'true' : undefined}
             aria-expanded={link.dropdown ? 'false' : undefined}
-            onclick={link.dropdown ? 'event.preventDefault()' : undefined}
-            role={link.dropdown ? 'button' : undefined}
           >
             {link.label}
             {link.dropdown && (
@@ -205,7 +203,7 @@ const navLinks: NavLink[] = [
     margin: 0;
     padding: 0;
   }
-  .nav-links li { position: relative; }
+  .nav-links li { position: relative; display: block; }
   .nav-links a {
     color: var(--color-ink-light, #3d3d3d);
     text-decoration: none;

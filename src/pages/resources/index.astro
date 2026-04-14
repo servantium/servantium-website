@@ -103,16 +103,16 @@ const filters = [
 ];
 
 // Icon per kind — single SVG glyph system (no emojis)
-const kindMeta: Record<string, { icon: string; label: string; color: string }> = {
-  calculator:  { icon: 'calculator', label: 'Calculator',     color: '#FFB02E' },
-  template:    { icon: 'template',   label: 'Template',       color: '#4C82A7' },
-  guide:       { icon: 'guide',      label: 'Guide',          color: '#26A899' },
-  playbook:    { icon: 'playbook',   label: 'Playbook',       color: '#26A899' },
-  customer:    { icon: 'customer',   label: 'Customer story', color: '#FF5C70' },
-  blog:        { icon: 'blog',       label: 'Article',        color: '#00C26D' },
-  comparison:  { icon: 'comparison', label: 'Comparison',     color: '#8B5CF6' },
-  ebook:       { icon: 'ebook',      label: 'Ebook',          color: '#26A899' },
-  checklist:   { icon: 'checklist',  label: 'Checklist',      color: '#00C26D' },
+const kindMeta: Record<string, { icon: string; label: string; color: string; cover: string }> = {
+  calculator:  { icon: 'calculator', label: 'Calculator',     color: '#FFB02E', cover: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&h=400&fit=crop' },
+  template:    { icon: 'template',   label: 'Template',       color: '#4C82A7', cover: 'https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=800&h=400&fit=crop' },
+  guide:       { icon: 'guide',      label: 'Guide',          color: '#26A899', cover: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=400&fit=crop' },
+  playbook:    { icon: 'playbook',   label: 'Playbook',       color: '#26A899', cover: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=400&fit=crop' },
+  customer:    { icon: 'customer',   label: 'Customer story', color: '#FF5C70', cover: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800&h=400&fit=crop' },
+  blog:        { icon: 'blog',       label: 'Article',        color: '#00C26D', cover: 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=800&h=400&fit=crop' },
+  comparison:  { icon: 'comparison', label: 'Comparison',     color: '#8B5CF6', cover: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=400&fit=crop' },
+  ebook:       { icon: 'ebook',      label: 'Ebook',          color: '#26A899', cover: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=800&h=400&fit=crop' },
+  checklist:   { icon: 'checklist',  label: 'Checklist',      color: '#00C26D', cover: 'https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=800&h=400&fit=crop' },
 };
 ---
 
@@ -128,14 +128,39 @@ const kindMeta: Record<string, { icon: string; label: string; color: string }> =
        HERO — big featured tile, Carta-style split card
        ══════════════════════════════════════════════════════════════ -->
   <section class="r-hero">
-    <div class="r-container">
+    <div class="r-hero-bg" aria-hidden="true">
+      <div class="r-hero-blob r-hero-blob--1"></div>
+      <div class="r-hero-blob r-hero-blob--2"></div>
+      <div class="r-hero-grid-overlay"></div>
+    </div>
+    <div class="r-container r-hero-inner">
       <div class="r-hero-head">
-        <div class="r-eyebrow">Resources</div>
+        <div class="r-eyebrow r-eyebrow--light">
+          <span class="r-eyebrow-dot"></span>
+          The Resources Hub
+        </div>
         <h1>Real tools for real services firms.</h1>
         <p class="r-lede">
           Templates, pricing calculators, playbooks, customer stories, and op-eds.
           All in one place. Free. Practical. Built from the trenches.
         </p>
+
+        <div class="r-hero-stats">
+          <div class="r-hero-stat">
+            <div class="r-hero-stat-num">{resourceTiles.filter(t => t.kind === 'template').length + resourceTiles.filter(t => t.kind === 'calculator').length}+</div>
+            <div class="r-hero-stat-label">Templates &amp; tools</div>
+          </div>
+          <div class="r-hero-stat-divider"></div>
+          <div class="r-hero-stat">
+            <div class="r-hero-stat-num">{blogTiles.length}+</div>
+            <div class="r-hero-stat-label">Strategy essays</div>
+          </div>
+          <div class="r-hero-stat-divider"></div>
+          <div class="r-hero-stat">
+            <div class="r-hero-stat-num">{comparisons.length + customers.length}</div>
+            <div class="r-hero-stat-label">Comparisons &amp; stories</div>
+          </div>
+        </div>
       </div>
 
       <div class="r-hero-search">
@@ -240,12 +265,14 @@ const kindMeta: Record<string, { icon: string; label: string; color: string }> =
               href={t.href}
               class={`r-tile${wide ? ' r-tile--wide' : ''}`}
               data-kind={t.kind}
-              style={`--tile-accent: ${m.color};`}
+              style={`--tile-accent: ${m.color}; --tile-cover: url('${m.cover}');`}
             >
-              <div class="r-tile-top">
-                <div class="r-tile-icon"><ResourceIcon name={m.icon as any} size={22} /></div>
-                <div class="r-tile-badge">{m.label}</div>
+              <div class="r-tile-cover" aria-hidden="true">
+                <div class="r-tile-cover-scrim"></div>
+                <div class="r-tile-cover-icon"><ResourceIcon name={m.icon as any} size={24} /></div>
+                <div class="r-tile-cover-badge">{m.label}</div>
               </div>
+              <div class="r-tile-body">
               <h3 class="r-tile-title">{t.title}</h3>
               <p class="r-tile-desc">{t.description}</p>
               <div class="r-tile-meta">
@@ -254,6 +281,7 @@ const kindMeta: Record<string, { icon: string; label: string; color: string }> =
                 {t.date && !t.readingTime && (
                   <span>{new Date(t.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
                 )}
+              </div>
               </div>
             </a>
           );
@@ -308,10 +336,45 @@ const kindMeta: Record<string, { icon: string; label: string; color: string }> =
 
   /* ── Hero ─────────────────────────────────────────────────────── */
   .r-hero {
-    padding: 7rem 0 2.5rem;
-    background: linear-gradient(180deg, #ffffff 0%, var(--color-mist-grey, #F5F6F7) 100%);
+    position: relative;
+    padding: 8rem 0 3rem;
+    background: linear-gradient(135deg, #023E25 0%, #015c38 55%, #00C26D 100%);
+    color: #ffffff;
+    overflow: hidden;
+    isolation: isolate;
   }
-  .r-hero-head { text-align: center; max-width: 780px; margin: 0 auto 3rem; }
+  .r-hero-inner { position: relative; z-index: 2; }
+  .r-hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .r-hero-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.55;
+  }
+  .r-hero-blob--1 {
+    width: 560px; height: 560px;
+    top: -180px; right: -140px;
+    background: radial-gradient(circle, #00C26D 0%, transparent 70%);
+  }
+  .r-hero-blob--2 {
+    width: 480px; height: 480px;
+    bottom: -200px; left: -120px;
+    background: radial-gradient(circle, #26A899 0%, transparent 70%);
+  }
+  .r-hero-grid-overlay {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+    background-size: 22px 22px;
+    mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
+  }
+  .r-hero-head { text-align: center; max-width: 820px; margin: 0 auto 2.5rem; }
   .r-eyebrow {
     display: inline-block;
     font-size: 0.72rem;
@@ -321,20 +384,81 @@ const kindMeta: Record<string, { icon: string; label: string; color: string }> =
     color: var(--color-green, #00C26D);
     margin-bottom: 1rem;
   }
+  .r-eyebrow--light {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    backdrop-filter: blur(6px);
+    padding: 0.45rem 0.9rem;
+    border-radius: 100px;
+  }
+  .r-eyebrow-dot {
+    display: inline-block;
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #00C26D;
+    box-shadow: 0 0 0 4px rgba(0, 194, 109, 0.22);
+    animation: rHeroPulse 2s ease-in-out infinite;
+  }
+  @keyframes rHeroPulse {
+    0%, 100% { box-shadow: 0 0 0 4px rgba(0, 194, 109, 0.22); }
+    50% { box-shadow: 0 0 0 8px rgba(0, 194, 109, 0.08); }
+  }
   .r-hero-head h1 {
     font-family: var(--font-display, 'Playfair Display', serif);
-    font-size: clamp(2.25rem, 4.5vw, 3.5rem);
+    font-size: clamp(2.25rem, 5vw, 3.75rem);
     font-weight: 500;
-    line-height: 1.1;
+    line-height: 1.08;
     letter-spacing: -0.02em;
-    color: var(--color-ink, #0D0D0D);
-    margin: 0 0 0.9rem;
+    color: #ffffff;
+    margin: 0 0 1rem;
+    text-shadow: 0 2px 16px rgba(0, 0, 0, 0.18);
   }
   .r-lede {
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     line-height: 1.6;
-    color: var(--color-ink-muted, #6b6b6b);
-    margin: 0;
+    color: rgba(255, 255, 255, 0.85);
+    margin: 0 auto 2rem;
+    max-width: 640px;
+  }
+  .r-hero-stats {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.75rem;
+    padding: 1rem 1.75rem;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(8px);
+    border-radius: 14px;
+  }
+  .r-hero-stat { text-align: center; }
+  .r-hero-stat-num {
+    font-family: var(--font-display, 'Playfair Display', serif);
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #ffffff;
+    line-height: 1;
+    margin-bottom: 0.35rem;
+  }
+  .r-hero-stat-label {
+    font-size: 0.72rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.7);
+    white-space: nowrap;
+  }
+  .r-hero-stat-divider {
+    width: 1px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.2);
+  }
+  @media (max-width: 640px) {
+    .r-hero-stats { gap: 1rem; padding: 0.75rem 1rem; flex-wrap: wrap; justify-content: center; }
+    .r-hero-stat-divider { display: none; }
   }
   .r-hero-card {
     display: grid;
@@ -466,7 +590,7 @@ const kindMeta: Record<string, { icon: string; label: string; color: string }> =
     grid-column: span 4;
     display: flex;
     flex-direction: column;
-    padding: 1.75rem;
+    padding: 0;
     background: #ffffff;
     border: 1px solid var(--color-cloud-grey, #E1E3E6);
     border-radius: 16px;
@@ -474,25 +598,70 @@ const kindMeta: Record<string, { icon: string; label: string; color: string }> =
     color: var(--color-ink, #0D0D0D);
     position: relative;
     overflow: hidden;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-    min-height: 220px;
-  }
-  .r-tile::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: var(--tile-accent, var(--color-green, #00C26D));
-    opacity: 0;
-    transition: opacity 0.2s ease;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    min-height: 360px;
   }
   .r-tile:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 20px 44px rgba(13, 13, 13, 0.08);
+    transform: translateY(-6px);
+    box-shadow: 0 24px 60px rgba(13, 13, 13, 0.12);
     border-color: transparent;
   }
-  .r-tile:hover::before { opacity: 1; }
+  .r-tile:hover .r-tile-cover { transform: scale(1.06); }
+  .r-tile:hover .r-tile-title { color: var(--tile-accent, var(--color-green, #00C26D)); }
   .r-tile--wide { grid-column: span 8; }
+
+  .r-tile-cover {
+    position: relative;
+    height: 170px;
+    background-image: var(--tile-cover);
+    background-size: cover;
+    background-position: center;
+    background-color: var(--tile-accent, #00C26D);
+    transition: transform 0.5s ease;
+  }
+  .r-tile-cover-scrim {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(135deg, color-mix(in srgb, var(--tile-accent) 55%, transparent) 0%, color-mix(in srgb, var(--tile-accent) 15%, transparent) 100%),
+      linear-gradient(180deg, transparent 50%, rgba(13, 13, 13, 0.35) 100%);
+  }
+  .r-tile-cover-icon {
+    position: absolute;
+    top: 1.1rem;
+    left: 1.1rem;
+    width: 46px; height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    border-radius: 10px;
+    color: var(--tile-accent, var(--color-green, #00C26D));
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+    z-index: 1;
+  }
+  .r-tile-cover-badge {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.1rem;
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #ffffff;
+    background: rgba(13, 13, 13, 0.42);
+    backdrop-filter: blur(6px);
+    padding: 0.35rem 0.7rem;
+    border-radius: 100px;
+    z-index: 1;
+  }
+  .r-tile-body {
+    padding: 1.5rem 1.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  .r-tile--wide .r-tile-cover { height: 200px; }
 
   @media (max-width: 1000px) {
     .r-tile { grid-column: span 6; }
@@ -507,30 +676,8 @@ const kindMeta: Record<string, { icon: string; label: string; color: string }> =
     .r-hero { padding-top: 6rem; }
   }
 
-  .r-tile-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-  }
-  .r-tile-icon {
-    width: 42px;
-    height: 42px;
-    border-radius: 10px;
-    background: var(--color-mist-grey, #F5F6F7);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--tile-accent, var(--color-green, #00C26D));
-  }
-  .r-tile-badge {
-    font-size: 0.7rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--tile-accent, var(--color-green, #00C26D));
-  }
   .r-tile-title {
+    transition: color 0.2s ease;
     font-family: var(--font-display, 'Playfair Display', serif);
     font-size: 1.2rem;
     font-weight: 600;
