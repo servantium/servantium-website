@@ -22,45 +22,61 @@ const {
   <div id={id} data-pagefind-search data-placeholder={placeholder}></div>
 </div>
 
-<script is:inline src="/pagefind/pagefind-ui.js"></script>
+<!-- Pagefind scripts: only inject once per page even if multiple Search instances exist -->
 <script is:inline>
-  function initAllSearches() {
-    document.querySelectorAll('[data-pagefind-search]').forEach(function(el) {
-      if (el.childNodes.length > 0) return;
-      var placeholder = el.getAttribute('data-placeholder') || 'Search...';
-      try {
-        if (typeof PagefindUI === 'undefined') throw new Error('PagefindUI not loaded');
-        new PagefindUI({
-          element: '#' + el.id,
-          showSubResults: false,
-          showImages: false,
-          excerptLength: 20,
-          bundlePath: '/pagefind/',
-          translations: { placeholder: placeholder },
-        });
-      } catch(e) {
-        el.innerHTML = '<p style="color:#6b6b6b;font-size:0.85rem;padding:0.5rem 0;">Search is loading or unavailable. Try refreshing.</p>';
-      }
-    });
+  if (!window._pagefindScriptLoaded) {
+    window._pagefindScriptLoaded = true;
+    var s = document.createElement('script');
+    s.src = '/pagefind/pagefind-ui.js';
+    s.onload = function() { initAllSearches(); };
+    s.onerror = function() { initAllSearches(); };
+    document.head.appendChild(s);
+  }
+</script>
+<script is:inline>
+  if (!window._pagefindInitDefined) {
+    window._pagefindInitDefined = true;
 
-    // Cmd+K / Ctrl+K to focus first visible search input
-    if (!window._pagefindCmdKBound) {
-      window._pagefindCmdKBound = true;
-      document.addEventListener('keydown', function(e) {
-        if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-          e.preventDefault();
-          var input = document.querySelector('[data-pagefind-search] input');
-          if (input) input.focus();
+    function initAllSearches() {
+      document.querySelectorAll('[data-pagefind-search]').forEach(function(el) {
+        if (el.childNodes.length > 0) return;
+        var placeholder = el.getAttribute('data-placeholder') || 'Search...';
+        try {
+          if (typeof PagefindUI === 'undefined') throw new Error('PagefindUI not loaded');
+          new PagefindUI({
+            element: '#' + el.id,
+            showSubResults: false,
+            showImages: false,
+            excerptLength: 20,
+            bundlePath: '/pagefind/',
+            translations: { placeholder: placeholder },
+          });
+        } catch(e) {
+          el.innerHTML = '<p style="color:#6b6b6b;font-size:0.85rem;padding:0.5rem 0;">Search is loading or unavailable. Try refreshing.</p>';
         }
       });
+
+      // Cmd+K / Ctrl+K to focus first visible search input
+      if (!window._pagefindCmdKBound) {
+        window._pagefindCmdKBound = true;
+        document.addEventListener('keydown', function(e) {
+          if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+            e.preventDefault();
+            var input = document.querySelector('[data-pagefind-search] input');
+            if (input) input.focus();
+          }
+        });
+      }
     }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initAllSearches);
+    } else {
+      // If pagefind-ui.js is already loaded (cached), init immediately
+      if (typeof PagefindUI !== 'undefined') initAllSearches();
+    }
+    document.addEventListener('astro:page-load', initAllSearches);
   }
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initAllSearches);
-  } else {
-    initAllSearches();
-  }
-  document.addEventListener('astro:page-load', initAllSearches);
 </script>
 
 <style is:global>

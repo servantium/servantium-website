@@ -4,6 +4,12 @@
  * Delegates to the shared Search component.
  */
 import Search from '@/components/Search.astro';
+
+interface Props {
+  id?: string;
+}
+
+const { id = 'docs-pagefind-search' } = Astro.props;
 ---
 
-<Search id="docs-pagefind-search" placeholder="Search docs..." variant="docs" />
+<Search id={id} placeholder="Search docs..." variant="docs" />
