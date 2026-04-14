@@ -43,6 +43,12 @@ const jsonLd = {
 ---
 
 <BaseLayout activePage="platform">
+  <!-- Scroll-restoration kill: runs before any layout so the browser can't restore scroll to the pricing slider or ROI modal inputs. -->
+  <script is:inline slot="head">
+    try {
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    } catch (e) {}
+  </script>
   <SEO
     slot="head"
     title="Platform — Professional Services CPQ & Engagement Management | Servantium"
@@ -389,7 +395,7 @@ const jsonLd = {
             </div>
             <div class="flex-1 max-w-xs">
               <label class="block text-xs font-semibold text-[var(--color-ink-muted)] uppercase tracking-wider mb-2" for="user-slider">Team size</label>
-              <input type="range" id="user-slider" min="1" max="50" value="5" class="pricing-slider w-full mb-1" autocomplete="off" />
+              <input type="range" id="user-slider" min="1" max="50" value="5" class="pricing-slider w-full mb-1" autocomplete="off" tabindex="-1" />
               <div class="flex justify-between text-xs text-[var(--color-ink-muted)]">
                 <span>1</span>
                 <span class="font-semibold text-[var(--color-ink-light)]" id="slider-user-count">5 users</span>
@@ -460,7 +466,9 @@ const jsonLd = {
   </section>
 
   <!-- ROI Calculator Modal -->
-  <div class="roi-modal-overlay" id="roi-modal" aria-hidden="true">
+  <!-- `inert` + `hidden` prevents the browser from restoring form state, focusing inputs, or scrolling to them on load.
+       `inert` is removed by openROICalculator() when the modal is opened. -->
+  <div class="roi-modal-overlay" id="roi-modal" aria-hidden="true" inert hidden>
     <div class="roi-modal">
       <button class="roi-modal-close" aria-label="Close" onclick="closeROICalculator()">&times;</button>
 
@@ -1171,7 +1179,12 @@ const jsonLd = {
   if (!window.location.hash) {
     try { if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; } catch(e) {}
     var userInteracted = false;
-    var markInteraction = function() { userInteracted = true; };
+    var markInteraction = function() {
+      userInteracted = true;
+      // Re-enable keyboard focus on the pricing slider once we know the user is actually interacting.
+      var slider = document.getElementById('user-slider');
+      if (slider) slider.removeAttribute('tabindex');
+    };
     window.addEventListener('wheel', markInteraction, { passive: true, once: true });
     window.addEventListener('touchstart', markInteraction, { passive: true, once: true });
     window.addEventListener('keydown', markInteraction, { once: true });
@@ -1200,6 +1213,8 @@ const jsonLd = {
   function openROICalculator() {
     var modal = document.getElementById('roi-modal');
     if (!modal) return;
+    modal.removeAttribute('hidden');
+    modal.removeAttribute('inert');
     modal.classList.add('open');
     modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
@@ -1212,6 +1227,8 @@ const jsonLd = {
     if (!modal) return;
     modal.classList.remove('open');
     modal.setAttribute('aria-hidden', 'true');
+    modal.setAttribute('inert', '');
+    modal.setAttribute('hidden', '');
     document.body.style.overflow = '';
   }
 

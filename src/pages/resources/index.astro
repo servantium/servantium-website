@@ -3,27 +3,114 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import SEO from '@/components/SEO.astro';
 import { getCollection } from 'astro:content';
 
-const resources = (await getCollection('resources', ({ data }) => !data.draft))
+// ── Data ────────────────────────────────────────────────────────────
+const rawResources = (await getCollection('resources', ({ data }) => !data.draft))
   .sort((a, b) => a.data.order - b.data.order);
 
 const customers = (await getCollection('customers', ({ data }) => data.published))
-  .slice(0, 3);
+  .sort((a, b) => (b.data.featured ? 1 : 0) - (a.data.featured ? 1 : 0));
 
-const recentPosts = (await getCollection('blog', ({ data }) => !data.draft))
-  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
-  .slice(0, 3);
+const blogPosts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
 
-const templates = resources.filter(r => ['template', 'checklist'].includes(r.data.type));
-const calculators = resources.filter(r => r.data.type === 'calculator');
-const guides = resources.filter(r => ['guide', 'ebook', 'playbook'].includes(r.data.type));
+const comparisons = (await getCollection('comparisons', ({ data }) => !data.draft))
+  .sort((a, b) => a.data.order - b.data.order);
 
-const typeIcon: Record<string, string> = {
-  template: '📄',
-  calculator: '🧮',
-  guide: '📘',
-  ebook: '📘',
-  playbook: '📙',
-  checklist: '✅',
+// ── Unified card model — everything is a "tile" on the wall ────────
+interface Tile {
+  href: string;
+  kind: 'calculator' | 'template' | 'guide' | 'playbook' | 'customer' | 'blog' | 'comparison';
+  type: string;
+  title: string;
+  description: string;
+  date?: string;
+  featured?: boolean;
+  readingTime?: string;
+  category?: string;
+  size?: 'hero' | 'wide' | 'normal';
+}
+
+const resourceTiles: Tile[] = rawResources.map(r => {
+  const isCalc = r.data.type === 'calculator';
+  return {
+    href: isCalc
+      ? (r.data.toolUrl || `/resources/calculators/${r.id}/`)
+      : `/resources/templates/${r.id}/`,
+    kind: r.data.type as Tile['kind'],
+    type: r.data.type,
+    title: r.data.title,
+    description: r.data.description,
+    date: r.data.date,
+    featured: r.data.featured,
+    readingTime: r.data.readingTime,
+  };
+});
+
+const blogTiles: Tile[] = blogPosts.map(p => ({
+  href: `/blog/${p.id}/`,
+  kind: 'blog',
+  type: 'article',
+  title: p.data.title,
+  description: p.data.description,
+  date: p.data.date,
+  category: p.data.category,
+  readingTime: p.data.readingTime,
+}));
+
+const customerTiles: Tile[] = customers.map(c => ({
+  href: `/resources/customers/${c.id}/`,
+  kind: 'customer',
+  type: 'customer story',
+  title: c.data.name,
+  description: c.data.quote || `How ${c.data.name} runs engagements on Servantium.`,
+  category: c.data.industry,
+}));
+
+const comparisonTiles: Tile[] = comparisons.map(c => ({
+  href: `/compare/${c.id}/`,
+  kind: 'comparison',
+  type: c.data.kind === 'competitor' ? 'comparison' : 'category',
+  title: c.data.title,
+  description: c.data.tagline || c.data.description,
+  date: c.data.date,
+}));
+
+// The hero featured tile (first featured resource, or first playbook)
+const heroTile: Tile | undefined =
+  resourceTiles.find(t => t.featured && (t.kind === 'playbook' || t.kind === 'guide')) ||
+  resourceTiles.find(t => t.kind === 'playbook') ||
+  resourceTiles[0];
+
+// Everything else in the wall
+const wallTiles: Tile[] = [
+  ...resourceTiles.filter(t => t !== heroTile),
+  ...comparisonTiles,
+  ...customerTiles,
+  ...blogTiles,
+];
+
+// Filter chips for the toolbar
+const filters = [
+  { id: 'all', label: 'All' },
+  { id: 'calculator', label: 'Calculators' },
+  { id: 'template', label: 'Templates' },
+  { id: 'guide,playbook', label: 'Guides & Playbooks' },
+  { id: 'comparison', label: 'Comparisons' },
+  { id: 'customer', label: 'Customer Stories' },
+  { id: 'blog', label: 'Blog' },
+];
+
+// Icon per kind — single glyph system
+const kindMeta: Record<string, { icon: string; label: string; color: string }> = {
+  calculator:  { icon: '🧮', label: 'Calculator',    color: '#FFB02E' },
+  template:    { icon: '📄', label: 'Template',      color: '#4C82A7' },
+  guide:       { icon: '📘', label: 'Guide',         color: '#26A899' },
+  playbook:    { icon: '📙', label: 'Playbook',      color: '#26A899' },
+  customer:    { icon: '★',  label: 'Customer story', color: '#FF5C70' },
+  blog:        { icon: '✍️', label: 'Article',       color: '#00C26D' },
+  comparison:  { icon: '⚖️', label: 'Comparison',    color: '#8B5CF6' },
+  ebook:       { icon: '📘', label: 'Ebook',         color: '#26A899' },
+  checklist:   { icon: '✅', label: 'Checklist',     color: '#00C26D' },
 };
 ---
 
@@ -31,245 +118,408 @@ const typeIcon: Record<string, string> = {
   <SEO
     slot="head"
     title="Resources — Servantium"
-    description="Templates, calculators, playbooks, and customer stories for professional services firms. Free, practical, and built from real engagement operations experience."
+    description="Templates, calculators, playbooks, customer stories, comparisons, and blog posts for professional services firms. Free, practical, and built from real engagement operations experience."
     ogType="website"
   />
 
-  <section class="resources-hero">
-    <div class="container">
-      <div class="eyebrow">Resources</div>
-      <h1>Everything you need to run better engagements.</h1>
-      <p class="lede">
-        Free templates, pricing calculators, buyer's guides, and customer stories. All practical. All built from real professional services operations experience.
-      </p>
-    </div>
-  </section>
-
-  {calculators.length > 0 && (
-    <section class="resources-section">
-      <div class="container">
-        <div class="section-head">
-          <h2>Calculators & Tools</h2>
-          <p>Plug in your numbers. Get a defensible answer in 60 seconds.</p>
-        </div>
-        <div class="resource-grid">
-          {calculators.map(r => (
-            <a href={r.data.toolUrl || `/resources/calculators/${r.id}/`} class="resource-card">
-              <div class="resource-icon">{typeIcon[r.data.type]}</div>
-              <div class="resource-type">{r.data.type}</div>
-              <h3>{r.data.title}</h3>
-              <p>{r.data.description}</p>
-              <span class="resource-cta">Open calculator →</span>
-            </a>
-          ))}
-        </div>
+  <!-- ══════════════════════════════════════════════════════════════
+       HERO — big featured tile, Carta-style split card
+       ══════════════════════════════════════════════════════════════ -->
+  <section class="r-hero">
+    <div class="r-container">
+      <div class="r-hero-head">
+        <div class="r-eyebrow">Resources</div>
+        <h1>Real tools for real services firms.</h1>
+        <p class="r-lede">
+          Templates, pricing calculators, playbooks, customer stories, and op-eds —
+          all in one place. Free. Practical. Built from the trenches.
+        </p>
       </div>
-    </section>
-  )}
 
-  {templates.length > 0 && (
-    <section class="resources-section alt">
-      <div class="container">
-        <div class="section-head">
-          <h2>Templates</h2>
-          <p>Free, defensible, drop-in artifacts for the documents your team edits most.</p>
-        </div>
-        <div class="resource-grid">
-          {templates.map(r => (
-            <a href={`/resources/templates/${r.id}/`} class="resource-card">
-              <div class="resource-icon">{typeIcon[r.data.type]}</div>
-              <div class="resource-type">{r.data.type}</div>
-              <h3>{r.data.title}</h3>
-              <p>{r.data.description}</p>
-              <span class="resource-cta">Get the template →</span>
-            </a>
-          ))}
-        </div>
-      </div>
-    </section>
-  )}
-
-  {guides.length > 0 && (
-    <section class="resources-section">
-      <div class="container">
-        <div class="section-head">
-          <h2>Guides & Playbooks</h2>
-          <p>Long-form field guides for services leaders who want to go deep.</p>
-        </div>
-        <div class="resource-grid">
-          {guides.map(r => (
-            <a href={`/resources/templates/${r.id}/`} class="resource-card">
-              <div class="resource-icon">{typeIcon[r.data.type]}</div>
-              <div class="resource-type">{r.data.type}</div>
-              <h3>{r.data.title}</h3>
-              <p>{r.data.description}</p>
-              {r.data.readingTime && <span class="resource-meta">{r.data.readingTime}</span>}
-              <span class="resource-cta">Read the guide →</span>
-            </a>
-          ))}
-        </div>
-      </div>
-    </section>
-  )}
-
-  <section class="resources-section alt">
-    <div class="container">
-      <div class="section-head">
-        <h2>Customer Stories</h2>
-        <p>How modern services firms run engagements on Servantium.</p>
-      </div>
-      {customers.length > 0 ? (
-        <div class="resource-grid">
-          {customers.map(c => (
-            <a href={`/resources/customers/${c.id}/`} class="resource-card">
-              <div class="resource-type">{c.data.industry}</div>
-              <h3>{c.data.name}</h3>
-              {c.data.quote && <p>"{c.data.quote}"</p>}
-              <span class="resource-cta">Read the story →</span>
-            </a>
-          ))}
-        </div>
-      ) : (
-        <div class="empty-state">
-          <p>Customer stories coming soon. If you're building on Servantium and want to share how your firm runs engagements, <a href="mailto:hello@servantium.com">we'd love to talk</a>.</p>
-        </div>
+      {heroTile && (
+        <a class="r-hero-card" href={heroTile.href}>
+          <div class="r-hero-card-text">
+            <div class="r-hero-card-type">
+              <span class="r-hero-card-icon">{kindMeta[heroTile.kind]?.icon || '📘'}</span>
+              Featured · {kindMeta[heroTile.kind]?.label || heroTile.type}
+            </div>
+            <h2>{heroTile.title}</h2>
+            <p>{heroTile.description}</p>
+            {heroTile.readingTime && <span class="r-hero-card-meta">{heroTile.readingTime}</span>}
+            <span class="r-hero-card-cta">Read the playbook →</span>
+          </div>
+          <div class="r-hero-card-visual" aria-hidden="true">
+            <div class="r-hero-visual-inner">
+              <div class="r-hero-visual-big">{kindMeta[heroTile.kind]?.icon || '📘'}</div>
+            </div>
+          </div>
+        </a>
       )}
     </div>
   </section>
 
-  <section class="resources-section">
-    <div class="container">
-      <div class="section-head">
-        <h2>From the Blog</h2>
-        <p>Op-eds, strategy, and the Professional Services OS category.</p>
-      </div>
-      <div class="resource-grid">
-        {recentPosts.map(p => (
-          <a href={`/blog/${p.id}/`} class="resource-card">
-            <div class="resource-type">{p.data.category}</div>
-            <h3>{p.data.title}</h3>
-            <p>{p.data.description}</p>
-            <span class="resource-cta">Read the post →</span>
-          </a>
+  <!-- ══════════════════════════════════════════════════════════════
+       FILTER TOOLBAR — sticky, pill-style
+       ══════════════════════════════════════════════════════════════ -->
+  <div class="r-toolbar">
+    <div class="r-container">
+      <div class="r-filters" role="tablist" aria-label="Filter resources">
+        {filters.map((f, i) => (
+          <button
+            type="button"
+            class={`r-filter${i === 0 ? ' active' : ''}`}
+            data-filter={f.id}
+            role="tab"
+            aria-selected={i === 0 ? 'true' : 'false'}
+          >{f.label}</button>
         ))}
       </div>
-      <div class="section-footer">
-        <a href="/blog/" class="btn btn-secondary">See all blog posts</a>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       CONTENT WALL — dense grid, mixed tile sizes
+       ══════════════════════════════════════════════════════════════ -->
+  <section class="r-wall">
+    <div class="r-container">
+      <div class="r-grid" id="resourceGrid">
+        {wallTiles.map((t, i) => {
+          const m = kindMeta[t.kind] || { icon: '•', label: t.type, color: '#6b6b6b' };
+          // Every 7th non-blog tile gets wide treatment for visual rhythm
+          const wide = (i % 7 === 3 && t.kind !== 'blog');
+          return (
+            <a
+              href={t.href}
+              class={`r-tile${wide ? ' r-tile--wide' : ''}`}
+              data-kind={t.kind}
+              style={`--tile-accent: ${m.color};`}
+            >
+              <div class="r-tile-top">
+                <div class="r-tile-icon">{m.icon}</div>
+                <div class="r-tile-badge">{m.label}</div>
+              </div>
+              <h3 class="r-tile-title">{t.title}</h3>
+              <p class="r-tile-desc">{t.description}</p>
+              <div class="r-tile-meta">
+                {t.category && <span class="r-tile-category">{t.category}</span>}
+                {t.readingTime && <span>{t.readingTime}</span>}
+                {t.date && !t.readingTime && (
+                  <span>{new Date(t.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
+                )}
+              </div>
+            </a>
+          );
+        })}
+      </div>
+
+      <div class="r-empty" id="resourceEmpty" hidden>
+        <p>No resources in this category yet. Try another filter, or <a href="/resources/">see everything</a>.</p>
       </div>
     </div>
   </section>
 </BaseLayout>
 
+<script is:inline>
+  (function() {
+    var grid = document.getElementById('resourceGrid');
+    var empty = document.getElementById('resourceEmpty');
+    if (!grid) return;
+    var buttons = document.querySelectorAll('.r-filter');
+    var tiles = grid.querySelectorAll('.r-tile');
+
+    buttons.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var filter = btn.getAttribute('data-filter') || 'all';
+        buttons.forEach(function(b) {
+          b.classList.remove('active');
+          b.setAttribute('aria-selected', 'false');
+        });
+        btn.classList.add('active');
+        btn.setAttribute('aria-selected', 'true');
+
+        var visible = 0;
+        tiles.forEach(function(tile) {
+          var kind = tile.getAttribute('data-kind') || '';
+          var match = filter === 'all' || filter.split(',').indexOf(kind) !== -1;
+          tile.style.display = match ? '' : 'none';
+          if (match) visible++;
+        });
+        if (empty) empty.hidden = visible !== 0;
+      });
+    });
+  })();
+</script>
+
 <style>
-  .resources-hero {
-    padding: 8rem 0 4rem;
-    background: linear-gradient(180deg, var(--color-white) 0%, var(--color-mist-grey) 100%);
-    text-align: center;
+  /* ── Shared container ─────────────────────────────────────────── */
+  .r-container {
+    max-width: var(--content-width, 1180px);
+    margin: 0 auto;
+    padding: 0 var(--space-lg, 2.5rem);
   }
-  .resources-hero .container { max-width: var(--content-width); margin: 0 auto; padding: 0 var(--space-lg); }
-  .eyebrow {
+
+  /* ── Hero ─────────────────────────────────────────────────────── */
+  .r-hero {
+    padding: 7rem 0 2.5rem;
+    background: linear-gradient(180deg, #ffffff 0%, var(--color-mist-grey, #F5F6F7) 100%);
+  }
+  .r-hero-head { text-align: center; max-width: 780px; margin: 0 auto 3rem; }
+  .r-eyebrow {
     display: inline-block;
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.15em;
-    color: var(--color-green);
+    color: var(--color-green, #00C26D);
     margin-bottom: 1rem;
   }
-  .resources-hero h1 {
-    font-family: var(--font-display);
-    font-size: clamp(2.25rem, 4.5vw, 3.25rem);
+  .r-hero-head h1 {
+    font-family: var(--font-display, 'Playfair Display', serif);
+    font-size: clamp(2.25rem, 4.5vw, 3.5rem);
     font-weight: 500;
-    line-height: 1.15;
+    line-height: 1.1;
     letter-spacing: -0.02em;
-    margin-bottom: 1rem;
-    color: var(--color-ink);
+    color: var(--color-ink, #0D0D0D);
+    margin: 0 0 0.9rem;
   }
-  .lede {
-    font-size: 1.125rem;
-    color: var(--color-ink-muted);
-    max-width: 42rem;
-    margin: 0 auto;
+  .r-lede {
+    font-size: 1.1rem;
     line-height: 1.6;
+    color: var(--color-ink-muted, #6b6b6b);
+    margin: 0;
   }
-  .resources-section { padding: 4rem 0; }
-  .resources-section.alt { background: var(--color-mist-grey); }
-  .resources-section .container { max-width: var(--content-width); margin: 0 auto; padding: 0 var(--space-lg); }
-  .section-head { text-align: center; margin-bottom: 2.5rem; }
-  .section-head h2 {
-    font-family: var(--font-display);
-    font-size: clamp(1.75rem, 3vw, 2.25rem);
-    font-weight: 500;
-    margin-bottom: 0.5rem;
-    color: var(--color-ink);
-  }
-  .section-head p {
-    color: var(--color-ink-muted);
-    font-size: 1rem;
-  }
-  .resource-grid {
+  .r-hero-card {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1.5rem;
-  }
-  .resource-card {
-    display: flex;
-    flex-direction: column;
-    padding: 1.75rem;
-    background: var(--color-white);
-    border: 1px solid var(--color-cloud-grey);
-    border-radius: 14px;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 0;
+    background: var(--color-deep-forest, #023E25);
+    color: #ffffff;
+    border-radius: 20px;
+    overflow: hidden;
     text-decoration: none;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    box-shadow: 0 30px 80px rgba(2, 62, 37, 0.2);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
   }
-  .resources-section.alt .resource-card { background: var(--color-white); }
-  .resource-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 32px rgba(0,0,0,0.08);
-    border-color: var(--color-green);
+  .r-hero-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 40px 100px rgba(2, 62, 37, 0.28);
   }
-  .resource-icon { font-size: 1.75rem; margin-bottom: 0.5rem; }
-  .resource-type {
-    font-size: 0.7rem;
+  .r-hero-card-text { padding: 3rem; display: flex; flex-direction: column; justify-content: center; }
+  .r-hero-card-type {
+    font-size: 0.75rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.12em;
-    color: var(--color-green);
-    margin-bottom: 0.5rem;
+    color: var(--color-green, #00C26D);
+    margin-bottom: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
   }
-  .resource-card h3 {
-    font-family: var(--font-display);
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: var(--color-ink);
-    line-height: 1.3;
+  .r-hero-card-icon { font-size: 1.2rem; }
+  .r-hero-card h2 {
+    font-family: var(--font-display, 'Playfair Display', serif);
+    font-size: clamp(1.6rem, 2.8vw, 2.25rem);
+    font-weight: 500;
+    line-height: 1.15;
+    color: #ffffff;
+    margin: 0 0 0.85rem;
   }
-  .resource-card p {
+  .r-hero-card p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.78);
+    margin: 0 0 1.25rem;
+    max-width: 42ch;
+  }
+  .r-hero-card-meta { font-size: 0.8rem; color: rgba(255, 255, 255, 0.55); margin-bottom: 0.75rem; }
+  .r-hero-card-cta {
     font-size: 0.95rem;
-    color: var(--color-ink-muted);
-    line-height: 1.55;
-    flex: 1;
+    font-weight: 600;
+    color: var(--color-green, #00C26D);
+  }
+  .r-hero-card-visual {
+    background: linear-gradient(135deg, rgba(0, 194, 109, 0.25), rgba(0, 194, 109, 0.05));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 280px;
+    position: relative;
+  }
+  .r-hero-visual-inner {
+    width: 180px;
+    height: 180px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  }
+  .r-hero-visual-big { font-size: 5rem; }
+  @media (max-width: 820px) {
+    .r-hero-card { grid-template-columns: 1fr; }
+    .r-hero-card-text { padding: 2rem; }
+    .r-hero-card-visual { min-height: 180px; }
+    .r-hero-visual-inner { width: 120px; height: 120px; }
+    .r-hero-visual-big { font-size: 3.5rem; }
+  }
+
+  /* ── Sticky filter toolbar ────────────────────────────────────── */
+  .r-toolbar {
+    position: sticky;
+    top: 72px;
+    z-index: 50;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid var(--color-cloud-grey, #E1E3E6);
+    border-bottom: 1px solid var(--color-cloud-grey, #E1E3E6);
+    padding: 0.9rem 0;
+    margin-top: 2rem;
+  }
+  .r-filters {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .r-filter {
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    background: transparent;
+    border: 1.5px solid var(--color-cloud-grey, #E1E3E6);
+    border-radius: 100px;
+    color: var(--color-ink-light, #3d3d3d);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+  }
+  .r-filter:hover {
+    border-color: var(--color-green, #00C26D);
+    color: var(--color-green, #00C26D);
+  }
+  .r-filter.active {
+    background: var(--color-ink, #0D0D0D);
+    border-color: var(--color-ink, #0D0D0D);
+    color: #ffffff;
+  }
+
+  /* ── The content wall ─────────────────────────────────────────── */
+  .r-wall { padding: 3rem 0 6rem; background: var(--color-mist-grey, #F5F6F7); }
+  .r-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 1.25rem;
+  }
+  .r-tile {
+    grid-column: span 4;
+    display: flex;
+    flex-direction: column;
+    padding: 1.75rem;
+    background: #ffffff;
+    border: 1px solid var(--color-cloud-grey, #E1E3E6);
+    border-radius: 16px;
+    text-decoration: none;
+    color: var(--color-ink, #0D0D0D);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    min-height: 220px;
+  }
+  .r-tile::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--tile-accent, var(--color-green, #00C26D));
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+  .r-tile:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 44px rgba(13, 13, 13, 0.08);
+    border-color: transparent;
+  }
+  .r-tile:hover::before { opacity: 1; }
+  .r-tile--wide { grid-column: span 8; }
+
+  @media (max-width: 1000px) {
+    .r-tile { grid-column: span 6; }
+    .r-tile--wide { grid-column: span 12; }
+  }
+  @media (max-width: 640px) {
+    .r-tile,
+    .r-tile--wide { grid-column: span 12; }
+    .r-toolbar { top: 60px; }
+    .r-filters { justify-content: flex-start; overflow-x: auto; padding-bottom: 0.25rem; }
+    .r-filter { flex-shrink: 0; }
+    .r-hero { padding-top: 6rem; }
+  }
+
+  .r-tile-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     margin-bottom: 1rem;
   }
-  .resource-meta {
-    font-size: 0.75rem;
-    color: var(--color-ink-muted);
-    margin-bottom: 0.5rem;
+  .r-tile-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: var(--color-mist-grey, #F5F6F7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
   }
-  .resource-cta {
-    font-size: 0.9rem;
+  .r-tile-badge {
+    font-size: 0.7rem;
     font-weight: 600;
-    color: var(--color-green);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--tile-accent, var(--color-green, #00C26D));
   }
-  .empty-state {
-    text-align: center;
+  .r-tile-title {
+    font-family: var(--font-display, 'Playfair Display', serif);
+    font-size: 1.2rem;
+    font-weight: 600;
+    line-height: 1.25;
+    margin: 0 0 0.5rem;
+    color: var(--color-ink, #0D0D0D);
+  }
+  .r-tile--wide .r-tile-title { font-size: 1.5rem; }
+  .r-tile-desc {
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: var(--color-ink-muted, #6b6b6b);
+    margin: 0 0 1rem;
+    flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .r-tile--wide .r-tile-desc {
+    -webkit-line-clamp: 4;
+    font-size: 1rem;
+  }
+  .r-tile-meta {
+    display: flex;
+    gap: 0.75rem;
+    font-size: 0.75rem;
+    color: var(--color-ink-muted, #6b6b6b);
+    text-transform: lowercase;
+  }
+  .r-tile-category { text-transform: capitalize; font-weight: 500; }
+
+  .r-empty {
     padding: 3rem;
-    background: var(--color-white);
-    border: 1px dashed var(--color-cloud-grey);
-    border-radius: 14px;
-    color: var(--color-ink-muted);
+    text-align: center;
+    color: var(--color-ink-muted, #6b6b6b);
   }
-  .empty-state a { color: var(--color-green); }
-  .section-footer { text-align: center; margin-top: 2.5rem; }
+  .r-empty a { color: var(--color-green, #00C26D); }
 </style>

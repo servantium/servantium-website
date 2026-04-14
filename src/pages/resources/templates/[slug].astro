@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import SEO from '@/components/SEO.astro';
+import LeadMagnetForm from '@/components/LeadMagnetForm.astro';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -42,18 +43,11 @@ const { title, description, type, delivery, fileUrl, readingTime } = item.data;
       </header>
 
       {delivery === 'gated' && fileUrl && (
-        <div class="gate-box">
-          <h2>Get your copy</h2>
-          <p>Drop your email and we'll send the file. No spam, no drip campaigns — just the resource.</p>
-          <form class="gate-form" action="https://formspree.io/f/placeholder" method="POST">
-            <input type="email" name="email" placeholder="you@firm.com" required />
-            <input type="hidden" name="resource" value={title} />
-            <button type="submit" class="btn btn-primary">Send it to me</button>
-          </form>
-          <p class="gate-note">
-            Or <a href={fileUrl} download>download directly</a> without the email gate.
-          </p>
-        </div>
+        <LeadMagnetForm
+          resourceTitle={title}
+          fileUrl={fileUrl}
+          resourceId={item.id}
+        />
       )}
 
       {delivery === 'download' && fileUrl && (

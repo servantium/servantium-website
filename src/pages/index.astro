@@ -138,7 +138,7 @@ const jsonLd = [
         <div class="logo-bar-track">
           {/* Two copies for seamless infinite scroll */}
           {[...logos, ...logos].map((logo, i) => (
-            <img src={logo.src} alt={logo.alt} class={`logo-bar-img${logo.invert ? ' logo-invert' : ''}`} loading="lazy" aria-hidden={i >= logos.length ? 'true' : undefined} />
+            <img src={logo.src} alt={logo.alt} class={`logo-bar-img${logo.invert ? ' logo-invert' : ''}`} height="44" width="140" loading="eager" decoding="async" aria-hidden={i >= logos.length ? 'true' : undefined} />
           ))}
         </div>
       </div>
