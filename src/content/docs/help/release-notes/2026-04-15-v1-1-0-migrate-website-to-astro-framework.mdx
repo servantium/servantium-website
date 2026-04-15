@@ -1,0 +1,27 @@
+---
+title: "v1.1.0 — Website migrated to Astro framework"
+description: "The Servantium marketing site now runs on Astro 6.1 with faster page loads and improved content management."
+date: 2026-04-15
+version: "1.1.0"
+repo: "servantium-website"
+badge:
+  text: Improvement
+  variant: note
+---
+
+import { Aside } from '@/theme/grove/components';
+
+## What changed
+
+The Servantium website has been rebuilt on Astro 6.1, replacing the previous static HTML architecture. All 48 pages, including the homepage, platform overview, blog, help documentation, and legal pages, now use a shared component system. The blog runs on MDX with 30 posts, and the help section uses Starlight with built-in Pagefind search.
+
+## Why it matters
+
+- Page navigation is instant with Astro's prefetch enabled
+- Help documentation includes full-text search across all 11 pages
+- Blog posts and help articles can now be authored in Markdown instead of HTML
+- Shared Nav, Footer, and SEO components ensure consistency across the site
+
+<Aside type="tip">
+The help site is available at servantium.com/help with a searchable sidebar and dedicated footer navigation.
+</Aside>
