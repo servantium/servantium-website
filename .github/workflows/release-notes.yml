@@ -1,110 +1,114 @@
-name: Generate Release Notes
+name: Release Notes (preview)
+
+# Fires when a PR merges to `develop`. Generates a draft release note
+# on a bot branch and opens a review PR back into `develop`. When that
+# PR merges, the release note is live on test.servantium.com. The
+# later `develop -> main` promotion merge does NOT re-run this workflow,
+# so content is written once and reused across environments.
+#
+# Can also be fired manually (workflow_dispatch) against any PR number,
+# or via repository_dispatch from the app repo when Max cuts a release.
 
 on:
   pull_request:
     types: [closed]
-    branches: [main, develop]
+    branches: [develop]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: "PR number on this repo to generate notes for"
+        required: false
+      app_version:
+        description: "App version if triggered outside of a PR (e.g. v1.4.0)"
+        required: false
+  repository_dispatch:
+    types: [app-release]
 
 jobs:
   release-notes:
-    if: github.event.pull_request.merged == true
+    # Skip bot PRs to avoid loops; skip non-merged PR closes.
+    if: >-
+      github.event_name != 'pull_request' ||
+      (github.event.pull_request.merged == true &&
+       github.event.pull_request.user.login != 'servantium-bot')
     runs-on: ubuntu-latest
     permissions:
       contents: write
       pull-requests: write
 
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Get PR diff
-        id: diff
-        run: |
-          # Get the diff of the merged PR
-          DIFF=$(gh pr diff ${{ github.event.pull_request.number }} --repo ${{ github.repository }} || echo "Could not fetch diff")
-          # Truncate if too large (Claude has context limits)
-          DIFF_TRUNCATED=$(echo "$DIFF" | head -c 50000)
-          echo "diff<<EODIFF" >> $GITHUB_OUTPUT
-          echo "$DIFF_TRUNCATED" >> $GITHUB_OUTPUT
-          echo "EODIFF" >> $GITHUB_OUTPUT
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Anthropic SDK
+        run: npm install @anthropic-ai/sdk@latest --no-save
+
+      - name: Resolve PR context
+        id: ctx
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Generate release notes with Claude
-        id: generate
         run: |
-          # Prepare the prompt for Claude
-          PR_TITLE="${{ github.event.pull_request.title }}"
-          PR_BODY="${{ github.event.pull_request.body }}"
-          PR_NUMBER="${{ github.event.pull_request.number }}"
-          MERGED_AT="${{ github.event.pull_request.merged_at }}"
-          DATE=$(echo "$MERGED_AT" | cut -d'T' -f1)
+          set -e
+          case "${{ github.event_name }}" in
+            pull_request)     PR="${{ github.event.pull_request.number }}" ;;
+            workflow_dispatch) PR="${{ inputs.pr_number }}" ;;
+            repository_dispatch) PR="" ;;
+          esac
+          echo "pr=$PR" >> $GITHUB_OUTPUT
 
-          cat > /tmp/prompt.json << 'PROMPT_END'
-          {
-            "model": "claude-sonnet-4-20250514",
-            "max_tokens": 4096,
-            "messages": [
-              {
-                "role": "user",
-                "content": "You are a release notes writer for Servantium, a CPQ and engagement management platform for professional services. Your job is to analyze code changes and write customer-facing release notes.\n\nPR #PR_NUMBER: PR_TITLE\n\nPR Description:\nPR_BODY\n\nCode diff (truncated):\nDIFF_CONTENT\n\n---\n\nWrite release notes in MDX format for the Servantium help site. Focus on what changed FROM THE CUSTOMER'S PERSPECTIVE - what they gain, what changed, what they need to know.\n\nOutput ONLY the MDX content (no code fences), starting with frontmatter:\n\n---\ntitle: \"vX.Y.Z — Short descriptive title\"\ndescription: \"One sentence summary of changes\"\nbadge:\n  text: Internal|Feature|Fix|Improvement\n  variant: note|success|caution|danger\n---\n\nimport { Aside } from '@astrojs/starlight/components';\n\n## What changed\n\n[Customer-facing description of changes]\n\n## Why this matters\n\n[Bullet points of impact]\n\n## What's next\n\n[Brief roadmap items if relevant]\n\nRules:\n- Write for customers, not developers\n- Be concise - 200 words max\n- If changes are purely internal (CI/CD, refactoring, dependencies), use badge variant 'note' and keep it brief\n- If it's a new feature, use 'success'\n- If it's a fix, use 'caution'\n- Version should be based on the significance: patch for fixes, minor for features"
-              }
-            ]
-          }
-          PROMPT_END
+          if [ -n "$PR" ]; then
+            gh pr view "$PR" --json title,body,mergedAt,headRefName,url > /tmp/pr.json
+            gh pr diff "$PR" | head -c 50000 > /tmp/diff.txt || true
+          else
+            jq -n --arg title "${{ inputs.app_version || github.event.client_payload.version || 'Release' }}" \
+                  --arg body  "${{ github.event.client_payload.notes || '' }}" \
+                  '{title: $title, body: $body, mergedAt: now|todate}' > /tmp/pr.json
+            echo "${{ github.event.client_payload.diff || '' }}" > /tmp/diff.txt
+          fi
 
-          # Substitute variables into the prompt
-          DIFF_ESCAPED=$(echo '${{ steps.diff.outputs.diff }}' | python3 -c "import sys,json; print(json.dumps(sys.stdin.read())[1:-1])" 2>/dev/null || echo "diff unavailable")
-          PR_BODY_ESCAPED=$(echo "$PR_BODY" | python3 -c "import sys,json; print(json.dumps(sys.stdin.read())[1:-1])" 2>/dev/null || echo "")
-
-          sed -i "s|PR_NUMBER|$PR_NUMBER|g" /tmp/prompt.json
-          sed -i "s|PR_TITLE|$PR_TITLE|g" /tmp/prompt.json
-          sed -i "s|PR_BODY|$PR_BODY_ESCAPED|g" /tmp/prompt.json
-          sed -i "s|DIFF_CONTENT|$DIFF_ESCAPED|g" /tmp/prompt.json
-
-          # Call Claude API
-          RESPONSE=$(curl -s https://api.anthropic.com/v1/messages \
-            -H "Content-Type: application/json" \
-            -H "x-api-key: $ANTHROPIC_API_KEY" \
-            -H "anthropic-version: 2023-06-01" \
-            -d @/tmp/prompt.json)
-
-          # Extract the text content
-          MDX_CONTENT=$(echo "$RESPONSE" | python3 -c "
-          import sys, json
-          data = json.load(sys.stdin)
-          if 'content' in data and len(data['content']) > 0:
-              print(data['content'][0]['text'])
-          else:
-              print('Error: ' + json.dumps(data.get('error', 'Unknown error')))
-              sys.exit(1)
-          ")
-
-          # Generate filename
-          SLUG=$(echo "$PR_TITLE" | tr '[:upper:]' '[:lower:]' | tr ' ' '-' | tr -cd '[:alnum:]-' | head -c 50)
-          FILENAME="${DATE}-${SLUG}.mdx"
-
-          echo "filename=$FILENAME" >> $GITHUB_OUTPUT
-          echo "$MDX_CONTENT" > /tmp/release-note.mdx
-
+      - name: Generate release note
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-
-      - name: Commit release note
+          CLAUDE_MODEL: claude-sonnet-4-5
         run: |
-          FILENAME="${{ steps.generate.outputs.filename }}"
-          DEST="src/content/docs/help/release-notes/$FILENAME"
+          node .github/scripts/claude-run.mjs \
+            --system .github/claude-prompts/release-note.system.md \
+            --context /tmp/pr.json,/tmp/diff.txt \
+            --out /tmp/note.mdx \
+            --model "$CLAUDE_MODEL" \
+            --max-tokens 2048
 
-          cp /tmp/release-note.mdx "$DEST"
-
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add "$DEST"
-          git commit -m "docs: auto-generate release notes for PR #${{ github.event.pull_request.number }}
-
-          Co-Authored-By: Claude Sonnet <noreply@anthropic.com>"
-          git push
+      - name: Open preview PR
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          PR="${{ steps.ctx.outputs.pr }}"
+          DATE=$(date -u +%Y-%m-%d)
+          TITLE=$(jq -r '.title // "release"' /tmp/pr.json)
+          SLUG=$(echo "$TITLE" | tr '[:upper:]' '[:lower:]' \
+                 | sed -E 's/[^a-z0-9]+/-/g; s/^-+|-+$//g' | head -c 50)
+          BRANCH="bot/release-note-${PR:-$(date +%s)}"
+          FILE="src/content/docs/help/release-notes/${DATE}-${SLUG}.mdx"
+
+          git config user.name "servantium-bot"
+          git config user.email "bot@servantium.com"
+          git checkout -b "$BRANCH"
+          mkdir -p "$(dirname "$FILE")"
+          cp /tmp/note.mdx "$FILE"
+          git add "$FILE"
+          git commit -m "docs(release-notes): draft for PR #${PR:-manual}"
+          git push -u origin "$BRANCH"
+
+          gh pr create \
+            --base develop \
+            --head "$BRANCH" \
+            --title "docs: release notes draft for #${PR:-manual}" \
+            --body "$(printf 'Auto-generated draft for PR #%s.\n\nReview, edit inline if needed, then merge. Content will appear on test.servantium.com immediately and promote to servantium.com on the next develop -> main merge.\n\n---\n\n```mdx\n%s\n```' "${PR:-manual}" "$(cat /tmp/note.mdx)")"

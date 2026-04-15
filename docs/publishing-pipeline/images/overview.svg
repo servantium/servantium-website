@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 440" font-family="Source Sans 3, system-ui, sans-serif">
+  <defs>
+    <linearGradient id="botFill" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#023E25"/>
+      <stop offset="100%" stop-color="#00C26D"/>
+    </linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#3d3d3d"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="440" fill="#F5F6F7"/>
+  <text x="480" y="36" text-anchor="middle" font-size="22" font-weight="700" fill="#0D0D0D">Publishing pipeline — end to end</text>
+  <text x="480" y="58" text-anchor="middle" font-size="13" fill="#6b6b6b">PR merged to develop triggers both workflows. Drafts land in a review PR. Promotion is a plain git merge.</text>
+
+  <!-- 1. Source PR -->
+  <rect x="30" y="100" width="160" height="80" rx="10" fill="#ffffff" stroke="#E1E3E6" stroke-width="1.5"/>
+  <text x="110" y="130" text-anchor="middle" font-size="13" font-weight="700" fill="#0D0D0D">1. Feature PR</text>
+  <text x="110" y="150" text-anchor="middle" font-size="11" fill="#6b6b6b">merged to develop</text>
+  <text x="110" y="166" text-anchor="middle" font-size="11" fill="#6b6b6b">by engineer</text>
+
+  <!-- 2. Workflows fire -->
+  <rect x="230" y="80" width="200" height="120" rx="10" fill="url(#botFill)"/>
+  <text x="330" y="110" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">2. GitHub Actions fire</text>
+  <text x="330" y="132" text-anchor="middle" font-size="11" fill="#ffffff">release-notes.yml</text>
+  <text x="330" y="148" text-anchor="middle" font-size="11" fill="#ffffff">help-docs.yml</text>
+  <text x="330" y="174" text-anchor="middle" font-size="10" fill="#E8FBF1">claude-sonnet-4-5 via shared runner</text>
+
+  <!-- 3. Draft PR -->
+  <rect x="470" y="100" width="180" height="80" rx="10" fill="#ffffff" stroke="#E1E3E6" stroke-width="1.5"/>
+  <text x="560" y="130" text-anchor="middle" font-size="13" font-weight="700" fill="#0D0D0D">3. Draft PR</text>
+  <text x="560" y="150" text-anchor="middle" font-size="11" fill="#6b6b6b">bot/release-note-#</text>
+  <text x="560" y="166" text-anchor="middle" font-size="11" fill="#6b6b6b">bot/help-docs-#</text>
+
+  <!-- 4. Human review -->
+  <rect x="690" y="100" width="240" height="80" rx="10" fill="#ffffff" stroke="#E1E3E6" stroke-width="1.5"/>
+  <text x="810" y="130" text-anchor="middle" font-size="13" font-weight="700" fill="#0D0D0D">4. Human review + merge</text>
+  <text x="810" y="150" text-anchor="middle" font-size="11" fill="#6b6b6b">edit inline, then merge</text>
+  <text x="810" y="166" text-anchor="middle" font-size="11" fill="#6b6b6b">to develop</text>
+
+  <!-- 5. Test env -->
+  <rect x="170" y="280" width="240" height="80" rx="10" fill="#E8FBF1" stroke="#00C26D" stroke-width="1.5"/>
+  <text x="290" y="310" text-anchor="middle" font-size="13" font-weight="700" fill="#023E25">5. test.servantium.com</text>
+  <text x="290" y="330" text-anchor="middle" font-size="11" fill="#023E25">auto-deployed from develop</text>
+  <text x="290" y="346" text-anchor="middle" font-size="11" fill="#023E25">by Cloudflare Pages</text>
+
+  <!-- 6. Promote -->
+  <rect x="440" y="280" width="180" height="80" rx="10" fill="#ffffff" stroke="#E1E3E6" stroke-width="1.5"/>
+  <text x="530" y="310" text-anchor="middle" font-size="13" font-weight="700" fill="#0D0D0D">6. Promote</text>
+  <text x="530" y="330" text-anchor="middle" font-size="11" fill="#6b6b6b">develop -&gt; main</text>
+  <text x="530" y="346" text-anchor="middle" font-size="11" fill="#6b6b6b">(no regeneration)</text>
+
+  <!-- 7. Prod -->
+  <rect x="650" y="280" width="240" height="80" rx="10" fill="#E8FBF1" stroke="#00C26D" stroke-width="1.5"/>
+  <text x="770" y="310" text-anchor="middle" font-size="13" font-weight="700" fill="#023E25">7. servantium.com</text>
+  <text x="770" y="330" text-anchor="middle" font-size="11" fill="#023E25">auto-deployed from main</text>
+  <text x="770" y="346" text-anchor="middle" font-size="11" fill="#023E25">same MDX, same commit</text>
+
+  <!-- Arrows top row -->
+  <line x1="190" y1="140" x2="228" y2="140" stroke="#3d3d3d" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="430" y1="140" x2="468" y2="140" stroke="#3d3d3d" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="650" y1="140" x2="688" y2="140" stroke="#3d3d3d" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Arrow from review down to test env -->
+  <path d="M 810 180 Q 810 240 290 240 L 290 278" fill="none" stroke="#3d3d3d" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Arrows bottom row -->
+  <line x1="410" y1="320" x2="438" y2="320" stroke="#3d3d3d" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="620" y1="320" x2="648" y2="320" stroke="#3d3d3d" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <text x="480" y="410" text-anchor="middle" font-size="11" fill="#6b6b6b">Content is written once, reviewed once, and merged forward. The develop -&gt; main merge does not re-run the pipeline.</text>
+</svg>

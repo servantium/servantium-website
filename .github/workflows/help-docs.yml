@@ -1,0 +1,131 @@
+name: Help Docs (preview)
+
+# Two-pass pipeline: an orchestrator decides which existing docs to
+# update and which new ones to create, then a writer drafts MDX for
+# each action. All drafts land in a single bot branch PR targeting
+# `develop` for review.
+#
+# Same content-promotion model as release-notes.yml: drafts merge to
+# develop -> test.servantium.com, then develop -> main promotes the
+# finished docs to production without re-running the pipeline.
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [develop]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: "PR number to draft help docs for"
+        required: true
+
+jobs:
+  help-docs:
+    if: >-
+      github.event_name != 'pull_request' ||
+      (github.event.pull_request.merged == true &&
+       github.event.pull_request.user.login != 'servantium-bot')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Anthropic SDK
+        run: npm install @anthropic-ai/sdk@latest --no-save
+
+      - name: Resolve PR context
+        id: ctx
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            PR="${{ github.event.pull_request.number }}"
+          else
+            PR="${{ inputs.pr_number }}"
+          fi
+          echo "pr=$PR" >> $GITHUB_OUTPUT
+          gh pr view "$PR" --json title,body,mergedAt,headRefName,url > /tmp/pr.json
+          gh pr diff "$PR" | head -c 50000 > /tmp/diff.txt || true
+
+      - name: Build docs index
+        run: node .github/scripts/docs-index.mjs > /tmp/docs-index.json
+
+      - name: Orchestrator pass (decide actions)
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CLAUDE_MODEL: claude-sonnet-4-5
+        run: |
+          node .github/scripts/claude-run.mjs \
+            --system .github/claude-prompts/help-docs-orchestrator.system.md \
+            --context /tmp/pr.json,/tmp/diff.txt,/tmp/docs-index.json \
+            --out /tmp/actions.json \
+            --model "$CLAUDE_MODEL" \
+            --max-tokens 1024 \
+            --json
+
+      - name: Short-circuit if no actions
+        id: gate
+        run: |
+          COUNT=$(jq '.actions | length' /tmp/actions.json)
+          echo "count=$COUNT" >> $GITHUB_OUTPUT
+          echo "Orchestrator returned $COUNT action(s)"
+          if [ "$COUNT" = "0" ]; then
+            echo "No help doc changes needed for this PR"
+          fi
+
+      - name: Writer pass (draft MDX)
+        if: steps.gate.outputs.count != '0'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CLAUDE_MODEL: claude-sonnet-4-5
+        run: |
+          rm -rf /tmp/drafts && mkdir -p /tmp/drafts
+          node .github/scripts/help-docs-writer.mjs \
+            --actions /tmp/actions.json \
+            --pr /tmp/pr.json \
+            --diff /tmp/diff.txt \
+            --out-dir /tmp/drafts
+
+      - name: Open preview PR
+        if: steps.gate.outputs.count != '0'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          if [ -z "$(ls -A /tmp/drafts 2>/dev/null)" ]; then
+            echo "Writer produced no files; skipping PR"; exit 0
+          fi
+          PR="${{ steps.ctx.outputs.pr }}"
+          BRANCH="bot/help-docs-${PR}"
+
+          git config user.name "servantium-bot"
+          git config user.email "bot@servantium.com"
+          git checkout -b "$BRANCH"
+
+          # Copy drafts into the live docs tree, overwriting existing
+          # files for `update` actions and adding new files for `create`.
+          cp -r /tmp/drafts/* src/content/docs/help/
+
+          git add src/content/docs/help
+          git commit -m "docs(help): draft updates for #${PR}"
+          git push -u origin "$BRANCH"
+
+          # Build a PR body listing every action + reason for reviewer context.
+          SUMMARY=$(jq -r '.actions[] | "- **\(.type)** \(.path // (.section + "/" + .title)) — \(.reason)"' /tmp/actions.json)
+          gh pr create \
+            --base develop \
+            --head "$BRANCH" \
+            --title "docs: help docs draft for #${PR}" \
+            --body "$(printf 'Auto-generated help doc drafts for PR #%s.\n\n## Actions\n\n%s\n\nReview each file, edit inline if needed, then merge. Content appears on test.servantium.com immediately and promotes to production on the next develop -> main merge.' "$PR" "$SUMMARY")"
