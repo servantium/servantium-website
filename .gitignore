@@ -14,3 +14,6 @@ dist/
 
 # Lighthouse
 .lighthouse-baseline/
+
+# Local agent tooling — never check in
+.claude/

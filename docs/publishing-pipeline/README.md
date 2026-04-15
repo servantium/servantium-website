@@ -8,12 +8,14 @@ This folder is the source of truth for how the pipeline works. If the behaviour 
 
 ## TL;DR
 
-1. A PR merges to `develop`.
+1. A PR merges into the active test branch (currently `feature/astro-prototype`, soon `develop`).
 2. `release-notes.yml` drafts a release note. `help-docs.yml` decides which help docs need to change, then drafts the MDX.
-3. Both workflows open a preview PR back into `develop`.
+3. Both workflows open a preview PR back into the same base branch.
 4. A human reviews, edits inline if needed, and merges.
-5. `test.servantium.com` updates immediately (Cloudflare Pages auto-deploys from `develop`).
-6. Later, when `develop` is merged into `main`, production updates. **The pipeline does not re-run.** Content is written once and reused across environments.
+5. `test.servantium.com` updates immediately (Cloudflare Pages auto-deploys from the test branch).
+6. Later, when the test branch is merged into `main`, production updates. **The pipeline does not re-run.** Content is written once and reused across environments.
+
+> **Branch state (2026-04-15):** The pipeline currently watches `feature/astro-prototype` AND `develop`. When the astro prototype merges to main in ~2 weeks, drop `feature/astro-prototype` from the `branches:` list in both workflow files.
 
 ![Pipeline overview](images/overview.svg)
 
@@ -70,7 +72,26 @@ Without this, the bot cannot push branches or open PRs.
 
 The workflows commit as `servantium-bot <bot@servantium.com>`. That's a string, not a real user — it just keeps the commit log clean. If you want a real identity with an avatar, create a machine user and use its token; otherwise leave it.
 
-### 4. Branch protection (recommended)
+### 4. Testing safely — first-run playbook
+
+Before relying on the pipeline for real PRs, do a controlled first run:
+
+1. **Verify permissions from Step 2 above are saved.** This is the #1 first-run failure.
+2. Go to **Actions → Release Notes (preview) → Run workflow**
+3. Pick `feature/astro-prototype` as the branch, enter a recently merged PR number, click Run
+4. Watch the run. Expected outcome: a new PR appears titled `docs: release notes draft for #NNN` targeting `feature/astro-prototype`
+5. **Do not merge it.** Open it, read the MDX, verify the voice and frontmatter look right, then close it
+6. Repeat for **Help Docs (preview)** against a PR that actually touches user-facing functionality
+
+Safety guarantees baked in:
+- **Nothing auto-merges.** A human must click merge. If the bot writes garbage, close the PR and nothing ever lands.
+- **Bot PRs skip the workflow** (the `if:` guard checks `user.login != 'servantium-bot'`), so bot PRs cannot loop into more bot PRs.
+- **Drafts only touch `src/content/docs/help/**` + release notes.** Nothing edits layouts, components, or config.
+- **The Anthropic call has 3 retries with exponential backoff**, so one transient 500 doesn't fail the run.
+- **Per-call token cap of 2048** keeps runaway spend impossible. Realistic cost: ~$0.02 per run.
+- **If the first run fails**, the most likely cause is workflow permissions (Step 2) or `ANTHROPIC_API_KEY` missing/invalid. Read the failed step log; it will tell you exactly which.
+
+### 5. Branch protection (recommended)
 
 On `main`, require:
 - PR review before merge

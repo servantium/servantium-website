@@ -12,7 +12,8 @@ name: Help Docs (preview)
 on:
   pull_request:
     types: [closed]
-    branches: [develop]
+    # Active test branch today; develop takes over after the 2-week cutover.
+    branches: [feature/astro-prototype, develop]
   workflow_dispatch:
     inputs:
       pr_number:
@@ -124,8 +125,9 @@ jobs:
 
           # Build a PR body listing every action + reason for reviewer context.
           SUMMARY=$(jq -r '.actions[] | "- **\(.type)** \(.path // (.section + "/" + .title)) — \(.reason)"' /tmp/actions.json)
+          BASE_BRANCH="${GITHUB_BASE_REF:-feature/astro-prototype}"
           gh pr create \
-            --base develop \
+            --base "$BASE_BRANCH" \
             --head "$BRANCH" \
             --title "docs: help docs draft for #${PR}" \
-            --body "$(printf 'Auto-generated help doc drafts for PR #%s.\n\n## Actions\n\n%s\n\nReview each file, edit inline if needed, then merge. Content appears on test.servantium.com immediately and promotes to production on the next develop -> main merge.' "$PR" "$SUMMARY")"
+            --body "$(printf 'Auto-generated help doc drafts for PR #%s.\n\n## Actions\n\n%s\n\nReview each file, edit inline if needed, then merge. Content appears on test.servantium.com immediately.' "$PR" "$SUMMARY")"

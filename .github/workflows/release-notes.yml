@@ -12,7 +12,12 @@ name: Release Notes (preview)
 on:
   pull_request:
     types: [closed]
-    branches: [develop]
+    # Fires on merges into the current test branch. `feature/astro-prototype`
+    # is the active test branch until the 2-week cutover, then it gets
+    # replaced by `develop`. Keeping both listed means the cutover is a
+    # no-op for this workflow — delete `feature/astro-prototype` from the
+    # list once the merge to main happens.
+    branches: [feature/astro-prototype, develop]
   workflow_dispatch:
     inputs:
       pr_number:
@@ -107,8 +112,11 @@ jobs:
           git commit -m "docs(release-notes): draft for PR #${PR:-manual}"
           git push -u origin "$BRANCH"
 
+          # Base the draft PR on whichever branch triggered the workflow,
+          # so the cutover from feature/astro-prototype to develop is a no-op.
+          BASE_BRANCH="${GITHUB_BASE_REF:-feature/astro-prototype}"
           gh pr create \
-            --base develop \
+            --base "$BASE_BRANCH" \
             --head "$BRANCH" \
             --title "docs: release notes draft for #${PR:-manual}" \
-            --body "$(printf 'Auto-generated draft for PR #%s.\n\nReview, edit inline if needed, then merge. Content will appear on test.servantium.com immediately and promote to servantium.com on the next develop -> main merge.\n\n---\n\n```mdx\n%s\n```' "${PR:-manual}" "$(cat /tmp/note.mdx)")"
+            --body "$(printf 'Auto-generated draft for PR #%s.\n\nReview, edit inline if needed, then merge. Content appears on test.servantium.com immediately after merge.\n\n---\n\n```mdx\n%s\n```' "${PR:-manual}" "$(cat /tmp/note.mdx)")"
