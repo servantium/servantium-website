@@ -46,7 +46,9 @@ jobs:
     if: >-
       github.event_name != 'pull_request' ||
       (github.event.pull_request.merged == true &&
-       github.event.pull_request.user.login != 'servantium-bot')
+       github.event.pull_request.user.login != 'servantium-bot' &&
+       github.event.pull_request.user.login != 'servantium-bot[bot]' &&
+       !startsWith(github.event.pull_request.user.login, 'app/'))
     runs-on: ubuntu-latest
     permissions:
       contents: write

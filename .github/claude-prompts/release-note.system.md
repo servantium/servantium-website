@@ -39,4 +39,7 @@ Rules:
 - Use `<Aside type="tip">...</Aside>` only if there is a workflow change worth calling out
 - Skip "Why it matters" only for purely internal changes (CI, deps, refactors) — then use one paragraph, badge text=Internal, variant=note
 - If the PR title already contains a version tag, still emit the version supplied in the run context as the source of truth
+- `date` MUST be a quoted string: `date: "YYYY-MM-DD"`. Unquoted dates break the YAML parser.
 - Match the `date` to today's UTC date supplied in context as `today`
+- Never use em dashes. Use " - " (space-hyphen-space) instead.
+- The help docs framework is called "Grove" (custom, replaces Starlight). Never mention Starlight. The design system is "Verdant". The site runs on Astro 6.
