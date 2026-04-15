@@ -213,6 +213,15 @@ jobs:
         run: |
           if [ -z "$PORTAL_WEBHOOK_SECRET" ]; then exit 0; fi
           DRAFT=$(cat /tmp/note.json 2>/dev/null || echo '""')
+          # Capture PR title + body so the portal can render a code-change
+          # summary alongside the draft release note.
+          PR_TITLE=$(jq -r '.title // ""' /tmp/pr.json | head -c 300)
+          PR_BODY=$(jq -r '.body // ""'  /tmp/pr.json | head -c 2000)
+          PR_URL=$(jq -r '.url // ""'   /tmp/pr.json)
+          DIFF_HEAD=$(head -c 4000 /tmp/diff.txt)
+          # Live help URL — where the release note will appear after merge.
+          LIVE_SLUG=$(basename "${{ steps.openpr.outputs.bot_pr_url }}")
+          LIVE_URL="https://test.servantium.com/help/release-notes/"
           curl -sS --max-time 8 -X POST \
             -H "Authorization: Bearer $PORTAL_WEBHOOK_SECRET" \
             -H "Content-Type: application/json" \
@@ -225,7 +234,12 @@ jobs:
                         --arg bot_pr_url "${{ steps.openpr.outputs.bot_pr_url }}" \
                         --argjson bot_pr_number "${{ steps.openpr.outputs.bot_pr_number }}" \
                         --argjson draft_mdx "$DRAFT" \
-                        '{event: $event, gh_run_id: $gh_run_id, pr_number: ($pr|tonumber? // null), version: $version, repo: $repo, bot_pr_url: $bot_pr_url, bot_pr_number: $bot_pr_number, draft_mdx: $draft_mdx}')" \
+                        --arg pr_title "$PR_TITLE" \
+                        --arg pr_body "$PR_BODY" \
+                        --arg pr_url "$PR_URL" \
+                        --arg diff_head "$DIFF_HEAD" \
+                        --arg live_url "$LIVE_URL" \
+                        '{event: $event, gh_run_id: $gh_run_id, pr_number: ($pr|tonumber? // null), version: $version, repo: $repo, bot_pr_url: $bot_pr_url, bot_pr_number: $bot_pr_number, draft_mdx: $draft_mdx, pr_title: $pr_title, pr_body: $pr_body, pr_url: $pr_url, diff_head: $diff_head, live_url: $live_url}')" \
             || true
 
       - name: Notify portal — run failed
