@@ -263,9 +263,11 @@ const kindMeta: Record<string, { icon: string; label: string; color: string; cov
           // Size rhythm: 1/6 tall, 1/6 wide, rest normal. Blogs always normal for density.
           const tall = (t.kind !== 'blog') && (n % 11 === 0);
           const wide = (t.kind !== 'blog') && !tall && (n % 7 === 3);
-          // Style rhythm: 60% image, 25% gradient, 15% solid accent
+          const multi = tall || wide;
+          // Style rhythm: 60% image, 25% gradient, 15% solid accent — but ANY
+          // tile bigger than one cell ALWAYS gets an image (visual anchors).
           const styleRoll = n % 20;
-          const variant = styleRoll < 12 ? 'image' : styleRoll < 17 ? 'gradient' : 'solid';
+          const variant = multi ? 'image' : (styleRoll < 12 ? 'image' : styleRoll < 17 ? 'gradient' : 'solid');
           // Rotation: tiny jitter for playful feel (max ±1deg)
           const rot = ((n % 5) - 2) * 0.25;
           return (
@@ -310,6 +312,7 @@ const kindMeta: Record<string, { icon: string; label: string; color: string; cov
     if (!grid) return;
     var buttons = document.querySelectorAll('.r-filter');
     var tiles = grid.querySelectorAll('.r-tile');
+    var featuredSection = document.querySelector('.r-featured');
 
     buttons.forEach(function(btn) {
       btn.addEventListener('click', function() {
@@ -320,6 +323,15 @@ const kindMeta: Record<string, { icon: string; label: string; color: string; cov
         });
         btn.classList.add('active');
         btn.setAttribute('aria-selected', 'true');
+
+        // Hide featured mosaic when any filter other than "all" is active —
+        // user scans a straight list of filtered results without visual noise.
+        if (featuredSection) {
+          featuredSection.hidden = filter !== 'all';
+        }
+        // When filtering, collapse artsy tall/wide variants into plain cells
+        // so the grid renders as a clean list.
+        grid.classList.toggle('r-grid--flat', filter !== 'all');
 
         var visible = 0;
         tiles.forEach(function(tile) {
@@ -759,6 +771,16 @@ const kindMeta: Record<string, { icon: string; label: string; color: string; cov
   }
   .r-tile--wide { grid-column: span 8; min-height: 380px; }
   .r-tile--tall { grid-row: span 2; min-height: 520px; }
+
+  /* Flat list mode — when a filter is active, neutralize artsy spans so
+     the grid renders as a uniform list of cards. */
+  .r-grid--flat .r-tile--wide,
+  .r-grid--flat .r-tile--tall {
+    grid-column: span 4;
+    grid-row: span 1;
+    min-height: 320px;
+  }
+  .r-grid--flat .r-tile { transform: none !important; }
 
   /* Variant A — image background (default photo-wall treatment kept) */
 
