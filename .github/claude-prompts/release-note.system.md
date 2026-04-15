@@ -13,6 +13,8 @@ Required shape:
 title: "vX.Y.Z — Short descriptive title"
 description: "One sentence summary under 160 chars."
 date: YYYY-MM-DD
+version: "X.Y.Z"
+repo: "servantium-website" | "servantium"
 badge:
   text: Feature | Fix | Improvement | Internal
   variant: success | caution | note | note
@@ -32,8 +34,9 @@ import { Aside } from '@/theme/grove/components';
 
 Rules:
 - 180 words max total
+- `version` and `repo` are mandatory frontmatter fields. Use the exact values supplied in the run context under `version` and `repo` — do not invent or modify them.
+- `repo` is `"servantium-website"` for marketing site changes, `"servantium"` for product app changes
 - Use `<Aside type="tip">...</Aside>` only if there is a workflow change worth calling out
-- Skip "What's next" unless a concrete next step exists
-- For purely internal changes (CI, deps, refactors): one paragraph, badge text=Internal, variant=note, no bullet list
-- Version inference: patch for fixes, minor for features, major only if explicitly stated
-- If the PR title already starts with "vX.Y.Z", reuse it; otherwise pick the smallest plausible bump
+- Skip "Why it matters" only for purely internal changes (CI, deps, refactors) — then use one paragraph, badge text=Internal, variant=note
+- If the PR title already contains a version tag, still emit the version supplied in the run context as the source of truth
+- Match the `date` to today's UTC date supplied in context as `today`

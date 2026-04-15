@@ -1,28 +1,40 @@
 name: Release Notes (preview)
 
-# Fires when a PR merges to `develop`. Generates a draft release note
-# on a bot branch and opens a review PR back into `develop`. When that
-# PR merges, the release note is live on test.servantium.com. The
-# later `develop -> main` promotion merge does NOT re-run this workflow,
-# so content is written once and reused across environments.
+# Fires when a PR merges to the active test branch (feature/astro-prototype,
+# soon develop). Generates a draft release note on a bot branch and opens a
+# review PR back into the same branch. The later `develop -> main` promotion
+# merge does NOT re-run this workflow, so content is written once and reused
+# across environments.
 #
-# Can also be fired manually (workflow_dispatch) against any PR number,
-# or via repository_dispatch from the app repo when Max cuts a release.
+# Can also be fired manually (workflow_dispatch) against any PR number with
+# explicit version and repo inputs, or via repository_dispatch from the app
+# repo when Max cuts a release.
+#
+# The internal portal at test.internal.servantium.com hosts the editable
+# agent prompt (fetched at run start) and receives webhook events so the
+# /releases console stays in sync. Both endpoints degrade gracefully if the
+# portal is unreachable — the committed prompt file is used as fallback.
 
 on:
   pull_request:
     types: [closed]
-    # Fires on merges into the current test branch. `feature/astro-prototype`
-    # is the active test branch until the 2-week cutover, then it gets
-    # replaced by `develop`. Keeping both listed means the cutover is a
-    # no-op for this workflow — delete `feature/astro-prototype` from the
-    # list once the merge to main happens.
     branches: [feature/astro-prototype, develop]
   workflow_dispatch:
     inputs:
       pr_number:
         description: "PR number on this repo to generate notes for"
         required: false
+      version:
+        description: "Semver for the release (e.g. 1.1.0). Defaults to auto-bump."
+        required: false
+      repo:
+        description: "Which product this note describes"
+        required: false
+        default: "servantium-website"
+        type: choice
+        options:
+          - servantium-website
+          - servantium
       app_version:
         description: "App version if triggered outside of a PR (e.g. v1.4.0)"
         required: false
@@ -31,7 +43,6 @@ on:
 
 jobs:
   release-notes:
-    # Skip bot PRs to avoid loops; skip non-merged PR closes.
     if: >-
       github.event_name != 'pull_request' ||
       (github.event.pull_request.merged == true &&
@@ -55,18 +66,31 @@ jobs:
       - name: Install Anthropic SDK
         run: npm install @anthropic-ai/sdk@latest --no-save
 
-      - name: Resolve PR context
+      - name: Resolve PR + release context
         id: ctx
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -e
           case "${{ github.event_name }}" in
-            pull_request)     PR="${{ github.event.pull_request.number }}" ;;
+            pull_request)      PR="${{ github.event.pull_request.number }}" ;;
             workflow_dispatch) PR="${{ inputs.pr_number }}" ;;
             repository_dispatch) PR="" ;;
           esac
           echo "pr=$PR" >> $GITHUB_OUTPUT
+
+          # Version: honour explicit input; otherwise leave blank and let the
+          # prompt fall back to auto-bump. Defaults to 0.0.0 so the context
+          # file always has the key.
+          VERSION="${{ inputs.version || github.event.client_payload.version || '' }}"
+          if [ -z "$VERSION" ]; then VERSION="auto"; fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+          REPO="${{ inputs.repo || github.event.client_payload.repo || 'servantium-website' }}"
+          echo "repo=$REPO" >> $GITHUB_OUTPUT
+
+          TODAY=$(date -u +%Y-%m-%d)
+          echo "today=$TODAY" >> $GITHUB_OUTPUT
 
           if [ -n "$PR" ]; then
             gh pr view "$PR" --json title,body,mergedAt,headRefName,url > /tmp/pr.json
@@ -78,30 +102,87 @@ jobs:
             echo "${{ github.event.client_payload.diff || '' }}" > /tmp/diff.txt
           fi
 
+          # Merge version/repo/today into the PR context JSON so the prompt
+          # sees them alongside the title/body.
+          jq --arg v "$VERSION" --arg r "$REPO" --arg t "$TODAY" \
+             '. + {version: $v, repo: $r, today: $t}' /tmp/pr.json > /tmp/pr.tmp && mv /tmp/pr.tmp /tmp/pr.json
+
+      - name: Fetch live prompt from portal (fallback to committed file)
+        id: prompt
+        env:
+          PORTAL_WEBHOOK_SECRET: ${{ secrets.PORTAL_WEBHOOK_SECRET }}
+        run: |
+          set +e
+          PORTAL_URL="https://test.internal.servantium.com/api/agents/by-codename/ReleaseWriter/prompt"
+          if [ -n "$PORTAL_WEBHOOK_SECRET" ]; then
+            curl -sS --max-time 8 \
+              -H "Authorization: Bearer $PORTAL_WEBHOOK_SECRET" \
+              "$PORTAL_URL" -o /tmp/agent.json
+            STATUS=$?
+          else
+            STATUS=99
+          fi
+          if [ "$STATUS" = "0" ] && [ -s /tmp/agent.json ] && jq -e '.systemPrompt' /tmp/agent.json > /dev/null 2>&1; then
+            jq -r '.systemPrompt' /tmp/agent.json > /tmp/system.md
+            echo "source=portal" >> $GITHUB_OUTPUT
+            echo "Fetched live prompt from portal"
+          else
+            cp .github/claude-prompts/release-note.system.md /tmp/system.md
+            echo "source=committed" >> $GITHUB_OUTPUT
+            echo "Using committed prompt (portal unavailable or unconfigured)"
+          fi
+
+      - name: Notify portal — run started
+        if: always()
+        env:
+          PORTAL_WEBHOOK_SECRET: ${{ secrets.PORTAL_WEBHOOK_SECRET }}
+        run: |
+          if [ -z "$PORTAL_WEBHOOK_SECRET" ]; then exit 0; fi
+          curl -sS --max-time 8 -X POST \
+            -H "Authorization: Bearer $PORTAL_WEBHOOK_SECRET" \
+            -H "Content-Type: application/json" \
+            https://test.internal.servantium.com/api/releases/webhook \
+            -d "$(jq -n --arg gh_run_id "${{ github.run_id }}" \
+                        --arg gh_run_url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+                        --arg pr "${{ steps.ctx.outputs.pr }}" \
+                        --arg version "${{ steps.ctx.outputs.version }}" \
+                        --arg repo "${{ steps.ctx.outputs.repo }}" \
+                        --arg event started \
+                        --arg prompt_source "${{ steps.prompt.outputs.source }}" \
+                        '{event: $event, gh_run_id: $gh_run_id, gh_run_url: $gh_run_url, pr_number: ($pr|tonumber? // null), version: $version, repo: $repo, prompt_source: $prompt_source}')" \
+            || true
+
       - name: Generate release note
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           CLAUDE_MODEL: claude-sonnet-4-5
         run: |
           node .github/scripts/claude-run.mjs \
-            --system .github/claude-prompts/release-note.system.md \
+            --system /tmp/system.md \
             --context /tmp/pr.json,/tmp/diff.txt \
             --out /tmp/note.mdx \
             --model "$CLAUDE_MODEL" \
             --max-tokens 2048
 
       - name: Open preview PR
+        id: openpr
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -e
           PR="${{ steps.ctx.outputs.pr }}"
-          DATE=$(date -u +%Y-%m-%d)
+          VERSION="${{ steps.ctx.outputs.version }}"
+          REPO_TAG="${{ steps.ctx.outputs.repo }}"
+          DATE="${{ steps.ctx.outputs.today }}"
           TITLE=$(jq -r '.title // "release"' /tmp/pr.json)
           SLUG=$(echo "$TITLE" | tr '[:upper:]' '[:lower:]' \
-                 | sed -E 's/[^a-z0-9]+/-/g; s/^-+|-+$//g' | head -c 50)
-          BRANCH="bot/release-note-${PR:-$(date +%s)}"
-          FILE="src/content/docs/help/release-notes/${DATE}-${SLUG}.mdx"
+                 | sed -E 's/[^a-z0-9]+/-/g; s/^-+|-+$//g' | head -c 40)
+
+          # File path: release-notes/YYYY-MM-DD-vX-Y-Z-slug.mdx. When version
+          # is "auto" we still want a meaningful filename component.
+          VSLUG=$(echo "$VERSION" | tr '.' '-')
+          FILE="src/content/docs/help/release-notes/${DATE}-v${VSLUG}-${SLUG}.mdx"
+          BRANCH="bot/release-note-${PR:-$(date +%s)}-v${VSLUG}"
 
           git config user.name "servantium-bot"
           git config user.email "bot@servantium.com"
@@ -109,14 +190,57 @@ jobs:
           mkdir -p "$(dirname "$FILE")"
           cp /tmp/note.mdx "$FILE"
           git add "$FILE"
-          git commit -m "docs(release-notes): draft for PR #${PR:-manual}"
+          git commit -m "docs(release-notes): draft v${VERSION} for PR #${PR:-manual}"
           git push -u origin "$BRANCH"
 
-          # Base the draft PR on whichever branch triggered the workflow,
-          # so the cutover from feature/astro-prototype to develop is a no-op.
           BASE_BRANCH="${GITHUB_BASE_REF:-feature/astro-prototype}"
-          gh pr create \
+          BOT_PR_URL=$(gh pr create \
             --base "$BASE_BRANCH" \
             --head "$BRANCH" \
-            --title "docs: release notes draft for #${PR:-manual}" \
-            --body "$(printf 'Auto-generated draft for PR #%s.\n\nReview, edit inline if needed, then merge. Content appears on test.servantium.com immediately after merge.\n\n---\n\n```mdx\n%s\n```' "${PR:-manual}" "$(cat /tmp/note.mdx)")"
+            --title "docs: release note v${VERSION} for #${PR:-manual}" \
+            --body "$(printf 'Auto-generated draft for PR #%s — **v%s** (%s).\n\nReview, edit inline if needed, then merge. Content appears on test.servantium.com immediately after merge.\n\n---\n\n```mdx\n%s\n```' "${PR:-manual}" "$VERSION" "$REPO_TAG" "$(cat /tmp/note.mdx)")")
+
+          echo "bot_pr_url=$BOT_PR_URL" >> $GITHUB_OUTPUT
+          BOT_PR_NUMBER=$(echo "$BOT_PR_URL" | sed -E 's|.*/pull/([0-9]+)|\1|')
+          echo "bot_pr_number=$BOT_PR_NUMBER" >> $GITHUB_OUTPUT
+          # Emit the draft MDX as a single-line JSON string for the webhook step.
+          jq -Rs . < /tmp/note.mdx > /tmp/note.json
+
+      - name: Notify portal — run completed
+        if: success()
+        env:
+          PORTAL_WEBHOOK_SECRET: ${{ secrets.PORTAL_WEBHOOK_SECRET }}
+        run: |
+          if [ -z "$PORTAL_WEBHOOK_SECRET" ]; then exit 0; fi
+          DRAFT=$(cat /tmp/note.json 2>/dev/null || echo '""')
+          curl -sS --max-time 8 -X POST \
+            -H "Authorization: Bearer $PORTAL_WEBHOOK_SECRET" \
+            -H "Content-Type: application/json" \
+            https://test.internal.servantium.com/api/releases/webhook \
+            -d "$(jq -n --arg gh_run_id "${{ github.run_id }}" \
+                        --arg pr "${{ steps.ctx.outputs.pr }}" \
+                        --arg version "${{ steps.ctx.outputs.version }}" \
+                        --arg repo "${{ steps.ctx.outputs.repo }}" \
+                        --arg event drafted \
+                        --arg bot_pr_url "${{ steps.openpr.outputs.bot_pr_url }}" \
+                        --argjson bot_pr_number "${{ steps.openpr.outputs.bot_pr_number }}" \
+                        --argjson draft_mdx "$DRAFT" \
+                        '{event: $event, gh_run_id: $gh_run_id, pr_number: ($pr|tonumber? // null), version: $version, repo: $repo, bot_pr_url: $bot_pr_url, bot_pr_number: $bot_pr_number, draft_mdx: $draft_mdx}')" \
+            || true
+
+      - name: Notify portal — run failed
+        if: failure()
+        env:
+          PORTAL_WEBHOOK_SECRET: ${{ secrets.PORTAL_WEBHOOK_SECRET }}
+        run: |
+          if [ -z "$PORTAL_WEBHOOK_SECRET" ]; then exit 0; fi
+          curl -sS --max-time 8 -X POST \
+            -H "Authorization: Bearer $PORTAL_WEBHOOK_SECRET" \
+            -H "Content-Type: application/json" \
+            https://test.internal.servantium.com/api/releases/webhook \
+            -d "$(jq -n --arg gh_run_id "${{ github.run_id }}" \
+                        --arg version "${{ steps.ctx.outputs.version }}" \
+                        --arg repo "${{ steps.ctx.outputs.repo }}" \
+                        --arg event failed \
+                        '{event: $event, gh_run_id: $gh_run_id, version: $version, repo: $repo}')" \
+            || true

@@ -1,0 +1,33 @@
+---
+title: "v1.0.0 — Website baseline (pre-Verdant)"
+description: "The Servantium marketing site as it stood before the Astro + Verdant rebuild."
+date: "2026-03-25"
+version: "1.0.0"
+repo: "servantium-website"
+badge:
+  text: Baseline
+  variant: note
+---
+
+import { Aside } from '@/theme/grove/components';
+
+## What this note covers
+
+This is the baseline entry for the Servantium marketing site — a snapshot of what existed at `servantium.com` before the Verdant rebuild. Every release note after this one describes a change on top of this baseline.
+
+## The site as it stood
+
+- Static HTML and vanilla CSS, hand-rolled. No build pipeline.
+- Single home page, about page, and contact form. No blog, no docs portal, no release notes.
+- Starlight-based help site lived on a separate subdomain during early testing.
+- Marketing copy was edited directly in source and deployed by pushing to Cloudflare Pages.
+- Fonts loaded from Google Fonts. No self-hosting. No performance budget.
+- No content collections, no search, no RSS, no sitemap.
+
+## Why this baseline exists
+
+The next release (v1.1.0) describes the move to Astro, the Verdant design system, and the Grove docs framework — a full rebuild. Publishing a "before" note gives every future release note a clean anchor to diff against, and the `v1.0.0` tag matches the first production deploy of the `main` branch that this legacy site ran on.
+
+<Aside type="note">
+This entry was written by hand as the starting point for the automated release-notes pipeline. Every entry after this one is drafted by the pipeline and reviewed by a human before merge.
+</Aside>
