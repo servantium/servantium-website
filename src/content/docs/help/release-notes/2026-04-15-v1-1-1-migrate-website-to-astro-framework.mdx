@@ -1,0 +1,27 @@
+---
+title: "v1.1.1 — Astro framework migration"
+description: "The Servantium website now runs on Astro 6.1 with faster page loads and AI-generated release notes."
+date: 2026-04-15
+version: "1.1.1"
+repo: "servantium-website"
+badge:
+  text: Improvement
+  variant: note
+---
+
+import { Aside } from '@/theme/grove/components';
+
+## What changed
+
+The Servantium marketing site has been rebuilt on Astro 6.1, replacing static HTML with a modern framework. All 48 pages—including the homepage, platform pages, 30 blog posts, and 11 help documentation articles—now use a shared component architecture. The help documentation includes Pagefind search and Starlight navigation. Prefetch is enabled site-wide for instant page transitions.
+
+## Why it matters
+
+- Page loads are faster with automatic code splitting and optimized asset delivery
+- Help documentation is now searchable, reducing time to find answers
+- Release notes are generated automatically via GitHub Actions when code merges
+- Content updates require fewer file edits thanks to reusable Nav, Footer, and SEO components
+
+<Aside type="tip">
+The help site is now available at /help with full-text search. Use the search bar to quickly locate setup guides and troubleshooting steps.
+</Aside>
