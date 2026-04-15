@@ -53,10 +53,18 @@ jobs:
       pull-requests: write
 
     steps:
-      - name: Checkout
+      - name: Mint Servantium Bot token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.SERVANTIUM_BOT_APP_ID }}
+          private-key: ${{ secrets.SERVANTIUM_BOT_PRIVATE_KEY }}
+
+      - name: Checkout (with bot token so push + PR create work)
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ steps.app-token.outputs.token }}
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -167,7 +175,7 @@ jobs:
       - name: Open preview PR
         id: openpr
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           set -e
           PR="${{ steps.ctx.outputs.pr }}"
@@ -184,8 +192,10 @@ jobs:
           FILE="src/content/docs/help/release-notes/${DATE}-v${VSLUG}-${SLUG}.mdx"
           BRANCH="bot/release-note-${PR:-$(date +%s)}-v${VSLUG}"
 
-          git config user.name "servantium-bot"
-          git config user.email "bot@servantium.com"
+          # Commit as the GitHub App's bot identity. GitHub resolves the
+          # <app-slug>[bot]@users.noreply.github.com pattern to the app.
+          git config user.name "servantium-bot[bot]"
+          git config user.email "servantium-bot[bot]@users.noreply.github.com"
           git checkout -b "$BRANCH"
           mkdir -p "$(dirname "$FILE")"
           cp /tmp/note.mdx "$FILE"
