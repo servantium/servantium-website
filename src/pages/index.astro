@@ -22,7 +22,7 @@ const jsonLd = [
     "name": "Servantium",
     "url": "https://servantium.com",
     "logo": { "@type": "ImageObject", "url": "https://servantium.com/logo.png" },
-    "description": "The CPQ and engagement management platform built for professional services firms.",
+    "description": "Servantium is the Professional Services Operating System — software that connects scoping, pricing, delivery, and learning into a single feedback loop for professional services teams.",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "1111B S Governors Ave STE 48074",
@@ -44,7 +44,7 @@ const jsonLd = [
         "name": "What is Servantium?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Servantium is the single place where you define what you sell, price it, scope it, deliver it, and learn from it. One system for the whole engagement lifecycle. Most tools make you stitch together a CRM, a PSA, spreadsheets, and a document generator. We built one thing that does the job properly."
+          "text": "Servantium is the single place where you define what you sell, price it, scope it, deliver it, and learn from it. One system for the whole engagement lifecycle. Most tools make you stitch together a CRM for pipeline, a PSA for delivery, and spreadsheets for everything in between. Servantium is the engagement layer that connects them."
         }
       },
       {
@@ -52,7 +52,23 @@ const jsonLd = [
         "name": "How is Servantium different from traditional PSA software?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Most PSA tools bolt project tracking onto a sales tool and call it a day. Servantium connects the whole chain. Your service definitions feed your estimates, your estimates feed your proposals, your delivery data feeds back into smarter estimates next time. Everything shares context instead of living in silos."
+          "text": "Most PSA tools bolt project tracking onto a sales tool and call it a day. Your estimates live in spreadsheets, your proposals live in Word docs, and nobody can tell you whether last quarter's projects actually hit their margins. Servantium connects the whole chain. Your service definitions feed your estimates, your estimates feed your proposals, your delivery data feeds back into smarter estimates next time."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is Servantium a CRM?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. A CRM tracks your pipeline and client relationships. Servantium starts where your CRM ends. When a deal closes, Servantium carries the scope, the pricing rationale, and the delivery context forward into the engagement. For teams already running Salesforce, Servantium connects to it bi-directionally so nothing gets re-entered."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does Servantium replace my PSA?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. PSA tools handle time tracking, resource allocation, and invoicing. Servantium fills the gaps PSAs were never designed for: it captures scope decisions before a project starts, connects pricing to delivery outcomes, and turns completed engagement data into smarter estimates for the next one."
         }
       },
       {
@@ -60,7 +76,7 @@ const jsonLd = [
         "name": "What types of businesses use Servantium?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Consulting firms, implementation teams, MSPs, agencies, and technical services companies. The common thread: you deliver engagements that are roughly repeatable but always a bit different — and you're tired of reinventing the wheel every time."
+          "text": "Servantium works for any team that scopes projects, prices them, delivers them, and wants to stop rebuilding every engagement from scratch. That includes consulting firms, implementation partners, managed services providers, technical and creative agencies, professional services teams inside software companies, and field service businesses like general contractors and engineering firms."
         }
       },
       {
@@ -68,7 +84,7 @@ const jsonLd = [
         "name": "How does Servantium handle AI and automation?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Servantium gives you structured engagement data that AI can actually learn from. Then the automation gets useful — smarter estimates, pattern matching across past work, things that genuinely save time. But we're not pretending AI replaces the humans who do the work."
+          "text": "AI is only as useful as the data you feed it. Most services teams have poor operational data — hours billed and revenue, but nothing about what actually happened on the engagement. Servantium fixes the data problem first, then the AI gets useful: smarter estimates, pattern matching across past work, AI workflows embedded across the engagement lifecycle."
         }
       },
       {
@@ -76,7 +92,7 @@ const jsonLd = [
         "name": "Is my data secure?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. Everything's encrypted at rest and in transit — your engagement data, your pricing, your client details. We take this seriously because we know services firms handle sensitive commercial information."
+          "text": "Yes. Everything's encrypted at rest and in transit — your engagement data, your pricing, your client details. We take this seriously because we know services teams handle sensitive commercial information."
         }
       }
     ]
@@ -105,8 +121,8 @@ const jsonLd = [
 <BaseLayout activePage="home">
   <SEO
     slot="head"
-    title="Professional Services CPQ & Engagement Management Platform | Servantium"
-    description="Servantium is the professional services CPQ and engagement management platform. Define, price, sell, and deliver services with institutional memory built in."
+    title="The Professional Services OS | Servantium"
+    description="Servantium is the Professional Services OS. Scope engagements, build quotes, manage resources, and deliver in one place. The structured data layer your team needs to run AI across every engagement."
     ogType="website"
     jsonLd={jsonLd}
   />
@@ -118,10 +134,11 @@ const jsonLd = [
     <div class="container">
       <div class="hero-content" id="hero-content">
         <div class="hero-text">
-          <div class="hero-eyebrow">The Agentic Services Platform</div>
+          <div class="hero-eyebrow">The Engagement Intelligence Platform</div>
           <h1>The operating system for<br /><em>your </em><span class="hero-rotating" id="hero-rotate-a"><span class="hero-rotating-inner"><span class="hero-rotating-word active">firm.</span><span class="hero-rotating-word">team.</span><span class="hero-rotating-word">clients.</span><span class="hero-rotating-word">growth.</span></span></span></h1>
+          <p class="hero-tagline" style="font-size: 1.1rem; font-weight: 600; color: var(--color-ink, #0D0D0D); margin-bottom: 0.75rem;">Do the work. Not the overhead.</p>
           <p class="hero-description">
-            Scope, price, deliver, and learn from every engagement. Servantium is the agentic platform that turns your operational knowledge into a compounding advantage.
+            Scope engagements, build quotes, manage resources, and deliver in one place. The structured data layer your team needs to run AI across every engagement.
           </p>
           <div class="hero-ctas">
             <a href="#contact" class="btn btn-primary">Schedule a Call</a>
@@ -152,7 +169,7 @@ const jsonLd = [
           <h2>The Problem</h2>
           <p>
             Services businesses are fundamentally disadvantaged because their offerings are
-            implicit, tribal, and fragmented—rather than encoded in systems that remember and improve. <strong>Let's fix that.</strong>
+            implicit, tribal, and fragmented. Not encoded in systems that remember and improve. <strong>Let's fix that.</strong>
           </p>
         </div>
         <div class="problem-stats">
@@ -195,7 +212,7 @@ const jsonLd = [
       { title: 'Estimation', tagline: 'Price from experience, not guesswork.', description: 'Build pricing that reflects reality, not guesswork. Every estimate draws from what you\'ve actually delivered before.', features: ['Quote builder', 'Grouped sections', 'Margin calculator', 'AI generation', 'Discount system', 'Quote templates'], color: '#4C82A7', icon: '\u{1F4CA}' },
       { title: 'Proposal', tagline: 'Documents that write themselves.', description: 'Generate proposals from your real service architecture. Scope, pricing, and deliverables flow from your estimation work.', features: ['Document generation', 'Template system', 'PDF export', 'Client review', 'Adobe merge integration', 'Version history'], color: '#FFB02E', icon: '\u{1F4DD}' },
       { title: 'Delivery', tagline: 'See problems before they become fires.', description: 'Execute with real-time visibility. Know who\'s doing what, when, and whether you\'re on track before it\'s too late.', features: ['Resource planning', 'Capacity tracking', 'Utilization metrics', 'Progress monitoring', 'Interval planning', 'Assignment grid'], color: '#26A899', icon: '\u{1F680}' },
-      { title: 'Learning', tagline: 'Your firm gets smarter with every project.', description: 'Every engagement makes the next one better. Your firm gets smarter automatically.', features: ['Institutional memory', 'Note embeddings', 'Learning catalog', 'Vector search', 'Pattern detection', 'Accuracy benchmarks'], color: '#8B5CF6', icon: '\u{1F9E0}' },
+      { title: 'Learning', tagline: 'Your team gets smarter with every project.', description: 'Every engagement makes the next one better. Your team gets smarter automatically.', features: ['Institutional memory', 'Note embeddings', 'Learning catalog', 'Vector search', 'Pattern detection', 'Accuracy benchmarks'], color: '#8B5CF6', icon: '\u{1F9E0}' },
     ]}
   />
 
@@ -204,7 +221,7 @@ const jsonLd = [
       <div class="faq-header">
         <h2>Frequently Asked Questions</h2>
         <p class="text-large">
-          Everything you need to know about Servantium and how it transforms professional services operations.
+          Straight answers to the questions we hear most.
         </p>
       </div>
       <div class="faq-list">
@@ -216,7 +233,7 @@ const jsonLd = [
           <div class="faq-answer">
             <div class="faq-answer-content">
               <p>It's where you run your services business. Servantium is the single place where you define what you sell, price it, scope it, deliver it, and learn from it. One system for the whole engagement lifecycle.</p>
-              <p>Most tools make you stitch together a CRM, a PSA, spreadsheets, and a document generator. We built one thing that does the job properly.</p>
+              <p>Most tools make you stitch together a CRM for pipeline, a PSA for delivery, and spreadsheets for everything in between. Servantium is the engagement layer that connects them.</p>
             </div>
           </div>
         </div>
@@ -227,7 +244,7 @@ const jsonLd = [
           </button>
           <div class="faq-answer">
             <div class="faq-answer-content">
-              <p>Most PSA tools bolt project tracking onto a sales tool and call it a day. You end up with disconnected data everywhere -- your estimates live in spreadsheets, your proposals live in Word docs, and nobody can tell you whether last quarter's projects actually hit their margins.</p>
+              <p>Most PSA tools bolt project tracking onto a sales tool and call it a day. Your estimates live in spreadsheets, your proposals live in Word docs, and nobody can tell you whether last quarter's projects actually hit their margins.</p>
               <p>Servantium connects the whole chain. Your service definitions feed your estimates, your estimates feed your proposals, your delivery data feeds back into smarter estimates next time. Everything shares context instead of living in silos.</p>
             </div>
           </div>
@@ -239,7 +256,7 @@ const jsonLd = [
           </button>
           <div class="faq-answer">
             <div class="faq-answer-content">
-              <p>If you sell expertise and deliver projects, you're probably a fit. We're talking consulting firms, implementation teams, MSPs, agencies, and technical services companies. The common thread: you deliver engagements that are roughly repeatable but always a bit different -- and you're tired of reinventing the wheel every time.</p>
+              <p>If you scope projects, price them, deliver them, and want to stop rebuilding every engagement from scratch, you're probably a fit. That includes consulting firms, implementation partners, MSPs, agencies, professional services teams inside software companies, and field service businesses like general contractors and engineering firms. The common thread: engagements that are roughly repeatable but always a bit different.</p>
             </div>
           </div>
         </div>
@@ -250,8 +267,8 @@ const jsonLd = [
           </button>
           <div class="faq-answer">
             <div class="faq-answer-content">
-              <p>Here's the honest version: AI is only as useful as the data you feed it. Most services firms have terrible operational data -- hours billed and revenue, but nothing about what actually happened on the engagement. So their AI tools produce garbage.</p>
-              <p>We fix the data problem first. Servantium gives you structured engagement data that AI can actually learn from. Then the automation gets useful -- smarter estimates, pattern matching across past work, things that genuinely save time. But we're not pretending AI replaces the humans who do the work. It won't.</p>
+              <p>Here's the honest version: AI is only as useful as the data you feed it. Most services teams have poor operational data. Hours billed and revenue, but nothing about what actually happened on the engagement. So their AI tools produce garbage.</p>
+              <p>We fix the data problem first. Servantium gives you structured engagement data that AI can actually learn from. Then the automation gets useful. Smarter estimates, pattern matching across past work, AI workflows embedded across the engagement lifecycle. But we're not pretending AI replaces the humans who do the work. It won't.</p>
             </div>
           </div>
         </div>
@@ -262,7 +279,40 @@ const jsonLd = [
           </button>
           <div class="faq-answer">
             <div class="faq-answer-content">
-              <p>Yes. Everything's encrypted at rest and in transit -- your engagement data, your pricing, your client details. We take this seriously because we know services firms handle sensitive commercial information. If you've got specific compliance or data residency requirements, we're happy to have that conversation.</p>
+              <p>Yes. Everything's encrypted at rest and in transit. Your engagement data, your pricing, your client details. We take this seriously because we know services teams handle sensitive commercial information. If you've got specific compliance or data residency requirements, we're happy to have that conversation.</p>
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            Is Servantium a CRM?
+            <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-content">
+              <p>No. A CRM tracks your pipeline and client relationships. Servantium starts where your CRM ends. When a deal closes, Servantium carries the scope, the pricing rationale, and the delivery context forward into the engagement. For teams already running Salesforce or HubSpot, Servantium connects to it bi-directionally so nothing gets re-entered.</p>
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            Does Servantium replace my PSA?
+            <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-content">
+              <p>No. PSA tools handle time tracking, resource allocation, and invoicing. Servantium fills the gaps PSAs were never designed for: it captures scope decisions before a project starts, connects pricing to delivery outcomes, and turns completed engagement data into smarter estimates for the next one.</p>
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            What is engagement management?
+            <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-content">
+              <p>Engagement management is the practice of treating each client engagement as a structured object. One record that carries scope, pricing, resourcing, delivery milestones, and post-project learning. Most teams manage engagements across five or six disconnected tools. Engagement management is what you get when you consolidate that into a single source of truth.</p>
             </div>
           </div>
         </div>
@@ -273,9 +323,9 @@ const jsonLd = [
   <section class="cta-section" id="contact">
     <div class="container">
       <div class="cta-header">
-        <h2 style="font-family: var(--font-display); font-size: 1.75rem; margin-bottom: 0.5rem; color: var(--color-white);">Ready to Encode Your Services?</h2>
+        <h2 style="font-family: var(--font-display); font-size: 1.75rem; margin-bottom: 0.5rem; color: var(--color-white);">Your team's best work shouldn't live in one person's head.</h2>
         <p>
-          We're working with a small number of services firms who believe their
+          We're working with a small number of services teams who believe their
           operational knowledge deserves better than spreadsheets and tribal memory.
         </p>
       </div>
