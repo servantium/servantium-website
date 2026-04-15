@@ -1,7 +1,7 @@
 ---
 interface Props {
   size?: 'sm' | 'md' | 'lg';
-  variant?: 'floating' | 'peeking' | 'waving' | 'searching' | 'cowboy' | 'detective' | 'chef' | 'captain' | 'professor';
+  variant?: 'floating' | 'peeking' | 'waving' | 'searching' | 'cowboy' | 'detective' | 'chef' | 'captain' | 'professor' | 'accountant' | 'controller' | 'explorer';
   animate?: boolean;
   class?: string;
 }
@@ -283,6 +283,121 @@ const px = sizes[size];
       </g>
     </svg>
   )}
+
+  {variant === 'accountant' && (
+    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Helmet -->
+      <circle cx="50" cy="40" r="25" fill="white" stroke="#0D0D0D" stroke-width="2"/>
+      <!-- Visor -->
+      <ellipse cx="50" cy="42" rx="15" ry="12" fill="#00C26D" opacity="0.8"/>
+      <!-- Body (slightly more formal, upright posture) -->
+      <rect x="35" y="60" width="30" height="25" rx="8" fill="white" stroke="#0D0D0D" stroke-width="2"/>
+      <!-- Backpack -->
+      <rect x="60" y="62" width="12" height="20" rx="3" fill="white" stroke="#0D0D0D" stroke-width="2"/>
+      <!-- Left arm (holding briefcase) -->
+      <rect x="20" y="65" width="18" height="8" rx="4" fill="white" stroke="#0D0D0D" stroke-width="2"/>
+      <!-- Right arm -->
+      <rect x="62" y="70" width="18" height="8" rx="4" fill="white" stroke="#0D0D0D" stroke-width="2"/>
+      <!-- Antenna -->
+      <line x1="50" y1="15" x2="50" y2="8" stroke="#6b6b6b" stroke-width="1.5" fill="none"/>
+      <circle cx="50" cy="6" r="3" fill="#00C26D"/>
+      <!-- Helmet reflection -->
+      <path d="M38 35 Q42 30 48 32" stroke="white" stroke-width="1.5" fill="none" opacity="0.5"/>
+      <!-- Glasses on visor -->
+      <rect x="40" y="39" width="8" height="6" rx="1" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="0.8"/>
+      <rect x="52" y="39" width="8" height="6" rx="1" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="0.8"/>
+      <line x1="48" y1="42" x2="52" y2="42" stroke="rgba(255,255,255,0.4)" stroke-width="0.6"/>
+      <!-- Briefcase -->
+      <g class="accountant-briefcase">
+        <rect x="10" y="70" width="16" height="12" rx="2" fill="#8B6914" stroke="#6B4F10" stroke-width="1.5"/>
+        <rect x="14" y="68" width="8" height="3" rx="1.5" fill="none" stroke="#6B4F10" stroke-width="1.5"/>
+        <line x1="18" y1="74" x2="18" y2="78" stroke="#DAA520" stroke-width="1"/>
+        <circle cx="18" cy="78" r="1" fill="#DAA520"/>
+      </g>
+      <!-- Ledger/clipboard in right hand -->
+      <g class="accountant-ledger">
+        <rect x="76" y="64" width="10" height="14" rx="1" fill="white" stroke="#A0A0A0" stroke-width="1"/>
+        <line x1="78" y1="68" x2="84" y2="68" stroke="#E1E3E6" stroke-width="0.5"/>
+        <line x1="78" y1="70" x2="84" y2="70" stroke="#E1E3E6" stroke-width="0.5"/>
+        <line x1="78" y1="72" x2="82" y2="72" stroke="#00C26D" stroke-width="0.5"/>
+        <line x1="78" y1="74" x2="84" y2="74" stroke="#E1E3E6" stroke-width="0.5"/>
+      </g>
+    </svg>
+  )}
+
+  {variant === 'controller' && (
+    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Helmet -->
+      <circle cx="50" cy="40" r="25" fill="white" stroke="#0D0D0D" stroke-width="2"/>
+      <!-- Visor -->
+      <ellipse cx="50" cy="42" rx="15" ry="12" fill="#00C26D" opacity="0.8"/>
+      <!-- Body -->
+      <rect x="35" y="60" width="30" height="25" rx="8" fill="white" stroke="#0D0D0D" stroke-width="2"/>
+      <!-- Backpack -->
+      <rect x="60" y="62" width="12" height="20" rx="3" fill="white" stroke="#0D0D0D" stroke-width="2"/>
+      <!-- Left arm (extended outward, directing) -->
+      <rect x="12" y="60" width="24" height="8" rx="4" fill="white" stroke="#0D0D0D" stroke-width="2" transform="rotate(-15, 24, 64)"/>
+      <!-- Right arm (extended outward, directing) -->
+      <rect x="64" y="60" width="24" height="8" rx="4" fill="white" stroke="#0D0D0D" stroke-width="2" transform="rotate(15, 76, 64)"/>
+      <!-- Antenna -->
+      <line x1="50" y1="15" x2="50" y2="8" stroke="#6b6b6b" stroke-width="1.5" fill="none"/>
+      <circle cx="50" cy="6" r="3" fill="#00C26D"/>
+      <!-- Helmet reflection -->
+      <path d="M38 35 Q42 30 48 32" stroke="white" stroke-width="1.5" fill="none" opacity="0.5"/>
+      <!-- Hi-vis vest stripes on body -->
+      <line x1="38" y1="65" x2="62" y2="65" stroke="#FFB02E" stroke-width="2" opacity="0.9"/>
+      <line x1="38" y1="80" x2="62" y2="80" stroke="#FFB02E" stroke-width="2" opacity="0.9"/>
+      <!-- Orange signal wand (left hand) -->
+      <g class="controller-wand-left">
+        <line x1="8" y1="50" x2="8" y2="62" stroke="#6b6b6b" stroke-width="2" stroke-linecap="round"/>
+        <rect x="4" y="44" width="8" height="8" rx="1" fill="#FF6B35" stroke="#E55A2B" stroke-width="1" opacity="0.9"/>
+      </g>
+      <!-- Clipboard (right hand) -->
+      <g class="controller-clipboard">
+        <rect x="86" y="52" width="10" height="14" rx="1" fill="#F5F6F7" stroke="#A0A0A0" stroke-width="1"/>
+        <rect x="89" y="50" width="4" height="3" rx="1" fill="#A0A0A0"/>
+        <line x1="88" y1="56" x2="94" y2="56" stroke="#E1E3E6" stroke-width="0.5"/>
+        <line x1="88" y1="58" x2="94" y2="58" stroke="#E1E3E6" stroke-width="0.5"/>
+        <line x1="88" y1="60" x2="92" y2="60" stroke="#00C26D" stroke-width="0.8"/>
+        <line x1="88" y1="62" x2="94" y2="62" stroke="#E1E3E6" stroke-width="0.5"/>
+      </g>
+    </svg>
+  )}
+
+  {variant === 'explorer' && (
+    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Helmet -->
+      <circle cx="50" cy="40" r="25" fill="white" stroke="#0D0D0D" stroke-width="2"/>
+      <!-- Visor -->
+      <ellipse cx="50" cy="42" rx="15" ry="12" fill="#00C26D" opacity="0.8"/>
+      <!-- Body (leaning forward slightly, adventurous) -->
+      <rect x="35" y="60" width="30" height="25" rx="8" fill="white" stroke="#0D0D0D" stroke-width="2"/>
+      <!-- Backpack (slightly larger, expedition pack) -->
+      <rect x="58" y="58" width="16" height="24" rx="4" fill="white" stroke="#0D0D0D" stroke-width="2"/>
+      <rect x="60" y="60" width="3" height="8" rx="1" fill="#E1E3E6"/>
+      <!-- Left arm (holding map) -->
+      <rect x="16" y="65" width="22" height="8" rx="4" fill="white" stroke="#0D0D0D" stroke-width="2"/>
+      <!-- Right arm (pointing forward) -->
+      <rect x="62" y="65" width="18" height="8" rx="4" fill="white" stroke="#0D0D0D" stroke-width="2" transform="rotate(-20, 71, 69)"/>
+      <!-- Antenna -->
+      <line x1="50" y1="15" x2="50" y2="8" stroke="#6b6b6b" stroke-width="1.5" fill="none"/>
+      <circle cx="50" cy="6" r="3" fill="#00C26D"/>
+      <!-- Helmet reflection -->
+      <path d="M38 35 Q42 30 48 32" stroke="white" stroke-width="1.5" fill="none" opacity="0.5"/>
+      <!-- Telescope (held up to visor) -->
+      <g class="explorer-telescope">
+        <rect x="18" y="38" width="16" height="5" rx="2.5" fill="#8B6914" stroke="#6B4F10" stroke-width="1"/>
+        <rect x="14" y="37" width="5" height="7" rx="2" fill="#A0781C" stroke="#8B6914" stroke-width="0.8"/>
+        <circle cx="34" cy="40.5" r="3.5" fill="none" stroke="#C0C0C0" stroke-width="1"/>
+        <circle cx="34" cy="40.5" r="3.5" fill="rgba(173,216,230,0.15)"/>
+      </g>
+      <!-- Rolled-up map tucked in backpack -->
+      <g class="explorer-map">
+        <rect x="72" y="60" width="4" height="18" rx="2" fill="#F5E6C8" stroke="#D4C4A0" stroke-width="0.8"/>
+        <line x1="74" y1="62" x2="74" y2="64" stroke="#C4A35A" stroke-width="0.5"/>
+      </g>
+    </svg>
+  )}
 </div>
 
 <style>
@@ -323,6 +438,15 @@ const px = sizes[size];
   .astronaut-animated.astronaut-professor {
     animation: astronautFloat 4s ease-in-out infinite;
   }
+  .astronaut-animated.astronaut-accountant {
+    animation: astronautFloat 4s ease-in-out infinite;
+  }
+  .astronaut-animated.astronaut-controller {
+    animation: astronautFloat 4s ease-in-out infinite;
+  }
+  .astronaut-animated.astronaut-explorer {
+    animation: astronautSearch 3.5s ease-in-out infinite;
+  }
 
   /* Costume-specific idle animations */
   .astronaut-animated.astronaut-cowboy .cowboy-lasso {
@@ -344,6 +468,30 @@ const px = sizes[size];
   .astronaut-animated.astronaut-professor .professor-book {
     transform-origin: 27px 67px;
     animation: bookTurn 3.5s ease-in-out infinite;
+  }
+  .astronaut-animated.astronaut-accountant .accountant-briefcase {
+    transform-origin: 18px 76px;
+    animation: briefcaseSwing 3s ease-in-out infinite;
+  }
+  .astronaut-animated.astronaut-accountant .accountant-ledger {
+    transform-origin: 81px 71px;
+    animation: bookTurn 3.5s ease-in-out infinite;
+  }
+  .astronaut-animated.astronaut-controller .controller-wand-left {
+    transform-origin: 8px 56px;
+    animation: wandSignal 2s ease-in-out infinite;
+  }
+  .astronaut-animated.astronaut-controller .controller-clipboard {
+    transform-origin: 91px 59px;
+    animation: bookTurn 4s ease-in-out infinite;
+  }
+  .astronaut-animated.astronaut-explorer .explorer-telescope {
+    transform-origin: 26px 40px;
+    animation: telescopeExtend 4s ease-in-out infinite;
+  }
+  .astronaut-animated.astronaut-explorer .explorer-map {
+    transform-origin: 74px 69px;
+    animation: mapRustle 5s ease-in-out infinite;
   }
 
   @keyframes astronautFloat {
@@ -399,6 +547,28 @@ const px = sizes[size];
     70% { transform: rotate(3deg) translateY(-1px); }
   }
 
+  /* Accountant briefcase swing */
+  @keyframes briefcaseSwing {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(3deg) translateY(-1px); }
+    75% { transform: rotate(-3deg) translateY(-1px); }
+  }
+
+  /* Controller wand signal */
+  @keyframes wandSignal {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(20deg); }
+    50% { transform: rotate(0deg); }
+    75% { transform: rotate(-20deg); }
+  }
+
+  /* Explorer map rustle */
+  @keyframes mapRustle {
+    0%, 100% { transform: rotate(0deg); }
+    40% { transform: rotate(2deg); }
+    60% { transform: rotate(-1deg); }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .astronaut-animated {
       animation: none !important;
@@ -407,7 +577,13 @@ const px = sizes[size];
     .astronaut-animated .detective-glass,
     .astronaut-animated .chef-spatula,
     .astronaut-animated .captain-telescope,
-    .astronaut-animated .professor-book {
+    .astronaut-animated .professor-book,
+    .astronaut-animated .accountant-briefcase,
+    .astronaut-animated .accountant-ledger,
+    .astronaut-animated .controller-wand-left,
+    .astronaut-animated .controller-clipboard,
+    .astronaut-animated .explorer-telescope,
+    .astronaut-animated .explorer-map {
       animation: none !important;
     }
   }
