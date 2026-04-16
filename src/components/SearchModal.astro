@@ -1,11 +1,18 @@
 ---
 /**
- * SearchModal — full-page modal search for Help + Resources.
+ * SearchModal -- full-page modal search for Help + Resources.
  * Renders as a trigger button that opens a centered modal with Pagefind UI.
  * Keyboard: Cmd/Ctrl+K to open, Esc to close.
  *
  * Initializes PagefindUI lazily the first time the modal opens, so failed
  * indexes don't break the rest of the page.
+ *
+ * Features:
+ * - Segmented filter control (All / Help / Blog / Glossary)
+ * - Section badges on results (Help, Blog, Glossary, Resources)
+ * - Compact list after first 3 results
+ * - Result count display
+ * - Default filter from context via defaultFilter prop
  */
 interface Props {
   label?: string;
@@ -56,11 +63,13 @@ const hostId = `${smId}-host`;
         </svg>
       </button>
     </div>
-    <div class="sm-filter-tabs">
-      <button class="sm-filter-tab active" data-section="all">All</button>
-      <button class="sm-filter-tab" data-section="Help">Help</button>
-      <button class="sm-filter-tab" data-section="Blog">Blog</button>
-      <button class="sm-filter-tab" data-section="Glossary">Glossary</button>
+    <div class="sm-filter-bar">
+      <div class="sm-segmented-control">
+        <button class="sm-seg-btn active" data-section="all">All</button>
+        <button class="sm-seg-btn" data-section="Help">Help</button>
+        <button class="sm-seg-btn" data-section="Blog">Blog</button>
+        <button class="sm-seg-btn" data-section="Glossary">Glossary</button>
+      </div>
     </div>
     <link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
     <div class="sm-search-host" id={hostId} data-placeholder={placeholder}></div>
@@ -98,7 +107,6 @@ const hostId = `${smId}-host`;
           return;
         }
         if (window.__pagefindScriptLoaded) {
-          // Already appended by another component; wait for it.
           var tries = 0;
           var timer = setInterval(function() {
             tries++;
@@ -153,14 +161,32 @@ const hostId = `${smId}-host`;
         });
     }
 
-    // -- Filter tabs + section badges --
-    var activeSection = defaultFilter || 'all';
-    var filterTabs = modal.querySelector('.sm-filter-tabs');
+    // -- Section detection helper --
+    function detectSection(href) {
+      if (!href) return { label: 'Page', color: '#6b6b6b' };
+      if (href.startsWith('/help/glossary/') || href.includes('/glossary/')) {
+        return { label: 'Glossary', color: '#8b5cf6' };
+      }
+      if (href.startsWith('/help/')) {
+        return { label: 'Help', color: '#00C26D' };
+      }
+      if (href.startsWith('/blog/')) {
+        return { label: 'Blog', color: '#4C82A7' };
+      }
+      if (href.startsWith('/resources/')) {
+        return { label: 'Resources', color: '#D97706' };
+      }
+      return { label: 'Page', color: '#6b6b6b' };
+    }
+
+    // -- Filter tabs (segmented control) --
+    var activeSection = 'all';
+    var segControl = modal.querySelector('.sm-segmented-control');
 
     function setActiveTab(section) {
       activeSection = section;
-      if (!filterTabs) return;
-      var btns = filterTabs.querySelectorAll('.sm-filter-tab');
+      if (!segControl) return;
+      var btns = segControl.querySelectorAll('.sm-seg-btn');
       btns.forEach(function(b) {
         if (b.getAttribute('data-section') === section) {
           b.classList.add('active');
@@ -168,63 +194,127 @@ const hostId = `${smId}-host`;
           b.classList.remove('active');
         }
       });
-      filterResults(section);
+      applyEnhancements();
     }
 
-    function filterResults(section) {
+    function filterResults() {
       var results = host.querySelectorAll('.pagefind-ui__result');
+      var visibleCount = 0;
       results.forEach(function(r) {
         var link = r.querySelector('.pagefind-ui__result-link');
         if (!link) return;
         var href = link.getAttribute('href') || '';
-        var show = section === 'all' ||
-          (section === 'Help' && href.startsWith('/help/')) ||
-          (section === 'Blog' && href.startsWith('/blog/')) ||
-          (section === 'Glossary' && href.includes('glossary'));
+        var show = activeSection === 'all' ||
+          (activeSection === 'Help' && href.startsWith('/help/')) ||
+          (activeSection === 'Blog' && href.startsWith('/blog/')) ||
+          (activeSection === 'Glossary' && (href.startsWith('/help/glossary/') || href.includes('/glossary/')));
         r.style.display = show ? '' : 'none';
+        if (show) visibleCount++;
       });
+      return visibleCount;
     }
 
     function injectBadges() {
       var results = host.querySelectorAll('.pagefind-ui__result');
       results.forEach(function(r) {
-        if (r.querySelector('.sm-section-badge')) return;
+        if (r.querySelector('.sm-badge')) return;
         var link = r.querySelector('.pagefind-ui__result-link');
         if (!link) return;
         var href = link.getAttribute('href') || '';
-        var section = 'Page';
-        var color = '#6b6b6b';
-        if (href.startsWith('/help/glossary/') || href.includes('glossary')) { section = 'Glossary'; color = '#8b5cf6'; }
-        else if (href.startsWith('/help/')) { section = 'Help'; color = '#00C26D'; }
-        else if (href.startsWith('/blog/')) { section = 'Blog'; color = '#4C82A7'; }
-        else if (href.startsWith('/resources/')) { section = 'Resources'; color = '#D97706'; }
+        var info = detectSection(href);
+
         var badge = document.createElement('span');
-        badge.className = 'sm-section-badge';
-        badge.textContent = section;
-        badge.style.cssText = 'display:inline-flex;font-size:10px;font-weight:600;padding:2px 6px;border-radius:4px;margin-left:8px;background:' + color + '18;color:' + color;
-        link.parentElement.insertBefore(badge, link.nextSibling);
+        badge.className = 'sm-badge';
+        badge.textContent = info.label;
+        badge.style.cssText =
+          'display:inline-flex;align-items:center;font-size:10px;font-weight:600;' +
+          'padding:1px 7px;border-radius:10px;margin-left:8px;vertical-align:middle;' +
+          'letter-spacing:0.02em;line-height:1.6;' +
+          'background:' + info.color + '14;color:' + info.color + ';' +
+          'border:1px solid ' + info.color + '28;';
+        // Insert badge after the link, inside its parent
+        var titleRow = link.parentElement;
+        if (titleRow) {
+          titleRow.insertBefore(badge, link.nextSibling);
+        }
       });
     }
 
-    // Re-apply filter + badges whenever Pagefind renders new results
-    var observer = new MutationObserver(function() {
+    function applyCompactMode() {
+      var results = host.querySelectorAll('.pagefind-ui__result');
+      var visibleIndex = 0;
+      results.forEach(function(r) {
+        // Only count visible results
+        if (r.style.display === 'none') {
+          r.classList.remove('sm-compact');
+          return;
+        }
+        if (visibleIndex >= 3) {
+          r.classList.add('sm-compact');
+        } else {
+          r.classList.remove('sm-compact');
+        }
+        visibleIndex++;
+      });
+    }
+
+    function updateResultCount() {
+      // Remove existing count
+      var existing = host.querySelector('.sm-result-count');
+      if (existing) existing.remove();
+
+      var results = host.querySelectorAll('.pagefind-ui__result');
+      if (results.length === 0) return;
+
+      var visibleCount = 0;
+      results.forEach(function(r) {
+        if (r.style.display !== 'none') visibleCount++;
+      });
+
+      // Try to get the search term from the input
+      var input = host.querySelector('input');
+      var term = input ? input.value.trim() : '';
+
+      if (visibleCount > 0 && term) {
+        var countEl = document.createElement('div');
+        countEl.className = 'sm-result-count';
+        countEl.textContent = visibleCount + ' result' + (visibleCount !== 1 ? 's' : '') + ' for \u2018' + term + '\u2019';
+
+        // Insert before the result list
+        var resultList = host.querySelector('.pagefind-ui__results-area');
+        if (resultList) {
+          resultList.insertBefore(countEl, resultList.firstChild);
+        }
+      }
+    }
+
+    // Combined enhancement pass -- called on every DOM change and filter switch
+    function applyEnhancements() {
       injectBadges();
-      filterResults(activeSection);
+      filterResults();
+      applyCompactMode();
+      updateResultCount();
+    }
+
+    // MutationObserver: watch for Pagefind rendering results and re-apply enhancements.
+    // Use a debounce so rapid DOM changes (Pagefind renders incrementally) collapse
+    // into a single enhancement pass.
+    var debounceTimer = null;
+    var observer = new MutationObserver(function() {
+      if (debounceTimer) clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(function() {
+        applyEnhancements();
+      }, 60);
     });
     observer.observe(host, { childList: true, subtree: true });
 
-    if (filterTabs) {
-      filterTabs.addEventListener('click', function(e) {
-        var btn = e.target.closest('.sm-filter-tab');
+    if (segControl) {
+      segControl.addEventListener('click', function(e) {
+        var btn = e.target.closest('.sm-seg-btn');
         if (!btn) return;
         var section = btn.getAttribute('data-section') || 'all';
         setActiveTab(section);
       });
-    }
-
-    // Apply default filter on first render
-    if (defaultFilter) {
-      setActiveTab(defaultFilter);
     }
 
     function openModal() {
@@ -239,10 +329,18 @@ const hostId = `${smId}-host`;
       opened = true;
       modal.hidden = false;
       document.body.style.overflow = 'hidden';
-      // Set the initial active tab based on defaultFilter
-      setActiveTab(activeSection);
-      // Initialize immediately (rAF can be throttled in background tabs).
+
+      // Initialize Pagefind first, then set the default tab.
+      // This ordering ensures the tab buttons exist in the DOM before
+      // we try to activate one.
       initPagefind();
+
+      // Set the initial active tab AFTER the modal is visible.
+      // Use rAF to ensure the segmented control has painted.
+      requestAnimationFrame(function() {
+        setActiveTab(defaultFilter || 'all');
+      });
+
       if (pagefindReady) {
         setTimeout(function() {
           var input = host.querySelector('input');
@@ -263,7 +361,6 @@ const hostId = `${smId}-host`;
       if (!t) return;
       var openBtn = t.closest && t.closest('[data-search-modal-open]');
       if (openBtn) {
-        // Only respond if this click targets THIS instance.
         if (openBtn.getAttribute('data-search-modal-open') !== smId) return;
         e.preventDefault();
         openModal();
@@ -399,34 +496,41 @@ const hostId = `${smId}-host`;
   }
   .sm-close-btn:hover { background: var(--color-mist-grey, #F5F6F7); color: var(--color-ink, #0D0D0D); }
 
-  /* Filter tabs */
-  .sm-filter-tabs {
-    display: flex;
-    gap: 0.25rem;
-    padding: 0 1.25rem 0.75rem;
+  /* Segmented filter control */
+  .sm-filter-bar {
+    padding: 0.65rem 1.25rem;
     border-bottom: 1px solid var(--color-cloud-grey, #E1E3E6);
   }
-  .sm-filter-tab {
+  .sm-segmented-control {
+    display: inline-flex;
+    gap: 2px;
+    background: var(--color-mist-grey, #F5F6F7);
+    border-radius: 10px;
+    padding: 3px;
+  }
+  .sm-seg-btn {
     font-size: 0.75rem;
     font-weight: 600;
-    padding: 0.375rem 0.75rem;
-    border-radius: 0.375rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 8px;
     border: none;
     background: transparent;
     color: var(--color-ink-muted, #6b6b6b);
     cursor: pointer;
     font-family: inherit;
-    transition: background 0.12s ease, color 0.12s ease;
+    transition: all 0.15s ease;
+    line-height: 1.4;
   }
-  .sm-filter-tab:hover {
-    background: var(--color-mist-grey, #F5F6F7);
+  .sm-seg-btn:hover {
     color: var(--color-ink, #0D0D0D);
   }
-  .sm-filter-tab.active {
-    background: var(--color-soft-mint, #E8FBF1);
-    color: var(--color-green, #00C26D);
+  .sm-seg-btn.active {
+    background: #ffffff;
+    color: var(--color-ink, #0D0D0D);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06);
   }
 
+  /* Search host and Pagefind overrides */
   .sm-search-host {
     padding: 1rem 1.25rem 0.5rem;
     overflow-y: auto;
@@ -453,22 +557,58 @@ const hostId = `${smId}-host`;
     outline: none !important;
   }
   .sm-search-host .pagefind-ui__form::before { display: none !important; }
+
+  /* Result count */
+  .sm-result-count {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--color-ink-muted, #6b6b6b);
+    padding: 0.5rem 0 0.25rem;
+    letter-spacing: 0.01em;
+  }
+
+  /* Results -- normal display (first 3 visible) */
   .sm-search-host .pagefind-ui__result {
-    padding: 0.9rem 0 !important;
+    padding: 0.75rem 0 !important;
     border-bottom: 1px solid var(--color-cloud-grey, #E1E3E6) !important;
+    transition: opacity 0.1s ease;
   }
   .sm-search-host .pagefind-ui__result-link {
     color: var(--color-ink, #0D0D0D) !important;
     font-weight: 600 !important;
-    font-size: 1rem !important;
+    font-size: 0.95rem !important;
     text-decoration: none !important;
+    line-height: 1.4 !important;
   }
   .sm-search-host .pagefind-ui__result-link:hover { color: var(--color-green, #00C26D) !important; }
   .sm-search-host .pagefind-ui__result-excerpt {
-    font-size: 0.875rem !important;
-    line-height: 1.5 !important;
+    font-size: 0.85rem !important;
+    line-height: 1.55 !important;
     color: var(--color-ink-muted, #6b6b6b) !important;
-    margin-top: 0.3rem !important;
+    margin-top: 0.25rem !important;
+  }
+
+  /* Compact results (4th onward) */
+  .sm-search-host .pagefind-ui__result.sm-compact {
+    padding: 0.4rem 0 !important;
+    border-bottom: 1px solid #f0f0f0 !important;
+  }
+  .sm-search-host .pagefind-ui__result.sm-compact .pagefind-ui__result-link {
+    font-size: 0.85rem !important;
+    font-weight: 500 !important;
+  }
+  .sm-search-host .pagefind-ui__result.sm-compact .pagefind-ui__result-excerpt,
+  .sm-search-host .pagefind-ui__result.sm-compact .pagefind-ui__result-nested {
+    display: none !important;
+  }
+  .sm-search-host .pagefind-ui__result.sm-compact .sm-badge {
+    font-size: 9px !important;
+    padding: 0px 5px !important;
+  }
+
+  /* Hide Pagefind's default message area (we show our own count) */
+  .sm-search-host .pagefind-ui__message {
+    display: none !important;
   }
 
   .sm-fallback {
