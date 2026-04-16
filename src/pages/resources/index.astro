@@ -297,6 +297,8 @@ const kindMeta: Record<string, { icon: string; label: string; color: string; cov
         })}
       </div>
 
+      <nav id="resourcePagination" class="r-pagination" aria-label="Resources pagination" role="navigation"></nav>
+
       <div class="r-empty" id="resourceEmpty" hidden>
         <p>No resources in this category yet. Try another filter, or <a href="/resources/">see everything</a>.</p>
       </div>
@@ -308,14 +310,102 @@ const kindMeta: Record<string, { icon: string; label: string; color: string; cov
   (function() {
     var grid = document.getElementById('resourceGrid');
     var empty = document.getElementById('resourceEmpty');
+    var paginationNav = document.getElementById('resourcePagination');
     if (!grid) return;
     var buttons = document.querySelectorAll('.r-filter');
-    var tiles = grid.querySelectorAll('.r-tile');
+    var tiles = Array.prototype.slice.call(grid.querySelectorAll('.r-tile'));
     var featuredSection = document.querySelector('.r-featured');
+
+    var currentFilter = 'all';
+    var currentPage = 1;
+    var TILES_PER_PAGE = 12;
+
+    function getFilteredTiles() {
+      return tiles.filter(function(tile) {
+        var kind = tile.getAttribute('data-kind') || '';
+        return currentFilter === 'all' || currentFilter.split(',').indexOf(kind) !== -1;
+      });
+    }
+
+    function applyPagination() {
+      var filtered = getFilteredTiles();
+      var totalPages = Math.max(1, Math.ceil(filtered.length / TILES_PER_PAGE));
+      if (currentPage > totalPages) currentPage = totalPages;
+
+      var startIdx = (currentPage - 1) * TILES_PER_PAGE;
+      var endIdx = startIdx + TILES_PER_PAGE;
+
+      // Hide everything first
+      tiles.forEach(function(tile) { tile.style.display = 'none'; });
+
+      // Show only filtered tiles on the current page
+      filtered.forEach(function(tile, i) {
+        tile.style.display = (i >= startIdx && i < endIdx) ? '' : 'none';
+      });
+
+      if (empty) empty.hidden = filtered.length !== 0;
+
+      renderPagination(totalPages);
+    }
+
+    function renderPagination(totalPages) {
+      if (!paginationNav) return;
+      if (totalPages <= 1) { paginationNav.innerHTML = ''; return; }
+
+      var html = '';
+
+      // Previous
+      html += '<button type="button" data-page="' + (currentPage - 1) + '" class="r-page-btn"' + (currentPage === 1 ? ' disabled' : '') + ' aria-label="Previous page">&lsaquo; Prev</button>';
+
+      // Page numbers
+      var pages = [];
+      if (totalPages <= 7) {
+        for (var i = 1; i <= totalPages; i++) pages.push(i);
+      } else {
+        pages.push(1);
+        if (currentPage > 3) pages.push('...');
+        var start = Math.max(2, currentPage - 1);
+        var end = Math.min(totalPages - 1, currentPage + 1);
+        for (var j = start; j <= end; j++) pages.push(j);
+        if (currentPage < totalPages - 2) pages.push('...');
+        pages.push(totalPages);
+      }
+
+      for (var k = 0; k < pages.length; k++) {
+        var p = pages[k];
+        if (p === '...') {
+          html += '<span class="r-page-ellipsis">...</span>';
+        } else {
+          var isActive = p === currentPage;
+          html += '<button type="button" data-page="' + p + '" class="r-page-btn' + (isActive ? ' r-page-btn--active' : '') + '"' + (isActive ? ' aria-current="page"' : '') + ' aria-label="Page ' + p + '">' + p + '</button>';
+        }
+      }
+
+      // Next
+      html += '<button type="button" data-page="' + (currentPage + 1) + '" class="r-page-btn"' + (currentPage === totalPages ? ' disabled' : '') + ' aria-label="Next page">Next &rsaquo;</button>';
+
+      paginationNav.innerHTML = html;
+
+      // Bind clicks
+      var btns = paginationNav.querySelectorAll('button[data-page]');
+      btns.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var page = parseInt(btn.getAttribute('data-page') || '1', 10);
+          if (page >= 1 && page <= totalPages) {
+            currentPage = page;
+            applyPagination();
+            grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      });
+    }
 
     buttons.forEach(function(btn) {
       btn.addEventListener('click', function() {
         var filter = btn.getAttribute('data-filter') || 'all';
+        currentFilter = filter;
+        currentPage = 1;
+
         buttons.forEach(function(b) {
           b.classList.remove('active');
           b.setAttribute('aria-selected', 'false');
@@ -323,25 +413,19 @@ const kindMeta: Record<string, { icon: string; label: string; color: string; cov
         btn.classList.add('active');
         btn.setAttribute('aria-selected', 'true');
 
-        // Hide featured mosaic when any filter other than "all" is active —
-        // user scans a straight list of filtered results without visual noise.
+        // Hide featured mosaic when any filter other than "all" is active
         if (featuredSection) {
           featuredSection.hidden = filter !== 'all';
         }
-        // When filtering, collapse artsy tall/wide variants into plain cells
-        // so the grid renders as a clean list.
+        // Collapse artsy tall/wide variants into plain cells when filtering
         grid.classList.toggle('r-grid--flat', filter !== 'all');
 
-        var visible = 0;
-        tiles.forEach(function(tile) {
-          var kind = tile.getAttribute('data-kind') || '';
-          var match = filter === 'all' || filter.split(',').indexOf(kind) !== -1;
-          tile.style.display = match ? '' : 'none';
-          if (match) visible++;
-        });
-        if (empty) empty.hidden = visible !== 0;
+        applyPagination();
       });
     });
+
+    // Initial render with pagination
+    applyPagination();
   })();
 </script>
 
@@ -953,6 +1037,59 @@ const kindMeta: Record<string, { icon: string; label: string; color: string; cov
     .r-filters { justify-content: flex-start; overflow-x: auto; padding-bottom: 0.25rem; }
     .r-filter { flex-shrink: 0; }
     .r-hero { padding-top: 6rem; }
+  }
+
+  /* ── Pagination ───────────────────────────────────────────────── */
+  .r-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 2.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .r-pagination:empty { display: none; }
+  .r-page-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.5rem;
+    height: 2.5rem;
+    padding: 0 0.75rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid var(--color-cloud-grey, #E1E3E6);
+    background: #ffffff;
+    color: var(--color-ink-light, #3d3d3d);
+  }
+  .r-page-btn:hover:not(:disabled) {
+    border-color: var(--color-green, #00C26D);
+    color: var(--color-green, #00C26D);
+  }
+  .r-page-btn--active {
+    background: var(--color-green, #00C26D);
+    border-color: var(--color-green, #00C26D);
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 194, 109, 0.25);
+  }
+  .r-page-btn--active:hover { color: #ffffff; }
+  .r-page-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: var(--color-mist-grey, #F5F6F7);
+  }
+  .r-page-ellipsis {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.5rem;
+    height: 2.5rem;
+    font-size: 0.875rem;
+    color: var(--color-ink-muted, #6b6b6b);
   }
 
   .r-empty {

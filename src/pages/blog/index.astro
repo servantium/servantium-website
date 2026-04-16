@@ -169,6 +169,7 @@ const bubblePostsData = bubblePosts.map(p => ({
               data-tags={(post.data.tags || []).join(',')}
               data-date={post.data.date}
               data-title={post.data.title}
+              data-page-item
               data-animate
               style={`--stagger: ${Math.min(i, 8) * 80}ms`}
             >
@@ -241,6 +242,10 @@ const bubblePostsData = bubblePosts.map(p => ({
           );
         })}
       </div>
+
+      {/* -- Pagination Controls -- */}
+      <nav id="blog-pagination" class="flex items-center justify-center gap-2 mt-10 mb-6" aria-label="Blog pagination" role="navigation">
+      </nav>
 
       {/* -- Empty State -- */}
       <div id="blog-empty" class="hidden py-20 text-center">
@@ -322,6 +327,7 @@ const bubblePostsData = bubblePosts.map(p => ({
     const emptyState = document.getElementById('blog-empty');
     const clearBtn = document.getElementById('blog-clear-filter');
     const postCount = document.getElementById('blog-post-count');
+    const paginationNav = document.getElementById('blog-pagination');
 
     // Featured section elements
     const featuredSection = document.querySelector<HTMLElement>('.featured-section');
@@ -330,6 +336,8 @@ const bubblePostsData = bubblePosts.map(p => ({
     if (!grid || !cards) return;
 
     let currentCategory = 'all';
+    let currentPage = 1;
+    const POSTS_PER_PAGE = 12;
 
     // -- Scroll-triggered reveal --
     const observer = new IntersectionObserver(
@@ -345,10 +353,9 @@ const bubblePostsData = bubblePosts.map(p => ({
     );
 
     function observeCards() {
-      // Only hide cards that are below the fold
       cards.forEach((card, i) => {
         if (card.style.display !== 'none') {
-          if (i >= 3) { // First 3 cards visible immediately
+          if (i >= 3) {
             card.classList.add('is-animating');
             observer.observe(card);
           }
@@ -356,21 +363,139 @@ const bubblePostsData = bubblePosts.map(p => ({
       });
     }
 
-    // Initial observation
-    observeCards();
+    // -- Pagination helpers --
+    function getFilteredCards(): HTMLElement[] {
+      return Array.from(cards).filter((card) => {
+        const cardCat = card.dataset.category || '';
+        return currentCategory === 'all' || cardCat === currentCategory;
+      });
+    }
 
-    // -- Category filtering with FLIP animation --
-    function filterCards(category: string) {
-      currentCategory = category;
+    function applyPagination() {
+      const filtered = getFilteredCards();
+      const totalPages = Math.max(1, Math.ceil(filtered.length / POSTS_PER_PAGE));
+
+      if (currentPage > totalPages) currentPage = totalPages;
+
+      const startIdx = (currentPage - 1) * POSTS_PER_PAGE;
+      const endIdx = startIdx + POSTS_PER_PAGE;
+
+      // Hide all cards first, then show only those matching filter + page
+      cards.forEach((card) => {
+        card.style.display = 'none';
+      });
+
+      filtered.forEach((card, i) => {
+        card.style.display = (i >= startIdx && i < endIdx) ? '' : 'none';
+      });
+
+      // Count featured/bubble posts too for the article count
+      let totalVisible = filtered.length;
+      if (featuredSection && featuredSection.style.display !== 'none') totalVisible++;
+      if (bubbleSection && bubbleSection.style.display !== 'none') {
+        const bubbleCats = (bubbleSection.dataset.bubbleCategories || '').split(',');
+        totalVisible += bubbleCats.filter(c => currentCategory === 'all' || c === currentCategory).length;
+      }
+
+      if (postCount) {
+        postCount.textContent = `${totalVisible} ${totalVisible === 1 ? 'article' : 'articles'}`;
+      }
+
+      // Empty state
+      if (emptyState) {
+        emptyState.classList.toggle('hidden', totalVisible > 0);
+      }
+      grid.classList.toggle('hidden', filtered.length === 0);
 
       // Update URL
       const url = new URL(window.location.href);
-      if (category === 'all') {
-        url.searchParams.delete('category');
+      if (currentPage > 1) {
+        url.searchParams.set('page', String(currentPage));
       } else {
-        url.searchParams.set('category', category);
+        url.searchParams.delete('page');
+      }
+      if (currentCategory !== 'all') {
+        url.searchParams.set('category', currentCategory);
+      } else {
+        url.searchParams.delete('category');
       }
       history.replaceState(null, '', url.toString());
+
+      renderPagination(totalPages);
+
+      // Re-trigger entrance animations for newly visible cards
+      filtered.slice(startIdx, endIdx).forEach((card) => {
+        card.classList.remove('is-visible', 'is-animating');
+        requestAnimationFrame(() => {
+          card.classList.add('is-animating');
+          observer.observe(card);
+        });
+      });
+    }
+
+    function renderPagination(totalPages: number) {
+      if (!paginationNav) return;
+
+      if (totalPages <= 1) {
+        paginationNav.innerHTML = '';
+        return;
+      }
+
+      const btnBase = 'inline-flex items-center justify-center min-w-[2.5rem] h-10 px-3 rounded-lg text-sm font-medium transition-all duration-200';
+      const btnNormal = `${btnBase} border border-[var(--color-cloud-grey)] bg-white text-[var(--color-ink-light)] hover:border-[var(--color-green)] hover:text-[var(--color-green)]`;
+      const btnActive = `${btnBase} bg-[var(--color-green)] text-white shadow-[0_2px_8px_rgba(0,194,109,0.25)]`;
+      const btnDisabled = `${btnBase} border border-[var(--color-cloud-grey)] bg-[var(--color-mist-grey)] text-[var(--color-ink-muted)] opacity-50 cursor-not-allowed`;
+
+      let html = '';
+
+      // Previous button
+      html += `<button type="button" data-page="${currentPage - 1}" class="${currentPage === 1 ? btnDisabled : btnNormal}" ${currentPage === 1 ? 'disabled' : ''} aria-label="Previous page">&lsaquo; Prev</button>`;
+
+      // Page numbers with ellipsis
+      const pages: (number | string)[] = [];
+      if (totalPages <= 7) {
+        for (let i = 1; i <= totalPages; i++) pages.push(i);
+      } else {
+        pages.push(1);
+        if (currentPage > 3) pages.push('...');
+        const start = Math.max(2, currentPage - 1);
+        const end = Math.min(totalPages - 1, currentPage + 1);
+        for (let i = start; i <= end; i++) pages.push(i);
+        if (currentPage < totalPages - 2) pages.push('...');
+        pages.push(totalPages);
+      }
+
+      for (const p of pages) {
+        if (p === '...') {
+          html += `<span class="inline-flex items-center justify-center min-w-[2.5rem] h-10 text-sm text-[var(--color-ink-muted)]">...</span>`;
+        } else {
+          const isActive = p === currentPage;
+          html += `<button type="button" data-page="${p}" class="${isActive ? btnActive : btnNormal}" ${isActive ? 'aria-current="page"' : ''} aria-label="Page ${p}">${p}</button>`;
+        }
+      }
+
+      // Next button
+      html += `<button type="button" data-page="${currentPage + 1}" class="${currentPage === totalPages ? btnDisabled : btnNormal}" ${currentPage === totalPages ? 'disabled' : ''} aria-label="Next page">Next &rsaquo;</button>`;
+
+      paginationNav.innerHTML = html;
+
+      // Bind click events
+      paginationNav.querySelectorAll<HTMLButtonElement>('button[data-page]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const page = parseInt(btn.dataset.page || '1', 10);
+          if (page >= 1 && page <= totalPages) {
+            currentPage = page;
+            applyPagination();
+            grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      });
+    }
+
+    // -- Category filtering --
+    function filterCards(category: string) {
+      currentCategory = category;
+      currentPage = 1;
 
       // Update button styles
       catButtons.forEach((btn) => {
@@ -399,67 +524,7 @@ const bubblePostsData = bubblePosts.map(p => ({
         bubbleSection.style.display = anyMatch ? '' : 'none';
       }
 
-      // Capture positions for FLIP
-      const rects = new Map<HTMLElement, DOMRect>();
-      cards.forEach((card) => rects.set(card, card.getBoundingClientRect()));
-
-      // Apply filter
-      let visibleCount = 0;
-      cards.forEach((card) => {
-        const cardCat = card.dataset.category || '';
-        const matches = category === 'all' || cardCat === category;
-        card.style.display = matches ? '' : 'none';
-        if (matches) visibleCount++;
-      });
-
-      // Count featured/bubble posts too
-      let totalVisible = visibleCount;
-      if (featuredSection && featuredSection.style.display !== 'none') totalVisible++;
-      if (bubbleSection && bubbleSection.style.display !== 'none') {
-        const bubbleCats = (bubbleSection.dataset.bubbleCategories || '').split(',');
-        totalVisible += bubbleCats.filter(c => category === 'all' || c === category).length;
-      }
-
-      // Update count
-      if (postCount) {
-        postCount.textContent = `${totalVisible} ${totalVisible === 1 ? 'article' : 'articles'}`;
-      }
-
-      // Show/hide empty state
-      if (emptyState) {
-        emptyState.classList.toggle('hidden', totalVisible > 0);
-      }
-      grid.classList.toggle('hidden', visibleCount === 0 && totalVisible > 0 ? false : visibleCount === 0);
-
-      // FLIP animation for visible cards
-      cards.forEach((card) => {
-        if (card.style.display === 'none') return;
-        const first = rects.get(card);
-        if (!first) return;
-        const last = card.getBoundingClientRect();
-        const dx = first.left - last.left;
-        const dy = first.top - last.top;
-        if (Math.abs(dx) < 1 && Math.abs(dy) < 1) return;
-
-        card.animate(
-          [
-            { transform: `translate(${dx}px, ${dy}px)` },
-            { transform: 'translate(0, 0)' },
-          ],
-          { duration: 350, easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)' }
-        );
-      });
-
-      // Re-trigger entrance for newly-visible cards
-      cards.forEach((card) => {
-        if (card.style.display !== 'none' && !card.classList.contains('is-visible')) {
-          card.classList.remove('is-visible');
-          // Reset stagger for re-entrance
-          requestAnimationFrame(() => {
-            observer.observe(card);
-          });
-        }
-      });
+      applyPagination();
     }
 
     // -- Event listeners --
@@ -477,10 +542,10 @@ const bubblePostsData = bubblePosts.map(p => ({
     const sortSelect = document.getElementById('blog-sort') as HTMLSelectElement | null;
     if (sortSelect) {
       sortSelect.addEventListener('change', function() {
-        const grid = document.getElementById('blog-grid');
-        if (!grid) return;
-        const cards = Array.from(grid.children) as HTMLElement[];
-        cards.sort((a, b) => {
+        const gridEl = document.getElementById('blog-grid');
+        if (!gridEl) return;
+        const cardEls = Array.from(gridEl.children) as HTMLElement[];
+        cardEls.sort((a, b) => {
           const dateA = a.getAttribute('data-date') || '';
           const dateB = b.getAttribute('data-date') || '';
           const titleA = a.getAttribute('data-title') || '';
@@ -488,18 +553,25 @@ const bubblePostsData = bubblePosts.map(p => ({
           switch (sortSelect.value) {
             case 'oldest': return dateA.localeCompare(dateB);
             case 'title': return titleA.localeCompare(titleB);
-            default: return dateB.localeCompare(dateA); // newest
+            default: return dateB.localeCompare(dateA);
           }
         });
-        cards.forEach(card => grid.appendChild(card));
+        cardEls.forEach(card => gridEl.appendChild(card));
+        currentPage = 1;
+        applyPagination();
       });
     }
 
-    // -- Apply initial filter from URL --
+    // -- Apply initial state from URL --
     const params = new URLSearchParams(window.location.search);
     const initialCat = params.get('category') || 'all';
+    const initialPage = parseInt(params.get('page') || '1', 10);
+    currentPage = initialPage > 0 ? initialPage : 1;
+
     if (initialCat !== 'all') {
       filterCards(initialCat);
+    } else {
+      applyPagination();
     }
   }
 

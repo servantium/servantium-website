@@ -1,11 +1,16 @@
 ---
 /**
  * BlogSearch -- Pagefind search UI wrapper for blog pages.
- * Delegates to the shared Search component.
+ * Opens a full-page modal with Pagefind UI, pre-filtered to Blog results.
  */
-import Search from '@/components/Search.astro';
+import SearchModal from '@/components/SearchModal.astro';
 ---
 
 <div class="mb-6 w-full">
-  <Search id="blog-pagefind-search" placeholder="Search blog posts..." variant="blog" />
+  <SearchModal
+    label="Search blog posts"
+    placeholder="Search blog posts..."
+    triggerVariant="full"
+    defaultFilter="Blog"
+  />
 </div>
