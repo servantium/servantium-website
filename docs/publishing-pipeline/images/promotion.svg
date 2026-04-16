@@ -12,18 +12,15 @@
   <rect x="60" y="110" width="840" height="60" rx="8" fill="#ffffff" stroke="#E1E3E6" stroke-width="1.5"/>
   <text x="80" y="146" font-size="13" font-weight="700" fill="#0D0D0D">develop</text>
   <circle cx="200" cy="140" r="10" fill="#00C26D"/>
-  <circle cx="320" cy="140" r="10" fill="#00C26D"/>
-  <circle cx="440" cy="140" r="10" fill="#00C26D"/>
-  <circle cx="560" cy="140" r="10" fill="#00C26D"/>
+  <circle cx="360" cy="140" r="10" fill="#00C26D"/>
+  <circle cx="520" cy="140" r="10" fill="#00C26D"/>
   <circle cx="680" cy="140" r="10" fill="#00C26D"/>
   <line x1="200" y1="140" x2="680" y2="140" stroke="#00C26D" stroke-width="2"/>
 
   <text x="200" y="100" text-anchor="middle" font-size="10" fill="#6b6b6b">feat PR</text>
-  <text x="320" y="94" text-anchor="middle" font-size="10" fill="#6b6b6b">Servantium Bot:</text>
-  <text x="320" y="106" text-anchor="middle" font-size="10" fill="#6b6b6b">release-note PR</text>
-  <text x="440" y="94" text-anchor="middle" font-size="10" fill="#6b6b6b">Servantium Bot:</text>
-  <text x="440" y="106" text-anchor="middle" font-size="10" fill="#6b6b6b">help-docs PR</text>
-  <text x="560" y="100" text-anchor="middle" font-size="10" fill="#6b6b6b">human edit</text>
+  <text x="360" y="94" text-anchor="middle" font-size="10" fill="#6b6b6b">Servantium Bot:</text>
+  <text x="360" y="106" text-anchor="middle" font-size="10" fill="#6b6b6b">combined docs PR</text>
+  <text x="520" y="100" text-anchor="middle" font-size="10" fill="#6b6b6b">human edit</text>
   <text x="680" y="100" text-anchor="middle" font-size="10" fill="#6b6b6b">...</text>
 
   <text x="860" y="146" font-size="11" fill="#023E25" font-weight="700">test.servantium.com</text>

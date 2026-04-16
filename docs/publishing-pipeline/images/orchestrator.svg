@@ -4,47 +4,57 @@
       <stop offset="0%" stop-color="#4C82A7"/>
       <stop offset="100%" stop-color="#26A899"/>
     </linearGradient>
+    <linearGradient id="portalFill2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFB02E"/>
+      <stop offset="100%" stop-color="#FF5C70"/>
+    </linearGradient>
     <marker id="arrow2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
       <path d="M0,0 L10,5 L0,10 z" fill="#3d3d3d"/>
     </marker>
   </defs>
   <rect width="960" height="480" fill="#F5F6F7"/>
-  <text x="480" y="36" text-anchor="middle" font-size="22" font-weight="700" fill="#0D0D0D">Help Docs -- Orchestrator and Writer agents</text>
-  <text x="480" y="58" text-anchor="middle" font-size="13" fill="#6b6b6b">Two AI agents. Help Docs Orchestrator decides what to do. Help Docs Writer writes each doc. One PR per trigger.</text>
+  <text x="480" y="36" text-anchor="middle" font-size="22" font-weight="700" fill="#0D0D0D">DocsOrchestrator and DocsWriter agents</text>
+  <text x="480" y="58" text-anchor="middle" font-size="13" fill="#6b6b6b">Two AI agents. DocsOrchestrator decides what to do. DocsWriter writes each doc. Portal gates both stages.</text>
 
   <!-- Inputs -->
   <rect x="30" y="100" width="200" height="40" rx="8" fill="#ffffff" stroke="#E1E3E6" stroke-width="1.5"/>
   <text x="130" y="126" text-anchor="middle" font-size="12" fill="#0D0D0D">PR title + body + diff</text>
 
   <rect x="30" y="160" width="200" height="40" rx="8" fill="#ffffff" stroke="#E1E3E6" stroke-width="1.5"/>
-  <text x="130" y="186" text-anchor="middle" font-size="12" fill="#0D0D0D">Existing docs index (JSON)</text>
+  <text x="130" y="186" text-anchor="middle" font-size="12" fill="#0D0D0D">Docs index (from D1 cache)</text>
 
   <!-- GitHub Actions fetches prompt -->
   <rect x="30" y="220" width="200" height="36" rx="8" fill="#ffffff" stroke="#4C82A7" stroke-width="1" stroke-dasharray="3 3"/>
-  <text x="130" y="244" text-anchor="middle" font-size="11" fill="#4C82A7">Prompt from Internal Portal</text>
+  <text x="130" y="244" text-anchor="middle" font-size="11" fill="#4C82A7">Prompt + rules from portal</text>
 
   <!-- Orchestrator -->
   <rect x="290" y="90" width="230" height="140" rx="12" fill="url(#agentFill2)"/>
-  <text x="405" y="118" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff">Help Docs Orchestrator</text>
+  <text x="405" y="118" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff">DocsOrchestrator</text>
   <text x="405" y="138" text-anchor="middle" font-size="11" fill="#ffffff">AI agent (Claude Sonnet 4.5)</text>
   <text x="405" y="162" text-anchor="middle" font-size="11" fill="#ffffff">Decides: update vs create vs skip</text>
   <text x="405" y="180" text-anchor="middle" font-size="11" fill="#ffffff">Prefers updates. Max 3 actions.</text>
   <text x="405" y="198" text-anchor="middle" font-size="11" fill="#ffffff">Returns strict JSON action list.</text>
   <text x="405" y="218" text-anchor="middle" font-size="10" fill="#E8FBF1">Prompt editable at /agents</text>
 
-  <!-- actions.json -->
-  <rect x="580" y="140" width="160" height="40" rx="8" fill="#ffffff" stroke="#E1E3E6" stroke-width="1.5"/>
-  <text x="660" y="166" text-anchor="middle" font-size="12" fill="#0D0D0D">actions.json</text>
+  <!-- actions.json to portal -->
+  <rect x="580" y="110" width="160" height="40" rx="8" fill="#ffffff" stroke="#E1E3E6" stroke-width="1.5"/>
+  <text x="660" y="136" text-anchor="middle" font-size="12" fill="#0D0D0D">actions.json</text>
+
+  <!-- Portal Stage 1 -->
+  <rect x="580" y="170" width="160" height="50" rx="8" fill="url(#portalFill2)"/>
+  <text x="660" y="193" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">Portal: Stage 1</text>
+  <text x="660" y="210" text-anchor="middle" font-size="10" fill="#ffffff">Human review gate</text>
 
   <!-- Arrows to orchestrator -->
   <line x1="232" y1="120" x2="288" y2="135" stroke="#3d3d3d" stroke-width="1.5" marker-end="url(#arrow2)"/>
   <line x1="232" y1="180" x2="288" y2="170" stroke="#3d3d3d" stroke-width="1.5" marker-end="url(#arrow2)"/>
   <line x1="232" y1="238" x2="288" y2="210" stroke="#4C82A7" stroke-width="1" stroke-dasharray="3 3" marker-end="url(#arrow2)"/>
-  <line x1="522" y1="160" x2="578" y2="160" stroke="#3d3d3d" stroke-width="1.5" marker-end="url(#arrow2)"/>
+  <line x1="522" y1="140" x2="578" y2="130" stroke="#3d3d3d" stroke-width="1.5" marker-end="url(#arrow2)"/>
+  <line x1="522" y1="170" x2="578" y2="185" stroke="#3d3d3d" stroke-width="1.5" marker-end="url(#arrow2)"/>
 
   <!-- Writer loop -->
   <rect x="60" y="290" width="840" height="150" rx="12" fill="#ffffff" stroke="#E1E3E6" stroke-width="1.5" stroke-dasharray="4 4"/>
-  <text x="80" y="316" font-size="12" font-weight="700" fill="#6b6b6b">Help Docs Writer -- one Claude call per action (prompt from Internal Portal)</text>
+  <text x="80" y="316" font-size="12" font-weight="700" fill="#6b6b6b">DocsWriter -- one Claude call per approved action (base prompt + content-type override from portal)</text>
 
   <rect x="80" y="340" width="220" height="84" rx="10" fill="#E8FBF1" stroke="#00C26D" stroke-width="1.5"/>
   <text x="190" y="366" text-anchor="middle" font-size="13" font-weight="700" fill="#023E25">Action 1 -- update</text>
@@ -58,10 +68,11 @@
 
   <rect x="560" y="340" width="220" height="84" rx="10" fill="#F5F6F7" stroke="#E1E3E6" stroke-width="1.5"/>
   <text x="670" y="366" text-anchor="middle" font-size="13" font-weight="700" fill="#0D0D0D">Action 3 -- skip</text>
-  <text x="670" y="386" text-anchor="middle" font-size="11" fill="#6b6b6b">Orchestrator said no doc</text>
-  <text x="670" y="402" text-anchor="middle" font-size="11" fill="#6b6b6b">changes needed. No call.</text>
+  <text x="670" y="386" text-anchor="middle" font-size="11" fill="#6b6b6b">DocsOrchestrator said no</text>
+  <text x="670" y="402" text-anchor="middle" font-size="11" fill="#6b6b6b">doc changes needed. No call.</text>
 
-  <path d="M 660 180 Q 660 260 400 280 L 400 290" fill="none" stroke="#3d3d3d" stroke-width="1.5" marker-end="url(#arrow2)"/>
+  <path d="M 660 220 Q 660 270 400 280 L 400 290" fill="none" stroke="#3d3d3d" stroke-width="1.5" marker-end="url(#arrow2)"/>
+  <text x="610" y="260" font-size="9" fill="#6b6b6b">repository_dispatch</text>
 
-  <text x="480" y="462" text-anchor="middle" font-size="11" fill="#6b6b6b">All drafts collected, committed by Servantium Bot on a bot branch, opened as a single PR against develop. Portal webhook notified.</text>
+  <text x="480" y="462" text-anchor="middle" font-size="11" fill="#6b6b6b">All drafts committed by Servantium Bot on one bot branch, opened as a single PR. Post-processing (banned words, dashes) applied before commit.</text>
 </svg>

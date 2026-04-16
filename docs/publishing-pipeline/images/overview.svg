@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 460" font-family="Source Sans 3, system-ui, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" font-family="Source Sans 3, system-ui, sans-serif">
   <defs>
     <linearGradient id="botFill" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#023E25"/>
@@ -8,84 +8,116 @@
       <stop offset="0%" stop-color="#4C82A7"/>
       <stop offset="100%" stop-color="#26A899"/>
     </linearGradient>
+    <linearGradient id="portalFill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFB02E"/>
+      <stop offset="100%" stop-color="#FF5C70"/>
+    </linearGradient>
     <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
       <path d="M0,0 L10,5 L0,10 z" fill="#3d3d3d"/>
     </marker>
   </defs>
 
-  <rect width="960" height="460" fill="#F5F6F7"/>
-  <text x="480" y="36" text-anchor="middle" font-size="22" font-weight="700" fill="#0D0D0D">Publishing pipeline -- end to end</text>
-  <text x="480" y="58" text-anchor="middle" font-size="13" fill="#6b6b6b">PR merged to develop triggers GitHub Actions. AI agents write content. Servantium Bot opens a review PR. Promotion is a plain git merge.</text>
+  <rect width="960" height="540" fill="#F5F6F7"/>
+  <text x="480" y="36" text-anchor="middle" font-size="22" font-weight="700" fill="#0D0D0D">Publishing pipeline -- two-stage flow with portal approval</text>
+  <text x="480" y="58" text-anchor="middle" font-size="13" fill="#6b6b6b">PR merged to develop triggers Stage 1. Portal review gates Stage 2. Servantium Bot opens one PR. Promotion is a plain git merge.</text>
+
+  <!-- Stage 1 label -->
+  <rect x="20" y="78" width="460" height="20" rx="4" fill="#E8FBF1"/>
+  <text x="250" y="93" text-anchor="middle" font-size="11" font-weight="700" fill="#023E25">STAGE 1: docs-orchestrate.yml</text>
 
   <!-- 1. Source PR -->
-  <rect x="20" y="100" width="140" height="80" rx="10" fill="#ffffff" stroke="#E1E3E6" stroke-width="1.5"/>
-  <text x="90" y="128" text-anchor="middle" font-size="13" font-weight="700" fill="#0D0D0D">1. PR merged</text>
-  <text x="90" y="148" text-anchor="middle" font-size="11" fill="#6b6b6b">into develop</text>
-  <text x="90" y="164" text-anchor="middle" font-size="11" fill="#6b6b6b">by engineer</text>
+  <rect x="20" y="110" width="130" height="70" rx="10" fill="#ffffff" stroke="#E1E3E6" stroke-width="1.5"/>
+  <text x="85" y="136" text-anchor="middle" font-size="13" font-weight="700" fill="#0D0D0D">1. PR merged</text>
+  <text x="85" y="154" text-anchor="middle" font-size="11" fill="#6b6b6b">into develop</text>
 
   <!-- 2. GitHub Actions -->
-  <rect x="190" y="90" width="160" height="100" rx="10" fill="url(#botFill)"/>
-  <text x="270" y="118" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">2. GitHub Actions</text>
-  <text x="270" y="138" text-anchor="middle" font-size="11" fill="#E8FBF1">Fetches PR diff</text>
-  <text x="270" y="154" text-anchor="middle" font-size="11" fill="#E8FBF1">Fetches prompt</text>
-  <text x="270" y="170" text-anchor="middle" font-size="11" fill="#E8FBF1">from Internal Portal</text>
+  <rect x="170" y="105" width="140" height="80" rx="10" fill="url(#botFill)"/>
+  <text x="240" y="130" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">2. GitHub Actions</text>
+  <text x="240" y="148" text-anchor="middle" font-size="10" fill="#E8FBF1">Fetches diff + prompt</text>
+  <text x="240" y="162" text-anchor="middle" font-size="10" fill="#E8FBF1">Builds docs index</text>
 
-  <!-- 3. ReleaseWriter -->
-  <rect x="380" y="90" width="160" height="100" rx="10" fill="url(#agentFill)"/>
-  <text x="460" y="118" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">3. ReleaseWriter</text>
-  <text x="460" y="138" text-anchor="middle" font-size="11" fill="#ffffff">(Claude Sonnet 4.5)</text>
-  <text x="460" y="158" text-anchor="middle" font-size="11" fill="#ffffff">Writes MDX</text>
-  <text x="460" y="174" text-anchor="middle" font-size="11" fill="#ffffff">release note</text>
+  <!-- 3. DocsOrchestrator -->
+  <rect x="330" y="105" width="150" height="80" rx="10" fill="url(#agentFill)"/>
+  <text x="405" y="128" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">3. DocsOrchestrator</text>
+  <text x="405" y="146" text-anchor="middle" font-size="10" fill="#ffffff">(Claude Sonnet 4.5)</text>
+  <text x="405" y="162" text-anchor="middle" font-size="10" fill="#ffffff">Returns action list</text>
 
-  <!-- 4. Servantium Bot opens PR -->
-  <rect x="570" y="100" width="150" height="80" rx="10" fill="#ffffff" stroke="#E1E3E6" stroke-width="1.5"/>
-  <text x="645" y="124" text-anchor="middle" font-size="13" font-weight="700" fill="#0D0D0D">4. Servantium Bot</text>
-  <text x="645" y="144" text-anchor="middle" font-size="11" fill="#6b6b6b">pushes branch,</text>
-  <text x="645" y="160" text-anchor="middle" font-size="11" fill="#6b6b6b">opens preview PR</text>
+  <!-- Arrows Stage 1 -->
+  <line x1="150" y1="145" x2="168" y2="145" stroke="#3d3d3d" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="310" y1="145" x2="328" y2="145" stroke="#3d3d3d" stroke-width="1.5" marker-end="url(#arrow)"/>
 
-  <!-- 5. Human review -->
-  <rect x="750" y="100" width="180" height="80" rx="10" fill="#ffffff" stroke="#E1E3E6" stroke-width="1.5"/>
-  <text x="840" y="128" text-anchor="middle" font-size="13" font-weight="700" fill="#0D0D0D">5. Human review</text>
-  <text x="840" y="148" text-anchor="middle" font-size="11" fill="#6b6b6b">edit inline if needed,</text>
-  <text x="840" y="164" text-anchor="middle" font-size="11" fill="#6b6b6b">merge to develop</text>
+  <!-- Portal Stage 1 -->
+  <rect x="510" y="105" width="170" height="80" rx="10" fill="url(#portalFill)"/>
+  <text x="595" y="128" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">4. Portal: Stage 1</text>
+  <text x="595" y="146" text-anchor="middle" font-size="10" fill="#ffffff">Human reviews actions</text>
+  <text x="595" y="162" text-anchor="middle" font-size="10" fill="#ffffff">Check/uncheck, edit briefs</text>
 
-  <!-- 6. Test env -->
-  <rect x="170" y="290" width="240" height="80" rx="10" fill="#E8FBF1" stroke="#00C26D" stroke-width="1.5"/>
-  <text x="290" y="320" text-anchor="middle" font-size="13" font-weight="700" fill="#023E25">6. test.servantium.com</text>
-  <text x="290" y="340" text-anchor="middle" font-size="11" fill="#023E25">auto-deployed from develop</text>
-  <text x="290" y="356" text-anchor="middle" font-size="11" fill="#023E25">by Cloudflare Pages</text>
+  <line x1="480" y1="145" x2="508" y2="145" stroke="#3d3d3d" stroke-width="1.5" marker-end="url(#arrow)"/>
 
-  <!-- 7. Promote -->
-  <rect x="440" y="290" width="180" height="80" rx="10" fill="#ffffff" stroke="#E1E3E6" stroke-width="1.5"/>
-  <text x="530" y="320" text-anchor="middle" font-size="13" font-weight="700" fill="#0D0D0D">7. Promote</text>
-  <text x="530" y="340" text-anchor="middle" font-size="11" fill="#6b6b6b">develop -&gt; main</text>
-  <text x="530" y="356" text-anchor="middle" font-size="11" fill="#6b6b6b">(no regeneration)</text>
+  <!-- Stage 2 label -->
+  <rect x="20" y="210" width="660" height="20" rx="4" fill="#E8FBF1"/>
+  <text x="350" y="225" text-anchor="middle" font-size="11" font-weight="700" fill="#023E25">STAGE 2: docs-write.yml (triggered by portal via repository_dispatch)</text>
 
-  <!-- 8. Prod -->
-  <rect x="650" y="290" width="240" height="80" rx="10" fill="#E8FBF1" stroke="#00C26D" stroke-width="1.5"/>
-  <text x="770" y="320" text-anchor="middle" font-size="13" font-weight="700" fill="#023E25">8. servantium.com</text>
-  <text x="770" y="340" text-anchor="middle" font-size="11" fill="#023E25">auto-deployed from main</text>
-  <text x="770" y="356" text-anchor="middle" font-size="11" fill="#023E25">same MDX, same commit</text>
+  <!-- 5. DocsWriter -->
+  <rect x="20" y="242" width="170" height="80" rx="10" fill="url(#agentFill)"/>
+  <text x="105" y="266" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">5. DocsWriter</text>
+  <text x="105" y="284" text-anchor="middle" font-size="10" fill="#ffffff">(Claude Sonnet 4.5)</text>
+  <text x="105" y="298" text-anchor="middle" font-size="10" fill="#ffffff">Writes each approved doc</text>
 
-  <!-- Arrows top row -->
-  <line x1="160" y1="140" x2="188" y2="140" stroke="#3d3d3d" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <line x1="350" y1="140" x2="378" y2="140" stroke="#3d3d3d" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <line x1="540" y1="140" x2="568" y2="140" stroke="#3d3d3d" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <line x1="720" y1="140" x2="748" y2="140" stroke="#3d3d3d" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- 6. Post-processing -->
+  <rect x="210" y="242" width="160" height="80" rx="10" fill="url(#botFill)"/>
+  <text x="290" y="266" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">6. Post-process</text>
+  <text x="290" y="284" text-anchor="middle" font-size="10" fill="#E8FBF1">Banned words, dashes,</text>
+  <text x="290" y="298" text-anchor="middle" font-size="10" fill="#E8FBF1">validation checks</text>
 
-  <!-- Arrow from review down to test env -->
-  <path d="M 840 180 Q 840 250 290 250 L 290 288" fill="none" stroke="#3d3d3d" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- 7. Servantium Bot -->
+  <rect x="390" y="242" width="150" height="80" rx="10" fill="#ffffff" stroke="#E1E3E6" stroke-width="1.5"/>
+  <text x="465" y="266" text-anchor="middle" font-size="12" font-weight="700" fill="#0D0D0D">7. Servantium Bot</text>
+  <text x="465" y="284" text-anchor="middle" font-size="10" fill="#6b6b6b">One bot branch,</text>
+  <text x="465" y="298" text-anchor="middle" font-size="10" fill="#6b6b6b">one PR for all docs</text>
+
+  <!-- Portal Stage 2 -->
+  <rect x="560" y="242" width="170" height="80" rx="10" fill="url(#portalFill)"/>
+  <text x="645" y="266" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">8. Portal: Stage 2</text>
+  <text x="645" y="284" text-anchor="middle" font-size="10" fill="#ffffff">Preview, edit MDX,</text>
+  <text x="645" y="298" text-anchor="middle" font-size="10" fill="#ffffff">Approve &amp; Merge</text>
+
+  <!-- Arrows Stage 2 -->
+  <line x1="190" y1="282" x2="208" y2="282" stroke="#3d3d3d" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="370" y1="282" x2="388" y2="282" stroke="#3d3d3d" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="540" y1="282" x2="558" y2="282" stroke="#3d3d3d" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Arrow from Portal Stage 1 down to Stage 2 -->
+  <path d="M 595 185 Q 595 220 105 220 L 105 240" fill="none" stroke="#3d3d3d" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="350" y="210" text-anchor="middle" font-size="9" fill="#6b6b6b">repository_dispatch</text>
+
+  <!-- 9. Test env -->
+  <rect x="100" y="370" width="240" height="70" rx="10" fill="#E8FBF1" stroke="#00C26D" stroke-width="1.5"/>
+  <text x="220" y="396" text-anchor="middle" font-size="13" font-weight="700" fill="#023E25">9. test.servantium.com</text>
+  <text x="220" y="414" text-anchor="middle" font-size="11" fill="#023E25">auto-deployed from develop</text>
+  <text x="220" y="428" text-anchor="middle" font-size="11" fill="#023E25">by Cloudflare Pages</text>
+
+  <!-- 10. Promote -->
+  <rect x="370" y="370" width="180" height="70" rx="10" fill="#ffffff" stroke="#E1E3E6" stroke-width="1.5"/>
+  <text x="460" y="396" text-anchor="middle" font-size="13" font-weight="700" fill="#0D0D0D">10. Promote</text>
+  <text x="460" y="414" text-anchor="middle" font-size="11" fill="#6b6b6b">develop -&gt; main</text>
+  <text x="460" y="428" text-anchor="middle" font-size="11" fill="#6b6b6b">(no regeneration)</text>
+
+  <!-- 11. Prod -->
+  <rect x="580" y="370" width="240" height="70" rx="10" fill="#E8FBF1" stroke="#00C26D" stroke-width="1.5"/>
+  <text x="700" y="396" text-anchor="middle" font-size="13" font-weight="700" fill="#023E25">11. servantium.com</text>
+  <text x="700" y="414" text-anchor="middle" font-size="11" fill="#023E25">auto-deployed from main</text>
+  <text x="700" y="428" text-anchor="middle" font-size="11" fill="#023E25">same MDX, same commit</text>
+
+  <!-- Arrow from Portal Stage 2 down to test env -->
+  <path d="M 645 322 Q 645 350 220 350 L 220 368" fill="none" stroke="#3d3d3d" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="435" y="348" text-anchor="middle" font-size="9" fill="#6b6b6b">bot branch auto-deletes after merge</text>
 
   <!-- Arrows bottom row -->
-  <line x1="410" y1="330" x2="438" y2="330" stroke="#3d3d3d" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <line x1="620" y1="330" x2="648" y2="330" stroke="#3d3d3d" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="340" y1="405" x2="368" y2="405" stroke="#3d3d3d" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="550" y1="405" x2="578" y2="405" stroke="#3d3d3d" stroke-width="1.5" marker-end="url(#arrow)"/>
 
-  <!-- Portal callout -->
-  <rect x="20" y="220" width="120" height="40" rx="6" fill="#ffffff" stroke="#4C82A7" stroke-width="1" stroke-dasharray="3 3"/>
-  <text x="80" y="244" text-anchor="middle" font-size="10" fill="#4C82A7">Internal Portal</text>
-  <path d="M 140 240 Q 200 240 270 190" fill="none" stroke="#4C82A7" stroke-width="1" stroke-dasharray="3 3" marker-end="url(#arrow)"/>
-  <text x="175" y="225" font-size="9" fill="#4C82A7">prompt + webhook</text>
-
-  <text x="480" y="430" text-anchor="middle" font-size="11" fill="#6b6b6b">Content is written once by AI agents, reviewed once by humans, and merged forward. The develop -&gt; main merge does not re-run the pipeline.</text>
-  <text x="480" y="448" text-anchor="middle" font-size="11" fill="#FF5C70">Direct pushes (no PR) produce no release note. Changes must arrive as a merged PR.</text>
+  <text x="480" y="490" text-anchor="middle" font-size="11" fill="#6b6b6b">Content is written once by AI agents, reviewed in the portal, and merged forward. The develop -&gt; main merge does not re-run the pipeline.</text>
+  <text x="480" y="508" text-anchor="middle" font-size="11" fill="#FF5C70">Direct pushes (no PR) produce no release note. Changes must arrive as a merged PR.</text>
+  <text x="480" y="528" text-anchor="middle" font-size="11" fill="#6b6b6b">CF Pages excludes bot/* branches from preview builds. Bot branches auto-delete after merge.</text>
 </svg>
