@@ -477,41 +477,11 @@ const jsonLd = {
       </div>
 
       <div class="roi-body">
-        <!-- Inputs column -->
-        <div class="roi-inputs">
-          <h3>Your firm</h3>
-
-          <div class="roi-field">
-            <label for="roi-consultants">Billable consultants</label>
-            <input type="number" id="roi-consultants" value="25" min="1" max="500" autocomplete="off" tabindex="-1" />
-          </div>
-
-          <div class="roi-field">
-            <label for="roi-rate">Average billing rate ($/hr)</label>
-            <input type="number" id="roi-rate" value="200" min="50" max="1000" step="10" autocomplete="off" tabindex="-1" />
-          </div>
-
-          <div class="roi-field">
-            <label for="roi-utilization">Current utilization (%)</label>
-            <input type="number" id="roi-utilization" value="69" min="40" max="95" autocomplete="off" tabindex="-1" />
-            <span class="roi-hint">Industry avg: 68.9% (SPI Research 2025)</span>
-          </div>
-
-          <div class="roi-field">
-            <label for="roi-proposals">Proposals per year</label>
-            <input type="number" id="roi-proposals" value="60" min="5" max="500" />
-          </div>
-
-          <div class="roi-field">
-            <label for="roi-winrate">Current win rate (%)</label>
-            <input type="number" id="roi-winrate" value="39" min="10" max="80" />
-            <span class="roi-hint">Industry avg: 39% (Flowcase 2025)</span>
-          </div>
-
-          <div class="roi-field">
-            <label for="roi-avgdeal">Average deal size ($)</label>
-            <input type="number" id="roi-avgdeal" value="35000" min="5000" max="500000" step="1000" />
-          </div>
+        <!-- Inputs injected by openROICalculator() to prevent browser form
+             restoration from finding and focusing them on page load -->
+        <div class="roi-inputs" id="roi-inputs-container">
+          <!-- ALL inputs injected by openROICalculator() to prevent browser
+               form restoration from scrolling the page on load -->
         </div>
 
         <!-- Results column -->
@@ -1213,13 +1183,28 @@ const jsonLd = {
   function openROICalculator() {
     var modal = document.getElementById('roi-modal');
     if (!modal) return;
+    // Inject inputs on first open (prevents browser form restoration on page load)
+    var container = document.getElementById('roi-inputs-container');
+    if (container && !container.dataset.injected) {
+      container.dataset.injected = '1';
+      container.innerHTML = '<h3>Your firm</h3>' +
+        '<div class="roi-field"><label for="roi-consultants">Billable consultants</label><input type="number" id="roi-consultants" value="25" min="1" max="500" autocomplete="off" /></div>' +
+        '<div class="roi-field"><label for="roi-rate">Average billing rate ($/hr)</label><input type="number" id="roi-rate" value="200" min="50" max="1000" step="10" autocomplete="off" /></div>' +
+        '<div class="roi-field"><label for="roi-utilization">Current utilization (%)</label><input type="number" id="roi-utilization" value="69" min="40" max="95" autocomplete="off" /><span class="roi-hint">Industry avg: 68.9% (SPI Research 2025)</span></div>' +
+        '<div class="roi-field"><label for="roi-proposals">Proposals per year</label><input type="number" id="roi-proposals" value="60" min="5" max="500" autocomplete="off" /></div>' +
+        '<div class="roi-field"><label for="roi-winrate">Current win rate (%)</label><input type="number" id="roi-winrate" value="39" min="10" max="80" autocomplete="off" /><span class="roi-hint">Industry avg: 39% (Flowcase 2025)</span></div>' +
+        '<div class="roi-field"><label for="roi-avgdeal">Average deal size ($)</label><input type="number" id="roi-avgdeal" value="35000" min="5000" max="500000" step="1000" autocomplete="off" /></div>';
+      // Attach input listeners for live calculation
+      container.querySelectorAll('input').forEach(function(inp) {
+        inp.addEventListener('input', calculateROI);
+      });
+    }
     modal.removeAttribute('hidden');
     modal.removeAttribute('inert');
     modal.classList.add('open');
     modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
     calculateROI();
-    // GA4 telemetry
     if (window.gtag) window.gtag('event', 'roi_calculator_opened');
   }
   function closeROICalculator() {

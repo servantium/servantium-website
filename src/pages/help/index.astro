@@ -72,7 +72,7 @@ const releaseNotes = allDocs
           <div class="sm:max-w-sm sm:flex-none md:w-auto md:flex-auto flex flex-col items-start relative z-10 p-6 xl:p-8">
             <h2 class="text-xl font-semibold mb-2" style="color:#fff; text-shadow: 0 1px 3px rgba(0,0,0,0.3);">Read the docs</h2>
             <p class="font-medium mb-4 text-sm" style="color: rgba(255,255,255,0.85); text-shadow: 0 1px 2px rgba(0,0,0,0.2);">Have Servantium set up and your first engagement running in under 30 minutes.</p>
-            <a class="mt-auto border border-white/40 hover:border-white/70 transition-colors duration-200 rounded-full font-semibold py-2 px-5 inline-flex text-sm no-underline" style="color:#fff;" href="/help/quick-start/">Start learning</a>
+            <a class="mt-auto hover:opacity-80 transition-opacity duration-200 rounded-full font-semibold py-2 px-5 inline-flex text-sm no-underline" style="color:#fff; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(255,255,255,0.4);" href="/help/quick-start/">Start learning &rarr;</a>
           </div>
           <div class="relative md:pl-6 xl:pl-8 hidden sm:block" aria-hidden="true">
             <!-- SVG: Abstract docs viewer -->
@@ -121,7 +121,7 @@ const releaseNotes = allDocs
           <div class="sm:max-w-sm sm:flex-none md:w-auto md:flex-auto flex flex-col items-start relative z-10 p-6 xl:p-8">
             <h2 class="text-xl font-semibold mb-2" style="color:#fff; text-shadow: 0 1px 3px rgba(0,0,0,0.3);">Explore AI features</h2>
             <p class="font-medium mb-4 text-sm" style="color: rgba(255,255,255,0.85); text-shadow: 0 1px 2px rgba(0,0,0,0.2);">See how Servantium surfaces past engagements, generates quote structures, and builds an AI-ready data foundation for your services team.</p>
-            <a class="mt-auto border border-white/40 hover:border-white/70 transition-colors duration-200 rounded-full font-semibold py-2 px-5 inline-flex text-sm no-underline" style="color:#fff;" href="/help/guides/ai-features/">Explore AI</a>
+            <a class="mt-auto hover:opacity-80 transition-opacity duration-200 rounded-full font-semibold py-2 px-5 inline-flex text-sm no-underline" style="color:#fff; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(255,255,255,0.4);" href="/help/guides/ai-features/">Explore AI &rarr;</a>
           </div>
           <div class="relative md:pl-6 xl:pl-8 hidden sm:block" aria-hidden="true">
             <!-- SVG: Refined neural network with orbit rings -->
@@ -172,7 +172,7 @@ const releaseNotes = allDocs
           <div class="sm:max-w-sm sm:flex-none md:w-auto md:flex-auto flex flex-col items-start relative z-10 p-6 xl:p-8">
             <h2 class="text-xl font-semibold mb-2" style="color:#fff; text-shadow: 0 1px 3px rgba(0,0,0,0.3);">Watch the screencasts</h2>
             <p class="font-medium mb-4 text-sm" style="color: rgba(255,255,255,0.85); text-shadow: 0 1px 2px rgba(0,0,0,0.2);">Learn more about Servantium directly from the team.</p>
-            <span class="mt-auto border border-white/30 rounded-full font-semibold py-2 px-5 inline-flex text-sm opacity-40 cursor-default" style="color:#fff;">Coming soon</span>
+            <span class="mt-auto rounded-full font-semibold py-2 px-5 inline-flex text-sm opacity-40 cursor-default" style="color:#fff;">Coming soon</span>
           </div>
           <div class="relative md:pl-6 xl:pl-8 hidden sm:block" aria-hidden="true">
             <!-- SVG: Clean video player with prominent play button -->
@@ -242,14 +242,15 @@ const releaseNotes = allDocs
         const icon = icons[i % icons.length];
 
         return (
-          <a href={item.href} class="group relative rounded-2xl overflow-hidden min-h-[160px] no-underline [text-decoration:none] transition-all duration-300 hover:-translate-y-1 hover:shadow-xl flex flex-col justify-end p-4 pb-3" style={`background: linear-gradient(145deg, ${gradient.from}, ${gradient.to});`}>
+          <a href={item.href} class="group relative rounded-[24px] overflow-hidden min-h-[160px] no-underline [text-decoration:none] transition-all duration-300 hover:-translate-y-1 hover:shadow-xl flex flex-col items-center justify-center text-center p-5" style={`background: linear-gradient(145deg, ${gradient.from}, ${gradient.to});`}>
             {/* Decorative blob */}
-            <div class="absolute top-[-20px] right-[-20px] w-[90px] h-[90px] rounded-full" style="background: rgba(255,255,255,0.12);" aria-hidden="true"></div>
-            {/* Icon centered in upper half */}
-            <span class="absolute top-5 right-4 opacity-50 [text-decoration:none]" style="color: #fff;" set:html={icon} />
-            {/* Label and version at bottom */}
-            <span class="block text-sm font-semibold leading-tight mb-1 [text-decoration:none]" style="color: #fff;">{item.label}</span>
-            <span class="block text-[11px] font-medium [text-decoration:none]" style="color: rgba(255,255,255,0.7);">{item.version} &middot; {item.date || 'March 2026'}</span>
+            <div class="absolute top-[-30px] right-[-30px] w-[100px] h-[100px] rounded-full" style="background: rgba(255,255,255,0.1);" aria-hidden="true"></div>
+            {/* Icon centered */}
+            <span class="mb-4 opacity-60 [text-decoration:none]" style="color: #fff;" set:html={icon} />
+            {/* Label */}
+            <span class="block text-base font-bold leading-tight mb-1.5 [text-decoration:none]" style="color: #fff;">{item.label}</span>
+            {/* Version */}
+            <span class="block text-xs font-medium [text-decoration:none]" style="color: rgba(255,255,255,0.65);">{item.version} &middot; {item.date || 'March 2026'}</span>
           </a>
         );
       })}
