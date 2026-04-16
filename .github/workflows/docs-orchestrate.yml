@@ -1,0 +1,186 @@
+name: Docs Pipeline - Orchestrate
+
+# Stage 1: When a PR merges, the orchestrator analyzes the diff and proposes
+# which docs to create/update. Posts the proposal to the portal for human
+# review. Does NOT write any files -- that happens in docs-write.yml after
+# the user approves in the portal.
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [feature/astro-prototype, develop]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: "PR number to analyze"
+        required: true
+
+jobs:
+  orchestrate:
+    if: >-
+      github.event_name != 'pull_request' ||
+      (github.event.pull_request.merged == true &&
+       github.event.pull_request.user.login != 'servantium-bot' &&
+       github.event.pull_request.user.login != 'servantium-bot[bot]' &&
+       !startsWith(github.event.pull_request.user.login, 'app/'))
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Anthropic SDK
+        run: npm install @anthropic-ai/sdk@latest --no-save
+
+      - name: Resolve PR context
+        id: ctx
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            PR="${{ github.event.pull_request.number }}"
+          else
+            PR="${{ inputs.pr_number }}"
+          fi
+          echo "pr=$PR" >> $GITHUB_OUTPUT
+          gh pr view "$PR" --json title,body,mergedAt,headRefName,url,labels > /tmp/pr.json
+          gh pr diff "$PR" | head -c 50000 > /tmp/diff.txt || true
+
+          # Auto-increment version from PR labels
+          LATEST=$(grep -rh '^version:' src/content/docs/help/release-notes/*.mdx 2>/dev/null \
+            | sed 's/version: *"*//;s/"*$//' \
+            | sort -t. -k1,1n -k2,2n -k3,3n \
+            | tail -1)
+          if [ -z "$LATEST" ]; then LATEST="1.0.0"; fi
+          MAJOR=$(echo "$LATEST" | cut -d. -f1)
+          MINOR=$(echo "$LATEST" | cut -d. -f2)
+          PATCH=$(echo "$LATEST" | cut -d. -f3)
+          BUMP="patch"
+          LABELS=$(jq -r '.labels[].name // empty' /tmp/pr.json 2>/dev/null || echo "")
+          if echo "$LABELS" | grep -q "release:major"; then BUMP="major"
+          elif echo "$LABELS" | grep -q "release:minor"; then BUMP="minor"; fi
+          case "$BUMP" in
+            major) VERSION="$((MAJOR + 1)).0.0" ;;
+            minor) VERSION="${MAJOR}.$((MINOR + 1)).0" ;;
+            patch) VERSION="${MAJOR}.${MINOR}.$((PATCH + 1))" ;;
+          esac
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Auto-incremented: $LATEST -> $VERSION (bump=$BUMP)"
+
+          REPO="${{ github.event.client_payload.repo || 'servantium-website' }}"
+          echo "repo=$REPO" >> $GITHUB_OUTPUT
+          TODAY=$(date -u +%Y-%m-%d)
+          echo "today=$TODAY" >> $GITHUB_OUTPUT
+
+          # Merge version/repo/today into PR context
+          jq --arg v "$VERSION" --arg r "$REPO" --arg t "$TODAY" \
+             '. + {version: $v, repo: $r, today: $t}' /tmp/pr.json > /tmp/pr.tmp && mv /tmp/pr.tmp /tmp/pr.json
+
+      - name: Build docs index
+        run: node .github/scripts/docs-index.mjs > /tmp/docs-index.json
+
+      - name: Fetch orchestrator config from portal
+        id: agent
+        env:
+          PORTAL_WEBHOOK_SECRET: ${{ secrets.PORTAL_WEBHOOK_SECRET }}
+        run: |
+          set +e
+          PORTAL_URL="https://test.internal.servantium.com/api/agents/by-codename/DocsOrchestrator/prompt"
+          if [ -n "$PORTAL_WEBHOOK_SECRET" ]; then
+            curl -sS --max-time 8 \
+              -H "Authorization: Bearer $PORTAL_WEBHOOK_SECRET" \
+              "$PORTAL_URL" -o /tmp/agent.json
+            STATUS=$?
+          else
+            STATUS=99
+          fi
+          if [ "$STATUS" = "0" ] && [ -s /tmp/agent.json ] && jq -e '.systemPrompt' /tmp/agent.json > /dev/null 2>&1; then
+            jq -r '.systemPrompt' /tmp/agent.json > /tmp/system.md
+            jq -r '.bannedWords // [] | @json' /tmp/agent.json > /tmp/banned-words.json
+            echo "source=portal" >> $GITHUB_OUTPUT
+          else
+            cp .github/claude-prompts/docs-orchestrator.system.md /tmp/system.md
+            echo '[]' > /tmp/banned-words.json
+            echo "source=committed" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Inject banned words
+        run: |
+          BANNED=$(cat /tmp/banned-words.json 2>/dev/null || echo '[]')
+          if [ "$BANNED" != "[]" ] && [ -n "$BANNED" ]; then
+            jq --argjson bw "$BANNED" '. + {banned_words: $bw, banned_words_instruction: "Do not use any of these words or phrases."}' /tmp/pr.json > /tmp/pr.tmp && mv /tmp/pr.tmp /tmp/pr.json
+          fi
+
+      - name: Run orchestrator
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CLAUDE_MODEL: claude-sonnet-4-5
+        run: |
+          node .github/scripts/claude-run.mjs \
+            --system /tmp/system.md \
+            --context /tmp/pr.json,/tmp/diff.txt,/tmp/docs-index.json \
+            --out /tmp/actions.json \
+            --model "$CLAUDE_MODEL" \
+            --max-tokens 1024 \
+            --json
+
+      - name: Post proposal to portal
+        env:
+          PORTAL_WEBHOOK_SECRET: ${{ secrets.PORTAL_WEBHOOK_SECRET }}
+        run: |
+          if [ -z "$PORTAL_WEBHOOK_SECRET" ]; then
+            echo "No webhook secret -- skipping portal notification"
+            cat /tmp/actions.json
+            exit 0
+          fi
+
+          PR_TITLE=$(jq -r '.title // ""' /tmp/pr.json | head -c 300)
+          PR_BODY=$(jq -r '.body // ""' /tmp/pr.json | head -c 2000)
+          PR_URL=$(jq -r '.url // ""' /tmp/pr.json)
+          ACTIONS=$(cat /tmp/actions.json)
+
+          curl -sS --max-time 15 -X POST \
+            -H "Authorization: Bearer $PORTAL_WEBHOOK_SECRET" \
+            -H "Content-Type: application/json" \
+            https://test.internal.servantium.com/api/pipeline/orchestrate \
+            -d "$(jq -n \
+              --arg gh_run_id "${{ github.run_id }}" \
+              --arg gh_run_url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+              --arg pr_number "${{ steps.ctx.outputs.pr }}" \
+              --arg pr_title "$PR_TITLE" \
+              --arg pr_body "$PR_BODY" \
+              --arg pr_url "$PR_URL" \
+              --arg version "${{ steps.ctx.outputs.version }}" \
+              --arg repo "${{ steps.ctx.outputs.repo }}" \
+              --arg today "${{ steps.ctx.outputs.today }}" \
+              --argjson actions "$ACTIONS" \
+              --arg prompt_source "${{ steps.agent.outputs.source }}" \
+              '{
+                event: "orchestrator_complete",
+                gh_run_id: $gh_run_id,
+                gh_run_url: $gh_run_url,
+                pr_number: ($pr_number | tonumber? // null),
+                pr_title: $pr_title,
+                pr_body: $pr_body,
+                pr_url: $pr_url,
+                version: $version,
+                repo: $repo,
+                today: $today,
+                actions: $actions,
+                prompt_source: $prompt_source
+              }')" \
+            || echo "Portal webhook failed (non-fatal)"
+
+          echo "Orchestrator proposed $(jq '.actions | length' /tmp/actions.json) action(s)"
+          echo "Waiting for human approval in the portal before writing docs."
