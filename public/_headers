@@ -7,8 +7,7 @@
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), interest-cohort=()
   Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' blob: https://app.cal.com https://www.googletagmanager.com https://static.cloudflareinsights.com; worker-src 'self' blob:; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' blob: data: https://contact.servantium.com https://leads.servantium.com https://cal.com https://*.google-analytics.com https://cloudflareinsights.com; frame-src https://app.cal.com; font-src 'self'
 
-# Pagefind search bundle — explicit rule so CF edge can't revalidate stale CSP.
-# The WASM worker MUST load under a CSP that allows 'wasm-unsafe-eval' + worker-src blob:.
-/pagefind/*
-  Cache-Control: public, max-age=0, must-revalidate
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' blob:; worker-src 'self' blob:; connect-src 'self' blob: data:; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'
+# Hashed static assets (CSS/JS with fingerprinted filenames) can cache longer.
+# Pagefind files regenerate every build with new hashes, so they also get max-age=0
+# from the global rule above. No separate /pagefind/* block needed — the global
+# CSP already includes unsafe-eval + wasm-unsafe-eval + worker-src blob:.
