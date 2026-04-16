@@ -110,6 +110,21 @@ const pageUrl = `https://servantium.com${Astro.url.pathname}`;
     </aside>
   </div>
 
+  <!-- Mobile sidebar toggle (visible below lg breakpoint) -->
+  <button
+    id="grove-sidebar-toggle"
+    class="fixed bottom-5 left-5 z-[150] flex items-center gap-2 rounded-full bg-white px-4 py-2.5 text-sm font-semibold text-ink shadow-lg border border-cloud-grey lg:hidden"
+    aria-label="Open documentation menu"
+    type="button"
+  >
+    <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+    Menu
+  </button>
+
   <!-- Main docs layout: sidebar | content | toc -->
   <div class="flex-1 pt-[72px]">
     <div class="mx-auto flex max-w-[90rem]">
@@ -189,13 +204,22 @@ const pageUrl = `https://servantium.com${Astro.url.pathname}`;
   <script>
     document.addEventListener('astro:page-load', () => {
       const drawer = document.getElementById('grove-sidebar-drawer');
+      const toggleBtn = document.getElementById('grove-sidebar-toggle');
       if (!drawer) return;
+
+      function openDrawer() {
+        drawer!.classList.remove('hidden');
+        drawer!.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      }
 
       function closeDrawer() {
         drawer!.classList.add('hidden');
         drawer!.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = '';
       }
+
+      toggleBtn?.addEventListener('click', openDrawer);
 
       drawer.querySelectorAll('[data-close-drawer]').forEach((el) => {
         el.addEventListener('click', closeDrawer);

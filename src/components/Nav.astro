@@ -166,7 +166,29 @@ const navLinks: NavLink[] = [
     </svg>
   </button>
   {navLinks.map(link => (
-    <a href={link.href}>{link.label}</a>
+    link.dropdown ? (
+      <div class="mobile-dropdown">
+        <button
+          class="mobile-dropdown-toggle"
+          type="button"
+          aria-expanded="false"
+        >
+          {link.label}
+          <svg class="mobile-dropdown-caret" width="12" height="12" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+            <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <div class="mobile-dropdown-items" hidden>
+          {link.dropdown.map(group => (
+            group.items.map(item => (
+              <a href={item.href} class="mobile-dropdown-link">{item.label}</a>
+            ))
+          ))}
+        </div>
+      </div>
+    ) : (
+      <a href={link.href}>{link.label}</a>
+    )
   ))}
   <button
     class="btn btn-secondary"
@@ -507,6 +529,51 @@ const navLinks: NavLink[] = [
     font-size: 1rem;
   }
 
+  /* Mobile dropdown for Resources sub-items */
+  .mobile-dropdown {
+    border-bottom: 1px solid var(--color-cloud-grey, #E1E3E6);
+  }
+  .mobile-dropdown-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: var(--space-md, 1.5rem) 0;
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--color-ink, #0D0D0D);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    text-align: left;
+    transition: color 0.2s;
+  }
+  .mobile-dropdown-toggle:hover { color: var(--color-servantium-green, #00C26D); }
+  .mobile-dropdown-caret {
+    transition: transform 0.25s ease;
+    opacity: 0.5;
+    flex-shrink: 0;
+  }
+  .mobile-dropdown-toggle[aria-expanded="true"] .mobile-dropdown-caret {
+    transform: rotate(180deg);
+    opacity: 1;
+  }
+  .mobile-dropdown-items {
+    padding: 0 0 0.5rem 1rem;
+  }
+  .mobile-dropdown-items[hidden] { display: none; }
+  .mobile-dropdown-link {
+    display: block;
+    padding: 0.65rem 0;
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--color-ink-light, #3d3d3d);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .mobile-dropdown-link:hover { color: var(--color-servantium-green, #00C26D); }
+
   @media (max-width: 768px) {
     .nav-links { display: none; }
     .nav-buttons { display: none; }
@@ -542,6 +609,20 @@ const navLinks: NavLink[] = [
     if (e.key === 'Escape' && mobileMenu?.classList.contains('active')) {
       closeMobileMenu();
     }
+  });
+
+  // Mobile dropdown toggles (Resources sub-items)
+  document.querySelectorAll('.mobile-dropdown-toggle').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var items = btn.nextElementSibling;
+      var expanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!expanded));
+      if (expanded) {
+        items.setAttribute('hidden', '');
+      } else {
+        items.removeAttribute('hidden');
+      }
+    });
   });
 
   // Mega-menu persistence: JS-managed open state so the panel stays open
