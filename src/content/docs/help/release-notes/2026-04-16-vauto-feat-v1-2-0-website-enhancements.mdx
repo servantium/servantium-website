@@ -1,0 +1,27 @@
+---
+title: "v1.2.0 — Help docs, search, and navigation upgrades"
+description: "Better help articles with breadcrumbs, reading time, AI copy button, contextual search filters, and paginated blog and resources."
+date: "2026-04-16"
+version: "1.2.0"
+repo: "servantium-website"
+badge:
+  text: Feature
+  variant: success
+---
+
+import { Aside } from '@/theme/grove/components';
+
+## What changed
+
+Help articles now include breadcrumbs, reading time, author metadata, a "Copy for AI" button in the sidebar (Mintlify-style), and a "Need more help?" CTA after content. Search gained contextual filter tabs (All / Help / Blog / Glossary) and color-coded section badges on results - help pages default to the Help filter automatically. Blog and Resources now paginate at 12 items per page with shareable URL parameters (?page=N). The What's New section on /help/ uses gradient cards matching the hero depth, and Latest Updates gained filter chips to toggle between All / Website / App releases. Mobile navigation now includes a Resources Hub link, and the home hero hides on small screens while keeping CTAs accessible.
+
+## Why it matters
+
+- Help content is easier to scan and share with teammates or AI assistants
+- Search surfaces the right content type faster - no more scrolling past blog posts when you need a help doc
+- Pagination keeps resource and blog pages fast, and shareable links preserve filters and page state
+- Mobile users can reach the Resources Hub and CTAs without visual clutter
+
+<Aside type="tip">
+Use the "Copy for AI" button in help articles to grab clean text for pasting into Claude, ChatGPT, or internal knowledge bases.
+</Aside>
