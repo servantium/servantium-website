@@ -2,9 +2,10 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import SEO from '@/components/SEO.astro';
 import { getCollection } from 'astro:content';
+import { filterByStatus } from '@/lib/content-filter';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  const posts = filterByStatus(await getCollection('blog', ({ data }) => !data.draft));
   const categories = [...new Set(posts.map((p) => p.data.category))];
 
   return categories.map((category) => {

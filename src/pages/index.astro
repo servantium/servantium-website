@@ -228,11 +228,11 @@ const jsonLd = [
       </div>
       <div class="faq-list">
         <div class="faq-item">
-          <button class="faq-question" aria-expanded="false">
+          <button class="faq-question" id="faq-q-what" aria-expanded="false" aria-controls="faq-a-what">
             What is Servantium?
             <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
           </button>
-          <div class="faq-answer">
+          <div class="faq-answer" id="faq-a-what" role="region" aria-labelledby="faq-q-what">
             <div class="faq-answer-content">
               <p>It's where you run your services business. Servantium is the single place where you define what you sell, price it, scope it, deliver it, and learn from it. One system for the whole engagement lifecycle.</p>
               <p>Most tools make you stitch together a CRM for pipeline, a PSA for delivery, and spreadsheets for everything in between. Servantium is the engagement layer that connects them.</p>
@@ -240,11 +240,11 @@ const jsonLd = [
           </div>
         </div>
         <div class="faq-item">
-          <button class="faq-question" aria-expanded="false">
+          <button class="faq-question" id="faq-q-psa-diff" aria-expanded="false" aria-controls="faq-a-psa-diff">
             How is Servantium different from traditional PSA software?
             <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
           </button>
-          <div class="faq-answer">
+          <div class="faq-answer" id="faq-a-psa-diff" role="region" aria-labelledby="faq-q-psa-diff">
             <div class="faq-answer-content">
               <p>Most PSA tools bolt project tracking onto a sales tool and call it a day. Your estimates live in spreadsheets, your proposals live in Word docs, and nobody can tell you whether last quarter's projects actually hit their margins.</p>
               <p>Servantium connects the whole chain. Your service definitions feed your estimates, your estimates feed your proposals, your delivery data feeds back into smarter estimates next time. Everything shares context instead of living in silos.</p>
@@ -252,22 +252,22 @@ const jsonLd = [
           </div>
         </div>
         <div class="faq-item">
-          <button class="faq-question" aria-expanded="false">
+          <button class="faq-question" id="faq-q-businesses" aria-expanded="false" aria-controls="faq-a-businesses">
             What types of businesses use Servantium?
             <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
           </button>
-          <div class="faq-answer">
+          <div class="faq-answer" id="faq-a-businesses" role="region" aria-labelledby="faq-q-businesses">
             <div class="faq-answer-content">
               <p>If you scope projects, price them, deliver them, and want to stop rebuilding every engagement from scratch, you're probably a fit. That includes consulting firms, implementation partners, MSPs, agencies, professional services teams inside software companies, and field service businesses like general contractors and engineering firms. The common thread: engagements that are roughly repeatable but always a bit different.</p>
             </div>
           </div>
         </div>
         <div class="faq-item">
-          <button class="faq-question" aria-expanded="false">
+          <button class="faq-question" id="faq-q-ai" aria-expanded="false" aria-controls="faq-a-ai">
             How does Servantium handle AI and automation?
             <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
           </button>
-          <div class="faq-answer">
+          <div class="faq-answer" id="faq-a-ai" role="region" aria-labelledby="faq-q-ai">
             <div class="faq-answer-content">
               <p>Here's the honest version: AI is only as useful as the data you feed it. Most services teams have poor operational data. Hours billed and revenue, but nothing about what actually happened on the engagement. So their AI tools produce garbage.</p>
               <p>We fix the data problem first. Servantium gives you structured engagement data that AI can actually learn from. Then the automation gets useful. Smarter estimates, pattern matching across past work, AI workflows embedded across the engagement lifecycle. But we're not pretending AI replaces the humans who do the work. It won't.</p>
@@ -275,44 +275,44 @@ const jsonLd = [
           </div>
         </div>
         <div class="faq-item">
-          <button class="faq-question" aria-expanded="false">
+          <button class="faq-question" id="faq-q-security" aria-expanded="false" aria-controls="faq-a-security">
             Is my data secure?
             <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
           </button>
-          <div class="faq-answer">
+          <div class="faq-answer" id="faq-a-security" role="region" aria-labelledby="faq-q-security">
             <div class="faq-answer-content">
               <p>Yes. Everything's encrypted at rest and in transit. Your engagement data, your pricing, your client details. We take this seriously because we know services teams handle sensitive commercial information. If you've got specific compliance or data residency requirements, we're happy to have that conversation.</p>
             </div>
           </div>
         </div>
         <div class="faq-item">
-          <button class="faq-question" aria-expanded="false">
+          <button class="faq-question" id="faq-q-crm" aria-expanded="false" aria-controls="faq-a-crm">
             Is Servantium a CRM?
             <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
           </button>
-          <div class="faq-answer">
+          <div class="faq-answer" id="faq-a-crm" role="region" aria-labelledby="faq-q-crm">
             <div class="faq-answer-content">
               <p>It depends on your stack. For teams already running Salesforce or HubSpot, Servantium sits where your CRM ends — when a deal closes, it carries the scope, the pricing rationale, and the delivery context forward and connects bi-directionally so nothing gets re-entered. If you're a smaller team without a CRM and your pipeline lives in a spreadsheet, Servantium can cover that ground too.</p>
             </div>
           </div>
         </div>
         <div class="faq-item">
-          <button class="faq-question" aria-expanded="false">
+          <button class="faq-question" id="faq-q-replace-psa" aria-expanded="false" aria-controls="faq-a-replace-psa">
             Does Servantium replace my PSA?
             <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
           </button>
-          <div class="faq-answer">
+          <div class="faq-answer" id="faq-a-replace-psa" role="region" aria-labelledby="faq-q-replace-psa">
             <div class="faq-answer-content">
               <p>It depends on your stack. For teams already running a PSA like Kantata or Certinia, Servantium fills the gaps they were never designed for — scope decisions, pricing rationale, and the feedback loop between delivery outcomes and your next estimate. If you're a smaller team whose PSA is a spreadsheet and a shared drive, Servantium may be all you need.</p>
             </div>
           </div>
         </div>
         <div class="faq-item">
-          <button class="faq-question" aria-expanded="false">
+          <button class="faq-question" id="faq-q-engagement" aria-expanded="false" aria-controls="faq-a-engagement">
             What is engagement management?
             <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
           </button>
-          <div class="faq-answer">
+          <div class="faq-answer" id="faq-a-engagement" role="region" aria-labelledby="faq-q-engagement">
             <div class="faq-answer-content">
               <p>Engagement management is the practice of treating each client engagement as a structured object. One record that carries scope, pricing, resourcing, delivery milestones, and post-project learning. Most teams manage engagements across five or six disconnected tools. Engagement management is what you get when you consolidate that into a single source of truth.</p>
             </div>
@@ -360,7 +360,7 @@ const jsonLd = [
               <textarea id="message" name="message" required placeholder="Tell us about your services business and what you're looking for..." style="padding: 0.5rem 0.75rem; font-size: 0.9rem; min-height: 80px;"></textarea>
             </div>
             <button type="submit" class="form-submit" id="form-submit" style="padding: 0.625rem; font-size: 0.9rem;">Send Message</button>
-            <div class="form-status" id="form-status"></div>
+            <div class="form-status" id="form-status" role="status" aria-live="polite"></div>
             <div class="form-success-overlay" id="form-success-overlay">
               <div class="form-success-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -513,6 +513,9 @@ const jsonLd = [
   });
 
   // Section fade-in
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    // Skip animations entirely
+  } else {
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -534,6 +537,7 @@ const jsonLd = [
     section.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
     observer.observe(section);
   });
+  } // end reduced-motion else
 
   // Smooth scroll for anchor links
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {

@@ -22,7 +22,7 @@ const currentYear = new Date().getFullYear();
         </div>
       </div>
       <div class="footer-column">
-        <h4>Product</h4>
+        <div role="heading" aria-level="3" class="footer-heading">Product</div>
         <ul>
           <li><a href="/platform">Platform</a></li>
           <li><a href="/help/">Help Center</a></li>
@@ -31,7 +31,7 @@ const currentYear = new Date().getFullYear();
         </ul>
       </div>
       <div class="footer-column">
-        <h4>Resources</h4>
+        <div role="heading" aria-level="3" class="footer-heading">Resources</div>
         <ul>
           <li><a href="/resources/">Resources Hub</a></li>
           <li><a href="/resources/calculators/fixed-fee-pricing/">Pricing Calculator</a></li>
@@ -40,7 +40,7 @@ const currentYear = new Date().getFullYear();
         </ul>
       </div>
       <div class="footer-column">
-        <h4>Compare</h4>
+        <div role="heading" aria-level="3" class="footer-heading">Compare</div>
         <ul>
           <li><a href="/compare/">All comparisons</a></li>
           <li><a href="/compare/servantium-vs-kantata/">vs Kantata</a></li>
@@ -49,7 +49,7 @@ const currentYear = new Date().getFullYear();
         </ul>
       </div>
       <div class="footer-column">
-        <h4>Company</h4>
+        <div role="heading" aria-level="3" class="footer-heading">Company</div>
         <ul>
           <li><a href="/about">About</a></li>
           <li><a href="/#contact">Contact</a></li>
@@ -110,7 +110,7 @@ const currentYear = new Date().getFullYear();
     transition: all 0.2s ease; text-decoration: none;
   }
   .social-link:hover { background: var(--color-servantium-green, #00C26D); transform: translateY(-1px); }
-  .footer-column h4 {
+  .footer-column .footer-heading {
     font-family: var(--font-body, 'Source Sans 3', sans-serif); font-size: 0.75rem; font-weight: 600;
     text-transform: uppercase; letter-spacing: 0.1em;
     margin-bottom: var(--space-sm, 1rem); opacity: 0.6; color: var(--color-white, #FFFFFF);

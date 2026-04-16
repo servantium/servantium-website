@@ -1247,6 +1247,10 @@
             100% { transform: translateX(-50%); }
         }
 
+        @media (prefers-reduced-motion: reduce) {
+            .logo-bar-track { animation: none !important; }
+        }
+
         .logo-placeholder {
             width: 120px;
             height: 40px;

@@ -13,4 +13,5 @@ quoteAuthor: Jane Doe
 quoteRole: Managing Partner
 featured: false
 published: false
+status: "draft"
 ---

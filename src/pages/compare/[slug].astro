@@ -1,9 +1,10 @@
 ---
 import ResourceLayout from '@/layouts/ResourceLayout.astro';
 import { getCollection, render } from 'astro:content';
+import { filterByStatus } from '@/lib/content-filter';
 
 export async function getStaticPaths() {
-  const items = await getCollection('comparisons', ({ data }) => !data.draft);
+  const items = filterByStatus(await getCollection('comparisons', ({ data }) => !data.draft));
   return items.map(item => ({
     params: { slug: item.id },
     props: { item },

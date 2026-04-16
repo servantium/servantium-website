@@ -42,6 +42,12 @@
         hideEventTypeDetails: false,
         layout: "month_view",
       });
+
+      // Set accessible title on Cal.com iframe once it appears
+      setTimeout(function() {
+        var iframe = document.querySelector('iframe[src*="cal.com"]');
+        if (iframe) iframe.setAttribute('title', 'Book a demo with Servantium');
+      }, 2000);
     }
 
     // If the page has an INLINE embed target, we must load Cal eagerly —

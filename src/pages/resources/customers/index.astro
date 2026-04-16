@@ -1,9 +1,10 @@
 ---
 import ResourceIndexPage from '@/components/ResourceIndexPage.astro';
 import { getCollection } from 'astro:content';
+import { filterByStatus } from '@/lib/content-filter';
 import { customersToTiles } from '@/lib/resourceTiles';
 
-const items = (await getCollection('customers', ({ data }) => data.published))
+const items = filterByStatus((await getCollection('customers', ({ data }) => data.published)))
   .sort((a, b) => (b.data.featured ? 1 : 0) - (a.data.featured ? 1 : 0));
 const tiles = customersToTiles(items as any);
 ---

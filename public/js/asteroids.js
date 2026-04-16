@@ -14,12 +14,14 @@
     // Game state
     const gameState = {
         active: false,
+        paused: false,
         score: 0,
         lives: 3,
         level: 1,
         ship: null,
         bullets: [],
         asteroids: [],
+        thrustParticles: [],
         keys: {},
         lastShot: 0,
         shotCooldown: 150,
@@ -29,7 +31,9 @@
         hintTimeout: null,
         gameStartTime: 0,
         gracePeriod: 60000,
-        playerHasMoved: false
+        playerHasMoved: false,
+        hasPlayedOnce: false,
+        levelIndicatorTimeout: null
     };
 
     // Game dimensions (will be set during init)
@@ -56,6 +60,24 @@
         { bg: 'linear-gradient(135deg, #64748B 0%, #536275 50%, #42505f 100%)', shadow: '#64748B' }
     ];
 
+    // High score helpers (only use localStorage after first play)
+    function getHighScore() {
+        if (!gameState.hasPlayedOnce) return 0;
+        try {
+            return parseInt(localStorage.getItem('servantium_asteroids_highscore') || '0', 10);
+        } catch (e) {
+            return 0;
+        }
+    }
+
+    function setHighScore(score) {
+        try {
+            localStorage.setItem('servantium_asteroids_highscore', String(score));
+        } catch (e) {
+            // localStorage unavailable, silently ignore
+        }
+    }
+
     // Ship class
     class Ship {
         constructor() {
@@ -64,10 +86,10 @@
             this.vx = 0;
             this.vy = 0;
             this.angle = -Math.PI / 2;
-            this.rotationSpeed = 0.18;  // Slower rotation
-            this.thrust = 0.15;          // Slower acceleration
-            this.friction = 0.988;       // Slightly more friction
-            this.maxSpeed = 4.5;         // Slower max speed (was 7)
+            this.rotationSpeed = 0.18;
+            this.thrust = 0.15;
+            this.friction = 0.988;
+            this.maxSpeed = 4.5;
             this.element = document.getElementById('game-ship');
         }
 
@@ -83,6 +105,8 @@
                 this.vx += Math.cos(this.angle) * this.thrust;
                 this.vy += Math.sin(this.angle) * this.thrust;
                 this.element.classList.add('thrusting');
+                // Spawn thrust particles
+                spawnThrustParticle(this.x, this.y, this.angle);
             } else {
                 this.element.classList.remove('thrusting');
             }
@@ -119,7 +143,7 @@
             const bullet = new Bullet(
                 this.x + Math.cos(this.angle) * 15,
                 this.y + Math.sin(this.angle) * 15,
-                Math.cos(this.angle) * 8 + this.vx * 0.5,  // Slower bullets
+                Math.cos(this.angle) * 8 + this.vx * 0.5,
                 Math.sin(this.angle) * 8 + this.vy * 0.5
             );
             gameState.bullets.push(bullet);
@@ -167,13 +191,62 @@
         }
     }
 
+    // Thrust particle class
+    function spawnThrustParticle(shipX, shipY, shipAngle) {
+        if (!gameContainer) return;
+        // Spawn behind the ship
+        const spread = (Math.random() - 0.5) * 0.5;
+        const behindAngle = shipAngle + Math.PI + spread;
+        const dist = 12 + Math.random() * 4;
+        const px = shipX + Math.cos(behindAngle) * dist;
+        const py = shipY + Math.sin(behindAngle) * dist;
+
+        const el = document.createElement('div');
+        el.style.cssText = `
+            position: absolute;
+            left: ${px}px;
+            top: ${py}px;
+            width: 3px;
+            height: 3px;
+            background: #00C26D;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 24;
+            opacity: 0.8;
+        `;
+        gameContainer.appendChild(el);
+
+        const particle = {
+            el: el,
+            x: px,
+            y: py,
+            born: performance.now(),
+            life: 500
+        };
+        gameState.thrustParticles.push(particle);
+    }
+
+    function updateThrustParticles() {
+        const now = performance.now();
+        for (let i = gameState.thrustParticles.length - 1; i >= 0; i--) {
+            const p = gameState.thrustParticles[i];
+            const age = now - p.born;
+            if (age >= p.life) {
+                p.el.remove();
+                gameState.thrustParticles.splice(i, 1);
+            } else {
+                p.el.style.opacity = Math.max(0, 0.8 * (1 - age / p.life));
+            }
+        }
+    }
+
     // Asteroid class
     class GameAsteroid {
         constructor(x, y, size, vx, vy) {
             this.x = x;
             this.y = y;
             this.size = size;
-            this.vx = vx || (Math.random() - 0.5) * 2;  // Slower asteroids
+            this.vx = vx || (Math.random() - 0.5) * 2;
             this.vy = vy || (Math.random() - 0.5) * 2;
             this.rotation = Math.random() * 360;
             this.rotationSpeed = (Math.random() - 0.5) * 2;
@@ -215,7 +288,7 @@
             if (this.size === 'large') {
                 for (let i = 0; i < 2; i++) {
                     const angle = Math.random() * Math.PI * 2;
-                    const speed = 1 + Math.random() * 0.5;  // Slower splits
+                    const speed = 1 + Math.random() * 0.5;
                     newAsteroids.push(new GameAsteroid(
                         this.x, this.y, 'medium',
                         Math.cos(angle) * speed,
@@ -299,7 +372,7 @@
 
             if (isInGracePeriod()) {
                 const angleFromCenter = Math.atan2(y - centerY, x - centerX);
-                const speed = 0.8 + Math.random();  // Slower initial asteroids
+                const speed = 0.8 + Math.random();
                 const velocityAngle = angleFromCenter + (Math.random() - 0.5) * Math.PI * 0.5;
                 vx = Math.cos(velocityAngle) * speed;
                 vy = Math.sin(velocityAngle) * speed;
@@ -329,6 +402,77 @@
         gameState.score += points;
         const scoreEl = document.getElementById('game-score-value');
         if (scoreEl) scoreEl.textContent = gameState.score;
+    }
+
+    // Show level indicator
+    function showLevelIndicator(level) {
+        if (!gameContainer) return;
+        // Remove any existing level indicator
+        const existing = gameContainer.querySelector('.game-level-indicator');
+        if (existing) existing.remove();
+
+        const el = document.createElement('div');
+        el.className = 'game-level-indicator';
+        el.textContent = 'Level ' + level;
+        el.style.cssText = `
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: var(--font-display, 'Playfair Display', serif);
+            font-size: 2rem;
+            font-weight: 600;
+            color: #00C26D;
+            text-shadow: 0 0 20px rgba(0, 194, 109, 0.5);
+            pointer-events: none;
+            z-index: 30;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        `;
+        gameContainer.appendChild(el);
+
+        // Fade in
+        requestAnimationFrame(() => {
+            el.style.opacity = '1';
+        });
+
+        // Fade out after 1.5s, remove after 2s
+        if (gameState.levelIndicatorTimeout) clearTimeout(gameState.levelIndicatorTimeout);
+        gameState.levelIndicatorTimeout = setTimeout(() => {
+            el.style.opacity = '0';
+            setTimeout(() => el.remove(), 500);
+        }, 1500);
+    }
+
+    // Show/hide pause overlay
+    function showPauseOverlay(show) {
+        if (!gameContainer) return;
+        let overlay = gameContainer.querySelector('.game-pause-overlay');
+        if (show && !overlay) {
+            overlay = document.createElement('div');
+            overlay.className = 'game-pause-overlay';
+            overlay.style.cssText = `
+                position: absolute;
+                inset: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: rgba(0, 0, 0, 0.6);
+                z-index: 35;
+                pointer-events: none;
+            `;
+            overlay.innerHTML = `<span style="
+                font-family: var(--font-display, 'Playfair Display', serif);
+                font-size: 2.5rem;
+                font-weight: 600;
+                color: #ffffff;
+                text-shadow: 0 0 20px rgba(255,255,255,0.3);
+                letter-spacing: 0.15em;
+            ">PAUSED</span>`;
+            gameContainer.appendChild(overlay);
+        } else if (!show && overlay) {
+            overlay.remove();
+        }
     }
 
     // Check collisions
@@ -394,8 +538,38 @@
     function gameOver() {
         gameState.gameOver = true;
         gameState.ship.element.classList.remove('active');
+
+        // Update high score if player has played before (opt-in localStorage)
+        gameState.hasPlayedOnce = true;
+        const currentHigh = getHighScore();
+        const isNewHigh = gameState.score > currentHigh;
+        if (isNewHigh) {
+            setHighScore(gameState.score);
+        }
+
+        // Build game-over screen content
         const msgEl = document.getElementById('game-message');
-        if (msgEl) msgEl.classList.add('active');
+        if (msgEl) {
+            const highScore = isNewHigh ? gameState.score : currentHigh;
+            const wittyMessages = [
+                'Even the best engagements end eventually.',
+                'That scope was out of this world.',
+                'Not every delivery goes to plan.',
+                'Time to re-scope and try again.',
+                'The asteroids won this sprint.'
+            ];
+            const witty = wittyMessages[Math.floor(Math.random() * wittyMessages.length)];
+
+            msgEl.innerHTML = `
+                <div style="font-family: var(--font-display, 'Playfair Display', serif); font-size: 1.75rem; font-weight: 600; color: #FF5C70; margin-bottom: 0.75rem;">GAME OVER</div>
+                <div style="font-size: 1.1rem; color: #ffffff; margin-bottom: 0.25rem;">Score: <strong>${gameState.score}</strong></div>
+                ${highScore > 0 ? `<div style="font-size: 0.85rem; color: rgba(255,255,255,0.6); margin-bottom: 0.5rem;">${isNewHigh ? 'New high score!' : 'High score: ' + highScore}</div>` : ''}
+                <div style="font-size: 0.8rem; color: rgba(255,255,255,0.5); font-style: italic; margin-bottom: 1rem; max-width: 240px;">${witty}</div>
+                <div style="font-size: 0.75rem; color: rgba(255,255,255,0.4);">Double-tap to retry</div>
+            `;
+            msgEl.classList.add('active');
+        }
+
         const hintEl = document.getElementById('game-exit-hint');
         if (hintEl) hintEl.classList.remove('visible');
         if (gameState.hintTimeout) clearTimeout(gameState.hintTimeout);
@@ -404,6 +578,7 @@
     // Next level
     function nextLevel() {
         gameState.level++;
+        showLevelIndicator(gameState.level);
         spawnAsteroids(4 + gameState.level);
     }
 
@@ -413,6 +588,10 @@
 
         gameArena.classList.add('active');
         if (hintArrow) hintArrow.style.display = 'none';
+
+        // Hide double-tap hint
+        const dblHint = gameArena.parentElement && gameArena.parentElement.querySelector('.game-dbl-hint');
+        if (dblHint) dblHint.style.display = 'none';
 
         // Show touch controls on touch devices
         const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
@@ -427,6 +606,7 @@
 
         // Reset game state
         gameState.active = true;
+        gameState.paused = false;
         gameState.score = 0;
         gameState.lives = 3;
         gameState.level = 1;
@@ -441,6 +621,11 @@
         gameState.bullets = [];
         gameState.asteroids.forEach(a => a.destroy());
         gameState.asteroids = [];
+        gameState.thrustParticles.forEach(p => p.el.remove());
+        gameState.thrustParticles = [];
+
+        // Remove any pause overlay
+        showPauseOverlay(false);
 
         // Create/reset ship
         if (!gameState.ship) {
@@ -468,6 +653,9 @@
             }, 7000);
         }
 
+        // Show level 1 indicator
+        showLevelIndicator(1);
+
         spawnAsteroids(5);
     }
 
@@ -477,15 +665,25 @@
 
         gameArena.classList.remove('active');
         if (hintArrow) hintArrow.style.display = 'flex';
+
+        // Restore double-tap hint
+        const dblHint = gameArena.parentElement && gameArena.parentElement.querySelector('.game-dbl-hint');
+        if (dblHint) dblHint.style.display = '';
+
         const touchControls = document.getElementById('touch-controls');
         if (touchControls) touchControls.style.display = 'none';
         gameState.active = false;
+        gameState.paused = false;
 
         // Clean up
         gameState.bullets.forEach(b => b.destroy());
         gameState.bullets = [];
         gameState.asteroids.forEach(a => a.destroy());
         gameState.asteroids = [];
+        gameState.thrustParticles.forEach(p => p.el.remove());
+        gameState.thrustParticles = [];
+
+        showPauseOverlay(false);
 
         if (gameState.ship) {
             gameState.ship.element.classList.remove('active', 'thrusting', 'invulnerable');
@@ -498,9 +696,16 @@
         if (gameState.hintTimeout) clearTimeout(gameState.hintTimeout);
     }
 
+    // Toggle pause
+    function togglePause() {
+        if (!gameState.active || gameState.gameOver) return;
+        gameState.paused = !gameState.paused;
+        showPauseOverlay(gameState.paused);
+    }
+
     // Game loop
     function gameLoop() {
-        if (!gameState.active || gameState.gameOver) return;
+        if (!gameState.active || gameState.gameOver || gameState.paused) return;
 
         gameState.ship.update();
 
@@ -519,6 +724,10 @@
 
         // Update asteroids
         gameState.asteroids.forEach(a => a.update());
+
+        // Update thrust particles
+        updateThrustParticles();
+
         checkCollisions();
 
         // Check invulnerability
@@ -718,6 +927,37 @@
         GAME_WIDTH = gameContainer.offsetWidth || 500;
         GAME_HEIGHT = gameContainer.offsetHeight || 500;
 
+        // Window resize handler
+        window.addEventListener('resize', function() {
+            if (gameContainer) {
+                GAME_WIDTH = gameContainer.offsetWidth || 500;
+                GAME_HEIGHT = gameContainer.offsetHeight || 500;
+            }
+        });
+
+        // Add "Double-tap to play" hint near the trigger
+        const dblHint = document.createElement('div');
+        dblHint.className = 'game-dbl-hint';
+        dblHint.textContent = 'Double-tap to play';
+        dblHint.style.cssText = `
+            position: absolute;
+            bottom: -24px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.65rem;
+            color: rgba(255, 255, 255, 0.35);
+            white-space: nowrap;
+            pointer-events: none;
+            font-weight: 500;
+            letter-spacing: 0.03em;
+        `;
+        // Only append if trigger has position relative/absolute
+        const triggerPos = window.getComputedStyle(trigger).position;
+        if (triggerPos === 'static') {
+            trigger.style.position = 'relative';
+        }
+        trigger.appendChild(dblHint);
+
         // Double-click to start
         let lastClick = 0;
         function handleActivation(e) {
@@ -755,6 +995,10 @@
             }
             if (e.key === 'Escape' && gameState.active) {
                 endGame();
+            }
+            // P key toggles pause
+            if ((e.key === 'p' || e.key === 'P') && gameState.active && !gameState.gameOver) {
+                togglePause();
             }
         });
 

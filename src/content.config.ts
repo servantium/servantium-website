@@ -29,6 +29,7 @@ const docs = defineCollection({
     featured: z.boolean().default(false),
     featuredIcon: z.string().optional(),
     featuredLabel: z.string().optional(),
+    status: z.enum(['published', 'draft', 'hidden']).default('published'),
   }),
 });
 
@@ -63,6 +64,7 @@ const blog = defineCollection({
     readingTime: z.string().optional(),
     tags: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
+    status: z.enum(['published', 'draft', 'hidden']).default('published'),
   }),
 });
 
@@ -81,6 +83,7 @@ const customers = defineCollection({
     quoteRole: z.string().optional(),
     featured: z.boolean().default(false),
     published: z.boolean().default(false),
+    status: z.enum(['published', 'draft', 'hidden']).default('published'),
   }),
 });
 
@@ -105,6 +108,7 @@ const press = defineCollection({
     date: z.string(),
     logo: z.string().optional(),
     featured: z.boolean().default(false),
+    status: z.enum(['published', 'draft', 'hidden']).default('published'),
   }),
 });
 
@@ -134,6 +138,7 @@ const resources = defineCollection({
     date: z.string(),
     tags: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
+    status: z.enum(['published', 'draft', 'hidden']).default('published'),
   }),
 });
 
@@ -163,6 +168,7 @@ const comparisons = defineCollection({
     updated: z.string().optional(),
     order: z.number().default(100),
     draft: z.boolean().default(false),
+    status: z.enum(['published', 'draft', 'hidden']).default('published'),
   }),
 });
 

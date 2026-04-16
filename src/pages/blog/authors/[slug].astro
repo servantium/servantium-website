@@ -2,6 +2,7 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import SEO from '@/components/SEO.astro';
 import { getCollection } from 'astro:content';
+import { filterByStatus } from '@/lib/content-filter';
 
 export async function getStaticPaths() {
   const authors = await getCollection('authors');
@@ -15,7 +16,7 @@ const { author } = Astro.props;
 const { name, role, avatar, linkedin, bio } = author.data;
 
 // Get all non-draft posts by this author
-const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const allPosts = filterByStatus(await getCollection('blog', ({ data }) => !data.draft));
 const authorPosts = allPosts
   .filter((post) => post.data.author === author.id)
   .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());

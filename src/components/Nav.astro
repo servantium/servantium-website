@@ -47,7 +47,8 @@ const navLinks: NavLink[] = [
         heading: 'Read',
         items: [
           { href: '/blog/', label: 'Blog', description: 'Strategy essays and operator op-eds', icon: 'blog' },
-          { href: '/resources/customers/', label: 'Customer Stories', description: 'How firms run their operations on Servantium', icon: 'customer' },
+          // Customer Stories hidden until the collection has published content
+          // { href: '/resources/customers/', label: 'Customer Stories', description: 'How firms run their operations on Servantium', icon: 'customer' },
         ],
       },
     ],
@@ -586,16 +587,19 @@ const navLinks: NavLink[] = [
 
 <script>
   // Mobile Menu Toggle
-  const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+  const mobileMenuToggle = document.querySelector('.mobile-menu-toggle') as HTMLElement | null;
   const mobileMenu = document.getElementById('mobile-menu');
   const mobileMenuCloseBtn = document.getElementById('mobile-menu-close-btn');
+  let removeFocusTrap: (() => void) | null = null;
 
   function closeMobileMenu() {
+    if (removeFocusTrap) { removeFocusTrap(); removeFocusTrap = null; }
     mobileMenu?.classList.remove('active');
     mobileMenu?.setAttribute('aria-hidden', 'true');
     mobileMenuToggle?.classList.remove('active');
     mobileMenuToggle?.setAttribute('aria-expanded', 'false');
     document.body.style.overflow = '';
+    mobileMenuToggle?.focus();
   }
 
   mobileMenuToggle?.addEventListener('click', function() {
@@ -604,6 +608,25 @@ const navLinks: NavLink[] = [
     this.setAttribute('aria-expanded', String(isActive));
     mobileMenu?.setAttribute('aria-hidden', String(!isActive));
     document.body.style.overflow = isActive ? 'hidden' : '';
+    if (isActive && mobileMenu) {
+      // Trap focus inside the mobile menu
+      const focusable = mobileMenu.querySelectorAll(
+        'a[href], button:not([disabled]), input, textarea, select, [tabindex]:not([tabindex="-1"])'
+      );
+      const first = focusable[0] as HTMLElement;
+      const last = focusable[focusable.length - 1] as HTMLElement;
+      function trapHandler(e: KeyboardEvent) {
+        if (e.key !== 'Tab') return;
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault(); last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault(); first.focus();
+        }
+      }
+      mobileMenu.addEventListener('keydown', trapHandler);
+      removeFocusTrap = () => mobileMenu.removeEventListener('keydown', trapHandler);
+      first?.focus();
+    }
   });
 
   mobileMenuCloseBtn?.addEventListener('click', closeMobileMenu);

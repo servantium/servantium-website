@@ -1,9 +1,10 @@
 ---
 import DocsLayout from '@/theme/grove/DocsLayout.astro';
 import { getCollection } from 'astro:content';
+import { filterByStatus } from '@/lib/content-filter';
 
 // Get all docs
-const allDocs = await getCollection('docs');
+const allDocs = filterByStatus(await getCollection('docs'));
 
 // Get featured docs for "What's New" section
 const featuredDocs = allDocs

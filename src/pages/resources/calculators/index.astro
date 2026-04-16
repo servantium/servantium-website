@@ -1,9 +1,10 @@
 ---
 import ResourceIndexPage from '@/components/ResourceIndexPage.astro';
 import { getCollection } from 'astro:content';
+import { filterByStatus } from '@/lib/content-filter';
 import { resourcesToTiles } from '@/lib/resourceTiles';
 
-const items = (await getCollection('resources', ({ data }) => !data.draft && data.type === 'calculator'))
+const items = filterByStatus((await getCollection('resources', ({ data }) => !data.draft && data.type === 'calculator')))
   .sort((a, b) => a.data.order - b.data.order);
 const tiles = resourcesToTiles(items as any);
 ---
