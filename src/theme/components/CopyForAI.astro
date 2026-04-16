@@ -1,7 +1,8 @@
 ---
 /**
- * CopyForAI -- Mintlify-style "Copy for AI" button.
- * Copies a clean text representation of the article content to clipboard.
+ * CopyForAI -- Mintlify-style "Copy page" dropdown with AI integrations.
+ * Matches Mintlify's pattern: Copy as MD, Open in Claude, Open in ChatGPT.
+ * Includes GA event tracking for usage analytics.
  */
 
 interface Props {
@@ -11,78 +12,203 @@ interface Props {
 }
 
 const { title, section, url } = Astro.props;
+const encodedUrl = url ? encodeURIComponent(url) : '';
+const claudePrompt = encodeURIComponent(`Read from ${url} so I can ask questions about it.`);
+const chatgptPrompt = encodeURIComponent(`I want to discuss this help article: ${url}\n\nTitle: ${title}`);
 ---
 
-<button
-  class="copy-for-ai-btn inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg border border-[var(--color-cloud-grey)] text-[var(--color-ink-muted)] hover:text-[var(--color-ink)] hover:border-[var(--color-ink-muted)] transition-colors cursor-pointer bg-white"
-  data-title={title}
-  data-section={section}
-  data-url={url}
-  type="button"
-  aria-label="Copy article content for AI"
->
-  {/* Clipboard + sparkle icon */}
-  <svg class="size-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
-    <rect x="8" y="2" width="8" height="4" rx="1" ry="1" />
-  </svg>
-  <svg class="size-3 shrink-0 -ml-0.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-    <path d="M12 2l1.09 3.26L16.36 6.5l-3.27 1.09L12 10.85l-1.09-3.26L7.64 6.5l3.27-1.09L12 2zm6 8l.72 2.17L20.89 13l-2.17.72L18 15.89l-.72-2.17L15.11 13l2.17-.72L18 10zm-12 2l.72 2.17L8.89 15l-2.17.72L6 17.89l-.72-2.17L3.11 15l2.17-.72L6 12z" />
-  </svg>
-  <span class="copy-for-ai-label">Copy for AI</span>
-</button>
+<div class="cfai-wrap relative" data-title={title} data-section={section} data-url={url}>
+  <button
+    class="cfai-trigger inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg border border-[var(--color-cloud-grey)] text-[var(--color-ink-muted)] hover:text-[var(--color-ink)] hover:border-[var(--color-ink-muted)] transition-colors cursor-pointer bg-white"
+    type="button"
+    aria-haspopup="true"
+    aria-expanded="false"
+  >
+    <svg class="size-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+      <rect x="8" y="2" width="8" height="4" rx="1" ry="1" />
+    </svg>
+    <span>Copy page</span>
+    <svg class="size-3 shrink-0 opacity-50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+      <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+
+  <div class="cfai-menu hidden absolute right-0 top-full mt-1 w-56 rounded-xl border border-[var(--color-cloud-grey)] bg-white shadow-lg z-50 py-1.5 text-xs" role="menu">
+    <button class="cfai-action cfai-copy-md" role="menuitem" data-action="copy-md">
+      <svg class="size-4 shrink-0 opacity-60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+      <div>
+        <div class="font-semibold text-[var(--color-ink)]">Copy page</div>
+        <div class="text-[var(--color-ink-muted)] text-[10px]">Copy as Markdown for LLMs</div>
+      </div>
+    </button>
+
+    <a class="cfai-action" href={`https://claude.ai/new?q=${claudePrompt}`} target="_blank" rel="noopener" role="menuitem" data-action="open-claude">
+      <svg class="size-4 shrink-0 opacity-60" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15l-1-1 4-4-4-4 1-1 5 5-5 5z" opacity="0.7"/></svg>
+      <div>
+        <div class="font-semibold text-[var(--color-ink)]">Open in Claude</div>
+        <div class="text-[var(--color-ink-muted)] text-[10px]">Ask questions about this page</div>
+      </div>
+      <svg class="size-3 shrink-0 opacity-30 ml-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+    </a>
+
+    <a class="cfai-action" href={`https://chat.openai.com/?q=${chatgptPrompt}`} target="_blank" rel="noopener" role="menuitem" data-action="open-chatgpt">
+      <svg class="size-4 shrink-0 opacity-60" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10" opacity="0.15"/><path d="M12 7v5l3 3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <div>
+        <div class="font-semibold text-[var(--color-ink)]">Open in ChatGPT</div>
+        <div class="text-[var(--color-ink-muted)] text-[10px]">Ask questions about this page</div>
+      </div>
+      <svg class="size-3 shrink-0 opacity-30 ml-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+    </a>
+
+    <div class="border-t border-[var(--color-cloud-grey)] my-1.5"></div>
+
+    <button class="cfai-action cfai-copy-url" role="menuitem" data-action="copy-url">
+      <svg class="size-4 shrink-0 opacity-60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+      <div>
+        <div class="font-semibold text-[var(--color-ink)]">Copy link</div>
+        <div class="text-[var(--color-ink-muted)] text-[10px]">Share this page</div>
+      </div>
+    </button>
+  </div>
+</div>
 
 <script is:inline>
-  document.addEventListener('click', function(e) {
-    var btn = e.target.closest('.copy-for-ai-btn');
-    if (!btn) return;
+  (function() {
+    // Toggle dropdown
+    document.addEventListener('click', function(e) {
+      var trigger = e.target.closest('.cfai-trigger');
+      var wrap = e.target.closest('.cfai-wrap');
 
-    var title = btn.getAttribute('data-title') || '';
-    var section = btn.getAttribute('data-section') || '';
-    var url = btn.getAttribute('data-url') || '';
+      // Close all dropdowns first
+      document.querySelectorAll('.cfai-menu').forEach(function(m) {
+        if (!wrap || m.parentElement !== wrap) {
+          m.classList.add('hidden');
+          var btn = m.parentElement.querySelector('.cfai-trigger');
+          if (btn) btn.setAttribute('aria-expanded', 'false');
+        }
+      });
 
-    // Find the article content
-    var content = document.querySelector('.grove-prose') || document.querySelector('.blog-content');
-    if (!content) return;
+      if (trigger) {
+        var menu = wrap.querySelector('.cfai-menu');
+        var isOpen = !menu.classList.contains('hidden');
+        menu.classList.toggle('hidden');
+        trigger.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+        e.preventDefault();
+        return;
+      }
 
-    // Clone and clean
-    var clone = content.cloneNode(true);
-    var removeTags = clone.querySelectorAll('nav, aside, script, style, .copy-for-ai-btn');
-    removeTags.forEach(function(el) { el.remove(); });
+      // Handle menu actions
+      var action = e.target.closest('.cfai-action');
+      if (!action) return;
+      var actionType = action.getAttribute('data-action');
+      var parentWrap = action.closest('.cfai-wrap');
+      var title = parentWrap.getAttribute('data-title') || '';
+      var section = parentWrap.getAttribute('data-section') || '';
+      var url = parentWrap.getAttribute('data-url') || window.location.href;
 
-    // Convert headings to markdown-style
-    var headings = clone.querySelectorAll('h1, h2, h3, h4, h5, h6');
-    headings.forEach(function(h) {
-      var level = parseInt(h.tagName.charAt(1), 10);
-      var prefix = '';
-      for (var i = 0; i < level; i++) prefix += '#';
-      var text = h.textContent.trim();
-      var placeholder = document.createTextNode('\n' + prefix + ' ' + text + '\n');
-      h.replaceWith(placeholder);
-    });
+      // GA event tracking
+      if (typeof gtag === 'function') {
+        gtag('event', 'copy_for_ai', {
+          event_category: 'engagement',
+          event_label: actionType,
+          page_title: title,
+          page_section: section,
+        });
+      }
 
-    // Build header
-    var header = '# ' + title + '\n';
-    if (section) header += 'Section: ' + section + '\n';
-    if (url) header += 'URL: ' + url + '\n';
-    header += '\n';
+      if (actionType === 'copy-md') {
+        e.preventDefault();
+        var content = document.querySelector('.grove-prose') || document.querySelector('.blog-content');
+        if (!content) return;
 
-    // Get text
-    var bodyText = clone.textContent
-      .replace(/\n{3,}/g, '\n\n')
-      .trim();
+        var clone = content.cloneNode(true);
+        clone.querySelectorAll('nav, aside, script, style, .cfai-wrap').forEach(function(el) { el.remove(); });
 
-    var fullText = header + bodyText;
+        // Convert headings to markdown
+        clone.querySelectorAll('h1, h2, h3, h4, h5, h6').forEach(function(h) {
+          var level = parseInt(h.tagName.charAt(1), 10);
+          var prefix = '';
+          for (var i = 0; i < level; i++) prefix += '#';
+          h.replaceWith(document.createTextNode('\n' + prefix + ' ' + h.textContent.trim() + '\n'));
+        });
 
-    // Copy to clipboard
-    navigator.clipboard.writeText(fullText).then(function() {
-      var label = btn.querySelector('.copy-for-ai-label');
-      if (label) {
-        label.textContent = 'Copied!';
-        setTimeout(function() {
-          label.textContent = 'Copy for AI';
-        }, 2000);
+        // Convert lists
+        clone.querySelectorAll('li').forEach(function(li) {
+          li.replaceWith(document.createTextNode('- ' + li.textContent.trim() + '\n'));
+        });
+
+        // Convert code blocks
+        clone.querySelectorAll('pre code').forEach(function(code) {
+          code.parentElement.replaceWith(document.createTextNode('\n```\n' + code.textContent + '\n```\n'));
+        });
+
+        var header = '# ' + title + '\n';
+        if (section) header += 'Section: ' + section + '\n';
+        header += 'URL: ' + url + '\n\n';
+
+        var bodyText = clone.textContent.replace(/\n{3,}/g, '\n\n').trim();
+        navigator.clipboard.writeText(header + bodyText).then(function() {
+          var label = action.querySelector('.font-semibold');
+          if (label) {
+            var orig = label.textContent;
+            label.textContent = 'Copied!';
+            setTimeout(function() { label.textContent = orig; }, 2000);
+          }
+        });
+
+        // Close menu
+        parentWrap.querySelector('.cfai-menu').classList.add('hidden');
+      }
+
+      if (actionType === 'copy-url') {
+        e.preventDefault();
+        navigator.clipboard.writeText(url).then(function() {
+          var label = action.querySelector('.font-semibold');
+          if (label) {
+            var orig = label.textContent;
+            label.textContent = 'Copied!';
+            setTimeout(function() { label.textContent = orig; }, 2000);
+          }
+        });
+        parentWrap.querySelector('.cfai-menu').classList.add('hidden');
+      }
+
+      // Links (Open in Claude/ChatGPT) handle themselves via href
+      if (actionType === 'open-claude' || actionType === 'open-chatgpt') {
+        parentWrap.querySelector('.cfai-menu').classList.add('hidden');
       }
     });
-  });
+
+    // Close on Escape
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.cfai-menu').forEach(function(m) {
+          m.classList.add('hidden');
+        });
+      }
+    });
+  })();
 </script>
+
+<style>
+  .cfai-action {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    text-align: left;
+    transition: background 0.1s ease;
+    font-family: inherit;
+    font-size: inherit;
+  }
+  .cfai-action:hover {
+    background: var(--color-mist-grey, #F5F6F7);
+  }
+</style>
