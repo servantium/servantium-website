@@ -1,0 +1,27 @@
+---
+title: "v1.2.1 - Platform scroll and design polish"
+description: "Fixed scroll behavior, refined visual details, and improved caching for static assets."
+date: "2026-04-16"
+version: "1.2.1"
+repo: "servantium-website"
+badge:
+  text: Improvement
+  variant: note
+---
+
+import { Aside } from '@/theme/grove/components';
+
+## What changed
+
+This release fixes a scroll issue on the platform page and refines several visual details across the marketing site. Form inputs no longer appear in static HTML, preventing unwanted scroll anchors. The ROI calculator now uses dynamic injection and global styles. Hero card CTAs have been simplified to clean text links, and What's New cards use larger rounded corners with centered content.
+
+## Why it matters
+
+- Smoother page load experience with no unintended scroll jumps
+- Cleaner visual hierarchy across hero sections and feature cards
+- Faster repeat visits through improved static asset caching
+- More inviting help section with a warm gradient background
+
+<Aside type="tip">
+Static assets now cache indefinitely (immutable), while HTML stays fresh. Clear your browser cache if you see stale imagery after this release.
+</Aside>
