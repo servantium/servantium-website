@@ -1,0 +1,26 @@
+---
+title: "v1.3.0 - Content status controls and accessibility improvements"
+description: "New content status field with published/draft/hidden states, WCAG 2.1 AA accessibility fixes, and asteroids game enhancements."
+date: "2026-04-16"
+version: "1.3.0"
+repo: "servantium-website"
+badge:
+  text: Improvement
+  variant: note
+---
+
+import { Aside } from '@/theme/grove/components';
+
+## What changed
+
+The marketing site now includes a content status field across all collections (blog, docs, resources, comparisons, customers, press). Content can be marked as published, draft, or hidden. Draft content appears in development but is filtered out in production. Hidden content is excluded everywhere. We also made 15 accessibility fixes to meet WCAG 2.1 AA standards, including proper ARIA labels, focus traps for modals and mobile menus, keyboard navigation improvements, and semantic HTML corrections. The asteroids game now includes pause functionality (press P), thrust particles, improved game-over messages with high scores, and level indicators.
+
+## Why it matters
+
+- Authors can safely stage content in production without worrying about premature visibility
+- Screen reader users and keyboard-only navigation now work correctly across the entire site
+- Focus management in modals prevents users from tabbing outside active dialogs
+
+<Aside type="tip">
+Use `status: "draft"` in frontmatter to hide content in production while keeping it visible during local development. Use `status: "hidden"` to exclude content entirely.
+</Aside>
