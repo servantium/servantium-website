@@ -240,13 +240,13 @@ const releaseNotes = allDocs
         const icon = icons[i % icons.length];
 
         return (
-          <a href={item.href} class="group relative flex flex-col items-center text-center rounded-2xl border border-[var(--color-cloud-grey)] bg-white p-5 pt-6 pb-4 no-underline [text-decoration:none] transition-all duration-200 hover:-translate-y-1 hover:shadow-lg hover:border-[var(--color-pale-green)]">
+          <a href={item.href} class="group relative flex flex-col items-center text-center rounded-2xl border border-[var(--color-cloud-grey)] bg-white p-6 pt-7 pb-5 no-underline [text-decoration:none] transition-all duration-200 hover:-translate-y-1 hover:shadow-lg hover:border-[var(--color-pale-green)]">
             {/* Version badge */}
-            <span class="absolute top-2.5 right-2.5 text-[10px] font-bold px-1.5 py-0.5 rounded-full" style={`background: ${style.badgeBg}; color: ${style.badgeText};`}>{item.version}</span>
+            <span class="absolute top-3 right-3 text-[11px] font-semibold px-2.5 py-1 rounded-lg leading-none" style={`background: ${style.badgeBg}; color: ${style.badgeText};`}>{item.version}</span>
             {/* Icon */}
-            <span class="flex items-center justify-center w-12 h-12 mb-3 [text-decoration:none]" style={`color: ${style.iconColor};`} set:html={icon} />
+            <span class="flex items-center justify-center w-14 h-14 mb-4 rounded-xl [text-decoration:none]" style={`color: ${style.iconColor}; background: ${style.badgeBg};`} set:html={icon} />
             {/* Label */}
-            <span class="block text-sm font-bold text-[var(--color-ink)] [text-decoration:none] leading-tight">{item.label}</span>
+            <span class="block text-[13px] font-bold text-[var(--color-ink)] [text-decoration:none] leading-snug">{item.label}</span>
           </a>
         );
       })}

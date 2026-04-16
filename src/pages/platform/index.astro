@@ -483,17 +483,17 @@ const jsonLd = {
 
           <div class="roi-field">
             <label for="roi-consultants">Billable consultants</label>
-            <input type="number" id="roi-consultants" value="25" min="1" max="500" />
+            <input type="number" id="roi-consultants" value="25" min="1" max="500" autocomplete="off" tabindex="-1" />
           </div>
 
           <div class="roi-field">
             <label for="roi-rate">Average billing rate ($/hr)</label>
-            <input type="number" id="roi-rate" value="200" min="50" max="1000" step="10" />
+            <input type="number" id="roi-rate" value="200" min="50" max="1000" step="10" autocomplete="off" tabindex="-1" />
           </div>
 
           <div class="roi-field">
             <label for="roi-utilization">Current utilization (%)</label>
-            <input type="number" id="roi-utilization" value="69" min="40" max="95" />
+            <input type="number" id="roi-utilization" value="69" min="40" max="95" autocomplete="off" tabindex="-1" />
             <span class="roi-hint">Industry avg: 68.9% (SPI Research 2025)</span>
           </div>
 
@@ -1197,10 +1197,10 @@ const jsonLd = {
     document.addEventListener('DOMContentLoaded', snapTop);
     window.addEventListener('load', snapTop);
     [50, 150, 350, 750, 1500].forEach(function(ms) { setTimeout(snapTop, ms); });
-    // Also catch: if the range input ever steals focus on load, blur it.
+    // Also catch: if ANY input steals focus on load (range slider, ROI number fields), blur it.
     setTimeout(function() {
       var active = document.activeElement;
-      if (active && active.tagName === 'INPUT' && active.type === 'range' && !userInteracted) {
+      if (active && active.tagName === 'INPUT' && !userInteracted) {
         active.blur();
         snapTop();
       }
