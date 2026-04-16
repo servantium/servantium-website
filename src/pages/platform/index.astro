@@ -393,14 +393,8 @@ const jsonLd = {
               <p class="text-sm text-[var(--color-ink-muted)]" id="price-note">Includes 5 users. Every feature.</p>
               <p class="text-xs text-[var(--color-ink-muted)] mt-1 opacity-70" id="price-per-user">$100/user effective</p>
             </div>
-            <div class="flex-1 max-w-xs">
-              <label class="block text-xs font-semibold text-[var(--color-ink-muted)] uppercase tracking-wider mb-2" for="user-slider">Team size</label>
-              <input type="range" id="user-slider" min="1" max="50" value="5" class="pricing-slider w-full mb-1" autocomplete="off" tabindex="-1" />
-              <div class="flex justify-between text-xs text-[var(--color-ink-muted)]">
-                <span>1</span>
-                <span class="font-semibold text-[var(--color-ink-light)]" id="slider-user-count">5 users</span>
-                <span>50</span>
-              </div>
+            <div class="flex-1 max-w-xs" id="slider-container">
+              <!-- Slider injected by JS to prevent browser form restoration scroll -->
             </div>
             <div class="flex flex-col gap-2">
               <button
@@ -1078,6 +1072,22 @@ const jsonLd = {
 
 <script is:inline>
   function initPricingSlider() {
+    // Inject the slider into the DOM on first init so it doesn't exist
+    // at page load time. This prevents browser form restoration from
+    // finding and focusing it, which was scrolling the page down.
+    var container = document.getElementById('slider-container');
+    if (container && !container.dataset.injected) {
+      container.dataset.injected = '1';
+      container.innerHTML =
+        '<label class="block text-xs font-semibold text-[var(--color-ink-muted)] uppercase tracking-wider mb-2" for="user-slider">Team size</label>' +
+        '<input type="range" id="user-slider" min="1" max="50" value="5" class="pricing-slider w-full mb-1" autocomplete="off" />' +
+        '<div class="flex justify-between text-xs text-[var(--color-ink-muted)]">' +
+        '<span>1</span>' +
+        '<span class="font-semibold text-[var(--color-ink-light)]" id="slider-user-count">5 users</span>' +
+        '<span>50</span>' +
+        '</div>';
+    }
+
     var slider = document.getElementById('user-slider');
     var countEl = document.getElementById('slider-user-count');
     var amountEl = document.getElementById('price-amount');
@@ -1085,8 +1095,6 @@ const jsonLd = {
     var noteEl = document.getElementById('price-note');
     if (!slider) return;
 
-    // Reset slider to default value to prevent browser form-restoration
-    // from scrolling the page to the slider element on fresh load
     slider.value = '5';
 
     var perUserEl = document.getElementById('price-per-user');
