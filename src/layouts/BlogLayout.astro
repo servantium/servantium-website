@@ -204,7 +204,7 @@ const relatedPosts = allPosts
   <div class="mx-auto max-w-4xl px-4 sm:px-6">
     <div class={`blog-layout-grid relative ${hideAuthor ? 'blog-layout-grid--legal' : ''}`}>
       {/* -- Article Content -- */}
-      <article class="article-content pb-12 md:pb-16 min-w-0" data-pagefind-body>
+      <article class="article-content pb-12 md:pb-16 min-w-0" data-pagefind-body data-pagefind-filter="section:Blog" data-pagefind-meta="section:Blog">
         <slot />
       </article>
 
@@ -218,9 +218,9 @@ const relatedPosts = allPosts
       {/* -- CTA Section -- */}
       <section class="mx-auto max-w-4xl px-4 sm:px-6 pb-12 md:pb-16">
         <div class="rounded-2xl bg-gradient-to-br from-[var(--color-soft-mint)] to-[var(--color-mint-tint)] p-8 md:p-10 text-center border border-[var(--color-pale-green)]">
-          <h3 class="font-[family-name:var(--font-display)] text-2xl md:text-[1.75rem] text-[var(--color-ink)] mb-3 leading-snug">
+          <h2 class="font-[family-name:var(--font-display)] text-2xl md:text-[1.75rem] text-[var(--color-ink)] mb-3 leading-snug">
             Ready to encode your services?
-          </h3>
+          </h2>
           <p class="text-[var(--color-ink-muted)] mb-6 max-w-md mx-auto leading-relaxed">
             See how Servantium brings CPQ discipline to professional services.
           </p>

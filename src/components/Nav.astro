@@ -184,6 +184,9 @@ const navLinks: NavLink[] = [
               <a href={item.href} class="mobile-dropdown-link">{item.label}</a>
             ))
           ))}
+          {link.id === 'resources' && (
+            <a href="/resources/" class="mobile-dropdown-link" style="font-weight: 600; color: var(--color-green);">Browse the Resources Hub</a>
+          )}
         </div>
       </div>
     ) : (

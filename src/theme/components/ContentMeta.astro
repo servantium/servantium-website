@@ -1,0 +1,75 @@
+---
+/**
+ * ContentMeta -- Shared article metadata row (date, reading time, author).
+ * Used by DocsLayout and BlogLayout.
+ */
+
+interface Props {
+  date?: string;
+  readingTime?: string;
+  author?: string;
+  authorData?: { name: string; avatar: string; role?: string };
+}
+
+const { date, readingTime, author, authorData } = Astro.props;
+
+function formatDate(raw: string): string {
+  const d = new Date(raw);
+  return d.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+}
+
+const hasContent = date || readingTime || author || authorData;
+---
+
+{hasContent && (
+  <div class="text-xs text-[var(--color-ink-muted)] flex items-center gap-4 flex-wrap">
+    {/* Date */}
+    {date && (
+      <span class="inline-flex items-center gap-1.5">
+        <svg class="size-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+          <line x1="16" y1="2" x2="16" y2="6" />
+          <line x1="8" y1="2" x2="8" y2="6" />
+          <line x1="3" y1="10" x2="21" y2="10" />
+        </svg>
+        <time datetime={date}>{formatDate(date)}</time>
+      </span>
+    )}
+
+    {/* Reading time */}
+    {readingTime && (
+      <span class="inline-flex items-center gap-1.5">
+        <svg class="size-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10" />
+          <polyline points="12 6 12 12 16 14" />
+        </svg>
+        {readingTime}
+      </span>
+    )}
+
+    {/* Author */}
+    {(authorData || author) && (
+      <span class="inline-flex items-center gap-1.5">
+        {authorData?.avatar ? (
+          <img
+            src={authorData.avatar}
+            alt={authorData.name}
+            class="size-6 rounded-full object-cover"
+            width="24"
+            height="24"
+          />
+        ) : (
+          <svg class="size-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
+        )}
+        {authorData?.name || author}
+      </span>
+    )}
+  </div>
+)}
