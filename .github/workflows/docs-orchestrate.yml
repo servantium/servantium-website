@@ -148,7 +148,8 @@ jobs:
           PR_TITLE=$(jq -r '.title // ""' /tmp/pr.json | head -c 300)
           PR_BODY=$(jq -r '.body // ""' /tmp/pr.json | head -c 2000)
           PR_URL=$(jq -r '.url // ""' /tmp/pr.json)
-          ACTIONS=$(cat /tmp/actions.json)
+          # Orchestrator outputs {"actions": [...]} -- extract just the array
+          ACTIONS=$(jq '.actions // .' /tmp/actions.json)
 
           curl -sS --max-time 15 -X POST \
             -H "Authorization: Bearer $PORTAL_WEBHOOK_SECRET" \
