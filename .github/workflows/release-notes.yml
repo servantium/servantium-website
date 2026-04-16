@@ -162,10 +162,15 @@ jobs:
           fi
           if [ "$STATUS" = "0" ] && [ -s /tmp/agent.json ] && jq -e '.systemPrompt' /tmp/agent.json > /dev/null 2>&1; then
             jq -r '.systemPrompt' /tmp/agent.json > /tmp/system.md
+            # Extract banned words and post-processing rules from portal
+            jq -r '.bannedWords // [] | @json' /tmp/agent.json > /tmp/banned-words.json
+            jq -r '.postRules // [] | @json' /tmp/agent.json > /tmp/post-rules.json
             echo "source=portal" >> $GITHUB_OUTPUT
-            echo "Fetched live prompt from portal"
+            echo "Fetched live prompt + banned words + post-rules from portal"
           else
             cp .github/claude-prompts/release-note.system.md /tmp/system.md
+            echo '[]' > /tmp/banned-words.json
+            echo '[]' > /tmp/post-rules.json
             echo "source=committed" >> $GITHUB_OUTPUT
             echo "Using committed prompt (portal unavailable or unconfigured)"
           fi
@@ -190,6 +195,20 @@ jobs:
                         '{event: $event, gh_run_id: $gh_run_id, gh_run_url: $gh_run_url, pr_number: ($pr|tonumber? // null), version: $version, repo: $repo, prompt_source: $prompt_source}')" \
             || true
 
+      - name: Inject banned words into context
+        run: |
+          # If banned words exist, append them to the PR context JSON so
+          # Claude sees them alongside the diff. This is additive context,
+          # not negative prompting -- we tell Claude what the words are and
+          # ask it to avoid them, which works better than "don't use X".
+          BANNED=$(cat /tmp/banned-words.json 2>/dev/null || echo '[]')
+          if [ "$BANNED" != "[]" ] && [ -n "$BANNED" ]; then
+            jq --argjson bw "$BANNED" '. + {banned_words: $bw, banned_words_instruction: "IMPORTANT: Do not use any of these words or phrases in your output. Find alternative phrasing instead."}' /tmp/pr.json > /tmp/pr.tmp && mv /tmp/pr.tmp /tmp/pr.json
+            echo "Injected banned words into context: $BANNED"
+          else
+            echo "No banned words to inject"
+          fi
+
       - name: Generate release note
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -202,14 +221,35 @@ jobs:
             --model "$CLAUDE_MODEL" \
             --max-tokens 2048
 
-      - name: Post-process MDX (deterministic style fixes)
+      - name: Post-process MDX (deterministic style fixes from portal)
         run: |
-          # Replace em dashes with " - " (Claude ignores the prompt rule)
-          sed -i 's/—/ - /g' /tmp/note.mdx
-          sed -i 's/–/ - /g' /tmp/note.mdx
-          # Ensure date is quoted in frontmatter (prevents YAML Date parsing)
-          sed -i 's/^date: \([0-9]\{4\}-[0-9]\{2\}-[0-9]\{2\}\)$/date: "\1"/' /tmp/note.mdx
-          echo "Post-processed /tmp/note.mdx"
+          # Apply post-processing rules fetched from the portal agent config.
+          # Falls back to hardcoded defaults if portal rules aren't available.
+          RULES=$(cat /tmp/post-rules.json 2>/dev/null || echo '[]')
+          if [ "$RULES" = "[]" ] || [ -z "$RULES" ]; then
+            # Fallback: hardcoded defaults
+            sed -i 's/—/ - /g' /tmp/note.mdx
+            sed -i 's/–/ - /g' /tmp/note.mdx
+            sed -i 's/^date: \([0-9]\{4\}-[0-9]\{2\}-[0-9]\{2\}\)$/date: "\1"/' /tmp/note.mdx
+            echo "Applied hardcoded post-processing rules (portal unavailable)"
+          else
+            # Apply portal rules via node one-liner for proper JSON + regex handling
+            node -e "
+              const fs = require('fs');
+              const rules = JSON.parse(fs.readFileSync('/tmp/post-rules.json', 'utf8'));
+              let mdx = fs.readFileSync('/tmp/note.mdx', 'utf8');
+              for (const rule of rules) {
+                if (rule.regex) {
+                  mdx = mdx.replace(new RegExp(rule.find, 'gm'), rule.replace);
+                } else {
+                  mdx = mdx.split(rule.find).join(rule.replace);
+                }
+                console.log('Applied:', rule.label || rule.find);
+              }
+              fs.writeFileSync('/tmp/note.mdx', mdx);
+            "
+            echo "Applied $(echo "$RULES" | jq length) post-processing rules from portal"
+          fi
           head -10 /tmp/note.mdx
 
       - name: Open preview PR
