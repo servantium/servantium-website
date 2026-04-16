@@ -240,10 +240,10 @@ const releaseNotes = allDocs
         const icon = icons[i % icons.length];
 
         return (
-          <a href={item.href} class="group rounded-2xl p-5 pb-4 no-underline [text-decoration:none] transition-all duration-300 hover:-translate-y-1 hover:shadow-xl" style={`background: linear-gradient(135deg, ${style.bg} 0%, ${style.bg}dd 100%); border: 1px solid ${style.iconColor}18;`}>
-            <span class="flex items-center justify-center w-9 h-9 rounded-lg mb-3 [text-decoration:none]" style={`color: ${style.iconColor}; background: ${style.iconColor}15;`} set:html={icon} />
-            <span class="block text-[13px] font-bold leading-tight mb-1 [text-decoration:none]" style={`color: ${style.color};`}>{item.label}</span>
-            <span class="block text-[11px] [text-decoration:none]" style={`color: ${style.color}; opacity: 0.5;`}>{item.version} &middot; {item.date || 'March 2026'}</span>
+          <a href={item.href} class="group rounded-[20px] p-5 pb-4 no-underline [text-decoration:none] transition-all duration-300 hover:-translate-y-1 hover:shadow-xl" style={`background: ${style.bg}; border: 1.5px solid ${style.iconColor}20;`}>
+            <span class="flex items-center justify-center w-10 h-10 rounded-xl mb-3 [text-decoration:none]" style={`color: ${style.iconColor}; background: white; box-shadow: 0 1px 3px ${style.iconColor}20;`} set:html={icon} />
+            <span class="block text-[13px] font-semibold leading-tight mb-1.5 [text-decoration:none]" style={`color: ${style.color};`}>{item.label}</span>
+            <span class="block text-[11px] font-medium [text-decoration:none]" style={`color: ${style.iconColor}; opacity: 0.7;`}>{item.version} &middot; {item.date || 'March 2026'}</span>
           </a>
         );
       })}
