@@ -18,6 +18,7 @@ const releaseNotes = allDocs
     description: doc.data.description,
     date: doc.data.date,
     version: doc.data.version,
+    repo: doc.data.repo,
     badge: doc.data.badge,
   }));
 ---
@@ -32,5 +33,5 @@ const releaseNotes = allDocs
     A timeline of everything we've shipped. New features, improvements, and fixes.
   </p>
 
-  <ReleaseTimeline entries={releaseNotes} />
+  <ReleaseTimeline entries={releaseNotes} showFilter={true} />
 </DocsLayout>
