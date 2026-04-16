@@ -202,6 +202,16 @@ jobs:
             --model "$CLAUDE_MODEL" \
             --max-tokens 2048
 
+      - name: Post-process MDX (deterministic style fixes)
+        run: |
+          # Replace em dashes with " - " (Claude ignores the prompt rule)
+          sed -i 's/—/ - /g' /tmp/note.mdx
+          sed -i 's/–/ - /g' /tmp/note.mdx
+          # Ensure date is quoted in frontmatter (prevents YAML Date parsing)
+          sed -i 's/^date: \([0-9]\{4\}-[0-9]\{2\}-[0-9]\{2\}\)$/date: "\1"/' /tmp/note.mdx
+          echo "Post-processed /tmp/note.mdx"
+          head -10 /tmp/note.mdx
+
       - name: Open preview PR
         id: openpr
         env:
