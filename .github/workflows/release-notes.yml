@@ -89,11 +89,39 @@ jobs:
           esac
           echo "pr=$PR" >> $GITHUB_OUTPUT
 
-          # Version: honour explicit input; otherwise leave blank and let the
-          # prompt fall back to auto-bump. Defaults to 0.0.0 so the context
-          # file always has the key.
+          # Version: honour explicit input, otherwise auto-increment from the
+          # latest release note in the repo. Reads PR labels to determine bump:
+          #   release:major → X.0.0
+          #   release:minor → x.Y.0
+          #   release:patch or no label → x.y.Z
           VERSION="${{ inputs.version || github.event.client_payload.version || '' }}"
-          if [ -z "$VERSION" ]; then VERSION="auto"; fi
+          if [ -z "$VERSION" ] || [ "$VERSION" = "auto" ]; then
+            # Find the highest version from existing release note frontmatter
+            LATEST=$(grep -rh '^version:' src/content/docs/help/release-notes/*.mdx 2>/dev/null \
+              | sed 's/version: *"*//;s/"*$//' \
+              | sort -t. -k1,1n -k2,2n -k3,3n \
+              | tail -1)
+            if [ -z "$LATEST" ]; then LATEST="1.0.0"; fi
+            MAJOR=$(echo "$LATEST" | cut -d. -f1)
+            MINOR=$(echo "$LATEST" | cut -d. -f2)
+            PATCH=$(echo "$LATEST" | cut -d. -f3)
+
+            # Check PR labels for bump type (only for PR triggers)
+            BUMP="patch"
+            if [ -n "$PR" ]; then
+              LABELS=$(gh pr view "$PR" --json labels --jq '.labels[].name' 2>/dev/null || echo "")
+              if echo "$LABELS" | grep -q "release:major"; then BUMP="major"
+              elif echo "$LABELS" | grep -q "release:minor"; then BUMP="minor"
+              fi
+            fi
+
+            case "$BUMP" in
+              major) VERSION="$((MAJOR + 1)).0.0" ;;
+              minor) VERSION="${MAJOR}.$((MINOR + 1)).0" ;;
+              patch) VERSION="${MAJOR}.${MINOR}.$((PATCH + 1))" ;;
+            esac
+            echo "Auto-incremented: $LATEST -> $VERSION (bump=$BUMP)"
+          fi
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
           REPO="${{ inputs.repo || github.event.client_payload.repo || 'servantium-website' }}"
