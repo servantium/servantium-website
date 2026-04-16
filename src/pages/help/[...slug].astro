@@ -1,10 +1,11 @@
 ---
 import DocsLayout from '@/theme/grove/DocsLayout.astro';
 import { getCollection, render } from 'astro:content';
+import { filterByStatus } from '@/lib/content-filter';
 import { docsNav } from '@/data/docs-nav';
 
 export async function getStaticPaths() {
-  const docs = await getCollection('docs');
+  const docs = filterByStatus(await getCollection('docs'));
 
   // Build a flat ordered list of all nav slugs for prev/next calculation
   const flatNavSlugs: { label: string; slug: string }[] = [];

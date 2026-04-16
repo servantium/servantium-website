@@ -99,6 +99,8 @@ const hostId = `${smId}-host`;
 
     var opened = false;
     var pagefindReady = false;
+    var removeFocusTrap = null;
+    var triggerElement = null;
 
     function ensurePagefindScript() {
       return new Promise(function(resolve, reject) {
@@ -319,6 +321,7 @@ const hostId = `${smId}-host`;
 
     function openModal() {
       if (opened) return;
+      triggerElement = document.activeElement;
       // Close any other open SearchModal on the page first.
       document.querySelectorAll('.sm-modal').forEach(function(m) {
         if (m !== modal && !m.hidden) {
@@ -331,15 +334,37 @@ const hostId = `${smId}-host`;
       document.body.style.overflow = 'hidden';
 
       // Initialize Pagefind first, then set the default tab.
-      // This ordering ensures the tab buttons exist in the DOM before
-      // we try to activate one.
       initPagefind();
 
-      // Set the initial active tab AFTER the modal is visible.
-      // Use rAF to ensure the segmented control has painted.
       requestAnimationFrame(function() {
         setActiveTab(defaultFilter || 'all');
       });
+
+      // Focus trap for the modal panel
+      var panel = modal.querySelector('.sm-panel');
+      if (panel) {
+        var focusable = panel.querySelectorAll(
+          'a[href], button:not([disabled]), input, textarea, select, [tabindex]:not([tabindex="-1"])'
+        );
+        var first = focusable[0];
+        var last = focusable[focusable.length - 1];
+        function trapHandler(e) {
+          if (e.key !== 'Tab') return;
+          // Re-query focusable since Pagefind may add inputs dynamically
+          var current = panel.querySelectorAll(
+            'a[href], button:not([disabled]), input, textarea, select, [tabindex]:not([tabindex="-1"])'
+          );
+          var f = current[0];
+          var l = current[current.length - 1];
+          if (e.shiftKey && document.activeElement === f) {
+            e.preventDefault(); l.focus();
+          } else if (!e.shiftKey && document.activeElement === l) {
+            e.preventDefault(); f.focus();
+          }
+        }
+        panel.addEventListener('keydown', trapHandler);
+        removeFocusTrap = function() { panel.removeEventListener('keydown', trapHandler); };
+      }
 
       if (pagefindReady) {
         setTimeout(function() {
@@ -351,9 +376,11 @@ const hostId = `${smId}-host`;
 
     function closeModal() {
       if (!opened) return;
+      if (removeFocusTrap) { removeFocusTrap(); removeFocusTrap = null; }
       opened = false;
       modal.hidden = true;
       document.body.style.overflow = '';
+      if (triggerElement && triggerElement.focus) { triggerElement.focus(); triggerElement = null; }
     }
 
     document.addEventListener('click', function(e) {

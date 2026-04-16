@@ -6,9 +6,10 @@ import FeaturedPost from '@/theme/blog/FeaturedPost.astro';
 import BubbleGrid from '@/theme/blog/BubbleGrid.astro';
 import BlogSearch from '@/theme/blog/BlogSearch.astro';
 import { getCollection } from 'astro:content';
+import { filterByStatus } from '@/lib/content-filter';
 import { authors } from '@/data/authors';
 
-const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const allPosts = filterByStatus(await getCollection('blog', ({ data }) => !data.draft));
 const posts = allPosts.sort(
   (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
 );

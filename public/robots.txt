@@ -5,7 +5,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://servantium.com/sitemap.xml
+Sitemap: https://servantium.com/sitemap-index.xml
 
 # LLMs.txt for AI assistants
 # See https://llmstxt.org for specification
