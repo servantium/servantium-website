@@ -5,9 +5,11 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Strict-Transport-Security: max-age=31536000; includeSubDomains
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), interest-cohort=()
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' blob: https://app.cal.com https://www.googletagmanager.com https://static.cloudflareinsights.com; worker-src 'self' blob:; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' blob: data: https://contact.servantium.com https://leads.servantium.com https://cal.com https://*.google-analytics.com https://cloudflareinsights.com; frame-src https://app.cal.com; font-src 'self'
 
-# Hashed static assets (CSS/JS with fingerprinted filenames) can cache longer.
-# Pagefind files regenerate every build with new hashes, so they also get max-age=0
-# from the global rule above. No separate /pagefind/* block needed — the global
-# CSP already includes unsafe-eval + wasm-unsafe-eval + worker-src blob:.
+# CSP is enforced via <meta> tag in BaseLayout.astro instead of a response
+# header. Reason: Pagefind spawns a dedicated Web Worker that compiles WASM.
+# When CSP is set as a response header, Chrome applies it to the worker's
+# execution context too, blocking WebAssembly.instantiate() even with
+# unsafe-eval. A <meta> CSP only applies to the document context and does
+# not restrict workers, so Pagefind WASM loads cleanly.
+# The pages.dev preview domain works because it has no CSP at all.
