@@ -1949,8 +1949,24 @@
         @media (max-width: 768px) {
             .problem-stats { grid-template-columns: 1fr; }
 
-            /* Mobile hero fix */
-            .hero { min-height: auto; padding-top: 80px; padding-bottom: var(--space-lg); }
+            /* Mobile hero fix: the desktop hero is 100vh to anchor the logo bar
+               at the bottom. On mobile the mockup is hidden, so a 100vh hero
+               creates a huge empty gap between the CTAs and the next section.
+               Reset all the height constraints and let content size it. */
+            .hero {
+                height: auto;
+                max-height: none;
+                min-height: auto;
+                padding-top: 80px;
+                padding-bottom: var(--space-lg);
+            }
+            /* The logo bar can't live inside a flexible hero on mobile -- push
+               it out of the flex chain so it sits below the CTAs normally. */
+            .hero > .container { flex: 0 0 auto; }
+            /* Scale the h1 down on phones so "The operating system for" doesn't
+               break into 3+ lines. The global clamp min (2.5rem) is too large
+               for 390px viewports. */
+            .hero h1 { font-size: clamp(1.9rem, 7vw, 2.4rem) !important; line-height: 1.15; }
             .hero-text { max-width: 100%; }
             .hero-visual {
                 width: 100%;
