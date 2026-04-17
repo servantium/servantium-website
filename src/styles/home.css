@@ -1956,9 +1956,9 @@
             .hero {
                 height: auto;
                 max-height: none;
-                min-height: auto;
-                padding-top: 76px;
-                padding-bottom: var(--space-md);
+                min-height: 100vh;
+                padding-top: calc(76px + var(--space-lg));
+                padding-bottom: var(--space-xl);
             }
             .hero > .container {
                 flex: 0 0 auto;
