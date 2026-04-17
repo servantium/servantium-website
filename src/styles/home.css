@@ -1201,6 +1201,10 @@
             aspect-ratio: 16 / 10;
             display: flex;
             align-items: stretch;
+            /* Never let the mockup overflow the viewport. Safari + tablet
+               breakpoints were clipping the right edge because width: 115%
+               could exceed the screen width. */
+            max-width: calc(100vw - var(--space-md, 1.5rem));
         }
 
         /* Hero text (single variant — light only) */

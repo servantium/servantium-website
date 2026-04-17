@@ -65,7 +65,9 @@
 html {
     scroll-behavior: smooth;
     font-size: 18px;
-    height: 100%;
+    /* No explicit height on html. Safari treats html{height:100%} + body flex
+       as a single-viewport scroll container, locking scroll past the first
+       screen. Let html auto-size and use min-height on body instead. */
 }
 
 /* Full-height layout: push footer to bottom on short pages */
@@ -73,6 +75,8 @@ html {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    /* Safari: guarantee body is the scroll container, not a nested one */
+    overflow-x: hidden;
 }
 
 .site-main {
