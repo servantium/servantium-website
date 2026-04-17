@@ -4,6 +4,28 @@ name: Docs Pipeline - Write
 # proposed actions. Writes/updates MDX files and opens a single bot PR.
 
 on:
+  # Primary trigger: workflow_dispatch by filename works from any branch
+  # (repository_dispatch requires the workflow to be on the default branch,
+  # which ours isn't until feature/astro-prototype merges to main).
+  workflow_dispatch:
+    inputs:
+      batch_id:
+        description: "Portal batch ID"
+        required: true
+      pr_number:
+        description: "Original PR number"
+        required: false
+      version:
+        description: "Semver (e.g. 1.3.0)"
+        required: false
+      repo:
+        description: "servantium-website or servantium"
+        required: false
+        default: "servantium-website"
+      approved_actions:
+        description: "JSON array of approved actions"
+        required: true
+  # Kept for future when the pipeline is on main.
   repository_dispatch:
     types: [docs-write]
 
@@ -39,7 +61,20 @@ jobs:
       - name: Parse dispatch payload
         id: ctx
         run: |
-          echo '${{ toJson(github.event.client_payload) }}' > /tmp/payload.json
+          # Support both trigger types: workflow_dispatch (inputs) and
+          # repository_dispatch (client_payload). Merge into one JSON blob.
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            jq -n \
+              --arg batch_id "${{ inputs.batch_id }}" \
+              --arg pr_number "${{ inputs.pr_number }}" \
+              --arg version "${{ inputs.version }}" \
+              --arg repo "${{ inputs.repo }}" \
+              --argjson approved_actions '${{ inputs.approved_actions }}' \
+              '{batch_id: $batch_id, pr_number: $pr_number, version: $version, repo: $repo, approved_actions: $approved_actions}' \
+              > /tmp/payload.json
+          else
+            echo '${{ toJson(github.event.client_payload) }}' > /tmp/payload.json
+          fi
           PR=$(jq -r '.pr_number // ""' /tmp/payload.json)
           VERSION=$(jq -r '.version // "auto"' /tmp/payload.json)
           REPO=$(jq -r '.repo // "servantium-website"' /tmp/payload.json)
