@@ -1949,24 +1949,68 @@
         @media (max-width: 768px) {
             .problem-stats { grid-template-columns: 1fr; }
 
-            /* Mobile hero fix: the desktop hero is 100vh to anchor the logo bar
-               at the bottom. On mobile the mockup is hidden, so a 100vh hero
-               creates a huge empty gap between the CTAs and the next section.
-               Reset all the height constraints and let content size it. */
+            /* Mobile hero: proper mobile-first landing page, not a
+               squished desktop. First screen shows eyebrow + tight h1 +
+               one-liner tagline + primary CTA. Mockup carousel sits
+               right below the fold with logo bar after. */
             .hero {
                 height: auto;
                 max-height: none;
                 min-height: auto;
-                padding-top: 80px;
-                padding-bottom: var(--space-lg);
+                padding-top: 76px;
+                padding-bottom: var(--space-md);
             }
-            /* The logo bar can't live inside a flexible hero on mobile -- push
-               it out of the flex chain so it sits below the CTAs normally. */
-            .hero > .container { flex: 0 0 auto; }
-            /* Scale the h1 down on phones so "The operating system for" doesn't
-               break into 3+ lines. The global clamp min (2.5rem) is too large
-               for 390px viewports. */
-            .hero h1 { font-size: clamp(1.9rem, 7vw, 2.4rem) !important; line-height: 1.15; }
+            .hero > .container {
+                flex: 0 0 auto;
+                padding-left: var(--space-md);
+                padding-right: var(--space-md);
+            }
+            .hero-content { gap: var(--space-md); }
+            /* Compact h1: "The operating system for [word]" fits on 2 lines */
+            .hero h1 {
+                font-size: clamp(1.9rem, 7vw, 2.4rem) !important;
+                line-height: 1.15;
+                margin-bottom: var(--space-sm);
+            }
+            .hero-eyebrow {
+                font-size: 0.72rem;
+                letter-spacing: 0.08em;
+                margin-bottom: 0.75rem;
+            }
+            /* Tagline stays prominent as the voice hook */
+            .hero-tagline {
+                font-size: 1rem !important;
+                margin-bottom: 0.5rem !important;
+                margin-top: -0.25rem;
+            }
+            /* Swap long desc for mobile-specific one-liner */
+            .hero-description { display: none; }
+            .hero-description-mobile {
+                display: block;
+                font-size: 0.95rem;
+                line-height: 1.5;
+                color: var(--color-ink-muted);
+                margin: 0 0 1.25rem;
+            }
+            /* Single primary CTA, secondary as text link */
+            .hero-ctas { gap: 0.75rem; flex-wrap: wrap; }
+            .hero-cta-secondary {
+                border: none !important;
+                background: transparent !important;
+                padding: 0.6rem 0 !important;
+                color: var(--color-servantium-green) !important;
+                font-weight: 600;
+            }
+            .hero-cta-secondary:hover { text-decoration: underline; }
+            /* Mockup: bigger and more prominent on mobile so the product
+               is visible on first scroll, not buried */
+            .hero-mockup-slot { margin-top: var(--space-sm); }
+            .hero-visual {
+                width: 100% !important;
+                max-width: none !important;
+                aspect-ratio: 4 / 3;
+                margin: 0 !important;
+            }
             .hero-text { max-width: 100%; }
             .hero-visual {
                 width: 100%;
