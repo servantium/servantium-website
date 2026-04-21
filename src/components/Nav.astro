@@ -66,7 +66,6 @@ const navLinks: NavLink[] = [
       href: '/resources/',
     },
   },
-  { href: '/help/', label: 'Help', id: 'help' },
   { href: '/about', label: 'About', id: 'about' },
 ];
 ---
@@ -276,7 +275,7 @@ const navLinks: NavLink[] = [
     top: calc(100% + 10px);
     left: 50%;
     transform: translate(-50%, -6px);
-    width: min(760px, 92vw);
+    width: min(960px, 92vw);
     background: #ffffff;
     border: 1px solid var(--color-cloud-grey, #E1E3E6);
     border-radius: 18px;
@@ -304,7 +303,7 @@ const navLinks: NavLink[] = [
   }
   .nav-mega-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
     padding-bottom: 1.25rem;
   }
