@@ -1,1 +1,2 @@
 # Redirects managed by Astro/Starlight — no legacy redirects needed
+/help/* https://help.servantium.com/:splat 301

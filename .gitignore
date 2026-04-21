@@ -17,3 +17,6 @@ dist/
 
 # Local agent tooling — never check in
 .claude/
+
+# Build-time design-system clone
+vendor/

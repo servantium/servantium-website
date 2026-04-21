@@ -1,4 +1,4 @@
-name: Build Check
+name: Build
 
 on:
   push:
@@ -10,24 +10,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 22
-          cache: 'npm'
+          node-version: '22'
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Clone design-system (provides @servantium/grove + verdant)
+        run: git clone --depth 1 https://github.com/servantium/servantium-design-system.git vendor/design-system
 
-      - name: Build site
-        run: npm run build
-
-      - name: Verify build output
-        run: |
-          echo "Build output:"
-          ls -la dist/
-          echo "---"
-          echo "Page count: $(find dist -name '*.html' | wc -l)"
+      - run: npm install
+      - run: npm run build

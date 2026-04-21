@@ -20,7 +20,9 @@
     "astro-icon": "^1.1.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "tailwindcss": "4.2.2"
+    "tailwindcss": "4.2.2",
+    "@servantium/grove": "file:./vendor/design-system/packages/grove",
+    "@servantium/verdant": "file:./vendor/design-system/packages/verdant"
   },
   "devDependencies": {
     "pagefind": "^1.5.0"
