@@ -271,11 +271,33 @@ Two sibling repos now exist:
 
 **Published package versions:** `@servantium/verdant@0.1.0`, `@servantium/grove@0.1.0`.
 
-### Still to do on THIS repo (deferred from the 2026-04-21 session)
+### Status (end of 2026-04-21 session): COMPLETE
 
-1. **Consume `@servantium/verdant` from the registry** instead of the local `src/theme/verdant.css`. Requires `.npmrc` with GitHub Packages auth token.
-2. **Consume `@servantium/grove` from the registry** instead of `src/theme/grove/*`. Rewrite all `@/theme/grove/...` imports to `@servantium/grove/...`.
-3. **Remove `src/theme/verdant.css` and `src/theme/grove/`** after step 1+2 are verified.
-4. **Once `servantium-help` is live on help.servantium.com:** remove `src/pages/help/*`, `src/content/docs/help/*`, `src/data/docs-nav.ts` from this repo. Add `_redirects` entry: `/help/* https://help.servantium.com/:splat 301`. Remove docs pipeline workflows (`docs-orchestrate.yml`, `docs-write.yml`) since they move to `servantium-help`.
-5. **Portal `approve-actions.ts`:** change dispatch target from `servantium-website` to `servantium-help`.
+All migration work is live.
+
+- ✅ `@servantium/grove` + `@servantium/verdant` consumed via `file:./vendor/design-system/...`
+- ✅ `src/theme/grove/` deleted (source of truth is design-system monorepo)
+- ✅ `src/pages/help/*`, `src/content/docs/*`, `src/data/docs-nav.ts` deleted (moved to servantium-help)
+- ✅ `public/_redirects`: `/help/* → https://help.servantium.com/:splat 301`
+- ✅ Docs pipeline workflows (`docs-orchestrate.yml`, `docs-write.yml`) moved to servantium-help
+- ✅ Legacy release-notes.yml + help-docs.yml.disabled deleted
+- ✅ Portal `approve-actions.ts` dispatches to servantium-help
+- ✅ Cloudflare Pages build command pre-clones design-system into `vendor/`
+
+### Build pattern
+
+Both this repo and `servantium-help` use the same pattern:
+
+1. `.github/workflows/build.yml` + Cloudflare Pages build command start with:
+   ```
+   git clone --depth 1 https://github.com/servantium/servantium-design-system.git vendor/design-system
+   ```
+2. Then `npm install` resolves `@servantium/*` via the `file:` protocol.
+3. Then the normal build proceeds.
+
+`vendor/` is gitignored. Local development requires the same clone step once; thereafter `npm install` just works.
+
+### Still local
+
+`src/theme/verdant.css` is still referenced by some site-level components directly (not via the package). Migrating those imports to `@servantium/verdant/tokens.css` is a later cleanup; the file is identical in content to the package's tokens.css, so there's no visual risk.
 
