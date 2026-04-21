@@ -15,8 +15,17 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Clone design-system (provides @servantium/grove + verdant)
-        run: git clone --depth 1 https://github.com/servantium/servantium-design-system.git vendor/design-system
+      - name: Pin design-system version
+        id: ds-ref
+        run: |
+          REF=$(cat .design-system-ref 2>/dev/null || echo main)
+          echo "ref=$REF" >> "$GITHUB_OUTPUT"
+
+      - name: Clone design-system at pinned version
+        run: |
+          git clone https://github.com/servantium/servantium-design-system.git vendor/design-system
+          cd vendor/design-system
+          git checkout ${{ steps.ds-ref.outputs.ref }}
 
       - run: npm install
       - run: npm run build
