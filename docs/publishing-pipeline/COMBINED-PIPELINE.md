@@ -21,7 +21,7 @@ has run successfully for two weeks.
 
 ## Workflow 1: docs-orchestrate.yml
 
-**Trigger:** PR merged into feature/astro-prototype (or develop)
+**Trigger:** PR merged into develop
 
 **Steps:**
 1. Fetch PR diff + metadata from GitHub

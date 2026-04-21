@@ -23,7 +23,7 @@ Every actor in the pipeline has a single, named role. If you're reading a workfl
 
 ## TL;DR
 
-1. A PR merges into the active test branch (currently `feature/astro-prototype`, soon `develop`).
+1. A PR merges into the active test branch (`develop`).
 2. GitHub Actions runs `docs-orchestrate.yml`. **DocsOrchestrator** proposes an action list.
 3. The action list appears in the **Internal Portal** for human review (Stage 1).
 4. A human checks/unchecks actions, edits briefs, then clicks "Proceed to drafts."
@@ -36,7 +36,7 @@ Every actor in the pipeline has a single, named role. If you're reading a workfl
 
 > **Stealth releases.** A direct push to `develop` (no PR) will not trigger the pipeline. Changes must arrive as a merged PR.
 
-> **Branch state (2026-04-16):** The pipeline currently watches `feature/astro-prototype` AND `develop`. When the astro prototype merges to main, drop `feature/astro-prototype` from the `branches:` list in both workflow files.
+
 
 ![Pipeline overview](images/overview.svg)
 
@@ -108,7 +108,7 @@ Before relying on the pipeline for real PRs:
 
 1. **Verify permissions from Step 2 are saved.** This is the #1 first-run failure.
 2. Go to **Actions > docs-orchestrate.yml > Run workflow**
-3. Pick `feature/astro-prototype` as the branch, enter a recently merged PR number, click Run
+3. Pick `main` as the branch, enter a recently merged PR number, click Run
 4. Watch the run. Expected: the portal receives an action list at Stage 1.
 5. Review actions in the portal, click "Proceed to drafts."
 6. Verify `docs-write.yml` fires, DocsWriter produces drafts, and a PR appears authored by `servantium-bot[bot]`.
