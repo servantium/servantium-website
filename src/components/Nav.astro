@@ -31,25 +31,19 @@ const navLinks: NavLink[] = [
   { href: '/', label: 'Home', id: 'home' },
   { href: '/platform/', label: 'Platform', id: 'platform' },
   {
-    href: '/resources/',
+    // Resources mega-menu only shows live surfaces. Build column (Templates,
+    // Guides & Playbooks, Comparisons) removed until that content is ready
+    // to publish. Build column + megaFooter restored later when we have
+    // something real to link to.
+    href: '/blog/',
     label: 'Resources',
     id: 'resources',
     dropdown: [
-      {
-        heading: 'Build',
-        items: [
-          { href: '/resources/templates/', label: 'Templates', description: 'SOWs, dashboards, rate cards, and checklists', icon: 'template' },
-          { href: '/resources/guides/', label: 'Guides & Playbooks', description: 'Long-form field guides for services operators', icon: 'playbook' },
-          { href: '/compare/', label: 'Comparisons', description: 'How Servantium fits next to other categories', icon: 'comparison' },
-        ],
-      },
       {
         heading: 'Learn',
         items: [
           { href: '/blog/', label: 'Blog', description: 'Strategy essays and operator op-eds', icon: 'blog' },
           { href: 'https://help.servantium.com/release-notes/', label: 'Release Notes', description: 'What shipped, when, and why', icon: 'releases' },
-          // Customer Stories hidden until the collection has published content
-          // { href: '/resources/customers/', label: 'Customer Stories', description: 'How firms run their operations on Servantium', icon: 'customer' },
         ],
       },
       {
@@ -60,11 +54,6 @@ const navLinks: NavLink[] = [
         ],
       },
     ],
-    megaFooter: {
-      label: 'The Resources Hub',
-      description: 'Browse every template, playbook, and story in one place.',
-      href: '/resources/',
-    },
   },
   { href: '/about', label: 'About', id: 'about' },
 ];
@@ -192,9 +181,6 @@ const navLinks: NavLink[] = [
               <a href={item.href} class="mobile-dropdown-link">{item.label}</a>
             ))
           ))}
-          {link.id === 'resources' && (
-            <a href="/resources/" class="mobile-dropdown-link" style="font-weight: 600; color: var(--color-green);">Browse the Resources Hub</a>
-          )}
         </div>
       </div>
     ) : (
