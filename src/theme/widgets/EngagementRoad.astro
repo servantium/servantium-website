@@ -44,7 +44,7 @@ const stageNames = ['Discovery', 'Estimation', 'Proposal', 'Delivery', 'Learning
 ---
 
 <!-- Filmstrip: Horizontal scroll driven by vertical scroll -->
-<section class="filmstrip-section" style="min-height: 300vh; overflow: visible;" aria-label={title}>
+<section class="filmstrip-section" style="min-height: 500vh; overflow: visible;" aria-label={title}>
 
   <!-- Sticky viewport -->
   <div class="filmstrip-viewport sticky top-0 h-screen overflow-hidden" style="-webkit-overflow-scrolling: touch;">
@@ -447,6 +447,9 @@ const stageNames = ['Discovery', 'Estimation', 'Proposal', 'Delivery', 'Learning
     flex: 1;
     display: flex;
     align-items: stretch;
+    /* Discrete snap: transform transitions smoothly between panel indices */
+    transition: transform 650ms cubic-bezier(0.22, 0.61, 0.36, 1);
+    will-change: transform;
   }
 
   .filmstrip-panel {
@@ -555,37 +558,78 @@ function initFilmstrip() {
   if (!section || !track || !viewport) return;
 
   var heroTitle = document.getElementById('filmstrip-hero-title');
-  // Label pill removed — subtitles now rendered directly on each card
   var totalPanels = 5;
   var running = false;
-  var slack = 100; // px of scroll before filmstrip starts moving
+  var slack = 120; // px of slack before filmstrip starts stepping
+  var currentPanel = -1; // force first render
 
-  // Set initial state: panel 0 active, translateX 0
-  track.style.transform = 'translateX(0vw)';
-  if (threadProgress) {
-    threadProgress.setAttribute('x2', '0');
-  }
-  if (astronaut) {
-    astronaut.style.left = '10%';
-  }
-  dots.forEach(function(dot, i) {
-    if (i === 0) {
-      dot.style.background = '#00C26D';
-      dot.style.boxShadow = '0 0 8px rgba(0,194,109,0.5)';
-    } else {
-      dot.style.background = '#E1E3E6';
-      dot.style.boxShadow = 'none';
+  var heroTexts = [
+    'From first conversation<br/>to institutional memory',
+    'From conversation<br/>to confident pricing',
+    'From pricing<br/>to a winning proposal',
+    'From proposal<br/>to flawless delivery',
+    'From delivery<br/>to lasting knowledge'
+  ];
+
+  // Render a given panel index: snap track, update dots, labels, astronaut, thread.
+  // Discrete snap — no in-between states, so users never land "halfway through strip 1".
+  function renderPanel(idx) {
+    if (idx === currentPanel) return;
+    currentPanel = idx;
+
+    var translateX = idx * -100;
+    track.style.transform = 'translateX(' + translateX + 'vw)';
+
+    // Thread progress (0 at idx 0, 1000 at idx totalPanels-1)
+    if (threadProgress) {
+      var pct = totalPanels > 1 ? idx / (totalPanels - 1) : 0;
+      threadProgress.setAttribute('x2', String(pct * 1000));
     }
-  });
-  stageLabels.forEach(function(label, i) {
-    if (i === 0) {
-      label.style.opacity = '1';
-      label.style.fontSize = '0.875rem';
-    } else {
-      label.style.opacity = '0.4';
-      label.style.fontSize = '0.75rem';
+
+    // Astronaut position along the thread
+    if (astronaut) {
+      var pct2 = totalPanels > 1 ? idx / (totalPanels - 1) : 0;
+      astronaut.style.left = (10 + pct2 * 80) + '%';
+      var costumes = astronaut.querySelectorAll('.astronaut-costume');
+      costumes.forEach(function(c) {
+        c.style.display = parseInt(c.getAttribute('data-costume')) === idx ? '' : 'none';
+      });
     }
-  });
+
+    // Hero title
+    if (heroTitle) {
+      var h2 = heroTitle.querySelector('h2');
+      if (h2) {
+        var newText = heroTexts[idx] || heroTexts[0];
+        if (h2.innerHTML !== newText) h2.innerHTML = newText;
+      }
+    }
+
+    // Dots
+    dots.forEach(function(dot, i) {
+      if (i <= idx) {
+        dot.style.background = '#00C26D';
+        dot.style.boxShadow = '0 0 8px rgba(0,194,109,0.5)';
+      } else {
+        dot.style.background = '#E1E3E6';
+        dot.style.boxShadow = 'none';
+      }
+    });
+
+    // Stage labels
+    stageLabels.forEach(function(label, i) {
+      if (i <= idx) {
+        label.style.opacity = '1';
+        label.style.fontSize = '0.875rem';
+      } else {
+        label.style.opacity = '0.4';
+        label.style.fontSize = '0.75rem';
+      }
+    });
+  }
+
+  // Initial paint
+  renderPanel(0);
 
   function update() {
     if (!running) return;
@@ -599,74 +643,16 @@ function initFilmstrip() {
 
     // Only start counting after section top passes viewport top + slack
     var scrolled = Math.max(0, -rect.top - slack);
-    var progress = Math.min(1, scrolled / (scrollable - slack));
+    var usable = Math.max(1, scrollable - slack * 2); // slack at both ends
+    var progress = Math.min(1, scrolled / usable);
 
-    // Clamp progress to 0 when section hasn't reached top yet
-    if (rect.top > 0) {
-      progress = 0;
-    }
+    if (rect.top > 0) progress = 0;
 
-    // Move track left (0 to -400vw)
-    var translateX = progress * (totalPanels - 1) * -100;
-    track.style.transform = 'translateX(' + translateX + 'vw)';
-
-    // Extend green thread
-    if (threadProgress) {
-      threadProgress.setAttribute('x2', String(progress * 1000));
-    }
-
-    // Move astronaut along the thread
-    if (astronaut) {
-      astronaut.style.left = (10 + progress * 80) + '%';
-    }
-
-    var activeIndex = Math.min(totalPanels - 1, Math.floor(progress * totalPanels));
-
-    // Hero title: stays visible, text updates per panel
-    if (heroTitle) {
-      var heroTexts = [
-        'From first conversation<br/>to institutional memory',
-        'From conversation<br/>to confident pricing',
-        'From pricing<br/>to a winning proposal',
-        'From proposal<br/>to flawless delivery',
-        'From delivery<br/>to lasting knowledge'
-      ];
-      var h2 = heroTitle.querySelector('h2');
-      if (h2) {
-        var newText = heroTexts[activeIndex] || heroTexts[0];
-        if (h2.innerHTML !== newText) h2.innerHTML = newText;
-      }
-    }
-
-    // Update dots
-    dots.forEach(function(dot, i) {
-      if (i <= activeIndex) {
-        dot.style.background = '#00C26D';
-        dot.style.boxShadow = '0 0 8px rgba(0,194,109,0.5)';
-      } else {
-        dot.style.background = '#E1E3E6';
-        dot.style.boxShadow = 'none';
-      }
-    });
-
-    // Update stage labels
-    stageLabels.forEach(function(label, i) {
-      if (i <= activeIndex) {
-        label.style.opacity = '1';
-        label.style.fontSize = '0.875rem';
-      } else {
-        label.style.opacity = '0.4';
-        label.style.fontSize = '0.75rem';
-      }
-    });
-
-    // Switch astronaut costume based on active panel
-    if (astronaut) {
-      var costumes = astronaut.querySelectorAll('.astronaut-costume');
-      costumes.forEach(function(c) {
-        c.style.display = parseInt(c.getAttribute('data-costume')) === activeIndex ? '' : 'none';
-      });
-    }
+    // DISCRETE SNAP: divide the scrollable range into totalPanels equal zones.
+    // Each zone maps to one panel index. The CSS transition on .filmstrip-track
+    // smooths the jump when the zone changes.
+    var targetPanel = Math.min(totalPanels - 1, Math.floor(progress * totalPanels));
+    renderPanel(targetPanel);
 
     requestAnimationFrame(update);
   }
