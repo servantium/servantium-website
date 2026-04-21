@@ -117,3 +117,156 @@ Help content lives in a separate repo: [servantium-help](https://github.com/serv
 ## License
 
 All rights reserved. Copyright 2026 Servantium Inc.
+
+---
+
+## Content authoring reference
+
+All content collections live under `src/content/` and are validated at build time by Zod schemas in `src/content.config.ts`. Here's the field reference for each collection.
+
+### Shared fields (most collections)
+
+| Field | Type | Default | Description |
+|---|---|---|---|
+| `status` | enum | `published` | `published` (live everywhere), `draft` (only on test.servantium.com), `hidden` (never visible; file stays in repo). Controlled by `src/lib/content-filter.ts`. |
+| `featured` | boolean | `false` | Surfaces the item in hero/featured slots on listing pages. |
+| `tags` | string[] | `[]` | Free-form tags for filtering + related content. |
+
+### Blog — `src/content/blog/*.mdx`
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `title` | string | ✓ | Post `<title>` and `<h1>`. |
+| `description` | string | ✓ | SEO meta + post subheader + listing excerpt. 120-160 chars. |
+| `date` | string (ISO) | ✓ | Publish date. Drives chronological ordering on `/blog`. |
+| `author` | string | ✓ | Must match an author ID in `src/content/authors/` (e.g. `christopher-veale`). |
+| `authorRole` | string | — | Optional override for author's title on this post. |
+| `category` | string | ✓ | Category slug (used for `/blog/category/[slug]`). |
+| `image` | string | — | OG image URL. Use Unsplash with `?w=1200&h=630&fit=crop` for ideal aspect ratio. |
+| `imageAlt` | string | — | Accessibility alt text for the OG image. |
+| `readingTime` | string | — | Display string like "7 min read". |
+| `tags` | string[] | `[]` | — |
+| `draft` | boolean | `false` | Legacy field; prefer `status: draft`. Kept for compatibility. |
+| `status` | enum | `published` | See shared fields. |
+
+### Authors — `src/content/authors/*.md`
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `name` | string | ✓ | Display name. |
+| `role` | string | ✓ | Title (shown under author name). |
+| `avatar` | string | ✓ | Path to avatar image in `public/`. |
+| `linkedin` | string | — | Profile URL. |
+| `twitter` | string | — | Profile URL or handle. |
+| `bio` | string | — | Short bio shown on author page. |
+
+### Resources — `src/content/resources/*.mdx`
+
+Lead magnets: templates, calculators, guides, playbooks, checklists, ebooks.
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `title` | string | ✓ | Card title + page heading. |
+| `description` | string | ✓ | Card blurb + SEO description. |
+| `type` | enum | ✓ | `template` \| `calculator` \| `guide` \| `ebook` \| `playbook` \| `checklist`. Drives card icon + grouping on `/resources`. |
+| `delivery` | enum | `download` | `internal` (on-site tool), `download` (file from `/public`), `gated` (email gate then download). |
+| `fileUrl` | string | — | For `download` / `gated`: path to file in `/public`. |
+| `toolUrl` | string | — | For `internal`: on-site URL. |
+| `cover` | string | — | Card thumbnail image path. |
+| `coverAlt` | string | — | Alt text for the thumbnail. |
+| `readingTime` | string | — | For long-form guides. |
+| `featured` | boolean | `false` | Shows in the featured section of `/resources`. |
+| `order` | number | `100` | Lower = earlier in listings. |
+| `date` | string (ISO) | ✓ | Publish date. |
+| `tags` | string[] | `[]` | — |
+| `status` | enum | `published` | See shared fields. |
+
+### Comparisons — `src/content/comparisons/*.mdx`
+
+Competitor and category comparison pages.
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `title` | string | ✓ | e.g. "Servantium vs Kantata". |
+| `description` | string | ✓ | SEO description. |
+| `kind` | enum | `competitor` | `competitor` (Servantium vs {Product}) or `category` (PSA vs ERP, etc). |
+| `competitor` | string | — | Name of the competing product (for `kind: competitor`). |
+| `competitorLogo` | string | — | Logo URL. |
+| `tagline` | string | — | One-liner honest summary; used in footer link labels. |
+| `verdict` | string | — | Short verdict shown at top of page. |
+| `matrix` | array | — | Feature comparison table. Each entry: `{ feature, servantium, other, winner: "servantium" \| "other" \| "tie" }`. |
+| `date` | string (ISO) | ✓ | Publish date. |
+| `updated` | string (ISO) | — | Last-updated date if different from publish. |
+| `order` | number | `100` | Listing order. |
+| `status` | enum | `published` | See shared fields. |
+
+### Customers — `src/content/customers/*.md`
+
+Case studies. Schema defined; collection currently empty (`status: hidden` until approved).
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `name` | string | ✓ | Customer/company name. |
+| `industry` | enum | ✓ | `consulting` \| `it-services` \| `agency` \| `other`. |
+| `logo` | string | ✓ | Logo path in `/public`. |
+| `logoWidth` | number | `120` | px; for grid alignment. |
+| `metrics` | array | — | Headline metrics. Each: `{ label, value }`. |
+| `quote` | string | — | Customer testimonial. |
+| `quoteAuthor` | string | — | Name of person quoted. |
+| `quoteRole` | string | — | Title of person quoted. |
+| `featured` | boolean | `false` | — |
+| `status` | enum | `published` | — |
+
+### Integrations — `src/content/integrations/*.md`
+
+Third-party integration cards. Schema ready; currently empty.
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `name` | string | ✓ | Partner/tool name. |
+| `category` | enum | ✓ | `crm` \| `accounting` \| `communication` \| `project-management` \| `other`. |
+| `logo` | string | ✓ | Logo path. |
+| `docsUrl` | string | — | Link to integration docs on help.servantium.com. |
+| `description` | string | ✓ | Card blurb. |
+| `status` | enum | `coming-soon` | `available` \| `coming-soon` \| `beta`. (Different enum than other collections — this one drives the UI state pill.) |
+
+### Press — `src/content/press/*.md`
+
+Press mentions. Schema ready; currently empty.
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `publication` | string | ✓ | e.g. "TechCrunch". |
+| `headline` | string | ✓ | Article headline. |
+| `url` | string | ✓ | Link to the external article. |
+| `date` | string (ISO) | ✓ | Publish date. |
+| `logo` | string | — | Publication logo in `/public`. |
+| `featured` | boolean | `false` | — |
+| `status` | enum | `published` | — |
+
+### Example blog post
+
+```mdx
+---
+title: "Why most AI implementations fail in services"
+description: "AI wins when the data layer is structured. Most services firms don't have that — here's how to fix it before you spend on the model."
+date: "2026-03-05"
+author: christopher-veale
+category: ai
+image: "https://images.unsplash.com/photo-xxx?w=1200&h=630&fit=crop"
+imageAlt: "Abstract illustration of data flowing into a model"
+readingTime: "6 min read"
+tags: [ai, data, services]
+status: published
+---
+
+# Why most AI implementations fail in services
+
+Opening paragraph...
+```
+
+### MDX components available across collections
+
+All available via Grove (from `@servantium/grove/components`): `Aside`, `Steps`, `Tabs`, `TabItem`. See help-repo README for usage examples.
+
+Blog posts can additionally use any component from `src/theme/blog/` or `src/theme/components/` via direct import.
