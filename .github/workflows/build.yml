@@ -2,9 +2,9 @@ name: Build Check
 
 on:
   push:
-    branches: [main, develop, feature/astro-prototype, feature/verdant-migration]
+    branches: [main, develop, feature/verdant-migration]
   pull_request:
-    branches: [main, develop, feature/astro-prototype]
+    branches: [main, develop]
 
 jobs:
   build:

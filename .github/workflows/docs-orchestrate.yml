@@ -8,7 +8,7 @@ name: Docs Pipeline - Orchestrate
 on:
   pull_request:
     types: [closed]
-    branches: [feature/astro-prototype, develop]
+    branches: [main, develop]
   workflow_dispatch:
     inputs:
       pr_number:

@@ -6,7 +6,7 @@ name: Docs Pipeline - Write
 on:
   # Primary trigger: workflow_dispatch by filename works from any branch
   # (repository_dispatch requires the workflow to be on the default branch,
-  # which ours isn't until feature/astro-prototype merges to main).
+  # which ours isn't until main merges to main).
   workflow_dispatch:
     inputs:
       batch_id:
@@ -265,7 +265,7 @@ jobs:
 
           # Build PR body listing all files
           FILE_LIST=$(find /tmp/drafts -name "*.mdx" -exec basename {} \; | sort | sed 's/^/- /')
-          BASE_BRANCH="${GITHUB_BASE_REF:-feature/astro-prototype}"
+          BASE_BRANCH="${GITHUB_BASE_REF:-develop}"
           BOT_PR_URL=$(gh pr create \
             --base "$BASE_BRANCH" \
             --head "$BRANCH" \

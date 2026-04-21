@@ -1,6 +1,6 @@
 name: Release Notes (preview)
 
-# Fires when a PR merges to the active test branch (feature/astro-prototype,
+# Fires when a PR merges to the active test branch (main,
 # soon develop). Generates a draft release note on a bot branch and opens a
 # review PR back into the same branch. The later `develop -> main` promotion
 # merge does NOT re-run this workflow, so content is written once and reused
@@ -18,7 +18,7 @@ name: Release Notes (preview)
 on:
   pull_request:
     types: [closed]
-    branches: [feature/astro-prototype, develop]
+    branches: [main, develop]
   workflow_dispatch:
     inputs:
       pr_number:
@@ -283,7 +283,7 @@ jobs:
           git commit -m "docs(release-notes): draft v${VERSION} for PR #${PR:-manual}"
           git push -u origin "$BRANCH"
 
-          BASE_BRANCH="${GITHUB_BASE_REF:-feature/astro-prototype}"
+          BASE_BRANCH="${GITHUB_BASE_REF:-develop}"
           BOT_PR_URL=$(gh pr create \
             --base "$BASE_BRANCH" \
             --head "$BRANCH" \
