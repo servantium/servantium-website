@@ -196,9 +196,17 @@ See `docs/publishing-pipeline/README.md` for the full pipeline guide.
 
 ### Branch Strategy
 
-- `main` - Production (auto-deploys to servantium.com)
-- `develop` - Pre-production testing (auto-deploys to test.servantium.com)
-- `feature/*` - Feature branches (merge to develop)
+- `main` - Production. Auto-deploys to servantium.com + www.servantium.com (Cloudflare Pages project `servantium-website`, production branch).
+- `develop` - Preview. Auto-deploys to test.servantium.com.
+- `feature/*` - Feature branches. Build preview on `*.servantium-website.pages.dev` per branch, then merge to develop.
+- `archive/legacy-html` - Frozen snapshot of the pre-Astro static HTML site. Tag: `v0-legacy-final`. Excluded from Pages preview builds.
+- `bot/*` - Excluded from Pages builds (docs pipeline uses these).
+
+**Promotion flow:** feature → `develop` (test.servantium.com) → `main` (servantium.com).
+
+**Cloudflare Pages projects:**
+- `servantium-website` — active, serves production + preview.
+- `servantium-site` — deactivated (legacy HTML project, deployments disabled, domains removed). Kept 30 days as rollback.
 
 ## Common Tasks
 
