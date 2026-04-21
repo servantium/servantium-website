@@ -297,7 +297,7 @@ Both this repo and `servantium-help` use the same pattern:
 
 `vendor/` is gitignored. Local development requires the same clone step once; thereafter `npm install` just works.
 
-### Still local
+### Verdant migration: complete
 
-`src/theme/verdant.css` is still referenced by some site-level components directly (not via the package). Migrating those imports to `@servantium/verdant/tokens.css` is a later cleanup; the file is identical in content to the package's tokens.css, so there's no visual risk.
+All site code now imports `@servantium/verdant/tokens.css` from the package. `src/theme/verdant.css` has been deleted. Pinned to `@servantium/grove@0.1.2` + `@servantium/verdant@0.1.2` via `.design-system-ref`.
 
