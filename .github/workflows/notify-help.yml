@@ -1,17 +1,12 @@
 name: Notify help of site chrome change
 
-# Fires when files consumed by servantium-help change on main:
-#   - src/chrome/**      (Nav, Footer, site-config, etc.)
-#   - public/logo.png    (brand asset — help clones this at build)
-#   - public/favicon-*   (favicons)
-#
-# Help has a repository_dispatch listener that rebuilds on this signal.
-# Keeps help in sync with website chrome without blanket rebuilds for
-# every blog post or platform edit.
+# Fires when files consumed by servantium-help change.
+# Directly triggers help's Cloudflare Pages deploy via a deploy hook URL
+# stored as a repo secret. No GitHub PAT or cross-repo dispatch needed.
 
 on:
   push:
-    branches: [main]
+    branches: [main, develop]
     paths:
       - 'src/chrome/**'
       - 'public/logo.png'
@@ -22,11 +17,20 @@ jobs:
   notify:
     runs-on: ubuntu-latest
     steps:
-      - name: Dispatch to servantium-help
-        env:
-          GH_TOKEN: ${{ secrets.SITE_CHROME_DISPATCH_PAT }}
+      - name: Resolve target branch
+        id: target
         run: |
-          gh api /repos/servantium/servantium-help/dispatches \
-            -X POST \
-            -f event_type=site-chrome-changed \
-            -F 'client_payload[sha]=${{ github.sha }}'
+          # main -> production help; develop -> qa.help
+          if [ "${GITHUB_REF_NAME}" = "main" ]; then
+            echo "hook=${{ secrets.HELP_DEPLOY_HOOK_MAIN }}" >> "$GITHUB_OUTPUT"
+            echo "label=main (help.servantium.com)" >> "$GITHUB_OUTPUT"
+          else
+            echo "hook=${{ secrets.HELP_DEPLOY_HOOK_DEVELOP }}" >> "$GITHUB_OUTPUT"
+            echo "label=develop (qa.help.servantium.com)" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Trigger help rebuild (${{ steps.target.outputs.label }})
+        run: |
+          code=$(curl -s -o /dev/null -w "%{http_code}" -X POST "${{ steps.target.outputs.hook }}")
+          echo "Deploy hook HTTP $code"
+          [ "$code" = "200" ] || exit 1
