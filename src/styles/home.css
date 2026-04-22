@@ -17,9 +17,11 @@
         }
 
         .hero > .container {
-            flex: 1;
+            flex: 1 1 0;
+            min-height: 0;        /* allow the middle section to shrink below its intrinsic content size... */
             display: flex;
             align-items: center;
+            overflow: hidden;     /* ...and clip hero-content before pushing the Customers & Partners bar out of view */
         }
 
         .logo-bar-inner {
