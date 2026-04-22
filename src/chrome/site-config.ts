@@ -55,6 +55,11 @@ export function buildNavLinks({ origin = '' }: BuildOptions = {}): NavLink[] {
           ],
         },
       ],
+      megaFooter: {
+        label: 'The Resources Hub',
+        description: 'Browse every template, playbook, and story in one place.',
+        href: `${origin}/resources/`,
+      },
     },
     { href: `${origin}/about`, label: 'About', id: 'about' },
   ];
