@@ -21,6 +21,14 @@ interface Props {
   triggerVariant?: 'full' | 'compact' | 'icon';
   /** Pre-select a section filter tab when the modal opens. */
   defaultFilter?: 'Help' | 'Blog' | 'Glossary';
+  /**
+   * Additional Pagefind indexes to merge into search results.
+   * Used for cross-site federation (e.g. help.servantium.com pulling
+   * servantium.com's index). See https://pagefind.app/docs/multisite/
+   * Target sites must serve /pagefind/* with
+   *   Access-Control-Allow-Origin: *  (or the consuming origin).
+   */
+  mergeIndex?: Array<{ bundlePath: string; indexWeight?: number; label?: string }>;
 }
 
 const {
@@ -28,6 +36,7 @@ const {
   placeholder = 'Search docs, guides, releases...',
   triggerVariant = 'full',
   defaultFilter,
+  mergeIndex = [],
 } = Astro.props;
 
 // Unique instance id so multiple SearchModals on one page don't collide.
@@ -72,7 +81,7 @@ const hostId = `${smId}-host`;
       </div>
     </div>
     <link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
-    <div class="sm-search-host" id={hostId} data-placeholder={placeholder}></div>
+    <div class="sm-search-host" id={hostId} data-placeholder={placeholder} data-merge-index={mergeIndex.length ? JSON.stringify(mergeIndex) : undefined}></div>
     <div class="sm-fallback" hidden>
       <p>Search index not available. Run <code>npm run build</code> locally or ship to production to enable search.</p>
     </div>
@@ -136,6 +145,14 @@ const hostId = `${smId}-host`;
       ensurePagefindScript()
         .then(function() {
           if (typeof window.PagefindUI === 'undefined') throw new Error('no PagefindUI');
+          // Parse optional merge-index sources from data attribute (JSON array).
+          // Used by help.servantium.com to federate search with servantium.com's index.
+          // See https://pagefind.app/docs/multisite/
+          var mergeIndex = [];
+          try {
+            var raw = host.getAttribute('data-merge-index');
+            if (raw) mergeIndex = JSON.parse(raw);
+          } catch (_) { mergeIndex = []; }
           new window.PagefindUI({
             element: '#' + host.id,
             showSubResults: true,
@@ -143,6 +160,7 @@ const hostId = `${smId}-host`;
             resetStyles: false,
             excerptLength: 30,
             bundlePath: '/pagefind/',
+            mergeIndex: mergeIndex,
             translations: {
               placeholder: host.getAttribute('data-placeholder') || 'Search...',
               clear_search: 'Clear',

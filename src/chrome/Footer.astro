@@ -1,0 +1,16 @@
+---
+/**
+ * Website Footer — thin wrapper around @servantium/grove/SiteFooter.
+ * Edit footer content in site-config.ts, not here.
+ */
+import SiteFooter from '@servantium/grove/SiteFooter';
+import { buildFooterColumns, brand, contactEmail, social, founders } from '@/chrome/site-config';
+---
+
+<SiteFooter
+  columns={buildFooterColumns()}
+  brand={brand}
+  contactEmail={contactEmail}
+  social={social}
+  founders={founders}
+/>

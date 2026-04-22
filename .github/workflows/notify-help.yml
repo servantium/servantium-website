@@ -1,0 +1,32 @@
+name: Notify help of site chrome change
+
+# Fires when files consumed by servantium-help change on main:
+#   - src/chrome/**      (Nav, Footer, site-config, etc.)
+#   - public/logo.png    (brand asset — help clones this at build)
+#   - public/favicon-*   (favicons)
+#
+# Help has a repository_dispatch listener that rebuilds on this signal.
+# Keeps help in sync with website chrome without blanket rebuilds for
+# every blog post or platform edit.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/chrome/**'
+      - 'public/logo.png'
+      - 'public/favicon-*.png'
+      - 'public/apple-touch-icon.png'
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dispatch to servantium-help
+        env:
+          GH_TOKEN: ${{ secrets.SITE_CHROME_DISPATCH_PAT }}
+        run: |
+          gh api /repos/servantium/servantium-help/dispatches \
+            -X POST \
+            -f event_type=site-chrome-changed \
+            -F 'client_payload[sha]=${{ github.sha }}'
