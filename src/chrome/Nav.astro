@@ -1,0 +1,22 @@
+---
+/**
+ * Website Nav — thin wrapper around @servantium/grove/SiteNav, fed from
+ * src/chrome/site-config.ts. Edit nav content in site-config, not here.
+ */
+import SiteNav from '@servantium/grove/SiteNav';
+import { buildNavLinks, buildNavCtas, brand } from '@/chrome/site-config';
+
+interface Props {
+  activePage?: string;
+}
+const { activePage } = Astro.props;
+---
+
+<SiteNav
+  links={buildNavLinks()}
+  ctas={buildNavCtas()}
+  activePage={activePage}
+  logoSrc={brand.logoSrc}
+  logoAlt={brand.logoAlt}
+  logoHref="/"
+/>
