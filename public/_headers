@@ -22,3 +22,10 @@
 # execution context too, blocking WebAssembly.instantiate() even with
 # unsafe-eval. A <meta> CSP only applies to the document context and does
 # not restrict workers, so Pagefind WASM loads cleanly.
+
+# Pagefind indexes are publicly readable across origins so help.servantium.com
+# can federate search with servantium.com's index.
+# See https://pagefind.app/docs/multisite/
+/pagefind/*
+  Access-Control-Allow-Origin: *
+  Access-Control-Allow-Methods: GET, OPTIONS
