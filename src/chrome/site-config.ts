@@ -36,10 +36,18 @@ export function buildNavLinks({ origin = '' }: BuildOptions = {}): NavLink[] {
     { href: `${origin}/`, label: 'Home', id: 'home' },
     { href: `${origin}/platform/`, label: 'Platform', id: 'platform' },
     {
-      href: `${origin}/blog/`,
+      href: `${origin}/resources/`,
       label: 'Resources',
       id: 'resources',
       dropdown: [
+        {
+          heading: 'Build',
+          items: [
+            { href: `${origin}/resources/templates/`, label: 'Templates', description: 'SOWs, dashboards, rate cards, and checklists', icon: 'template' },
+            { href: `${origin}/resources/guides/`, label: 'Guides & Playbooks', description: 'Long-form field guides for services operators', icon: 'playbook' },
+            { href: `${origin}/compare/`, label: 'Comparisons', description: 'How Servantium fits next to other categories', icon: 'comparison' },
+          ],
+        },
         {
           heading: 'Learn',
           items: [

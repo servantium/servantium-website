@@ -14,13 +14,22 @@
  * - Result count display
  * - Default filter from context via defaultFilter prop
  */
+type SectionId = 'Help' | 'Blog' | 'Glossary' | 'Resources';
+
 interface Props {
   label?: string;
   placeholder?: string;
   /** CSS to apply to the trigger button. Use "compact" for sidebar, "full" for hero. */
   triggerVariant?: 'full' | 'compact' | 'icon';
   /** Pre-select a section filter tab when the modal opens. */
-  defaultFilter?: 'Help' | 'Blog' | 'Glossary';
+  defaultFilter?: SectionId;
+  /**
+   * Which section filter tabs to render at the top of the modal.
+   * "All" is always rendered first; pass the specific sections this site
+   * indexes. Website typically passes ['Resources', 'Blog'], help passes
+   * ['Help', 'Blog', 'Glossary'].
+   */
+  sections?: SectionId[];
   /**
    * Additional Pagefind indexes to merge into search results.
    * Used for cross-site federation (e.g. help.servantium.com pulling
@@ -36,6 +45,7 @@ const {
   placeholder = 'Search docs, guides, releases...',
   triggerVariant = 'full',
   defaultFilter,
+  sections = ['Help', 'Blog', 'Glossary'],
   mergeIndex = [],
 } = Astro.props;
 
@@ -74,10 +84,10 @@ const hostId = `${smId}-host`;
     </div>
     <div class="sm-filter-bar">
       <div class="sm-segmented-control">
-        <button class="sm-seg-btn active" data-section="all">All</button>
-        <button class="sm-seg-btn" data-section="Help">Help</button>
-        <button class="sm-seg-btn" data-section="Blog">Blog</button>
-        <button class="sm-seg-btn" data-section="Glossary">Glossary</button>
+        <button class="sm-seg-btn active" data-section="all"><span class="sm-seg-label">All</span><span class="sm-seg-count" data-count-for="all"></span></button>
+        {sections.map((s) => (
+          <button class="sm-seg-btn" data-section={s}><span class="sm-seg-label">{s}</span><span class="sm-seg-count" data-count-for={s}></span></button>
+        ))}
       </div>
     </div>
     <link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
@@ -217,6 +227,17 @@ const hostId = `${smId}-host`;
       applyEnhancements();
     }
 
+    function sectionMatches(section, href) {
+      // A result's href maps to a section. Glossary wins over Help when both match.
+      if (section === 'all') return true;
+      if (!href) return false;
+      if (section === 'Glossary') return href.includes('/glossary/');
+      if (section === 'Help') return (href.includes('/help/') || href.startsWith('https://help.servantium.com')) && !href.includes('/glossary/');
+      if (section === 'Blog') return href.includes('/blog/');
+      if (section === 'Resources') return href.includes('/resources/') || href.includes('/compare/');
+      return false;
+    }
+
     function filterResults() {
       var results = host.querySelectorAll('.pagefind-ui__result');
       var visibleCount = 0;
@@ -224,14 +245,29 @@ const hostId = `${smId}-host`;
         var link = r.querySelector('.pagefind-ui__result-link');
         if (!link) return;
         var href = link.getAttribute('href') || '';
-        var show = activeSection === 'all' ||
-          (activeSection === 'Help' && href.startsWith('/help/')) ||
-          (activeSection === 'Blog' && href.startsWith('/blog/')) ||
-          (activeSection === 'Glossary' && (href.startsWith('/help/glossary/') || href.includes('/glossary/')));
+        var show = sectionMatches(activeSection, href);
         r.style.display = show ? '' : 'none';
         if (show) visibleCount++;
       });
       return visibleCount;
+    }
+
+    function updateTabCounts() {
+      if (!segControl) return;
+      var results = host.querySelectorAll('.pagefind-ui__result');
+      var btns = segControl.querySelectorAll('.sm-seg-btn');
+      btns.forEach(function(btn) {
+        var section = btn.getAttribute('data-section');
+        var n = 0;
+        results.forEach(function(r) {
+          var link = r.querySelector('.pagefind-ui__result-link');
+          if (!link) return;
+          var href = link.getAttribute('href') || '';
+          if (sectionMatches(section, href)) n++;
+        });
+        var countEl = btn.querySelector('.sm-seg-count');
+        if (countEl) countEl.textContent = results.length === 0 ? '' : '(' + n + ')';
+      });
     }
 
     function injectBadges() {
@@ -312,6 +348,7 @@ const hostId = `${smId}-host`;
     function applyEnhancements() {
       injectBadges();
       filterResults();
+      updateTabCounts();
       applyCompactMode();
       updateResultCount();
     }
@@ -554,9 +591,12 @@ const hostId = `${smId}-host`;
     padding: 3px;
   }
   .sm-seg-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
     font-size: 0.75rem;
     font-weight: 600;
-    padding: 0.35rem 0.85rem;
+    padding: 0.35rem 0.75rem;
     border-radius: 8px;
     border: none;
     background: transparent;
@@ -565,6 +605,19 @@ const hostId = `${smId}-host`;
     font-family: inherit;
     transition: all 0.15s ease;
     line-height: 1.4;
+  }
+  .sm-seg-count {
+    font-size: 0.7rem;
+    font-weight: 500;
+    opacity: 0.75;
+    font-variant-numeric: tabular-nums;
+  }
+  .sm-seg-btn.active .sm-seg-count {
+    opacity: 1;
+    color: var(--color-green, #00C26D);
+  }
+  .sm-seg-count:empty {
+    display: none;
   }
   .sm-seg-btn:hover {
     color: var(--color-ink, #0D0D0D);
