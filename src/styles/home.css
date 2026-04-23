@@ -1104,7 +1104,10 @@
 
         .hero-content {
             display: grid;
-            grid-template-columns: 0.9fr 1.6fr;
+            /* Text column sized to fit its content up to a cap; mockup
+               takes the rest and can shrink below its aspect ratio on
+               narrow-desktop viewports instead of overflowing. */
+            grid-template-columns: minmax(320px, 0.9fr) minmax(0, 1.4fr);
             gap: var(--space-lg);
             align-items: center;
             position: relative;
@@ -1183,11 +1186,31 @@
             opacity: 0;
         }
 
-        .hero-description {
+        /* Tagline = the "Your systems should be as smart as you are" line.
+           Sits right under the h1; visually the primary subheadline. */
+        .hero-tagline {
             font-size: 1.25rem;
+            font-weight: 500;
+            color: var(--color-ink);
+            line-height: 1.45;
+            margin-top: calc(-1 * var(--space-xs));  /* tighten vs h1 */
+            margin-bottom: var(--space-sm);
+        }
+
+        /* Description = the prose paragraph under the tagline.
+           Matches tagline size for a unified block, slightly muted. */
+        .hero-description {
+            font-size: 1.0625rem;
+            font-weight: 400;
             color: var(--color-ink-light);
             margin-bottom: var(--space-lg);
-            line-height: 1.75;
+            line-height: 1.6;
+            max-width: 48ch;
+        }
+
+        /* Mobile-only description; hidden on desktop. */
+        .hero-description-mobile {
+            display: none;
         }
 
         .hero-ctas {
@@ -1198,15 +1221,16 @@
 
         .hero-visual {
             position: relative;
-            width: 115%;
-            margin-right: -15%;
+            width: 100%;
             aspect-ratio: 16 / 10;
             display: flex;
             align-items: stretch;
-            /* Never let the mockup overflow the viewport. Safari + tablet
-               breakpoints were clipping the right edge because width: 115%
-               could exceed the screen width. */
-            max-width: calc(100vw - var(--space-md, 1.5rem));
+            /* Clamp height so the mockup doesn't overflow the hero viewport
+               vertically when the user has a tall-but-narrow window. */
+            max-height: calc(100svh - 260px);
+            /* Ensure the mockup doesn't extend beyond its grid column,
+               even on wide displays where aspect-ratio would make it grow. */
+            min-width: 0;
         }
 
         /* Hero text (single variant — light only) */
@@ -1237,20 +1261,27 @@
         .logo-bar-track {
             display: flex;
             align-items: center;
+            /* gap is applied between every adjacent pair of logos, including
+               between the last of copy A and the first of copy B. That means
+               translateX(-50%) lands 0.5 * gap short of where copy B's first
+               logo sits, causing a visible snap-back each loop. Fix: add
+               `-(gap / 2)` to the endpoint so the loop aligns pixel-perfectly. */
             gap: var(--space-2xl);
-            animation: scrollLogos 28s linear infinite;
+            animation: scrollLogos 40s linear infinite;
             width: max-content;
             will-change: transform;
             height: 56px;
         }
 
+        /* Pause on hover instead of slowing down — much less jarring than
+           an animation-duration change (which causes a jump). */
         .logo-bar-scroll:hover .logo-bar-track {
-            animation-duration: 50s;
+            animation-play-state: paused;
         }
 
         @keyframes scrollLogos {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+            0%   { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(calc(-50% - var(--space-2xl) / 2), 0, 0); }
         }
 
         @media (prefers-reduced-motion: reduce) {
