@@ -7,11 +7,11 @@ import HeroMockup from '@/components/HeroMockup.astro';
 import EngagementRoad from '@/theme/widgets/EngagementRoad.astro';
 
 const logos = [
+  { src: '/logos/investorflow.svg', alt: 'InvestorFlow' },
   { src: '/logos/compliancelabs.png', alt: 'Compliance Labs' },
   { src: '/logos/e9corporation.png', alt: 'E-9 Corporation', invert: true },
   { src: '/logos/plottlabs.png', alt: 'Plott Labs' },
   { src: '/logos/google-for-startups.svg', alt: 'Google for Startups' },
-  // { src: '/logos/investorflow.svg', alt: 'InvestorFlow' },           // hidden: not approved yet
   // { src: '/logos/nvidia-inception.svg', alt: 'NVIDIA Inception Program' }, // hidden: not approved yet
 ];
 
@@ -121,8 +121,8 @@ const jsonLd = [
 <BaseLayout activePage="home">
   <SEO
     slot="head"
-    title="The Professional Services OS | Servantium"
-    description="Servantium is the Professional Services OS. Scope engagements, build quotes, manage resources, and deliver in one place. The structured data layer your team needs to run AI across every engagement."
+    title="Servantium — The Professional Services OS for modern teams"
+    description="The Professional Services OS for modern teams. Scope, price, deliver, and learn in one system. The structured data layer your AI can actually use."
     ogType="website"
     jsonLd={jsonLd}
   />

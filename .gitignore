@@ -20,3 +20,4 @@ dist/
 
 # Build-time design-system clone
 vendor/
+.env.local

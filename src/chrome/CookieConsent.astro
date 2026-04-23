@@ -1,3 +1,7 @@
+---
+const GA_ID = import.meta.env.PUBLIC_GA_ID ?? '';
+---
+
 <div id="cookie-consent" role="dialog" aria-label="Cookie consent" style="display: none; position: fixed; bottom: 0; left: 0; right: 0; background: var(--color-ink, #1a1a2e); padding: 16px 24px; z-index: 999999; box-shadow: 0 -4px 20px rgba(0,0,0,0.3);">
   <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px;">
     <p style="margin: 0; flex: 1; min-width: 280px; font-size: 14px; line-height: 1.5; color: var(--color-cloud-grey, #d1d5db);">
@@ -11,17 +15,19 @@
   </div>
 </div>
 
-<script>
-  const GA_ID = 'G-6EFX4FNH6H';
-
+<script is:inline define:vars={{ GA_ID }}>
   function loadGA() {
+    if (!GA_ID) {
+      console.warn('[Servantium] PUBLIC_GA_ID not set — analytics disabled');
+      return;
+    }
     const script = document.createElement('script');
     script.async = true;
     script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
     document.head.appendChild(script);
     window.dataLayer = window.dataLayer || [];
-    function gtag(...args: any[]) { window.dataLayer.push(args); }
-    (window as any).gtag = gtag;
+    function gtag() { window.dataLayer.push(arguments); }
+    window.gtag = gtag;
     gtag('js', new Date());
     gtag('config', GA_ID);
   }
@@ -29,7 +35,6 @@
   const consent = localStorage.getItem('servantium_cookie_consent');
   const isTestEnv = window.location.hostname === 'test.servantium.com';
 
-  // Show banner if no consent recorded
   if (!consent) {
     const banner = document.getElementById('cookie-consent');
     if (banner) {
@@ -38,7 +43,6 @@
     }
   }
 
-  // Load GA if already accepted and not test env
   if (consent === 'accepted' && !isTestEnv) {
     loadGA();
   }
@@ -58,7 +62,6 @@
     document.body.style.paddingBottom = '';
   });
 
-  // Escape key declines cookies
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       const banner = document.getElementById('cookie-consent');
