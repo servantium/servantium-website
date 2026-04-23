@@ -60,36 +60,36 @@
   </g>
 
   <!-- Logo (white silhouette, top-left). Original aspect ~720x180 (4:1). -->
-  <image x="70" y="60" width="420" height="105"
+  <image x="70" y="50" width="400" height="100"
          href="logo.png" xlink:href="logo.png"
          filter="url(#whiteLogo)"
          preserveAspectRatio="xMidYMid meet"/>
 
   <!-- Main headline -->
-  <text x="80" y="265" font-family="'Playfair Display', 'Georgia', serif"
-        font-size="82" font-weight="500" fill="#FFFFFF" letter-spacing="-1.5">
+  <text x="80" y="235" font-family="'Playfair Display', 'Georgia', serif"
+        font-size="78" font-weight="500" fill="#FFFFFF" letter-spacing="-1.5">
     The Professional
   </text>
-  <text x="80" y="355" font-family="'Playfair Display', 'Georgia', serif"
-        font-size="82" font-weight="500" fill="#FFFFFF" letter-spacing="-1.5">
+  <text x="80" y="320" font-family="'Playfair Display', 'Georgia', serif"
+        font-size="78" font-weight="500" fill="#FFFFFF" letter-spacing="-1.5">
     Services <tspan fill="#7FE8B6" font-style="italic" font-weight="600">OS</tspan>
   </text>
 
   <!-- Supporting line -->
-  <text x="80" y="425" font-family="'Source Sans 3', 'Helvetica Neue', Arial, sans-serif"
-        font-size="26" font-weight="400" fill="rgba(255,255,255,0.82)">
+  <text x="80" y="378" font-family="'Source Sans 3', 'Helvetica Neue', Arial, sans-serif"
+        font-size="24" font-weight="400" fill="rgba(255,255,255,0.82)">
     Scope. Price. Deliver. Learn. One system for the whole engagement.
   </text>
 
   <!-- CTA pill -->
-  <g transform="translate(80, 470)">
-    <rect x="0" y="0" width="340" height="64" rx="32"
+  <g transform="translate(80, 418)">
+    <rect x="0" y="0" width="340" height="60" rx="30"
           fill="#00C26D" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
-    <text x="32" y="42" font-family="'Source Sans 3', 'Helvetica Neue', Arial, sans-serif"
-          font-size="22" font-weight="700" fill="#023E25" letter-spacing="0.5">
+    <text x="32" y="39" font-family="'Source Sans 3', 'Helvetica Neue', Arial, sans-serif"
+          font-size="21" font-weight="700" fill="#023E25" letter-spacing="0.5">
       servantium.com
     </text>
-    <g transform="translate(280, 25)" stroke="#023E25" stroke-width="2.5" fill="none"
+    <g transform="translate(278, 23)" stroke="#023E25" stroke-width="2.5" fill="none"
        stroke-linecap="round" stroke-linejoin="round">
       <line x1="0" y1="7" x2="22" y2="7"/>
       <polyline points="14,0 22,7 14,14"/>
