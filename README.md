@@ -114,6 +114,15 @@ When design-system publishes a new tag, it fires a `repository_dispatch` event h
 
 Help content lives in a separate repo: [servantium-help](https://github.com/servantium/servantium-help), deployed to help.servantium.com. This site redirects `/help/*` there (see `public/_redirects`).
 
+## Other docs
+
+| File | Purpose |
+|---|---|
+| [`CLAUDE.md`](CLAUDE.md) | Architecture + design-system reference (read this for any non-trivial change) |
+| [`docs/HANDOFF.md`](docs/HANDOFF.md) | Marketing/CMO handoff: positioning, content plan, 30-day execution |
+| [`docs/SEO.md`](docs/SEO.md) | SEO + AEO living plan and target query map |
+| [`docs/ROLLBACK.md`](docs/ROLLBACK.md) | Three-tier promotion flow + rollback runbook |
+
 ## License
 
 All rights reserved. Copyright 2026 Servantium Inc.
