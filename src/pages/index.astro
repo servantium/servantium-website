@@ -6,6 +6,8 @@ import HeroMockup from '@/components/HeroMockup.astro';
 
 import EngagementRoad from '@/theme/widgets/EngagementRoad.astro';
 
+const turnstileKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
+
 const logos = [
   { src: '/logos/compliancelabs.png', alt: 'Compliance Labs' },
   { src: '/logos/e9corporation.png', alt: 'E-9 Corporation', invert: true },
@@ -218,7 +220,7 @@ const jsonLd = [
       { title: 'Estimation', tagline: 'Price from experience, not guesswork.', description: 'Build pricing that reflects reality, not guesswork. Every estimate draws from what you\'ve actually delivered before.', features: ['Quote builder', 'Grouped sections', 'Margin calculator', 'AI generation', 'Discount system', 'Quote templates'], color: '#4C82A7', icon: '\u{1F4CA}' },
       { title: 'Proposal', tagline: 'Documents that write themselves.', description: 'Generate proposals from your real service architecture. Scope, pricing, and deliverables flow from your estimation work.', features: ['Document generation', 'Template system', 'PDF export', 'Client review', 'Adobe merge integration', 'Version history'], color: '#FFB02E', icon: '\u{1F4DD}' },
       { title: 'Delivery', tagline: 'See problems before they become fires.', description: 'Execute with real-time visibility. Know who\'s doing what, when, and whether you\'re on track before it\'s too late.', features: ['Resource planning', 'Capacity tracking', 'Utilization metrics', 'Progress monitoring', 'Interval planning', 'Assignment grid'], color: '#26A899', icon: '\u{1F680}' },
-      { title: 'Learning', tagline: 'Your team gets smarter with every project.', description: 'Every engagement makes the next one better. Your team gets smarter automatically.', features: ['Institutional memory', 'Note embeddings', 'Learning catalog', 'Vector search', 'Pattern detection', 'Accuracy benchmarks'], color: '#8B5CF6', icon: '\u{1F9E0}' },
+      { title: 'Learning', tagline: 'Your team gets smarter with every project.', description: 'Every engagement makes the next one better. Your team gets smarter automatically.', features: ['Automated institutional memory', 'Context recall', 'Prices that update themselves', 'Search by semantic meaning', 'Pattern detection', 'Historical accuracy benchmarks'], color: '#8B5CF6', icon: '\u{1F9E0}' },
     ]}
   />
 
@@ -274,7 +276,7 @@ const jsonLd = [
           <div class="faq-answer" id="faq-a-ai" role="region" aria-labelledby="faq-q-ai">
             <div class="faq-answer-content">
               <p>Here's the honest version: AI is only as useful as the data you feed it. Most services teams have poor operational data. Hours billed and revenue, but nothing about what actually happened on the engagement. So their AI tools produce garbage.</p>
-              <p>We fix the data problem first. Servantium gives you structured engagement data that AI can actually learn from. Then the automation gets useful. Smarter estimates, pattern matching across past work, AI workflows embedded across the engagement lifecycle. But we're not pretending AI replaces the humans who do the work. It won't.</p>
+              <p>We fix the data problem first. Servantium treats every engagement as structured data, which turns the platform into a memory engine for your firm. Then AI gets useful: it pattern-matches across past work, generates better estimates, and turns your team's experience into action, not just summaries. We're not pretending AI replaces the humans who do the work. It won't.</p>
             </div>
           </div>
         </div>
@@ -296,7 +298,7 @@ const jsonLd = [
           </button>
           <div class="faq-answer" id="faq-a-crm" role="region" aria-labelledby="faq-q-crm">
             <div class="faq-answer-content">
-              <p>It depends on your stack. For teams already running Salesforce or HubSpot, Servantium sits where your CRM ends — when a deal closes, it carries the scope, the pricing rationale, and the delivery context forward and connects bi-directionally so nothing gets re-entered. If you're a smaller team without a CRM and your pipeline lives in a spreadsheet, Servantium can cover that ground too.</p>
+              <p>No. Servantium picks up exactly where your CRM stops. When a deal closes in Salesforce or HubSpot, Servantium takes over so your delivery team isn't starting from a blank page on scope, pricing, and delivery context. If you're a smaller team without a CRM and your pipeline lives in a spreadsheet, Servantium can cover that ground too.</p>
             </div>
           </div>
         </div>
@@ -307,7 +309,7 @@ const jsonLd = [
           </button>
           <div class="faq-answer" id="faq-a-replace-psa" role="region" aria-labelledby="faq-q-replace-psa">
             <div class="faq-answer-content">
-              <p>It depends on your stack. For teams already running a PSA like Kantata or Certinia, Servantium fills the gaps they were never designed for — scope decisions, pricing rationale, and the feedback loop between delivery outcomes and your next estimate. If you're a smaller team whose PSA is a spreadsheet and a shared drive, Servantium may be all you need.</p>
+              <p>For most teams, yes. If your PSA today is a spreadsheet and a shared drive, Servantium is enough. If you're already running Kantata or Certinia, Servantium sits on top for the parts a PSA was never designed for: scope decisions, pricing rationale, and the loop between delivery outcomes and the next estimate.</p>
             </div>
           </div>
         </div>
@@ -318,7 +320,7 @@ const jsonLd = [
           </button>
           <div class="faq-answer" id="faq-a-engagement" role="region" aria-labelledby="faq-q-engagement">
             <div class="faq-answer-content">
-              <p>Engagement management is the practice of treating each client engagement as a structured object. One record that carries scope, pricing, resourcing, delivery milestones, and post-project learning. Most teams manage engagements across five or six disconnected tools. Engagement management is what you get when you consolidate that into a single source of truth.</p>
+              <p>Engagement management is the shift from running projects as one-off events to running them as a feedback loop. Quoting, delivering, and billing stop being three tools and three teams. They become a single timeline where what you learn during delivery automatically informs how you scope and price the same work next time.</p>
             </div>
           </div>
         </div>
@@ -363,6 +365,10 @@ const jsonLd = [
               <label for="message">Message</label>
               <textarea id="message" name="message" required placeholder="Tell us about your services business and what you're looking for..." style="padding: 0.5rem 0.75rem; font-size: 0.9rem; min-height: 80px;"></textarea>
             </div>
+            <input type="text" name="company_website" id="contact-hp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-10000px;width:1px;height:1px;opacity:0;pointer-events:none;" />
+            {turnstileKey && (
+              <div class="cf-turnstile" data-sitekey={turnstileKey} data-size="flexible" style="margin-bottom:0.5rem;"></div>
+            )}
             <button type="submit" class="form-submit" id="form-submit" style="padding: 0.625rem; font-size: 0.9rem;">Send Message</button>
             <div class="form-status" id="form-status" role="status" aria-live="polite"></div>
             <div class="form-success-overlay" id="form-success-overlay">
@@ -406,6 +412,13 @@ const jsonLd = [
 
   contactForm?.addEventListener('submit', async function(e) {
     e.preventDefault();
+    // Silent honeypot drop. Bots fill all fields; humans don't see this one.
+    const hp = (document.getElementById('contact-hp') as HTMLInputElement)?.value || '';
+    if (hp.trim().length > 0) {
+      formSuccessOverlay?.classList.add('active');
+      contactForm.reset();
+      return;
+    }
     if (formSubmit) {
       formSubmit.disabled = true;
       formSubmit.textContent = 'Sending...';
@@ -414,10 +427,12 @@ const jsonLd = [
       formStatus.className = 'form-status';
       formStatus.style.display = 'none';
     }
+    const turnstileToken = (contactForm.querySelector('[name="cf-turnstile-response"]') as HTMLInputElement)?.value || '';
     const formData = {
       name: (document.getElementById('name') as HTMLInputElement)?.value,
       email: (document.getElementById('email') as HTMLInputElement)?.value,
-      message: (document.getElementById('message') as HTMLTextAreaElement)?.value
+      message: (document.getElementById('message') as HTMLTextAreaElement)?.value,
+      turnstileToken
     };
     try {
       const response = await fetch('https://contact.servantium.com/', {

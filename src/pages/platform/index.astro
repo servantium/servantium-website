@@ -8,6 +8,8 @@ import Astronaut from '@/theme/components/Astronaut.astro';
 const bf = import.meta.env.BRAND_FETCH ? `?c=${import.meta.env.BRAND_FETCH}` : '';
 const bfLogo = (domain: string) => `https://cdn.brandfetch.io/${domain}${bf}`;
 
+const turnstileKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
+
 const integrations = [
   // Live integrations
   { name: 'Salesforce', abbrev: 'SF', color: '#00A1E0', tier: 'live' as const, logo: bfLogo('salesforce.com') },
@@ -134,11 +136,11 @@ const jsonLd = {
                 </span>
                 <span class="flex items-center gap-2 text-base text-[var(--color-ink-muted)]">
                   <svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                  AI note parsing
+                  Notes write themselves
                 </span>
                 <span class="flex items-center gap-2 text-base text-[var(--color-ink-muted)]">
                   <svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                  Similar matching
+                  Similar engagement matching
                 </span>
                 <span class="flex items-center gap-2 text-base text-[var(--color-ink-muted)]">
                   <svg class="w-4 h-4 text-[var(--color-green)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
@@ -302,6 +304,7 @@ const jsonLd = {
               <span class="flex items-center gap-2 text-base text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#26A899] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Utilization tracking</span>
               <span class="flex items-center gap-2 text-base text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#26A899] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Capacity forecasting</span>
               <span class="flex items-center gap-2 text-base text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#26A899] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Skill matching</span>
+              <span class="flex items-center gap-2 text-base text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#26A899] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Historical accuracy benchmarks</span>
             </div>
             <a href="#features" data-tab="staff" class="narrative-link text-sm font-semibold text-[#26A899] no-underline hover:opacity-80">
               Explore features ↓
@@ -341,10 +344,10 @@ const jsonLd = {
           <div class="grid grid-cols-1 md:grid-cols-2 overflow-hidden" data-animate="fade-up" data-delay="400">
             <div class="p-6 md:p-8 bg-white">
               <div class="grid grid-cols-2 gap-3 mb-6">
-                <span class="flex items-center gap-2 text-base text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#8B5CF6] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Institutional memory</span>
-                <span class="flex items-center gap-2 text-base text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#8B5CF6] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Note embeddings</span>
-                <span class="flex items-center gap-2 text-base text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#8B5CF6] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Learning catalog</span>
-                <span class="flex items-center gap-2 text-base text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#8B5CF6] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Vector search</span>
+                <span class="flex items-center gap-2 text-base text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#8B5CF6] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Automated institutional memory</span>
+                <span class="flex items-center gap-2 text-base text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#8B5CF6] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Context recall</span>
+                <span class="flex items-center gap-2 text-base text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#8B5CF6] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Prices that update themselves</span>
+                <span class="flex items-center gap-2 text-base text-[var(--color-ink-muted)]"><svg class="w-4 h-4 text-[#8B5CF6] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Search by semantic meaning</span>
               </div>
               <a href="#features" data-tab="learn" class="narrative-link text-sm font-semibold text-[#8B5CF6] no-underline hover:opacity-80">
                 Explore features ↓
@@ -401,8 +404,14 @@ const jsonLd = {
               <p class="text-sm text-[var(--color-ink-muted)]" id="price-note">Includes 5 users. Every feature.</p>
               <p class="text-xs text-[var(--color-ink-muted)] mt-1 opacity-70" id="price-per-user">$100/user effective</p>
             </div>
-            <div class="flex-1 max-w-xs" id="slider-container">
-              <!-- Slider injected by JS to prevent browser form restoration scroll -->
+            <div class="flex-1 max-w-xs" id="slider-container" inert>
+              <label class="block text-xs font-semibold text-[var(--color-ink-muted)] uppercase tracking-wider mb-2" for="user-slider">Team size</label>
+              <input type="range" id="user-slider" min="1" max="50" value="5" class="pricing-slider w-full mb-1" autocomplete="off" tabindex="-1" aria-hidden="true" />
+              <div class="flex justify-between text-xs text-[var(--color-ink-muted)]">
+                <span>1</span>
+                <span class="font-semibold text-[var(--color-ink-light)]" id="slider-user-count">5 users</span>
+                <span>50</span>
+              </div>
             </div>
             <div class="flex flex-col gap-2">
               <button
@@ -427,11 +436,12 @@ const jsonLd = {
               </tr>
             </thead>
             <tbody>
-              <tr class="category-row"><td colspan="2" class="pl-6 md:pl-10">Scoping &amp; Discovery</td></tr>
+              <tr class="category-row"><td colspan="2" class="pl-6 md:pl-10">Engagement Intelligence</td></tr>
               <tr><td class="pl-6 md:pl-10">Engagement Workspace</td><td class="text-center text-[var(--color-green)] font-bold">&#10003;</td></tr>
-              <tr><td class="pl-6 md:pl-10">AI Context Extraction</td><td class="text-center text-[var(--color-green)] font-bold">&#10003;</td></tr>
-              <tr><td class="pl-6 md:pl-10">Similar Matching</td><td class="text-center text-[var(--color-green)] font-bold">&#10003;</td></tr>
-              <tr><td class="pl-6 md:pl-10">Service Catalog</td><td class="text-center text-[var(--color-green)] font-bold">&#10003;</td></tr>
+              <tr><td class="pl-6 md:pl-10">Automated Context Capture</td><td class="text-center text-[var(--color-green)] font-bold">&#10003;</td></tr>
+              <tr><td class="pl-6 md:pl-10">Similar Engagement Matching</td><td class="text-center text-[var(--color-green)] font-bold">&#10003;</td></tr>
+              <tr><td class="pl-6 md:pl-10">Self-healing Service Catalog</td><td class="text-center text-[var(--color-green)] font-bold">&#10003;</td></tr>
+              <tr><td class="pl-6 md:pl-10">Evidence-based Scoping</td><td class="text-center text-[var(--color-green)] font-bold">&#10003;</td></tr>
               <tr><td class="pl-6 md:pl-10">Templates &amp; Tags</td><td class="text-center text-[var(--color-green)] font-bold">&#10003;</td></tr>
 
               <tr class="category-row"><td colspan="2" class="pl-6 md:pl-10">Quoting &amp; Proposals</td></tr>
@@ -444,6 +454,7 @@ const jsonLd = {
               <tr><td class="pl-6 md:pl-10">Resource Planning</td><td class="text-center text-[var(--color-green)] font-bold">&#10003;</td></tr>
               <tr><td class="pl-6 md:pl-10">Capacity Forecasting</td><td class="text-center text-[var(--color-green)] font-bold">&#10003;</td></tr>
               <tr><td class="pl-6 md:pl-10">Utilization Tracking</td><td class="text-center text-[var(--color-green)] font-bold">&#10003;</td></tr>
+              <tr><td class="pl-6 md:pl-10">Historical Accuracy Benchmarks</td><td class="text-center text-[var(--color-green)] font-bold">&#10003;</td></tr>
 
               <tr class="category-row"><td colspan="2" class="pl-6 md:pl-10">Intelligence</td></tr>
               <tr><td class="pl-6 md:pl-10">Institutional Memory</td><td class="text-center text-[var(--color-green)] font-bold">&#10003;</td></tr>
@@ -455,6 +466,7 @@ const jsonLd = {
               <tr><td class="pl-6 md:pl-10">Salesforce</td><td class="text-center text-[var(--color-green)] font-bold">&#10003;</td></tr>
               <tr><td class="pl-6 md:pl-10">CSV &amp; Custom Integrations</td><td class="text-center text-[var(--color-green)] font-bold">&#10003;</td></tr>
               <tr><td class="pl-6 md:pl-10">REST API Access</td><td class="text-center text-[var(--color-green)] font-bold">&#10003;</td></tr>
+              <tr><td class="pl-6 md:pl-10">Knowledge Ingestion API</td><td class="text-center text-[var(--color-green)] font-bold">&#10003;</td></tr>
             </tbody>
           </table>
         </div>
@@ -573,8 +585,10 @@ const jsonLd = {
       <h2>Get in touch</h2>
       <p style="color:var(--color-ink-muted, #6B7280);margin-bottom:1.5rem;font-size:0.95rem;">Tell us about your team and we'll reach out within 24 hours.</p>
       <!-- Form inputs are injected via JS on modal open to prevent password manager autofill -->
-      <form class="contact-modal-form" id="contact-modal-form" autocomplete="off">
+      <form class="contact-modal-form" id="contact-modal-form" autocomplete="off" data-turnstile-key={turnstileKey || ''}>
         <div id="contact-form-fields"></div>
+        <input type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-10000px;width:1px;height:1px;opacity:0;pointer-events:none;" />
+        <div id="contact-turnstile-container"></div>
         <button type="submit" class="btn btn-primary" id="contact-modal-submit">Send Message</button>
         <div class="contact-modal-status" id="contact-modal-status" style="display:none;"></div>
       </form>
@@ -952,6 +966,18 @@ const jsonLd = {
         '<textarea name="message" placeholder="Tell us about your team and what you\'re looking for..." rows="4"></textarea>';
       setTimeout(function() { container.querySelector('input').focus(); }, 100);
     }
+    // Inject Turnstile widget if site key configured.
+    var tsContainer = document.getElementById('contact-turnstile-container');
+    var form = document.getElementById('contact-modal-form');
+    var siteKey = form && form.dataset.turnstileKey;
+    if (tsContainer && siteKey && tsContainer.children.length === 0) {
+      var widget = document.createElement('div');
+      widget.className = 'cf-turnstile';
+      widget.setAttribute('data-sitekey', siteKey);
+      widget.setAttribute('data-size', 'flexible');
+      tsContainer.appendChild(widget);
+      if (window.turnstile) window.turnstile.render(widget);
+    }
   }
   function closeContactModal() {
     var modal = document.getElementById('contact-modal');
@@ -979,10 +1005,20 @@ const jsonLd = {
     btn.textContent = 'Sending...';
     if (statusEl) { statusEl.className = 'contact-modal-status'; statusEl.style.display = 'none'; }
 
+    // Silent honeypot drop.
+    var hp = this.querySelector('[name="company_website"]')?.value || '';
+    if (hp.trim().length > 0) {
+      this.style.display = 'none';
+      document.getElementById('contact-modal-success').style.display = 'block';
+      this.reset();
+      setTimeout(closeContactModal, 1500);
+      return;
+    }
     var formData = {
       name: this.querySelector('[name="fullname"]').value,
       email: this.querySelector('[name="workemail"]').value,
-      message: this.querySelector('[name="message"]').value
+      message: this.querySelector('[name="message"]').value,
+      turnstileToken: this.querySelector('[name="cf-turnstile-response"]')?.value || ''
     };
 
     try {
@@ -1082,32 +1118,12 @@ const jsonLd = {
 
 <script is:inline>
   function initPricingSlider() {
-    // Inject the slider into the DOM on first init so it doesn't exist
-    // at page load time. This prevents browser form restoration from
-    // finding and focusing it, which was scrolling the page down.
-    var container = document.getElementById('slider-container');
-    if (container && !container.dataset.injected) {
-      container.dataset.injected = '1';
-      container.innerHTML =
-        '<label class="block text-xs font-semibold text-[var(--color-ink-muted)] uppercase tracking-wider mb-2" for="user-slider">Team size</label>' +
-        '<input type="range" id="user-slider" min="1" max="50" value="5" class="pricing-slider w-full mb-1" autocomplete="off" tabindex="-1" />' +
-        '<div class="flex justify-between text-xs text-[var(--color-ink-muted)]">' +
-        '<span>1</span>' +
-        '<span class="font-semibold text-[var(--color-ink-light)]" id="slider-user-count">5 users</span>' +
-        '<span>50</span>' +
-        '</div>';
-    }
-
     var slider = document.getElementById('user-slider');
-    // Immediately blur the slider so the browser doesn't focus it and scroll down
-    if (slider) slider.blur();
-    if (document.activeElement === slider) document.activeElement.blur();
-
+    if (!slider) return;
     var countEl = document.getElementById('slider-user-count');
     var amountEl = document.getElementById('price-amount');
     var periodEl = document.getElementById('price-period');
     var noteEl = document.getElementById('price-note');
-    if (!slider) return;
 
     slider.value = '5';
 
@@ -1174,41 +1190,43 @@ const jsonLd = {
   }
   document.addEventListener('astro:page-load', initPricingSlider);
 
-  // Guard: prevent unwanted auto-scroll to pricing section on fresh page load.
-  // Causes: (1) browser form-restoration focusing the range input, (2) async
-  // embeds (Cal.com iframe) shifting layout, (3) bfcache restoring scroll.
-  // Strategy: disable native scroll restoration, then repeatedly snap to top
-  // during the first ~1.5s of load unless the user interacted or a hash is set.
-  if (!window.location.hash) {
-    try { if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; } catch(e) {}
-    var userInteracted = false;
-    var markInteraction = function() {
-      userInteracted = true;
-      // Re-enable keyboard focus on the pricing slider once we know the user is actually interacting.
-      var slider = document.getElementById('user-slider');
-      if (slider) slider.removeAttribute('tabindex');
-    };
-    window.addEventListener('wheel', markInteraction, { passive: true, once: true });
-    window.addEventListener('touchstart', markInteraction, { passive: true, once: true });
-    window.addEventListener('keydown', markInteraction, { once: true });
-    var snapTop = function() {
-      if (userInteracted) return;
-      if (window.scrollY > 0) window.scrollTo({ top: 0, behavior: 'instant' });
-    };
-    // Snap now, after DOM ready, after load, and a few times in between.
-    snapTop();
-    document.addEventListener('DOMContentLoaded', snapTop);
-    window.addEventListener('load', snapTop);
-    [50, 150, 350, 750, 1500].forEach(function(ms) { setTimeout(snapTop, ms); });
-    // Also catch: if ANY input steals focus on load (range slider, ROI number fields), blur it.
-    setTimeout(function() {
-      var active = document.activeElement;
-      if (active && active.tagName === 'INPUT' && !userInteracted) {
-        active.blur();
-        snapTop();
-      }
-    }, 100);
+  // Activate the slider only when its section enters the viewport. Until then
+  // it stays inert + tabindex=-1 + aria-hidden, so nothing in the browser's
+  // focus or form-restoration machinery can target it on page load.
+  function activateSlider() {
+    var container = document.getElementById('slider-container');
+    var slider = document.getElementById('user-slider');
+    if (!container || !slider) return;
+    container.removeAttribute('inert');
+    slider.removeAttribute('tabindex');
+    slider.removeAttribute('aria-hidden');
   }
+  function watchSliderVisibility() {
+    var section = document.getElementById('features');
+    if (!section) return;
+    // Fallback: any genuine user interaction activates the slider, even if
+    // IntersectionObserver hasn't fired (e.g. mobile Safari edge cases).
+    var onInteract = function() {
+      activateSlider();
+      window.removeEventListener('wheel', onInteract);
+      window.removeEventListener('touchstart', onInteract);
+      window.removeEventListener('scroll', onInteract);
+    };
+    window.addEventListener('wheel', onInteract, { passive: true });
+    window.addEventListener('touchstart', onInteract, { passive: true });
+    window.addEventListener('scroll', onInteract, { passive: true });
+    if (!('IntersectionObserver' in window)) { activateSlider(); return; }
+    var io = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) { if (e.isIntersecting) { activateSlider(); io.disconnect(); } });
+    }, { rootMargin: '0px 0px -25% 0px' });
+    io.observe(section);
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', watchSliderVisibility);
+  } else {
+    watchSliderVisibility();
+  }
+  document.addEventListener('astro:page-load', watchSliderVisibility);
 </script>
 
 <!-- ROI Calculator -->

@@ -7,6 +7,8 @@ import Astronaut from '@/theme/components/Astronaut.astro';
 const bf = import.meta.env.BRAND_FETCH ? `?c=${import.meta.env.BRAND_FETCH}` : '';
 const bfLogo = (domain: string) => `https://cdn.brandfetch.io/${domain}${bf}`;
 
+const turnstileKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
+
 const jsonLd = {
   "@type": "AboutPage",
   "mainEntity": {
@@ -149,6 +151,9 @@ const jsonLd = {
               </p>
               <p class="text-[0.92rem] text-[var(--color-ink-muted)] leading-relaxed mb-5">
                 He has watched excellent teams with excellent people lose money on work they should have won, and win work they were never going to deliver profitably. Servantium is the answer to one question: what if the pricing, scoping, and delivery knowledge those people carry in their heads became the engine the entire organization runs off of?
+              </p>
+              <p class="text-[0.85rem] text-[var(--color-ink-muted)] italic mb-5">
+                Biomedical Engineering, Drexel University.
               </p>
               <!-- Links + logos -->
               <div class="flex items-center gap-4 flex-wrap">
@@ -316,6 +321,10 @@ const jsonLd = {
         <input type="text" name="name" placeholder="Your name" required>
         <input type="email" name="email" placeholder="Work email" required>
         <textarea name="message" placeholder="Tell us about your team and what you're looking for..." rows="4"></textarea>
+        <input type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-10000px;width:1px;height:1px;opacity:0;pointer-events:none;" />
+        {turnstileKey && (
+          <div class="cf-turnstile" data-sitekey={turnstileKey} data-size="flexible"></div>
+        )}
         <button type="submit" class="contact-submit-btn" id="about-contact-submit">Send Message</button>
       </form>
     </div>
@@ -447,6 +456,9 @@ const jsonLd = {
   // Contact form submit
   document.getElementById('about-contact-form')?.addEventListener('submit', async function(e) {
     e.preventDefault();
+    // Silent honeypot drop.
+    var hp = this.querySelector('[name="company_website"]')?.value || '';
+    if (hp.trim().length > 0) { closeContactModal(); return; }
     var btn = document.getElementById('about-contact-submit');
     btn.disabled = true; btn.textContent = 'Sending...';
     try {
@@ -455,7 +467,8 @@ const jsonLd = {
         body: JSON.stringify({
           name: this.querySelector('[name="name"]').value,
           email: this.querySelector('[name="email"]').value,
-          message: this.querySelector('[name="message"]').value
+          message: this.querySelector('[name="message"]').value,
+          turnstileToken: this.querySelector('[name="cf-turnstile-response"]')?.value || ''
         })
       });
       if (response.ok) { btn.textContent = 'Sent!'; btn.style.background = '#037A47'; setTimeout(closeContactModal, 2000); }
