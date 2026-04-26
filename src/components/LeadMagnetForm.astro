@@ -30,6 +30,7 @@ const {
 } = Astro.props;
 
 const formId = `lead-form-${resourceId}`;
+const turnstileKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
 ---
 
 <form
@@ -73,6 +74,20 @@ const formId = `lead-form-${resourceId}`;
     class="lead-form-firm"
   />
 
+  {/* Honeypot — bots fill all fields. Real users won't see this one. */}
+  <input
+    type="text"
+    name="company_website"
+    tabindex="-1"
+    autocomplete="off"
+    aria-hidden="true"
+    class="lead-form-hp"
+  />
+
+  {turnstileKey && (
+    <div class="cf-turnstile" data-sitekey={turnstileKey} data-size="flexible"></div>
+  )}
+
   <button type="submit" class="lead-form-submit btn btn-primary">{ctaLabel}</button>
 
   <p class="lead-form-note">
@@ -104,10 +119,17 @@ const formId = `lead-form-${resourceId}`;
     form.addEventListener('submit', async function(e) {
       e.preventDefault();
       var fd = new FormData(form);
+      // Silent honeypot drop. Bots fill all fields; humans don't see this one.
+      if (String(fd.get('company_website') || '').trim().length > 0) {
+        form.setAttribute('hidden', '');
+        if (successEl) successEl.removeAttribute('hidden');
+        return;
+      }
       var payload = {
         name: String(fd.get('name') || '').trim(),
         email: String(fd.get('email') || '').trim(),
         firm: String(fd.get('firm') || '').trim(),
+        turnstileToken: String(fd.get('cf-turnstile-response') || ''),
         resource: form.dataset.resource,
         resourceId: form.id.replace('lead-form-', ''),
         fileUrl: form.dataset.fileUrl,
@@ -218,6 +240,16 @@ const formId = `lead-form-${resourceId}`;
     box-shadow: 0 0 0 3px rgba(0, 194, 109, 0.12);
   }
   .lead-form-firm { margin-bottom: 0.75rem; }
+  .lead-form-hp {
+    position: absolute;
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+  }
   .lead-form-submit {
     width: 100%;
     padding: 0.75rem 1rem;
