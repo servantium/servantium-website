@@ -7,6 +7,7 @@ import BlogTOC from '@/theme/blog/BlogTOC.astro';
 import PageReveal from '@/theme/components/PageReveal.astro';
 import { authors } from '@/data/authors';
 import { getCollection } from 'astro:content';
+import { filterByStatus } from '@/lib/content-filter';
 
 interface Heading {
   depth: number;
@@ -38,8 +39,9 @@ const formattedDate = new Date(date).toLocaleDateString('en-US', { year: 'numeri
 // Build canonical URL for share sidebar
 const canonicalUrl = new URL(Astro.url.pathname, 'https://servantium.com').toString();
 
-// Get related posts: same category, excluding current, max 3
-const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+// Drop hidden posts (and drafts in prod) so RelatedPosts can't link to
+// URLs that [slug].astro's getStaticPaths excludes.
+const allPosts = filterByStatus(await getCollection('blog'));
 const relatedPosts = allPosts
   .filter(p => p.data.category === category && p.data.title !== title)
   .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
