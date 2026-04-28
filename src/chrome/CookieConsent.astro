@@ -16,60 +16,85 @@ const GA_ID = import.meta.env.PUBLIC_GA_ID ?? '';
 </div>
 
 <script is:inline define:vars={{ GA_ID }}>
-  function loadGA() {
-    if (!GA_ID) {
-      console.warn('[Servantium] PUBLIC_GA_ID not set — analytics disabled');
-      return;
-    }
-    const script = document.createElement('script');
-    script.async = true;
-    script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
-    document.head.appendChild(script);
+  // Two-track analytics during the GTM migration:
+  //   1. Legacy: loadGA() injects gtag.js directly when consent is granted.
+  //      Drives the standalone GA4 property for now.
+  //   2. New: Consent Mode v2 default state is set in BaseLayout BEFORE GTM
+  //      loads. This component pushes consent updates so GTM-managed tags
+  //      respect the user's choice once they exist.
+  // Once a GA4 tag is configured inside GTM and confirmed firing, remove
+  // loadGA() and the PUBLIC_GA_ID dependency. The consent-update pushes stay.
+  (function() {
+    var consent = null;
+    try { consent = localStorage.getItem('servantium_cookie_consent'); } catch(e) {}
+    var isTestEnv = window.location.hostname === 'test.servantium.com';
+
     window.dataLayer = window.dataLayer || [];
-    function gtag() { window.dataLayer.push(arguments); }
-    window.gtag = gtag;
-    gtag('js', new Date());
-    gtag('config', GA_ID);
-  }
+    function gtag(){window.dataLayer.push(arguments);}
 
-  const consent = localStorage.getItem('servantium_cookie_consent');
-  const isTestEnv = window.location.hostname === 'test.servantium.com';
-
-  if (!consent) {
-    const banner = document.getElementById('cookie-consent');
-    if (banner) {
-      banner.style.display = 'block';
-      document.body.style.paddingBottom = '80px';
+    function updateConsent(granted) {
+      if (isTestEnv) return; // never grant on test environment
+      var state = granted ? 'granted' : 'denied';
+      gtag('consent', 'update', {
+        ad_storage: state,
+        analytics_storage: state,
+        ad_user_data: state,
+        ad_personalization: state,
+      });
     }
-  }
 
-  if (consent === 'accepted' && !isTestEnv) {
-    loadGA();
-  }
+    function loadGA() {
+      if (!GA_ID || isTestEnv) return;
+      if (window.__svGALoaded) return;
+      window.__svGALoaded = true;
+      var script = document.createElement('script');
+      script.async = true;
+      script.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+      document.head.appendChild(script);
+      window.gtag = window.gtag || gtag;
+      gtag('js', new Date());
+      gtag('config', GA_ID);
+    }
 
-  document.getElementById('cookie-accept')?.addEventListener('click', () => {
-    localStorage.setItem('servantium_cookie_consent', 'accepted');
-    const banner = document.getElementById('cookie-consent');
-    if (banner) banner.style.display = 'none';
-    document.body.style.paddingBottom = '';
-    if (!isTestEnv) loadGA();
-  });
-
-  document.getElementById('cookie-decline')?.addEventListener('click', () => {
-    localStorage.setItem('servantium_cookie_consent', 'declined');
-    const banner = document.getElementById('cookie-consent');
-    if (banner) banner.style.display = 'none';
-    document.body.style.paddingBottom = '';
-  });
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      const banner = document.getElementById('cookie-consent');
-      if (banner && banner.style.display !== 'none') {
-        localStorage.setItem('servantium_cookie_consent', 'declined');
-        banner.style.display = 'none';
-        document.body.style.paddingBottom = '';
+    if (!consent) {
+      var banner = document.getElementById('cookie-consent');
+      if (banner) {
+        banner.style.display = 'block';
+        document.body.style.paddingBottom = '80px';
       }
     }
-  });
+
+    // If user previously accepted, fire the legacy loader on this page load.
+    // Consent default state was already set to granted in BaseLayout.
+    if (consent === 'accepted') loadGA();
+
+    document.getElementById('cookie-accept')?.addEventListener('click', function() {
+      try { localStorage.setItem('servantium_cookie_consent', 'accepted'); } catch(e) {}
+      var banner = document.getElementById('cookie-consent');
+      if (banner) banner.style.display = 'none';
+      document.body.style.paddingBottom = '';
+      updateConsent(true);
+      loadGA();
+    });
+
+    document.getElementById('cookie-decline')?.addEventListener('click', function() {
+      try { localStorage.setItem('servantium_cookie_consent', 'declined'); } catch(e) {}
+      var banner = document.getElementById('cookie-consent');
+      if (banner) banner.style.display = 'none';
+      document.body.style.paddingBottom = '';
+      updateConsent(false);
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        var banner = document.getElementById('cookie-consent');
+        if (banner && banner.style.display !== 'none') {
+          try { localStorage.setItem('servantium_cookie_consent', 'declined'); } catch(e2) {}
+          banner.style.display = 'none';
+          document.body.style.paddingBottom = '';
+          updateConsent(false);
+        }
+      }
+    });
+  })();
 </script>

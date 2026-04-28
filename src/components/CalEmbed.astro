@@ -43,6 +43,29 @@
         layout: "month_view",
       });
 
+      // Track demo bookings as a conversion event in GTM/GA4. Cal.com emits a
+      // bookingSuccessful event after the booking is finalized server-side.
+      window.dataLayer = window.dataLayer || [];
+      Cal.ns["servantium-introduction"]("on", {
+        action: "bookingSuccessful",
+        callback: function(e) {
+          try {
+            var d = (e && e.detail && e.detail.data) || {};
+            var booking = d.booking || {};
+            var eventType = d.eventType || {};
+            window.dataLayer.push({
+              event: "cal_booking_completed",
+              cal_namespace: "servantium-introduction",
+              cal_event_type: eventType.title || eventType.slug || "",
+              cal_booking_uid: booking.uid || "",
+              cal_start_time: booking.startTime || "",
+            });
+          } catch (err) {
+            window.dataLayer.push({ event: "cal_booking_completed" });
+          }
+        },
+      });
+
       // Set accessible title on Cal.com iframe once it appears
       setTimeout(function() {
         var iframe = document.querySelector('iframe[src*="cal.com"]');

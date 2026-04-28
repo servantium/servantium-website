@@ -161,12 +161,13 @@ const turnstileKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
         if (!res.ok) throw new Error('Request failed');
 
         // Telemetry
-        if (window.gtag) {
-          window.gtag('event', 'lead_magnet_submitted', {
-            resource: payload.resource,
-            form_id: formId,
-          });
-        }
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: 'form_submit',
+          form_name: 'lead_magnet',
+          lead_resource: payload.resource,
+          lead_resource_id: payload.resourceId,
+        });
 
         // Hide form, reveal success, trigger download
         form.setAttribute('hidden', '');

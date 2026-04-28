@@ -471,7 +471,11 @@ const jsonLd = {
           turnstileToken: this.querySelector('[name="cf-turnstile-response"]')?.value || ''
         })
       });
-      if (response.ok) { btn.textContent = 'Sent!'; btn.style.background = '#037A47'; setTimeout(closeContactModal, 2000); }
+      if (response.ok) {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ event: 'form_submit', form_name: 'about_contact' });
+        btn.textContent = 'Sent!'; btn.style.background = '#037A47'; setTimeout(closeContactModal, 2000);
+      }
       else throw new Error();
     } catch(err) { btn.textContent = 'Error — try hello@servantium.com'; btn.style.background = '#FF5C70'; }
     finally { setTimeout(function() { btn.disabled = false; btn.textContent = 'Send Message'; btn.style.background = ''; }, 3000); }

@@ -1029,6 +1029,8 @@ const jsonLd = {
       });
 
       if (response.ok) {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ event: 'form_submit', form_name: 'platform_contact' });
         this.style.display = 'none';
         document.getElementById('contact-modal-success').style.display = 'block';
         this.reset();

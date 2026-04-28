@@ -300,6 +300,18 @@ import logoSrc from '/public/logo.png';
   }
 </style>
 
+<script is:inline>
+  // Track 404 hits with the URL the user tried and where they came from.
+  // Lets us spot dead inbound links without waiting for an Ahrefs crawl.
+  (function() {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: 'page_404',
+      page_404_path: window.location.pathname + window.location.search,
+      page_404_referrer: document.referrer || '',
+    });
+  })();
+</script>
 <script is:inline src="/js/asteroids.js"></script>
 <script is:inline>
   document.addEventListener('DOMContentLoaded', function() {

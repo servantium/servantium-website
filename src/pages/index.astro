@@ -441,6 +441,8 @@ const jsonLd = [
         body: JSON.stringify(formData)
       });
       if (response.ok) {
+        (window as any).dataLayer = (window as any).dataLayer || [];
+        (window as any).dataLayer.push({ event: 'form_submit', form_name: 'homepage_contact' });
         formSuccessOverlay?.classList.add('active');
         contactForm.reset();
         setTimeout(() => formSuccessOverlay?.classList.remove('active'), 4000);
