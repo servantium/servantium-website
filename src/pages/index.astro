@@ -14,7 +14,7 @@ const logos = [
   { src: '/logos/investorflow.svg', alt: 'InvestorFlow' },
   { src: '/logos/plottlabs.png', alt: 'Plott Labs' },
   { src: '/logos/google-for-startups.svg', alt: 'Google for Startups' },
-  { src: '/logos/nvidia-inception.svg', alt: 'NVIDIA Inception Program' },
+  { src: '/logos/nvidia-inception.svg', alt: 'NVIDIA Inception Program', tall: true },
 ];
 
 const jsonLd = [
@@ -163,7 +163,7 @@ const jsonLd = [
         <div class="logo-bar-track">
           {/* Two copies for seamless infinite scroll */}
           {[...logos, ...logos].map((logo, i) => (
-            <img src={logo.src} alt={logo.alt} class={`logo-bar-img${logo.invert ? ' logo-invert' : ''}`} height="44" width="140" loading="eager" decoding="async" aria-hidden={i >= logos.length ? 'true' : undefined} />
+            <img src={logo.src} alt={logo.alt} class={`logo-bar-img${logo.invert ? ' logo-invert' : ''}${logo.tall ? ' logo-tall' : ''}`} height={logo.tall ? '72' : '44'} width="140" loading="eager" decoding="async" aria-hidden={i >= logos.length ? 'true' : undefined} />
           ))}
         </div>
       </div>

@@ -1312,6 +1312,13 @@
         .logo-bar-img.logo-invert {
             mix-blend-mode: normal;
         }
+        /* Badge-style logos (NVIDIA Inception, etc.) are squarer than wordmarks
+           and look small at the 44px row height. Bump them so they read at
+           comparable visual weight to surrounding logos. */
+        .logo-bar-img.logo-tall {
+            height: 72px !important;
+            max-height: 72px;
+        }
         .logo-bar-img:hover {
             opacity: 1;
         }
